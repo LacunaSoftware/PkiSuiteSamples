@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ASP.NET MVC Samples</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous">
+	<link rel="stylesheet" href="~/Content/css/site.css" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha384-bPV3mA2eo3edoq56VzcPBmG1N1QVUfjYMxVIJPPzyFJyFZ8GFfN7Npt06Zr23qts" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			@Html.ActionLink("ASP.NET MVC Samples", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+		</div>
+	</div>
+
+	<div class="body-content container">
+
+		<div id="samples">
+			<div id="messagesPanel"></div>
+			@RenderBody()
+		</div>
+	</div>
+
+	<script>
+		var _webPkiLicense = '@System.Configuration.ConfigurationManager.AppSettings["WebPkiLicense"]';
+		var _restPkiEndpoint = '@System.Configuration.ConfigurationManager.AppSettings["RestPkiEndpoint"]';
+	</script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" integrity="sha384-Ct2s0NBxEbvJlnXHOZJheqOGKjX3Q4ewsYoJZYnLz/teMXnlGhim5o9305EkvlsN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+	@RenderSection("scripts", required: false)
+</body>
+</html>

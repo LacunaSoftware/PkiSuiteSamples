@@ -1,0 +1,14 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.RestPki
+@model UploadModel
+
+<h2>Upload a file</h2>
+
+<form method="post" enctype="multipart/form-data">
+	@Html.HiddenFor(m => m.ReturnController)
+	<div class="form-group">
+		<label>Select file:</label>
+		<br/>
+		<input type="file" name="userfile">
+	</div>
+	<button type="submit" class="btn btn-primary">Upload</button>
+</form>
