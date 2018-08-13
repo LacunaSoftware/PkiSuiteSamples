@@ -1,0 +1,6 @@
+.disabled {
+    opacity: 0.3;
+    color: black;
+    pointer-events: none;
+    transition: 1s;
+}

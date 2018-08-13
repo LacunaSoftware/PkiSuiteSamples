@@ -1,0 +1,21 @@
+<h2 class="title">{{title}}</h2>
+
+<div id="options">
+	Which payment method is best for you:
+	<div class="row">
+		<div class="col-sm-4" *ngFor="let option of payOptions.options; let choice = index"
+							  [@optionState]="option.state"
+							  (click)="payOptions.choose(choice)">
+			<div class="card {{option.state === 'active' ? 'choose' : ''}}">
+				<div class="card-body">
+					<h5 class="card-title"><i class={{option.icon}}></i> {{option.name}}</h5>
+					<p class="card-text">{{option.desc}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<main class="relative">
+	<router-outlet></router-outlet>
+</main>

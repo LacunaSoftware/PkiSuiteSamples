@@ -1,0 +1,19 @@
+.card-img-top {
+    margin-top: 15px;
+    max-width: 250px;
+	max-height: 50px;
+}
+
+.card {
+    min-height: 240px;
+}
+
+.card buttom {
+    margin-bottom: 0px;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: 0.5s;
+}

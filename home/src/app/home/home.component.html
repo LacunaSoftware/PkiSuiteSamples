@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col col-sm-6">
+    <h5>Certificate and RSA Operations</h5>
+    <ul>
+      <li><a routerLink="/list-cert">List the certificates available on the user's machine</a></li>
+      <li><a routerLink="/read-cert">Read one of the user's certificates</a></li>
+      <li><a routerLink="/rsa">Perform an RSA signature using one of the user's certificates</a></li>
+    </ul>
+  </div>
+  <div class="col col-sm-6">
+    <h5>Authentication and Certificate Lifecycle </h5>
+    <ul>
+      <li><a routerLink="/auth-cert">Authentication with digital certificate</a></li>
+      <li><a routerLink="/issue-cert-server" [class.disabled]="choice === 'server'">Issue a certificate storing the private key on the server</a></li>
+      <li><a routerLink="/issue-cert-user" [class.disabled]="choice === 'server'">Issue a certificate storing the private key on the user's machine</a></li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col col-sm-6">
+    <h5>PDF Signature</h5>
+    <ul>
+      <li><a routerLink="/sign-pdf-server">Sign a PDF stored on the server</a></li>
+      <li><a routerLink="/sign-pdf-user">Sign a PDF stored on the user's machine</a></li>
+      <li><a routerLink="/sign-multi-pdf-server">Sign multiple PDFs stored on the server</a></li>
+      <li><a routerLink="/sign-multi-pdf-user">Sign multiple PDFs stored on the user's machine</a></li>
+      <li><a routerLink="/cosign-pdf">Co-sign a PDF</a></li>
+      <li><a routerLink="/validate-pdf-sig">Validate PDF signature</a></li>
+      <li><a routerLink="/printer-friendly">Generate a printer-friendly version from a PDF signature</a></li>
+    </ul>
+  </div>
+  <div class="col col-sm-6">
+    <h5>CMS/CAdES Signature</h5>
+    <ul>
+      <li><a routerLink="/sign-cms-server">Perform a CMS/CAdES signature on a file stored on the server</a></li>
+      <li><a routerLink="/sign-cms-user">Perform a CMS/CAdES signature on a file stored on the user's machine</a></li>
+      <li><a routerLink="/sign-multi-cms-server" [class.disabled]="choice === 'server'">Perform multiple CMS/CAdES signatures on files stored on the server</a></li>
+      <li><a routerLink="/sign-multi-cms-user">Perform multiple CMS/CAdES signatures on files stored on the user's machine</a></li>
+      <li><a routerLink="/cosign-cms">Co-sign a CMS/CAdES signature</a></li>
+      <li><a routerLink="/validate-cms-sig">Validate CMS/CAdES signature</a></li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col col-sm-6">
+    <h5>XML Signature</h5>
+    <ul>
+      <li><a routerLink="/sign-xml-server">Sign a XML stored on the server</a></li>
+      <li><a routerLink="/sign-xml-user">Sign a XML stored on the user's machine</a></li>
+      <li><a routerLink="/sign-nfe">Sign a Brazilian NFe stored on the server</a></li>
+      <li><a routerLink="/sign-cod" [class.disabled]="choice === 'cloud'">Perform two signatures on a COD XML</a></li>
+      <li><a routerLink="/validate-xml-sig">Validate XML signature</a></li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+body { 
+	overflow-x: hidden;
+}
+
+.vr-panel {
+	display: none;
+}
+
+.vr-panel textarea {
+	width: 100%;
+}
+
+.message-panel {
+	display: none;
+	border: solid 1px black;
+}
+
+.body-content {
+	margin-top: 20px;
+}
+
+.not-single-pay, .not-transaction-pay {
+	width: 100%;
+	height: 25px;
+}
+
+.collapse-vertical-with-animation {
+	height: 0;
+	padding: 0;
+	opacity: 0;
+	-webkit-transition: all 1s;
+	-moz-transition: all 1s;
+	-o-transition: all 1s;
+	transition: all 1s;
+}
+.collapse-horizontal-with-animation {
+	width: 0;
+	padding: 0;
+	opacity: 0;
+	-webkit-transition: all 1s;
+	-moz-transition: all 1s;
+	-o-transition: all 1s;
+	transition: all 1s;
+}
+
+.collapse-without-animation {
+	display: none;
+}
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.accordeon-header {
+	padding: .5rem 1.25rem;
+}
+
+.accordeon-header a {
+	color: black;
+}
+
+.open-header a {
+	color: black;
+}
+
+.nav-link {
+	white-space: nowrap;
+}
+
+.row {
+	margin-bottom: 5px;
+}
+
+label {
+	font-weight: bold;
+}
+
+#messagesPanel > div:first-child {
+	margin-top: 20px;
+}
+
+#select2Main {
+	display: none;
+}

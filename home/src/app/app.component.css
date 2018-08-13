@@ -1,0 +1,17 @@
+#options {
+    padding-bottom: 20px;
+}
+
+.relative {
+    position: relative;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    user-select: none;
+}
+
+.card.choose {
+    background-color: lightgrey;
+    user-select: none;
+}
