@@ -85,7 +85,7 @@
 	</script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/runtime.a66f828dca56eeb90e02.js"></script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/polyfills.2f4a59095805af02bd79.js"></script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/main.9fda4bf853036e53e1b1.js"></script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/main.38cf8165ec5cb2d2a7f5.js"></script>
 	@RenderSection("scripts", required: false)
 </body>
 </html>
