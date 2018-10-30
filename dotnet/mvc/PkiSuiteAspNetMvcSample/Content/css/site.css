@@ -1,110 +1,35 @@
-﻿.vr-panel {
-	display: none;
+﻿
+/*
+ * Block UI interface
+ */
+.blockMsg {
+	font-size: 30px;
+	margin-bottom: 10px;
+	border: 1px solid #AAAAAA !important;
 }
 
-.vr-panel textarea {
-	width: 100%;
+.blockMsg:before {
+	display: inline-block;
+	position: relative;
+	top: 5px;
+	content: '';
+	border: 4px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 4px solid #3498db;
+	height: 30px;
+	width: 30px;
+	margin-right: 10px;
+	-webkit-animation: spin 1s linear infinite; /* Safari */
+	animation: spin 1s linear infinite;
 }
 
-.message-panel {
-	display: none;
-	border: solid 1px black;
+/* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
 }
 
-.body-content {
-	margin-top: 20px;
-}
-
-.dropdown-menu {
-	margin-top: 7.5px;
-	border-radius: 0;
-	-webkit-transition: max-height 1.5s ease, opacity 0.75s;
-	-moz-transition: max-height 1.5s ease, opacity 0.75s;
-	-o-transition: max-height 1.5s ease, opacity 0.75s;
-	transition: max-height 1.5s ease, opacity 0.75s;
-	max-height: 0;
-	display: block;
-	overflow: hidden;
-	opacity: 0;
-}
-
-.dropdown-menu.show {
-	max-height: 500px;
-	opacity: 1;
-}
-
-.not-single-pay, .not-transaction-pay {
-	width: 100%;
-	height: 25px;
-}
-
-.collapse-vertical-with-animation {
-	height: 0;
-	padding: 0;
-	opacity: 0;
-	-webkit-transition: all 1s;
-	-moz-transition: all 1s;
-	-o-transition: all 1s;
-	transition: all 1s;
-}
-.collapse-horizontal-with-animation {
-	width: 0;
-	padding: 0;
-	opacity: 0;
-	-webkit-transition: all 1s;
-	-moz-transition: all 1s;
-	-o-transition: all 1s;
-	transition: all 1s;
-}
-
-.collapse-without-animation {
-	display: none;
-}
-
-.card.choice:hover {
-	background-color: whitesmoke;
-	cursor: pointer;
-}
-
-.card.choice:active {
-	background-color: lightgrey;
-	cursor: pointer;
-}
-
-.disabled {
-	pointer-events: none;
-	opacity: 0.5;
-}
-
-.accordeon-header {
-	padding: .5rem 1.25rem;
-}
-
-.accordeon-header a {
-	color: black;
-}
-
-.open-header a {
-	color: black;
-}
-
-.nav-link {
-	white-space: nowrap;
-}
-
-.row {
-	margin-bottom: 5px;
-}
-
-label {
-	font-weight: bold;
-}
-
-#messagesPanel > div:first-child {
-	margin-top: 20px;
-}
-
-
-#select2Main {
-	display: none;
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }

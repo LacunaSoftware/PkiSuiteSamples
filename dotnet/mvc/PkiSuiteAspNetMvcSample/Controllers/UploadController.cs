@@ -1,4 +1,5 @@
-﻿using PkiSuiteAspNetMvcSample.Models.RestPki;
+﻿using PkiSuiteAspNetMvcSample.Classes;
+using PkiSuiteAspNetMvcSample.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,49 +9,69 @@ using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
-	/*
-	 * This controller allows the user to upload a file to be signed. Once the file is uploaded, we save it
-	 * to the App_Data folder and redirect the user to Index action on either CadesController or
-	 * PadesController passing the filename on the "userfile" URL argument.
+	/**
+	 * This controller allows the user to upload a file to be signed or to be cosigned. Once the file is
+	 * uploaded, we save it to the App_Data folder and redirect the user to Index action on either
+	 * CadesController or PadesController passing the filename on the "userfile" URL argument.
 	 */
 	public class UploadController : BaseController {
 
 		[HttpGet]
-		public ActionResult Index(string rc) {
-			return View(new UploadModel() {
+		public ActionResult Index(string rc = "") {
+
+			if (string.IsNullOrEmpty(rc)) {
+				return RedirectToAction("Index", "Home");
+			}
+
+			return View(new RedirectModel() {
 				ReturnController = rc
 			});
 		}
 
 		[HttpPost]
-		public ActionResult Index(UploadModel model) {
+		public ActionResult Index(RedirectModel model) {
 
 			// Check that a file was indeed uploaded.
-			if (Request.Files.Count == 0) {
+			var file = Request.Files.Get("userfile");
+			if (file == null || string.IsNullOrEmpty(file.FileName)) {
 				throw new Exception("No files uploaded");
 			}
-
-			var file = Request.Files[0];
 			var extension = new FileInfo(file.FileName).Extension;
 
-			// Create the App_Data folder if it does not exist.
-			var appDataPath = Server.MapPath("~/App_Data");
-			if (!Directory.Exists(appDataPath)) {
-				Directory.CreateDirectory(appDataPath);
+			// Save the file to the App_Data folder with the unique filename.
+			var fileId = StorageMock.Store(file.InputStream, extension);
+
+			// Redirect the user to the ReturnController, passing the name of the file as a URL argument.
+			return RedirectToAction("Index", model.ReturnController, new { userfile = fileId });
+		}
+
+		[HttpGet]
+		public ActionResult CoSign(string rc = "") {
+
+			if (string.IsNullOrEmpty(rc)) {
+				return RedirectToAction("Index", "Home");
 			}
 
-			// Generate a unique id.
-			var id = Guid.NewGuid();
+			return View(new RedirectModel() {
+				ReturnController = rc
+			});
+		}
 
-			// Combine the unique id and the original extension.
-			var filename = string.Format("{0}{1}", id, extension);
+		[HttpPost]
+		public ActionResult CoSign(RedirectModel model) {
+
+			// Check that a file was indeed uploaded.
+			var file = Request.Files.Get("cosign");
+			if (file == null || string.IsNullOrEmpty(file.FileName)) {
+				throw new Exception("No files uploaded");
+			}
+			var extension = new FileInfo(file.FileName).Extension;
 
 			// Save the file to the App_Data folder with the unique filename.
-			file.SaveAs(Path.Combine(appDataPath, filename));
+			var fileId = StorageMock.Store(file.InputStream, extension);
 
-			// Redirect the user to the Index action on either CadesController or PadesController, passing
-			// the name of the file as a URL argument.
-			return RedirectToAction("Index", model.ReturnController, new { userfile = filename.Replace(".", "_") });
+			// Redirect the user to the ReturnController, passing the name of the file as a URL argument.
+			return RedirectToAction("Index", model.ReturnController, new { fileToCoSign = fileId });
 		}
 	}
 

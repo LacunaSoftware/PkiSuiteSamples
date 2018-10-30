@@ -1,16 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ASP.NET MVC Samples</title>
 	<base href="/">
-		
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.lacunasoftware.com/lacuna.f814dd1e8494ded70e6c.css" />
 	<link rel="stylesheet" href="~/Content/css/site.css" />
-	<link rel="stylesheet" href="https://cdn.lacunasoftware.com/styles.4a215d4603fbb9ee2bdb.css" />
+	@RenderSection("styles", required: false)
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha384-bPV3mA2eo3edoq56VzcPBmG1N1QVUfjYMxVIJPPzyFJyFZ8GFfN7Npt06Zr23qts" crossorigin="anonymous"></script>
 </head>
@@ -37,55 +38,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" integrity="sha384-Ct2s0NBxEbvJlnXHOZJheqOGKjX3Q4ewsYoJZYnLz/teMXnlGhim5o9305EkvlsN" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-	<script type="text/javascript">
-		SampleRoutes = {
-			authCert: {
-				pki: "/Home/CheckPkiLicense?rc=AuthenticationPki",
-				restpki: "/Home/CheckRestPkiToken?rc=AuthenticationRestPki"
-			},
-			signMultiCmsServer: {
-				restpki: '/Home/CheckRestPkiToken?rc=BatchCadesSignatureRestPki'
-			},
-			signMultiPdfServer: {
-				pki: '/Home/CheckPkiLicense?rc=BatchPadesSignaturePki',
-				restpki: '/Home/CheckRestPkiToken?rc=BatchPadesSignatureRestPki'
-			},
-			signCmsServer: {
-				pki: '/Home/CheckPkiLicense?rc=CadesSignaturePki',
-				restpki: '/Home/CheckRestPkiToken?rc=CadesSignatureRestPki'
-			},
-			validateCmsSig: {
-				restpki: '/Home/CheckRestPkiToken?rc=OpenCadesSignatureRestPki'
-			},
-			validatePdfSig: {
-				restpki: '/Home/CheckRestPkiToken?rc=OpenPadesSignatureRestPki'
-			},
-			validateXmlSig: {
-				pki: '/Home/CheckPkiLicense?rc=OpenXmlSignaturePki',
-				restpki: '/Home/CheckRestPkiToken?rc=OpenXmlSignatureRestPki'
-			},
-			signPdfServer: {
-				pki: '/Home/CheckPkiLicense?rc=PadesSignaturePki',
-				restpki: '/Home/CheckRestPkiToken?rc=PadesSignatureRestPki'
-			},
-			rsa: {
-				webpki: '/RSAWebPki'
-			},
-			listCert: {
-				webpki: '/Select2WebPki'
-			},
-			signCod: {
-				pki: '/Home/CheckPkiLicense?rc=XmlCodSignaturePkiController'
-			},
-			signNfe: {
-				pki: '/Home/CheckPkiLicense?rc=XmlElementSignaturePki',
-				restpki: '/Home/CheckRestPkiToken?rc=XmlElementSignatureRestPki'
-			}
-		};
-	</script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/runtime.a66f828dca56eeb90e02.js"></script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/polyfills.2f4a59095805af02bd79.js"></script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/main.5e34bae26743e8ac56bb.js"></script>
 	@RenderSection("scripts", required: false)
 </body>
 </html>

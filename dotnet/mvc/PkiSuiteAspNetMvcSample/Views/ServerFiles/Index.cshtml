@@ -1,0 +1,49 @@
+﻿@using PkiSuiteAspNetMvcSample.Models
+@model ServerFilesModel
+
+<h2>Choose a server file</h2>
+
+<p>You will be redirected to @Model.ReturnController</p>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "serverFilesForm", @role = "form" })) {
+	@Html.HiddenFor(m => m.ReturnController)
+	@Html.HiddenFor(m => m.ChosenFile, new { id = "chosenFile" })
+
+	<div class="col-md-6 align-self-center" style="padding-left: 0px;">
+		<div class="form-group">
+			<div class="card" style="width: 30rem;">
+				<div class="card-header"><b>Select one of the available files on the server</b></div>
+				<div id="accordion" class="acoordion list-group list-group-flush">
+					@foreach (var id in Model.AvailableFiles) {
+						<button id="doc_@id" type="button" data-toggle="collapse" data-target="#info_@id" aria-expanded="false" aria-controls="info_@id" class="document_btn list-group-item list-group-item-action">Document #@id</button>
+						<div id="info_@id"class="collapse list-group-item" aria-labelledby="doc_@id" data-parent="#accordion">
+							<div class="row">
+								<div class="col col-md-6">
+									<a href="#" class="btn btn-primary">Download</a>
+								</div>
+								<div class="col col-md-6 text-right">
+									@*<i class="fas fa-check"></i>*@
+									@*<button type="button" class="btn btn-success">Confirm</button>*@
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<button id="submitButton" type="button" style="display: none;"></button>
+}
+
+@section Scripts {
+
+	<script>
+		$(document).ready(function () {
+			$('.document_btn').click(function (e) {
+				$('#chosenFile').val(this.id.substring(2));
+				$('')
+			});
+		});
+	</script>
+
+}

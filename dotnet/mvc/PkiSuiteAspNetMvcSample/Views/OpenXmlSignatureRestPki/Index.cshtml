@@ -1,16 +1,16 @@
 ﻿@using PkiSuiteAspNetMvcSample.Controllers
-@using Lacuna.RestPki.Client
-@model List<XmlSignature>
+@using PkiSuiteAspNetMvcSample.Models.RestPki
+@model OpenXmlSignatureModel
 
-<h3>Open/validate signatures on an existing XML file</h3>
+<h2>Open/validate signatures on an existing XML using REST PKI</h2>
 
-<h5>The given file contains @Model.Count signatures:</h5>
+<h5>The given file contains @Model.Signatures.Count signatures:</h5>
 
 <div id="accordion">
 
-	@for (var i = 0; i < Model.Count; i++) {
+	@for (var i = 0; i < Model.Signatures.Count; i++) {
 
-		var signature = Model[i];
+		var signature = Model.Signatures[i];
 		var collapseId = string.Format("signer_{0}_collapse", i);
 		var headingId = string.Format("signer_{0}_heading", i);
 
@@ -39,7 +39,10 @@
 						</p>
 					}
 					@if (signature.SigningTime != null) {
-						<p>Signing time: @TimeZoneInfo.ConvertTime(signature.SigningTime.Value, PrinterFriendlyVersionRestPkiController.TimeZone).ToString(PrinterFriendlyVersionRestPkiController.DateFormat, PrinterFriendlyVersionRestPkiController.CultureInfo) (@PrinterFriendlyVersionRestPkiController.TimeZoneDisplayName)</p>
+						<p>
+							Signing time: @TimeZoneInfo.ConvertTime(signature.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo)
+							(@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)
+						</p>
 					}
 					@if (signature.SignaturePolicy != null) {
 						<p>Signature policy: @signature.SignaturePolicy.Oid</p>

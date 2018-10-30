@@ -46,28 +46,24 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return policy;
 		}
 
+		/**
+		 * GET CodXmlSignature
+		 * 
+		 * Renders the first signature page (for the COD element)
+		 */
 		public ActionResult Index() {
 			return View();
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCod
-		 * 
-		 * Renders the first signature page (for the COD element)
-		 */
-		public ActionResult SignCod() {
-			return View();
-		}
-
-		/**
-		 * POST CodXmlSignature/SignCod
+		 * POST CodXmlSignature
 		 * 
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the COD element to be signed, yielding the byte array that needs to be 
 		 * actually signed with the user's private key (the "to-sign-hash").
 		 */
 		[HttpPost]
-		public ActionResult SignCod(SignatureStartModel model) {
+		public ActionResult Index(SignatureStartModel model) {
 
 			byte[] toSignHash, transferData;
 			SignatureAlgorithm signatureAlg;
@@ -77,7 +73,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				var signer = new XmlElementSigner();
 
 				// Set the data to sign, which in the case of this example is a fixed sample "COD envelope"
-				signer.SetXml(StorageMock.GetSampleCodEnvelope());
+				signer.SetXml(StorageMock.GetSampleCodEnvelopeContent());
 
 				// Set the ID of the COD element
 				signer.SetToSignElementId("COD");
@@ -92,8 +88,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// be used on the client-side, based on the signature policy.
 				toSignHash = signer.GenerateToSignHash(out signatureAlg, out transferData);
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired. 
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
@@ -106,25 +101,27 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The OID of the digest algorithm to be used during the signature operation
 			// - The "transfer data"
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
+				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
 				ToSignHash = toSignHash,
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
 				TransferData = transferData
 			};
 
-			return RedirectToAction("SignCodComplete");
+			return RedirectToAction("Complete");
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodComplete
+		 * GET CodXmlSignature/Complete
 		 * 
 		 * Renders the page on which the signature of the COD element will actually be computed
 		 * using the "to-sign-hash" generated on the SignCod action
 		 */
 		[HttpGet]
-		public ActionResult SignCodComplete() {
+		public ActionResult Complete() {
 
-			// Recover data from SignCod action
+			// Recovery data from Index action, if returns null, it'll be redirected to Index 
+			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
 				return RedirectToAction("Index");
@@ -140,21 +137,21 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * we'll redirect the user to the SignCodResult action to show the signed file.
 		 */
 		[HttpPost]
-		public ActionResult SignCodComplete(SignatureCompleteModel model) {
+		public ActionResult Complete(SignatureCompleteModel model) {
 
 			byte[] signatureContent;
 
 			try {
+
+				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
-				// Set the document to be signed and the policy, exactly like in the SignCod method
-				signer.SetXml(StorageMock.GetSampleCodEnvelope());
+				// Set the document to be signed and the policy, exactly like in the SignCod method.
+				signer.SetXml(StorageMock.GetSampleCodEnvelopeContent());
 				signer.SetPolicy(getSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data"
 				signer.SetPrecomputedSignature(model.Signature, model.TransferData);
-
-				// It is not necessary to set the signing certificate nor the element ID to be signed, both are contained in the "transfer data"
 
 				// Call ComputeSignature(), which validates the signature of the "to-sign-hash" and finishes the signature process
 				signer.ComputeSignature();
@@ -162,25 +159,39 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get the signed XML as an array of bytes
 				signatureContent = signer.GetSignedXml();
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
 			}
 
-			// Store the signature file on the folder "App_Data/" and redirect to the SignCodResult action with the filename.
-			var filename = StorageMock.Store(signatureContent, ".xml");
-			return RedirectToAction("SignCodResult", new SignatureInfoModel() {
-				Filename = filename
-			});
+			// On the next step (SignatureInfo action), we'll render the following information:]
+			// - The filename to be available to download in next action.
+			// - The signer's certificate information to be rendered.
+			// We'll store these values on TempData, which is a dictionary shared between actions.
+			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
+
+				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
+				Filename = StorageMock.Store(signatureContent, ".xml"),
+				UserCert = PKCertificate.Decode(model.CertContent)
+			};
+
+			return RedirectToAction("SignatureInfo");
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodResult
+		 * GET CodXmlSignature/SignatureInfo
 		 */
 		[HttpGet]
-		public ActionResult SignCodResult(SignatureInfoModel model) {
+		public ActionResult SignatureInfo() {
+
+			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// action again.
+			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
+			if (model == null) {
+				return RedirectToAction("Index");
+			}
+
 			return View(model);
 		}
 
@@ -189,10 +200,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * 
 		 * Renders the second signature page (for the CODEH element)
 		 */
+		[HttpGet]
 		public ActionResult SignCodeh(string id) {
+
+			// This sample only works with the file id with COD signature is provided.
 			if (string.IsNullOrEmpty(id)) {
 				return RedirectToAction("Index");
 			}
+
 			return View();
 		}
 
@@ -208,8 +223,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Recover XML envelope with signed COD element from "storage" based on its ID
 			byte[] content;
-			string extension;
-			if (!StorageMock.TryGetFile(id, out content, out extension)) {
+			if (!StorageMock.TryGetFile(id, out content)) {
 				return HttpNotFound();
 			}
 
@@ -217,7 +231,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			SignatureAlgorithm signatureAlg;
 
 			try {
-				// Instantiate a CadesSigner class
+
+				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
 				// Set the XML to sign
@@ -236,8 +251,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// be used on the client-side, based on the signature policy.
 				toSignHash = signer.GenerateToSignHash(out signatureAlg, out transferData);
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired. 
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
@@ -250,6 +264,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The OID of the digest algorithm to be used during the signature operation
 			// - The "transfer data"
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
+				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
 				ToSignHash = toSignHash,
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
@@ -260,12 +275,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodehComplete
+		 * GET CodXmlSignature/SignCodeh/Complete
 		 * 
 		 * Renders the page on which the signature of the CODEH element will actually be computed
 		 * using the "to-sign-hash" generated on the SignCodeh action
 		 */
 		[HttpGet]
+		[Route("SignCodeh/Complete")]
 		public ActionResult SignCodehComplete(string id) {
 
 			// Recover data from SignCodeh action
@@ -278,24 +294,26 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST CodXmlSignature/SignCodehComplete
+		 * POST CodXmlSignature/SignCodeh/Complete
 		 * 
 		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After signature,
 		 * we'll redirect the user to the SignCodehResult action to show the signed file.
 		 */
 		[HttpPost]
+		[Route("SignCodeh/Complete")]
 		public ActionResult SignCodehComplete(string id, SignatureCompleteModel model) {
 
 			// Recover XML envelope with signed COD element from "storage" based on its ID
 			byte[] content;
-			string extension;
-			if (!StorageMock.TryGetFile(id, out content, out extension)) {
+			if (!StorageMock.TryGetFile(id, out content)) {
 				return HttpNotFound();
 			}
 
 			byte[] signatureContent;
 
 			try {
+
+				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
 				// Set the document to be signed and the policy, exactly like in the SignCodeh method
@@ -305,33 +323,46 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set the signature computed on the client-side, along with the "transfer data"
 				signer.SetPrecomputedSignature(model.Signature, model.TransferData);
 
-				// It is not necessary to set the signing certificate nor the element ID to be signed, both are contained in the "transfer data"
-
 				// Call ComputeSignature(), which validates the signature of the "to-sign-hash" and finishes the signature process
 				signer.ComputeSignature();
 
 				// Get the signed XML as an array of bytes
 				signatureContent = signer.GetSignedXml();
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
 			}
 
-			// Store the signature file on the folder "App_Data/" and redirect to the SignCodehResult action with the filename.
-			var filename = StorageMock.Store(signatureContent, ".xml");
-			return RedirectToAction("SignCodehResult", new SignatureInfoModel() {
-				Filename = filename
-			});
+			// On the next step (SignatureInfo action), we'll render the following information:
+			// - The filename to be available to download in next action.
+			// - The signer's certificate information to be rendered.
+			// We'll store these values on TempData, which is a dictionary shared between actions.
+			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
+
+				// Store the signature file on the folder "App_Data/" and redirect to the SignCodehResult action with the filename.
+				Filename = StorageMock.Store(signatureContent, ".xml"),
+				UserCert = PKCertificate.Decode(model.CertContent)
+			};
+			
+			return RedirectToAction("SignCodehSignatureInfo");
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodehResult
+		 * GET CodXmlSignature/SignCodeh/SignatureInfo
 		 */
 		[HttpGet]
-		public ActionResult SignCodehResult(SignatureInfoModel model) {
+		[Route("SignCodeh/SignatureInfo")]
+		public ActionResult SignCodehSignatureInfo() {
+
+			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// action again.
+			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
+			if (model == null) {
+				return RedirectToAction("Index");
+			}
+
 			return View(model);
 		}
 	}

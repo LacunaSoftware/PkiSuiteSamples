@@ -23,15 +23,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return HttpNotFound();
 			}
 
-			string extension;
+			string filename;
 			try {
-				content = StorageMock.Read(id, out extension);
+				content = StorageMock.Read(id, out filename);
 			}
 			catch (FileNotFoundException) {
 				return HttpNotFound();
 			}
 
-			var filename = id + extension;
 			return File(content, MimeMapping.GetMimeMapping(filename), filename);
 		}
 
@@ -68,6 +67,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public ActionResult Manifesto() {
 			var fileContent = StorageMock.Read(StorageMock.GetSampleManifestPath());
 			return File(fileContent, "text/xml", "EventoManifesto.xml");
+		}
+
+		// GET Download/SampleCodEnvelope
+		[HttpGet]
+		public ActionResult SampleCodEnvelope() {
+			var fileContent = StorageMock.GetSampleCodEnvelopeContent();
+			return File(fileContent, "text/xml", "SampleCodEnvelope.xml");
 		}
 	}
 }

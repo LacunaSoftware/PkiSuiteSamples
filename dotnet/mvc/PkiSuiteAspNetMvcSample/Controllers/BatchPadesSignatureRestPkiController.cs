@@ -1,4 +1,5 @@
 ﻿using Lacuna.RestPki.Api;
+using Lacuna.RestPki.Api.PadesSignature;
 using Lacuna.RestPki.Client;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.RestPki;
@@ -49,6 +50,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// elements and start the signature process.
 			var signatureStarter = new PadesSignatureStarter(Util.GetRestPkiClient()) {
 
+				// Set the unit of measurement used to edit the pdf marks and visual representations.
+				MeasurementUnits = PadesMeasurementUnits.Centimeters,
+
 				// Set the signature policy.
 				SignaturePolicyId = StandardPadesSignaturePolicies.Basic,
 
@@ -57,7 +61,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId(),
 
 				// Set a visual representation for the signature.
-				VisualRepresentation = PadesVisualElements.GetVisualRepresentation()
+				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki()
 			};
 
 			// Set the document to be signed based on its ID (passed to us from the page).

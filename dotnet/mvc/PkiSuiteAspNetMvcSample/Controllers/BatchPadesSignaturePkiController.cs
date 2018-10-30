@@ -65,38 +65,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set the signature policy
 				padesSigner.SetPolicy(getSignaturePolicy());
 
-				// Set the signature's visual representation options (this is optional). For more information, see
-				// http://pki.lacunasoftware.com/Help/html/98095ec7-2742-4d1f-9709-681c684eb13b.htm
-				var visual = new PadesVisualRepresentation2() {
-
-					// Text of the visual representation
-					Text = new PadesVisualText() {
-
-						// Compose the message
-						CustomText = String.Format("Assinado digitalmente por {0}", cert.SubjectDisplayName),
-
-						// Specify that the signing time should also be rendered
-						IncludeSigningTime = true,
-
-						// Optionally set the horizontal alignment of the text ('Left' or 'Right'), if not set the default is Left
-						HorizontalAlign = PadesTextHorizontalAlign.Left
-					},
-					// Background image of the visual representation
-					Image = new PadesVisualImage() {
-
-						// We'll use as background the image in Content/PdfStamp.png
-						Content = StorageMock.GetPdfStampContent(),
-
-						// Opacity is an integer from 0 to 100 (0 is completely transparent, 100 is completely opaque).
-						Opacity = 50,
-
-						// Align the image to the right
-						HorizontalAlign = PadesHorizontalAlign.Right
-					},
-					// Set the position of the visual representation
-					Position = PadesVisualAutoPositioning.GetFootnote()
-				};
-				padesSigner.SetVisualRepresentation(visual);
+				// Set a visual representation for the signature.
+				padesSigner.SetVisualRepresentation(PadesVisualElements.GetVisualRepresentationForPkiSdk(cert));
 
 				// Generate the "to-sign-bytes". This method also yields the signature algorithm that must
 				// be used on the client-side, based on the signature policy, as well as the "transfer data",
@@ -135,10 +105,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
-				// Recover the "transfer data" content stored in a temporary file
-				string extension;
+				// Recover the "transfer data" content stored in a temporary file.
 				byte[] transferDataContent;
-				if (!StorageMock.TryGetFile(request.TransferDataFileId, out transferDataContent, out extension)) {
+				if (!StorageMock.TryGetFile(request.TransferDataFileId, out transferDataContent)) {
 					return HttpNotFound();
 				}
 

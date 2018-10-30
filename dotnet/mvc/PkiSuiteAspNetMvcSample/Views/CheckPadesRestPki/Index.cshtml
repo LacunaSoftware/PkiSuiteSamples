@@ -1,6 +1,7 @@
-﻿@using PkiSuiteAspNetMvcSample.Models.RestPki
-@using PkiSuiteAspNetMvcSample.Controllers
-@model CheckModel
+﻿@using PkiSuiteAspNetMvcSample.Controllers
+@using PkiSuiteAspNetMvcSample.Models.RestPki
+@using Lacuna.RestPki.Client
+@model OpenSignatureModel<PadesSignature>
 
 <h3>Check signatures on printer-friendly PDF</h3>
 
@@ -21,8 +22,7 @@
 					<span> </span>
 					if (signer.ValidationResults.IsValid) {
 						<span class="badge badge-success">valid</span>
-					}
-					else {
+					} else {
 						<span class="badge badge-danger">invalid</span>
 					}
 				}
@@ -30,7 +30,7 @@
 			<div id="@collapseId" class="collapse" role="tabpanel" aria-labelledby="@headingId" data-parent="#accordion">
 				<div class="card-body">
 					@if (signer.SigningTime != null) {
-						<p>Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyVersionRestPkiController.TimeZone).ToString(PrinterFriendlyVersionRestPkiController.DateFormat, PrinterFriendlyVersionRestPkiController.CultureInfo) (@PrinterFriendlyVersionRestPkiController.TimeZoneDisplayName)</p>
+						<p>Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo) (@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)</p>
 					}
 					<p>Message digest: @signer.MessageDigest.Algorithm.Name @BitConverter.ToString(signer.MessageDigest.Value) </p>
 					@if (signer.SignaturePolicy != null) {
@@ -67,8 +67,9 @@
 	}
 </div>
 
+<br />
 <h3>Actions:</h3>
 <ul>
 	<li><a href="Download/File/@Model.File">Download signed file</a></li>
-	<li><a href="PrinterFriendlyVersion/File/@Model.File">Download printer-friendly version</a></li>
+	<li><a href="PrinterFriendlyPadesRestPki?userfile=@Model.File">Download printer-friendly version</a></li>
 </ul>

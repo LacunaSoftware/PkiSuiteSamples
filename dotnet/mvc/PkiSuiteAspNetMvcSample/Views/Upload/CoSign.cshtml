@@ -1,0 +1,16 @@
+﻿@using PkiSuiteAspNetMvcSample.Models
+@model RedirectModel
+
+<h2>Upload a file to be co-signed</h2>
+<h3>You will be redirected to @Model.ReturnController</h3>
+
+<form method="post" enctype="multipart/form-data">
+	@Html.HiddenFor(m => m.ReturnController)
+
+	<div class="form-group">
+		<label>Select file:</label>
+		<br />
+		<input type="file" name="cosign">
+	</div>
+	<button type="submit" class="btn btn-primary">Upload</button>
+</form>

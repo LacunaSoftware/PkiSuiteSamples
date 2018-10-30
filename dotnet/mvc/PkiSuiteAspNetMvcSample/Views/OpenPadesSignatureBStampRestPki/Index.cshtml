@@ -1,10 +1,11 @@
 ﻿@using PkiSuiteAspNetMvcSample.Controllers
+@using PkiSuiteAspNetMvcSample.Models.RestPki
 @using Lacuna.RestPki.Client
-@model PadesSignature
+@model OpenSignatureBStampModel<PadesSignature>
 
 <h3>Open existing PAdES Signature with B-Stamp&trade;</h3>
 
-@if (Model.BStamp == null) {
+@if (Model.Signature.BStamp == null) {
 
 	<h4>The given signature has not been registered on a Blockchain</h4>
 	<h6>Tip: signatures performed with Rest PKI are registered on the Bitcoin Blockchain overnight. Try again tomorrow with this same file.</h6>
@@ -20,7 +21,7 @@
 	</p>
 
 	<ul>
-		@foreach (var digest in Model.BStamp.DocumentDigests) {
+		@foreach (var digest in Model.Signature.BStamp.DocumentDigests) {
 			<li>@digest.Algorithm.Name: @digest.HexValue</li>
 		}
 	</ul>
@@ -32,20 +33,20 @@
 	</p>
 
 	<ul>
-		@foreach (var digest in Model.BStamp.IndexDigests) {
+		@foreach (var digest in Model.Signature.BStamp.IndexDigests) {
 			<li>@digest.Algorithm.Name: <b>@digest.HexValue</b></li>
 		}
 	</ul>
 
 	<p>
-		O índice de hashes encontra-se registrado no Blockchain do @Model.BStamp.Blockchain na seguinte transação:
+		O índice de hashes encontra-se registrado no Blockchain do @Model.Signature.BStamp.Blockchain na seguinte transação:
 	</p>
 
 	<ul>
-		<li>Blockchain: <b>@Model.BStamp.Blockchain</b></li>
-		<li>Transaction: <b><a href="https://blockchain.info/tx/@Model.BStamp.TransactionId?show_adv=true" target="_blank">@Model.BStamp.TransactionId</a></b></li>
-		<li>Block number: <b>@Model.BStamp.BlockNumber</b></li>
-		<li>Block date: <b>@Model.BStamp.BlockDate.UtcDateTime.ToString("G")</b> (@Model.BStamp.BlockDate.LocalDateTime.ToString("G") no horário local)</li>
+		<li>Blockchain: <b>@Model.Signature.BStamp.Blockchain</b></li>
+		<li>Transaction: <b><a href="https://blockchain.info/tx/@Model.Signature.BStamp.TransactionId?show_adv=true" target="_blank">@Model.Signature.BStamp.TransactionId</a></b></li>
+		<li>Block number: <b>@Model.Signature.BStamp.BlockNumber</b></li>
+		<li>Block date: <b>@Model.Signature.BStamp.BlockDate.UtcDateTime.ToString("G")</b> (@Model.Signature.BStamp.BlockDate.LocalDateTime.ToString("G") no horário local)</li>
 	</ul>
 
 	<p>
@@ -53,21 +54,21 @@
 	</p>
 
 	<ul>
-		<li><a href="https://blockchain.info/tx/@Model.BStamp.TransactionId?show_adv=true" target="_blank">https://blockchain.info/tx/@Model.BStamp.TransactionId</a></li>
-		<li><a href="https://blocktrail.com/BTC/tx/@Model.BStamp.TransactionId" target="_blank">https://blocktrail.com/BTC/tx/@Model.BStamp.TransactionId</a></li>
+		<li><a href="https://blockchain.info/tx/@Model.Signature.BStamp.TransactionId?show_adv=true" target="_blank">https://blockchain.info/tx/@Model.Signature.BStamp.TransactionId</a></li>
+		<li><a href="https://blocktrail.com/BTC/tx/@Model.Signature.BStamp.TransactionId" target="_blank">https://blocktrail.com/BTC/tx/@Model.Signature.BStamp.TransactionId</a></li>
 	</ul>
 
 	<p>
 		Acessando qualquer um dos links acima é possível conferir os hashes do índice de hashes nos detalhes da
 		transação. Portanto, a existência na data indicada acima do referido índice de hashes, e por consequência do
 		documento assinado e de todos os artefatos de validação, encontra-se registrada de maneira inviolável no
-		blockchain do @Model.BStamp.Blockchain, estrutura de dados difundida e perpetuada globalmente pelos nós da rede da
-		criptomoeda.
+		blockchain do @Model.Signature.BStamp.Blockchain, estrutura de dados difundida e perpetuada globalmente pelos
+		nós da rede da criptomoeda.
 	</p>
 
 	<p>
 		Portanto, as validações a seguir foram feitas assumindo que o documento assinado e os artefatos de
-		validação comprovadamente existiam em <b>@Model.BStamp.BlockDate.UtcDateTime.ToString("G") UTC</b> (@Model.BStamp.BlockDate.LocalDateTime.ToString("G") no horário local).
+		validação comprovadamente existiam em <b>@Model.Signature.BStamp.BlockDate.UtcDateTime.ToString("G") UTC</b> (@Model.Signature.BStamp.BlockDate.LocalDateTime.ToString("G") no horário local).
 	</p>
 
 }
@@ -76,13 +77,13 @@
 	<p><a href="/Download/File/@ViewBag.AuditPackageFile" class="btn btn-primary">Baixar Pacote para Auditoria</a></p>
 }
 
-<h5>The given file contains @Model.Signers.Count signatures:</h5>
+<h5>The given file contains @Model.Signature.Signers.Count signatures:</h5>
 
 <div id="accordion">
 
-	@for (var i = 0; i < Model.Signers.Count; i++) {
+	@for (var i = 0; i < Model.Signature.Signers.Count; i++) {
 
-		var signer = Model.Signers[i];
+		var signer = Model.Signature.Signers[i];
 		var collapseId = string.Format("signer_{0}_collapse", i);
 		var headingId = string.Format("signer_{0}_heading", i);
 

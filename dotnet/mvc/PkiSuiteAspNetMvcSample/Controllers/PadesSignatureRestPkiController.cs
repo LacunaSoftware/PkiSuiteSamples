@@ -1,14 +1,11 @@
 ﻿using Lacuna.RestPki.Api;
-using Lacuna.RestPki.Api.PadesSignature;
 using Lacuna.RestPki.Client;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.RestPki;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+
+using PadesMeasurementUnits = Lacuna.RestPki.Api.PadesSignature.PadesMeasurementUnits;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class PadesSignatureRestPkiController : BaseController {
@@ -21,7 +18,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * called with a URL argument named "userfile".
 		 */
 		[HttpGet]
-		public async Task<ActionResult> Index(string userfile) {
+		public async Task<ActionResult> Index(string userfile, string fileToCoSign) {
 
 			// Get an instance of the PadesSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
@@ -38,21 +35,44 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId(),
 
 				// Set a visual representation for the signature.
-				VisualRepresentation = PadesVisualElements.GetVisualRepresentation()
+				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki()
 			};
 
-			// If the user was redirected here by UploadController (signature with file uploaded by user),
-			// the "userfile" URL argument will contain the filename under the "App_Data" folder. Otherwise
-			// (signature with server file), we'll sign a sample document.
-			if (string.IsNullOrEmpty(userfile)) {
-				// Set the PDF to be signed.
+			// Set the file to be signed.
+			if (!string.IsNullOrEmpty(userfile)) {
+
+				// Verify if the userfile exists and get its absolute path.
+				string userfilePath;
+				if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
+					return HttpNotFound();
+				}
+
+				// If the URL argument "userfile" is filled, it means the user was redirected here by
+				// UploadController (signature with file uploaded by user). We'll set the path of the file to
+				// be signed, which was saved in the App_Data folder by UploadController.
+				signatureStarter.SetPdfToSign(userfilePath);
+
+			} else if (!string.IsNullOrEmpty(fileToCoSign)) {
+
+				// Verify if the fileToCoSign exists and get its absolute path.
+				string fileToCoSignPath;
+				if (!StorageMock.TryGetFile(fileToCoSign, out fileToCoSignPath)) {
+					return HttpNotFound();
+				}
+
+				// If the URL argument "fileToCoSign" is filled, it means the user was redirected here by
+				// UploadController (CoSign() action) or by the result page of a PAdES signature. We'll set the
+				// path of the file to be co-signed, which was save in the App_Data folder by UploadController or
+				// by the previous signature. Notice: It uses the same method that is used to perform the first
+				// signature.
+				signatureStarter.SetPdfToSign(fileToCoSignPath);
+
+			} else {
+
+				// If both userfile and fileToCoSign are null, this is the "signature with server file" case. 
+				// We'll set the path of the file to be signed.
 				signatureStarter.SetPdfToSign(StorageMock.GetSampleDocPath());
-			}
-			else {
-				// Set the path of the file to be signed.
-				signatureStarter.SetPdfToSign(Server.MapPath("~/App_Data/" + userfile.Replace("_", ".")));
-				// Note: we're receiving the userfile argument with "_" as "." because of limitations of
-				// ASP.NET MVC.
+
 			}
 
 			/*
@@ -87,9 +107,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			base.SetNoCacheHeaders();
 
 			// Render the signature page with the token obtained from REST PKI.
-			return View(new Models.RestPki.PadesSignatureModel() {
+			return View(new SignatureModel() {
 				Token = token,
-				UserFile = userfile
+				UserFile = userfile,
+				FileToCoSign = fileToCoSign
 			});
 		}
 
@@ -98,7 +119,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * signature.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Index(Models.RestPki.PadesSignatureModel model) {
+		public async Task<ActionResult> Index(SignatureModel model) {
 
 			// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
 			// signature process.

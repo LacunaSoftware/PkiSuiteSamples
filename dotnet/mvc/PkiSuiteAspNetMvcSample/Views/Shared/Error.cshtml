@@ -1,13 +1,25 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
+	<meta name="viewport" content="width=device-width" />
+	<title>Error</title>
 </head>
 <body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
+	@using System.Web.Mvc
+	@model HandleErrorInfo
+
+	<hgroup>
+		<h2>Some error has occurred</h2>
+		<h3>@Html.Raw(Model.ActionName + "() on " + Model.ControllerName + "Controller")</h3>
+	</hgroup>
+
+	<label for="message">Error Message</label>
+	<p id="message">@Model.Exception.Message</p>
+
+	<label for="trace">Stack Trace</label>
+	@{
+		var stackHtml = Model.Exception.StackTrace.Replace("\n", "<br>").Replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
+	}
+	<p id="trace">@Html.Raw(stackHtml)</p>
 </body>
 </html>

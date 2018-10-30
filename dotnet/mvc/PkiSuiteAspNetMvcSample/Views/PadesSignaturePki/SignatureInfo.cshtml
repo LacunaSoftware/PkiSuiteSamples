@@ -4,10 +4,6 @@
 <h2>PAdES Signature with PKI SDK</h2>
 
 <p>File signed successfully!</p>
-<p>
-	<a href="/Download/File/@Model.Filename" class="btn btn-default">Download signed file</a>
-</p>
-
 
 <p>
 	User certificate information:
@@ -28,3 +24,9 @@
 		</li>
 	</ul>
 </p>
+
+<h3>Actions:</h3>
+<ul>
+	<li><a href="/Download/File/@Model.Filename">Download the signed file</a></li>
+	<li><a href="/PadesSignaturePki?userfile=@Model.Filename">Co-sign with another certificate</a></li>
+</ul>

@@ -1,203 +1,235 @@
-﻿<h2>Basic RSA Sample</h2>
+﻿<h2 class="ls-title">Basic RSA Sample</h2>
 
 <div class="row">
-	<div class="col-md-6">
-		<h3>Your certificates</h3>
-		<select id="certificateSelect" style="font-size: 1em"></select>
-		<br />
-		<br />
-		<button id="readCertButton" class="btn btn-info" type="button">Show Certificate Information</button>
-	</div>
-	<div class="col-md-6" id="certInfoPanel">
-		<h3>Certificate Information</h3>
-	</div>
-</div>
-<hr />
-<div class="row">
-	<div class="col-md-6">
-		<h3>Sign Data with RSA SHA-256</h3>
+	<div id="signForm" class="col col-12 col-lg-6">
+		<div class="form-group">
+			<label>Choose a certificate</label>
+			<select id="certificateSelect" class="form-control ls-select"></select>
+		</div>
 		<div class="form-group">
 			<label for="signData">Text to sign</label>
-			<input class="form-control" maxlength="60" id="signData" value="Some data" />
+			<input class="form-control" maxlength="60" id="signData" value=">>>> PLACE HERE THE DATA TO BE SIGNED <<<<" />
 		</div>
-		<button id="signDataButton" class="btn btn-info" type="button">Sign Data</button>
+		<button id="signDataButton" class="btn btn-primary" type="button">Sign Data</button>
+		<button id="signHashButton" class="btn btn-info" type="button">Sign Data's Hash</button>
+		<button id="refreshButton" type="button" class="btn btn-outline-primary ls-button"><i class="fas fa-retweet"></i> Refresh Certificates</button>
 	</div>
 	<div class="col-md-6" style="word-wrap: break-word;">
-		<h3>Signature Data</h3>
-		<div id="sigInfoPanel"></div>
+		<div id="signInfoPanel"></div>
 	</div>
 </div>
-<hr />
-<div class="row">
-	<div class="col-md-6">
-		<h3>Sign Hash</h3>
-		<div class="form-group">
-			<label for="signHash">Text to sign</label>
-			<input class="form-control" maxlength="60" id="signHash" value="Some data" />
-		</div>
-		<button id="signHashButton" class="btn btn-info" type="button">Sign Hash</button>
-		<button id="verifyHashButton" class="btn btn-info" type="button">Verify Signature</button>
-	</div>
-	<div class="col-md-6" style="word-wrap: break-word;">
-		<h3>Signature Data</h3>
-		<div id="sigHashInfoPanel"></div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-8">
-		<div id="logPanel">
-		</div>
-	</div>
-</div>
+
 @section scripts {
+
 	@*
 		The file below contains the JS lib for accessing the Web PKI component. For more information, see:
-		https://webpki.lacunasoftware.com/#/Documentation
+		https://docs.lacunasoftware.com/pt-br/articles/web-pki/index.html
 	*@
-	<script src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.5.0.js"></script>
+	<script src="@Url.Content("~/Content/js/lacuna-web-pki-2.11.0.js")"></script>
+
+	@**
+		
+	*@
 	<script src="https://rawgit.com/emn178/js-sha256/master/build/sha256.min.js"></script>
-	<script>// Get an instance of the LacunaWebPKI object. If a license was set on Web.config, the _Layout.cshtml master
-		// view will have placed it on the global variable _webPkiLicense, which we pass to the class constructor.
+
+	<script>
+
+		// Variable that will store an instance of the Lacuna Web PKI object. If a license was set on
+		// Web.config, the _Layout.cshtml master view will have placed it on the global variable
+		// _webPkiLicense, which we pass to the class constructor.
 		var pki = new LacunaWebPKI(_webPkiLicense);
 
-        var allCerts = [];
-        var hashSignature = "";
+		// --------------------------------------------------------------------------------------------------
+		// This method will be called as soon as the page is loaded. It will initialize Web PKI and load
+		// the certificates on the page.
+		// --------------------------------------------------------------------------------------------------
+		function init() {
 
-        function start() {
-            var nowStr = new Date().toISOString();
-            $('#signData').val(nowStr);
-            $('#signHash').val(nowStr);
-            $('#readCertButton').click(readCert);
-            $('#signDataButton').click(signData);
-            $('#signHashButton').click(signHash);
-            $('#verifyHashButton').click(verifyHash);
-            $('#verifyHashButton').prop("disabled", true);
-            log('Initializing component ...');
-            pki.init(onWebPkiReady);
-        }
+			// Wire up buttons click.
+			$('#refreshButton').click(refresh);
+			$('#signDataButton').click(signData);
+			$('#signHashButton').click(signHash);
 
-        function onWebPkiReady() {
-            log('Component ready, listing certificates ...');
-            pki.listCertificates().success(function (certs) {
-                allCerts = certs;
-                log(certs.length + ' certificates found.');
-                var select = $('#certificateSelect');
-                $.each(certs,
-                    function () {
-                        select.append(
-                            $('<option />')
-                                .val(this.thumbprint)
-                                .text(this.subjectName + ' (issued by ' + this.issuerName + ')')
-                        );
-                    });
-            });
-        }
+			// Block the UI while we get things ready.
+			$.blockUI({ message: 'Initializing ...' });
 
-        function readCert() {
-            var selectedCertThumb = $('#certificateSelect').val();
-            clearCertInfo();
-            $.each(allCerts,
-                function () {
-                    if (selectedCertThumb === this.thumbprint) {
-                        logCertInfo('Thumbprint: ' + this.thumbprint);
-                        logCertInfo('Subject Name: ' + this.subjectName);
-                        logCertInfo('Issued Name: ' + this.issuerName);
-                        logCertInfo('Validity Start: ' + this.validityStart);
-                        logCertInfo('Validity End: ' + this.validityEnd);
-                        if (this.pkiBrazil.certificateType !== "Unknown") {
-                            logCertInfo('Certificate Type: ' + this.pkiBrazil.certificateType);
-                            logCertInfo('CPF: ' + this.pkiBrazil.cpf);
-                            logCertInfo('Date Of Birth: ' + this.pkiBrazil.dateOfBirth);
-                            logCertInfo('Responsável: ' + this.pkiBrazil.responsavel);
-                            if (this.pkiBrazil.isPessoaJuridica === true) {
-                                logCertInfo('CNPJ: ' + this.pkiBrazil.cnpj);
-                            }
-                        }
-                        logCertInfo('Key Usage: ');
-                        logCertInfo('&nbsp&nbsp;&nbsp&nbsp;CRL Sign: ' + this.keyUsage.crlSign);
-                        logCertInfo('&nbsp&nbsp;&nbsp&nbsp;Data Encipherment: ' + this.keyUsage.dataEncipherment);
-                        logCertInfo('&nbsp&nbsp;&nbsp&nbsp;Digital Signature: ' + this.keyUsage.digitalSignature);
-                        logCertInfo('&nbsp&nbsp;&nbsp&nbsp;Key Encipherment: ' + this.keyUsage.keyEncipherment);
-                        logCertInfo('&nbsp&nbsp;&nbsp&nbsp;Non Repudiation: ' + this.keyUsage.nonRepudiation);
-                    }
-                }
-            );
-        }
+			// Call the init() method on the LacunaWebPKI object, passing a callback for when the component
+			// is ready to be used and another to be called when an error occurrs on any of the subsequent
+			// operations. For more information, see:
+			// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
+			// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
+			pki.init({
+				ready: loadCertificates,        // As soon as the component is ready we'll load the certificates.
+				defaultError: onWebPkiError     // Generic error callback defined below.
+			});
+		}
 
-        function signData() {
-            $('#sigInfoPanel').empty();
-            var selectedCertThumb = $('#certificateSelect').val();
-            log('Signing data with certificate: ' + selectedCertThumb);
-            var data = $('#signData').val();
-            var dataToSign = btoa(data);
-            pki.signData({
-                thumbprint: selectedCertThumb,
-                data: dataToSign,
-                digestAlgorithm: 'SHA-256'
-            }).success(function (signature) {
-                $('#sigInfoPanel').append(signature);
-                log('Result: ' + signature);
-            });
-        }
+		// --------------------------------------------------------------------------------------------------
+		// Function called when the user clicks the "Refresh" button.
+		// --------------------------------------------------------------------------------------------------
+		function refresh() {
+			// Block the UI while we load the certificates.
+			$.blockUI({ message: 'Refreshing ...' });
+			// Invoke the loading of the certificates.
+			loadCertificates();
+		}
 
-        function signHash() {
-            $('#sigHashInfoPanel').empty();
-            var selectedCertThumb = $('#certificateSelect').val();
-            log('Signing hash with certificate: ' + selectedCertThumb);
-            var data = $('#signHash').val();
-            var hashToSign = sha256.arrayBuffer(data);
-            var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(hashToSign)));
+		// --------------------------------------------------------------------------------------------------
+		// Function that loads the certificates, either on startup or when the user clicks the "Refresh"
+		// button. At this point, the UI is already blocked.
+		// --------------------------------------------------------------------------------------------------
+		function loadCertificates() {
 
-            $('#sigHashInfoPanel').append('Hash: ' + base64String + '<br/><br/>');
-            pki.signHash({
-                thumbprint: selectedCertThumb,
-                hash: base64String,
-                digestAlgorithm: 'SHA-256'
-            }).success(function (signature) {
-                hashSignature = signature;
-                $('#sigHashInfoPanel').append('Signature: ' + signature);
-                $('#verifyHashButton').prop("disabled", false);
-                log('Result: ' + signature);
-            });
-        }
+			// Call the listCertificates() method to list the user's certificates. For more information see:
+			// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
+			pki.listCertificates({
 
-        function log(message) {
-            //$('#logPanel').append('<p>' + message + '</p>');
-            if (window.console) {
-                window.console.log(message);
-            }
-        }
+				// The ID of the <select> element to be populated with the certificates.
+				selectId: 'certificateSelect',
 
-        function logCertInfo(message) {
-            $('#certInfoPanel').append(message + '<br/>');
-        }
+				// Function that will be called to get the text that should be displayed for each option.
+				selectOptionFormatter: function (cert) {
+					var s = cert.subjectName + ' (issued by ' + cert.issuerName + ')';
+					if (new Date() > cert.validityEnd) {
+						s = '[EXPIRED] ' + s;
+					}
+					return s;
+				}
 
-        function clearCertInfo() {
-            $('#certInfoPanel').empty();
-            $('#certInfoPanel').append('<h3>Certificate Information</h3>');
-        }
+			}).success(function () {
+				// Once the certificates have been listed, unblock the UI.
+				$.unblockUI();
+			});
+		}
 
+		// ------------------------------------------------------------------------------------------------------
+		// Function called when the user clicks the "Sign Data" button.
+		// ------------------------------------------------------------------------------------------------------
+		function signData() {
 
-        function verifyHash() {
-            var selectedCertThumb = $('#certificateSelect').val();
-            var data = $('#signHash').val();
-            pki.readCertificate(selectedCertThumb).success(function (certEncoding) {
-                $.ajax({
-                    method: 'POST',
-                    url: '/RSAWebPki/Validate',
-                    data: JSON.stringify({
-                        originalMessage: data,
-                        signedMessage: hashSignature,
-                        certificate: certEncoding
-                    }),
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: function (result, status) {
-                        $('#sigHashInfoPanel').append('<br/><br/>Validate: ' + result + '<br/>');
-                    }
-                });
-            });
-        }
+			// Block the UI.
+			$.blockUI({ message: 'Signing ...' });
 
-        $(start);</script>
+			// Get the thumbprint of the selected certificate.
+			var selectedCertThumbprint = $('#certificateSelect').val();
+
+			// Read data from the field and convert to an base64-encoded string.
+			var dataToSign = $('#signData').val();
+			var base64String = btoa(dataToSign);
+
+			// Call signData() on the Web PKI component passing the "dataToSign", a digest algorithm to be
+			// used and the certificate's thumbprint, selected by the user.
+			pki.signData({
+				thumbprint: selectedCertThumbprint,
+				data: base64String,
+				digestAlgorithm: 'SHA-256'
+			}).success(function (signature) {
+
+				// Render the signature results.
+				$('#signInfoPanel')
+					.append($('<h5>').append('Signature Result'))
+					.append($('<hr>'))
+					.append('<span class="badge badge-success">Signed Successfully</span>').append($('<br>'))
+					.append($('<br>'))
+					.append($('<span>').append('<b>Signature</b>: ' + signature)).append($('<br>'))
+					.append($('<br>'))
+					.append($('<button>')
+						.prop('type', 'button')
+						.addClass('btn btn-primary ls-button')
+						.click(function () { location.reload(); })
+						.append('Try Again'));
+
+				// Disable form elements.
+				disableFormElements();
+
+				// Unblock the UI.
+				$.unblockUI();
+
+			});
+		}
+
+		// ------------------------------------------------------------------------------------------------------
+		// Function called when the user clicks the "Sign Hash" button.
+		// ------------------------------------------------------------------------------------------------------
+		function signHash() {
+
+			// Block the UI.
+			$.blockUI({ message: 'Signing ...' });
+
+			// Get the thumbprint of the selected certificate.
+			var selectedCertThumbprint = $('#certificateSelect').val();
+
+			// Read data from the field and generate the SHA-256 hash from it. After that, convert to an
+			// Base64-encoded string.
+			var data = $('#signData').val();
+			var hashToSign = sha256.arrayBuffer(data);
+			var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(hashToSign)));
+
+			// Call signHash() on the Web PKI component passing the "hashToSign", the used digest algorithm 
+			// and the certificate's thumbprint, selected by the user.
+			pki.signHash({
+				thumbprint: selectedCertThumbprint,
+				hash: base64String,
+				digestAlgorithm: 'SHA-256'
+			}).success(function (signature) {
+
+				// Render the signature results.
+				$('#signInfoPanel')
+					.append($('<h5>').append('Signature Result'))
+					.append($('<hr>'))
+					.append('<span class="badge badge-success">Signed Successfully</span>').append($('<br>'))
+					.append($('<br>'))
+					.append($('<span>').append('<b>Generated Hash (SHA-256)</b>: ' + base64String)).append($('<br>'))
+					.append($('<br>'))
+					.append($('<span>').append('<b>Signature</b>: ' + signature)).append($('<br>'))
+					.append($('<br>'))
+					.append($('<button>')
+						.prop('type', 'button')
+						.addClass('btn btn-primary ls-button')
+						.click(function () { location.reload(); })
+						.append('Try Again'));
+
+				// Disable form elements.
+				disableFormElements();
+
+				// Unblock the UI.
+				$.unblockUI();
+			});
+		}
+
+		// --------------------------------------------------------------------------------------------------
+		// Function to be called after the signature is completed to disable all form elements.
+		// --------------------------------------------------------------------------------------------------
+		function disableFormElements() {
+			$('#signForm').addClass('disabled');
+			$('#certificateSelect').prop('disabled', true);
+			$('#signData').prop('disabled', true);
+			$('#signDataButton').prop('disabled', true);
+			$('#signHashButton').prop('disabled', true);
+			$('#refreshButton').prop('disabled', true);
+		}
+
+		// --------------------------------------------------------------------------------------------------
+		// Function called if an error occurs on the Web PKI component.
+		// --------------------------------------------------------------------------------------------------
+		function onWebPkiError(message, error, origin) {
+
+			// Unblock the UI.
+			$.unblockUI();
+
+			// Log the error to the browser console (for debugging purposes).
+			if (console) {
+				console.log('An error has occurred on the signature browser component: ' + message, error);
+			}
+
+			// Show the message to the user. You might want to substitute the alert below with a more
+			// user-friendly UI component to show the error.
+			alert('An error has occurred on the signature browser component: ' + message);
+		}
+
+		// Once the page is ready, we call the init() function on the javascript code
+		// (see function init() above)
+		$(document).ready(init);
+
+	</script>
 }

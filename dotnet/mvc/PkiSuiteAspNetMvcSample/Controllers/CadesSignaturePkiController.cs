@@ -19,9 +19,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var policy = CadesPoliciesForGeneration.GetPkiBrazilAdrBasica();
 
 #if DEBUG
-			// During debug only, we return a wrapper which will overwrite the policy's default trust arbitrator (which in this case
-			// corresponds to the ICP-Brasil roots only), with our custom trust arbitrator which accepts test certificates
-			// (see Util.GetTrustArbitrator())
+			// During debug only, we return a wrapper which will overwrite the policy's default trust arbitrator
+			// (which in this case corresponds to the ICP-Brasil roots only), with our custom trust arbitrator
+			// which accepts test certificates (see Util.GetTrustArbitrator()).
 			return new CadesPolicyMapperWrapper(policy, Util.GetTrustArbitrator());
 #else
 			return policy;
@@ -30,9 +30,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 		// GET: CadesSignature
 		[HttpGet]
-		public ActionResult Index() {
+		public ActionResult Index(string userfile, string fileToCoSign) {
 
-			return View();
+			return View(new SignatureStartModel() {
+				Userfile = userfile,
+				FileToCoSign = fileToCoSign
+			});
 		}
 
 		/**
@@ -53,8 +56,39 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Instantiate a CadesSigner class
 				var cadesSigner = new CadesSigner();
 
-				// Set the data to sign, which in the case of this example is a fixed sample document
-				cadesSigner.SetDataToSign(StorageMock.GetSampleDocContent());
+				if (!string.IsNullOrEmpty(model.Userfile)) {
+
+					// Verify if the userfile exists and get the content of the userfile.
+					byte[] userfileContent;
+					if (!StorageMock.TryGetFile(model.Userfile, out userfileContent)) {
+						return HttpNotFound();
+					}
+
+					// If the URL argument "userfile" is filled, it means the user was redirected here by
+					// UploadController (signature with file uploaded by user). We'll set the path of the file to
+					// be signed, which was saved in the App_Data folder by UploadController.
+					cadesSigner.SetDataToSign(userfileContent);
+
+				} else if (!string.IsNullOrEmpty(model.FileToCoSign)) {
+
+					// Verify if the cmsfile exists and get the content of the cmsfile.
+					byte[] cmsfileContent;
+					if (!StorageMock.TryGetFile(model.FileToCoSign, out cmsfileContent)) {
+						return HttpNotFound();
+					}
+
+					// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
+					// CMS. We'll set the path to the CMS to be co-signed, which was perviously saved in the
+					// App_Data folder by the POST action on this controller.
+					cadesSigner.SetSignatureToCoSign(cmsfileContent);
+
+				} else {
+
+					// If both userfile and cmsfile are null, this is the "signature with server file" case.
+					// We'll set the path of the file to be signed.
+					cadesSigner.SetDataToSign(StorageMock.GetSampleDocContent());
+
+				}
 
 				// Decode the user's certificate and set as the signer certificate
 				cadesSigner.SetSigningCertificate(PKCertificate.Decode(model.CertContent));
@@ -67,8 +101,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				toSignBytes = cadesSigner.GenerateToSignBytes(out signatureAlg);
 
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
@@ -83,6 +116,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The OID of the digest algorithm to be used during the signature operation.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
+				Userfile = model.Userfile,
+				FileToCoSign = model.FileToCoSign,
 				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
 				ToSignBytes = toSignBytes,
@@ -122,8 +157,42 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Instantiate a CadesSigner class
 				var cadesSigner = new CadesSigner();
 
-				// Set the document to be signed and the policy, exactly like in the Start method
-				cadesSigner.SetDataToSign(StorageMock.GetSampleDocContent());
+				// Set the document to be signed, exactly like in the Start method
+				if (!string.IsNullOrEmpty(model.Userfile)) {
+
+					// Verify if the userfile exists and get the content of the userfile.
+					byte[] userfileContent;
+					if (!StorageMock.TryGetFile(model.Userfile, out userfileContent)) {
+						return HttpNotFound();
+					}
+
+					// If the URL argument "userfile" is filled, it means the user was redirected here by
+					// UploadController (signature with file uploaded by user). We'll set the path of the file to
+					// be signed, which was saved in the App_Data folder by UploadController.
+					cadesSigner.SetDataToSign(userfileContent);
+
+				} else if (!string.IsNullOrEmpty(model.FileToCoSign)) {
+
+					// Verify if the cmsfile exists and get the content of the cmsfile.
+					byte[] cmsfileContent;
+					if (!StorageMock.TryGetFile(model.FileToCoSign, out cmsfileContent)) {
+						return HttpNotFound();
+					}
+
+					// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
+					// CMS. We'll set the path to the CMS to be co-signed, which was perviously saved in the
+					// App_Data folder by the POST action on this controller.
+					cadesSigner.SetSignatureToCoSign(cmsfileContent);
+
+				} else {
+
+					// If both userfile and cmsfile are null, this is the "signature with server file" case.
+					// We'll set the path of the file to be signed.
+					cadesSigner.SetDataToSign(StorageMock.GetSampleDocContent());
+
+				}
+
+				// Set the signature policy, exactly like in the Start method.
 				cadesSigner.SetPolicy(getSignaturePolicy());
 
 				// Set signer's certificate

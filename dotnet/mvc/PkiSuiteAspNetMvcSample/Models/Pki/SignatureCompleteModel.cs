@@ -6,6 +6,9 @@ using System.Web;
 namespace PkiSuiteAspNetMvcSample.Models.Pki {
 	public class SignatureCompleteModel {
 
+		public string Userfile { get; set; }
+		public string FileToCoSign { get; set; }
+
 		public byte[] CertThumb { get; set; }
 		public string CertThumbBase64 {
 			get {

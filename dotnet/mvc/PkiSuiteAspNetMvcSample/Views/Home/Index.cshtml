@@ -1,1 +1,104 @@
-﻿<app-root></app-root>
+﻿@section Styles {
+	<link rel="stylesheet" href="https://cdn.lacunasoftware.com/styles.c87e17c78cd2c969b0f3.css" />
+}
+
+<app-root></app-root>
+
+@section Scripts {
+	<script type="text/javascript">
+		IsCSharpSample = true;
+		SampleRoutes = {
+			authCert: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "AuthenticationPki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "AuthenticationRestPki" }))'
+			},
+			cosignCms: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @cosign = "CadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @cosign = "CadesSignatureRestPki" }))'
+			},
+			cosignPdf: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @upload = "PadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "PadesSignatureRestPki" }))'
+			},
+			// issueCertServer: { },
+			// issueCertUser: { },
+			listCert: {
+				jquery: '@Html.Raw(Url.Action("Index", "ListCertJQuery"))',
+				select2: '@Html.Raw(Url.Action("Index", "ListCertSelect2"))'
+			},
+			// mergeCmsSigs: { },
+			// printerFriendlyCms: { },
+			printerFriendlyPdf: {
+				// pki: '',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "PrinterFriendlyPadesRestPki" }))'
+			},
+			readCert: {
+				jquery: '@Html.Raw(Url.Action("Index", "ReadCertJQuery"))',
+				select2: '@Html.Raw(Url.Action("Index", "ReadCertSelect2"))'
+			},
+			rsa: {
+				webpki: '@Html.Raw(Url.Action("Index", "RSAWebPki"))'
+			},
+			signCmsServer: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "CadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "CadesSignatureRestPki" }))'
+			},
+			signCmsUser: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @upload = "CadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "CadesSignatureRestPki" }))'
+			},
+			//signCmsServerKey: { },
+			signCod: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignaturePki" }))'
+				// restpki: ''
+			},
+			signMultiCmsServer: {
+				// pki: { },
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchCadesSignatureRestPki" }))'
+			},
+			// signMultiCmsUser: { },
+			signMultiPdfServer: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchPadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchPadesSignatureRestPki" }))'
+			},
+			// signMultiPdfUser: { },
+			signNfe: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "NFeSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "NFeSignatureRestPki" }))'
+			},
+			signPdfServer: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @upload = "PadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @upload = "PadesSignatureRestPki" }))'
+			},
+			signPdfUser: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @upload = "PadesSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "PadesSignatureRestPki" }))'
+				// webpki: ''
+			},
+			//signPdfServerKey: { },
+			signXmlServer: {
+				// pki: '',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRestPki" }))'
+			},
+			// signXmlServerKey: { },
+			// signaturePackage: { },
+			validateCmsSig: {
+				// pki: '',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "OpenCadesSignatureRestPki" }))'
+				// webpki: '
+			},
+			validatePdfSig: {
+				// pki: '',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "OpenPadesSignatureRestPki" }))'
+				// webpki: ''
+			},
+			validateXmlSig: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @upload = "OpenXmlSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @upload = "OpenXmlSignatureRestPki" }))'
+			}
+		};
+	</script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/runtime.a66f828dca56eeb90e02.js"></script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/polyfills.27ba7ccfa975df7b6881.js"></script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/main.f18768a55dcd6f4f0f39.js"></script>
+}

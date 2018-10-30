@@ -78,6 +78,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -211,7 +212,7 @@
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListCertJQueryController.cs" />
-    <Compile Include="Controllers\ListCertSelec2Controller.cs" />
+    <Compile Include="Controllers\ListCertSelect2Controller.cs" />
     <Compile Include="Controllers\OpenCadesSignatureRestPkiController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureBStampRestPkiController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureRestPkiController.cs" />
@@ -219,14 +220,16 @@
     <Compile Include="Controllers\OpenXmlSignatureRestPkiController.cs" />
     <Compile Include="Controllers\PadesSignaturePkiController.cs" />
     <Compile Include="Controllers\PadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\PrinterFriendlyVersionRestPkiController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyPadesRestPkiController.cs" />
+    <Compile Include="Controllers\ReadCertJQueryController.cs" />
+    <Compile Include="Controllers\ReadCertSelect2Controller.cs" />
     <Compile Include="Controllers\RSAWebPkiController.cs" />
-    <Compile Include="Controllers\Select2WebPkiController.cs" />
+    <Compile Include="Controllers\ServerFilesController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\XmlCodSignaturePkiController.cs" />
-    <Compile Include="Controllers\XmlElementSignaturePkiController.cs" />
-    <Compile Include="Controllers\XmlElementSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\XmlFullSignatureRestPkiController.cs" />
+    <Compile Include="Controllers\NFeSignaturePkiController.cs" />
+    <Compile Include="Controllers\NFeSignatureRestPkiController.cs" />
+    <Compile Include="Controllers\XmlSignatureRestPkiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,43 +240,38 @@
     <Compile Include="Models\Pki\BatchSignatureModel.cs" />
     <Compile Include="Models\Pki\BatchSignatureStartRequest.cs" />
     <Compile Include="Models\Pki\BatchSignatureStartResponse.cs" />
+    <Compile Include="Models\RestPki\OpenXmlSignatureModel.cs" />
+    <Compile Include="Models\Pki\CadesSignatureModel.cs" />
+    <Compile Include="Models\Pki\CertificateModel.cs" />
+    <Compile Include="Models\Pki\DigestAlgorithmAndValueModel.cs" />
+    <Compile Include="Models\Pki\OpenXmlSignatureModel.cs" />
+    <Compile Include="Models\Pki\SignatureAlgorithmAndValueModel.cs" />
     <Compile Include="Models\Pki\SignatureCompleteModel.cs" />
     <Compile Include="Models\Pki\SignatureInfoModel.cs" />
+    <Compile Include="Models\Pki\SignaturePolicyIdentifierModel.cs" />
     <Compile Include="Models\Pki\SignatureStartModel.cs" />
+    <Compile Include="Models\Pki\ValidationResultsModel.cs" />
+    <Compile Include="Models\Pki\XmlSignatureModel.cs" />
     <Compile Include="Models\RestPki\AuthenticationModel.cs" />
-    <Compile Include="Models\RestPki\AuthenticationSuccessModel.cs" />
+    <Compile Include="Models\RestPki\AuthenticationInfoModel.cs" />
     <Compile Include="Models\RestPki\BatchSignatureModel.cs" />
-    <Compile Include="Models\RestPki\BatchSignatureOptimizedModels.cs" />
-    <Compile Include="Models\RestPki\BatchXmlElementModel.cs" />
-    <Compile Include="Models\RestPki\CadesSignatureModel.cs" />
-    <Compile Include="Models\RestPki\CheckModel.cs" />
-    <Compile Include="Models\RestPki\PadesSignatureModel.cs" />
+    <Compile Include="Models\RestPki\OpenSignatureBStampModel.cs" />
+    <Compile Include="Models\RestPki\OpenSignatureModel.cs" />
     <Compile Include="Models\RestPki\SignatureInfoModel.cs" />
-    <Compile Include="Models\RestPki\UploadModel.cs" />
-    <Compile Include="Models\RestPki\XmlSignatureModel.cs" />
-    <Compile Include="Models\SampleLinkModel.cs" />
-    <Compile Include="Models\WebPki\ITextSessionModel.cs" />
-    <Compile Include="Models\WebPki\SignatureCompleteModel.cs" />
-    <Compile Include="Models\WebPki\SignatureInfoModel.cs" />
-    <Compile Include="Models\WebPki\SignatureStartModel.cs" />
-    <Compile Include="Models\WebPki\ValidationRequest.cs" />
-    <Compile Include="Models\WebPki\XmlSignatureModel.cs" />
+    <Compile Include="Models\RestPki\SignatureModel.cs" />
+    <Compile Include="Models\RedirectModel.cs" />
+    <Compile Include="Models\ServerFilesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\site.css" />
-    <Content Include="Content\css\styles.1e74ce6e811dcf5f0a5f.css" />
     <Content Include="Content\EventoManifesto.xml" />
     <Content Include="Content\icp-brasil.png" />
     <Content Include="Content\InvoiceWithSigs.xml" />
     <Content Include="Content\js\authentication-form.js" />
-    <Content Include="Content\js\batch-signature-form.js" />
-    <Content Include="Content\js\batch-signature-optimized-form.js" />
-    <Content Include="Content\js\batch-xml-element-signature-form.js" />
-    <Content Include="Content\js\lacuna-web-pki-2.9.0.js" />
-    <Content Include="Content\js\main.38cf8165ec5cb2d2a7f5.js" />
-    <Content Include="Content\js\polyfills.2f4a59095805af02bd79.js" />
-    <Content Include="Content\js\runtime.a66f828dca56eeb90e02.js" />
+    <Content Include="Content\js\batch-signature-pki-form.js" />
+    <Content Include="Content\js\batch-signature-restpki-form.js" />
+    <Content Include="Content\js\lacuna-web-pki-2.11.0.js" />
     <Content Include="Content\js\signature-complete-form.js" />
     <Content Include="Content\js\signature-form.js" />
     <Content Include="Content\js\signature-start-form.js" />
@@ -290,14 +288,21 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.config" />
+    <Content Include="LacunaPkiLicense.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -320,11 +325,8 @@
     <Content Include="Content\07.pdf" />
     <Content Include="Content\08.pdf" />
     <Content Include="Content\09.pdf" />
-    <Content Include="Content\bstamped.pdf" />
+    <Content Include="Content\BStamped.pdf" />
     <Content Include="Content\SampleDocument.pdf" />
-    <Content Include="LacunaPkiLicense.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <Content Include="Views\AuthenticationPki\Index.cshtml" />
     <Content Include="Views\AuthenticationRestPki\Index.cshtml" />
@@ -344,34 +346,36 @@
     <Content Include="Views\OpenXmlSignatureRestPki\Index.cshtml" />
     <Content Include="Views\PadesSignatureRestPki\Index.cshtml" />
     <Content Include="Views\PadesSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\XmlElementSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\XmlElementSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\XmlFullSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\XmlFullSignatureRestPki\SignatureInfo.cshtml" />
+    <Content Include="Views\NFeSignatureRestPki\Index.cshtml" />
+    <Content Include="Views\NFeSignatureRestPki\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlSignatureRestPki\Index.cshtml" />
+    <Content Include="Views\XmlSignatureRestPki\SignatureInfo.cshtml" />
     <Content Include="Views\BatchPadesSignaturePki\Index.cshtml" />
     <Content Include="Views\CadesSignaturePki\Index.cshtml" />
     <Content Include="Views\CadesSignaturePki\Complete.cshtml" />
     <Content Include="Views\CadesSignaturePki\SignatureInfo.cshtml" />
     <Content Include="Views\XmlCodSignaturePki\Index.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCod.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCodComplete.cshtml" />
+    <Content Include="Views\XmlCodSignaturePki\Complete.cshtml" />
     <Content Include="Views\XmlCodSignaturePki\SignCodeh.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCodResult.cshtml" />
+    <Content Include="Views\XmlCodSignaturePki\SignatureInfo.cshtml" />
     <Content Include="Views\XmlCodSignaturePki\SignCodehComplete.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCodehResult.cshtml" />
+    <Content Include="Views\XmlCodSignaturePki\SignCodehSignatureInfo.cshtml" />
     <Content Include="Views\PadesSignaturePki\Index.cshtml" />
     <Content Include="Views\PadesSignaturePki\Complete.cshtml" />
     <Content Include="Views\PadesSignaturePki\SignatureInfo.cshtml" />
     <Content Include="Views\OpenXmlSignaturePki\Index.cshtml" />
-    <Content Include="Views\XmlElementSignaturePki\Index.cshtml" />
-    <Content Include="Views\XmlElementSignaturePki\Complete.cshtml" />
-    <Content Include="Views\XmlElementSignaturePki\SignatureInfo.cshtml" />
+    <Content Include="Views\NFeSignaturePki\Index.cshtml" />
+    <Content Include="Views\NFeSignaturePki\Complete.cshtml" />
+    <Content Include="Views\NFeSignaturePki\SignatureInfo.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\RSAWebPki\Index.cshtml" />
-    <Content Include="Views\Select2WebPki\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ListCertJQuery\Index.cshtml" />
-    <Content Include="Views\ListCertSelec2\Index.cshtml" />
+    <Content Include="Views\ListCertSelect2\Index.cshtml" />
+    <Content Include="Views\ReadCertJQuery\Index.cshtml" />
+    <Content Include="Views\ReadCertSelect2\Index.cshtml" />
+    <Content Include="Views\Upload\CoSign.cshtml" />
+    <Content Include="Views\ServerFiles\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

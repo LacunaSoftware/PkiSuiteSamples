@@ -12,13 +12,13 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class CheckPadesRestPkiController : BaseController {
 
-		// GET: Check?code={id}
-		public ActionResult Index(string code) {
+		// GET: Check?c={id}
+		public ActionResult Index(string c) {
 
 			// On PrinterFriendlyVersionController, we stored the unformatted version of the verification
 			// code (without hyphens) but used the formatted version (with hiphens) on the printer-friendly
 			// PDF. Now, we remove the hyphens before looking it up.
-			var verificationCode = Util.ParseVerificationCode(code);
+			var verificationCode = Util.ParseVerificationCode(c);
 
 			// Get document associated with verification code.
 			var fileId = StorageMock.LookupVerificationCode(verificationCode);
@@ -54,7 +54,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Render the information (see file Check/Index.html for more information on
 			// the information returned).
-			return View(new CheckModel() {
+			return View(new OpenSignatureModel<PadesSignature>() {
 				Signature = signature,
 				File = fileId
 			});

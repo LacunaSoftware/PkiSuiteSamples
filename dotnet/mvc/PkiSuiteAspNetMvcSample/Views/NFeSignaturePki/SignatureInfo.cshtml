@@ -1,0 +1,31 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Pki
+@model SignatureInfoModel
+
+<h2>Sign a Brazilian NFe stored on the server with PKI SDK</h2>
+<p>File signed successfully!</p>
+
+<p>
+	User certificate information:
+	<ul>
+		<li>Subject: @Model.UserCert.SubjectName.CommonName</li>
+		<li>Email: @Model.UserCert.EmailAddress</li>
+		<li>
+			ICP-Brasil fields
+			<ul>
+				<li>Tipo de certificado: @Model.UserCert.PkiBrazil.CertificateType</li>
+				<li>CPF: @Model.UserCert.PkiBrazil.CPF</li>
+				<li>Responsavel: @Model.UserCert.PkiBrazil.Responsavel</li>
+				<li>Empresa: @Model.UserCert.PkiBrazil.CompanyName</li>
+				<li>CNPJ: @Model.UserCert.PkiBrazil.Cnpj</li>
+				<li>RG: @Model.UserCert.PkiBrazil.RGNumero @Model.UserCert.PkiBrazil.RGEmissor @Model.UserCert.PkiBrazil.RGEmissorUF</li>
+				<li>OAB: @Model.UserCert.PkiBrazil.OabNumero @Model.UserCert.PkiBrazil.OabUF</li>
+			</ul>
+		</li>
+	</ul>
+</p>
+
+<h3>Actions:</h3>
+<ul>
+	<li><a href="/Download/File/@Model.Filename">Download the signed file</a></li>
+	<li><a href="/OpenXmlSignaturePki?userfile=@Model.Filename">Open/validate the signed file</a></li>
+</ul>
