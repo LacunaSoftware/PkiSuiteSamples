@@ -99,13 +99,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The thumpprint of the selected certificate
 			// - The "to-sign-hash"
 			// - The OID of the digest algorithm to be used during the signature operation
-			// - The "transfer data"
+			// - The "transfer data" used to validate the signature in complete action.Its content is stored in
+			//   a temporary file (with extension .bin) to be shared with the Complete action.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
-				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
 				ToSignHash = toSignHash,
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
-				TransferData = transferData
+				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 			};
 
 			return RedirectToAction("Complete");
@@ -143,6 +143,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
+				// Recover the "transfer data" content stored in a temporary file.
+				byte[] transferDataContent;
+				if (!StorageMock.TryGetFile(model.TransferDataFileId, out transferDataContent)) {
+					return HttpNotFound();
+				}
+
 				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
@@ -151,7 +157,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				signer.SetPolicy(getSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data"
-				signer.SetPrecomputedSignature(model.Signature, model.TransferData);
+				signer.SetPrecomputedSignature(model.Signature, transferDataContent);
 
 				// Call ComputeSignature(), which validates the signature of the "to-sign-hash" and finishes the signature process
 				signer.ComputeSignature();
@@ -167,13 +173,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// On the next step (SignatureInfo action), we'll render the following information:]
 			// - The filename to be available to download in next action.
-			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
 				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
-				Filename = StorageMock.Store(signatureContent, ".xml"),
-				UserCert = PKCertificate.Decode(model.CertContent)
+				Filename = StorageMock.Store(signatureContent, ".xml")
 			};
 
 			return RedirectToAction("SignatureInfo");
@@ -262,13 +266,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The thumpprint of the selected certificate
 			// - The "to-sign-hash"
 			// - The OID of the digest algorithm to be used during the signature operation
-			// - The "transfer data"
+			// - The "transfer data" used to validate the signature in complete action.Its content is stored in
+			//   a temporary file (with extension .bin) to be shared with the Complete action.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
-				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
 				ToSignHash = toSignHash,
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
-				TransferData = transferData
+				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 			};
 
 			return RedirectToAction("SignCodehComplete", new { id });
@@ -313,6 +317,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
+				// Recover the "transfer data" content stored in a temporary file.
+				byte[] transferDataContent;
+				if (!StorageMock.TryGetFile(model.TransferDataFileId, out transferDataContent)) {
+					return HttpNotFound();
+				}
+
 				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
@@ -321,7 +331,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				signer.SetPolicy(getSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data"
-				signer.SetPrecomputedSignature(model.Signature, model.TransferData);
+				signer.SetPrecomputedSignature(model.Signature, transferDataContent);
 
 				// Call ComputeSignature(), which validates the signature of the "to-sign-hash" and finishes the signature process
 				signer.ComputeSignature();
@@ -337,13 +347,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
-			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
 				// Store the signature file on the folder "App_Data/" and redirect to the SignCodehResult action with the filename.
-				Filename = StorageMock.Store(signatureContent, ".xml"),
-				UserCert = PKCertificate.Decode(model.CertContent)
+				Filename = StorageMock.Store(signatureContent, ".xml")
 			};
 			
 			return RedirectToAction("SignCodehSignatureInfo");

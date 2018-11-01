@@ -113,7 +113,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Set the token for this signature. (rendered in a hidden input field, see the view)
 				Token = id
-
 			};
 
 			// Call the Finish() method, which finalizes the signature process and returns a

@@ -34,11 +34,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return File(content, MimeMapping.GetMimeMapping(filename), filename);
 		}
 
-		// GET Download/Sample
+		// GET Download/SamplePDF/<file_id>
 		[HttpGet]
-		public ActionResult Sample() {
-			var fileContent = StorageMock.Read(StorageMock.GetSampleDocPath());
-			return File(fileContent, "application/pdf", "Sample.pdf");
+		public ActionResult Sample(SampleDocs id) {
+			string filename;
+			var content = StorageMock.GetSampleDocContent(id, out filename);
+			return File(content, MimeMapping.GetMimeMapping(filename), filename);
 		}
 
 		// GET Download/Doc/{id}

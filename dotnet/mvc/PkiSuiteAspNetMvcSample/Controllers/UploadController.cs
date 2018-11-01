@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
 	/**
-	 * This controller allows the user to upload a file to be signed or to be cosigned. Once the file is
+	 * This controller allows the user to upload a file to be signed. Once the file is
 	 * uploaded, we save it to the App_Data folder and redirect the user to Index action on either
 	 * CadesController or PadesController passing the filename on the "userfile" URL argument.
 	 */
@@ -43,35 +43,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Redirect the user to the ReturnController, passing the name of the file as a URL argument.
 			return RedirectToAction("Index", model.ReturnController, new { userfile = fileId });
-		}
-
-		[HttpGet]
-		public ActionResult CoSign(string rc = "") {
-
-			if (string.IsNullOrEmpty(rc)) {
-				return RedirectToAction("Index", "Home");
-			}
-
-			return View(new RedirectModel() {
-				ReturnController = rc
-			});
-		}
-
-		[HttpPost]
-		public ActionResult CoSign(RedirectModel model) {
-
-			// Check that a file was indeed uploaded.
-			var file = Request.Files.Get("cosign");
-			if (file == null || string.IsNullOrEmpty(file.FileName)) {
-				throw new Exception("No files uploaded");
-			}
-			var extension = new FileInfo(file.FileName).Extension;
-
-			// Save the file to the App_Data folder with the unique filename.
-			var fileId = StorageMock.Store(file.InputStream, extension);
-
-			// Redirect the user to the ReturnController, passing the name of the file as a URL argument.
-			return RedirectToAction("Index", model.ReturnController, new { fileToCoSign = fileId });
 		}
 	}
 

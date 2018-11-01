@@ -13,8 +13,8 @@
 		@if (!String.IsNullOrEmpty(Model.UserFile)) {
 			<p>You'll be signing <a href='/Download/File/@Model.UserFile'>this document</a>.</p>
 		}
-		else if (!String.IsNullOrEmpty(Model.FileToCoSign)) {
-			<p>You'll be co-signing <a href='/Download/File/@Model.FileToCoSign'>this CMS</a>.</p>
+		else if (!String.IsNullOrEmpty(Model.CmsFile)) {
+			<p>You'll be co-signing <a href='/Download/File/@Model.CmsFile'>this CMS</a>.</p>
 		}
 		else {
 			<p>You'll be signing <a href='/Download/Sample'>this sample document</a>.</p>

@@ -88,7 +88,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// field to be used as key depends on your application's business logic) and set the user ID on
 			// the auth cookie. For demonstration purposes, we'll set the email address directly on the
 			// cookie as if it were the user ID.
-			return View("Success", new AuthenticationSuccessModel() {
+			return View("Success", new AuthenticationInfoModel() {
 				UserCert = PKCertificate.Decode(model.Certificate)
 			});
 

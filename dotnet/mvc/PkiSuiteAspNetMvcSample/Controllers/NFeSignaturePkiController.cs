@@ -76,17 +76,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 
 			// On the next step (Complete action), we'll need once again some information:
-			// - The content of the selected certificate only used to render the user's certificate information 
-			//  after the signature is completed. It is no longer needed for the signature process.
 			// - The thumpprint of the selected certificate.
-			// - The "transfer data" used to validate the signature in complete action.
+			// - The "transfer data" used to validate the signature in complete action.Its content is stored in
+			//   a temporary file (with extension .bin) to be shared with the Complete action.
 			// - The "to-sign-hash" to be signed. (see signature-complete-form.js)
 			// - The OID of the digest algorithm to be used during the signature operation.
 			// We'll store this value on TempData, that will store in dictionary shared between actions.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
-				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
-				TransferData = transferData,
+				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 				ToSignHash = toSignHash,
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid
 			};
@@ -121,6 +119,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
+				// Recover the "transfer data" content stored in a temporary file.
+				byte[] transferDataContent;
+				if (!StorageMock.TryGetFile(model.TransferDataFileId, out transferDataContent)) {
+					return HttpNotFound();
+				}
+
 				// Instantiate a XmlElementSigner class
 				var signer = new XmlElementSigner();
 
@@ -129,7 +133,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				signer.SetPolicy(getSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data" (rendered in a hidden field, see the view)
-				signer.SetPrecomputedSignature(model.Signature, model.TransferData);
+				signer.SetPrecomputedSignature(model.Signature, transferDataContent);
 
 				// Call ComputeSignature(), which does all the work, including validation of the signer's certificate and of the resulting signature
 				signer.ComputeSignature();
@@ -151,8 +155,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
-				Filename = StorageMock.Store(signatureContent, ".xml"),
-				UserCert = PKCertificate.Decode(model.CertContent)
+				Filename = StorageMock.Store(signatureContent, ".xml")
 			};
 
 			return RedirectToAction("SignatureInfo");

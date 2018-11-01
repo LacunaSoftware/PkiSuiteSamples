@@ -234,7 +234,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Pki\AuthenticationModel.cs" />
-    <Compile Include="Models\Pki\AuthenticationSuccessModel.cs" />
+    <Compile Include="Models\Pki\AuthenticationInfoModel.cs" />
     <Compile Include="Models\Pki\BatchSignatureCompleteRequest.cs" />
     <Compile Include="Models\Pki\BatchSignatureCompleteResponse.cs" />
     <Compile Include="Models\Pki\BatchSignatureModel.cs" />
@@ -374,7 +374,6 @@
     <Content Include="Views\ListCertSelect2\Index.cshtml" />
     <Content Include="Views\ReadCertJQuery\Index.cshtml" />
     <Content Include="Views\ReadCertSelect2\Index.cshtml" />
-    <Content Include="Views\Upload\CoSign.cshtml" />
     <Content Include="Views\ServerFiles\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>

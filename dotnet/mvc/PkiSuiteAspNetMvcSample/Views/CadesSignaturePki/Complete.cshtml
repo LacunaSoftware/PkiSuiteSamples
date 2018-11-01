@@ -16,7 +16,12 @@
 	@Html.HiddenFor(m => m.DigestAlgorithmOid, new { id = "digestAlgorithm" })
 	@Html.HiddenFor(m => m.SignatureBase64, new { id = "signature" })
 
-	@Html.ActionLink("Try Again", "Index", null, new { id = "tryAgainButton", @class = "btn btn-default", style = "display: none;" })
+	@if (!string.IsNullOrEmpty(Model.FileToCoSign)) {
+		@Html.ActionLink("Try Again", "Index", new { cmsfile = Model.FileToCoSign }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" })
+	} else {
+		@Html.ActionLink("Try Again", "Index", new { userfile = Model.Userfile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" })
+	}
+
 }
 
 @section Scripts {

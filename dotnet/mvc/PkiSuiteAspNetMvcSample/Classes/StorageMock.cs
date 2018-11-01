@@ -5,6 +5,15 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Classes {
+
+	public enum SampleDocs {
+		SamplePdf = 0,
+		PdfSignedOnce,
+		PdfSignedTwice,
+		CmsSignedOnce,
+		CmsSignedTwice
+	}
+
 	public class StorageMock {
 
 		public static string AppDataPath {
@@ -162,6 +171,52 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			// This should be implemented on your application as a SELECT on your "document table" by the
 			// verification code column, which should be an indexed column
 			return HttpContext.Current.Session[string.Format("Codes/{0}", code)] as string;
+		}
+
+		public static string GetSampleDocPath(SampleDocs fileId) {
+			string filename;
+			return GetSampleDocPath(fileId, out filename);
+		}
+
+		public static string GetSampleDocPath(SampleDocs fileId, out string filename) {
+			filename = null;
+
+			string path;
+			switch (fileId) {
+				case SampleDocs.SamplePdf:
+					filename = "SampleDocument.pdf";
+					path = GetSampleDocPath();
+					break;
+				case SampleDocs.PdfSignedOnce:
+					filename = "SamplePdfSignedOnce.pdf";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				case SampleDocs.PdfSignedTwice:
+					filename = "SamplePdfSignedTwice.pdf";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				case SampleDocs.CmsSignedOnce:
+					filename = "SampleCms.p7s";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				case SampleDocs.CmsSignedTwice:
+					filename = "SampleCmsSignedTwice.p7s";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				default:
+					throw new InvalidOperationException();
+			}
+			return path;
+		}
+
+		public static byte[] GetSampleDocContent(SampleDocs fileId) {
+			string filename;
+			return GetSampleDocContent(fileId, out filename);
+		}
+
+		public static byte[] GetSampleDocContent(SampleDocs fileId, out string filename) {
+			var path = GetSampleDocPath(fileId, out filename);
+			return File.ReadAllBytes(path);
 		}
 
 		public static string GetSampleDocPath() {

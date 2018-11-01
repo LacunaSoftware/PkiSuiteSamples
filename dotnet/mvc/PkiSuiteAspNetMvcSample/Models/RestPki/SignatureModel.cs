@@ -7,6 +7,6 @@ namespace PkiSuiteAspNetMvcSample.Models.RestPki {
 	public class SignatureModel {
 		public string Token { get; set; }
 		public string UserFile { get; set; }
-		public string FileToCoSign { get; set; }
+		public string CmsFile { get; set; }
 	}
 }

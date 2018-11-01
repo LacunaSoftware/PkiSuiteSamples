@@ -18,7 +18,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * called with a URL argument named "userfile".
 		 */
 		[HttpGet]
-		public async Task<ActionResult> Index(string userfile, string fileToCoSign) {
+		public async Task<ActionResult> Index(string userfile) {
+
+			// Verify if the userfile exists and get its absolute path.
+			string userfilePath;
+			if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
+				return HttpNotFound();
+			}
 
 			// Get an instance of the PadesSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
@@ -37,43 +43,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set a visual representation for the signature.
 				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki()
 			};
-
+			
 			// Set the file to be signed.
-			if (!string.IsNullOrEmpty(userfile)) {
-
-				// Verify if the userfile exists and get its absolute path.
-				string userfilePath;
-				if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
-					return HttpNotFound();
-				}
-
-				// If the URL argument "userfile" is filled, it means the user was redirected here by
-				// UploadController (signature with file uploaded by user). We'll set the path of the file to
-				// be signed, which was saved in the App_Data folder by UploadController.
-				signatureStarter.SetPdfToSign(userfilePath);
-
-			} else if (!string.IsNullOrEmpty(fileToCoSign)) {
-
-				// Verify if the fileToCoSign exists and get its absolute path.
-				string fileToCoSignPath;
-				if (!StorageMock.TryGetFile(fileToCoSign, out fileToCoSignPath)) {
-					return HttpNotFound();
-				}
-
-				// If the URL argument "fileToCoSign" is filled, it means the user was redirected here by
-				// UploadController (CoSign() action) or by the result page of a PAdES signature. We'll set the
-				// path of the file to be co-signed, which was save in the App_Data folder by UploadController or
-				// by the previous signature. Notice: It uses the same method that is used to perform the first
-				// signature.
-				signatureStarter.SetPdfToSign(fileToCoSignPath);
-
-			} else {
-
-				// If both userfile and fileToCoSign are null, this is the "signature with server file" case. 
-				// We'll set the path of the file to be signed.
-				signatureStarter.SetPdfToSign(StorageMock.GetSampleDocPath());
-
-			}
+			signatureStarter.SetPdfToSign(userfilePath);
 
 			/*
 				Optionally, add marks to the PDF before signing. These differ from the signature visual
@@ -109,8 +81,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Render the signature page with the token obtained from REST PKI.
 			return View(new SignatureModel() {
 				Token = token,
-				UserFile = userfile,
-				FileToCoSign = fileToCoSign
+				UserFile = userfile
 			});
 		}
 

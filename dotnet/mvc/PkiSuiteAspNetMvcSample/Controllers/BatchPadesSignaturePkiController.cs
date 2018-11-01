@@ -12,20 +12,12 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class BatchPadesSignaturePkiController : BaseController {
 
+		private IPadesPolicyMapper GetSignaturePolicy() {
 
-		/**
-		 * This method defines the signature policy that will be used on the signature.
-		 */
-		private IPadesPolicyMapper getSignaturePolicy() {
+			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
+			var arbitrator = Util.GetTrustArbitrator();
 
-#if DEBUG
-			// During debug only, we return a wrapper which will overwrite the policy's default trust arbitrator (which in this case
-			// corresponds to the ICP-Brasil roots only), with our custom trust arbitrator which accepts test certificates
-			// (see Util.GetTrustArbitrator())
-			return PadesPoliciesForGeneration.GetPadesBasic(Util.GetTrustArbitrator());
-#else
-			return PadesPoliciesForGeneration.GetPadesBasic(TrustArbitrators.PkiBrazil);
-#endif
+			return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
 		}
 
 		// GET: BatchSignature
@@ -62,8 +54,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set the signer certificate
 				padesSigner.SetSigningCertificate(cert);
 
-				// Set the signature policy
-				padesSigner.SetPolicy(getSignaturePolicy());
+				// Set the signature policy.
+				padesSigner.SetPolicy(GetSignaturePolicy());
 
 				// Set a visual representation for the signature.
 				padesSigner.SetVisualRepresentation(PadesVisualElements.GetVisualRepresentationForPkiSdk(cert));
@@ -114,8 +106,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Instantiate a PadesSigner class
 				var padesSigner = new PadesSigner();
 
-				// Set the signature policy, exactly like in the Start method
-				padesSigner.SetPolicy(getSignaturePolicy());
+				// Set the signature policy.
+				padesSigner.SetPolicy(GetSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data" recovered from a temporary file
 				padesSigner.SetPreComputedSignature(request.Signature, transferDataContent);
@@ -127,8 +119,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get the signed PDF as an array of bytes
 				signatureContent = padesSigner.GetPadesSignature();
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				return new HttpStatusCodeResult(500, ex.ValidationResults.ToString());
 			}

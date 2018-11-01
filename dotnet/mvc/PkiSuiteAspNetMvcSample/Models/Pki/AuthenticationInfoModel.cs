@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Models.Pki {
-	public class AuthenticationSuccessModel {
+	public class AuthenticationInfoModel {
 		public PKCertificate UserCert { get; set; }
 	}
 }
