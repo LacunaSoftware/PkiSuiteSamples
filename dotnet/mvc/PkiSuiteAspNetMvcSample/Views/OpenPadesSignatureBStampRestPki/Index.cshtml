@@ -73,8 +73,8 @@
 
 }
 
-@if (ViewBag.AuditPackageFile != null) {
-	<p><a href="/Download/File/@ViewBag.AuditPackageFile" class="btn btn-primary">Baixar Pacote para Auditoria</a></p>
+@if (Model.AuditPackageFile != null) {
+	<p><a href="/Download/File/@Model.AuditPackageFile" class="btn btn-primary">Baixar Pacote para Auditoria</a></p>
 }
 
 <h5>The given file contains @Model.Signature.Signers.Count signatures:</h5>

@@ -3,11 +3,10 @@
 
 <h2>PAdES Signature with PKI SDK</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
+@using (Html.BeginForm(null, null, new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "signForm", role = "form" })) {
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@* Hidden fields used to pass data from the action to the "signature form" javascript (see below) and vice-versa *@
-    @Html.HiddenFor(m => m.Userfile, new { id = "userfile" })
 	@Html.HiddenFor(m => m.CertThumbBase64, new { id = "certThumb" })
 	@Html.HiddenFor(m => m.CertContentBase64, new { id = "certContent" })
 	@Html.HiddenFor(m => m.ToSignHashBase64, new { id = "toSignHash" })
@@ -15,7 +14,7 @@
 	@Html.HiddenFor(m => m.SignatureBase64, new { id = "signature" })
 	@Html.HiddenFor(m => m.TransferDataFileId, new { id = "transferData" })
 
-	@Html.ActionLink("Try Again", "Index", new { userfile = Model.Userfile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" })
+	@Html.ActionLink("Try Again", "Index", new { userfile = Request.Params["userfile"] }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" })
 }
 
 @section Scripts {

@@ -33,8 +33,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public ActionResult Index(string userfile, string cmsfile) {
 
 			return View(new SignatureStartModel() {
-				Userfile = userfile,
-				FileToCoSign = cmsfile
+				UserFile = userfile,
+				CmsFile = cmsfile
 			});
 		}
 
@@ -56,11 +56,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Instantiate a CadesSigner class
 				var cadesSigner = new CadesSigner();
 
-				if (!string.IsNullOrEmpty(model.FileToCoSign)) {
+				if (!string.IsNullOrEmpty(model.CmsFile)) {
 
 					// Verify if the cmsfile exists and get the content of the cmsfile.
 					byte[] cmsfileContent;
-					if (!StorageMock.TryGetFile(model.FileToCoSign, out cmsfileContent)) {
+					if (!StorageMock.TryGetFile(model.CmsFile, out cmsfileContent)) {
 						return HttpNotFound();
 					}
 
@@ -73,7 +73,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 					// Verify if the userfile exists and get the content of the userfile.
 					byte[] userfileContent;
-					if (!StorageMock.TryGetFile(model.Userfile, out userfileContent)) {
+					if (!StorageMock.TryGetFile(model.UserFile, out userfileContent)) {
 						return HttpNotFound();
 					}
 
@@ -109,8 +109,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The OID of the digest algorithm to be used during the signature operation.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
-				Userfile = model.Userfile,
-				FileToCoSign = model.FileToCoSign,
+				UserFile = model.UserFile,
+				CmsFile = model.CmsFile,
 				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
 				ToSignBytes = toSignBytes,
@@ -151,11 +151,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				var cadesSigner = new CadesSigner();
 
 				// Set the document to be signed, exactly like in the Start method
-				if (!string.IsNullOrEmpty(model.FileToCoSign)) {
+				if (!string.IsNullOrEmpty(model.CmsFile)) {
 
 					// Verify if the cmsfile exists and get the content of the cmsfile.
 					byte[] cmsfileContent;
-					if (!StorageMock.TryGetFile(model.FileToCoSign, out cmsfileContent)) {
+					if (!StorageMock.TryGetFile(model.CmsFile, out cmsfileContent)) {
 						return HttpNotFound();
 					}
 
@@ -168,7 +168,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 					// Verify if the userfile exists and get the content of the userfile.
 					byte[] userfileContent;
-					if (!StorageMock.TryGetFile(model.Userfile, out userfileContent)) {
+					if (!StorageMock.TryGetFile(model.UserFile, out userfileContent)) {
 						return HttpNotFound();
 					}
 
@@ -193,11 +193,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get the signature as an array of bytes
 				signatureContent = cadesSigner.GetSignature();
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View();
+				// Return userfile to continue the signature with the same file.
+				return View("Complete", model);
 			}
 
 			// On the next step (SignatureInfo action), we'll render the following information:]

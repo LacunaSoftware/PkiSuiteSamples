@@ -7,8 +7,8 @@
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@* Hidden fields used to pass data from the action to the "signature form" javascript (see below) and vice-versa *@
-	@Html.HiddenFor(m => m.Userfile, new { id = "userfile" })
-	@Html.HiddenFor(m => m.FileToCoSign, new { id = "cmsfile" })
+	@Html.HiddenFor(m => m.UserFile, new { id = "userfile" })
+	@Html.HiddenFor(m => m.CmsFile, new { id = "cmsfile" })
 	@Html.HiddenFor(m => m.CertThumbBase64, new { id = "certThumb" })
 	@Html.HiddenFor(m => m.CertContentBase64, new { id = "certContent" })
 	@Html.HiddenFor(m => m.ToSignBytesBase64)
@@ -16,10 +16,10 @@
 	@Html.HiddenFor(m => m.DigestAlgorithmOid, new { id = "digestAlgorithm" })
 	@Html.HiddenFor(m => m.SignatureBase64, new { id = "signature" })
 
-	@if (!string.IsNullOrEmpty(Model.FileToCoSign)) {
-		@Html.ActionLink("Try Again", "Index", new { cmsfile = Model.FileToCoSign }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" })
+	if (!string.IsNullOrEmpty(Model.CmsFile)) {
+		@Html.ActionLink("Try Again", "Index", new { cmsfile = Model.CmsFile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" });
 	} else {
-		@Html.ActionLink("Try Again", "Index", new { userfile = Model.Userfile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" })
+		@Html.ActionLink("Try Again", "Index", new { userfile = Model.UserFile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" });
 	}
 
 }

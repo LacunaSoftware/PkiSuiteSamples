@@ -26,7 +26,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 
 			return View(new SignatureStartModel() {
-				Userfile = userfile
+				UserFile = userfile
 			});
 		}
 
@@ -47,7 +47,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Verify if the userfile exists and get its absolute path.
 				string userfilePath;
-				if (!StorageMock.TryGetFile(model.Userfile, out userfilePath)) {
+				if (!StorageMock.TryGetFile(model.UserFile, out userfilePath)) {
 					return HttpNotFound();
 				}
 
@@ -95,10 +95,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid
 			};
 
-			return RedirectToAction("Complete", new { userfile = model.Userfile });
+			return RedirectToAction("Complete", new { userfile = model.UserFile });
 		}
 
-		// GET: CadesSignature/Complete?userfile=
+		// GET: CadesSignature/Complete?userfile=<file_id>
 		[HttpGet]
 		public ActionResult Complete(string userfile) {
 
@@ -108,11 +108,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			if (model == null) {
 				return RedirectToAction("Index");
 			}
-
-			if (string.IsNullOrEmpty(userfile)) {
-				return RedirectToAction("Index", "Home");
-			}
-			model.Userfile = userfile;
 
 			return View(model);
 		}
@@ -153,7 +148,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View();
+				// Return userfile to continue the signature with the same file.
+				return View(model);
 			}
 
 			// On the next step (SignatureInfo action), we'll render the following information:

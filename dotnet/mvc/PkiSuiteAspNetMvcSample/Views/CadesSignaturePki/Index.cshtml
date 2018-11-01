@@ -7,21 +7,19 @@
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@* Hidden fields used to pass data from the action to the "signature form" javascript (see below) and vice-versa *@
-	@Html.HiddenFor(m => m.Userfile, new { id = "userfile" })
-	@Html.HiddenFor(m => m.FileToCoSign, new { id = "cmsfile" })
+	@Html.HiddenFor(m => m.UserFile, new { id = "userfile" })
+	@Html.HiddenFor(m => m.CmsFile, new { id = "cmsfile" })
 	@Html.HiddenFor(m => m.CertThumbBase64, new { id = "certThumb" })
 	@Html.HiddenFor(m => m.CertContentBase64, new { id = "certContent" })
 
-	<div class="form-group">
-		<label>File to sign</label>
-		@if (!String.IsNullOrEmpty(Model.Userfile)) {
-			<p>You'll be signing <a href='/Download/File/@Model.Userfile'>this document</a>.</p>
-		} else if (!String.IsNullOrEmpty(Model.FileToCoSign)) {
-			<p>You'll be co-signing <a href='/Download/File/@Model.FileToCoSign'>this CMS</a>.</p>
-		} else {
-			<p>You'll be signing <a href='/Download/Sample'>this sample document</a>.</p>
-		}
-	</div>
+<div class="form-group">
+	<label>File to sign</label>
+	@if (!string.IsNullOrEmpty(Model.CmsFile)) {
+		<p>You'll be co-signing <a href='/Download/File/@Model.CmsFile'>this CMS</a>.</p>
+	} else {
+		<p>You'll be signing <a href='/Download/File/@Model.UserFile'>this document</a>.</p>
+	}
+</div>
 
 	<div class="form-group">
 		<label for="certificateSelect">Choose a certificate</label>

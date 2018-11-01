@@ -56,7 +56,6 @@ var signatureCompleteForm = (function () {
 
 			// Submit the form.
 			formElements.form.submit();
-
 		});
 	}
 
@@ -75,7 +74,7 @@ var signatureCompleteForm = (function () {
 
 		// Show the message to the user. You might want to substitute the alert below with a more
 		// user-friendly UI component to show the error.
-		alert('An error has occurred on the signature browser component: ' + message);
+		addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
 
 		formElements.tryAgainButton.show();
 	}

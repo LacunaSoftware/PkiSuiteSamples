@@ -10,14 +10,10 @@
 
 	<div class="form-group">
 		<label>File to sign</label>
-		@if (!String.IsNullOrEmpty(Model.UserFile)) {
-			<p>You'll be signing <a href='/Download/File/@Model.UserFile'>this document</a>.</p>
-		}
-		else if (!String.IsNullOrEmpty(Model.CmsFile)) {
+		@if (!string.IsNullOrEmpty(Model.CmsFile)) {
 			<p>You'll be co-signing <a href='/Download/File/@Model.CmsFile'>this CMS</a>.</p>
-		}
-		else {
-			<p>You'll be signing <a href='/Download/Sample'>this sample document</a>.</p>
+		} else {
+			<p>You'll be signing <a href='/Download/File/@Model.UserFile'>this document</a>.</p>
 		}
 	</div>
 

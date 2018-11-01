@@ -354,14 +354,6 @@ var batchSignatureForm = (function () {
 		addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
 	}
 
-	function addAlert(type, message) {
-		$('#messagesPanel').append(
-			'<div class="alert alert-' + type + ' alert-dismissible">' +
-			'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><span class="fas fa-times"></span></span></button>' +
-			'<span>' + message + '</span>' +
-			'</div>');
-	}
-
 	return {
 		init: init
 	};
