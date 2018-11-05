@@ -1,7 +1,8 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Pki
 @model SignatureStartModel
 
-<h2>COD XML signature (CODEH element) with PKI SDK</h2>
+<h2 class="ls-title">COD XML signature (CODEH element) with PKI SDK</h2>
+
 <p>You are signing the <b>CODEH</b> element of <a href='/Download/File/@(ViewContext.RouteData.Values["id"])'>this XML envelope</a>.</p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {

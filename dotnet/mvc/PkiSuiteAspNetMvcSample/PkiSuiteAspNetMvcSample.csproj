@@ -265,7 +265,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\css\site.css" />
     <Content Include="Content\EventoManifesto.xml" />
     <Content Include="Content\icp-brasil.png" />
     <Content Include="Content\InvoiceWithSigs.xml" />

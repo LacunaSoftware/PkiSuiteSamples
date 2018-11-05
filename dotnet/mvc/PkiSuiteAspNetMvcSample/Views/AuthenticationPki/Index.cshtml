@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Pki
 @model AuthenticationModel
 
-<h2>Authentication with PKI SDK</h2>
+<h2 class="ls-title">Authentication with PKI SDK</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "authForm", role = "form" })) {
 	@Html.ValidationSummary("", new { @class = "text-danger" })

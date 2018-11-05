@@ -1,14 +1,14 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models
 @model ServerFilesModel
 
-<h2>Choose one of the available files on the server</h2>
+<h2 class="ls-title">Choose one of the available files on the server</h2>
 
 <p>You will be redirected to @Model.ReturnController</p>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "filesForm", @role = "form" })) {
 	@Html.HiddenFor(m => m.ReturnController)
 	@Html.HiddenFor(m => m.IsCmsCoSign)
 	@Html.HiddenFor(m => m.ChosenFileId, new { @id = "chosenFile" })
-
+   
 	<div class="form-group">
 		<div class="row">
 			@for (int index = 0; index < Model.AvailableFiles.Length; index++) {
@@ -23,7 +23,7 @@
 							</p>
 						</div>
 						<div class="card-footer">
-							
+
 							<button id="@file.Id" type="button" class="use-file btn btn-primary" style="font-size: 14px;"><i class="fas fa-hand-point-down"></i> Use This</button>
 						</div>
 					</div>

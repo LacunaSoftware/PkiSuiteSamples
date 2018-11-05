@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Pki
 @model SignatureCompleteModel
 
-<h2>COD XML signature (CODEH element) with PKI SDK</h2>
+<h2 class="ls-title">COD XML signature (CODEH element) with PKI SDK</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
 	@Html.ValidationSummary("", new { @class = "text-danger" })

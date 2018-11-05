@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Pki
 @model SignatureCompleteModel
 
-<h2>CAdES Signature with PKI SDK</h2>
+<h2 class="ls-title">CAdES Signature with PKI SDK</h2>
 
 @using (Html.BeginForm(null, null, new { userfile = Request.Params["userfile"], cmsfile = Request.Params["cmsfile"] }, FormMethod.Post, new { id = "signForm", role = "form" })) {
 	@Html.ValidationSummary("", new { @class = "text-danger" })

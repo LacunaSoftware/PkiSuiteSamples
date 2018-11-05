@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Pki
 @model SignatureStartModel
 
-<h2>PAdES Signature with PKI SDK</h2>
+<h2 class="ls-title">PAdES Signature with PKI SDK</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
 	@Html.ValidationSummary("", new { @class = "text-danger" })
