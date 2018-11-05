@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Controllers
 @using PkiSuiteAspNetMvcSample.Models.RestPki
 @using Lacuna.RestPki.Client
-@model OpenSignatureModel<CadesSignature>
+@model OpenCadesSignatureModel
 
 <h3>Open existing CAdES Signature</h3>
 
@@ -30,10 +30,7 @@
 			<div id="@collapseId" class="collapse" role="tabpanel" aria-labelledby="@headingId" data-parent="#accordion">
 				<div class="card-body">
 					@if (signer.SigningTime != null) {
-						<p>
-							Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo)
-							(@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)
-						</p>
+						<p>Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo) (@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)</p>
 					}
 					<p>Message digest: @signer.MessageDigest.Algorithm.Name @BitConverter.ToString(signer.MessageDigest.Value) </p>
 					@if (signer.SignaturePolicy != null) {

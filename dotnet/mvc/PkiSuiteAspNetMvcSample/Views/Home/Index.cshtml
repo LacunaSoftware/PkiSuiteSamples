@@ -63,8 +63,8 @@
 			},
 			// signMultiPdfUser: { },
 			signNfe: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "NFeSignaturePki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "NFeSignatureRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlNFeSignaturePki" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlNFeSignatureRestPki" }))'
 			},
 			signPdfServer: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignaturePki", @op = "signPdf" }))',

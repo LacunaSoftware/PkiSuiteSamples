@@ -10,7 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
-	public class NFeSignatureRestPkiController : BaseController {
+	public class XmlNFeSignatureRestPkiController : BaseController {
 
 		/**
 		 * This action initiates a XML element signature using REST PKI and renders the signature page.

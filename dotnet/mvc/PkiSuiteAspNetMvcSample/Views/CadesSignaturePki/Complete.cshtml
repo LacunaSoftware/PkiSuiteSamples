@@ -3,7 +3,7 @@
 
 <h2>CAdES Signature with PKI SDK</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
+@using (Html.BeginForm(null, null, new { userfile = Request.Params["userfile"], cmsfile = Request.Params["cmsfile"] }, FormMethod.Post, new { id = "signForm", role = "form" })) {
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@* Hidden fields used to pass data from the action to the "signature form" javascript (see below) and vice-versa *@
@@ -16,10 +16,10 @@
 	@Html.HiddenFor(m => m.DigestAlgorithmOid, new { id = "digestAlgorithm" })
 	@Html.HiddenFor(m => m.SignatureBase64, new { id = "signature" })
 
-	if (!string.IsNullOrEmpty(Model.CmsFile)) {
-		@Html.ActionLink("Try Again", "Index", new { cmsfile = Model.CmsFile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" });
+	if (!string.IsNullOrEmpty(Request.Params["cmsfile"])) {
+		@Html.ActionLink("Try Again", "Index", new { cmsfile = Request.Params["cmsfile"] }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" });
 	} else {
-		@Html.ActionLink("Try Again", "Index", new { userfile = Model.UserFile }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" });
+		@Html.ActionLink("Try Again", "Index", new { userfile = Request.Params["userfile"] }, new { id = "tryAgainButton", @class = "btn btn-primary", style = "display: none;" });
 	}
 
 }

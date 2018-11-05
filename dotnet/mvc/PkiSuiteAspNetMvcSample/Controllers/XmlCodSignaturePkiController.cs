@@ -177,7 +177,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
 				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
-				Filename = StorageMock.Store(signatureContent, ".xml")
+				File = StorageMock.Store(signatureContent, ".xml")
 			};
 
 			return RedirectToAction("SignatureInfo");
@@ -351,7 +351,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
 				// Store the signature file on the folder "App_Data/" and redirect to the SignCodehResult action with the filename.
-				Filename = StorageMock.Store(signatureContent, ".xml")
+				File = StorageMock.Store(signatureContent, ".xml")
 			};
 			
 			return RedirectToAction("SignCodehSignatureInfo");

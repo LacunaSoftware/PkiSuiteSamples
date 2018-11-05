@@ -44,7 +44,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Render the information (see file OpenCadesSignature/Index.html for more information on
 			// the information returned).
-			return View(new OpenSignatureModel<CadesSignature>() {
+			return View(new OpenCadesSignatureModel() {
 				Signature = signature
 			});
 		}

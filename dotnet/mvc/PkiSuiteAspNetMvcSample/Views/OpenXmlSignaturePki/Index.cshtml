@@ -38,10 +38,7 @@
 						</p>
 					}
 					@if (signature.SigningTime != null) {
-						<p>
-							Signing time: @TimeZoneInfo.ConvertTime(signature.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo)
-							(@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)
-						</p>
+						<p>Signing time: @TimeZoneInfo.ConvertTime(signature.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo) (@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)</p>
 					}
 					@if (signature.SignaturePolicy != null) {
 						<p>Signature policy: @signature.SignaturePolicy.Oid</p>

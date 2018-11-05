@@ -227,8 +227,8 @@
     <Compile Include="Controllers\ServerFilesController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\XmlCodSignaturePkiController.cs" />
-    <Compile Include="Controllers\NFeSignaturePkiController.cs" />
-    <Compile Include="Controllers\NFeSignatureRestPkiController.cs" />
+    <Compile Include="Controllers\XmlNFeSignaturePkiController.cs" />
+    <Compile Include="Controllers\XmlNFeSignatureRestPkiController.cs" />
     <Compile Include="Controllers\XmlSignatureRestPkiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -240,6 +240,9 @@
     <Compile Include="Models\Pki\BatchSignatureModel.cs" />
     <Compile Include="Models\Pki\BatchSignatureStartRequest.cs" />
     <Compile Include="Models\Pki\BatchSignatureStartResponse.cs" />
+    <Compile Include="Models\RestPki\OpenCadesSignatureModel.cs" />
+    <Compile Include="Models\RestPki\OpenPadesSignatureBStampModel.cs" />
+    <Compile Include="Models\RestPki\OpenPadesSignatureModel.cs" />
     <Compile Include="Models\RestPki\OpenXmlSignatureModel.cs" />
     <Compile Include="Models\Pki\CadesSignatureModel.cs" />
     <Compile Include="Models\Pki\CertificateModel.cs" />
@@ -255,8 +258,6 @@
     <Compile Include="Models\RestPki\AuthenticationModel.cs" />
     <Compile Include="Models\RestPki\AuthenticationInfoModel.cs" />
     <Compile Include="Models\RestPki\BatchSignatureModel.cs" />
-    <Compile Include="Models\RestPki\OpenSignatureBStampModel.cs" />
-    <Compile Include="Models\RestPki\OpenSignatureModel.cs" />
     <Compile Include="Models\RestPki\SignatureInfoModel.cs" />
     <Compile Include="Models\RestPki\SignatureModel.cs" />
     <Compile Include="Models\RedirectModel.cs" />
@@ -346,8 +347,8 @@
     <Content Include="Views\OpenXmlSignatureRestPki\Index.cshtml" />
     <Content Include="Views\PadesSignatureRestPki\Index.cshtml" />
     <Content Include="Views\PadesSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\NFeSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\NFeSignatureRestPki\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlNFeSignatureRestPki\Index.cshtml" />
+    <Content Include="Views\XmlNFeSignatureRestPki\SignatureInfo.cshtml" />
     <Content Include="Views\XmlSignatureRestPki\Index.cshtml" />
     <Content Include="Views\XmlSignatureRestPki\SignatureInfo.cshtml" />
     <Content Include="Views\BatchPadesSignaturePki\Index.cshtml" />
@@ -364,9 +365,9 @@
     <Content Include="Views\PadesSignaturePki\Complete.cshtml" />
     <Content Include="Views\PadesSignaturePki\SignatureInfo.cshtml" />
     <Content Include="Views\OpenXmlSignaturePki\Index.cshtml" />
-    <Content Include="Views\NFeSignaturePki\Index.cshtml" />
-    <Content Include="Views\NFeSignaturePki\Complete.cshtml" />
-    <Content Include="Views\NFeSignaturePki\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlNFeSignaturePki\Index.cshtml" />
+    <Content Include="Views\XmlNFeSignaturePki\Complete.cshtml" />
+    <Content Include="Views\XmlNFeSignaturePki\SignatureInfo.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
     <Content Include="Views\RSAWebPki\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />

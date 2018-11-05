@@ -75,7 +75,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Render the information (see file OpenPadesSignatureBStamp/Index.html for more
 			// information on the information returned).
-			return View(new OpenSignatureBStampModel<PadesSignature>() {
+			return View(new OpenPadesSignatureBStampModel() {
 				Signature = signature,
 				BStampIndexFile = indexFileId,
 				AuditPackageFile = auditPkgId

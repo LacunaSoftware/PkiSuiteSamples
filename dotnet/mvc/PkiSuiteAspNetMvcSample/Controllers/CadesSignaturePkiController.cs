@@ -84,7 +84,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				}
 
 				// Decode the user's certificate and set as the signer certificate.
-				cadesSigner.SetSigningCertificate(PKCertificate.Decode(model.CertContent));
+				var cert = PKCertificate.Decode(model.CertContent);
+				cadesSigner.SetSigningCertificate(cert);
 
 				// Set the signature policy
 				cadesSigner.SetPolicy(getSignaturePolicy());
@@ -118,18 +119,18 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid
 			};
 
-			return RedirectToAction("Complete");
+			return RedirectToAction("Complete", new { userfile = model.UserFile, cmsfile = model.CmsFile });
 		}
 
 		// GET: CadesSignature/Complete
 		[HttpGet]
-		public ActionResult Complete() {
+		public ActionResult Complete(string userfile, string cmsfile) {
 
 			// Recovery data from Index action, if returns null, it'll be redirected to Index 
 			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", new { userfile, cmsfile });
 			}
 
 			return View(model);
@@ -181,8 +182,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set the signature policy, exactly like in the Start method.
 				cadesSigner.SetPolicy(getSignaturePolicy());
 
-				// Set signer's certificate
-				cadesSigner.SetSigningCertificate(PKCertificate.Decode(model.CertContent));
+				// Decode the user's certificate and set as the signer certificate.
+				var cert = PKCertificate.Decode(model.CertContent);
+				cadesSigner.SetSigningCertificate(cert);
 
 				// Set the signature computed on the client-side, along with the "to-sign-bytes" (rendered in a hidden input field, see the view)
 				cadesSigner.SetPrecomputedSignature(model.Signature, model.ToSignBytes);
@@ -202,14 +204,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// On the next step (SignatureInfo action), we'll render the following information:]
 			// - The filename to be available to download in next action.
-			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
-				Filename = StorageMock.Store(signatureContent, ".p7s"),
-				UserCert = PKCertificate.Decode(model.CertContent)
+				File = StorageMock.Store(signatureContent, ".p7s")
 			};
 
 			return RedirectToAction("SignatureInfo");

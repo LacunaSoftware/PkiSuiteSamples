@@ -91,7 +91,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return View("Success", new AuthenticationInfoModel() {
 				UserCert = PKCertificate.Decode(model.Certificate)
 			});
-
 		}
 	}
 }

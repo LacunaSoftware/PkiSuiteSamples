@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
-	public class NFeSignaturePkiController : BaseController {
+	public class XmlNFeSignaturePkiController : BaseController {
 
 		/**
 		 * This method defines the signature policy that will be used on the signature.
@@ -155,7 +155,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
-				Filename = StorageMock.Store(signatureContent, ".xml")
+				File = StorageMock.Store(signatureContent, ".xml")
 			};
 
 			return RedirectToAction("SignatureInfo");

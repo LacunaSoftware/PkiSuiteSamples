@@ -5,8 +5,8 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Models.RestPki {
-	public class OpenSignatureModel<T> {
+	public class OpenCadesSignatureModel {
 		public string File { get; set; }
-		public T Signature { get; set; }
+		public CadesSignature Signature { get; set; }
 	}
 }

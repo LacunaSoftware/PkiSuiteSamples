@@ -106,7 +106,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", new { userfile });
 			}
 
 			return View(model);
@@ -160,7 +160,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
-				Filename = StorageMock.Store(signatureContent, ".pdf")
+				File = StorageMock.Store(signatureContent, ".pdf")
 			};
 
 			return RedirectToAction("SignatureInfo");

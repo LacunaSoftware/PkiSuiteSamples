@@ -54,7 +54,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Render the information (see file Check/Index.html for more information on
 			// the information returned).
-			return View(new OpenSignatureModel<PadesSignature>() {
+			return View(new OpenPadesSignatureModel() {
 				Signature = signature,
 				File = fileId
 			});
