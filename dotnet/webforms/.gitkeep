@@ -1,0 +1,134 @@
+#include<stdio.h>
+#include<math.h>
+
+typedef struct  {
+    int codigo;
+    char carro[50];
+    char marca[50];
+    int af;                 /*af=ano de fabricao*/
+    int am;                  /*am=ano do modelo*/
+    char cor[50];
+    int km;
+    int ac;                  /*ac=ar condicionado*/
+    int dh;                  /*dh=direcao hidraulica*/
+    int preco;
+    int dc;                  /*dc=data de cadastro*/
+} DadosVeiculo;
+/*
+void limpaentrada() {
+    int ch;
+    do {
+        scanf("%c",&ch);
+    } while (ch!=EOF && ch!='\n');
+}
+*/
+
+DadosVeiculo CriarCadastro(){
+    DadosVeiculo cadastro;
+    do{
+        char opcao;
+        scanf("%d",&cadastro.codigo);
+        scanf("%[^\n]s",cadastro.carro);
+        scanf("%[^\n]s",cadastro.marca);
+        scanf("%d",&cadastro.af);
+        scanf("%d",&cadastro.am);
+        scanf("%[^\n]s",cadastro.cor);
+        scanf("%d",&cadastro.km);
+        scanf("%d",&cadastro.ac);
+        scanf("%d",&cadastro.dh);
+        scanf("%d",&cadastro.preco);
+        scanf("%d",&cadastro.dc);
+
+        
+        do
+        {
+            printf("Deseja incluir um novo veiculo(S/N)");
+            scanf("%c", &opcao);
+
+        }
+        while(opcao!='S' && opcao!='N' && opcao!='s' && opcao!='n');
+
+
+        
+    }while(opcao == 'S' || opcao == 's');
+}
+
+
+
+
+
+
+
+
+
+void verifican(int n) /*funcao para verificar se a variavel "n" esta dentro dos valores definidos na descricao do projeto*/
+{
+
+    while(n<1 || n>6)
+    {
+        printf("Numero invalido digite um n valido: \n");
+        scanf("%d",&n);
+    }
+}
+
+fp=fopen("veiculos.bin",'wb');
+
+
+
+
+
+int main(){
+    int n;
+    struct DadosVeiculos dados;
+
+
+/*do{
+
+    printf("1. CRIAR E INICIAR CADASTRO NOVO\n");
+    printf("2. INCLUIR DADOS NO CADASTRO EXISTENTE\n");
+    printf("3. CONSULTAR O CADASTRO POR CODIGO DE VEICULO\n");
+    printf("4. CONSULTAR O CADASTRO POR CATEGORIA E ANO DO MODELO");
+    printf("5. GERAR ARQUIVO TXT DOS VEÃCULOS 0 KM\n");
+    printf("6. SAIR\n");
+
+    scanf("%d",&n);
+    verifican(n);
+    
+    switch(n){
+        case 1:
+            CriarCadastro();     /*chamamento da funcao para criacao e inicializacao de um cadastro novo
+            break;
+        case 2:
+            IncluirDados();      /*chamamento da funcao para incluir dados no cadastro ja existente
+            break;
+        case 3:
+            ConsultarCadastroCodigo();  /*chamamento da funcao para a consulta do cadastro por codigo de veiculo
+            break;
+        case 4:
+            ConsultarCadastroCategoria(); /*chamamento da funcao para a consulta do cadastro por categoria e ano do modelo
+            break;
+        case 5:
+            GerarArquivo();               /*chamamento da funcao para a geracao de um arquivo TXT dos veiculos 0 km
+            break;
+        default:break;
+    
+    
+    }
+    }
+while(n!=6);
+*/
+CriarCadastro();
+return 0;
+}
+
+
+
+
+
+/*
+if (dados.ac) {
+    // Tem ar condicionado//
+} else {
+    // NÃo tem//
+}
+*/
