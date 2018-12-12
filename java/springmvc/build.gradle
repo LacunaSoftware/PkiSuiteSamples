@@ -1,0 +1,38 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.lacunasoftware.suite'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.7
+
+repositories {
+	mavenCentral()
+	maven {
+		url  "http://dl.bintray.com/lacunasoftware/maven" 
+	}
+}
+
+
+dependencies {
+    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.8.0'
+	implementation 'com.lacunasoftware.restpki:restpki-client:1.10.1'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'commons-io:commons-io:2.4'
+	implementation 'commons-codec:commons-codec:1.11'
+}

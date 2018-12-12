@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+
+	<h2 class="ls-title">Certificate Authentication</h2>
+
+	<h5>Authentication successed</h5>
+
+	<p>
+		User certificate information:
+	<ul>
+		<li>Subject: <span th:text="${userCert.getSubjectName().getCommonName()}"/></li>
+		<li>Email: <span th:text="${userCert.getEmailAddress()}"/></li>
+		<li>
+			ICP-Brasil fields
+			<ul>
+				<li>Tipo de certificado: <span th:text="${userCert.getPkiBrazil().getCertificateType()}"/></li>
+				<li>CPF: <span th:text="${userCert.getPkiBrazil().getCpfFormatted()}"/></li>
+				<li>Responsavel: <span th:text="${userCert.getPkiBrazil().getResponsavel()}"/></li>
+				<li>Empresa: <span th:text="${userCert.getPkiBrazil().getCompanyName()}"/></li>
+				<li>CNPJ: <span th:text="${userCert.getPkiBrazil().getCnpjFormatted()}"/></li>
+				<li>RG: <span th:text="${userCert.getPkiBrazil().getRGNumero()}"/> <span th:text="${userCert.getPkiBrazil().getRGEmissor()}"/> <span th:text="${userCert.getPkiBrazil().getRGEmissorUF()}"/></li>
+				<li>OAB: <span th:text="${userCert.getPkiBrazil().getOabNumero()}"/> <span th:text="${userCert.getPkiBrazil().getOabUF()}"/></li>
+			</ul>
+		</li>
+	</ul>
+	</p>
+
+</div>
+</body>
+</html>

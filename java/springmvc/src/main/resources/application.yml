@@ -1,0 +1,49 @@
+# -------------------------------------------------------------------------------------------------
+# General Configuration
+# -------------------------------------------------------------------------------------------------
+
+# Server HTTP port
+server.port: 60833
+
+# Maximum upload and request sizes
+multipart:
+  maxFileSize: '10Mb'
+  maxRequestSize: '10Mb'
+
+# Active profile
+spring.profiles.active: 'development'
+
+# Proxy configuration
+
+
+# -------------------------------------------------------------------------------------------------
+# Web PKI Configuration
+# -------------------------------------------------------------------------------------------------
+
+web-pki:
+  # Base64-encoded binary license for the Web PKI. This value is passed to Web PKI component's
+  # constructor (see signature-forms.js or batch-signature-form.js).
+  license: null
+
+# -------------------------------------------------------------------------------------------------
+# Rest PKI Configuration
+# -------------------------------------------------------------------------------------------------
+
+rest-pki:
+  # ===================================================
+  #       >>>> PASTE YOUR ACCESS TOKEN BELOW <<<<
+  # ===================================================
+  accessToken: 'PLACE YOUR API ACCESS TOKEN HERE'
+  #             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  # Address of your REST PKI installation (with the trailing '/' character)
+  endpoint: null
+
+# -------------------------------------------------------------------------------------------------
+# PKI Express Configuration
+# -------------------------------------------------------------------------------------------------
+
+pki-express:
+  trustedRoots: null
+  offline: false,
+  trustLacunaTestRoot: true
