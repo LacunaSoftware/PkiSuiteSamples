@@ -1,0 +1,25 @@
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+$config = getConfig();
+
+
+?>
+<script>
+    var _webPkiLicense = '<?= $config['webPki']['license']; ?>';
+    var _restPkiEndpoint = '<?= $config['restPki']['endpoint'] ?>';
+
+    // Global method to add an alert on "messagePanel".
+    function addAlert(type, message) {
+        $('#messagesPanel').append(
+            '<div class="alert alert-' + type + ' alert-dismissible">' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><span class="fas fa-times"></span></span></button>' +
+            '<span>' + message + '</span>' +
+            '</div>');
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" integrity="sha384-Ct2s0NBxEbvJlnXHOZJheqOGKjX3Q4ewsYoJZYnLz/teMXnlGhim5o9305EkvlsN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
