@@ -1,0 +1,6 @@
+.idea/
+app-data/
+LacunaPkiLicense.config
+pkie/
+vendor/
+composer.lock
