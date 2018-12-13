@@ -1,4 +1,4 @@
-package com.lacunasoftware.suite.sample.model;
+package com.lacunasoftware.suite.sample.model.express;
 
 public class BatchSignatureStartResponse {
 

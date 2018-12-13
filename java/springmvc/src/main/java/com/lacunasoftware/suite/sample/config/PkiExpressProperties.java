@@ -1,5 +1,6 @@
 package com.lacunasoftware.suite.sample.config;
 
+import com.lacunasoftware.suite.sample.util.Util;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +12,15 @@ public class PkiExpressProperties {
 
 	private List<String> trustedRoots;
 	private boolean offline;
-	private boolean trustLacunaTestRoot;
 
 	public List<String> getTrustedRoots() {
 		return trustedRoots;
 	}
 
 	public void setTrustedRoots(List<String> trustedRoots) {
-		this.trustedRoots = trustedRoots;
+		if (trustedRoots != null) {
+			this.trustedRoots = trustedRoots;
+		}
 	}
 
 	public boolean isOffline() {
@@ -26,14 +28,10 @@ public class PkiExpressProperties {
 	}
 
 	public void setOffline(String offlineStr) {
-		this.offline = Boolean.parseBoolean(offlineStr);
-	}
-
-	public boolean isTrustLacunaTestRoot() {
-		return trustLacunaTestRoot;
-	}
-
-	public void setTrustLacunaTestRoot(String trustLacunaTestRootStr) {
-		this.trustLacunaTestRoot = Boolean.parseBoolean(trustLacunaTestRootStr);
+		if (!Util.isNullOrEmpty(offlineStr)) {
+			this.offline = Boolean.parseBoolean(offlineStr);
+		} else {
+			this.offline = false;
+		}
 	}
 }

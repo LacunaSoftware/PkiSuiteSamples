@@ -1,5 +1,6 @@
 package com.lacunasoftware.suite.sample.config;
 
+import com.lacunasoftware.suite.sample.util.Util;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,9 @@ public class RestPkiProperties {
 	}
 
 	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
+		if (!Util.isNullOrEmpty(accessToken)) {
+			this.accessToken = accessToken;
+		}
 	}
 
 	public String getEndpoint() {
@@ -23,6 +26,8 @@ public class RestPkiProperties {
 	}
 
 	public void setEndpoint(String endpoint) {
-		this.endpoint = endpoint;
+		if (!Util.isNullOrEmpty(endpoint)) {
+			this.endpoint = endpoint;
+		}
 	}
 }

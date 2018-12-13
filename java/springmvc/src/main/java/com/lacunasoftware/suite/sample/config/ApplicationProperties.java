@@ -1,20 +1,38 @@
 package com.lacunasoftware.suite.sample.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties()
 public class ApplicationProperties {
-
 	private RestPkiProperties restPki;
 	private WebPkiProperties webPki;
 	private PkiExpressProperties pkiExpress;
+	private ProxyProperties proxy;
+
+	@Value("${trustLacunaTestRoot}")
+	private boolean trustLacunaTestRoot;
+
+	private static ApplicationProperties instance;
+
+	private ApplicationProperties() {
+	}
+
+	public static ApplicationProperties getInstance() {
+		return instance;
+	}
+
+	@Autowired
+	public void setInstance(ApplicationProperties properties) {
+		instance = properties;
+	}
 
 	public RestPkiProperties getRestPki() {
 		return restPki;
 	}
 
+	@Autowired
 	public void setRestPki(RestPkiProperties restPki) {
 		this.restPki = restPki;
 	}
@@ -23,6 +41,7 @@ public class ApplicationProperties {
 		return webPki;
 	}
 
+	@Autowired
 	public void setWebPki(WebPkiProperties webPki) {
 		this.webPki = webPki;
 	}
@@ -31,7 +50,25 @@ public class ApplicationProperties {
 		return pkiExpress;
 	}
 
+	@Autowired
 	public void setPkiExpress(PkiExpressProperties pkiExpress) {
 		this.pkiExpress = pkiExpress;
+	}
+
+	public ProxyProperties getProxy() {
+		return proxy;
+	}
+
+	@Autowired
+	public void setProxy(ProxyProperties proxy) {
+		this.proxy = proxy;
+	}
+
+	public boolean trustLacunaTestRoot() {
+		return trustLacunaTestRoot;
+	}
+
+	public void setTrustLacunaTestRoot(boolean trustLacunaTestRoot) {
+		this.trustLacunaTestRoot = trustLacunaTestRoot;
 	}
 }

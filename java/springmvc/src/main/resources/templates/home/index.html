@@ -15,9 +15,9 @@
 <script th:fragment="scripts" type="text/javascript">
 	SampleRoutes = {
 		authCert: {
-			// express: '',
-			restpki: '/authentication-restpki'
-		},
+			express: '/check-pki-express?rc=authentication',
+			restpki: '/check-restpki-token?rc=authentication'
+		}
 		// cosignCms: { },
 		// cosignPdf: { },
 		// issueCertServer: { },

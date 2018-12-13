@@ -4,7 +4,7 @@
 
 <div th:fragment="content">
 
-	<h2 class="ls-title">Certificate Authentication</h2>
+	<h2 class="ls-title">Authentication with REST PKI</h2>
 
 	<form id="signInForm" method="POST">
 
@@ -36,7 +36,10 @@
 	The file below contains the JS lib for accessing the Web PKI component. For more
 	information, see: https://webpki.lacunasoftware.com/#/Documentation
 -->
-<script th:fragment="scripts" src="/js/lacuna-web-pki-2.11.0.js"></script>
+<script th:fragment="scripts"
+		type="text/javascript" src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+		integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+		crossorigin="anonymous"></script>
 
 <!--
 	The file below contains the necessary calls to the Web component. Once the necessary

@@ -36,9 +36,9 @@ public class AuthenticationRestPkiController {
 		// the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the authentication page (templates/authentication.html).
+		// Render the authentication page (templates/index.html).
 		model.addAttribute("token", token);
-		return "authentication";
+		return "authentication-restpki/index";
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class AuthenticationRestPkiController {
 		Authentication auth = new Authentication(Util.getRestPkiClient());
 
 		// Call the completeWithWebPki() method with the token (rendered in a hidden input field,
-		// see file templates/authentication.html). This method finalizes the authentication
+		// see file templates/index.html). This method finalizes the authentication
 		// process, yielding a ValidationResults object which denotes whether the authentication
 		// was successful or not.
 		ValidationResults vr = auth.completeWithWebPki(token);
@@ -68,11 +68,13 @@ public class AuthenticationRestPkiController {
 			// The toString() method of the ValidationResults object can be used to obtain the
 			// checks performed, but the string contains tabs and new line characters for
 			// formatting, which we'll convert to <br>'s and &nbsp;'s.
-			String vrHtml = vr.toString().replaceAll("\n", "<br>").replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
+			String vrHtml = vr.toString()
+				.replaceAll("\n", "<br>")
+				.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
 
 			// Render the authentication failed page (templates/authentication-failed.html).
 			model.addAttribute("vrHtml", vrHtml);
-			return "authentication-failed";
+			return "authentication-restpki/failed";
 		}
 
 		// At this point, you have assurance that the certificate is valid according to the
@@ -87,6 +89,6 @@ public class AuthenticationRestPkiController {
 
 		// Render the authentication succeeded page (templates/authentication-success.html).
 		model.addAttribute("userCert", userCert);
-		return "authentication-success";
+		return "authentication-restpki/success";
 	}
 }

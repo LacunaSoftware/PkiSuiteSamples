@@ -21,10 +21,8 @@
 </div>
 
 <div class="body-content container">
-	<div id="samples">
-		<div id="messagesPanel"></div>
-		<div th:replace="this :: content"></div>
-	</div>
+	<div id="messagesPanel"></div>
+	<div th:replace="this :: content"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha384-bPV3mA2eo3edoq56VzcPBmG1N1QVUfjYMxVIJPPzyFJyFZ8GFfN7Npt06Zr23qts" crossorigin="anonymous"></script>
@@ -34,8 +32,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script th:inline="javascript" type="text/javascript">
 	/*<![CDATA[*/
-	var _webPkiLicense = [[${@environment.getProperty('webpki.license')}]];
-	var _restPkiEndpoint = [[${@environment.getProperty('restpki.endpoint')}]];
+	var _webPkiLicense = [[${@environment.getProperty('web-pki.license')}]];
+	var _restPkiEndpoint = [[${@environment.getProperty('rest-pki.endpoint')}]];
 	/*]]>*/
 
 	// Global method to add an alert on "messagePanel".
