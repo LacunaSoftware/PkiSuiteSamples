@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Choose one of the available files on the server</h2>
+
+	<p>You will be redirected to <b>/<span th:text="${#httpServletRequest.getParameter('rc')}"></span></b></p>
+	<form id="filesForm" th:object="${model}" method="post">
+		<input type="hidden" th:field="*{isCmsCoSign}" />
+		<input type="hidden" id="chosenFileIdField" th:field="*{chosenFileId}" />
+
+		<div class="form-group">
+			<div class="row">
+				<th:block th:each="file, stats : ${model.getAvailableFiles()}">
+					<div class="col-md-3">
+						<div class="card">
+							<div class="card-header"><b>Document #<span th:text="${stats.index} + 1"></span></b> <a th:href="${file.getDownloadUrl()}"><i class="fas fa-file-download"></i></a></div>
+							<div class="card-body">
+								<p style="font-size: 13px;" th:text="${file.getDescription()}"></p>
+							</div>
+							<div class="card-footer">
+								<button th:id="${file.getId()}" type="button" class="choose-file btn btn-primary" style="font-size: 14px;"><i class="fas fa-hand-point-down"></i> Use This</button>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script th:fragment="scripts">
+	/*<![CDATA[*/
+	$(document).ready(function () {
+		$('.choose-file').click(function (e) {
+			$('#chosenFileIdField').val(this.id);
+			$('#filesForm').submit();
+		})
+	});
+	/*]]>*/
+</script>
+
+</body>
+</html>
