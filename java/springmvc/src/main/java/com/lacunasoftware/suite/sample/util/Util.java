@@ -93,8 +93,10 @@ public class Util {
 		// We will add each trusted root from configuration file. In this sample, we assumed that all
 		// trusted roots are in the resources/ folder. You are free to pass any path.
 		List<String> trustedRoots = getProperties().getPkiExpress().getTrustedRoots();
-		for (String root : trustedRoots) {
-			operator.addTrustedRoot(StorageMock.getResourcePath(root));
+		if (trustedRoots != null && trustedRoots.size() > 0) {
+			for (String root : trustedRoots) {
+				operator.addTrustedRoot(StorageMock.getResourcePath(root));
+			}
 		}
 
 		// Set operator to "OFFLINE MODE" (default: false):
