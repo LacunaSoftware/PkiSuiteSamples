@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">An error has occurred</h2>
+	<h3 th:if="${method} != null and ${controller} != null"><span th:text="${method}"></span>() on <span th:text="${controller}"></span></h3>
+
+	<br/>
+	<label>Error message</label>
+	<p th:if="${errorMessage} != null" th:text="${errorMessage}"></p>
+	<p th:if="${errorMessage} == null" th:text="${exception}"></p>
+
+	<th:block th:with="stackTrace=(stackHtml != null and stackHtml != '' ? ${stackHtml} : ${trace})"
+	          th:if="stackTrace != null and stackTrace != ''">
+		<label for="trace">Stack Trace</label>
+		<textarea class="form-control"
+				id="trace"
+				rows="30"
+				th:utext="${stackTrace}"
+				style="width: 100%; margin-bottom: 15px; word-break: break-all; resize: none;"></textarea>
+	</th:block>
+
+
+	<button type="button" class="btn btn-primary" onclick="window.history.back()">Return</button>
+</div>
+
+</body>
+</html>

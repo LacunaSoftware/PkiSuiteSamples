@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+
+	<h2 class="ls-title">PAdES Signature with PKI Express</h2>
+
+	<!-- This page is shown when the signature is completed with signature. -->
+	<p>File signed sucessfully!</p>
+
+	<h3>Actions:</h3>
+	<ul>
+		<li><a th:href="@{'/download/' + ${signedPdf}}">Download the signed file</a></li>
+		<li><a th:href="@{/pades-signature-express(fileId=${signedPdf})}">Co-sign with another certificate</a></li>
+	</ul>
+</div>
+
+</body>
+</html>
