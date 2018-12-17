@@ -1,14 +1,11 @@
 ﻿using Lacuna.RestPki.Api;
-using Lacuna.RestPki.Api.PadesSignature;
 using Lacuna.RestPki.Client;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.RestPki;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
+
+using PadesMeasurementUnits = Lacuna.RestPki.Api.PadesSignature.PadesMeasurementUnits;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class PadesSignatureRestPkiController : BaseController {
@@ -22,6 +19,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		[HttpGet]
 		public async Task<ActionResult> Index(string userfile) {
+
+			// Verify if the userfile exists and get its absolute path.
+			string userfilePath;
+			if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
+				return HttpNotFound();
+			}
 
 			// Get an instance of the PadesSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
@@ -38,22 +41,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId(),
 
 				// Set a visual representation for the signature.
-				VisualRepresentation = PadesVisualElements.GetVisualRepresentation()
+				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki()
 			};
-
-			// If the user was redirected here by UploadController (signature with file uploaded by user),
-			// the "userfile" URL argument will contain the filename under the "App_Data" folder. Otherwise
-			// (signature with server file), we'll sign a sample document.
-			if (string.IsNullOrEmpty(userfile)) {
-				// Set the PDF to be signed.
-				signatureStarter.SetPdfToSign(StorageMock.GetSampleDocPath());
-			}
-			else {
-				// Set the path of the file to be signed.
-				signatureStarter.SetPdfToSign(Server.MapPath("~/App_Data/" + userfile.Replace("_", ".")));
-				// Note: we're receiving the userfile argument with "_" as "." because of limitations of
-				// ASP.NET MVC.
-			}
+			
+			// Set the file to be signed.
+			signatureStarter.SetPdfToSign(userfilePath);
 
 			/*
 				Optionally, add marks to the PDF before signing. These differ from the signature visual
@@ -87,7 +79,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			base.SetNoCacheHeaders();
 
 			// Render the signature page with the token obtained from REST PKI.
-			return View(new Models.RestPki.PadesSignatureModel() {
+			return View(new SignatureModel() {
 				Token = token,
 				UserFile = userfile
 			});
@@ -98,7 +90,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * signature.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Index(Models.RestPki.PadesSignatureModel model) {
+		public async Task<ActionResult> Index(SignatureModel model) {
 
 			// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
 			// signature process.

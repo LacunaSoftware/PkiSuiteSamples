@@ -1,6 +1,7 @@
 ﻿using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
 using PkiSuiteAspNetMvcSample.Classes;
+using PkiSuiteAspNetMvcSample.Models.RestPki;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,41 +36,50 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			};
 
 			// Set the PDF file.
-			if (string.IsNullOrEmpty(userfile)) {
-				// If no file is passed, we use a previously signed and B-Stamped file.
-				sigExplorer.SetSignatureFile(Server.MapPath("~/Content/bstamped.pdf"));
-			}
-			else {
-				sigExplorer.SetSignatureFile(Server.MapPath("~/App_Data/" + userfile.Replace("_", ".")));
-				// Note: we're receiving the userfile argument with "_" as "." because of limitations of
-				// ASP.NET MVC.
+			if (!string.IsNullOrEmpty(userfile)) {
+
+				// Verify if the provided userfile exits and get its absolute path.
+				string userfilePath;
+				if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
+					return HttpNotFound();
+				}
+
+				// Set the userfile's absolute path to the PadesSignatureExplorer instance.
+				sigExplorer.SetSignatureFile(userfilePath);
+
+			} else {
+
+				// If no userfile is passed, we use a previously signed and B-Stamped file.
+				sigExplorer.SetSignatureFile(StorageMock.GetSampleBStampedPath());
 			}
 
 			// Call the Open() method, which returns the signature file's information.
 			var signature = await sigExplorer.OpenAsync();
 
 			// If the document has been B-Stamped, store the "digest index file" to show a link on the page.
+			string indexFileId = null;
 			if (signature.BStamp != null) {
-				string indexFileId;
 				using (var indexFileStream = signature.BStamp.IndexFile.OpenRead()) {
 					indexFileId = StorageMock.Store(indexFileStream, ".txt");
 				}
-				ViewBag.BStampIndexFile = indexFileId;
 			}
 
 			// Store the generated audit package. Notice that although we asked for its generation, the
 			// signature might not have been B-Stamped yet, so an audit package might not be returned.
+			string auditPkgId = null;
 			if (signature.AuditPackage != null) {
-				string auditPkgId;
 				using (var auditPkgStream = signature.AuditPackage.OpenRead()) {
 					auditPkgId = StorageMock.Store(auditPkgStream, ".zip");
 				}
-				ViewBag.AuditPackageFile = auditPkgId;
 			}
 
 			// Render the information (see file OpenPadesSignatureBStamp/Index.html for more
 			// information on the information returned).
-			return View(signature);
+			return View(new OpenPadesSignatureBStampModel() {
+				Signature = signature,
+				BStampIndexFile = indexFileId,
+				AuditPackageFile = auditPkgId
+			});
 		}
 	}
 }
