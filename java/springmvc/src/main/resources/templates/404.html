@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
 <body>
 
 <div th:fragment="content">
@@ -9,6 +9,8 @@
 	<br/>
 	<label for="message">Error message</label>
 	<p id="message" th:text="${errorMessage}"></p>
+
+	<button type="button" class="btn btn-primary" onclick="window.history.back()">Return</button>
 
 </div>
 

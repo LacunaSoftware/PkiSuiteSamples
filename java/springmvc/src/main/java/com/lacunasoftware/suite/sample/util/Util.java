@@ -4,30 +4,15 @@ import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
 import com.lacunasoftware.restpki.RestPkiClient;
 import com.lacunasoftware.restpki.SecurityContext;
-import com.lacunasoftware.suite.sample.Application;
 import com.lacunasoftware.suite.sample.config.ApplicationProperties;
 import com.lacunasoftware.suite.sample.config.ProxyProperties;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
-import java.nio.file.Path;
-import java.security.GeneralSecurityException;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.cert.Certificate;
 import java.util.*;
 
 public class Util {
@@ -52,16 +37,19 @@ public class Util {
 
 		Proxy proxy = null;
 		// If you need to set a proxy for outgoing connections.
-		final ProxyProperties proxyProperties = getProperties().getProxy();
-		if (proxyProperties.getHost() != null && proxyProperties.getPort() != null) {
+		ProxyProperties proxyProperties = getProperties().getProxy();
+		if (!isNullOrEmpty(proxyProperties.getHost()) && proxyProperties.getPort() != null) {
 			proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyProperties.getHost(), proxyProperties.getPort()));
 
 			// If your proxy requires authentication.
-			if (proxyProperties.getUsername() != null && proxyProperties.getPassword() != null) {
+			if (!isNullOrEmpty(proxyProperties.getUsername()) && !isNullOrEmpty(proxyProperties.getPassword())) {
 				Authenticator.setDefault(new Authenticator() {
 					@Override
 					public PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(getProperties().getProxy().getUsername(), getProperties().getProxy().getPassword().toCharArray());
+						return new PasswordAuthentication(
+							getProperties().getProxy().getUsername(),
+							getProperties().getProxy().getPassword().toCharArray()
+						);
 					}
 				});
 			}
@@ -99,7 +87,7 @@ public class Util {
 
 	//region PKI Express
 
-	public static void setPkiDefaults(PkiExpressOperator operator) throws FileNotFoundException {
+	public static void setPkiDefaults(PkiExpressOperator operator) throws IOException {
 
 		// Set the operator to trust in a custom trusted root, you need to inform the operator class.
 		// We will add each trusted root from configuration file. In this sample, we assumed that all

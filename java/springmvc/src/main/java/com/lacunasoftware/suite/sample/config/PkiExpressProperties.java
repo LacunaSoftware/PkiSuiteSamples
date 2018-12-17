@@ -4,6 +4,7 @@ import com.lacunasoftware.suite.sample.util.Util;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,9 +19,7 @@ public class PkiExpressProperties {
 	}
 
 	public void setTrustedRoots(List<String> trustedRoots) {
-		if (trustedRoots != null) {
-			this.trustedRoots = trustedRoots;
-		}
+		this.trustedRoots = trustedRoots;
 	}
 
 	public boolean isOffline() {

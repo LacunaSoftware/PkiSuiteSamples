@@ -36,7 +36,7 @@ public class AuthenticationRestPkiController {
 		// the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the authentication page (templates/index.html).
+		// Render the authentication page (templates/index.html.html).
 		model.addAttribute("token", token);
 		return "authentication-restpki/index";
 	}
@@ -47,7 +47,7 @@ public class AuthenticationRestPkiController {
 	 */
 	@RequestMapping(value = "/authentication-restpki", method = {RequestMethod.POST})
 	public String post(
-		@RequestParam(value = "token") String token,
+		@RequestParam String token,
 		Model model
 	) throws RestException {
 
@@ -55,7 +55,7 @@ public class AuthenticationRestPkiController {
 		Authentication auth = new Authentication(Util.getRestPkiClient());
 
 		// Call the completeWithWebPki() method with the token (rendered in a hidden input field,
-		// see file templates/index.html). This method finalizes the authentication
+		// see file templates/index.html.html). This method finalizes the authentication
 		// process, yielding a ValidationResults object which denotes whether the authentication
 		// was successful or not.
 		ValidationResults vr = auth.completeWithWebPki(token);

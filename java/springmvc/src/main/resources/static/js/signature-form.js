@@ -10,9 +10,9 @@ var signatureForm = (function () {
 	// Get an instance of the LacunaWebPKI object
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	// Initializes the signature form.
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	function init(fe) {
 
 		// Receive from parameters received as arguments.
@@ -31,26 +31,26 @@ var signatureForm = (function () {
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
-			ready: loadCertificates,    // As soon as the component is ready we'll load the certificates.
+			ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
 			defaultError: onWebPkiError, // Generic error callback defined below.
-			restPkiUrl: _restPkiEndpoint
+			restPkiUrl: _restPkiEndpoint // REST PKI endpoint to communication between Web PKI.
 		});
 	}
 
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	// Function called when the user clicks the "Refresh" button.
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	function refresh() {
 		// Block the UI while we load the certificates.
-		$.blockUI({ message: 'Refreshing ...' });
+		$.blockUI({message: 'Refreshing ...'});
 		// Invoke the loading of the certificates.
 		loadCertificates();
 	}
 
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	// Function that loads the certificates, either on startup or when the user clicks the
 	// "Refresh" button. At this point, the UI is already blocked.
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	function loadCertificates() {
 
 		// Call the listCertificates() method to list the user's certificates. For more information
@@ -79,9 +79,9 @@ var signatureForm = (function () {
 		});
 	}
 
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	// Function called when the user clicks the "Sign" button.
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	function sign() {
 
 		// Block the UI while we perform the signature.
@@ -101,9 +101,9 @@ var signatureForm = (function () {
 		});
 	}
 
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	// Function called if an error occurs on the Web PKI component.
-	// --------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	function onWebPkiError(message, error, origin) {
 
 		// Unblock the UI.
@@ -116,7 +116,7 @@ var signatureForm = (function () {
 
 		// Show the message to the user. You might want to substitute the alert below with a more
 		// user-friendly UI component to show the error.
-		alert(message);
+		addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
 	}
 
 	return {

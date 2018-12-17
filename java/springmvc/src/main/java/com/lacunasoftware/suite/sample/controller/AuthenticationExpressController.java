@@ -40,11 +40,6 @@ public class AuthenticationExpressController {
 		// compute the signature.
 		AuthStartResult result = auth.start();
 
-		// Render the fields received from start() method as hidden fields to be used on the
-		// javascript and on the "complete" step.
-		model.addAttribute("nonce", result.getNonce());
-		model.addAttribute("digestAlgorithm", result.getDigestAlgorithm());
-
 		// The nonce acquired above can only be used for a single authentication attempt. In order
 		// to retry the signature it is necessary to get a new nonce. This can be a problem if the
 		// user uses the back button of the browser, since the browser might show a cached page
@@ -54,6 +49,8 @@ public class AuthenticationExpressController {
 		Util.setNoCacheHeaders(response);
 
 		// Render the authentication page (templates/authentication-failed.html)
+		model.addAttribute("nonce", result.getNonce());
+		model.addAttribute("digestAlgorithm", result.getDigestAlgorithm());
 		return "authentication-express/index";
 	}
 

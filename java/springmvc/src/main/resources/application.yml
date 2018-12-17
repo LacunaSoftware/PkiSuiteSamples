@@ -3,7 +3,8 @@
 # -------------------------------------------------------------------------------------------------
 
 # Server HTTP port
-server.port: 60833
+server.port: 60695
+
 
 # Maximum upload and request sizes
 multipart:
@@ -13,7 +14,8 @@ multipart:
 # Spring configuration
 spring.profiles.active: 'development'
 spring.mvc.throw-exception-if-no-handler-found: true
-spring.resources.add-mappings: false
+spring.mvc.static-path-pattern: /js/**
+spring.resources.static-locations: classpath:/static/js/
 
 # Trust in Lacuna Test PKI (for development purposes only!)
 trustLacunaTestRoot: true
@@ -42,11 +44,11 @@ pki-express:
 
   # List of custom trusted roots. In this sample, we will get the certificate files on
   # resources/static folder.
-  trustedRoots: []
+  trustedRoots: null
 
   # Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode is useful
   # when there is no network available.
-  offline: false
+  offline: true
 
 # -------------------------------------------------------------------------------------------------
 # Web PKI

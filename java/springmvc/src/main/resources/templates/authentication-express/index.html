@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
 <body>
 
 <div th:fragment="content">
@@ -33,15 +33,15 @@
 			programmatically (see authentication-form.js).
 		-->
 		<button id="signInButton" type="button" class="btn btn-primary">Sign In</button>
-		<button id="refreshButton" type="button" class="btn btn-default">Refresh Certificates</button>
+		<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
 
 	</form>
 </div>
 
 <!--
-		The file below contains the JS lib for accessing the Web PKI component. For more
-		information, see: https://webpki.lacunasoftware.com/#/Documentation
-	 -->
+	The file below contains the JS lib for accessing the Web PKI component. For more
+	information, see: https://webpki.lacunasoftware.com/#/Documentation
+ -->
 <script th:fragment="scripts"
 		type="text/javascript" src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
 		integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
