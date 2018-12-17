@@ -8,22 +8,9 @@ function getConfig()
         // Application Settings
         // =========================================================================================
 
-        /**
-         * Lacuna Text PKI (for development purposes only!)
-         *
-         * This security context trusts ICP-Brasil certificates as well as certificates on
-         * Lacuna Software's test PKI. Use it to accept the test certificates provided by
-         * Lacuna Software, uncomment the following
-         * line.
-         *
-         * THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
-         * For more information, see https://github.com/LacunaSoftware/RestPkiSamples/blob/master/TestCertificates.md
-         *
-         * If you want that this application trusts on Lacuna Test Root (default: false), set the
-         * field below to true.
-         */
+        // Trust in Lacuna Test PKI (for development purposes only!)
         "trustLacunaTestRoot" => false,
-        // In production, accept only certificates from ICP-Brasil.
+        // THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
 
         // -----------------------------------------------------------------------------------------
         // REST PKI
@@ -37,7 +24,7 @@ function getConfig()
             //                ^^^^^^^^^^^^^^^^^^^^^^
 
             // Address of your Rest PKI installation (with the trailing '/' character)
-            "endpoint" => 'https://pki.rest/',
+            "endpoint" => null,
         ],
 
         // -----------------------------------------------------------------------------------------

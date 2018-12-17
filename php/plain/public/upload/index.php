@@ -14,7 +14,7 @@
     <div id="messagesPanel"></div>
 </div>
 
-<? include '../scripts.php' ?>
+<?php include '../scripts.php' ?>
 
 </body>
 </html>

@@ -11,11 +11,13 @@ use Lacuna\RestPki\PdfMarkTextElement;
 use Lacuna\RestPki\PdfTextSection;
 use Lacuna\RestPki\PdfTextStyle;
 
+use Lacuna\Sample\StorageMock;
+
 // TODO: Write description.
-class PadesVisualElementRestPki {
+class PadesVisualElementsRestPki {
 
     // TODO: Write description.
-    function getVisualRepresentation($client)
+    public static function getVisualRepresentation($client)
     {
         // Create a visual representation.
         $visualRepresentation = [
@@ -75,7 +77,7 @@ class PadesVisualElementRestPki {
      * @param $sampleNumber : The number identifying the desirable sample mark.
      * @return PdfMark The desirable sample mark.
      */
-    function getPdfMark($sampleNumber)
+    public static function getPdfMark($sampleNumber)
     {
 
         switch ($sampleNumber) {
@@ -114,7 +116,7 @@ class PadesVisualElementRestPki {
                 ];
 
                 // We'll use the image at 'content/PdfStamp.png'.
-                $element->image = new PdfMarkImage(getPdfStampContent(), "image/png");
+                $element->image = new PdfMarkImage(StorageMock.getPdfStampContent(), "image/png");
                 // Opacity is an integer from 0 to 1000 (0 is completely transparent, 100 is
                 // completely opaque).
                 $element->image->opacity = 75;
@@ -193,7 +195,7 @@ class PadesVisualElementRestPki {
                     'bottom' => 0.1
                 ];
                 // We'll use the 'Content/PdfStamp.png' as background.
-                $element->image = new PdfMarkImage(getPdfStampContent(), "image/png");
+                $element->image = new PdfMarkImage(StorageMock.getPdfStampContent(), "image/png");
                 // Opacity is an integer from 0 to 100 (0 is completely transparent, 100 is
                 // completely opaque).
                 $element->image->opacity = 50;

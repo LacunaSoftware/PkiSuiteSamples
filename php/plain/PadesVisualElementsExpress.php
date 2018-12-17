@@ -4,7 +4,7 @@
 class PadesVisualElementsExpress {
 
     // TODO: Write description.
-    function getVisualRepresentation($sampleNumber)
+    public function getVisualRepresentation($sampleNumber)
     {
 
         switch ($sampleNumber) {

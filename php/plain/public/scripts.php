@@ -1,9 +1,6 @@
 <?php
-
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 $config = getConfig();
-
-
 ?>
 <script>
     var _webPkiLicense = '<?= $config['webPki']['license']; ?>';
