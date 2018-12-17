@@ -11,24 +11,23 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class PadesSignaturePkiController : BaseController {
 
-		/**
-		 * This method defines the signature policy that will be used on the signature.
-		 */
-		private IPadesPolicyMapper getSignaturePolicy() {
+		private IPadesPolicyMapper GetSignaturePolicy() {
 
-#if DEBUG
-			// During debug only, we return a wrapper which will overwrite the policy's default trust arbitrator (which in this case
-			// corresponds to the ICP-Brasil roots only), with our custom trust arbitrator which accepts test certificates
-			// (see Util.GetTrustArbitrator())
-			return PadesPoliciesForGeneration.GetPadesBasic(Util.GetTrustArbitrator());
-#else
-			return PadesPoliciesForGeneration.GetPadesBasic(TrustArbitrators.PkiBrazil);
-#endif
+			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
+			var arbitrator = Util.GetTrustArbitrator();
+
+			return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
 		}
 
 		// GET: PadesSignature
-		public ActionResult Index() {
-			return View();
+		public ActionResult Index(string userfile) {
+			if (string.IsNullOrEmpty(userfile)) {
+				return RedirectToAction("Index", "Home");
+			}
+
+			return View(new SignatureStartModel() {
+				UserFile = userfile
+			});
 		}
 
 		/**
@@ -46,61 +45,36 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
-				// Decode the user's certificate
+				// Verify if the userfile exists and get its absolute path.
+				string userfilePath;
+				if (!StorageMock.TryGetFile(model.UserFile, out userfilePath)) {
+					return HttpNotFound();
+				}
+
+				// Decode the user's certificate.
 				var cert = PKCertificate.Decode(model.CertContent);
 
-				// Instantiate a PadesSigner class
+				// Get an instance of the PadesSigner class.
 				var padesSigner = new PadesSigner();
+				
+				// Set the file to be signed.
+				padesSigner.SetPdfToSign(userfilePath);
 
-				// Set the PDF to sign, which in the case of this example is a fixed sample document
-				padesSigner.SetPdfToSign(StorageMock.GetSampleDocContent());
-
-				// Set the signer certificate
+				// Set the signer certificate.
 				padesSigner.SetSigningCertificate(cert);
 
-				// Set the signature policy
-				padesSigner.SetPolicy(getSignaturePolicy());
+				// Set the signature policy.
+				padesSigner.SetPolicy(GetSignaturePolicy());
 
-				// Set the signature's visual representation options (this is optional). For more information, see
-				// http://pki.lacunasoftware.com/Help/html/98095ec7-2742-4d1f-9709-681c684eb13b.htm
-				var visual = new PadesVisualRepresentation2() {
-
-					// Text of the visual representation
-					Text = new PadesVisualText() {
-
-						// Compose the message
-						CustomText = String.Format("Assinado digitalmente por {0}", cert.SubjectDisplayName),
-
-						// Specify that the signing time should also be rendered
-						IncludeSigningTime = true,
-
-						// Optionally set the horizontal alignment of the text ('Left' or 'Right'), if not set the default is Left
-						HorizontalAlign = PadesTextHorizontalAlign.Left
-					},
-					// Background image of the visual representation
-					Image = new PadesVisualImage() {
-
-						// We'll use as background the image in Content/PdfStamp.png
-						Content = StorageMock.GetPdfStampContent(),
-
-						// Opacity is an integer from 0 to 100 (0 is completely transparent, 100 is completely opaque).
-						Opacity = 50,
-
-						// Align the image to the right
-						HorizontalAlign = PadesHorizontalAlign.Right
-					},
-					// Set the position of the visual representation
-					Position = PadesVisualAutoPositioning.GetFootnote()
-				};
-				padesSigner.SetVisualRepresentation(visual);
+				// Set a visual representation for the signature.
+				padesSigner.SetVisualRepresentation(PadesVisualElements.GetVisualRepresentationForPkiSdk(cert));
 
 				// Generate the "to-sign-bytes". This method also yields the signature algorithm that must
 				// be used on the client-side, based on the signature policy, as well as the "transfer data",
 				// a byte-array that will be needed on the next step.
 				toSignBytes = padesSigner.GetToSignBytes(out signatureAlg, out transferData);
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
@@ -108,33 +82,31 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 
 			// On the next step (Complete action), we'll need once again some information:
-			// - The content of the selected certificate only used to render the user's certificate information 
-			//  after the signature is completed. It is no longer needed for the signature process.
 			// - The thumbprint of the selected certificate.
-			// - The "transfer data" used to validate the signature in complete action.
+			// - The "transfer data" used to validate the signature in complete action. Its content is stored in
+			//   a temporary file (with extension .bin) to be shared with the Complete action.
 			// - The "to-sign-hash" (digest of the "to-sign-bytes") to be signed. (see signature-complete-form.js)
 			// - The OID of the digest algorithm to be used during the signature operation.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
-				CertContent = model.CertContent,
 				CertThumb = model.CertThumb,
-				TransferData = transferData,
+				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 				ToSignHash = signatureAlg.DigestAlgorithm.ComputeHash(toSignBytes),
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid
 			};
 
-			return RedirectToAction("Complete");
+			return RedirectToAction("Complete", new { userfile = model.UserFile });
 		}
 
-		// GET: CadesSignature/Complete
+		// GET: CadesSignature/Complete?userfile=<file_id>
 		[HttpGet]
-		public ActionResult Complete() {
+		public ActionResult Complete(string userfile) {
 
 			// Recovery data from Index action, if returns null, it'll be redirected to Index 
 			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", new { userfile });
 			}
 
 			return View(model);
@@ -152,14 +124,20 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
-				// Instantiate a PadesSigner class
+				// Recover the "transfer data" content stored in a temporary file.
+				byte[] transferDataContent;
+				if (!StorageMock.TryGetFile(model.TransferDataFileId, out transferDataContent)) {
+					return HttpNotFound();
+				}
+
+				// Get an instance of the PadesSigner class.
 				var padesSigner = new PadesSigner();
 
-				// Set the signature policy, exactly like in the Start method
-				padesSigner.SetPolicy(getSignaturePolicy());
+				// Set the signature policy.
+				padesSigner.SetPolicy(GetSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data" (rendered in a hidden field, see the view)
-				padesSigner.SetPreComputedSignature(model.Signature, model.TransferData);
+				padesSigner.SetPreComputedSignature(model.Signature, transferDataContent);
 
 				// Call ComputeSignature(), which does all the work, including validation of the signer's certificate and of the resulting signature
 				padesSigner.ComputeSignature();
@@ -167,14 +145,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get the signed PDF as an array of bytes
 				signatureContent = padesSigner.GetPadesSignature();
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View();
+				// Return userfile to continue the signature with the same file.
+				return View(model);
 			}
 
-			// On the next step (SignatureInfo action), we'll render the following information:]
+			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
 			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
@@ -182,8 +160,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
-				Filename = StorageMock.Store(signatureContent, ".pdf"),
-				UserCert = PKCertificate.Decode(model.CertContent)
+				File = StorageMock.Store(signatureContent, ".pdf")
 			};
 
 			return RedirectToAction("SignatureInfo");

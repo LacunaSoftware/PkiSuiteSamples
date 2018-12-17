@@ -1,0 +1,74 @@
+# -------------------------------------------------------------------------------------------------
+# General Configuration
+# -------------------------------------------------------------------------------------------------
+
+# Server HTTP port
+server.port: 60695
+
+
+# Maximum upload and request sizes
+multipart:
+  maxFileSize: '10Mb'
+  maxRequestSize: '10Mb'
+
+# Spring configuration
+spring.profiles.active: 'development'
+spring.mvc.throw-exception-if-no-handler-found: true
+spring.mvc.static-path-pattern: /js/**
+spring.resources.static-locations: classpath:/static/js/
+
+# Trust in Lacuna Test PKI (for development purposes only!)
+trustLacunaTestRoot: true
+# THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
+
+# -------------------------------------------------------------------------------------------------
+# REST PKI
+# -------------------------------------------------------------------------------------------------
+
+rest-pki:
+  # ======================================================
+  #       >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
+  # ======================================================
+  accessToken: 'PASTE YOUR ACCESS TOKEN HERE'
+  #             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  # In order to use this sample on a "on premises" installation of REST PKI, fill the field below
+  # with the URL address of your REST PKI installation (with the trailing '/' character)
+  endpoint: null
+
+# -------------------------------------------------------------------------------------------------
+# PKI Express
+# -------------------------------------------------------------------------------------------------
+
+pki-express:
+
+  # List of custom trusted roots. In this sample, we will get the certificate files on
+  # resources/static folder.
+  trustedRoots: null
+
+  # Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode is useful
+  # when there is no network available.
+  offline: false
+
+# -------------------------------------------------------------------------------------------------
+# Web PKI
+# -------------------------------------------------------------------------------------------------
+
+web-pki:
+  # Base64-encoded binary license for the Web PKI. This value is passed to Web PKI component's
+  # constructor on JavaScript.
+  license: null
+
+# -------------------------------------------------------------------------------------------------
+# Miscellaneous
+# -------------------------------------------------------------------------------------------------
+
+# Proxy configuration (With you want there is problem to connect to REST PKI, because of a proxy)
+proxy:
+  # The proxy's address.
+  host: null
+  port: null
+
+  # The proxy's authentication.
+  username: null
+  password: null

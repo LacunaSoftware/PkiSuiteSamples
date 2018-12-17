@@ -1,7 +1,9 @@
 ﻿@using Lacuna.RestPki.Client
 @model ValidationResults
 
-<h2>Authentication Failed</h2>
+<h2 class="ls-title">Authentication with REST PKI</h2>
+
+<h5>Authentication Failed <i class="fas fa-times-circle" style="color: red;"></i></h5>
 @{
 	// We can call the ToString() method on the Model, which is a ValidationResults, to obtain a string containing
 	// the validations performed on the user's certificate. However, this string contains tabs and new line
