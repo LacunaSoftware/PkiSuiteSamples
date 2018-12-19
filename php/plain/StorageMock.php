@@ -131,9 +131,8 @@ class StorageMock
     // TODO: Write description.
     static function createAppData()
     {
-        $appDataPath = "app-data";
-        if (!file_exists($appDataPath)) {
-            mkdir($appDataPath);
+        if (!file_exists(StorageMock::APP_DATA_PATH)) {
+            mkdir(StorageMock::APP_DATA_PATH);
         }
     }
 
@@ -185,7 +184,7 @@ class StorageMock
     // TODO: Write description.
     static function getBatchDocPath($id)
     {
-        return sprintf('content/%02d.pdf', $id % 10);
+        return sprintf('%s/%02d.pdf', StorageMock::RESOURCES_PATH, $id % 10);
     }
 
     // TODO: Write description.

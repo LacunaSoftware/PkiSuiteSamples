@@ -11,13 +11,11 @@ use Lacuna\RestPki\PdfMarkTextElement;
 use Lacuna\RestPki\PdfTextSection;
 use Lacuna\RestPki\PdfTextStyle;
 
-use Lacuna\Sample\StorageMock;
-
 // TODO: Write description.
 class PadesVisualElementsRestPki {
 
     // TODO: Write description.
-    public static function getVisualRepresentation($client)
+    public static function getVisualRepresentation()
     {
         // Create a visual representation.
         $visualRepresentation = [
@@ -45,9 +43,9 @@ class PadesVisualElementsRestPki {
             ],
             'image' => [
 
-                // We'll use as background the image content/PdfStamp.png.
+                // We'll use as background the image resources/PdfStamp.png.
                 'resource' => [
-                    'content' => base64_encode(file_get_contents('content/PdfStamp.png')),
+                    'content' => base64_encode(StorageMock::getPdfStampContent()),
                     'mimeType' => 'image/png'
                 ],
                 // Align the image to the right.
@@ -56,7 +54,7 @@ class PadesVisualElementsRestPki {
                 'verticalAlign' => 'Center',
             ],
             // Position of the visual representation. We get the footnote position preset.
-            'position' => PadesVisualPositioningPresets::getFootnote($client)
+            'position' => PadesVisualPositioningPresets::getFootnote(Util::getRestPkiClient())
         ];
 
         // It's possible to customize the position presets. For this sample, we will customize the
@@ -70,7 +68,7 @@ class PadesVisualElementsRestPki {
 
     /**
      * This function is called by pades-signature.php. It contains examples of PDF marks, visual
-     * elements of arbitrary content placed in every page. This code is only in a separate function
+     * elements of arbitrary scripts placed in every page. This code is only in a separate function
      * in order to organize the various examples, you can pick the one that best suits your needs
      * and use it below directly without an encapsulating function.
      *
@@ -115,8 +113,8 @@ class PadesVisualElementsRestPki {
                     'bottom' => 0
                 ];
 
-                // We'll use the image at 'content/PdfStamp.png'.
-                $element->image = new PdfMarkImage(StorageMock.getPdfStampContent(), "image/png");
+                // We'll use the image at 'resources/PdfStamp.png'.
+                $element->image = new PdfMarkImage(StorageMock::getPdfStampContent(), "image/png");
                 // Opacity is an integer from 0 to 1000 (0 is completely transparent, 100 is
                 // completely opaque).
                 $element->image->opacity = 75;
@@ -194,8 +192,8 @@ class PadesVisualElementsRestPki {
                     'top' => 0.1,
                     'bottom' => 0.1
                 ];
-                // We'll use the 'Content/PdfStamp.png' as background.
-                $element->image = new PdfMarkImage(StorageMock.getPdfStampContent(), "image/png");
+                // We'll use the 'resources/PdfStamp.png' as background.
+                $element->image = new PdfMarkImage(StorageMock::getPdfStampContent(), "image/png");
                 // Opacity is an integer from 0 to 100 (0 is completely transparent, 100 is
                 // completely opaque).
                 $element->image->opacity = 50;

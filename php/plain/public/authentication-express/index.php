@@ -78,7 +78,7 @@ Util::setExpiredPage();
         // only when that computation is finished we'll submit the form programmatically (see authentication-form.js).
         ?>
         <button id="signInButton" type="button" class="btn btn-primary">Sign In</button>
-        <button id="refreshButton" type="button" class="btn btn-default">Refresh Certificates</button>
+        <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
 
     </form>
 </div>
@@ -97,7 +97,7 @@ Util::setExpiredPage();
 // The file below contains the logic for calling the Web PKI component. It is only an example, feel free to alter it
 // to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
 ?>
-<script src="content/js/authentication-form.js"></script>
+<script src="scripts/authentication-form.js"></script>
 <script>
 
     $(document).ready(function () {

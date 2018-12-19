@@ -74,7 +74,7 @@ Util::setExpiredPage();
         // programmatically (see signature-form.js).
         ?>
         <button id="signInButton" type="button" class="btn btn-primary">Sign In</button>
-        <button id="refreshButton" type="button" class="btn btn-default">Refresh Certificates</button>
+        <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
     </form>
 </div>
 
@@ -93,7 +93,7 @@ Util::setExpiredPage();
 // free to alter it to meet your application's needs. You can also bring the code into the
 // javascript block below if you prefer.
 ?>
-<script src="content/js/signature-form.js"></script>
+<script src="scripts/signature-form.js"></script>
 <script>
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript code

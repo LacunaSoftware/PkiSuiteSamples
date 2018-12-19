@@ -48,10 +48,10 @@
         // signCod: { },
         // signMultiCmsServer: { },
         // signMultiCmsUser: { },
-        // signMultiPdfServer: {
-        //     express: '/check-pki-express.php?rc=batch-pades-signature',
-        //     restpki: '/check-pki-express.php?rc=batch-pades-signature'
-        // },
+        signMultiPdfServer: {
+            express: '/check-pki-express.php?rc=batch-pades-signature',
+            restpki: '/check-restpki-token.php?rc=batch-pades-signature'
+        },
         // signMultiPdfUser: { },
         // signNfe: { },
         // signPdfServer: {

@@ -87,7 +87,7 @@ var authenticationForm = (function () {
         // Get the thumbprint of the selected certificate.
         var selectedCertThumbprint = formElements.certificateSelect.val();
 
-        // Get certificate content to be passed to "complete" action of the authentication on
+        // Get certificate scripts to be passed to "complete" action of the authentication on
         // server-side after the signature is computed.
         pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
 

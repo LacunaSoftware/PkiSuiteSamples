@@ -28,7 +28,7 @@ Util::setPkiDefaults($auth);
 // Set the nonce. This value is generated on "start" action and passed by a hidden field.
 $auth->setNonce($nonce);
 
-// Set the Base64-encoded certificate content.
+// Set the Base64-encoded certificate scripts.
 $auth->setCertificateBase64($certContent);
 
 // Set the signature.
