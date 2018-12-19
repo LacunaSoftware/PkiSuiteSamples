@@ -40,10 +40,10 @@
         //     express: '/check-pki-express.php?rc=server-files&fwd=cades-signature&op=signCms',
         //     restpki: '/check-restpki-token.php?rc=server-files&fwd=cades-signature&op=signCms'
         // },
-        // signCmsUser: {
-        //     express: '/check-pki-express.php?rc=upload&fwd=cades-signature',
-        //     restpki: '/check-restpki-token.php?rc=upload&fwd=cades-signature'
-        // },
+        signCmsUser: {
+            express: '/check-pki-express.php?rc=upload.php&fwd=cades-signature',
+            restpki: '/check-restpki-token.php?rc=upload.php&fwd=cades-signature'
+        },
         // signCmsServerKey: { },
         // signCod: { },
         // signMultiCmsServer: { },
