@@ -58,10 +58,10 @@
         //     express: '/check-pki-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
         //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=signPdf'
         // },
-        // signPdfUser: {
-        //     express: '/check-pki-express.php?rc=upload&fwd=pades-signature',
-        //     restpki: '/check-restpki-token.php?rc=upload&fwd=pades-signature'
-        // }
+        signPdfUser: {
+            express: '/check-pki-express.php?rc=upload.php&fwd=pades-signature',
+            restpki: '/check-restpki-token.php?rc=upload.php&fwd=pades-signature'
+        }
         // signPdfServerKey: { },
         // signXmlServer: { },
         // signXmlServerKey: { },

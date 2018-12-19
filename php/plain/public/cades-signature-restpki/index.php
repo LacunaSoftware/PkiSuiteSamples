@@ -86,7 +86,7 @@ Util::setExpiredPage();
 <div class="body-content container">
     <div id="messagesPanel"></div>
 
-    <h2>CAdES Signature</h2>
+    <h2 class="ls-title">CAdES Signature with REST PKI</h2>
 
     <?php // Notice that we'll post to a different PHP file. ?>
     <form id="signForm" action="cades-signature-restpki/complete.php" method="POST">

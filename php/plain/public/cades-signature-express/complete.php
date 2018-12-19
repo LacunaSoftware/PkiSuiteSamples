@@ -42,8 +42,8 @@ $signatureFinisher->setSignature($signature);
 
 // Generate path for output file and add to signature finisher.
 StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
-$cmsFile = uniqid() . ".p7s";
-$signatureFinisher->setOutputFile(StorageMock::getDataPath($cmsFile));
+$outputFile = uniqid() . ".p7s";
+$signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
 // Complete the signature process.
 $signatureFinisher->complete();
@@ -67,8 +67,8 @@ $signatureFinisher->complete();
 
     <h3>Actions:</h3>
     <ul>
-        <li><a href="/download?fileId=<?= $cmsFile ?>">Download the signed file</a></li>
-        <li><a href="/cades-signature-express?fileId=<?= $cmsFile ?>">Co-sign with another certificate</a></li>
+        <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
+        <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
     </ul>
 </div>
 

@@ -28,9 +28,6 @@ $client = Util::getRestPkiClient();
 // start the signature process.
 $signatureStarter = new PadesSignatureStarter($client);
 
-// Set the document to be signed based on its ID.
-$signatureStarter->setPdfToSignFromPath(StorageMock::getBatchDocPath($id));
-
 // Set the signature policy.
 $signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC;
 
@@ -44,6 +41,8 @@ $signatureStarter->measurementUnits = PadesMeasurementUnits::CENTIMETERS;
 // (on util-pades.php) to be used on various PAdES examples.
 $signatureStarter->visualRepresentation = PadesVisualElementsRestPki::getVisualRepresentation($client);
 
+// Set the document to be signed based on its ID.
+$signatureStarter->setPdfToSignFromPath(StorageMock::getBatchDocPath($id));
 
 // Optionally, add marks to the PDF before signing. These differ from the signature visual
 // they are actually changes done to the document prior to signing, not binded to any signature.
