@@ -6,6 +6,10 @@ using System.Web;
 namespace PkiSuiteAspNetMvcSample.Models.Pki {
 	public class SignatureStartModel {
 
+		public string UserFile { get; set; }
+
+		public string CmsFile { get; set; }
+
 		public byte[] CertThumb { get; set; }
 		public string CertThumbBase64 {
 			get {

@@ -12,20 +12,12 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class BatchPadesSignaturePkiController : BaseController {
 
+		private IPadesPolicyMapper GetSignaturePolicy() {
 
-		/**
-		 * This method defines the signature policy that will be used on the signature.
-		 */
-		private IPadesPolicyMapper getSignaturePolicy() {
+			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
+			var arbitrator = Util.GetTrustArbitrator();
 
-#if DEBUG
-			// During debug only, we return a wrapper which will overwrite the policy's default trust arbitrator (which in this case
-			// corresponds to the ICP-Brasil roots only), with our custom trust arbitrator which accepts test certificates
-			// (see Util.GetTrustArbitrator())
-			return PadesPoliciesForGeneration.GetPadesBasic(Util.GetTrustArbitrator());
-#else
-			return PadesPoliciesForGeneration.GetPadesBasic(TrustArbitrators.PkiBrazil);
-#endif
+			return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
 		}
 
 		// GET: BatchSignature
@@ -62,41 +54,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set the signer certificate
 				padesSigner.SetSigningCertificate(cert);
 
-				// Set the signature policy
-				padesSigner.SetPolicy(getSignaturePolicy());
+				// Set the signature policy.
+				padesSigner.SetPolicy(GetSignaturePolicy());
 
-				// Set the signature's visual representation options (this is optional). For more information, see
-				// http://pki.lacunasoftware.com/Help/html/98095ec7-2742-4d1f-9709-681c684eb13b.htm
-				var visual = new PadesVisualRepresentation2() {
-
-					// Text of the visual representation
-					Text = new PadesVisualText() {
-
-						// Compose the message
-						CustomText = String.Format("Assinado digitalmente por {0}", cert.SubjectDisplayName),
-
-						// Specify that the signing time should also be rendered
-						IncludeSigningTime = true,
-
-						// Optionally set the horizontal alignment of the text ('Left' or 'Right'), if not set the default is Left
-						HorizontalAlign = PadesTextHorizontalAlign.Left
-					},
-					// Background image of the visual representation
-					Image = new PadesVisualImage() {
-
-						// We'll use as background the image in Content/PdfStamp.png
-						Content = StorageMock.GetPdfStampContent(),
-
-						// Opacity is an integer from 0 to 100 (0 is completely transparent, 100 is completely opaque).
-						Opacity = 50,
-
-						// Align the image to the right
-						HorizontalAlign = PadesHorizontalAlign.Right
-					},
-					// Set the position of the visual representation
-					Position = PadesVisualAutoPositioning.GetFootnote()
-				};
-				padesSigner.SetVisualRepresentation(visual);
+				// Set a visual representation for the signature.
+				padesSigner.SetVisualRepresentation(PadesVisualElements.GetVisualRepresentationForPkiSdk(cert));
 
 				// Generate the "to-sign-bytes". This method also yields the signature algorithm that must
 				// be used on the client-side, based on the signature policy, as well as the "transfer data",
@@ -135,18 +97,17 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			try {
 
-				// Recover the "transfer data" content stored in a temporary file
-				string extension;
+				// Recover the "transfer data" content stored in a temporary file.
 				byte[] transferDataContent;
-				if (!StorageMock.TryGetFile(request.TransferDataFileId, out transferDataContent, out extension)) {
+				if (!StorageMock.TryGetFile(request.TransferDataFileId, out transferDataContent)) {
 					return HttpNotFound();
 				}
 
 				// Instantiate a PadesSigner class
 				var padesSigner = new PadesSigner();
 
-				// Set the signature policy, exactly like in the Start method
-				padesSigner.SetPolicy(getSignaturePolicy());
+				// Set the signature policy.
+				padesSigner.SetPolicy(GetSignaturePolicy());
 
 				// Set the signature computed on the client-side, along with the "transfer data" recovered from a temporary file
 				padesSigner.SetPreComputedSignature(request.Signature, transferDataContent);
@@ -158,8 +119,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get the signed PDF as an array of bytes
 				signatureContent = padesSigner.GetPadesSignature();
 
-			}
-			catch (ValidationException ex) {
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				return new HttpStatusCodeResult(500, ex.ValidationResults.ToString());
 			}
