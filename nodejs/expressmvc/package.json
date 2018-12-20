@@ -15,7 +15,7 @@
     "morgan": "~1.6.1",
     "multer": "^1.4.1",
     "restpki-client": "^1.0.1",
-    "pki-express": "LacunaSoftware/PkiExpressNode#release/1.2.1",
+    "pki-express": "^1.2.1",
     "pug": "~2.0.3",
     "uuid": "^3.3.2",
     "lodash": "^4.17.11"
