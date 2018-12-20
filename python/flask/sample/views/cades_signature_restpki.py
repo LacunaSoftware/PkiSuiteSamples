@@ -11,19 +11,17 @@ from restpki_client import CadesSignatureFinisher
 from restpki_client import StandardSignaturePolicies
 
 from sample.storage_mock import create_app_data
-from sample.storage_mock import get_sample_doc_path
 from sample.utils import get_restpki_client
 from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
-blueprint = Blueprint('cades_signature_restpki', __name__,
+blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/cades-signature-restpki')
 
 
-@blueprint.route('/')
-@blueprint.route('/<userfile>')
-@blueprint.route('/cosign/<cmsfile>')
-def index(userfile=None, cmsfile=None):
+@blueprint.route('/<file_to_sign>')
+@blueprint.route('/cosign/<file_to_cosign>')
+def index(file_to_sign=None, file_to_cosign=None):
     """
 
     This function initiates a CAdES signature using REST PKI and renders the
@@ -44,15 +42,7 @@ def index(userfile=None, cmsfile=None):
         # receiving the signature elements and start the signature process.
         signature_starter = CadesSignatureStarter(get_restpki_client())
 
-        if userfile is not None:
-            # If the URL argument "userfile" is filled, it means the user was
-            # redirected here by "upload" view (signature with file uploaded by
-            # user). We'll set the path of the file to be signed, which was
-            # saved in the app_data folder by "upload" view.
-            signature_starter.set_file_to_sign_path(
-                '%s/%s' % (current_app.config['APPDATA_FOLDER'], userfile))
-
-        elif cmsfile is not None:
+        if file_to_cosign is not None:
             # If the URL argument "cmsfile" is filled, the user has asked to
             # co-sign a previously signed CMS. We'll set the path to the CMS to
             # be co-signed, which was previously saved in the "app-data" folder
@@ -67,11 +57,14 @@ def index(userfile=None, cmsfile=None):
             #      the CMS being co-signed.
             #
             signature_starter.set_cms_to_cosign_path(
-                '%s/%s' % (current_app.config['APPDATA_FOLDER'], cmsfile))
+                '%s/%s' % (current_app.config['APPDATA_FOLDER'], file_to_cosign))
         else:
-            # If both userfile and cmsfile are None, this is the "signature with
-            # server file" case. We'll set the path to the sample document.
-            signature_starter.set_file_to_sign_path(get_sample_doc_path())
+            # If the URL argument "userfile" is filled, it means the user was
+            # redirected here by "upload" view (signature with file uploaded by
+            # user). We'll set the path of the file to be signed, which was
+            # saved in the app_data folder by "upload" view.
+            signature_starter.set_file_to_sign_path(
+                '%s/%s' % (current_app.config['APPDATA_FOLDER'], file_to_sign))
 
         # Set the signature policy.
         signature_starter.signature_policy =\
@@ -111,9 +104,8 @@ def index(userfile=None, cmsfile=None):
         # this from happen, we force page expiration through HTTP headers to
         # prevent caching of the page.
         response = make_response(render_template('cades_signature_restpki/index.html',
-                                                 token=result.token,
-                                                 userfile=userfile,
-                                                 cmsfile=cmsfile))
+                                                 token=result.token))
+
         response.headers = get_expired_page_headers()
         return response
 
@@ -121,7 +113,7 @@ def index(userfile=None, cmsfile=None):
         return render_template('error.html', msg=e)
 
 
-@blueprint.route('/action', methods=['POST'])
+@blueprint.route('/', methods=['POST'])
 def action():
     """
 
@@ -160,8 +152,9 @@ def action():
         result.write_to_file(
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
-        return render_template('cades_signature_restpki/action.html', filename=filename,
-                               signer_cert=signer_cert)
+        return render_template('cades_signature_restpki/complete.html',
+                               signer_cert=signer_cert,
+                               cms_file=filename)
 
     except Exception as e:
         return render_template('error.html', msg=e)

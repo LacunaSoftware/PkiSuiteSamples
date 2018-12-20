@@ -1,14 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container">
 
-	<h2>Upload a PDF</h2>
+	<h2 class="ls-title">Upload a file</h2>
 
+	<p>You will be redirected to <b>/{{ request.view_args.get('rc') }}</b></p>
 	<form method="post" enctype="multipart/form-data">
-		<p>Select file: <input type="file" name="userfile"></p>
-		<p><input type="submit" value="Upload" name="submit"></p>
+		<label for="selectFile">
+			Select file:
+			<input id="selectFile" type="file" name="userfile" style="display: block;">
+		</label>
+
+		<input type="submit" value="Upload" name="submit" class="btn btn-primary" style="display: block;">
 	</form>
 
-</div>
 {% endblock %}

@@ -14,8 +14,8 @@ from sample.storage_mock import create_app_data
 blueprint = Blueprint('upload', __name__, url_prefix='/upload')
 
 
-@blueprint.route('/<goto>', methods=['GET', 'POST'])
-def upload(goto):
+@blueprint.route('/<rc>', methods=['GET', 'POST'])
+def upload(rc):
     """
 
     This function allows the user to upload a file to be signed. Once the file
@@ -38,7 +38,7 @@ def upload(goto):
         userfile.save(
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
-        # Redirect the user to the redirect parameter "goto".
-        return redirect('/%s/%s' % (goto, filename))
+        # Redirect the user to the redirect parameter "rc".
+        return redirect('/%s/%s' % (rc, filename))
     else:
         return render_template('upload/index.html')

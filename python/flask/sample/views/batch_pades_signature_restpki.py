@@ -15,7 +15,7 @@ from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import get_restpki_client
 from sample.utils import get_security_context_id
 
-blueprint = Blueprint('batch_pades_signature_restpki', __name__,
+blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/batch-pades-signature-restpki')
 
 

@@ -24,29 +24,27 @@ from sample.storage_mock import get_sample_doc_path
 from sample.storage_mock import get_pdf_stamp_path
 from sample.utils import set_pki_defaults
 
-blueprint = Blueprint('pades_signature_express', __name__,
+blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/pades-signature-express')
 
 
-@blueprint.route('/')
-@blueprint.route('/<userfile>')
-def index(userfile=None):
+@blueprint.route('/<file_id>')
+def index(file_id):
     """
 
     This method only renders the signature page.
 
     """
     # Verify if the provided userfile exists.
-    if userfile and not os.path.exists(os.path.join(
-            current_app.config['APPDATA_FOLDER'], userfile)):
+    file_path = os.path.join(current_app.config['APPDATA_FOLDER'], file_id)
+    if not os.path.exists(file_path):
         return render_template('error.html', msg='File not found')
 
-    return render_template('pades_signature_express/index.html',
-                           userfile=userfile)
+    return render_template('pades_signature_express/index.html')
 
 
-@blueprint.route('/start', methods=['POST'])
-def start():
+@blueprint.route('/start/<file_id>', methods=['POST'])
+def start(file_id):
     """
 
     This method starts the signature. In this sample, it will be called
@@ -54,13 +52,10 @@ def start():
     readCertificate() on static/js/signature-start-form.js).
 
     """
-    userfile = None
     try:
         # Recover variables from the POST arguments to be used on this step.
         cert_thumb = request.form['certThumbField']
         cert_content = request.form['certContentField']
-        if request.form['userfileField'] != 'None':
-            userfile = request.form['userfileField']
 
         # Get an instance of the PadesSignatureStarter class, responsible for
         # receiving the signature elements and start the signature process.
@@ -74,11 +69,8 @@ def start():
             standard_signature_policies.PADES_BASIC_WITH_LTV
 
         # Set PDF to be signed
-        if userfile:
-            signature_starter.set_pdf_to_sign_from_path(
-                os.path.join(current_app.config['APPDATA_FOLDER'], userfile))
-        else:
-            signature_starter.set_pdf_to_sign_from_path(get_sample_doc_path())
+        signature_starter.set_pdf_to_sign_from_path(
+            os.path.join(current_app.config['APPDATA_FOLDER'], file_id))
 
         # Set Base64-encoded certificate's content to signature starter.
         signature_starter.set_certificate_from_base64(cert_content)
@@ -104,19 +96,17 @@ def start():
         # Render the field from start() method as hidden field to be used on the
         # javascript or on the "complete" step.
         return render_template('pades_signature_express/start.html',
-                               to_sign_hash=response['toSignHash'],
-                               digest_algorithm=response['digestAlgorithm'],
-                               transfer_file=response['transferFile'],
                                cert_thumb=cert_thumb,
-                               userfile=userfile)
+                               transfer_file_id=response['transferFile'],
+                               to_sign_hash=response['toSignHash'],
+                               digest_algorithm=response['digestAlgorithm'])
 
     except Exception as e:
-        flash(str(e))
-        return redirect(url_for('pades_signature_express.index', userfile=userfile))
+        return render_template('error.html', msg=e)
 
 
-@blueprint.route('/complete', methods=['POST'])
-def complete():
+@blueprint.route('/complete/<file_id>', methods=['POST'])
+def complete(file_id):
     """
 
     This function completes the signature, it will be called programatically
@@ -124,14 +114,11 @@ def complete():
     method sign() on static/js/signature-complete-form.js).
 
     """
-    userfile = None
     try:
 
         # Recover variables form the POST arguments to be used on this step.
-        transfer_file = request.form['transferFileField']
+        transfer_file = request.form['transferFileIdField']
         signature = request.form['signatureField']
-        if request.form['userfileField'] != 'None':
-            userfile = request.form['userfileField']
 
         # Get an instance of the SignatureFinisher class, responsible for
         # completing the signature process.
@@ -141,11 +128,8 @@ def complete():
         set_pki_defaults(signature_finisher)
 
         # Set PDF to be signed. It's the same file we used on "start" method.
-        if userfile:
-            signature_finisher.set_file_to_sign_from_path(
-                os.path.join(current_app.config['APPDATA_FOLDER'], userfile))
-        else:
-            signature_finisher.set_file_to_sign_from_path(get_sample_doc_path())
+        signature_finisher.set_file_to_sign_from_path(
+            os.path.join(current_app.config['APPDATA_FOLDER'], file_id))
 
         # Set the transfer file.
         signature_finisher.set_transfer_file_from_path(transfer_file)
@@ -164,8 +148,7 @@ def complete():
 
         return render_template('pades_signature_express/signature-info.html',
                                signer_cert=signer_cert,
-                               filename=filename)
+                               signed_pdf=filename)
 
     except Exception as e:
-        flash(str(e))
-        return redirect(url_for('pades_signature_express.index', userfile=userfile))
+        return render_template('error.html', msg=e)

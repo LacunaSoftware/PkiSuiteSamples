@@ -12,20 +12,18 @@ from restpki_client import StandardSignaturePolicies
 
 from sample.pades_visual_elements_restpki import PadesVisualElementsRestPki
 from sample.storage_mock import create_app_data
-from sample.storage_mock import get_sample_doc_path
 from sample.utils import get_restpki_client
 from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
 
-blueprint = Blueprint('pades_signature_restpki', __name__,
+blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/pades-signature-restpki')
 
 
-@blueprint.route('/')
-@blueprint.route('/<userfile>')
-def index(userfile=None):
+@blueprint.route('/<file_to_sign>')
+def index(file_to_sign=None):
     """
 
     This function initiates a PAdES signature using REST PKI and renders the
@@ -44,15 +42,9 @@ def index(userfile=None):
         # receiving the signature elements and start the signature process.
         signature_starter = PadesSignatureStarter(get_restpki_client())
 
-        # If the URL argument "userfile" is filled, it means the user was
-        # redirected here by "upload" view (signature with file uploaded by
-        # user). We'll set the path of the file to be signed, which was saved
-        # in the app_data folder by "upload" view.
-        if userfile is not None:
-            signature_starter.set_pdf_to_sign(
-                '%s/%s' % (current_app.config['APPDATA_FOLDER'], userfile))
-        else:
-            signature_starter.set_pdf_to_sign(get_sample_doc_path())
+        # Set the PDF to be signed.
+        signature_starter.set_pdf_to_sign(
+            '%s/%s' % (current_app.config['APPDATA_FOLDER'], file_to_sign))
 
         # Set the signature policy.
         signature_starter.signature_policy =\
@@ -86,8 +78,7 @@ def index(userfile=None):
         # page.
         response = make_response(
             render_template('pades_signature_restpki/index.html',
-                            token=result.token,
-                            userfile=userfile))
+                            token=result.token))
         response.headers = get_expired_page_headers()
         return response
 
@@ -95,7 +86,7 @@ def index(userfile=None):
         return render_template('error.html', msg=e)
 
 
-@blueprint.route('/action', methods=['POST'])
+@blueprint.route('/', methods=['POST'])
 def action():
     """
 
@@ -134,9 +125,9 @@ def action():
         result.write_to_file(
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
-        return render_template('pades_signature_restpki/action.html',
-                               filename=filename,
-                               signer_cert=signer_cert)
+        return render_template('pades_signature_restpki/complete.html',
+                               signer_cert=signer_cert,
+                               signed_pdf=filename)
 
     except Exception as e:
         return render_template('error.html', msg=e)

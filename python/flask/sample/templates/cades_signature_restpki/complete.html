@@ -1,8 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-	<h2 class="ls-title">CAdES Signature with PKI Express</h2>
+	<h2 class="ls-title">CAdES Signature with REST PKI</h2>
 
 	<p>File signed successfully!</p>
 
@@ -15,7 +14,7 @@
 				ICP-Brasil fields
 				<ul>
 					<li>Tipo de certificado: {{ signer_cert.pki_brazil.certificate_type or '' }} </li>
-					<li>CPF: {{ signer_cert.pki_brazil.cpf_formatted or '' }}</li>
+					<li>CPF:  {{ signer_cert.pki_brazil.cpf_formatted or '' }}</li>
 					<li>Responsavel: {{ signer_cert.pki_brazil.responsavel or '' }} </li>
 					<li>Empresa: {{ signer_cert.pki_brazil.company_name or '' }} </li>
 					<li>CNPJ: {{ signer_cert.pki_brazil.cnpj_formatted or '' }} </li>
@@ -29,7 +28,6 @@
 	<h3>Actions:</h3>
 	<ul>
 		<li><a href="/download/{{ cms_file }}">Download the signed file</a></li>
-		<li><a href="/cades-signature-express/{{ cms_file }}">Co-sign with another certificate</a></li>
+		<li><a href="/cades-signature-restpki/cosign/{{ cms_file }}">Co-sign with another certificate</a></li>
 	</ul>
-
 {% endblock %}

@@ -1,78 +1,58 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container">
 
-	<h2>CAdES Signature</h2>
+	<h2 class="ls-title">CAdES Signature with PKI Express</h2>
 
-	{% with errors = get_flashed_messages() %}
-		{% if errors %}
-
-			<div class="alert alert-danger alert-dismissible" role="alert" style="margin-top: 2%;">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<label for="errorMsg">Signature Failed</label><br/>
-				<span id="errorMsg">{{ errors[0] }}</span>
-		  </div>
-
-		{% endif %}
-	{% endwith %}
-
-	<form id="signForm" action="/cades-signature/complete" method="post">
+	<form id="signForm" action="/cades-signature-express/complete/{{ request.view_args.get('file_id') }}" method="post">
 
 		<!--
 			Hidden fields to be used to pass data from the action to the
-			"signature start form" javascript (see signature-complete-form.js) and
-			vice-versa.
-		 -->
+			"signature complete form" javascript (see signature-complete-form.js)
+			and vice-versa.
+		-->
 		<input type="hidden" id="certThumb" name="certThumbField" value="{{ cert_thumb }}">
-		<input type="hidden" id="transferFile" name="transferFileField" value="{{ transfer_file }}">
+		<input type="hidden" id="transferFileId" name="transferFileIdField" value="{{ transfer_file_id }}">
 		<input type="hidden" id="toSignHash" name="toSignHashField" value="{{ to_sign_hash }}">
 		<input type="hidden" id="digestAlgorithm" name="digestAlgorithmField" value="{{ digest_algorithm }}">
-		<input type="hidden" id="userfile" name="userfileField" value="{{ userfile }}">
 		<input type="hidden" id="signature" name="signatureField">
 
-		{% if userfile %}
-			<a id="tryAgainButton" class="btn btn-default" style="display: none;" href="/cades-signature/{{ userfile }}">Try Again</a>
-		{% else %}
-			<a id="tryAgainButton" class="btn btn-default" style="display: none;" href="/cades-signature">Try Again</a>
-		{% endif %}
+		<a id="tryAgainButton" class="btn btn-primary" href="/cades-signature-express/{{ request.view_args.get('file_id') }}">Try Again</a>
 	</form>
-
-</div>
 
 {% endblock %}
 
 {% block scripts %}
 
-<!--
+	<!--
+		The file below contains the JS lib for accessing the Web PKI component.
+		For more information, see:
+		https://webpki.lacunasoftware.com/#/Documentation
+	-->
+	<script type="text/javascript"
+			  src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+			  integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+			  crossorigin="anonymous"></script>
 
-The file below contains the JS lib for accessing the Web PKI component. For more
-information, see: https://webpki.lacunasoftware.com/#/Documentation
-
--->
-<script src="{{ url_for('static', filename='js/lacuna-web-pki-2.11.0.js') }}"></script>
-
-<!--
-
-The file below contains the logic for calling the Web PKI component. It is only
-an example, feel free to alter it to meet your application's needs. You can also
-bring the code into the javascript block below if you prefer.
-
--->
-<script src="{{ url_for('static', filename='js/signature-complete-form.js') }}"></script>
-<script>
-	$(document).ready(function () {
-		// Once the page is ready, we call the init() function on the javascript
-		// code (see signature-complete-form.js)
-		signatureCompleteForm.init({
-			form: $('#signForm'),                         // The form that should be submitted when the operation is complete.
-			certThumbField: $('#certThumb'),              // The "certificate thumbprint" hidden field reference.
-			toSignHashField: $('#toSignHash'),            // The "to sign hash" hidden field reference.
-			digestAlgorithmField: $('#digestAlgorithm'),  // The "digest algorithm" hidden field reference.
-			signatureField: $('#signature'),              // The "signature" hidden field reference.
-			tryAgainButton: $('#tryAgainButton')          // The "Try Again" button reference.
+	<!--
+		The file below contains the logic for calling the Web PKI component. It is only
+		an example, feel free to alter it to meet your application's needs. You can also
+		bring the code into the javascript block below if you prefer.
+	-->
+	<script src="{{ url_for('static', filename='js/signature-complete-form.js') }}"></script>
+	<script>
+		$(document).ready(function () {
+			// Once the page is ready, we call the init() function on the javascript
+			// code (see signature-complete-form.js)
+			signatureCompleteForm.init({
+				form: $('#signForm'),                         // The form that should be submitted when the operation is complete.
+				certThumbField: $('#certThumb'),              // The "certificate thumbprint" hidden field reference.
+				toSignHashField: $('#toSignHash'),            // The "to sign hash" hidden field reference.
+				digestAlgorithmField: $('#digestAlgorithm'),  // The "digest algorithm" hidden field reference.
+				signatureField: $('#signature'),              // The "signature" hidden field reference.
+				tryAgainButton: $('#tryAgainButton')          // The "Try Again" button reference.
+			});
 		});
-	});
-</script>
+	</script>
 
 {% endblock %}
