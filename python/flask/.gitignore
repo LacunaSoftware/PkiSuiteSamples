@@ -1,0 +1,5 @@
+*.pyc
+.idea/
+app_data/
+venv/
+env/

@@ -56,7 +56,6 @@ var signatureCompleteForm = (function () {
 
 			// Submit the form.
 			formElements.form.submit();
-
 		});
 	}
 

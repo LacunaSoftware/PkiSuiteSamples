@@ -1,16 +1,17 @@
 ﻿@using PkiSuiteAspNetMvcSample.Controllers
+@using PkiSuiteAspNetMvcSample.Models.RestPki
 @using Lacuna.RestPki.Client
-@model PadesSignature
+@model OpenPadesSignatureModel
 
-<h3>Open existing PAdES Signature</h3>
+<h2 class="ls-title">Open existing PAdES Signature with REST PKI</h2>
 
-<h5>The given file contains @Model.Signers.Count signatures:</h5>
+<h5>The given file contains @Model.Signature.Signers.Count signatures:</h5>
 
 <div id="accordion">
 
-	@for (var i = 0; i < Model.Signers.Count; i++) {
+	@for (var i = 0; i < Model.Signature.Signers.Count; i++) {
 
-		var signer = Model.Signers[i];
+		var signer = Model.Signature.Signers[i];
 		var collapseId = string.Format("signer_{0}_collapse", i);
 		var headingId = string.Format("signer_{0}_heading", i);
 
@@ -30,7 +31,7 @@
 			<div id="@collapseId" class="collapse" role="tabpanel" aria-labelledby="@headingId" data-parent="#accordion">
 				<div class="card-body">
 					@if (signer.SigningTime != null) {
-						<p>Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyVersionRestPkiController.TimeZone).ToString(PrinterFriendlyVersionRestPkiController.DateFormat, PrinterFriendlyVersionRestPkiController.CultureInfo) (@PrinterFriendlyVersionRestPkiController.TimeZoneDisplayName)</p>
+						<p>Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyPadesRestPkiController.TimeZone).ToString(PrinterFriendlyPadesRestPkiController.DateFormat, PrinterFriendlyPadesRestPkiController.CultureInfo) (@PrinterFriendlyPadesRestPkiController.TimeZoneDisplayName)</p>
 					}
 					<p>Message digest: @signer.MessageDigest.Algorithm.Name @BitConverter.ToString(signer.MessageDigest.Value) </p>
 					@if (signer.SignaturePolicy != null) {

@@ -58,7 +58,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Optionally, set whether the content should be encapsulated in the resulting CMS.
 				EncapsulateContent = true
-
 			};
 
 			// Set the document to be signed based on its ID (passed to us from the page).
@@ -94,7 +93,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Set the token for this signature. (rendered in a hidden input field, see the view)
 				Token = id
-
 			};
 
 			// Call the Finish() method, which finalizes the signature process and returns a

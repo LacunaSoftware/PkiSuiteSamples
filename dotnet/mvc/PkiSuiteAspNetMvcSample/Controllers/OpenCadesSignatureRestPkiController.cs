@@ -1,5 +1,6 @@
 ﻿using Lacuna.RestPki.Client;
 using PkiSuiteAspNetMvcSample.Classes;
+using PkiSuiteAspNetMvcSample.Models.RestPki;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public async Task<ActionResult> Index(string userfile) {
 
 			// Our action only works if a userfile is given to work with.
-			if (string.IsNullOrEmpty(userfile)) {
+			string userfilePath;
+			if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
 				return HttpNotFound();
 			}
-			var filename = userfile.Replace("_", ".");
-			// Note: we're receiving the userfile argument with "_" as "." because of limitations of
-			// ASP.NET MVC.
 
 			// Get an instance of the CadesSignatureExplorer class, used to open/validate CAdES
 			// signatures.
@@ -38,14 +37,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			};
 
 			// Set the CAdES signature file.
-			sigExplorer.SetSignatureFile(Server.MapPath("~/App_Data/" + filename));
+			sigExplorer.SetSignatureFile(userfilePath);
 
 			// Call the Open() method, which returns the signature file's information.
 			var signature = await sigExplorer.OpenAsync();
 
 			// Render the information (see file OpenCadesSignature/Index.html for more information on
 			// the information returned).
-			return View(signature);
+			return View(new OpenCadesSignatureModel() {
+				Signature = signature
+			});
 		}
 	}
 }

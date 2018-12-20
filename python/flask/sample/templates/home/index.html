@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css"/>
+{% endblock %}
+
+{% block content %}
+<app-root></app-root>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+	SampleRoutes = {
+		authCert: {
+			//express: '/authentication-restpki',
+			restpki: '/authentication-restpki'
+		},
+
+		// cosignCms: { },
+		// cosignPdf: { },
+		// issueCertServer: { },
+		// issueCertUser: { },
+		// listCert: { },
+		// mergeCmsSigs: { },
+		// printerFriendlyCms: { },
+		// printerFriendlyPdf: { },
+		// readCert: { },
+		// rsa: { },
+		// signCmsServer: {
+		// 	express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
+		// 	restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
+		// },
+		signCmsUser: {
+			express: '/upload/cades-signature-express',
+			restpki: '/upload/cades-signature-restpki'
+		},
+		// signCmsServerKey: { },
+		// signCod: { },
+		// signMultiCmsServer: { },
+		// signMultiCmsUser: { },
+		signMultiPdfServer: {
+			express: '/batch-pades-signature-express',
+			restpki: '/batch-pades-signature-restpki'
+		},
+		// signMultiPdfUser: { },
+		// signNfe: { },
+		// signPdfServer: {
+		// 	express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
+		// 	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
+		// },
+		signPdfUser: {
+			express: '/upload/pades-signature-express',
+			restpki: '/upload/pades-signature-restpki'
+		}
+		// signPdfServerKey: { },
+		// signXmlServer: { },
+		// signXmlServerKey: { },
+		// signaturePackage: { },
+		// validateCmsSig: { },
+		// validatePdfSig: { },
+		// validateXmlSig: { }
+	};
+</script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.94ab3f52de1e8cdf32c9.js"></script>
+{% endblock %}

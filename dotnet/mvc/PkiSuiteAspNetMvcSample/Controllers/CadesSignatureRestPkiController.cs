@@ -47,17 +47,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			};
 
-			if (!string.IsNullOrEmpty(userfile)) {
+			if (!string.IsNullOrEmpty(cmsfile)) {
 
-				// If the URL argument "userfile" is filled, it means the user was redirected here by
-				// UploadController (signature with file uploaded by user). We'll set the path of the file to
-				// be signed, which was saved in the App_Data folder by UploadController.
-				signatureStarter.SetFileToSign(Server.MapPath("~/App_Data/" + userfile.Replace("_", ".")));
-				// Note: we're receiving the userfile argument with "_" as "." because of limitations of
-				// ASP.NET MVC.
-
-			}
-			else if (!string.IsNullOrEmpty(cmsfile)) {
+				// Verify if the cmsfile exists and get the absolute path of the cmsfile.
+				string cmsfilePath;
+				if (!StorageMock.TryGetFile(cmsfile, out cmsfilePath)) {
+					return HttpNotFound();
+				}
 
 				/*
 				 * If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
@@ -71,16 +67,20 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				 *         SetEncapsulateContent below), we don't need to set the content to be signed,
 				 *         REST PKI will get the content from the CMS being co-signed.
 				 */
-				signatureStarter.SetCmsToCoSign(Server.MapPath("~/App_Data/" + cmsfile.Replace("_", ".")));
-				// Note: we're receiving the cmsfile argument with "_" as "." because of limitations of
-				// ASP.NET MVC.
+				signatureStarter.SetCmsToCoSign(cmsfilePath);
 
-			}
-			else {
+			} else {
 
-				// If both userfile and cmsfile are null, this is the "signature with server file" case.
-				// We'll set the path of the file to be signed.
-				signatureStarter.SetFileToSign(StorageMock.GetSampleDocPath());
+				// Verify if the userfile exists and get the absolute path of the userfile.
+				string userfilePath;
+				if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
+					return HttpNotFound();
+				}
+
+				// If the URL argument "userfile" is filled, it means the user was redirected here by
+				// UploadController (signature with file uploaded by user). We'll set the path of the file to
+				// be signed, which was saved in the App_Data folder by UploadController.
+				signatureStarter.SetFileToSign(userfilePath);
 
 			}
 
@@ -100,7 +100,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			base.SetNoCacheHeaders();
 
 			// Render the signature page with the token obtained from REST PKI.
-			return View(new CadesSignatureModel() {
+			return View(new SignatureModel() {
 				Token = token,
 				UserFile = userfile,
 				CmsFile = cmsfile
@@ -112,15 +112,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * signature.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Index(CadesSignatureModel model) {
+		public async Task<ActionResult> Index(SignatureModel model) {
 
 			// Get an instance of the CadesSignatureFinisher2 class, responsible for completing the signature
 			// process.
 			var signatureFinisher = new CadesSignatureFinisher2(Util.GetRestPkiClient()) {
-
+		
 				// Set the token for this signature (rendered in a hidden input field, see the view).
 				Token = model.Token
-
 			};
 
 			// Call the Finish() method, which finalizes the signature process and returns a

@@ -5,6 +5,15 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Classes {
+
+	public enum SampleDocs {
+		SamplePdf = 0,
+		PdfSignedOnce,
+		PdfSignedTwice,
+		CmsSignedOnce,
+		CmsSignedTwice
+	}
+
 	public class StorageMock {
 
 		public static string AppDataPath {
@@ -19,69 +28,44 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			}
 		}
 
-		public static string Store(Stream stream, string extension = "", string filename = null) {
-
-			if (!Directory.Exists(AppDataPath)) {
-				Directory.CreateDirectory(AppDataPath);
-			}
-
-			if (string.IsNullOrEmpty(filename)) {
-				filename = Guid.NewGuid() + extension;
-			}
-			var path = Path.Combine(AppDataPath, filename.Replace("_", "."));
-			using (var fileStream = File.Create(path)) {
-				stream.CopyTo(fileStream);
-			}
-
-			return filename.Replace(".", "_");
-			// Note: we're passing the filename argument with "." as "_" because of limitations of
-			// ASP.NET MVC.
-		}
-
-		public static Stream CreateFile(string extension, out string fileId) {
-
-			var appDataPath = HttpContext.Current.Server.MapPath("~/App_Data");
-			if (!Directory.Exists(appDataPath)) {
-				Directory.CreateDirectory(appDataPath);
-			}
-			var filename = Guid.NewGuid() + extension;
-			fileId = filename.Replace('.', '_');
-			return File.Create(Path.Combine(appDataPath, filename));
-		}
-
-		public static bool TryGetFile(string fileId, out byte[] content, out string extension) {
+		public static bool TryGetFile(string fileId, out byte[] content) {
 			content = null;
-			extension = null;
+
 			if (string.IsNullOrEmpty(fileId)) {
 				return false;
 			}
 			var filename = fileId.Replace('_', '.');
+			// Note: we're receiving the fileId argument with "_" as "." because of limitations of ASP.NET MVC.
+
 			var path = Path.Combine(AppDataPath, filename);
 			var fileInfo = new FileInfo(path);
 			if (!fileInfo.Exists) {
 				return false;
 			}
-			extension = fileInfo.Extension;
 			content = File.ReadAllBytes(path);
 			return true;
 		}
 
-		public static string Store(byte[] content, string extension = "", string filename = null) {
-			string fileId;
-			using (var stream = new MemoryStream(content)) {
-				fileId = Store(stream, extension, filename);
+		public static bool TryGetFile(string fileId, out string absolutePath) {
+			absolutePath = null;
+
+			if (string.IsNullOrEmpty(fileId)) {
+				return false;
 			}
-			return fileId;
+			var filename = fileId.Replace('_', '.');
+			// Note: we're receiving the fileId argument with "_" as "." because of limitations of ASP.NET MVC.
+
+			absolutePath = Path.Combine(AppDataPath, filename);
+			var fileInfo = new FileInfo(absolutePath);
+			if (!fileInfo.Exists) {
+				return false;
+			}
+			return true;
 		}
 
 		public static Stream OpenRead(string filename) {
-			string extension;
-			return OpenRead(filename, out extension);
-		}
 
-		public static Stream OpenRead(string filename, out string extension) {
-
-			if (filename == null) {
+			if (string.IsNullOrEmpty(filename)) {
 				throw new ArgumentNullException("fileId");
 			}
 
@@ -90,22 +74,18 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			if (!fileInfo.Exists) {
 				throw new FileNotFoundException("File not found: " + filename);
 			}
-			extension = fileInfo.Extension;
 			return fileInfo.OpenRead();
 		}
 
 		public static byte[] Read(string fileId) {
-			string extension;
-			return Read(fileId, out extension);
-		}
 
-		public static byte[] Read(string fileId, out string extension) {
-
+			if (string.IsNullOrEmpty(fileId)) {
+				throw new ArgumentNullException("fileId");
+			}
 			var filename = fileId.Replace("_", ".");
-			// Note: we're receiving the fileId argument with "_" as "." because of limitations of
-			// ASP.NET MVC.
+			// Note: we're receiving the fileId argument with "_" as "." because of limitations of ASP.NET MVC.
 
-			using (var inputStream = OpenRead(filename, out extension)) {
+			using (var inputStream = OpenRead(filename)) {
 				using (var buffer = new MemoryStream()) {
 					inputStream.CopyTo(buffer);
 					return buffer.ToArray();
@@ -113,8 +93,48 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			}
 		}
 
-		internal static string Store(object indexStream, string v) {
-			throw new NotImplementedException();
+		public static byte[] Read(string fileId, out string filename) {
+
+			if (string.IsNullOrEmpty(fileId)) {
+				throw new ArgumentNullException("fileId");
+			}
+			filename = fileId.Replace("_", ".");
+			// Note: we're receiving the fileId argument with "_" as "." because of limitations of ASP.NET MVC.
+
+			using (var inputStream = OpenRead(filename)) {
+				using (var buffer = new MemoryStream()) {
+					inputStream.CopyTo(buffer);
+					return buffer.ToArray();
+				}
+			}
+		}
+
+		public static string Store(Stream stream, string extension = "", string filename = null) {
+
+			// Guarantees that the "App_Data" folder exists.
+			if (!Directory.Exists(AppDataPath)) {
+				Directory.CreateDirectory(AppDataPath);
+			}
+
+			if (string.IsNullOrEmpty(filename)) {
+				filename = Guid.NewGuid() + extension;
+			}
+
+			var path = Path.Combine(AppDataPath, filename.Replace("_", "."));
+			using (var fileStream = File.Create(path)) {
+				stream.CopyTo(fileStream);
+			}
+
+			return filename.Replace(".", "_");
+			// Note: we're passing the filename argument with "." as "_" because of limitations of ASP.NET MVC.
+		}
+
+		public static string Store(byte[] content, string extension = "", string filename = null) {
+			string fileId;
+			using (var stream = new MemoryStream(content)) {
+				fileId = Store(stream, extension, filename);
+			}
+			return fileId;
 		}
 
 		/// <summary>
@@ -153,6 +173,52 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return HttpContext.Current.Session[string.Format("Codes/{0}", code)] as string;
 		}
 
+		public static string GetSampleDocPath(SampleDocs fileId) {
+			string filename;
+			return GetSampleDocPath(fileId, out filename);
+		}
+
+		public static string GetSampleDocPath(SampleDocs fileId, out string filename) {
+			filename = null;
+
+			string path;
+			switch (fileId) {
+				case SampleDocs.SamplePdf:
+					filename = "SampleDocument.pdf";
+					path = GetSampleDocPath();
+					break;
+				case SampleDocs.PdfSignedOnce:
+					filename = "SamplePdfSignedOnce.pdf";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				case SampleDocs.PdfSignedTwice:
+					filename = "SamplePdfSignedTwice.pdf";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				case SampleDocs.CmsSignedOnce:
+					filename = "SampleCms.p7s";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				case SampleDocs.CmsSignedTwice:
+					filename = "SampleCmsSignedTwice.p7s";
+					path = Path.Combine(ContentPath, "SampleDocument.pdf");
+					break;
+				default:
+					throw new InvalidOperationException();
+			}
+			return path;
+		}
+
+		public static byte[] GetSampleDocContent(SampleDocs fileId) {
+			string filename;
+			return GetSampleDocContent(fileId, out filename);
+		}
+
+		public static byte[] GetSampleDocContent(SampleDocs fileId, out string filename) {
+			var path = GetSampleDocPath(fileId, out filename);
+			return File.ReadAllBytes(path);
+		}
+
 		public static string GetSampleDocPath() {
 			return Path.Combine(ContentPath, "SampleDocument.pdf");
 		}
@@ -173,15 +239,6 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return File.ReadAllBytes(Path.Combine(ContentPath, "SampleNFe.xml"));
 		}
 
-		public static byte[] GetIcpBrasilLogoContent() {
-			return File.ReadAllBytes(Path.Combine(ContentPath, "icp-brasil.png"));
-		}
-
-		public static byte[] GetValidationResultIcon(bool isValid) {
-			var filename = isValid ? "ok.png" : "not-ok.png";
-			return File.ReadAllBytes(Path.Combine(ContentPath, filename));
-		}
-
 		public static string GetSampleXmlDocumentPath() {
 			return Path.Combine(ContentPath, "SampleDocument.xml");
 		}
@@ -189,7 +246,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return Path.Combine(ContentPath, string.Format("{0:D2}.pdf", id % 10));
 		}
 
-		public static byte[] GetSampleCodEnvelope() {
+		public static byte[] GetSampleCodEnvelopeContent() {
 			return File.ReadAllBytes(Path.Combine(ContentPath, "SampleCodEnvelope.xml"));
 		}
 
@@ -199,6 +256,19 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 
 		public static string GetSampleManifestPath() {
 			return Path.Combine(ContentPath, "EventoManifesto.xml");
+		}
+
+		public static string GetSampleBStampedPath() {
+			return Path.Combine(ContentPath, "BStamped.pdf");
+		}
+
+		public static byte[] GetIcpBrasilLogoContent() {
+			return File.ReadAllBytes(Path.Combine(ContentPath, "icp-brasil.png"));
+		}
+
+		public static byte[] GetValidationResultIcon(bool isValid) {
+			var filename = isValid ? "ok.png" : "not-ok.png";
+			return File.ReadAllBytes(Path.Combine(ContentPath, filename));
 		}
 
 	}

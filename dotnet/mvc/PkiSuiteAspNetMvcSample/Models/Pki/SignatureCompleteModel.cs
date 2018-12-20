@@ -6,6 +6,9 @@ using System.Web;
 namespace PkiSuiteAspNetMvcSample.Models.Pki {
 	public class SignatureCompleteModel {
 
+		public string UserFile { get; set; }
+		public string CmsFile { get; set; }
+
 		public byte[] CertThumb { get; set; }
 		public string CertThumbBase64 {
 			get {
@@ -46,16 +49,7 @@ namespace PkiSuiteAspNetMvcSample.Models.Pki {
 			}
 		}
 
-		public byte[] TransferData { get; set; }
-		public string TransferDataBase64 {
-			get {
-				return TransferData != null ? Convert.ToBase64String(TransferData) : "";
-			}
-			set {
-				TransferData = !string.IsNullOrEmpty(value) ? Convert.FromBase64String(value) : null;
-			}
-		}
-
+		public string TransferDataFileId { get; set; }
 		public string DigestAlgorithmOid { get; set; }
 
 		public byte[] Signature { get; set; }

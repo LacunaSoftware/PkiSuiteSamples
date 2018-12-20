@@ -12,7 +12,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class AuthenticationRestPkiController : BaseController {
 
 		/**
-		 * GET: Authentication/WithRestPki
+		 * GET: AuthenticationRestPki
 		 * 
 		 * This action initiates an authentication with REST PKI and renders the authentication page.
 		 */
@@ -22,10 +22,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Get an instance of the Authentication class.
 			var auth = Util.GetRestPkiClient().GetAuthentication();
 
-			// Call the StartWithWebPkiAsync() method, which initiates the authentication. This yields the
+			// Call the StartWithWebPki() method, which initiates the authentication. This yields the
 			// "token", a 22-character case-sensitive URL-safe string, which represents this authentication
 			// process. We'll use this value to call the signWithRestPki() method on the Web PKI component
-			// (see javascript on the view) and also to call the CompleteWithWebPkiAsync() method on the POST
+			// (see javascript on the view) and also to call the CompleteWithWebPki() method on the POST
 			// action below (this should not be mistaken with the API access token). We have encapsulated the
 			// security context choice on Util.cs.
 			var token = await auth.StartWithWebPkiAsync(Util.GetSecurityContextId());
@@ -45,7 +45,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: Authentication/WithRestPki
+		 * POST: AuthenticationRestPki
 		 * 
 		 * This action receives the form submission form the view. We'll call REST PKI to validate the
 		 * authentication.
@@ -56,7 +56,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Get an instance of the Authentication class.
 			var auth = Util.GetRestPkiClient().GetAuthentication();
 
-			// Call the CompleteWithWebPkiAsync() method with the token, which finalizes the authentication
+			// Call the CompleteWithWebPki() method with the token, which finalizes the authentication
 			// process. The call yields a ValidationResults which denotes whether the authentication was
 			// successful or not.
 			var validationResults = await auth.CompleteWithWebPkiAsync(model.Token);
@@ -74,7 +74,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// field to be used as key depends on your application's business logic) and set the user ID on
 			// the auth cookie. For demonstration purposes, we'll set the email address directly on the
 			// cookie as if it were the user ID.
-			return View("Success", new AuthenticationSuccessModel() {
+			return View("Success", new AuthenticationInfoModel() {
 				UserCert = auth.GetCertificate()
 			});
 		}
