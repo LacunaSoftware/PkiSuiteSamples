@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+
+	h2(class='ls-title') PAdES Signature with PKI Express
+
+	p File signed successfully!
+
+	h3 Actions:
+	ul
+		li
+			a(href=`/download?fileId=${signedPdf}`, target='_blank') Download the signed file
+		li
+			a(href=`/pades-signature-express?fileId=${signedPdf}`) Co-sign with another certificate
