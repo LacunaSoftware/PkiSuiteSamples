@@ -1,4 +1,4 @@
-# PKI Suite Samples for Ruby
+# PKI Suite samples for Ruby
 
 This folder contains **Ruby sample projects** demonstrating the usage of Lacuna Software's
 **[PKI Suite](https://www.lacunasoftware.com/pki-suite)**.
