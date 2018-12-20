@@ -1,4 +1,4 @@
-from os import path
+import os
 
 from flask import render_template
 from flask import make_response
@@ -10,7 +10,7 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
-blueprint = Blueprint(path.basename(__name__), __name__,
+blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/authentication-restpki')
 
 

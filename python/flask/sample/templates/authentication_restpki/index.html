@@ -2,33 +2,33 @@
 
 {% block content %}
 
-<h2 class="ls-title">Authentication with REST PKI</h2>
+	<h2 class="ls-title">Authentication with REST PKI</h2>
 
-<form id="signInForm" method="POST">
+	<form id="signInForm" method="POST">
 
-	<!-- Render the $token in a hidden input field. -->
-	<input type="hidden" id="token" name="token" value="{{ token }}">
+		<!-- Render the $token in a hidden input field. -->
+		<input type="hidden" id="token" name="token" value="{{ token }}">
 
-	<!--
-		Render a select (combo box) to list the user's certificates. For now
-		it will be empty, we'll populate it later on
-		(see signature-form.js).
-	-->
-	<div class="form-group">
-		<label for="certificateSelect">Choose a certificate</label>
-		<select id="certificateSelect" class="form-control"></select>
-	</div>
+		<!--
+			Render a select (combo box) to list the user's certificates. For now
+			it will be empty, we'll populate it later on
+			(see signature-form.js).
+		-->
+		<div class="form-group">
+			<label for="certificateSelect">Choose a certificate</label>
+			<select id="certificateSelect" class="form-control"></select>
+		</div>
 
-	<!--
-		Action buttons. Notice that the "Sign In" button is NOT a submit
-		button. When the user clicks the button, we must first use the
-		Web PKI component to perform the client-side computation necessary
-		and only when that computation is finished we'll submit the form
-		programmatically (see signature-form.js).
-	-->
-	<button id="signInButton" type="button" class="btn btn-primary">Sign In</button>
-	<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
-</form>
+		<!--
+			Action buttons. Notice that the "Sign In" button is NOT a submit
+			button. When the user clicks the button, we must first use the
+			Web PKI component to perform the client-side computation necessary
+			and only when that computation is finished we'll submit the form
+			programmatically (see signature-form.js).
+		-->
+		<button id="signInButton" type="button" class="btn btn-primary">Sign In</button>
+		<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+	</form>
 
 {% endblock %}
 

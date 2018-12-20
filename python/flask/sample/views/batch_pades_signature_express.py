@@ -22,7 +22,7 @@ from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import set_pki_defaults
 
 
-blueprint = Blueprint('batch_pades_signature_express', __name__,
+blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/batch-pades-signature-express')
 
 @blueprint.route('/')

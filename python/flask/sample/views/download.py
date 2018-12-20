@@ -1,9 +1,12 @@
+import os
+
 from flask import send_from_directory
 from flask import current_app
 from flask import Blueprint
 
 
-blueprint = Blueprint('download', __name__, url_prefix='/files')
+blueprint = Blueprint(os.path.basename(__name__), __name__,
+                      url_prefix='/download')
 
 
 @blueprint.route('/<filename>')
