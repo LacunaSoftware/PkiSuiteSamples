@@ -8,9 +8,10 @@ For other languages, please visit the [repository root](https://github.com/Lacun
 Default sample (Express.js MVC)
 -------------------------------
 
-A sample using **Express.js** to build web application can be found in the folder [expressmvc](expressmvc/)
+A sample using **Express.js** to build a web application can be found in the folder [expressmvc](expressmvc/)
 
 Steps to execute the sample:
+
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
 
@@ -21,7 +22,7 @@ Steps to execute the sample:
 
 1. Run application: `npm start`
 
-1. Access the URL [http://localhost:3000](http://localhost:3000)
+1. Access the URL http://localhost:3000
 
 > If you use [Yarn](https://yarnpkg.com), you can use `yarn install` or `yarn` to **download the dependencies** and
 > `yarn start` to **run the application**.

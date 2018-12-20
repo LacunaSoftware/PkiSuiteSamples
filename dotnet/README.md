@@ -8,14 +8,14 @@ For other languages, please visit the [repository root](https://github.com/Lacun
 Default sample (ASP.NET MVC)
 ----------------------------
 
-A sample using **ASP.NET MVC** can be found in the folder [MVC](MVC/).
+A sample using **ASP.NET MVC** can be found in the folder [mvc](mvc/).
 
 Steps to execute the sample:
 
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip)
    or clone the repository
 
-1. Open the desired project folder -- [MVC](mvc/) or one of the other projects (see below) 
+1. Open the desired project folder -- [mvc](mvc/) or one of the other projects (see below) 
 
 1. Open the solution file (.sln) on Visual Studio
    
@@ -30,17 +30,11 @@ Steps to execute the sample:
 ASP.NET Web API
 ---------------
 
-A sample using **ASP.NET Web API** can be found in the folder [webapi](webapi/).
-The steps to execute the sample are the same as for the default sample.
-
 **NOTICE:** This sample is currently being migrated. For now, please visit
 https://github.com/LacunaSoftware/PkiSdkSamples/tree/master/WebAPI
 
 ASP.NET Web Forms sample
 ------------------------
-
-A sample using **ASP.NET Web Forms** can be found in the folder [webforms](webforms/).
-The steps to execute the sample are the same as for the default sample.
 
 **NOTICE:** This sample is currently being migrated. For now, please visit
 https://github.com/LacunaSoftware/RestPkiSamples/tree/master/CSharp/WebForms or
@@ -48,8 +42,6 @@ https://github.com/LacunaSoftware/PkiSdkSamples/tree/master/WebForms
 
 ASP.NET Core Web application sample
 -----------------------------------
-
-A sample using the new **ASP.NET Core** technology can be found in the folder [core](core/).
 
 **NOTICE:** This sample is currently being migrated. For now, please visit
 https://github.com/LacunaSoftware/RestPkiSamples/tree/master/CSharp/AspNetCore
@@ -67,3 +59,4 @@ See also
 * [Test certificates](https://docs.lacunasoftware.com/articles/pki-guide/test-certs)
 * [Samples in other programming languages](https://github.com/LacunaSoftware/PkiSuiteSamples)
 * [REST PKI .NET client lib on Nuget](https://www.nuget.org/packages/Lacuna.RestPki.Client)
+* [PKI SDK on Nuget](https://www.nuget.org/packages/Lacuna.Pki/)
