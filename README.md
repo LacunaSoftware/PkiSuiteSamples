@@ -14,7 +14,6 @@ Choose one of the following programming languages to see the available sample pr
 
 ## See also
 
-* [Sample projects in other programming languages](../README.md)
 * [PKI Suite demos](https://demos.lacunasoftware.com/)
 * [Documentation](https://docs.lacunasoftware.com/)
 * [Test certificates](https://docs.lacunasoftware.com/articles/pki-guide/test-certs)
