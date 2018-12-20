@@ -1,3 +1,5 @@
+from os import path
+
 from flask import render_template
 from flask import make_response
 from flask import request
@@ -8,7 +10,7 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
-blueprint = Blueprint('authentication_restpki', __name__,
+blueprint = Blueprint(path.basename(__name__), __name__,
                       url_prefix='/authentication-restpki')
 
 
@@ -52,7 +54,7 @@ def index():
         return render_template('error.html', msg=e)
 
 
-@blueprint.route('/action', methods=['POST'])
+@blueprint.route('/', methods=['POST'])
 def action():
     """
 
@@ -77,27 +79,31 @@ def action():
         # (we'll use it to render the page accordingly, see below).
         result = auth.complete_with_webpki(token)
 
-        vr_html = str(result.validation_results)
-        vr_html = vr_html.replace('\n', '<br/>')
-        vr_html = vr_html.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
+        vr = result.validation_results
 
-        user_cert = None
-        if result.validation_results.is_valid:
-            # At this point, you have assurance that the certificate is valid
-            # according to the SecurityContext specified on the method
-            # start_with_webpki() and that the user is indeed the certificate's
-            # subject. Now, you'd typically query your database for a user that
-            # matches one of the certificate's fields, such as
-            # user_cert.emailAddress or user_cert.pki_brazil.cpf (the actual
-            # field to be used as key depends on your application's business
-            # logic) and set the user as authenticated with whatever web
-            # security framework your application uses. For demonstration
-            # purposes, we'll just render the user's certificate information.
-            user_cert = result.certificate
+        if not vr.is_valid:
+            # If the authenticationw as not successful, we render a page showing
+            # what went wrong
+            vr_html = str(vr)
+            vr_html = vr_html.replace('\n', '<br/>')
+            vr_html = vr_html.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
 
-        return render_template('authentication_restpki/action.html',
-                               valid=result.validation_results.is_valid,
-                               vr_html=vr_html,
+            return render_template('authentication_restpki/failed.html',
+                                   vr_html=vr_html)
+
+        # At this point, you have assurance that the certificate is valid
+        # according to the SecurityContext specified on the method
+        # start_with_webpki() and that the user is indeed the certificate's
+        # subject. Now, you'd typically query your database for a user that
+        # matches one of the certificate's fields, such as
+        # user_cert.emailAddress or user_cert.pki_brazil.cpf (the actual
+        # field to be used as key depends on your application's business
+        # logic) and set the user as authenticated with whatever web
+        # security framework your application uses. For demonstration
+        # purposes, we'll just render the user's certificate information.
+        user_cert = result.certificate
+
+        return render_template('authentication_restpki/success.html',
                                user_cert=user_cert)
 
     except Exception as e:

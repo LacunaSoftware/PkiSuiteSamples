@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="ls-title">Authentication with REST PKI</h2>
+
+<h5>Authentication failed <i class="fas fa-times-circle" style="color: red;"></i></h5>
+<!--
+The $vr object can be used as a string, but the string contains tabs and
+new line characters for formatting, which we'll convert to <br>'s and
+&nbsp;'s.
+-->
+<p>{{ vr_html|safe }}</p>
+
+<p><a href="/authentication-restpki" class="btn btn-primary">Try again</a></p>
+{% endblock %}
