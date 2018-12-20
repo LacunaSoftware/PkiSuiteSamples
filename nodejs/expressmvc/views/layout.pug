@@ -1,0 +1,43 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		title Express.js MVC Samples
+		base(href='/')
+
+		link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
+		link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.2.0/css/all.css', integrity='sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ', crossorigin='anonymous')
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css', integrity='sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK', crossorigin='anonymous')
+		link(rel='stylesheet', href='https://cdn.lacunasoftware.com/lacuna.31ae2c49ab114167d42a.css')
+		block styles
+
+body
+	nav(class='navbar navbar-expand-lg navbar-dark bg-dark')
+		div(class='container')
+			a(class='navbar-brand' href='/') Express.js MVC Samples
+
+	div(class='body-content container')
+		div(id='messagesPanel')
+		block content
+
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', integrity='sha384-bPV3mA2eo3edoq56VzcPBmG1N1QVUfjYMxVIJPPzyFJyFZ8GFfN7Npt06Zr23qts', crossorigin='anonymous')
+	script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT', crossorigin = 'anonymous')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', integrity='sha384-Ct2s0NBxEbvJlnXHOZJheqOGKjX3Q4ewsYoJZYnLz/teMXnlGhim5o9305EkvlsN', crossorigin='anonymous')
+	script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js')
+
+	script.
+		var _webPkiLicense = '#{webPkiLicense}';
+		var _restPkiEndpoint = '#{restPkiEndpoint}';
+
+		// Global method to add an alert on "messagePanel".
+		function addAlert(type, message) {
+			$('#messagesPanel').append(
+				'<div class="alert alert-' + type + ' alert-dismissible">' +
+				'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><span class="fas fa-times"></span></span></button>' +
+				'<span>' + message + '</span>' +
+				'</div>');
+		}
+
+	block scripts
