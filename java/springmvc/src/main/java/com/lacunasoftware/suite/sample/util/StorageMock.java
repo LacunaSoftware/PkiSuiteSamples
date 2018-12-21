@@ -127,7 +127,7 @@ public class StorageMock {
 
 	public static String store(InputStream stream, String extension, String filename) throws IOException {
 
-		if (!Util.isNullOrEmpty(filename)) {
+		if (Util.isNullOrEmpty(filename)) {
 			filename = generateFilename(extension, filename);
 		}
 
