@@ -13,7 +13,7 @@
 	SampleRoutes = {
 		authCert: {
 			//express: '/authentication-restpki',
-			restpki: '/authentication-restpki'
+			restpki: '/check-restpki-token/authentication'
 		},
 
 		// cosignCms: { },
@@ -31,16 +31,16 @@
 		// 	restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
 		// },
 		signCmsUser: {
-			express: '/upload/cades-signature-express',
-			restpki: '/upload/cades-signature-restpki'
+			express: '/check-pki-express/upload/cades-signature',
+			restpki: '/check-restpki-token/upload/cades-signature'
 		},
 		// signCmsServerKey: { },
 		// signCod: { },
 		// signMultiCmsServer: { },
 		// signMultiCmsUser: { },
 		signMultiPdfServer: {
-			express: '/batch-pades-signature-express',
-			restpki: '/batch-pades-signature-restpki'
+			express: '/check-pki-express/batch-pades-signature',
+			restpki: '/check-restpki-token/batch-pades-signature'
 		},
 		// signMultiPdfUser: { },
 		// signNfe: { },
@@ -49,8 +49,8 @@
 		// 	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
 		// },
 		signPdfUser: {
-			express: '/upload/pades-signature-express',
-			restpki: '/upload/pades-signature-restpki'
+			express: '/check-pki-express/upload/pades-signature',
+			restpki: '/check-restpki-token/upload/pades-signature'
 		}
 		// signPdfServerKey: { },
 		// signXmlServer: { },
