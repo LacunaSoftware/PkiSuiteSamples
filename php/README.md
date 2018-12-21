@@ -15,16 +15,15 @@ Steps to execute the sample:
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
    
-1. Generate an API access token on the [REST PKI website](https://pki.rest/) and paster
-   your token on the file `config.php`
-   
 1. Install dependencies: `composer install`
 
 1. Run application: `composer start`
 
 1. Access the URL http://localhost:8000
 
-> This sample requires **PHP 5.5+**. If you're doing another version of PHP, please see below.
+> This sample requires **PHP 5.5+**. If you're doing another version of PHP, please visit our legacy samples
+for [PHP 5.3 and 5.4](https://github.com/LacunaSoftware/RestPkiSamples/tree/master/PHP/legacy) or for
+[PHP 5.2](https://github.com/LacunaSoftware/RestPkiSamples/tree/master/PHP/legacy52).
 
 REST PKI's client lib
 ---------------------

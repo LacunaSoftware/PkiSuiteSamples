@@ -9,36 +9,32 @@ Default sample
 --------------
 
 A sample for a Java web application using the Spring Boot framework can be found in the folder
-[springmvc](springmvc). The sample uses spring boot to provide a self-contained web application,
+[springmvc](springmvc/). The sample uses spring boot to provide a self-contained web application,
 not requiring a web server installed. The only requirement is **having a JDK installed**.
-
-To config this project, follow these steps:
-
-1. [Install PKI Express](https://docs.lacunasoftware.com/articles/pki-express/setup/)
-
-1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip)
-   or clone the repository
-
-1. Generate an API access token on the [REST PKI website](https://pki.rest/) and
-   paste your token on the file `java/springmvc/src/main/resources/application.yml` of the project.
 
 To run, you can use the following tools:
 
 **Using Gradle**
+
+1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip)
+   or clone the repository
    
-1. In a command prompt, navigate to the folder `java/springmvc` and run the command
+1. In a command prompt, navigate to the folder `springmvc` and run the command
    `gradlew bootRun` (on Linux `./gradlew bootRun`). If you are using Windows, you can alternatively
    double-click the file `Run-Sample.bat`.
   
 1. Once you see the message "Started Application in x.xxx seconds" (the on-screen percentage
    will *not* reach 100%), open a web browser and go the URL http://localhost:60695
    
-> If you are on Linux, you may have to add the execution permission to *gradrew* file by executing the command
-`chmod +x gradlew`.
+> If you are on Linux, you may have to add the execution permission to *gradrew* file by executing
+the command `chmod +x gradlew`.
 
 **Using Maven**
 
-1. In a command prompt, navigate to the folder `java/springmvc` and run the command
+1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip)
+   or clone the repository
+
+1. In a command prompt, navigate to the folder `springmvc` and run the command
    `mvn spring-boot:run`. To run this command, it's necessary to have the Apache Maven installed.
    
 1. Once you see the message "Started Application in x.xxx seconds", open a web browser and go the URL
@@ -56,9 +52,9 @@ and then use the "Open" funcionality inside IDEA (works better than "Import").
 REST PKI's client lib
 ---------------------
 
-The samples use a client lib which encapsulates the API calls to REST PKI. This library supports **Java 7 or greater**.
-The lib should be **referenced as a dependency**, as can be seen in the file [build.gradle](springmvc/build.gradle)
-of each sample:
+The samples use a client lib which encapsulates the API calls to REST PKI. This library
+supports **Java 7 or greater**. The lib should be **referenced as a dependency**, as can
+be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 
 	repositories {
 		mavenCentral()

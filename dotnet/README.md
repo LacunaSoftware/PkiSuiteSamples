@@ -15,14 +15,9 @@ Steps to execute the sample:
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip)
    or clone the repository
 
-1. Open the desired project folder -- [mvc](mvc/) or one of the other projects (see below) 
+1. Open the folder of the desired project `mvc`
 
 1. Open the solution file (.sln) on Visual Studio
-   
-1. Generate an API access token on the [REST PKI website](https://pki.rest/) and
-   paste your token on the file `web.config`
-   
-1. Copy your SDK license file (`LacunaPkiLicense.config`) to the folder `mvc\PkiSuiteAspNetMvcSample`
    
 1. Run the solution. Make sure your system allows automatic Nuget package restore (if it doesn't,
    manually restore the packages).
@@ -46,10 +41,10 @@ ASP.NET Core Web application sample
 **NOTICE:** This sample is currently being migrated. For now, please visit
 https://github.com/LacunaSoftware/RestPkiSamples/tree/master/CSharp/AspNetCore
 
-.NET client lib
----------------
+REST PKI's client lib
+---------------------
 
-The samples use the Nuget package [Lacuna.RestPki.Client](https://www.nuget.org/packages/Lacuna.RestPki.Client/),
+The REST PKI's samples use the Nuget package [Lacuna.RestPki.Client](https://www.nuget.org/packages/Lacuna.RestPki.Client/),
 a library which encapsulates the API calls to REST PKI. It supports .NET Frameworks 3.5, 4.0 and 4.5 as well as
 .NET Standard 1.3 (for usage on .NET Core, Xamarin, Mono and UWP).
 
