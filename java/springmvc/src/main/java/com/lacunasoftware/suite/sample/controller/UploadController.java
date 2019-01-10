@@ -20,15 +20,19 @@ import java.io.InputStream;
 public class UploadController {
 
 	@RequestMapping(value = "/upload", method = {RequestMethod.GET})
-	public String get(@RequestParam String rc) {
+	public String get() {
 		return "upload/index";
 	}
 
 	@RequestMapping(value = "/upload", method = {RequestMethod.POST})
-	public String post(@RequestParam String rc, @RequestParam MultipartFile userfile) throws IOException {
+	public String post(
+			@RequestParam String rc,
+			@RequestParam MultipartFile userfile
+	) throws IOException {
 		InputStream fileStream = userfile.getInputStream();
 		String originalFilename = userfile.getOriginalFilename();
 		String fileId = StorageMock.store(fileStream, null, originalFilename);
+
 		return String.format("redirect:/%s?fileId=%s", rc, fileId);
 	}
 

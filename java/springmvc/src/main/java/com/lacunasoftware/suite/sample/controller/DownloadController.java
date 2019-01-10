@@ -18,7 +18,7 @@ public class DownloadController {
 	@RequestMapping("/download/{fileId:.+}")
 	public void get(
 		HttpServletResponse httpResponse,
-		@PathVariable("fileId") String fileId
+		@PathVariable String fileId
 	) throws IOException {
 
 		if (Util.isNullOrEmpty(fileId)) {
@@ -38,10 +38,10 @@ public class DownloadController {
 		}
 	}
 
-	@RequestMapping("/download/sample/{id:.+}")
+	@RequestMapping("/download/sample/{sampleId:.+}")
 	public void sample(
 		HttpServletResponse httpResponse,
-		@PathVariable("id") SampleDocs sampleId
+		@PathVariable SampleDocs sampleId
 	) throws IOException {
 
 		httpResponse.setHeader("Content-Disposition", String.format("attachment; filename=%s", StorageMock.getSampleDocName(sampleId)));
@@ -53,7 +53,7 @@ public class DownloadController {
 	@RequestMapping("/download/doc/{id:.+}")
 	public void doc(
 		HttpServletResponse httpResponse,
-		@PathVariable("id") int id
+		@PathVariable int id
 	) throws IOException {
 		httpResponse.setHeader("Content-Disposition", String.format("attachment; filename=%02d.pdf", id));
 		try (OutputStream outStream = httpResponse.getOutputStream()) {

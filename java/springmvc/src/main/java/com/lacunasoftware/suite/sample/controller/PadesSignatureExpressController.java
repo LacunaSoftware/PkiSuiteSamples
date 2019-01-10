@@ -9,6 +9,7 @@ import com.lacunasoftware.suite.sample.util.Util;
 import com.lacunasoftware.suite.sample.util.express.PadesVisualElements;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -121,7 +122,7 @@ public class PadesSignatureExpressController {
 		signatureFinisher.setSignature(signature);
 
 		// Generate path for output file and add to signature finisher.
-		String outputFile = StorageMock.generateFilename("pdf");
+		String outputFile = StorageMock.generateFileId("pdf");
 		signatureFinisher.setOutputFilePath(StorageMock.getDataPath(outputFile));
 
 		// Complete the signature process.

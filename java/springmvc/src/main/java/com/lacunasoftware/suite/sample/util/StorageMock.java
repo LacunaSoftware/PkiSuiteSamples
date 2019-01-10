@@ -98,6 +98,16 @@ public class StorageMock {
 		return sb.toString();
 	}
 
+	public static String generateFileId(String extension) {
+		return generateFileId(extension, null);
+	}
+
+	public static String generateFileId(String extension, String originalFilename) {
+		String filename = generateFilename(extension, originalFilename);
+		return filename.replace('.', '_');
+		// Note: The fileId are generated with "." as "_" because of URL safety.
+	}
+
 	public static String retriveFilename(String fileId) {
 		String filename = fileId.replace('_', '.');
 		int firstIndex = filename.indexOf('.');
@@ -127,17 +137,15 @@ public class StorageMock {
 
 	public static String store(InputStream stream, String extension, String filename) throws IOException {
 
-		if (Util.isNullOrEmpty(filename)) {
-			filename = generateFilename(extension, filename);
-		}
+		String fileId = generateFilename(extension, filename);
 
-		Path path = getTempFolderPath().resolve(filename);
+		Path path = getTempFolderPath().resolve(fileId);
 		try (OutputStream out = new FileOutputStream(path.toFile())) {
 			IOUtils.copy(stream, out);
 		}
 
-		return filename.replace('.', '_');
-		// Note: we're passing the filename arguments with "." as "_" because of URL safety.
+		return fileId.replace('.', '_');
+		// Note: The fileId are generated with "." as "_" because of URL safety.
 	}
 
 	public static String store(byte[] content) throws IOException {
@@ -159,7 +167,7 @@ public class StorageMock {
 	public static String getSampleDocName(SampleDocs sampleId) throws IOException {
 		switch (sampleId) {
 			case SAMPLE_PDF:
-				return "SampleDocument.pdf";
+				return "SamplePdf.pdf";
 			case PDF_SIGNED_ONCE:
 				return "SamplePdfSignedOnce.pdf";
 			case PDF_SIGNED_TWICE:

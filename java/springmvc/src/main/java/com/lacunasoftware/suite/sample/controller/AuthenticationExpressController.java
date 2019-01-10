@@ -102,7 +102,7 @@ public class AuthenticationExpressController {
 			// formatting, which we'll convert to <br>'s and &nbsp;'s.
 			String vrHtml = vr.toString()
 				.replaceAll("\n", "<br>")
-				.replaceAll("\t", "&nbsp;&nbsp;&nbsp;");
+				.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
 			model.addAttribute("vrHtml", vrHtml);
 
 			// Render the authentication failed page (templates/authentication-failed.html)

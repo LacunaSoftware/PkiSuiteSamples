@@ -120,7 +120,7 @@ public class CadesSignatureExpressController {
 		signatureFinisher.setSignature(signature);
 
 		// Generate path for output file and add to signature finisher.
-		String outputFile = StorageMock.generateFilename("p7s");
+		String outputFile = StorageMock.generateFileId("p7s");
 		signatureFinisher.setOutputFilePath(StorageMock.getDataPath(outputFile));
 
 		// Complete the signature process.

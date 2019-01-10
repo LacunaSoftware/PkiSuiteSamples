@@ -59,11 +59,11 @@ public class HomeController {
 
 		if (!Util.isNullOrEmpty(fwd)) {
 			if (!Util.isNullOrEmpty(op)) {
-				return String.format("redirect:/%s?rc=%s-restpki&op=%s", rc, fwd, op);
+				return String.format("redirect:/%s?rc=%s-rest&op=%s", rc, fwd, op);
 			}
-			return String.format("redirect:/%s?rc=%s-restpki", rc, fwd);
+			return String.format("redirect:/%s?rc=%s-rest", rc, fwd);
 		}
-		return String.format("redirect:/%s-restpki", rc);
+		return String.format("redirect:/%s-rest", rc);
 	}
 }
 

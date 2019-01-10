@@ -39,13 +39,13 @@ public class ServerFilesController {
 				availableFiles.add(new ServerFile(SampleDocs.CMS_SIGNED_TWICE, "A sample CMS file that was signed twice."));
 				break;
 			case "cosignPdf":
-			case "printerFriendlyPdf":
+			case "printerFriendly":
 				availableFiles.add(new ServerFile(SampleDocs.PDF_SIGNED_ONCE, "A sample PDF that was signed just once."));
 				availableFiles.add(new ServerFile(SampleDocs.PDF_SIGNED_TWICE, "A sample PDF that was signed twice."));
 				break;
 			case "signCms":
 			case "signPdf":
-				availableFiles.add(new ServerFile(SampleDocs.SAMPLE_PDF, "A sample PDF file to be signed"));
+				availableFiles.add(new ServerFile(SampleDocs.SAMPLE_PDF, "A sample PDF document (size: 25kb) with no signatures."));
 				break;
 			default:
 				throw new FileNotFoundException();
@@ -76,7 +76,9 @@ public class ServerFilesController {
 			fileId = StorageMock.store(fileStream, "pdf", filename);
 		}
 
-		if (model.getIsCmsCoSign()) {
+		// Only the REST PKI sample needs to pass this file as "cosign" variable when cosigning a
+		// CMS file.
+		if (rc.equals("cades-signature-rest") && model.getIsCmsCoSign()) {
 			return String.format("redirect:/%s?cosign=%s", rc, fileId);
 		}
 
