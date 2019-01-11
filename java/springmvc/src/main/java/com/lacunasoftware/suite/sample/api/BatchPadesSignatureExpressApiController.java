@@ -10,25 +10,21 @@ import com.lacunasoftware.suite.sample.api.model.express.BatchSignatureStartResp
 import com.lacunasoftware.suite.sample.util.StorageMock;
 import com.lacunasoftware.suite.sample.util.Util;
 import com.lacunasoftware.suite.sample.util.express.PadesVisualElements;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
+@RequestMapping("/api/batch-signature-express")
 public class BatchPadesSignatureExpressApiController {
 
 	/**
+	 * POST /api/batch-signature-express/start
+	 *
 	 * This action is called asynchronously from the batch signature page in order to initiate the
 	 * signature of each document in the batch.
 	 */
-	@PostMapping("/api/batch-signature-express/start")
+	@PostMapping("/start")
 	public BatchSignatureStartResponse start(BatchSignatureStartRequest request) throws IOException {
 
 		// Get an instance of the PadesSignatureStarter class, responsible for receiving the
@@ -72,10 +68,12 @@ public class BatchPadesSignatureExpressApiController {
 	}
 
 	/**
+	 * POST /api/batch-signature-express/complete
+	 *
 	 * This action is called asynchronously form the batch signature page in order to complete the
 	 * signature of each document in the batch.
 	 */
-	@PostMapping("/api/batch-signature-express/complete")
+	@PostMapping("/complete")
 	public String complete(BatchSignatureCompleteRequest request) throws IOException {
 
 		// Get an instance of the SignatureFinisher class, responsible for completing the signature

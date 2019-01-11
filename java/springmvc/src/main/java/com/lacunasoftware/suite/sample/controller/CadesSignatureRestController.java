@@ -3,12 +3,9 @@ package com.lacunasoftware.suite.sample.controller;
 import com.lacunasoftware.restpki.*;
 import com.lacunasoftware.suite.sample.util.StorageMock;
 import com.lacunasoftware.suite.sample.util.Util;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
@@ -17,12 +14,16 @@ import java.io.InputStream;
 import java.nio.file.Path;
 
 @Controller
+@RequestMapping("/cades-signature-rest")
 public class CadesSignatureRestController {
 
 	/**
+	 * GET /cades-signature-rest?fileId={fileToSign}
+	 * GET /cades-signature-rest?cosign={cmsToCoSign}
+	 *
 	 * This action initiates a CAdES signature using REST PKI and renders the signature page.
 	 */
-	@RequestMapping(value = "/cades-signature-rest", method = {RequestMethod.GET})
+	@GetMapping
 	public String get(
 		@RequestParam(value="fileId", required=false) String fileToSign,
 		@RequestParam(value="cosign", required=false) String cmsToCoSign,
@@ -106,14 +107,13 @@ public class CadesSignatureRestController {
 	}
 
 	/**
+	 * POST /cades-signature-rest
+	 *
 	 * This action receives the form submission from the signature page. We'll call REST PKI to
 	 * complete the signature.
 	 */
-	@RequestMapping(value = "/cades-signature-rest", method = {RequestMethod.POST})
-	public String post(
-		@RequestParam(value = "token") String token,
-		Model model
-	) throws IOException, RestException {
+	@PostMapping
+	public String post(@RequestParam String token, Model model) throws IOException, RestException {
 
 		// Get an instance the CadesSignatureFinisher2 class, responsible for completing the
 		// signature process.

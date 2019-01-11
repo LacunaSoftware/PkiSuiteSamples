@@ -6,24 +6,24 @@ import com.lacunasoftware.suite.sample.util.Util;
 import com.lacunasoftware.suite.sample.util.restpki.PadesVisualElements;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 
 
 @Controller
+@RequestMapping("/pades-signature-rest")
 public class PadesSignatureRestController {
 
 	/**
+	 * GET /pades-signature-rest
+	 *
 	 * This action initiates a PAdES signature using REST PKI and renders the signature page.
 	 */
-	@RequestMapping(value = "/pades-signature-rest", method = {RequestMethod.GET})
+	@GetMapping
 	public String get(
 		@RequestParam(value = "fileId") String fileToSign,
 		Model model,
@@ -93,14 +93,13 @@ public class PadesSignatureRestController {
 	}
 
 	/**
+	 * POST /pades-signature-rest
+	 *
 	 * This action receives the form submission from the signature page. We'll call REST PKI to
 	 * complete the signature.
 	 */
-	@RequestMapping(value = "/pades-signature-rest", method = {RequestMethod.POST})
-	public String post(
-		@RequestParam String token,
-		Model model
-	) throws IOException, RestException {
+	@PostMapping
+	public String post(@RequestParam String token, Model model) throws IOException, RestException {
 
 		// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
 		// signature process.

@@ -9,25 +9,22 @@ import com.lacunasoftware.suite.sample.util.Util;
 import com.lacunasoftware.suite.sample.util.express.PadesVisualElements;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Controller
+@RequestMapping("/pades-signature-express")
 public class PadesSignatureExpressController {
 
 	/**
-	 * This action simple renders the page.
+	 * GET /pades-signature-express?fileId={fileToSign}
+	 *
+	 * This action simply renders the page.
 	 */
-	@RequestMapping(value = "/pades-signature-express", method = {RequestMethod.GET})
-	public String get(
-		@RequestParam(value = "fileId") String fileToSign,
-		Model model
-	) throws IOException {
+	@GetMapping
+	public String get(@RequestParam(value = "fileId") String fileToSign) throws IOException {
 
 		// Verify if the fileToSign exists.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
@@ -39,10 +36,12 @@ public class PadesSignatureExpressController {
 	}
 
 	/**
+	 * GET /pades-signature-express/start?fileId={fileToSign}
+	 *
 	 * This action receives the form submission from the signature page. It will perform a PAdES
 	 * signature in three steps using PKI Express and Web PKI.
 	 */
-	@RequestMapping(value = "/pades-signature-express/start", method = {RequestMethod.POST})
+	@PostMapping("/start")
 	public String postStart(
 		@RequestParam(value = "fileId") String fileToSign,
 		@RequestParam String certThumb,
@@ -94,10 +93,12 @@ public class PadesSignatureExpressController {
 	}
 
 	/**
+	 * GET /pades-signature-express/complete?fileId={fileToSign}
+	 *
 	 * This action receives the form submission from the signature page. It will perform a PAdES
 	 * signature in three steps using PKI Express and Web PKI.
 	 */
-	@RequestMapping(value = "/pades-signature-express/complete", method = {RequestMethod.POST})
+	@PostMapping("/complete")
 	public String postComplete(
 		@RequestParam(value = "fileId") String fileToSign,
 		@RequestParam String transferFileId,

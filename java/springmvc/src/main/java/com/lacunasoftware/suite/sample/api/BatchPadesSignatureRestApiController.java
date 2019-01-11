@@ -4,23 +4,22 @@ import com.lacunasoftware.restpki.*;
 import com.lacunasoftware.suite.sample.util.StorageMock;
 import com.lacunasoftware.suite.sample.util.Util;
 import com.lacunasoftware.suite.sample.util.restpki.PadesVisualElements;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
+@RequestMapping("/api/batch-signature-rest")
 public class BatchPadesSignatureRestApiController {
 
 	/**
+	 * POST /api/batch-signature-rest/start/{fileId}
+	 *
 	 * This action is called asynchronously from the batch signature page in order to initiate the
 	 * signature of each document in the batch.
 	 */
-	@PostMapping("/api/batch-signature-rest/start/{fileId:.+}")
+	@PostMapping("/start/{fileId:.+}")
 	public String start(@PathVariable int fileId) throws IOException, RestException {
 
 		// Get an instance of the PadesSignatureStarter2 class, responsible for receiving the
@@ -72,13 +71,12 @@ public class BatchPadesSignatureRestApiController {
 	}
 
 	/**
+	 * POST /api/batch-signature-rest/complete/{token}
+	 *
 	 * This action receives the form submission from the view. We'll call REST PKI to complete the
 	 * signature.
-	 *
-	 * The action can be called as /batch-signature/complete/{token}, passing the
-	 * token as URL parameter.
 	 */
-	@PostMapping("/api/batch-signature-rest/complete/{token:.+}")
+	@PostMapping("/complete/{token:.+}")
 	public String complete(@PathVariable String token) throws IOException, RestException {
 
 		// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the

@@ -7,14 +7,13 @@ import com.lacunasoftware.pkiexpress.ValidationResults;
 import com.lacunasoftware.suite.sample.util.Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
+@RequestMapping("/authentication-express")
 public class AuthenticationExpressController {
 
 	/**
@@ -23,7 +22,7 @@ public class AuthenticationExpressController {
 	 * This action initiates an authentication with the PKI Express's "start-auth" command and
 	 * renders the authentication page.
 	 */
-	@RequestMapping(value = "/authentication-express", method = {RequestMethod.GET})
+	@GetMapping
 	public String get(Model model, HttpServletResponse response) throws IOException {
 
 		// Get an instance of the Authentication class, responsible for contacting PKI Express to
@@ -60,11 +59,11 @@ public class AuthenticationExpressController {
 	 * This action receives the form submission form the view. We'll call PKI Express's
 	 * "complete-auth" command to validate the authentication.
 	 */
-	@RequestMapping(value = "/authentication-express", method = {RequestMethod.POST})
+	@PostMapping
 	public String post(
-		@RequestParam(value = "nonce") String nonce,
-		@RequestParam(value = "certContent") String certContent,
-		@RequestParam(value = "signature") String signature,
+		@RequestParam String nonce,
+		@RequestParam String certContent,
+		@RequestParam String signature,
 		Model model
 	) throws IOException {
 

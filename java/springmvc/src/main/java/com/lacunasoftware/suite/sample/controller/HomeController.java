@@ -6,6 +6,7 @@ import com.lacunasoftware.suite.sample.config.RestPkiProperties;
 import com.lacunasoftware.suite.sample.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +19,24 @@ public class HomeController {
 	@Autowired
 	private RestPkiProperties restPkiConfig;
 
-	@RequestMapping("/")
+	/**
+	 * GET /
+	 *
+	 * Renders the initial page.
+	 */
+	@GetMapping("/")
 	public String index() {
 		return "home/index";
 	}
 
-	@RequestMapping(value = "/check-pki-express", method = {RequestMethod.GET})
+	/**
+	 * GET /check-express
+	 *
+	 * Checks the installation of PKI Express using an authentication to cause the
+	 * InstallationNotFoundException exception. If not, it renders a informative page to show how to
+	 * install. Otherwise, it will continue to the sample identified by "fwd" and "op" parameters.
+	 */
+	@GetMapping("/check-express")
 	public String checkPkiExpress(
 		@RequestParam String rc,
 		@RequestParam(required = false) String fwd,
@@ -46,7 +59,14 @@ public class HomeController {
 		return String.format("redirect:/%s-express", rc);
 	}
 
-	@RequestMapping(value = "/check-restpki-token", method = {RequestMethod.GET})
+	/**
+	 * GET /check-rest-token
+	 *
+	 * Checks if the token is set on the application.yml file. If not, it renders a informative page
+	 * to show how to fix that. Otherwise, it will continue to the sample identified by "fwd" and
+	 * "op" parameters.
+	 */
+	@GetMapping("/check-rest-token")
 	public String checkRestPkiToken(
 		@RequestParam String rc,
 		@RequestParam(required = false) String fwd,
@@ -54,7 +74,7 @@ public class HomeController {
 	) {
 		String accessToken = restPkiConfig.getAccessToken();
 		if (accessToken == null || accessToken.equals("") || accessToken.contains(" ACCESS TOKEN ")) {
-			return "home/restpki-token-not-set";
+			return "home/rest-token-not-set";
 		}
 
 		if (!Util.isNullOrEmpty(fwd)) {

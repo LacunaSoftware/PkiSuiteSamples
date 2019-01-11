@@ -9,12 +9,15 @@ import com.lacunasoftware.suite.sample.util.*;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
+@RequestMapping("/authentication-rest")
 public class AuthenticationRestController {
 
 	/**
+	 * GET /authentication-rest
+	 *
 	 * This action initiates an authentication with REST PKI and renders the authentication page.
 	 */
-	@RequestMapping(value = "/authentication-rest", method = {RequestMethod.GET})
+	@GetMapping
 	public String get(Model model, HttpServletResponse response) throws RestException {
 
 		// Get an instance of the Authentication class.
@@ -42,14 +45,13 @@ public class AuthenticationRestController {
 	}
 
 	/**
+	 * POST /authentication-rest
+	 *
 	 * This action receives the form submission from the view. We'll call REST PKI to validate the
 	 * authentication.
 	 */
-	@RequestMapping(value = "/authentication-rest", method = {RequestMethod.POST})
-	public String post(
-		@RequestParam String token,
-		Model model
-	) throws RestException {
+	@PostMapping
+	public String post(@RequestParam String token, Model model) throws RestException {
 
 		// Get an instance of the Authentication class.
 		Authentication auth = new Authentication(Util.getRestPkiClient());

@@ -8,24 +8,22 @@ import com.lacunasoftware.suite.sample.util.StorageMock;
 import com.lacunasoftware.suite.sample.util.Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Controller
+@RequestMapping("/cades-signature-express")
 public class CadesSignatureExpressController {
 
 	/**
+	 * GET /cades-signature-express?fileId={fileToSign}
+	 *
 	 * This action simple renders the page.
 	 */
-	@RequestMapping(value = "/cades-signature-express", method = {RequestMethod.GET})
-	public String get(
-		@RequestParam(value = "fileId") String fileToSign,
-		Model model
-	) throws IOException {
+	@GetMapping
+	public String get(@RequestParam(value = "fileId") String fileToSign) throws IOException {
 
 		// Verify if the fileId correspond to an existing file on our StorageMock class.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
@@ -37,10 +35,12 @@ public class CadesSignatureExpressController {
 	}
 
 	/**
+	 * POST /cades-signature-express/start?fileId={fileToSign}
+	 *
 	 * This action receives the form submission from the signature page. It will perform a CAdES
 	 * signature in three steps using PKI Express and Web PKI.
 	 */
-	@RequestMapping(value = "/cades-signature-express/start", method = {RequestMethod.POST})
+	@PostMapping(value = "/start")
 	public String postStart(
 		@RequestParam(value = "fileId") String fileToSign,
 		@RequestParam String certThumb,
@@ -92,10 +92,12 @@ public class CadesSignatureExpressController {
 	}
 
 	/**
+	 * POST /cades-signature-express/complete?fileId={fileToSign}
+	 *
 	 * This action receives the form submission from the signature page. It will perform a CAdES
 	 * signature in three steps using PKI Express and Web PKI.
 	 */
-	@RequestMapping(value = "/cades-signature-express/complete", method = {RequestMethod.POST})
+	@PostMapping("/complete")
 	public String postComplete(
 		@RequestParam(value = "fileId") String fileToSign,
 		@RequestParam String transferFileId,

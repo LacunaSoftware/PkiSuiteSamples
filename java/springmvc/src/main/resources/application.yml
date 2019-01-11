@@ -12,9 +12,9 @@ multipart:
   maxFileSize: '10Mb'
   maxRequestSize: '10Mb'
 
-# Spring active profile
+# Spring parameters
 spring:
-  profiles.active: 'development'
+  profiles.active: 'dev'
   http.converters.preferred-json-mapper: gson
 
 # Proxy parameters (With you want there is problem to connect to REST PKI, cased by a proxy)
@@ -30,7 +30,7 @@ proxy:
 # --------------------------------------------------------------------------------------------------
 
 # Trust in Lacuna Test PKI (for development purposes only!)
-trustLacunaTestRoot: true
+trustLacunaTestRoot: false
 # THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
 
 # REST PKI parameters

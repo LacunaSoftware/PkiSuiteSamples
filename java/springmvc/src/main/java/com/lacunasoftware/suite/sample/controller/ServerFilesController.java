@@ -6,10 +6,7 @@ import com.lacunasoftware.suite.sample.util.SampleDocs;
 import com.lacunasoftware.suite.sample.util.StorageMock;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,9 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/server-files")
 public class ServerFilesController {
 
-	@RequestMapping(value = "/server-files", method = {RequestMethod.GET})
+	/**
+	 * GET /server-files
+	 *
+	 * This method will render a page to show the available server files to be used on the sample
+	 * referred by "rc" parameter.
+	 */
+	@GetMapping
 	public String get(
 		@RequestParam String rc,
 		@RequestParam String op,
@@ -61,7 +65,13 @@ public class ServerFilesController {
 		return "server-files/index";
 	}
 
-	@RequestMapping(value = "/server-files", method = {RequestMethod.POST})
+	/**
+	 * POST /server-files
+	 *
+	 * This method is called when the user chooses a sample file. It will get the file's content and
+	 * will store it on a temporary folder using our StorageMock class.
+	 */
+	@PostMapping
 	public String post(
 		@RequestParam String rc,
 		@ModelAttribute ServerFilesModel model
