@@ -107,7 +107,7 @@ public class Util {
 		// default to emit a timestamp. It only be filled if the REST PKI was
 		// provided.
 		String restPkiAccessToken = getProperties().getRestPki().getAccessToken();
-		if (isNullOrEmpty(restPkiAccessToken) || restPkiAccessToken.contains(" ACCESS TOKEN ")) {
+		if (!isNullOrEmpty(restPkiAccessToken) && !restPkiAccessToken.contains(" ACCESS TOKEN ")) {
 
 			// Get an instance of the TimestampAuthority class, responsible to
 			// inform the url and authentication logic to be used when contacting
