@@ -16,7 +16,7 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.lacunasoftware.suite'
+group = 'com.lacunasoftware'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.7
 
@@ -26,7 +26,6 @@ repositories {
         url "http://dl.bintray.com/lacunasoftware/maven"
     }
 }
-
 
 dependencies {
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.8.0'
