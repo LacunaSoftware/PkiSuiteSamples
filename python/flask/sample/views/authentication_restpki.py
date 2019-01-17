@@ -82,7 +82,7 @@ def action():
         vr = result.validation_results
 
         if not vr.is_valid:
-            # If the authenticationw as not successful, we render a page showing
+            # If the authentication as not successful, we render a page showing
             # what went wrong
             vr_html = str(vr)
             vr_html = vr_html.replace('\n', '<br/>')
