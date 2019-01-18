@@ -1,10 +1,9 @@
-Suite Samples
-=============
+# PKI Suite samples
 
-This project contains sample web applications demonstrating the use of the REST PKI service in
-different programming.
+This repository contains sample projects demonstrating the usage of Lacuna Software's
+**[PKI Suite](https://www.lacunasoftware.com/pki-suite)** in various programming languages and frameworks.
 
-Choose one of the following programming languages to see the available sample projects:
+**To get started, choose a programming language:**
 
 * [.NET](dotnet/)
 * [Java](java/)
@@ -13,14 +12,9 @@ Choose one of the following programming languages to see the available sample pr
 * [Node.js](nodejs/)
 * [Ruby](ruby/)
 
-To run the samples, you will need an **API access token**. If you don't have one, register on the
-[REST PKI website](https://pki.rest/) and gnerate a token.
+## See also
 
-See also
---------
-
-* [Rest PKI documentation](https://docs.lacunasoftware.com/articles/rest-pki/)
-* [Rest PKI website](https://pki.rest/)
-* [Rest PKI changelog](https://docs.lacunasoftware.com/en-us/articles/rest-pki/changelog)
+* [PKI Suite demos](https://demos.lacunasoftware.com/)
+* [Documentation](https://docs.lacunasoftware.com/)
+* [Test certificates](https://docs.lacunasoftware.com/articles/pki-guide/test-certs)
 * [Lacuna Software website](https://www.lacunasoftware.com/)
-* [Test certificates](TestCertificates.md)
