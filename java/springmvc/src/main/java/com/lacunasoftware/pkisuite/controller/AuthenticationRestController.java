@@ -5,7 +5,6 @@ import com.lacunasoftware.restpki.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.lacunasoftware.suite.sample.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
