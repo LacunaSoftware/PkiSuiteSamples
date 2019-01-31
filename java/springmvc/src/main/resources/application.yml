@@ -38,8 +38,8 @@ rest-pki:
   # ======================================================
   #       >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
   # ======================================================
-  accessToken: '9MZRcEcYpebYou5C86j_X18eHUpitOnu4Loh98KchIH0g7yuo6oufMvFoUxcIWeFELRB4ve81PThXNXz5z_ls8Ei7vb9ie6zzHyHow_I7ZNJQUSSIhGeJHQvhrXMca4C6ufOywfm-DkeOpLA8QVnzK594REZOiIPiWd6krleY2avwLHdwkAeJLSSjvR3znSCxLkZYOdPEFdyPf6IPYYd61UcpjLi3T0GzYEpH_8vq1G3OQOl4PDQOrAgAyhr3xVf2AP2pxgo5Td1uWQ0QRkVcun6UgdIvIHq1OaABXA1YWLat0SywpsIK_njFcaR2IatNVE5J1oZjcawuiXthqzP2p7FievHT6T4yYjuOhQvzRx_2XtJiPpszeg3_dkkEs4Z5aDx97yr1QYpKkn8zPh9-puGgnqD2XIAMOMnLckOVDZJhG8jWMtz-JnYut5pZWM49X0s2XALXjvahWv718w806OPnLYq_fm25wzloizaR56ktPq8fWbITAcSQqVIY7XK3Rg5gQ'
-  # This is a TRIAL token. It will be expired at 01/03/2019
+  accessToken: 'QPK_s7eVFFitenHh-6c5PBEk1nlssA5OQkbpyZWBnGEvG7cK3lTs4Toxs2STulwrRPORtJbT8m9V_hR_FTZTPUnzqgcWC4xmd7QYPJZIXBIw2HgsjTc6GAEL6N1TXSBLBNDz_FkwwnlKCk53YPBa4AAnWZBMfe5riah1F_BpinrxKGX1ewohIgxTHxzAeRtQcwRB8XW6yk9TR6GL7mK5ky0o2u00VnSgzrOLd8F0cuV44257dZlumMNTBkq2fBeAUWTGNo3Ydwgn5k5BYM2hfCdWDssiRv-GLyqxjo7t4brq2hUK6QBXisMXfZ4dSd_rRQvpVpa1cdS4KansOxanQX9M2fNU8Gmf6I22SwZ0c5wM9qlkv5Q-LZOYtakrkdqxY-lCUDog9goPCBQenSt128thFko3uFKdAyiZCiL5fTi9I-ZBGNbNB7rf6nACvlWAH_jkGpfSFnrarSbtzniVXI7wSf8ge4iCeP92HT9CNSbRkGnBYRl-ryr39nqz7--vYpJ6kw'
+  # This is a TRIAL token. It will be expired at 01/04/2019
   # If the REST PKI sample doesn't work, please contact our support by
   # email: suporte@lacunasoftware.com
 
