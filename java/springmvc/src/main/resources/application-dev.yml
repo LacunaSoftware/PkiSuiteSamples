@@ -1,0 +1,14 @@
+# --------------------------------------------------------------------------------------------------
+# General Configuration
+# --------------------------------------------------------------------------------------------------
+
+# Spring parameters
+spring.profiles.active: 'dev'
+
+# --------------------------------------------------------------------------------------------------
+# Lacuna Configuration
+# --------------------------------------------------------------------------------------------------
+
+# Trust in Lacuna Test PKI (for development purposes only!)
+trustLacunaTestRoot: true
+# THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
