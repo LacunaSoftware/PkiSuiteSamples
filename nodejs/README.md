@@ -14,9 +14,6 @@ Steps to execute the sample:
 
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
-
-1. Generate an API access token on the [REST PKI website](https://pki.rest/) and paster
-   your token on the file `config/default.js`
    
 1. Install dependencies: `npm install`
 

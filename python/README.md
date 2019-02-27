@@ -8,15 +8,12 @@ For other languages, please visit the [repository root](https://github.com/Lacun
 Default sample (Flask)
 ----------------------
 
-A sample using **Flask** to build a web application can be found on folder [flask](flask).
+A sample using **Flask** to build a web application can be found on folder [flask](flask/).
 
 Steps to execute the sample:
 
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
-   
-1. Generate an API access token on the [REST PKI website](https://pki.rest/) and paster
-   your token on the file `sample/utils.py`
    
 1. Install dependencies: `pip install -r requirements.txt`
 
@@ -60,7 +57,7 @@ The recommended way to install **PKI Express's lib for Python** is through [PyPi
 
 Or informing on your project's `requirements.txt` file:
 
-	pkiexpress==1.3.1
+	pkiexpress==1.3.2
 
 See also
 --------

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Issue a certificate storing the key on the user's machine with Amplia</h2>
+
+	<div class="ls-content"></div>
+</div>
+
+<script th:fragment="scripts" th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function() {
+		var timer = 3;
+		$.blockUI({ message: 'You will be redirected in <span id="timer">' + timer + '</span> seconds...' });
+
+		// Redirects after "timer" seconds.
+		var intervalId = setInterval(function() {
+			timer--;
+			$('#timer').text(timer);
+
+			if (timer <= 0) {
+				clearInterval(intervalId);
+				window.location.href = [[${model.getRedirectLink()}]];
+			}
+		}, 1000);
+	});
+	/*]]>*/
+</script>
+
+</body>
+</html>
