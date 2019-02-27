@@ -9,6 +9,7 @@ public class ApplicationProperties {
 	private RestPkiProperties restPki;
 	private WebPkiProperties webPki;
 	private PkiExpressProperties pkiExpress;
+	private AmpliaProperties amplia;
 	private ProxyProperties proxy;
 
 	@Value("${trustLacunaTestRoot}")
@@ -53,6 +54,15 @@ public class ApplicationProperties {
 	@Autowired
 	public void setPkiExpress(PkiExpressProperties pkiExpress) {
 		this.pkiExpress = pkiExpress;
+	}
+
+	public AmpliaProperties getAmplia() {
+		return amplia;
+	}
+
+	@Autowired
+	public void setAmplia(AmpliaProperties amplia) {
+		this.amplia = amplia;
 	}
 
 	public ProxyProperties getProxy() {

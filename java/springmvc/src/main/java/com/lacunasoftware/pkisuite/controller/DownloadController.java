@@ -78,4 +78,28 @@ public class DownloadController {
 			Files.copy(StorageMock.getBatchDocPath(id), outStream);
 		}
 	}
+
+	/**
+	 * GET /download/cert/{certId}
+	 *
+	 * This function will return a certificate file from the temporary folder.
+	 */
+	@GetMapping("cert/{certId:.+}")
+	public void cert(
+			HttpServletResponse httpResponse,
+			@PathVariable String certId
+	) throws IOException {
+		String extension = ".cer";
+
+		if (Util.isNullOrEmpty(certId) || !StorageMock.exists(certId, extension)) {
+			httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+
+		httpResponse.setHeader("Content-Disposition", String.format("attachment; filename=%s.cer", certId));
+		try (OutputStream outStream = httpResponse.getOutputStream()) {
+			Files.copy(StorageMock.getDataPath(certId, extension), outStream);
+		}
+	}
 }

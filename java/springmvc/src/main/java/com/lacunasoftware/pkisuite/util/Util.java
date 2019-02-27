@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.util;
 
+import com.lacunasoftware.amplia.AmpliaClient;
 import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
 import com.lacunasoftware.restpki.RestPkiClient;
@@ -85,6 +86,30 @@ public class Util {
 
 	//endregion
 
+	//region Amplia
+
+	public static AmpliaClient getAmpliaClient() {
+		String apiKey = getProperties().getAmplia().getApiKey();
+
+		// Throw exception if api key is not set (this check is here just for the sake of newcomers,
+		// you can remove it).
+		if (isNullOrEmpty(apiKey) || apiKey.contains(" API KEY ")) {
+			throw new RuntimeException("The API key was not set! Hint: to run this sample " +
+					"you must generate an API key on the Amplia website and paste it on the " +
+					"file src/main/resources/application.yml");
+		}
+
+		String endpoint = getProperties().getAmplia().getEndpoint();
+		if (endpoint == null || endpoint.length() == 0) {
+			endpoint = "https://amplia.lacunasoftware.com/";
+		}
+
+		// Return an instance of AmpliaClient class, passing the endpoint and the API key.
+		return new AmpliaClient(endpoint, apiKey);
+	}
+
+	//endregion
+
 	//region PKI Express
 
 	public static void setPkiDefaults(PkiExpressOperator operator) throws IOException {
@@ -130,12 +155,19 @@ public class Util {
 	//endregion
 
 	public static boolean isNullOrEmpty(String string) {
-		return string == null || string.length() == 0;
+		return string == null || string.isEmpty();
 	}
 
 	public static void setNoCacheHeaders(HttpServletResponse response) {
 		response.setHeader("Expires", "-1");
 		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		response.setHeader("Pragma", "no-cache");
+	}
+
+	public static Date getDateYearsFromNow(int years) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.YEAR, years);
+		return c.getTime();
 	}
 }

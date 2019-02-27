@@ -2,6 +2,7 @@ package com.lacunasoftware.pkisuite.controller;
 
 import com.lacunasoftware.pkiexpress.Authentication;
 import com.lacunasoftware.pkiexpress.InstallationNotFoundException;
+import com.lacunasoftware.pkisuite.config.AmpliaProperties;
 import com.lacunasoftware.pkisuite.util.Util;
 import com.lacunasoftware.pkisuite.config.RestPkiProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class HomeController {
 
 	@Autowired
 	private RestPkiProperties restPkiConfig;
+
+	@Autowired
+	private AmpliaProperties ampliaConfig;
 
 	/**
 	 * GET /
@@ -82,6 +86,24 @@ public class HomeController {
 			return String.format("redirect:/%s?rc=%s-rest", rc, fwd);
 		}
 		return String.format("redirect:/%s-rest", rc);
+	}
+
+	/**
+	 * GET /check-amplia-api-key
+	 *
+	 * Checks if the api key is set on the application.yml file. If not, it renders a informative
+	 * page to show how to fix that. Otherwise, it will continue to the sample identified "rc".
+	 */
+	@GetMapping("/check-amplia-api-key")
+	public String checkRestPkiToken(
+			@RequestParam String rc
+	) {
+		String apiKey = ampliaConfig.getApiKey();
+		if (apiKey == null || apiKey.equals("") || apiKey.contains(" API KEY ")) {
+			return "home/amplia-api-key-not-set";
+		}
+
+		return String.format("redirect:/%s-amplia", rc);
 	}
 }
 

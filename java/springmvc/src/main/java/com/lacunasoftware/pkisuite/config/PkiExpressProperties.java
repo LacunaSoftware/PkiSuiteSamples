@@ -9,9 +9,9 @@ import java.util.List;
 @Component
 @ConfigurationProperties("pki-express")
 public class PkiExpressProperties {
-
 	private List<String> trustedRoots;
 	private boolean offline;
+	private String pkcs12Password;
 
 	public List<String> getTrustedRoots() {
 		return trustedRoots;
@@ -31,5 +31,13 @@ public class PkiExpressProperties {
 		} else {
 			this.offline = false;
 		}
+	}
+
+	public String getPkcs12Password() {
+		return pkcs12Password;
+	}
+
+	public void setPkcs12Password(String pkcs12Password) {
+		this.pkcs12Password = pkcs12Password;
 	}
 }
