@@ -106,7 +106,7 @@ def index(file_to_sign=None, file_to_cosign=None):
         response = make_response(render_template('cades_signature_restpki/index.html',
                                                  token=result.token))
 
-        response.headers = get_expired_page_headers()
+        get_expired_page_headers(response.headers)
         return response
 
     except Exception as e:
