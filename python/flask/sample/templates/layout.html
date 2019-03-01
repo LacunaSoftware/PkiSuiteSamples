@@ -25,7 +25,7 @@
 		</div>
 	</div>
 
-	<div class="body-content container">
+	<div class="container content">
 		<div id="messagesPanel"></div>
 		{% block content %}
 		{% endblock %}
@@ -43,10 +43,20 @@
 
 		// Global method to add an alert on "messagePanel".
 		function addAlert(type, message) {
+
+			// Limit message size.
+			var MESSAGE_LIMIT = 280;
+			if (message.length > MESSAGE_LIMIT) {
+				message = message.substring(0, MESSAGE_LIMIT);
+				message += '...';
+			}
+
 			$('#messagesPanel').append(
-				'<div class="alert alert-' + type + ' alert-dismissible">' +
-				'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><span class="fas fa-times"></span></span></button>' +
+				'<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
 				'<span>' + message + '</span>' +
+				'    <button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+				'        <span aria-hidden="true" class="fas fa-times"></span>' +
+				'    </button>' +
 				'</div>');
 		}
 	</script>
