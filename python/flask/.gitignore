@@ -3,3 +3,4 @@
 app_data/
 venv/
 env/
+flask_session/
