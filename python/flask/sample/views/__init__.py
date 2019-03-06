@@ -1,5 +1,7 @@
 from .authentication_express import blueprint as authentication_express
 from .authentication_restpki import blueprint as authentication_restpki
+from .batch_cades_express import blueprint as batch_cades_express
+from .batch_cades_rest import blueprint as batch_cades_rest
 from .batch_pades_signature_express import blueprint as \
     batch_pades_signature_express
 from .batch_pades_signature_restpki import blueprint as \
@@ -19,6 +21,8 @@ from .upload import blueprint as upload
 blueprints = {
     authentication_express,
     authentication_restpki,
+    batch_cades_express,
+    batch_cades_rest,
     batch_pades_signature_express,
     batch_pades_signature_restpki,
     cades_signature_express,
