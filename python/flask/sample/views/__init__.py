@@ -12,6 +12,8 @@ from .cades_signature_restpki import blueprint as cades_signature_restpki
 from .check_pades_express import blueprint as check_pades_express
 from .download import blueprint as download
 from .home import blueprint as home
+from .list_cert_jquery import blueprint as list_cert_jquery
+from .list_cert_select2 import blueprint as list_cert_select2
 from .open_pades_express import blueprint as open_pades_express
 from .pades_server_key_express import blueprint as pades_server_key_express
 from .pades_signature_express import blueprint as pades_signature_express
@@ -33,6 +35,8 @@ blueprints = {
     check_pades_express,
     download,
     home,
+    list_cert_jquery,
+    list_cert_select2,
     open_pades_express,
     pades_server_key_express,
     pades_signature_express,
