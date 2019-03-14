@@ -9,16 +9,16 @@
 		IsCSharpSample = true;
 		SampleRoutes = {
 			authCert: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "AuthenticationPki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "AuthenticationRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "AuthenticationSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "AuthenticationRest" }))'
 			},
 			cosignCms: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignaturePki", @op = "cosignCms" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignatureRestPki",  @op = "cosignCms" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignatureSdk", @op = "cosignCms" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignatureRest",  @op = "cosignCms" }))'
 			},
 			cosignPdf: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignaturePki", @op = "cosignPdf" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRestPki", @op = "cosignPdf" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureSdk", @op = "cosignPdf" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRest", @op = "cosignPdf" }))'
 			},
 			// issueCertServer: { },
 			// issueCertUser: { },
@@ -30,71 +30,71 @@
 			// printerFriendlyCms: { },
 			printerFriendlyPdf: {
 				// pki: '',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesRestPki", @op ="printerFriendlyPdf" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesRest", @op ="printerFriendlyPdf" }))'
 			},
 			readCert: {
 				jquery: '@Html.Raw(Url.Action("Index", "ReadCertJQuery"))',
 				select2: '@Html.Raw(Url.Action("Index", "ReadCertSelect2"))'
 			},
 			rsa: {
-				webpki: '@Html.Raw(Url.Action("Index", "RSAWebPki"))'
+				webpki: '@Html.Raw(Url.Action("Index", "RSAWeb"))'
 			},
 			signCmsServer: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignaturePki", @op = "signCms"}))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignatureRestPki", @op = "signCms" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignatureSdk", @op = "signCms"}))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "CadesSignatureRest", @op = "signCms" }))'
 			},
 			signCmsUser: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "CadesSignaturePki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureRest" }))'
 			},
 			//signCmsServerKey: { },
 			signCod: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignaturePki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignatureSdk" }))'
 				// restpki: ''
 			},
 			signMultiCmsServer: {
 				// pki: { },
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchCadesSignatureRestPki" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchCadesSignatureRest" }))'
 			},
 			// signMultiCmsUser: { },
 			signMultiPdfServer: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchPadesSignaturePki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchPadesSignatureRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchPadesSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchPadesSignatureRest" }))'
 			},
 			// signMultiPdfUser: { },
 			signNfe: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlNFeSignaturePki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlNFeSignatureRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlNFeSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlNFeSignatureRest" }))'
 			},
 			signPdfServer: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignaturePki", @op = "signPdf" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRestPki", @op = "signPdf" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureSdk", @op = "signPdf" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRest", @op = "signPdf" }))'
 			},
 			signPdfUser: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesSignaturePki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRest" }))'
 				// webpki: ''
 			},
 			//signPdfServerKey: { },
 			signXmlServer: {
 				// pki: '',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRestPki" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRest" }))'
 			},
 			// signXmlServerKey: { },
 			// signaturePackage: { },
 			validateCmsSig: {
 				// pki: '',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenCadesSignatureRestPki" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenCadesSignatureRest" }))'
 				// webpki: '
 			},
 			validatePdfSig: {
 				// pki: '',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureRestPki" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureRest" }))'
 				// webpki: ''
 			},
 			validateXmlSig: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenXmlSignaturePki" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenXmlSignatureRestPki" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenXmlSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenXmlSignatureRest" }))'
 			}
 		};
 	</script>
