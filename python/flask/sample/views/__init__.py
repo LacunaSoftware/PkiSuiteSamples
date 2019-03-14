@@ -20,6 +20,8 @@ from .pades_signature_express import blueprint as pades_signature_express
 from .pades_signature_restpki import blueprint as pades_signature_restpki
 from .printer_version_pades_express import blueprint as \
     printer_version_pades_express
+from read_cert_jquery import blueprint as read_cert_jquery
+from read_cert_select2 import blueprint as read_cert_select2
 from .upload import blueprint as upload
 
 blueprints = {
@@ -42,5 +44,7 @@ blueprints = {
     pades_signature_express,
     pades_signature_restpki,
     printer_version_pades_express,
+    read_cert_jquery,
+    read_cert_select2,
     upload,
 }
