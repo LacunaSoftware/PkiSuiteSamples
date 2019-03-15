@@ -23,6 +23,7 @@ from .printer_version_pades_express import blueprint as \
 from .read_cert_jquery import blueprint as read_cert_jquery
 from .read_cert_select2 import blueprint as read_cert_select2
 from .rsa_web import blueprint as rsa_web
+from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .upload import blueprint as upload
 
 blueprints = {
@@ -48,5 +49,6 @@ blueprints = {
     read_cert_jquery,
     read_cert_select2,
     rsa_web,
+    timestamp_pdf_express,
     upload,
 }
