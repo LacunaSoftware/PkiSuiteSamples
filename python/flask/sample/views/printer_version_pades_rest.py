@@ -1,29 +1,29 @@
 import os
-import uuid
 from datetime import datetime
+from io import BytesIO
 
 from flask import Blueprint
 from flask import current_app
-from flask import send_from_directory
+from flask import send_file
+from restpki_client import Color, StandardSignaturePolicies
+from restpki_client import PadesSignatureExplorer
+from restpki_client import PdfHelper
+from restpki_client import PdfMarker
 
 from sample.storage_mock import get_verification_code
 from sample.storage_mock import get_icp_brasil_logo_content
 from sample.storage_mock import get_validation_result_icon
 from sample.storage_mock import set_verification_code
-from sample.utils import generate_verification_code
+from sample.utils import generate_verification_code, get_restpki_client, \
+    get_security_context_id
 from sample.utils import get_description
 from sample.utils import join_strings_pt
 from sample.utils import get_display_name
 from sample.utils import format_verification_code
-from sample.utils import set_pki_defaults
 
-from pkiexpress import PadesSignatureExplorer
-from pkiexpress import PdfHelper
-from pkiexpress import PdfMarker
-from pkiexpress import Color
 
 blueprint = Blueprint(os.path.basename(__name__), __name__,
-                      url_prefix='/printer-version-pades-express')
+                      url_prefix='/printer-version-pades-rest')
 
 ################################################################################
 # Configuration of the printer-friendly version
@@ -37,7 +37,7 @@ VERIFICATION_SITE = 'http://localhost:5000'
 
 # Format of the verification link, with "%s" as the verification code
 # placeholder.
-VERIFICATION_LINK_FORMAT = 'http://localhost:5000/check-pades-express/%s'
+VERIFICATION_LINK_FORMAT = 'http://localhost:5000/check-pades-rest/%s'
 
 # "Normal" font size. Sizes of header fonts are defined based on this size.
 NORMAL_FONT_SIZE = 12.0
@@ -62,6 +62,8 @@ def get_signer_description(signer):
 
 
 def generate_printer_friendly_version(pdf_path, verification_code):
+    client = get_restpki_client()
+
     # The verification code is generated without hyphens to save storage space
     # and avoid copy-and-paste problems. On the PDF generation, we use the
     # "formatted" version, with hyphens (which will later be discarded on the
@@ -72,29 +74,37 @@ def generate_printer_friendly_version(pdf_path, verification_code):
     # (see above) and the formatted verification code.
     verification_link = VERIFICATION_LINK_FORMAT % formatted_verification_code
 
-    # 1. Inspect signatures on the uploaded PDF
+    # 1. Upload the PDF.
+
+    blob_token = client.upload_file_from_path(pdf_path)
+
+    # 2. Inspect signatures on the uploaded PDF
 
     # Get and instance of the PadesSignatureExplorer class, used to
     # open/validate PDF signatures.
-    sig_explorer = PadesSignatureExplorer()
-    # Set PKI default options (see utils.py).
-    set_pki_defaults(sig_explorer)
+    sig_explorer = PadesSignatureExplorer(client)
     # Specify that we want to validate the signatures in the file, not only
     # inspect them.
     sig_explorer.validate = True
     # Set the PDF file to be inspected.
-    sig_explorer.set_signature_file_from_path(pdf_path)
+    sig_explorer.signature_file_blob_token = blob_token
+    # Specify the parameters for the signature validation:
+    # Accept any PAdES signature as long as the signer has an ICP-Brasil
+    # certificate.
+    sig_explorer.default_signature_policy_id = \
+        StandardSignaturePolicies.PADES_BASIC
+    # Specify the security context to be used to determine trust in the
+    # certificate chain. We have encapsulated the security context on utils.py.
+    sig_explorer.security_context_id = get_security_context_id()
     # Call the open() method, which returns the signature file's information.
     signature = sig_explorer.open()
 
-    # 2. Create PDF with the verification information from uploaded PDF.
+    # 3. Create PDF with the verification information from uploaded PDF.
 
     # Get an instance of the PdfMarker class, used to apply marks on the PDF.
-    pdf_marker = PdfMarker()
-    # Set PKI default options (see utils.py).
-    set_pki_defaults(pdf_marker)
+    pdf_marker = PdfMarker(client)
     # Specify the file to be marked.
-    pdf_marker.set_file_from_path(pdf_path)
+    pdf_marker.file_blob_token = blob_token
 
     # Build string with joined names of signers (see method get_display_name
     # below)
@@ -309,16 +319,11 @@ def generate_printer_friendly_version(pdf_path, verification_code):
     # Add marks.
     pdf_marker.marks.append(manifest_mark)
 
-    # Generate path for output file and add the marker.
-    pfv_filename = "%s.pdf" % str(uuid.uuid4())
-    pdf_marker.output_file = os.path.join(current_app.config['APPDATA_FOLDER'],
-                                          pfv_filename)
-
     # Apply marks.
-    pdf_marker.apply()
+    result = pdf_marker.apply()
 
-    # Return path for output file.
-    return pfv_filename
+    # Return content of the printer-friendly version.
+    return result.content
 
 
 @blueprint.route('/<file_id>')
@@ -333,8 +338,10 @@ def index(file_id):
         set_verification_code(file_id, verification_code)
 
     # Generate marks on printer-friendly version.
-    pfv_filename = \
-        generate_printer_friendly_version(file_path, verification_code)
+    pfv_content = generate_printer_friendly_version(file_path,
+                                                    verification_code)
 
-    return send_from_directory(current_app.config['APPDATA_FOLDER'],
-                               pfv_filename)
+    return send_file(BytesIO(pfv_content),
+                     mimetype='application/pdf',
+                     as_attachment=True,
+                     attachment_filename='printer-friendly.pdf')

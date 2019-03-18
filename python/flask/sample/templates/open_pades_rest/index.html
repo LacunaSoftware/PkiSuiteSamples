@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	<h2 class="ls-title">Check signatures on printer-friendly PDF with PKI Express</h2>
+	<h2 class="ls-title">Open existing PAdES Signature with REST PKI</h2>
 	<h5 class="ls-subtitle">The given file contains {{ signature.signers|length }} signatures:</h5>
 
 	<div class="ls-content">
@@ -53,22 +53,13 @@
 							</p>
 							{% if signer.validation_results %}
 								<label for="validations">Validation results</label>
-								<textarea id="validations" style="width: 100%" rows="20">{{ signer.validation_results }}</textarea>
+								<textarea id="validations" style="width: 100%;" rows="20">{{ signer.validation_results }}</textarea>
 							{% endif %}
 						</div>
 					</div>
 				</div>
 			{% endfor %}
 		</div>
-
-		<div style="margin-top: 5px;">
-			<h3>Actions:</h3>
-			<ul>
-				<li><a href="/download/{{ file_id }}">Download signed file</a></li>
-				<li><a href="printer-version-pades-express/{{ file_id }}">Download printer-friendly version</a></li>
-			</ul>
-		</div>
-
 	</div>
 
 {% endblock %}

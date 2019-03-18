@@ -17,7 +17,6 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
-
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/pades-signature-restpki')
 
@@ -97,8 +96,8 @@ def action():
 
     try:
 
-        # Get the token for this signature. (rendered in a hidden input field, see
-        # pades-signature/index.html template)
+        # Get the token for this signature. (rendered in a hidden input field,
+        # see pades-signature/index.html template)
         token = request.form['token']
 
         # Get an intance of the PadesSignatureFinisher class, responsible for
@@ -112,13 +111,14 @@ def action():
         # return value is the signed PDF content.
         result = signature_finisher.finish()
 
-        # Get information about the certificate used by the user to sign the file.
-        # This method must only be called after calling the finish() method.
+        # Get information about the certificate used by the user to sign the
+        # file. This method must only be called after calling the finish()
+        # method.
         signer_cert = result.certificate
 
-        # At this point, you'd typically store the signed PDF on your database. For
-        # demonstration purposes, we'll store the PDF on a temporary folder publicly
-        # accessible and render a link to it.
+        # At this point, you'd typically store the signed PDF on your database.
+        # For demonstration purposes, we'll store the PDF on a temporary folder
+        # publicly accessible and render a link to it.
 
         create_app_data()  # Guarantees that "app data" folder exists.
         filename = '%s.pdf' % (str(uuid.uuid4()))
