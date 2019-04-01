@@ -4,40 +4,118 @@
 
 <div th:fragment="content">
 	<h2 class="ls-title">Choose one of the available files on the server</h2>
+	<h5 class="ls-subtitle">
+		You will be redirected to route
+		<b>/<span th:text="${#httpServletRequest.getParameter('rc')}"></span></b>
+	</h5>
 
-	<p>You will be redirected to <b>/<span th:text="${#httpServletRequest.getParameter('rc')}"></span></b></p>
-	<form id="filesForm" th:object="${model}" method="post">
-		<input type="hidden" th:field="*{isCmsCoSign}" />
-		<input type="hidden" id="chosenFileIdField" th:field="*{chosenFileId}" />
+	<div class="ls-content">
 
-		<div class="form-group">
-			<div class="row">
-				<th:block th:each="file, stats : ${model.getAvailableFiles()}">
-					<div class="col-md-3">
-						<div class="card">
-							<div class="card-header"><b>Document #<span th:text="${stats.index} + 1"></span></b> <a th:href="${file.getDownloadUrl()}"><i class="fas fa-file-download"></i></a></div>
-							<div class="card-body">
-								<p style="font-size: 13px;" th:text="${file.getDescription()}"></p>
-							</div>
-							<div class="card-footer">
-								<button th:id="${file.getId()}" type="button" class="choose-file btn btn-primary" style="font-size: 14px;"><i class="fas fa-hand-point-down"></i> Use This</button>
+		<form id="filesForm"
+		      th:object="${model}"
+		      method="POST"
+		      th:with="quantFiles = ${model.getAvailableFiles().size()}">
+			<input type="hidden" th:field="*{isCmsCoSign}" />
+			<input type="hidden" id="chosenFileIdField" th:field="*{chosenFileId}" />
+
+			<!--
+				Group of cards containing the server file's information. On each card its possible to
+				choose it to be used on the next operation or to download the server file. This is only
+				an example of choosing a server file, you can change this file or use your own logic.
+				The operation only requires the content of this document or its path.
+			-->
+			<div class="form-group"
+			     th:with="lines = ${quantFiles / 4 + (quantFiles % 4 == 0 ? -1 : 0)}">
+				<div class="row" th:each="i : ${#numbers.sequence(0, lines)}">
+					<th:block th:each="j : ${#numbers.sequence(0, 3)}" th:with="index = ${i} * 4 + ${j}">
+
+						<div class="col col-md-3"
+						     th:if="${index} &lt; ${quantFiles}"
+						     th:with="file = ${model.getAvailableFiles()[index]}">
+
+							<div th:id="${file.getId()} + '-card'" class="card server-file shadow">
+								<h5 class="card-header text-center">
+									Document #<span th:text="${index} + 1"></span>
+								</h5>
+
+								<div class="card-body">
+									<p th:text="${file.getDescription()}"></p>
+								</div>
+
+								<div class="buttons">
+									<!--
+										Button used to choose a sample file. It will execute the function
+										chooseFile() on the javascript below. The field "id" from the
+										Thymeleaf's variable "file" has the task of identifying the document
+										on server side after submitting this form.
+									-->
+									<button th:id="${file.getId()} + '-choice-btn'"
+									        type="button"
+									        class="choose-file btn btn-primary"
+									        th:onclick="|chooseFile('${file.getId()}')|">
+										<i class="fas fa-check"></i> Use This
+									</button>
+									<!--
+										Link to download the server file.
+									-->
+									<a th:id="${file.getId()} + '-download-btn'"
+									   th:href="${file.getDownloadUrl()}"
+									   class="btn btn-outline-primary">
+										<i class="fas fa-file-download"></i> Download
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-				</th:block>
+
+					</th:block>
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+
+	</div>
 </div>
 
+<!--
+	This javascript is only an optional feature for this upload page. It will use jQuery to improve
+	the UX of the page. Feel free to alter it however you want.
+-->
 <script th:fragment="scripts">
 	/*<![CDATA[*/
-	$(document).ready(function () {
-		$('.choose-file').click(function (e) {
-			$('#chosenFileIdField').val(this.id);
+
+	// ----------------------------------------------------------------------------------------------
+	// Function called when the user clicks the "Use This" button. It will store the file's id on the
+	// hidden <input> (#chosenFileIdField), which will be passed to server when submitting the
+	// <form> (#filesForm). After this, it submits the form#filesForm.
+	// ----------------------------------------------------------------------------------------------
+	function chooseFile(chosenFileId) {
+
+		// Store the file's id on hidden <input> (#chosenFileIdField).
+		$('#chosenFileIdField').val(chosenFileId);
+
+		// Highlight card referred to the chosen file.
+
+		$('#' + chosenFileId + '-card')
+			.addClass('border border-success text-success');
+
+		$('#' + chosenFileId + '-choice-btn')
+			.removeClass('btn-primary')
+			.addClass('btn-success');
+
+		$('#' + chosenFileId + '-download-btn')
+			.removeClass('btn-outline-primary')
+			.addClass('btn-outline-success');
+
+		// Show message, informing that will redirect to some other page, which will happen on
+		// server-side after submission.
+		$.blockUI({message: 'Redirecting ...'});
+		setTimeout(function () {
+
+			// Submit form.
 			$('#filesForm').submit();
-		})
-	});
+
+		}, 1000);
+	}
+
 	/*]]>*/
 </script>
 
