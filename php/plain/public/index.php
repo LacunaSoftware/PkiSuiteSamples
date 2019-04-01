@@ -30,7 +30,9 @@
         //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=cosignPdf'
         // },
         // issueCertServer: { },
-        // issueCertUser: { },
+        issueCertUser: {
+            amplia: '/check-amplia-api-key.php?rc=issue-cert-user'
+        },
         // listCert: { },
         // mergeCmsSigs: { },
         // printerFriendlyCms: { },
