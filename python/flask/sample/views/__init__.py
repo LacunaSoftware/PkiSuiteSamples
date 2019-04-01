@@ -1,5 +1,5 @@
 from .authentication_express import blueprint as authentication_express
-from .authentication_restpki import blueprint as authentication_restpki
+from .authentication_rest import blueprint as authentication_restpki
 from .batch_cades_express import blueprint as batch_cades_express
 from .batch_cades_rest import blueprint as batch_cades_rest
 from .batch_pades_signature_express import blueprint as \

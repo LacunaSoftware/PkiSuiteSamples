@@ -10,9 +10,9 @@ from restpki_client import PadesSignatureStarter
 from restpki_client import PadesSignatureFinisher
 from restpki_client import StandardSignaturePolicies
 
-from sample.pades_visual_elements_restpki import PadesVisualElementsRestPki
+from sample.pades_visual_elements_rest import PadesVisualElementsRest
 from sample.storage_mock import create_app_data
-from sample.utils import get_restpki_client
+from sample.utils import get_rest_pki_client
 from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
@@ -39,7 +39,7 @@ def index(file_to_sign=None):
 
         # Get an instantiate of the PadesSignatureStarter class, responsible for
         # receiving the signature elements and start the signature process.
-        signature_starter = PadesSignatureStarter(get_restpki_client())
+        signature_starter = PadesSignatureStarter(get_rest_pki_client())
 
         # Set the PDF to be signed.
         signature_starter.set_pdf_to_sign(
@@ -57,7 +57,7 @@ def index(file_to_sign=None):
         # Set the visual representation for the signature. We have encapsulated
         # this code (on util-pades.py) to be used on various PAdES examples.
         signature_starter.visual_representation = \
-            PadesVisualElementsRestPki.get_visual_representation()
+            PadesVisualElementsRest.get_visual_representation()
 
         # Call the start_with_webpki() method, which initiates the signature.
         # This yields the token, a 43-character case-sensitive URL-safe string,
@@ -102,7 +102,7 @@ def action():
 
         # Get an intance of the PadesSignatureFinisher class, responsible for
         # completing the signature process.
-        signature_finisher = PadesSignatureFinisher(get_restpki_client())
+        signature_finisher = PadesSignatureFinisher(get_rest_pki_client())
 
         # Set the token.
         signature_finisher.token = token

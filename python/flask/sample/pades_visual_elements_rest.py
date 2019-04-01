@@ -2,9 +2,13 @@ from base64 import b64encode
 from restpki_client import PadesVisualPositioningPresets
 
 from sample.storage_mock import get_pdf_stamp_content
-from sample.utils import get_restpki_client
+from sample.utils import get_rest_pki_client
 
-class PadesVisualElementsRestPki:
+
+class PadesVisualElementsRest:
+
+    def __init__(self):
+        pass
 
     @staticmethod
     def get_visual_representation():
@@ -32,9 +36,9 @@ class PadesVisualElementsRestPki:
                 'horizontalAlign': 'Left',
                 # Optionally set the container within the signature rectangle on
                 # which to place the text. By default, the text can occupy the
-                # entire rectangle (how much of the rectangle the text will actually
-                # fill depends on the length and font size). Below, we specify that
-                # the text should respect a right margin of 1.5 cm.
+                # entire rectangle (how much of the rectangle the text will
+                # actually fill depends on the length and font size). Below, we
+                # specify that the text should respect a right margin of 1.5 cm.
                 'container': {
                     'left': 0.2,
                     'top': 0.2,
@@ -56,10 +60,10 @@ class PadesVisualElementsRestPki:
             },
         }
 
-        # Position of the visual representation. We get the footnote position preset
-        # and customize it.
+        # Position of the visual representation. We get the footnote position
+        # preset and customize it.
         visual_positioning = \
-            PadesVisualPositioningPresets.get_footnote(get_restpki_client())
+            PadesVisualPositioningPresets.get_footnote(get_rest_pki_client())
         visual_positioning['auto']['container']['height'] = 4.94
         visual_positioning['auto']['signatureRectangleSize']['width'] = 8.0
         visual_positioning['auto']['signatureRectangleSize']['height'] = 4.94

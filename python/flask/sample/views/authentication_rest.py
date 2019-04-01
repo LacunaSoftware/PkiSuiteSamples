@@ -5,13 +5,13 @@ from flask import make_response
 from flask import request
 from flask import Blueprint
 
-from sample.utils import get_restpki_client
+from sample.utils import get_rest_pki_client
 from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
 blueprint = Blueprint(os.path.basename(__name__), __name__,
-                      url_prefix='/authentication-restpki')
+                      url_prefix='/authentication-rest')
 
 
 @blueprint.route('/')
@@ -26,17 +26,17 @@ def index():
     try:
 
         # Get an instance of the Authentication class.
-        auth = get_restpki_client().get_authentication()
+        auth = get_rest_pki_client().get_authentication()
 
-        # Call the start_with_webpki() method, which initiates the
+        # Call the start_with_web_pki() method, which initiates the
         # authentication. This yields the "token", a 22-character case-sensitive
         # URL-safe string, which represents this authentication process. We'll
         # use this value to call the signWithRestPki() method on the Web PKI
         # component (see signature-form.js) and also to call the
-        # complete_with_webpki() method on the route /authentication/action.
+        # complete_with_web_pki() method on the route /authentication/action.
         # This should not be mistaken with the API access token. We have
         # encapsulated the security context choice on util.py.
-        token = auth.start_with_webpki(get_security_context_id())
+        token = auth.start_with_web_pki(get_security_context_id())
 
         # The token acquired above can only be used for a single
         # authentication. In order to retry authenticating it is necessary to
@@ -72,7 +72,7 @@ def action():
         token = request.form['token']
 
         # Get an instance of the Authentication class.
-        auth = get_restpki_client().get_authentication()
+        auth = get_rest_pki_client().get_authentication()
 
         # Call the complete_with_webpki() method with the token, which finalizes
         # the authentication process. The call yields a ValidationResults

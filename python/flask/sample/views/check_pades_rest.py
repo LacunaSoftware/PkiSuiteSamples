@@ -5,7 +5,7 @@ from flask import Blueprint, render_template, current_app
 from restpki_client import PadesSignatureExplorer, StandardSignaturePolicies
 
 from sample.storage_mock import lookup_verification_code
-from sample.utils import parse_verification_code, get_restpki_client, \
+from sample.utils import parse_verification_code, get_rest_pki_client, \
     get_security_context_id
 
 blueprint = Blueprint(basename(__name__), __name__,
@@ -35,7 +35,7 @@ def index(code):
 
     # Get an instance of PadesSignatureExplorer class, used to open/validate PDF
     # signatures.
-    sig_explorer = PadesSignatureExplorer(get_restpki_client())
+    sig_explorer = PadesSignatureExplorer(get_rest_pki_client())
 
     # Specify that we want to validate the signatures in the file, not only
     # inspect them.

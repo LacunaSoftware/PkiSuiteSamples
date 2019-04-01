@@ -14,7 +14,7 @@ from restpki_client import StandardSignaturePolicies
 
 from sample.storage_mock import create_app_data
 from sample.storage_mock import get_sample_batch_doc_path
-from sample.utils import get_restpki_client
+from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
 blueprint = Blueprint(basename(__name__), __name__)
@@ -35,7 +35,7 @@ def index():
 def start(file_id):
     # Get an instantiate of the CadesSignatureStarter class, responsible for
     # receiving the signature elements and start the signature process.
-    signature_starter = CadesSignatureStarter(get_restpki_client())
+    signature_starter = CadesSignatureStarter(get_rest_pki_client())
 
     # Set the document to be signed based on its ID.
     signature_starter.set_file_to_sign_path(get_sample_batch_doc_path(file_id))
@@ -76,7 +76,7 @@ def start(file_id):
 def complete(token):
     # Get an instance of the CadesSignatureFinisher class, responsible for
     # completing the signature process.
-    signature_finisher = CadesSignatureFinisher(get_restpki_client())
+    signature_finisher = CadesSignatureFinisher(get_rest_pki_client())
 
     # Set the token.
     signature_finisher.token = token

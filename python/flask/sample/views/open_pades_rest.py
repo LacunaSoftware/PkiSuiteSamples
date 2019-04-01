@@ -4,10 +4,10 @@ from os.path import join
 from flask import Blueprint
 from flask import current_app
 from flask import render_template
-from restpki_client import PadesSignatureExplorer, FileReference
+from restpki_client import PadesSignatureExplorer
 from restpki_client import StandardSignaturePolicies
 
-from sample.utils import get_restpki_client
+from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
 blueprint = Blueprint(basename(__name__), __name__,
@@ -24,7 +24,7 @@ def index(file_id):
 
     # Get an instance of PadesSignatureExplorer class, used to open/validate PDF
     # signatures.
-    sig_explorer = PadesSignatureExplorer(get_restpki_client())
+    sig_explorer = PadesSignatureExplorer(get_rest_pki_client())
 
     # Specify that we want to validate the signatures in the file, not only
     # inspect them.

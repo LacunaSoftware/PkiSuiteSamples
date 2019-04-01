@@ -11,7 +11,7 @@ from restpki_client import CadesSignatureFinisher
 from restpki_client import StandardSignaturePolicies
 
 from sample.storage_mock import create_app_data
-from sample.utils import get_restpki_client
+from sample.utils import get_rest_pki_client
 from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
@@ -40,7 +40,7 @@ def index(file_to_sign=None, file_to_cosign=None):
 
         # Get an instantiate of the CadesSignatureStarter class, responsible for
         # receiving the signature elements and start the signature process.
-        signature_starter = CadesSignatureStarter(get_restpki_client())
+        signature_starter = CadesSignatureStarter(get_rest_pki_client())
 
         if file_to_cosign is not None:
             # If the URL argument "cmsfile" is filled, the user has asked to
@@ -129,7 +129,7 @@ def action():
 
         # Get an instance of the CadesSignatureFinisher class, responsible for
         # completing the signature process.
-        signature_finisher = CadesSignatureFinisher(get_restpki_client())
+        signature_finisher = CadesSignatureFinisher(get_rest_pki_client())
 
         # Set the token.
         signature_finisher.token = token
