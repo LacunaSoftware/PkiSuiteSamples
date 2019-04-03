@@ -10,9 +10,6 @@ import uuid
 from flask import render_template
 from flask import request
 from flask import current_app
-from flask import flash
-from flask import redirect
-from flask import url_for
 from flask import Blueprint
 from pkiexpress import standard_signature_policies
 from pkiexpress import PadesSignatureStarter
@@ -20,7 +17,6 @@ from pkiexpress import SignatureFinisher
 
 from sample.pades_visual_elements_express import PadesVisualElementsExpress
 from sample.storage_mock import create_app_data
-from sample.storage_mock import get_sample_doc_path
 from sample.storage_mock import get_pdf_stamp_path
 from sample.utils import set_pki_defaults
 

@@ -45,9 +45,10 @@ def index():
         # we rendered previously, with a now stale token. To prevent this from
         # happening, we force page expiration through HTTP headers to prevent
         # caching of the page.
-        response = make_response(render_template('authentication_restpki/index.html',
-                                                 token=token))
-        response.headers = get_expired_page_headers()
+        response = make_response(
+            render_template('authentication_restpki/index.html',
+                            token=token))
+        get_expired_page_headers(response.headers)
         return response
 
     except Exception as e:

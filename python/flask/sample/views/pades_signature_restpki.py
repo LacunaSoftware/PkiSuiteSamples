@@ -79,7 +79,7 @@ def index(file_to_sign=None):
         response = make_response(
             render_template('pades_signature_restpki/index.html',
                             token=result.token))
-        response.headers = get_expired_page_headers()
+        get_expired_page_headers(response.headers)
         return response
 
     except Exception as e:
