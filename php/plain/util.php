@@ -11,7 +11,6 @@ class Util {
 
     //region REST PKI
 
-    // TODO: Write description.
     public static function getRestPkiClient()
     {
         // Get configuration.
@@ -30,7 +29,7 @@ class Util {
 
         $endpoint = $config['restPki']['endpoint'];
         if ($endpoint == null || count($endpoint) === 0) {
-            $endpoint = 'http://pki.rest/';
+            $endpoint = 'https://pki.rest/';
         }
 
         return new RestPkiClient($endpoint, $accessToken);
@@ -60,7 +59,6 @@ class Util {
 
     //region PKI Express
 
-    // TODO: Write description.
     public static function setPkiDefaults(&$operator)
     {
         // Get configuration.

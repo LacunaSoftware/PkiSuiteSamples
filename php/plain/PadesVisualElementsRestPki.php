@@ -11,10 +11,8 @@ use Lacuna\RestPki\PdfMarkTextElement;
 use Lacuna\RestPki\PdfTextSection;
 use Lacuna\RestPki\PdfTextStyle;
 
-// TODO: Write description.
 class PadesVisualElementsRestPki {
 
-    // TODO: Write description.
     public static function getVisualRepresentation()
     {
         // Create a visual representation.

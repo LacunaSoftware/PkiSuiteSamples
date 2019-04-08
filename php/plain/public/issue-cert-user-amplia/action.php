@@ -6,7 +6,7 @@ use Lacuna\Amplia\CreateOrderRequest;
 use Lacuna\Amplia\CertificateKinds;
 use Lacuna\Amplia\PkiBrazilCertificateParameters;
 
-$returnUrl = 'http://localhost:8000/issue-cert-user-amplia/complete.php';
+$RETURN_URL = 'http://localhost:8000/issue-cert-user-amplia/complete.php';
 
 // Retrieve input values from submitted form.
 $subjectName = $_POST['subjectName'];
@@ -44,7 +44,7 @@ $order = $client->createOrder($createOrderRequest);
 
 // After the order is create, get a redirect link to a remote page to issue the certificate. We
 // pass a return URL, to redirect the user after the certificate is issued.
-$redirectLink = $client->getOrderIssueLink($order->id, $returnUrl);
+$redirectLink = $client->getOrderIssueLink($order->id, $RETURN_URL);
 
 ?>
 <!DOCTYPE html>
