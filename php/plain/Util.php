@@ -2,6 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Lacuna\Amplia\AmpliaClient;
 use Lacuna\RestPki\RestPkiClient;
 use Lacuna\RestPki\StandardSecurityContexts;
 use Lacuna\PkiExpress\TimestampAuthority;
@@ -10,7 +11,6 @@ class Util {
 
     //region REST PKI
 
-    // TODO: Write description.
     public static function getRestPkiClient()
     {
         // Get configuration.
@@ -29,7 +29,7 @@ class Util {
 
         $endpoint = $config['restPki']['endpoint'];
         if ($endpoint == null || count($endpoint) === 0) {
-            $endpoint = 'http://pki.rest/';
+            $endpoint = 'https://pki.rest/';
         }
 
         return new RestPkiClient($endpoint, $accessToken);
@@ -59,7 +59,6 @@ class Util {
 
     //region PKI Express
 
-    // TODO: Write description.
     public static function setPkiDefaults(&$operator)
     {
         // Get configuration.
@@ -105,12 +104,42 @@ class Util {
 
     //endregion
 
+    // region Amplia
+
+    public static function getAmpliaClient()
+    {
+        $config = getConfig();
+
+        // Throw exception if the API key is not set (this check is here just for the sake fo newcomers,
+        // you can remove it).
+        $ampliaApiKey = $config['amplia']['apiKey'];
+        if (empty($ampliaApiKey) || strpos($ampliaApiKey, ' API KEY ') !== false) {
+            throw new \Exception('The API key was not set! Hint: to run this sample ' .
+            'you must generate an API key on the Amplia website and paste it on the file config.php');
+        }
+
+        $ampliaEndpoint = $config['amplia']['endpoint'];
+        if ($ampliaEndpoint == null || count($ampliaEndpoint) === 0) {
+            $ampliaEndpoint = 'https://amplia.lacunasoftware.com/';
+        }
+
+        // Return an instance of AmpliaClient class, passing the endpoint and the API key.
+        return new AmpliaClient($ampliaEndpoint, $ampliaApiKey);
+    }
+
+    // endregion
+
     public static function setExpiredPage()
     {
         header('Expires: ' . gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Cache-Control: private, no-store, max-age=0, no-cache, must-revalidate, post-check=0, pre-check=0');
         header('Pragma: no-cache');
+    }
+
+    public static function getDateYearsFromNow($years)
+    {
+        return date('Y-m-d', strtotime("+{$years} years"));
     }
 }
 
