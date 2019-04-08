@@ -29,15 +29,40 @@ function getConfig()
         ],
 
         // -----------------------------------------------------------------------------------------
+        // Amplia
+        // -----------------------------------------------------------------------------------------
+        'amplia' => [
+
+            // The CA's id that will be used to issue a certificate using Amplia. We have configured
+            // to the sample CA from sample subscription for these samples.
+            'caId' => 'eaffa754-1fb5-474a-b9ef-efe43101e89f',
+
+            // ======================================================
+            //       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
+            // ======================================================
+            'apiKey' => 'pki-suite-samples-02|c7961cfdec07e34aa77dd12fe176acb8a453e54e7f6d0cab6756b60995201284',
+            // This is a TRIAL API key to use Amplia. It will expire at 31/05/2019.
+            // If the Amplia's samples do not work please contact our support by email:
+            // suporte@lacunasoftware.com
+
+            // In order to use this sample on a "on premises" installation of Amplia, fill the
+            // field below with the URL address of your REST PKI installation (with the trailing '/'
+            // character).
+            'endpoint' => null,
+        ],
+
+        // -----------------------------------------------------------------------------------------
         // PKI Express
         // ----------------------------------------------------------------------------------------
 
         "pkiExpress" => array(
 
-            // TODO: Write description.
+            // List of custom trusted roots. In this sample, we will get the certificate files on
+            // resources folder.
             "trustedRoots" => [],
 
-            // TODO: Write description.
+            // Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode
+            // is useful when there is no network available.
             "offline" => false
         ),
 
