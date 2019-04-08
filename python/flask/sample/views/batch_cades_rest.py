@@ -20,7 +20,7 @@ from sample.utils import get_security_context_id
 blueprint = Blueprint(basename(__name__), __name__)
 
 
-@blueprint.route('/batch-cades-restpki')
+@blueprint.route('/batch-cades-rest')
 def index():
     # It is up to your application's business logic to determine which documents
     # will compose the batch.
@@ -31,7 +31,7 @@ def index():
                            document_ids=document_ids)
 
 
-@blueprint.route('/api/batch-cades-restpki/start/<file_id>', methods=['POST'])
+@blueprint.route('/api/batch-cades-rest/start/<file_id>', methods=['POST'])
 def start(file_id):
     # Get an instantiate of the CadesSignatureStarter class, responsible for
     # receiving the signature elements and start the signature process.
@@ -72,7 +72,7 @@ def start(file_id):
     return jsonify(result.token)
 
 
-@blueprint.route('/api/batch-cades-restpki/complete/<token>', methods=['POST'])
+@blueprint.route('/api/batch-cades-rest/complete/<token>', methods=['POST'])
 def complete(token):
     # Get an instance of the CadesSignatureFinisher class, responsible for
     # completing the signature process.

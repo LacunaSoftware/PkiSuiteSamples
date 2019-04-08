@@ -18,7 +18,7 @@ from sample.utils import get_security_context_id
 
 
 blueprint = Blueprint(os.path.basename(__name__), __name__,
-                      url_prefix='/pades-signature-restpki')
+                      url_prefix='/pades-signature-rest')
 
 
 @blueprint.route('/<file_to_sign>')
@@ -76,7 +76,7 @@ def index(file_to_sign=None):
         # force page expiration through HTTP headers to prevent caching of the
         # page.
         response = make_response(
-            render_template('pades_signature_restpki/index.html',
+            render_template('pades_signature_rest/index.html',
                             token=result.token))
         get_expired_page_headers(response.headers)
         return response
@@ -125,7 +125,7 @@ def action():
         result.write_to_file(
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
-        return render_template('pades_signature_restpki/complete.html',
+        return render_template('pades_signature_rest/complete.html',
                                signer_cert=signer_cert,
                                signed_pdf=filename)
 

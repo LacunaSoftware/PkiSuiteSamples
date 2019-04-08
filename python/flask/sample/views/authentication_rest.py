@@ -46,7 +46,7 @@ def index():
         # happening, we force page expiration through HTTP headers to prevent
         # caching of the page.
         response = make_response(
-            render_template('authentication_restpki/index.html',
+            render_template('authentication_rest/index.html',
                             token=token))
         get_expired_page_headers(response.headers)
         return response
@@ -89,7 +89,7 @@ def action():
             vr_html = vr_html.replace('\n', '<br/>')
             vr_html = vr_html.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
 
-            return render_template('authentication_restpki/failed.html',
+            return render_template('authentication_rest/failed.html',
                                    vr_html=vr_html)
 
         # At this point, you have assurance that the certificate is valid
@@ -104,7 +104,7 @@ def action():
         # purposes, we'll just render the user's certificate information.
         user_cert = result.certificate
 
-        return render_template('authentication_restpki/success.html',
+        return render_template('authentication_rest/success.html',
                                user_cert=user_cert)
 
     except Exception as e:

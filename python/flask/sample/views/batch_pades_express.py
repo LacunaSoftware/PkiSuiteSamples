@@ -23,9 +23,10 @@ from sample.utils import set_pki_defaults
 
 
 blueprint = Blueprint(os.path.basename(__name__), __name__,
-                      url_prefix='/batch-pades-signature-express')
+                      url_prefix='')
 
-@blueprint.route('/')
+
+@blueprint.route('/batch-pades-express')
 def index():
     """
 
@@ -42,10 +43,11 @@ def index():
     document_ids = list(range(1, 31))
 
     # Render the batch signature signature page.
-    return render_template('batch_pades_signature_express/index.html',
+    return render_template('batch_pades_express/index.html',
                            document_ids=document_ids)
 
-@blueprint.route('/start', methods=['POST'])
+
+@blueprint.route('/api/batch-pades-express/start', methods=['POST'])
 def start():
     """
 
@@ -99,7 +101,7 @@ def start():
     return jsonify(response)
 
 
-@blueprint.route('/complete', methods=['POST'])
+@blueprint.route('/api/batch-pades-express/complete', methods=['POST'])
 def complete():
     """
 

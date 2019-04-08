@@ -20,9 +20,9 @@ def index():
     return render_template('home/index.html')
 
 
-@blueprint.route('/check-pki-express/<rc>')
-@blueprint.route('/check-pki-express/<rc>/<fwd>')
-@blueprint.route('/check-pki-express/<rc>/<fwd>/<op>')
+@blueprint.route('/check-express/<rc>')
+@blueprint.route('/check-express/<rc>/<fwd>')
+@blueprint.route('/check-express/<rc>/<fwd>/<op>')
 def check_pki_express(rc, fwd=None, op=None):
     """
     

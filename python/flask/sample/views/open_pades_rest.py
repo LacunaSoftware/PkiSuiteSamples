@@ -11,7 +11,7 @@ from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
 blueprint = Blueprint(basename(__name__), __name__,
-                      url_prefix='/open-pades-restpki')
+                      url_prefix='/open-pades-rest')
 
 
 @blueprint.route('/<file_id>')

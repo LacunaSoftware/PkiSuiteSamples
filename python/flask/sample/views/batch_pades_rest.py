@@ -16,10 +16,10 @@ from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
 blueprint = Blueprint(os.path.basename(__name__), __name__,
-                      url_prefix='/batch-pades-signature-restpki')
+                      url_prefix='')
 
 
-@blueprint.route('/')
+@blueprint.route('/batch-pades-rest')
 def index():
     """
 
@@ -37,15 +37,15 @@ def index():
     document_ids = list(range(1, 31))
 
     # Render the batch signature page.
-    return render_template('batch_pades_signature_restpki/index.html',
+    return render_template('batch_pades_rest/index.html',
                            document_ids=document_ids)
 
 
-@blueprint.route('/start/<file_id>', methods=['POST'])
+@blueprint.route('/api/batch-pades-rest/start/<file_id>', methods=['POST'])
 def start(file_id=None):
     """
 
-    This function is called asynchonously via AJAX by the batch signature page
+    This function is called asynchronously via AJAX by the batch signature page
     for each document being signed. It receives the ID of the document and
     initiates a PAdES signature using REST PKI and returns a JSON with the
     token, which identifies this signature process, to be used in the next
@@ -87,7 +87,7 @@ def start(file_id=None):
     return jsonify(result.token)
 
 
-@blueprint.route('/complete/<token>', methods=['POST'])
+@blueprint.route('/api/batch-pades-rest/complete/<token>', methods=['POST'])
 def complete(token=None):
     """
 

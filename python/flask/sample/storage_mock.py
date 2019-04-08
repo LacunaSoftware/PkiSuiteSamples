@@ -69,6 +69,7 @@ def set_verification_code(file_id, code):
     # indexed column.
     session["Files/%s/Code" % file_id] = code
     session["Codes/%s" % code] = file_id
+    session.permanent = True
 
 
 def lookup_verification_code(code):

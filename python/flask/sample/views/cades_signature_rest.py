@@ -16,7 +16,7 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 blueprint = Blueprint(os.path.basename(__name__), __name__,
-                      url_prefix='/cades-signature-restpki')
+                      url_prefix='/cades-signature-rest')
 
 
 @blueprint.route('/<file_to_sign>')
@@ -103,7 +103,7 @@ def index(file_to_sign=None, file_to_cosign=None):
         # happening, we call the method get_expired_page_headers(). To prevent
         # this from happen, we force page expiration through HTTP headers to
         # prevent caching of the page.
-        response = make_response(render_template('cades_signature_restpki/index.html',
+        response = make_response(render_template('cades_signature_rest/index.html',
                                                  token=result.token))
 
         get_expired_page_headers(response.headers)
@@ -152,7 +152,7 @@ def action():
         result.write_to_file(
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
-        return render_template('cades_signature_restpki/complete.html',
+        return render_template('cades_signature_rest/complete.html',
                                signer_cert=signer_cert,
                                cms_file=filename)
 

@@ -2,13 +2,13 @@ from .authentication_express import blueprint as authentication_express
 from .authentication_rest import blueprint as authentication_restpki
 from .batch_cades_express import blueprint as batch_cades_express
 from .batch_cades_rest import blueprint as batch_cades_rest
-from .batch_pades_signature_express import blueprint as \
+from .batch_pades_express import blueprint as \
     batch_pades_signature_express
-from .batch_pades_signature_restpki import blueprint as \
+from .batch_pades_rest import blueprint as \
     batch_pades_signature_restpki
 from .cades_server_key_express import blueprint as cades_server_key_express
 from .cades_signature_express import blueprint as cades_signature_express
-from .cades_signature_restpki import blueprint as cades_signature_restpki
+from .cades_signature_rest import blueprint as cades_signature_restpki
 from .check_pades_express import blueprint as check_pades_express
 from .check_pades_rest import blueprint as check_pades_rest
 from .download import blueprint as download
@@ -19,7 +19,7 @@ from .open_pades_express import blueprint as open_pades_express
 from .open_pades_rest import blueprint as open_pades_rest
 from .pades_server_key_express import blueprint as pades_server_key_express
 from .pades_signature_express import blueprint as pades_signature_express
-from .pades_signature_restpki import blueprint as pades_signature_restpki
+from .pades_signature_rest import blueprint as pades_signature_restpki
 from .printer_version_pades_express import blueprint as \
     printer_version_pades_express
 from .printer_version_pades_rest import blueprint as printer_version_pades_rest
