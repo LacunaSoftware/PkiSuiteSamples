@@ -30,6 +30,14 @@ def get_pdf_stamp_content():
     return pdf_stamp
 
 
+def get_sample_nfe_path():
+    return '%s/%s' % (current_app.static_folder, 'SampleNFe.xml')
+
+
+def get_sample_xml_document_path():
+    return '%s/%s' % (current_app.static_folder, 'SampleDocument.xml')
+
+
 def get_validation_result_icon(is_valid):
     filename = "ok.png" if is_valid else "not-ok.png"
     with open(join(current_app.static_folder, filename), 'rb') as f:

@@ -56,7 +56,9 @@
 			restpki: '/check-rest-token/batch-pades'
 		},
 		// signMultiPdfUser: { },
-		// signNfe: { },
+		signNfe: {
+			restpki: '/check-rest-token/xml-nfe-signature'
+		},
 		// signPdfServer: {
 		// 	express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
 		// 	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
@@ -68,7 +70,9 @@
 		signPdfServerKey: {
 			express: '/check-express/upload/pades-server-key'
 		},
-		// signXmlServer: { },
+		signXmlServer: {
+			restpki: '/check-rest-token/xml-signature'
+		},
 		// signXmlServerKey: { },
 		// signaturePackage: { },
 		// validateCmsSig: { },
