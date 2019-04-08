@@ -1,12 +1,13 @@
 import os
 import sys
+from datetime import timedelta
 
 from os.path import abspath
 from os.path import exists
 from os.path import join
 
 from imp import reload
-from flask import Flask, session
+from flask import Flask
 from flask_session import Session
 
 from sample.views import blueprints
@@ -51,8 +52,8 @@ def register_extensions(app):
     """Register Flask extensions."""
 
     # Flask Session
-    app.config['SESSION_TYPE'] = 'memcached'
-    app.secret_key = '?Y\\Kj;!X%AcmjF%CF(_k)p8,S<<6uhUJ'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['SECRET_KEY'] = os.urandom(24)
     sess = Session()
     sess.init_app(app)
 
