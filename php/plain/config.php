@@ -20,12 +20,35 @@ function getConfig()
             // ====================================================
             //     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
             // ====================================================
-            'accessToken' => 'zF1ozzyD_Vw67x3kKrdgbN9OjqgEvDrApbJogKtjfNxqvnQpS6jRfUPONGFhIZMDnLrR_Hp_vRWIk6LrzwrxLkOmGOFUyhTh2SC0FFCQuCE-Jv2KjL556IMOPxkQwncCxcFkQHdxVDpslFIezY29CGp0rWLCLXuPJp9EVkUlR48BofZE7J0XFvMx-TkZtg1bCsQWKdLtyMgQJxsLz1OQJ-XbPnWN-lEpp2tfJmSRQXLvIYnSAe5oSr-s89C6T_CmIYpZBRJsAjHYgky7Vk5lSDPZHs99F7NAoBZ8TdDUs7DenfTJ23ONmSqyHHPEKoXgqAb5-rQZ3S0YDDzAqPFwAJ84bXaHNMueDjvIWwgcIjfHvzEVf0RpvRvNirnUsDaMsy2ipgO_uT1npKnAuVAPV0tJM6Ci8jTmIVk4BBb_Ju6dxKJdpEyyCzDNFfokks2txcMSkpOAxQmlTJsqyIY8K8JRWULjujW4rjGNpFcr_QuY_919WKm-ouTzLoS8eUctnFIUcg',
-            // This is a TRIAL token. It will be expired at 30/04/2019.
+            'accessToken' => '9nusF9Wh-lTYsVRbhkgjYwMqrz6nfZQzrJmcU8nQMapctnql8GUh4KA56YCnm_Ff-VKelhD3tE9zXfUzKOn1yL3h3h7uz-Vq0Eu2sb9rl393Vd53LuP5Hoza7cOlCMMJa598yu-bc9zPwU_sH81sn6T-vKSpBjdvXM16rk--im3RTA5brTHy1ggCO_oavmVUqn1zb6H6St13M8B0FdflSNxeRD6ThcABKeDFQhKqrgAGGLZrsoZDXh-hleatUzMp0kALb_f9VKVDwt4QGEoMS14bT4hbU9hY4kaGdaHsAE8Zio6Ja5LSIIKIkqIID-i-5vEg4R9cjrZ7tFaM5MwKVlvETRDqHUlK30HjzA4ngLwSSRYKtKYFFa1PRBJ9l6aU7J9MUlxogk1URxV0oveC83bI_oWVvB1Wzd1gUFPGpHILINNRkzfafabl5V--zReEoF-wDbo6KewBBU9nF6-UaFEGK-3ZkQ2Fa8K9KYMJGrW7ylTwPIpojBWBHzlyXO5X-jjF-A',
+            // This is a TRIAL token. It will be expired at 30/05/2019.
             // If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
             // Address of your Rest PKI installation (with the trailing '/' character)
             "endpoint" => null,
+        ],
+
+        // -----------------------------------------------------------------------------------------
+        // Amplia
+        // -----------------------------------------------------------------------------------------
+        'amplia' => [
+
+            // The CA's id that will be used to issue a certificate using Amplia. We have configured
+            // to the sample CA from sample subscription for these samples.
+            'caId' => 'eaffa754-1fb5-474a-b9ef-efe43101e89f',
+
+            // ======================================================
+            //       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
+            // ======================================================
+            'apiKey' => 'pki-suite-samples-02|c7961cfdec07e34aa77dd12fe176acb8a453e54e7f6d0cab6756b60995201284',
+            // This is a TRIAL API key to use Amplia. It will expire at 31/05/2019.
+            // If the Amplia's samples do not work please contact our support by email:
+            // suporte@lacunasoftware.com
+
+            // In order to use this sample on a "on premises" installation of Amplia, fill the
+            // field below with the URL address of your REST PKI installation (with the trailing '/'
+            // character).
+            'endpoint' => null,
         ],
 
         // -----------------------------------------------------------------------------------------
@@ -34,10 +57,12 @@ function getConfig()
 
         "pkiExpress" => array(
 
-            // TODO: Write description.
+            // List of custom trusted roots. In this sample, we will get the certificate files on
+            // resources folder.
             "trustedRoots" => [],
 
-            // TODO: Write description.
+            // Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode
+            // is useful when there is no network available.
             "offline" => false
         ),
 

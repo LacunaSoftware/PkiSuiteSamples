@@ -25,6 +25,7 @@ from sample.utils import set_pki_defaults
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/cades-signature-express')
 
+
 @blueprint.route('/<file_id>')
 def index(file_id):
     """

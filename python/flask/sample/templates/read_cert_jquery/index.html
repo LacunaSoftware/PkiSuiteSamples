@@ -1,0 +1,269 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+	<h2 class="ls-title">Read one of the users' certificates with JQuery</h2>
+
+	<div class="ls-content">
+
+	<div class="row">
+		<div class="col-lg-6">
+			<form id="readCertForm">
+				<!--
+					Render a select (combo box) to list the user's certificates. For
+					now it will be empty, we'll populate it after page loading (see
+					function loadCertificates() below).
+				-->
+				<div class="form-group">
+					<label for="certificateSelect">Choose a certificate</label>
+					<select id="certificateSelect" class="custom-select"></select>
+				</div>
+
+				<!--
+					Action buttons. The "Refresh Certificates" button, which is
+					responsible to reload the certificate list. This operation uses
+					the same function used on page loading (see function refresh()
+					below).
+				-->
+				<div class="form-group">
+					<button id="refreshButton" type="button" class="btn btn-primary">
+						<i class="fas fa-retweet"></i> Refresh Certificates
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<!--
+			The panel where the certificate's information will be rendered using
+			JQuery.
+		-->
+		<div class="col-lg-6">
+			<div id="certInfo"></div>
+		</div>
+	</div>
+
+	</div>
+{% endblock %}
+
+{% block scripts %}
+
+	<!--
+		The file below contains the JS lib for accessing the Web PKI component.
+		For more information, see:
+		https://webpki.lacunasoftware.com/#/Documentation
+	-->
+	<script type="text/javascript"
+			  src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+			  integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+			  crossorigin="anonymous"></script>
+
+	<script>
+
+		// Global variable stored all certificate objects. This list will be
+		// useful when we want to recover the certificate's information using its
+		// thumbprint field.
+		var certificates = [];
+
+		// Variable that will store an instance of the Lacuna WebPKI object. If a
+		// license was set on application.yml, the layout.html master template
+		// will have placed it on the global variable _webPkiLicense, which we
+		// pass to the class constructor.
+		var pki = new LacunaWebPKI(_webPkiLicense);
+
+		// -----------------------------------------------------------------------
+		// This method will be called as soon as the page is loaded. It will
+		// initialize Web PKI and load the certificates on the page.
+		// -----------------------------------------------------------------------
+		function init() {
+
+			// Wire up "refresh" button.
+			$('#refreshButton').click(refresh);
+
+			// Register "onchange" event to read the certificate and show info on
+			// page every time a certificate is chosen.
+			$('#certificateSelect').change(onCertificateChosen);
+
+			// Block the UI while we get things ready.
+			$.blockUI({ message: 'Initializing ...' });
+
+			// Call the init() method on the LacunaWebPKI object, passing a
+			// callback for when the component is ready to be used and another to
+			// be called when an error occurs on any of the subsequent operations.
+			// For more information, see:
+			// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
+			// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
+			pki.init({
+				ready: loadCertificates,     // As soon as the component is ready, we'll load the certificates.
+				defaultError: onWebPkiError  // Generic error callback defined below.
+			});
+		}
+
+		// -----------------------------------------------------------------------
+		// Function called when the user clicks the "Refresh" button.
+		// -----------------------------------------------------------------------
+		function refresh() {
+			// Enable select again. This select can be disabled when there is no
+			// certificate on the user's machine.
+			$('#certificateSelect').prop('disabled', false);
+			// Remove content from "certificate information" field.
+			$('#certInfo').empty();
+
+			// Block the UI while we load the certificates.
+			$.blockUI({ message: 'Refreshing ...' });
+			// Invoke the loading of the certificates again.
+			loadCertificates();
+		}
+
+		// -----------------------------------------------------------------------
+		// Function that loads the certificates, either on startup or when the
+		// user clicks the "Refresh" button. At this point, the UI is already
+		// blocked.
+		// -----------------------------------------------------------------------
+		function loadCertificates() {
+
+			// Call the listCertificates() method to list the user's certificates.
+			// For more information see:
+			// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
+			pki.listCertificates({
+
+				// The ID of the <select> element to be populated with the
+				// certificates.
+				selectId: 'certificateSelect',
+
+				// Function that will be called to get the text that should be
+				// displayed for each option.
+				selectOptionFormatter: function (cert) {
+					var s = cert.subjectName + ' (issued by ' + cert.issuerName + ')';
+					if (new Date() > cert.validityEnd) {
+						s = '[EXPIRED] ' + s;
+					}
+					return s;
+				}
+
+			}).success(function (certs) {
+
+				// Store certificates objects on a global variable to be used on
+				// rendering the chosen certificate's fields.
+				certificates = certs;
+
+				// Verify if there is no certificates available to disable the
+				// <select> element, showing the messaging informing that.
+				if (certificates.length === 0) {
+					$('#certificateSelect')
+						.append('<option value="null">There is no certificate on your machine</option>')
+						.prop('disabled', true);
+				}
+
+				// Trigger onCertificateChosen() callback after the certificate list
+				// is filled, to get the first certificate's information.
+				onCertificateChosen();
+
+				// Once the certificates have been listed, unblock the UI.
+				$.unblockUI();
+			});
+		}
+
+		// -----------------------------------------------------------------------
+		// This handler method will be executed every time a certificate is
+		// chosen.
+		// -----------------------------------------------------------------------
+		function onCertificateChosen() {
+
+			// Get the thumbprint of the select certificate.
+			var selectedThumbprint = $('#certificateSelect').val();
+
+			// Find the certificate object referred by its thumbprint. After that,
+			// we call the method showCertInfo() to render the certificate on the
+			// div#certInfo element using JQuery.
+			for (var i = 0; i < certificates.length; i++) {
+				if (certificates[i].thumbprint === selectedThumbprint) {
+					showCertInfo(certificates[i]);
+					break;
+				}
+			}
+		}
+
+		// -----------------------------------------------------------------------
+		// Function called by "onCertificationChosen" method. This method will
+		// render the certificate's fields on the div#certInfo element.
+		// -----------------------------------------------------------------------
+		function showCertInfo(cert) {
+
+			// Acquire the element's reference.
+			var certInfoElement = $('#certInfo');
+
+			// Clean all content inside the element.
+			certInfoElement.empty();
+
+			// Render the certificate's fields.
+			certInfoElement
+				.append('<h5>Certificate\'s Fields</h5>')
+				.append('<hr/>')
+				.append('<span><b>Thumbprint</b>: ' + cert.thumbprint + '</span><br/>')
+				.append('<span><b>Subject Name</b>: ' + cert.subjectName + '</span><br/>')
+				.append('<span><b>Issued Name</b>: ' + cert.issuerName + '</span><br/>')
+				.append('<span><b>Validity Start</b>: ' + cert.validityStart + '</span><br/>')
+				.append('<span><b>Validity End</b>: ' + cert.validityEnd + '</span><br/>');
+
+			if (cert.pkiBrazil && cert.pkiBrazil.certificateType !== "Unknown") {
+				// Render the ICP-Brasil fields.
+				certInfoElement
+					.append('<span><b>Certificate Type</b>: ' + cert.pkiBrazil.certificateType + '</span><br/>')
+					.append('<span><b>CPF</b>: ' + cert.pkiBrazil.cpf + '</span><br/>')
+					.append('<span><b>Date Of Birth</b>: ' + cert.pkiBrazil.dateOfBirth + '</span><br/>')
+					.append('<span><b>Responsável</b>: ' + cert.pkiBrazil.responsavel + '</span><br/>');
+
+				if (cert.pkiBrazil.isPessoaJuridica === true) {
+					certInfoElement.append('<span><b>CNPJ</b>: ' + cert.pkiBrazil.cnpj + '</span><br/>');
+				}
+			}
+
+			// Render the key usages of the certificates.
+			certInfoElement.append('<span><b>Key Usage</b>: ' + '</span><br/>');
+			// Render "CRL Sign" usage.
+			renderKeyUsage(certInfoElement, cert.keyUsage.crlSign, 'CRL Sign');
+			// Render "Data Encipherment" usage.
+			renderKeyUsage(certInfoElement, cert.keyUsage.dataEncipherment, 'Data Encipherment');
+			// Render "Digital Signature" usage.
+			renderKeyUsage(certInfoElement, cert.keyUsage.digitalSignature, 'Digital Signature');
+			// Render "Key Encipherment" usage.
+			renderKeyUsage(certInfoElement, cert.keyUsage.keyEncipherment, 'Key Encipherment');
+			// Render "Non Repudiation" usage.
+			renderKeyUsage(certInfoElement, cert.keyUsage.nonRepudiation, 'Non Repudiation');
+		}
+
+		// -----------------------------------------------------------------------
+		// Useful method on certificate's rendering.
+		// -----------------------------------------------------------------------
+		function renderKeyUsage(element, keyUsage, keyUsageText) {
+			element
+				.append('&nbsp;&nbsp;&nbsp;&nbsp;')
+				.append('<span><b>' + keyUsageText + '</b>: <span class="badge ' + (keyUsage ? 'badge-success' : 'badge-danger') + '">' + keyUsage.toString() + '</span></span>')
+				.append('<br/>');
+		}
+
+		// -----------------------------------------------------------------------
+		// Function called if an error occurs on the Web PKI component.
+		// -----------------------------------------------------------------------
+		function onWebPkiError(message, error, origin) {
+
+			// Unblock the UI.
+			$.unblockUI();
+
+			// Log the error to the browser console (for debugging purposes).
+			if (console) {
+				console.log('An error has occurred on the signature browser component: ' + message, error);
+			}
+
+			// Show the message to the user. You might want to substitute the alert
+			// below with a more user-friendly UI component to show the error (see
+			// function addAlert() on layout.html).
+			addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
+		}
+
+		// Once the page is ready, we call the init() function on the javascript
+		// code (see function init() above).
+		$(document).ready(init);
+
+	</script>
+
+{% endblock %}

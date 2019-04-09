@@ -7,5 +7,5 @@ Werkzeug==0.14.1
 click==6.7
 wheel==0.31.1
 docopt==0.6.1
-restpki-client==1.0.0
+restpki-client==1.1.1
 pkiexpress==1.4.0
