@@ -1,5 +1,10 @@
 import os
 import sys
+from datetime import timedelta
+
+from os.path import abspath
+from os.path import exists
+from os.path import join
 
 from imp import reload
 from flask import Flask
@@ -28,10 +33,10 @@ def create_app():
     app.config.from_object(config[app.env])
 
     # Folders location
-    app_root_folder = os.path.abspath(os.path.dirname(__file__))
-    appdata_folder = os.path.join(app_root_folder, 'app_data')
+    app_root_folder = abspath(os.path.dirname(__file__))
+    appdata_folder = join(app_root_folder, 'app_data')
 
-    if not os.path.exists(appdata_folder):
+    if not exists(appdata_folder):
         os.makedirs(appdata_folder)
 
     # Add environment configuration
@@ -48,7 +53,7 @@ def register_extensions(app):
 
     # Flask Session
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.config['SECRET_KEY'] = '?Y\Kj;!X%AcmjF%CF(_k)p8,S<<6uhUJ'
+    app.config['SECRET_KEY'] = os.urandom(24)
     sess = Session()
     sess.init_app(app)
 

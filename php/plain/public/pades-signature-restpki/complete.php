@@ -49,7 +49,7 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 
 <?php include '../menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 
     <h2 class="ls-title">PAdES Signature with REST PKI</h2>

@@ -1,5 +1,8 @@
 class PadesVisualElementsExpress:
 
+    def __init__(self):
+        pass
+
     @staticmethod
     def get_visual_representation():
         """
@@ -23,9 +26,9 @@ class PadesVisualElementsExpress:
                 'includeSigningTime': True,
                 # Optionally set the container within the signature rectangle on
                 # which to place the text. By default, the text can occupy the
-                # entire rectangle (how much of the rectangle the text will actually
-                # fill depends on the length and font size). Below, we specify that
-                # the text should respect a right margin of 1.5 cm.
+                # entire rectangle (how much of the rectangle the text will
+                # actually fill depends on the length and font size). Below, we
+                # specify that the text should respect a right margin of 1.5 cm.
                 'container': {
                     'left': 0.2,
                     'top': 0.2,
