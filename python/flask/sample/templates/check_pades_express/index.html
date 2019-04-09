@@ -28,7 +28,7 @@
 							{% if signer.signing_time %}
 								<p>Signing time: {{ signer.signing_time.strftime('%d/%m/%Y %H:%M') }}</p>
 							{% endif %}
-							<p>Message digest: {{ signer.message_digest.algorithm.name or '' }} {{ signer.message_digest.hex_value or '' }}</p>
+							<p>Message digest: {{ signer.message_digest.algorithm.name or '' }} {{ signer.message_digest.hex_value.upper() or '' }}</p>
 							{% if signer.signature_policy %}
 								<p>Signature policy: {{ signer.signature_policy.oid }}</p>
 							{% endif %}
