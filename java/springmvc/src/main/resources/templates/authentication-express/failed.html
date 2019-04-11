@@ -3,14 +3,19 @@
 <body>
 
 <div th:fragment="content">
-
 	<h2 class="ls-title">Authentication with PKI Express</h2>
+	<h5 class="ls-subtitle">Authentication failed <i class="fas fa-times-circle text-danger"></i></h5>
 
-	<h5>Authentication failed <i class="fas fa-times-circle" style="color: red;"></i></h5>
+	<div class="ls-content">
 
-	<p th:utext="${vrHtml}"></p>
+		<p th:utext="${vrHtml}"></p>
+		<p>
+			<a th:href="@{/authentication-express}" class="btn btn-primary">
+				<i class="fas fa-undo-alt"></i> Try again
+			</a>
+		</p>
 
-	<p><a href="/authentication-express" class="btn btn-primary">Try again</a></p>
+	</div>
 </div>
 
 </body>

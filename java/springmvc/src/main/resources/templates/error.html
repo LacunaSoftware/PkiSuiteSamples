@@ -2,27 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
 <body>
 
-<div th:fragment="content">
+<div th:fragment="content" th:with="requestUri = ${path} ? ${path} : ${#httpServletRequest.getRequestURI()}">
 	<h2 class="ls-title">An error has occurred</h2>
-	<h3 th:if="${method} != null and ${controller} != null"><span th:text="${method}"></span>() on <span th:text="${controller}"></span></h3>
+	<h5 class="ls-subtitle">on route <b><span th:text="${#httpServletRequest.getMethod()}"></span> <span th:text="${requestUri}"></span></b></h5>
 
-	<br/>
-	<label>Error message</label>
-	<p th:if="${errorMessage} != null" th:text="${errorMessage}"></p>
-	<p th:if="${errorMessage} == null" th:text="${exception}"></p>
+	<div class="ls-content">
 
-	<th:block th:with="stackTrace=(stackHtml != null and stackHtml != '' ? ${stackHtml} : ${trace})"
-	          th:if="stackTrace != null and stackTrace != ''">
-		<label for="trace">Stack Trace</label>
-		<textarea class="form-control"
-				id="trace"
-				rows="30"
-				th:utext="${stackTrace}"
-				style="width: 100%; margin-bottom: 15px; word-break: break-all; resize: none;"></textarea>
-	</th:block>
+		<label>Status Code</label>
+		<p><span th:text="${status}"></span> <span th:if="${error}" th:inline="text">([[${error}]])</span></p>
 
+		<label>Message</label>
+		<p th:text="${message}"></p>
 
-	<button type="button" class="btn btn-primary" onclick="window.history.back()">Return</button>
+		<th:block th:if="${action} and ${controller}">
+			<label>Location</label>
+			<p>The action <b><span th:text="${action}"></span>()</b> on <b><span th:text="${controller}"></span>.java</b></p>
+		</th:block>
+
+		<th:block th:if="${trace}">
+			<label for="stackTrace">Stack Trace</label>
+			<textarea id="stackTrace"
+			          rows="30"
+			          th:utext="${trace}"
+			          style="width: 100%; border: 1px solid #ced4da; border-radius: 0.25rem; margin-bottom: 15px; word-break: break-all; resize: none;"></textarea>
+		</th:block>
+
+		<a class="btn btn-primary" href="/"><i class="fas fa-undo-alt"></i> Return to Home</a>
+
+	</div>
 </div>
 
 </body>

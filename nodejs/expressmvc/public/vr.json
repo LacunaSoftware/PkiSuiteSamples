@@ -1,0 +1,47 @@
+{
+  "Text": {
+    "FontSize": 13.0,
+    "Text": "Signed by {{name}} ({{br_cpf_formatted}})",
+    "IncludeSigningTime": true,
+    "HorizontalAlign": null,
+    "Container": {
+      "Left": 0.2,
+      "Top": 0.2,
+      "Right": 0.2,
+      "Bottom": 0.2,
+      "Width": null,
+      "Height": null
+    }
+  },
+  "Image": {
+    "Resource": {
+      "Url": "fref://stamp",
+      "Content": null,
+      "MimeType": null
+    },
+    "Opacity": null,
+    "HorizontalAlign": null,
+    "VerticalAlign": null
+  },
+  "Position": {
+    "PageNumber": -1,
+    "MeasurementUnits": null,
+    "PageOptimization": null,
+    "Auto": {
+      "Container": {
+        "Left": 1.5,
+        "Top": null,
+        "Right": 1.5,
+        "Bottom": 1.5,
+        "Width": null,
+        "Height": 4.94
+      },
+      "SignatureRectangleSize": {
+        "Height": 4.94,
+        "Width": 8.0
+      },
+      "RowSpacing": 0.0
+    },
+    "Manual": null
+  }
+}

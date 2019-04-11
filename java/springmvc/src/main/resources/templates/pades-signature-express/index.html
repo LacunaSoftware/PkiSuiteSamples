@@ -3,45 +3,53 @@
 <body>
 
 <div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
-
 	<h2 class="ls-title">PAdES Signature with PKI Express</h2>
 
-	<!--
-		This form will be shown initially and when this page is rendered to perform the
-		signature using Web PKI component.
-	-->
-	<form id="signForm" method="POST" action="#" th:action="@{/pades-signature-express/start(fileId=${fileId})}">
+	<div class="ls-content">
 
 		<!--
-			Hidden fields used to pass data from the server-side to the javascript
-			(see signature-start-form.js) and vice-versa.
+			This form will be shown initially and when this page is rendered to perform the
+			signature using Web PKI component.
 		-->
-		<input type="hidden" id="certThumbField" name="certThumb" />
-		<input type="hidden" id="certContentField" name="certContent" />
+		<form id="signForm" method="POST" action="#" th:action="@{/pades-signature-express/start(fileId=${fileId})}">
+			<!--
+				Hidden fields used to pass data from the server-side to the javascript
+				(see signature-start-form.js) and vice-versa.
+			-->
+			<input type="hidden" id="certThumbField" name="certThumb" />
+			<input type="hidden" id="certContentField" name="certContent" />
 
-		<div class="form-group">
-			<label>File to sign</label>
-			<p>You are signing <a th:href="@{'/download/' + ${fileId}}">this document</a>.</p>
-		</div>
+			<div class="form-group">
+				<label>File to sign</label>
+				<p>You are signing <a th:href="@{'/download/' + ${fileId}}">this document</a>.</p>
+			</div>
 
-		<!--
-			Render a select (combo box) to list the user's certificates. For now it will be
-			empty, we'll populate it later on (see signature-start-form.js).
-		-->
-		<div class="form-group">
-			<label for="certificateSelect">Choose a certificate</label>
-			<select id="certificateSelect" class="form-control"></select>
-		</div>
+			<!--
+				Render a select (combo box) to list the user's certificates. For now it will be
+				empty, we'll populate it later on (see signature-start-form.js).
+			-->
+			<div class="form-group">
+				<label for="certificateSelect">Choose a certificate</label>
+				<select id="certificateSelect" class="custom-select"></select>
+			</div>
 
-		<!--
-			Action buttons. Notice that the "Sign File" button is NOT a submit button. When the
-			user clicks the button, we must first use the Web PKI component to perform the
-			client-side computation necessary and only when that computation is finished we'll
-			submit the form programmatically (see signature-start-form.js).
-		-->
-		<button id="signButton" type="button" class="btn btn-primary">Sign File</button>
-		<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
-	</form>
+			<!--
+				Action buttons. Notice that the "Sign File" button is NOT a submit button. When the
+				user clicks the button, we must first use the Web PKI component to perform the
+				client-side computation necessary and only when that computation is finished we'll
+				submit the form programmatically (see signature-start-form.js).
+			-->
+			<div class="form-group">
+				<button id="signButton" type="button" class="btn btn-primary">
+					<i class="fas fa-file-signature"></i> Sign File
+				</button>
+				<button id="refreshButton" type="button" class="btn btn-outline-primary">
+					<i class="fas fa-retweet"></i> Refresh Certificates
+				</button>
+			</div>
+		</form>
+
+	</div>
 </div>
 
 <!--
@@ -49,17 +57,20 @@
 	information, see: https://webpki.lacunasoftware.com/#/Documentation
  -->
 <script th:fragment="scripts"
-		type="text/javascript" src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
-		integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
-		crossorigin="anonymous"></script>
+        type="text/javascript"
+        src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+        integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+        crossorigin="anonymous"></script>
 
 <!--
 	The file below contains the necessary calls to the Web component. Once the necessary
 	computations have been done, the javascript code will submit our form.
 -->
-<script th:fragment="scripts" src="/js/signature-start-form.js"></script>
+<script th:fragment="scripts"
+        type="text/javascript"
+        th:src="@{/js/signature-start-form.js}"></script>
 
-<script th:fragment="scripts" th:inline="javascript">
+<script th:fragment="scripts" type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
 	$(document).ready(function () {
 		// Once the page is ready, we call the init() function on the javascript code

@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css"/>
+{% endblock %}
+
+{% block content %}
+<app-root></app-root>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+	SampleRoutes = {
+		authCert: {
+			express: '/check-express/authentication',
+			restpki: '/check-rest-token/authentication'
+		},
+
+		// cosignCms: { },
+		// cosignPdf: { },
+		// issueCertServer: { },
+		// issueCertUser: { },
+		listCert: {
+			jquery: 'list-cert-jquery',
+			select2: 'list-cert-select2'
+		},
+		// mergeCmsSigs: { },
+		// printerFriendlyCms: { },
+		// printerFriendlyPdf: { },
+		readCert: {
+			jquery: 'read-cert-jquery',
+			select2: 'read-cert-select2'
+		},
+		rsa: {
+			webpki: '/rsa-web'
+		},
+		// signCmsServer: {
+		// 	express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
+		// 	restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
+		// },
+		signCmsUser: {
+			express: '/check-express/upload/cades-signature',
+			restpki: '/check-rest-token/upload/cades-signature'
+		},
+		signCmsServerKey: {
+			express: '/check-express/upload/cades-server-key'
+		},
+		// signCod: { },
+		signMultiCmsServer: {
+			express: '/check-express/batch-cades',
+			restpki: '/check-rest-token/batch-cades'
+		},
+		// signMultiCmsUser: { },
+		signMultiPdfServer: {
+			express: '/check-express/batch-pades',
+			restpki: '/check-rest-token/batch-pades'
+		},
+		// signMultiPdfUser: { },
+		signNfe: {
+			restpki: '/check-rest-token/xml-nfe-signature'
+		},
+		// signPdfServer: {
+		// 	express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
+		// 	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
+		// },
+		signPdfUser: {
+			express: '/check-express/upload/pades-signature',
+			restpki: '/check-rest-token/upload/pades-signature'
+		},
+		signPdfServerKey: {
+			express: '/check-express/upload/pades-server-key'
+		},
+		signXmlServer: {
+			restpki: '/check-rest-token/xml-signature'
+		},
+		// signXmlServerKey: { },
+		// signaturePackage: { },
+		// validateCmsSig: { },
+		validatePdfSig: {
+			express: '/check-express/upload/open-pades',
+			restpki: '/check-rest-token/upload/open-pades'
+		}
+		// validateXmlSig: { }
+	};
+</script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js"></script>
+{% endblock %}

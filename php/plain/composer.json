@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "php -S localhost:8000 -t public"
+  },
+  "autoload": {
+    "files": [
+      "Util.php",
+      "PadesVisualElementsRestPki.php",
+      "PadesVisualElementsExpress.php",
+      "StorageMock.php",
+      "config.php"
+    ]
+  },
+  "require": {
+    "lacuna/restpki-client": "^2.3.3",
+    "lacuna/pki-express": "^1.6.0",
+    "lacuna/amplia-client": "^1.0.2"
+  }
+}
