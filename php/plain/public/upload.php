@@ -69,7 +69,7 @@ if (isset($_FILES['userfile'])) {
 
 <?php include 'menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel">
         <?php
         // This section will be only shown if some error has occurred in the last signature attempt.

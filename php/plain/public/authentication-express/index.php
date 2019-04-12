@@ -46,7 +46,7 @@ Util::setExpiredPage();
 
 <?php include '../menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 
     <h2 class="ls-title">Authentication with PKI Express</h2>

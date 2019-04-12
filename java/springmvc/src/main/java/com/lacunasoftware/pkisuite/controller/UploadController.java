@@ -24,7 +24,7 @@ public class UploadController {
 	 * Renders upload page.
 	 */
 	@GetMapping
-	public String get(@RequestParam String rc) {
+	public String get(@RequestParam String rc, @RequestParam(required=false) String certId) {
 		return "upload/index";
 	}
 
@@ -38,12 +38,16 @@ public class UploadController {
 	@PostMapping
 	public String post(
 			@RequestParam String rc,
+			@RequestParam(required=false) String certId,
 			@RequestParam MultipartFile userfile
 	) throws IOException {
 		InputStream fileStream = userfile.getInputStream();
 		String originalFilename = userfile.getOriginalFilename();
 		String fileId = StorageMock.store(fileStream, null, originalFilename);
 
+		if (certId != null) {
+			return String.format("redirect:/%s?fileId=%s&certId=%s", rc, fileId, certId);
+		}
 		return String.format("redirect:/%s?fileId=%s", rc, fileId);
 	}
 }

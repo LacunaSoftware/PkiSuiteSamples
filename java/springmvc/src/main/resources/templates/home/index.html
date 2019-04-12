@@ -27,8 +27,12 @@
 			express: '/check-express?rc=server-files&fwd=pades-signature&op=cosignPdf',
 			restpki: '/check-rest-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
 		},
-		// issueCertServer: { },
-		// issueCertUser: { },
+		issueCertServer: {
+			amplia: '/check-amplia-api-key?rc=issue-cert-server'
+		},
+		issueCertUser: {
+			amplia: '/check-amplia-api-key?rc=issue-cert-user'
+		},
 		listCert: {
 			jquery: '/list-cert-jquery',
 			select2: '/list-cert-select2'
@@ -68,8 +72,11 @@
 		signPdfUser: {
 			express: '/check-express?rc=upload&fwd=pades-signature',
 			restpki: '/check-rest-token?rc=upload&fwd=pades-signature'
+		},
+		signPdfServerKey: {
+			express: '/check-express?rc=upload&fwd=pades-server-key'
+			// restpki: { }
 		}
-		// signPdfServerKey: { },
 		// signXmlServer: { },
 		// signXmlServerKey: { },
 		// signaturePackage: { },
@@ -81,7 +88,7 @@
 </script>
 <script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
 <script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
-<script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.b8fb1a5c5c784500d9a3.js"></script>
+<script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js"></script>
 <!-- endregion -->
 
 </body>

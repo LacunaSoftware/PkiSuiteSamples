@@ -31,9 +31,13 @@ public class StorageMock {
 	}
 
 	public static boolean exists(String fileId) {
+		return exists(fileId, null);
+	}
+
+	public static boolean exists(String fileId, String extension) {
 		Path path;
 		try {
-			path = getDataPath(fileId);
+			path = getDataPath(fileId, extension);
 		} catch (IOException ex) {
 			return false;
 		}
@@ -42,8 +46,15 @@ public class StorageMock {
 	}
 
 	public static Path getDataPath(String fileId) throws IOException {
+		return getDataPath(fileId, null);
+	}
+
+	public static Path getDataPath(String fileId, String extension) throws IOException {
 		String filename = fileId.replace('_', '.');
 		// Note: we're passing the filename arguments with "_" as "." because of URL safety
+		if (extension != null) {
+			filename += extension;
+		}
 
 		return getTempFolderPath().resolve(filename);
 	}
@@ -70,8 +81,8 @@ public class StorageMock {
 		String filename, validExtension = null;
 		if (originalFilename != null) {
 			int i = originalFilename.lastIndexOf('.');
-			filename = originalFilename.substring(0, i);
-			validExtension = originalFilename.substring(i + 1);
+			filename = i == -1 ? originalFilename : originalFilename.substring(0, 1);
+			validExtension = i == -1 ? "" : originalFilename.substring(i + 1);
 		} else {
 			filename = "";
 		}
@@ -164,6 +175,56 @@ public class StorageMock {
 		return fileId;
 	}
 
+	// region Certificate & Key Store
+
+	public static boolean existsKey(String certId, String extension) {
+		String filename = certId + extension;
+		Path path;
+		try {
+			path = getTempFolderPath().resolve(filename);
+		} catch (IOException ex) {
+			return false;
+		}
+
+		return Files.exists(path);
+	}
+
+	public static Path getKeyPath(String certId, String extension) throws IOException {
+		String filename = certId + extension;
+		return getTempFolderPath().resolve(filename);
+	}
+
+	public static void storeKey(InputStream stream, String extension, String certId) throws IOException {
+		String filename = certId + extension;
+		Path path = getTempFolderPath().resolve(filename);
+		try (FileOutputStream fos = new FileOutputStream(path.toFile())) {
+			IOUtils.copy(stream, fos);
+		}
+	}
+
+	public static void storeKey(byte[] content, String extension, String certId) throws IOException {
+		try (InputStream bais = new ByteArrayInputStream(content)) {
+			storeKey(bais, extension, certId);
+		}
+	}
+
+	public static String readKeyAsText(String certId, String extension) throws IOException {
+
+		String filename = certId + extension;
+		StringBuilder sb = new StringBuilder();
+		FileReader fileReader = new FileReader(getTempFolderPath().resolve(filename).toFile());
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+		String line = null;
+		while ((line = bufferedReader.readLine()) != null) {
+			sb.append(line);
+		}
+
+		return sb.toString();
+	}
+
+	// endregion
+
 	public static String getSampleDocName(SampleDocs sampleId) throws IOException {
 		switch (sampleId) {
 			case SAMPLE_PDF:
@@ -193,5 +254,9 @@ public class StorageMock {
 
 	public static Path getBatchDocPath(int id) throws IOException {
 		return getResourcePath(String.format("%02d.pdf", id % 10));
+	}
+
+	public static Path getSamplePkcs12Path() throws IOException {
+		return getResourcePath("Pierre de Fermat.pfx");
 	}
 }

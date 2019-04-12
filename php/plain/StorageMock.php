@@ -2,7 +2,6 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-// TODO: Write description.
 class SampleDocs
 {
     const SAMPLE_PDF = 0;
@@ -17,20 +16,17 @@ class StorageMock
     const APP_DATA_PATH = __DIR__ . '/app-data/';
     const RESOURCES_PATH = __DIR__ . '/resources/';
 
-    // TODO: Write description.
     static function getDataPath($fileId, $extension = '')
     {
         $filename = str_replace('_', '.', $fileId) . $extension;
         return StorageMock::APP_DATA_PATH . $filename;
     }
 
-    // TODO: Write description.
     static function getResourcePath($resource)
     {
         return StorageMock::RESOURCES_PATH . $resource;
     }
 
-    // TODO: Write description.
     static function exists($fileId, &$filename = null)
     {
         $filename = str_replace('_', '.', $fileId);
@@ -38,7 +34,6 @@ class StorageMock
         return file_exists($filePath);
     }
 
-    // TODO: Write description.
     static function read($fileId, &$filename = null)
     {
         $filename = str_replace('_', '.', $fileId);
@@ -46,7 +41,6 @@ class StorageMock
         return file_get_contents($filePath);
     }
 
-    // TODO: Write description.
     static function store($content, $extension = '', $filename = null)
     {
 
@@ -128,7 +122,6 @@ class StorageMock
         return null;
     }
 
-    // TODO: Write description.
     static function createAppData()
     {
         if (!file_exists(StorageMock::APP_DATA_PATH)) {
@@ -136,7 +129,6 @@ class StorageMock
         }
     }
 
-    // TODO: Write description.
     static function getSampleDocPath($fileId, &$filename = null)
     {
 
@@ -162,32 +154,27 @@ class StorageMock
         return StorageMock::RESOURCES_PATH . $filename;
     }
 
-    // TODO: Write description.
     static function getSampleDocContent($fileId, &$filename = null)
     {
         return StorageMock::getSampleDocPath($fileId, $filename);
     }
 
-    // TODO: Write description.
     static function getPdfStampPath()
     {
         return StorageMock::RESOURCES_PATH . 'PdfStamp.png';
     }
 
-    // TODO: Write description.
     static function getPdfStampContent()
     {
         $path = StorageMock::getPdfStampPath();
         return file_get_contents($path);
     }
 
-    // TODO: Write description.
     static function getBatchDocPath($id)
     {
         return sprintf('%s/%02d.pdf', StorageMock::RESOURCES_PATH, $id % 10);
     }
 
-    // TODO: Write description.
     static function getSampleVisualRepPath()
     {
         return StorageMock::RESOURCES_PATH . 'vr.json';
