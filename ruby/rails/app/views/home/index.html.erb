@@ -1,0 +1,43 @@
+<%= stylesheet_link_tag :application, rel: "stylesheet", href: "https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css" %>
+
+<app-root></app-root>
+
+<script>
+    SampleRoutes = {
+        authCert: {
+            // express: ''
+            restpki: '/check-rest-token/authentication'
+        },
+        // cosignCms: { },
+        // cosignPdf: { },
+        // issueCertServer: { },
+        // issueCertUser: { },
+        // listCert: { },
+        // mergeCmsSigs: { },
+        // printerFriendlyCms: { },
+        // printerFriendlyPdf: { },
+        // readCert: { },
+        // rsa: { },
+        // signCmsServer: { },
+        // signCmsUser: { },
+        // signCmsServerKey: { },
+        // signCod: { },
+        // signMultiCmsServer: { },
+        // signMultiCmsUser: { },
+        // signMultiPdfServer: { },
+        // signMultiPdfUser: { },
+        // signNfe: { },
+        // signPdfServer: { },
+        // signPdfUser: { },
+        // signPdfServerKey: { },
+        // signXmlServer: { },
+        // signXmlServerKey: { },
+        // signaturePackage: { },
+        // validateCmsSig: { },
+        // validatePdfSig: { },
+        // validateXmlSig: { }
+    };
+</script>
+<%= javascript_include_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js' %>
+<%= javascript_include_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js' %>
+<%= javascript_include_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/main.b8fb1a5c5c784500d9a3.js' %>

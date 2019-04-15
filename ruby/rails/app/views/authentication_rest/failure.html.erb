@@ -1,0 +1,10 @@
+<%
+  # The $vr object can be used as a string, but the string contains tabs and new line characters for formatting,
+  # which we'll convert to <br>'s and &nbsp;'s.
+%>
+<h2>Authentication Failed</h2>
+
+<p>
+  <%=simple_format(@vr.__to_string.gsub('\t', '&nbsp;&nbsp;&nbsp;&nbsp;').gsub('\n', '<br/>')) %>
+</p>
+<p><a href="/authentication-rest" class="btn btn-primary">Try again</a></p>
