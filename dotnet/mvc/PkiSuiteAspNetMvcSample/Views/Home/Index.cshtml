@@ -45,7 +45,8 @@
 			},
 			signCmsUser: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureSdk" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureRest" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureRest" }))',
+				webpki: '@Html.Raw(Url.Action("Index", "PadesSignatureWeb"))'
 			},
 			//signCmsServerKey: { },
 			signCod: {
@@ -72,8 +73,8 @@
 			},
 			signPdfUser: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureSdk" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRest" }))'
-				// webpki: ''
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRest" }))',
+				webpki: '@Html.Raw(Url.Action("Index", "PadesSignatureWeb"))'
 			},
 			//signPdfServerKey: { },
 			signXmlServer: {

@@ -222,6 +222,7 @@
     <Compile Include="Controllers\BatchPadesSignatureRestController.cs" />
     <Compile Include="Controllers\CadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesSignatureRestController.cs" />
+    <Compile Include="Controllers\CadesSignatureWebController.cs" />
     <Compile Include="Controllers\CheckPadesRestController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Controllers\OpenXmlSignatureRestController.cs" />
     <Compile Include="Controllers\PadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesSignatureRestController.cs" />
+    <Compile Include="Controllers\PadesSignatureWebController.cs" />
     <Compile Include="Controllers\PrinterFriendlyPadesRestController.cs" />
     <Compile Include="Controllers\ReadCertJQueryController.cs" />
     <Compile Include="Controllers\ReadCertSelect2Controller.cs" />
@@ -387,6 +389,8 @@
     <Content Include="Views\ReadCertJQuery\Index.cshtml" />
     <Content Include="Views\ReadCertSelect2\Index.cshtml" />
     <Content Include="Views\ServerFiles\Index.cshtml" />
+    <Content Include="Views\PadesSignatureWeb\Index.cshtml" />
+    <Content Include="Views\CadesSignatureWeb\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
