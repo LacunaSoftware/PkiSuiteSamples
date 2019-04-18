@@ -48,7 +48,7 @@ if (!empty($restPkiConfig['accessToken']) && strpos($restPkiConfig['accessToken'
 
 <?php include 'menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 
     <h2 class="ls-title">REST PKI's access token was not set</h2>

@@ -9,7 +9,7 @@
 
 <?php include '../menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 </div>
 
