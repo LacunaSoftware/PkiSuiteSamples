@@ -76,12 +76,14 @@
 		signPdfServerKey: {
 			express: '/check-express?rc=upload&fwd=pades-server-key'
 			// restpki: { }
-		}
+		},
 		// signXmlServer: { },
 		// signXmlServerKey: { },
 		// signaturePackage: { },
 		// validateCmsSig: { },
-		// validatePdfSig: { },
+		validatePdfSig: {
+			restpki: '/check-rest-token?rc=upload&fwd=open-pades'
+		}
 		// validateXmlSig: { }
 	};
 	 /* ]]> */
