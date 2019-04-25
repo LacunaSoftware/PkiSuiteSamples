@@ -45,8 +45,9 @@ class AuthenticationRestController < ApplicationController
       # framework your application uses. For demonstration purposes, we'll just render the user's certificate
       # information.
       render 'success'
-    end
 
-    render 'failure'
+    else
+      render 'failure'
+    end
   end
 end

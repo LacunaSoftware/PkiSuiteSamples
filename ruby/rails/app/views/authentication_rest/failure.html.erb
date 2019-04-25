@@ -2,9 +2,14 @@
   # The $vr object can be used as a string, but the string contains tabs and new line characters for formatting,
   # which we'll convert to <br>'s and &nbsp;'s.
 %>
-<h2>Authentication Failed</h2>
+<h2 class="ls-title">Authentication with REST PKI</h2>
+<h5 class="ls-subtitle">Authentication failed <i class="fas fa-times-circle text-danger"></i></h5>
 
-<p>
-  <%=simple_format(@vr.__to_string.gsub('\t', '&nbsp;&nbsp;&nbsp;&nbsp;').gsub('\n', '<br/>')) %>
-</p>
-<p><a href="/authentication-rest" class="btn btn-primary">Try again</a></p>
+<div class="ls-content">
+  <p><%=simple_format(@vr.__to_string.gsub('\t', '&nbsp;&nbsp;&nbsp;&nbsp;').gsub('\n', '<br/>')) %></p>
+  <p>
+    <a href="/authentication-rest" class="btn btn-primary">
+      <i class="fas fa-undo-alt"></i> Try again
+    </a>
+  </p>
+</div>

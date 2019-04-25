@@ -1,44 +1,38 @@
-<h2>Authentication</h2>
+<h2 class="ls-title">Authentication with REST PKI</h2>
 
-<form id="authForm" action="/authentication-rest" method="post">
+<div class="ls-content">
 
-  <% # Render the @token in a hidden input field %>
-  <input type="hidden" id="token" name="token" value="<%= @token %>">
+  <form id="authForm" action="/authentication-rest" method="post">
 
-  <%
-    # Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate it later
-    # on (see assets/javascripts/signature-form.js).
-  %>
-  <div class="form-group">
-    <label for="certificateSelect">Choose a certificate</label>
-    <select id="certificateSelect" class="form-control"></select>
-  </div>
+    <% # Render the @token in a hidden input field %>
+    <input type="hidden" id="token" name="token" value="<%= @token %>">
 
-  <%
-    # Action buttons. Notice that the "Sign In" button is NOT a submit button. When the user clicks the button, we
-    # must first use the Web PKI component to perform the client-side computation necessary and only when that
-    # computation is finished we'll submit the form programmatically (see assets/javascripts/signature-form.js).
-  %>
-  <button id="signInButton" type="button" class="btn btn-primary">Sign In</button>
-  <button id="refreshButton" type="button" class="btn btn-default">Refresh Certificates</button>
-</form>
+    <%
+      # Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate it later
+      # on (see assets/javascripts/signature-form.js).
+    %>
+    <div class="form-group">
+      <label for="certificateSelect">Choose a certificate</label>
+      <select id="certificateSelect" class="form-control"></select>
+    </div>
 
-<%
-  # The file below contains the JS lib for accessing the Web PKI component. For
-  # more information, see:
-  # https://webpki.lacunasoftware.com/#/Documentation
-%>
-<script type="text/javascript"
-        src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
-        integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
-        crossorigin="anonymous"></script>
+    <%
+      # Action buttons. Notice that the "Sign In" button is NOT a submit button. When the user clicks the button, we
+      # must first use the Web PKI component to perform the client-side computation necessary and only when that
+      # computation is finished we'll submit the form programmatically (see assets/javascripts/signature-form.js).
+    %>
+    <div class="form-group">
+      <button id="signInButton" type="button" class="btn btn-primary">
+        <i class="fas fa-user"></i> Sign In
+      </button>
+      <button id="refreshButton" type="button" class="btn btn-outline-primary">
+        <i class="fas fa-retweet"></i> Refresh Certificates
+      </button>
+    </div>
+  </form>
 
-<%
-  # The file below contains the logic for calling the Web PKI component. It is
-  # only an example, feel free to alter it to meet your application's needs. You
-  # can also bring the code into the javascript block below if you prefer.
-%>
-<%= javascript_include_tag 'signature-form' %>
+</div>
+
 <script>
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript code (see signature-form.js)

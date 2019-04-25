@@ -17,6 +17,7 @@
   <%= javascript_include_tag :application, src: 'https://code.jquery.com/jquery-3.3.1.min.js', integrity: 'sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT', crossorigin: 'anonymous', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag :application, src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', integrity: 'sha384-Ct2s0NBxEbvJlnXHOZJheqOGKjX3Q4ewsYoJZYnLz/teMXnlGhim5o9305EkvlsN', crossorigin: 'anonymous', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag :application, src: 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity: 'sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin: 'anonymous', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag :application, src: 'https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js', integrity: 'sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA=', crossorigin: 'anonymous', 'data-turbolinks-track': 'reload' %>
   <script>
       var _webPkiLicense = '<%= get_web_pki_license %>';
       var _restPkiEndpoint = '<%= get_rest_pki_endpoint %>';
@@ -54,8 +55,6 @@
 <div class="container content">
   <%= yield %>
 </div>
-
-
 
 </body>
 </html>

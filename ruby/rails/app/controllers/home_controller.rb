@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     fwd = params[:fwd]
     op = params[:op]
 
-    access_token = Rails.configuration.x.rest_pki.access_token
+    access_token = Rails.configuration.lacuna['rest_pki']['access_token']
     if access_token.nil? or access_token.length == 0
       render 'home/rest-token-not-set'
     else

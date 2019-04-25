@@ -7,8 +7,8 @@ module Util
 
     # Retrieve your token and endpoint values from the "application.rb"
     # configuration.
-    access_token = Rails.configuration.x.rest_pki.access_token
-    endpoint = Rails.configuration.x.rest_pki.endpoint
+    access_token = Rails.configuration.lacuna['rest_pki']['access_token']
+    endpoint = Rails.configuration.lacuna['rest_pki']['endpoint']
 
     # Throw exception if token is not set (this check is here just for the sake
     # of new comers, you can remove it).
@@ -30,7 +30,7 @@ module Util
   # contexts or reference one of your custom contexts.
   def get_security_context_id
 
-    unless Rails.configuration.x.trust_lacuna_test_root
+    if Rails.configuration.lacuna['trust_lacuna_test_root']
 
       # Lacuna Test PKI (for development purposes only!)
       #
