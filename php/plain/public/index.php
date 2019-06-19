@@ -56,7 +56,10 @@
             restpki: '/check-restpki-token.php?rc=batch-pades-signature'
         },
         // signMultiPdfUser: { },
-        // signNfe: { },
+        signNfe: {
+            express: '/check-pki-express.php?rc=xml-nfe-signature',
+            restpki: '/check-restpki-token.php?rc=xml-nfe-signature'
+        },
         // signPdfServer: {
         //     express: '/check-pki-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
         //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=signPdf'
