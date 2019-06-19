@@ -9,6 +9,8 @@ class SampleDocs
     const PDF_SIGNED_TWICE = 2;
     const CMS_SIGNED_ONCE = 3;
     const CMS_SIGNED_TWICE = 4;
+    const SAMPLE_NFE = 5;
+    const SAMPLE_XML = 6;
 }
 
 class StorageMock
@@ -48,14 +50,14 @@ class StorageMock
         StorageMock::createAppData();
 
         // Generate fileId.
-        if (!isset($filename)) {
+        if (empty($filename)) {
             $filename = uniqid();
         }
         $fileId = $filename . $extension;
 
         // Store file.
         $filePath = StorageMock::APP_DATA_PATH . $fileId;
-        file_put_contents($content, $filePath);
+        file_put_contents($filePath, $content);
 
         // Replace extension '.'. to '_' to be passe as parameters on URL for safety.
         return str_replace('.', '_', $fileId);
@@ -147,6 +149,12 @@ class StorageMock
                 break;
             case SampleDocs::CMS_SIGNED_TWICE:
                 $filename = 'SampleCmsSignedTwice.p7s';
+                break;
+            case SampleDocs::SAMPLE_NFE:
+                $filename = 'SampleNFe.xml';
+                break;
+            case SampleDocs::SAMPLE_XML:
+                $filename = 'SampleDocument.xml';
                 break;
             default:
                 throw new \Exception('Invalid fileId');
