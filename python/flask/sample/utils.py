@@ -4,6 +4,8 @@ import re
 
 from datetime import datetime
 from datetime import timedelta
+from os.path import join
+
 from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
@@ -12,7 +14,7 @@ from restpki_client import StandardSecurityContexts
 
 # region REST PKI
 
-def get_restpki_client():
+def get_rest_pki_client():
     """
 
     Creates an instance of the RestPkiClient class, use to connect to REST PKI
@@ -28,11 +30,7 @@ def get_restpki_client():
     # Throw exception if token is not set (this check is here just for the sake
     # of newcomers, you can remove it)
     if access_token is None:
-        raise Exception(
-            'The API access token was not set! Hint: to run this sample you'
-            'must generate an API access token on the REST PKI website and'
-            'paste it on sample/config.py file.'
-        )
+        raise Exception('The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on sample/config.py file.')
 
     if endpoint is None or len(endpoint) == 0:
         endpoint = 'https://pki.rest/'
@@ -89,7 +87,7 @@ def set_pki_defaults(operator):
     # folder. You are free to pass any path.
     trusted_roots = current_app.config['PKI_EXPRESS_TRUSTED_ROOTS']
     for root in trusted_roots:
-        operator.add_trusted_root(os.path.join(current_app.static_folder, root))
+        operator.add_trusted_root(join(current_app.static_folder, root))
 
     # Set the operator to "OFFLINE MODE" (default: false):
     operator.offline = current_app.config['PKI_EXPRESS_OFFLINE']
@@ -151,8 +149,7 @@ def get_description(c):
     if c.pki_brazil.cpf is not None:
         text += " (CPF %s)" % c.pki_brazil.cpf_formatted
     if c.pki_brazil.cnpj is not None:
-        text += ", company %s (CNPJ %s)" % (c.pki_brazil.company_name,
-                                            c.pki_brazil.cnpj_formatted)
+        text += ", company %s (CNPJ %s)" % (c.pki_brazil.company_name, c.pki_brazil.cnpj_formatted)
     return text
 
 
@@ -211,8 +208,7 @@ def format_verification_code(code):
     chars_per_group = VERIFICATION_CODE_SIZE / VERIFICATION_CODE_GROUPS
     groups = []
     for i in range(VERIFICATION_CODE_GROUPS):
-        groups.append(code[int(i * chars_per_group):int((i + 1) *
-                                                        chars_per_group)])
+        groups.append(code[int(i * chars_per_group):int((i + 1) * chars_per_group)])
     return '-'.join(groups)
 
 

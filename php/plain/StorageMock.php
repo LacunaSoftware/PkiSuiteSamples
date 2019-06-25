@@ -2,7 +2,6 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-// TODO: Write description.
 class SampleDocs
 {
     const SAMPLE_PDF = 0;
@@ -10,6 +9,8 @@ class SampleDocs
     const PDF_SIGNED_TWICE = 2;
     const CMS_SIGNED_ONCE = 3;
     const CMS_SIGNED_TWICE = 4;
+    const SAMPLE_NFE = 5;
+    const SAMPLE_XML = 6;
 }
 
 class StorageMock
@@ -17,20 +18,17 @@ class StorageMock
     const APP_DATA_PATH = __DIR__ . '/app-data/';
     const RESOURCES_PATH = __DIR__ . '/resources/';
 
-    // TODO: Write description.
     static function getDataPath($fileId, $extension = '')
     {
         $filename = str_replace('_', '.', $fileId) . $extension;
         return StorageMock::APP_DATA_PATH . $filename;
     }
 
-    // TODO: Write description.
     static function getResourcePath($resource)
     {
         return StorageMock::RESOURCES_PATH . $resource;
     }
 
-    // TODO: Write description.
     static function exists($fileId, &$filename = null)
     {
         $filename = str_replace('_', '.', $fileId);
@@ -38,7 +36,6 @@ class StorageMock
         return file_exists($filePath);
     }
 
-    // TODO: Write description.
     static function read($fileId, &$filename = null)
     {
         $filename = str_replace('_', '.', $fileId);
@@ -46,7 +43,6 @@ class StorageMock
         return file_get_contents($filePath);
     }
 
-    // TODO: Write description.
     static function store($content, $extension = '', $filename = null)
     {
 
@@ -54,14 +50,14 @@ class StorageMock
         StorageMock::createAppData();
 
         // Generate fileId.
-        if (!isset($filename)) {
+        if (empty($filename)) {
             $filename = uniqid();
         }
         $fileId = $filename . $extension;
 
         // Store file.
         $filePath = StorageMock::APP_DATA_PATH . $fileId;
-        file_put_contents($content, $filePath);
+        file_put_contents($filePath, $content);
 
         // Replace extension '.'. to '_' to be passe as parameters on URL for safety.
         return str_replace('.', '_', $fileId);
@@ -128,7 +124,6 @@ class StorageMock
         return null;
     }
 
-    // TODO: Write description.
     static function createAppData()
     {
         if (!file_exists(StorageMock::APP_DATA_PATH)) {
@@ -136,7 +131,6 @@ class StorageMock
         }
     }
 
-    // TODO: Write description.
     static function getSampleDocPath($fileId, &$filename = null)
     {
 
@@ -156,38 +150,39 @@ class StorageMock
             case SampleDocs::CMS_SIGNED_TWICE:
                 $filename = 'SampleCmsSignedTwice.p7s';
                 break;
+            case SampleDocs::SAMPLE_NFE:
+                $filename = 'SampleNFe.xml';
+                break;
+            case SampleDocs::SAMPLE_XML:
+                $filename = 'SampleDocument.xml';
+                break;
             default:
                 throw new \Exception('Invalid fileId');
         }
         return StorageMock::RESOURCES_PATH . $filename;
     }
 
-    // TODO: Write description.
     static function getSampleDocContent($fileId, &$filename = null)
     {
         return StorageMock::getSampleDocPath($fileId, $filename);
     }
 
-    // TODO: Write description.
     static function getPdfStampPath()
     {
         return StorageMock::RESOURCES_PATH . 'PdfStamp.png';
     }
 
-    // TODO: Write description.
     static function getPdfStampContent()
     {
         $path = StorageMock::getPdfStampPath();
         return file_get_contents($path);
     }
 
-    // TODO: Write description.
     static function getBatchDocPath($id)
     {
         return sprintf('%s/%02d.pdf', StorageMock::RESOURCES_PATH, $id % 10);
     }
 
-    // TODO: Write description.
     static function getSampleVisualRepPath()
     {
         return StorageMock::RESOURCES_PATH . 'vr.json';

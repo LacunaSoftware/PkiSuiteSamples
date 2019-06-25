@@ -1,9 +1,7 @@
 <?php
 
-// TODO: Write description.
 class PadesVisualElementsExpress {
 
-    // TODO: Write description.
     public static function getVisualRepresentation()
     {
         // Visual representation equivalent to resources/vr.json.

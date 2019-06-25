@@ -62,7 +62,7 @@ def start(file_id):
 
         # Set signature policy.
         signature_starter.signature_policy = \
-            standard_signature_policies.PADES_BASIC_WITH_LTV
+            standard_signature_policies.PADES_BASIC
 
         # Set PDF to be signed
         signature_starter.set_pdf_to_sign_from_path(
