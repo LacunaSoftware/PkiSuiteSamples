@@ -1,8 +1,8 @@
-// ------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // This file contains logic for calling the Web PKI component to perform the finalization of the
 // signature process. It is only an example, feel free to alter it to meet your application's
 // needs.
-// ------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 var signatureCompleteForm = (function () {
 
 	// Auxiliary global variables.
@@ -11,9 +11,9 @@ var signatureCompleteForm = (function () {
 	// Create an instance of the LacunaWebPKI object.
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
-	// ---------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Initializes the signature form.
-	// ---------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
 		// Receive form parameters received as arguments.
@@ -28,14 +28,14 @@ var signatureCompleteForm = (function () {
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// https://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
-			ready: sign,                    // As soon as the component is ready we'll perform the signature.
-			defaultError: onWebPkiError     // Generic error callback defined below.
+			ready: sign,                 // As soon as the component is ready we'll perform the signature.
+			defaultError: onWebPkiError  // Generic error callback defined below.
 		});
 	}
 
-	// ---------------------------------------------------------------------------------------------
-	// Function that performs the siganture on startup. At this point, the UI is already blocked.
-	// ---------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
+	// Function that performs the signature on startup. At this point, the UI is already blocked.
+	// ----------------------------------------------------------------------------------------------
 	function sign() {
 
 		// Call signHash() on the Web PKI component passing the "toSignHash", the digest algorithm
@@ -54,22 +54,22 @@ var signatureCompleteForm = (function () {
 		});
 	}
 
-	// ---------------------------------------------------------------------------------------------
-	// Function called if an error occurs on the Web PKI component
-	// ---------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
+	// Function called if an error occurs on the Web PKI component.
+	// ----------------------------------------------------------------------------------------------
 	function onWebPkiError(message, error, origin) {
 
-		// Unblock the UI
+		// Unblock the UI.
 		$.unblockUI();
 
-		// Log the error to the browser console (for debugging purposes)
+		// Log the error to the browser console (for debugging purposes).
 		if (console) {
 			console.log('An error has occurred on the signature browser component: ' + message, error);
 		}
 
 		// Show the message to the user. You might want to substitute the alert below with a more
-		// user-friendly UI component to show the error.
-		addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
+		// user-friendly UI component to show the error (see function addAlert() on layout.html).
+		addAlert('danger', '<strong>An error has occurred on the signature browser component</strong>: ' + message);
 	}
 
 	return {

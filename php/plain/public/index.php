@@ -2,12 +2,13 @@
 <html>
 <head>
     <?php include 'head.php' ?>
+    <link rel="stylesheet" href="https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css"/>
 </head>
 <body>
 
 <?php include 'menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
     <app-root></app-root>
 </div>
@@ -29,7 +30,9 @@
         //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=cosignPdf'
         // },
         // issueCertServer: { },
-        // issueCertUser: { },
+        issueCertUser: {
+            amplia: '/check-amplia-api-key.php?rc=issue-cert-user'
+        },
         // listCert: { },
         // mergeCmsSigs: { },
         // printerFriendlyCms: { },
@@ -53,7 +56,10 @@
             restpki: '/check-restpki-token.php?rc=batch-pades-signature'
         },
         // signMultiPdfUser: { },
-        // signNfe: { },
+        signNfe: {
+            express: '/check-pki-express.php?rc=xml-nfe-signature',
+            restpki: '/check-restpki-token.php?rc=xml-nfe-signature'
+        },
         // signPdfServer: {
         //     express: '/check-pki-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
         //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=signPdf'
@@ -71,6 +77,6 @@
         // validateXmlSig: { }
     };
 </script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/runtime.a66f828dca56eeb90e02.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/polyfills.27ba7ccfa975df7b6881.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/main.0585c4f951b6e08dcd4d.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js"></script>

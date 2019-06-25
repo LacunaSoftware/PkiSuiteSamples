@@ -4,15 +4,17 @@
 
 <div th:fragment="content">
 	<h2 class="ls-title">CAdES Signature with PKI Express</h2>
+	<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
-	<!-- This page is shown when the signature is completed with signature. -->
-	<p>File signed sucessfully!</p>
+	<div class="ls-content">
 
-	<h3>Actions:</h3>
-	<ul>
-		<li><a th:href="@{'/download/' + ${cmsFile}}">Download the signed file</a></li>
-		<li><a th:href="@{/cades-signature-express(fileId=${cmsFile})}">Co-sign with another certificate</a></li>
-	</ul>
+		<h3>Actions:</h3>
+		<ul>
+			<li><a th:href="@{'/download/' + ${cmsFile}}">Download the signed file</a></li>
+			<li><a th:href="@{/cades-signature-express(fileId=${cmsFile})}">Co-sign with another certificate</a></li>
+		</ul>
+
+	</div>
 </div>
 
 </body>

@@ -3,3 +3,4 @@ node_modules/
 app-data/
 .idea/
 sessions/
+package-lock.json

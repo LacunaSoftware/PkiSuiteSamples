@@ -1,9 +1,9 @@
-# PKI Suite Samples
+# PKI Suite samples
 
 This repository contains sample projects demonstrating the usage of Lacuna Software's
 **[PKI Suite](https://www.lacunasoftware.com/pki-suite)** in various programming languages and frameworks.
 
-Choose one of the following programming languages to see the available sample projects:
+**To get started, choose a programming language:**
 
 * [.NET](dotnet/)
 * [Java](java/)

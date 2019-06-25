@@ -49,7 +49,7 @@ if ($installationFound) {
 
 <?php include 'menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 
     <h2 class="ls-title">PKI Express is not installed</h2>

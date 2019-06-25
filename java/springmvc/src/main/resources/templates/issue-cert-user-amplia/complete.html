@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Issue a certificate storing the key on the user's machine with Amplia</h2>
+	<h5 class="ls-subtitle">The certificate was successful issued <i class="fas fa-check-circle text-success"></i></h5>
+
+	<div class="ls-content">
+
+		<h3>Actions:</h3>
+
+		<ul>
+			<li><a th:href="@{upload(rc='pades-signature-express')}">Use your certificate to sign a PDF using PKI Express</a></li>
+			<li><a th:href="@{upload(rc='pades-signature-rest')}">Use your certificate to sign a PDF using REST PKI</a></li>
+		</ul>
+	</div>
+</div>
+
+</body>
+</html>

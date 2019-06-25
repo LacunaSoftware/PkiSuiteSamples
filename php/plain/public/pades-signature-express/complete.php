@@ -58,7 +58,7 @@ $signatureFinisher->complete();
 
 <?php include '../menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 
     <h2 class="ls-title">PAdES Signature with PKI Express</h2>

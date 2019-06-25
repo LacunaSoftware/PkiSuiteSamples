@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class="ls-title">Authentication with PKI Express</h2>
+
+	<div class="ls-content">
+
+		<form id="signInForm" method="POST">
+			<!--
+				Hidden fields used to pass data from the server-side to the
+				javascript (see authentication-form.js) and vice-versa.
+			-->
+			<input type="hidden" id="digestAlgorithmField" name="digestAlgorithm" value="{{ digest_algorithm }}"/>
+			<input type="hidden" id="nonceField" name="nonce" value="{{ nonce }}"/>
+			<input type="hidden" id="certContentField" name="certContent"/>
+			<input type="hidden" id="signatureField" name="signature"/>
+
+			<!--
+				Render a select (combo box) to list the user's certificates. For now
+				it will be empty, we'll populate it later on
+				(see authentication-form.js).
+			-->
+			<div class="form-group">
+				<label for="certificateSelect">Choose a certificate</label>
+				<select id="certificateSelect" class="form-control"></select>
+			</div>
+
+			<!--
+				Action buttons. Notice that the "Sign In" button is NOT a submit
+				button. When the user clicks the button, we must first use the
+				Web PKI component to perform the client-side computation necessary
+				and only when that computation is finished we'll submit the form
+				programmatically (see authentication-form.js).
+			-->
+			<button id="signInButton" type="button" class="btn btn-primary">
+				<i class="fas fa-user"></i> Sign In
+			</button>
+			<button id="refreshButton" type="button" class="btn btn-outline-primary">
+				<i class="fas fa-retweet"></i> Refresh Certificates
+			</button>
+		</form>
+
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+	<!--
+		The file below contains the JS lib for accessing the Web PKI component.
+		For more information, see:
+		https://webpki.lacunasoftware.com/#/Documentation
+	-->
+	<script type="text/javascript"
+			  src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+			  integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+			  crossorigin="anonymous"></script>
+
+	<!--
+		The file below contains the necessary calls to the Web component. Once the
+		necessary computations have been done, the javascript code will submit our
+		form.
+	-->
+	<script src="{{ url_for('static', filename='js/authentication-form.js') }}"></script>
+	<script>
+		$(document).ready(function () {
+			// Once the page is ready, we call the init() function on the
+			// javascript code (see authentication-form.js).
+			authenticationForm.init({
+				form: $('#signInForm'),                           // The form that should be submitted when the operation is complete.
+				certificateSelect: $('#certificateSelect'),       // The select element (combo box) to list the certificates.
+				refreshButton: $('#refreshButton'),               // The "refresh" button.
+				signInButton: $('#signInButton'),                 // The button that initiates the operation.
+				digestAlgorithmField: $('#digestAlgorithmField'), // The field "digestAlgorithm".
+				nonceField: $('#nonceField'),                     // The field "nonce".
+				certContentField: $('#certContentField'),         // The field "certContent".
+				signatureField: $('#signatureField')              // The field "signature".
+			});
+		});
+	</script>
+{% endblock %}
