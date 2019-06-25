@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file perform a PAdES signature in three steps using PKI Express and Web PKI.
+ * This file perform a XML signature of a Brazillian invoice in three steps using PKI Express and Web PKI.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -10,14 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
     die();
 }
-
-// Verify if the fileId correspond to an existing file on our StorageMock class.
-$fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
-if (!StorageMock::exists($fileId)) {
-    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
-    die();
-}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,9 +23,9 @@ if (!StorageMock::exists($fileId)) {
 <div class="container content">
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">PAdES Signature with PKI Express</h2>
+    <h2 class="ls-title">Sign a Brazilian NFe stored on the server with PKI Express</h2>
 
-    <form id="signForm" action="pades-signature-express/start.php?fileId=<?= $fileId ?>" method="POST">
+    <form id="signForm" action="xml-nfe-signature-express/start.php" method="POST">
 
         <?php
         // Hidden fields used to pass data from the server-side to the javascript and vice-versa.
@@ -43,7 +35,7 @@ if (!StorageMock::exists($fileId)) {
 
         <div class="form-group">
             <label>File to sign</label>
-            <p>You are signing <a href='/download?fileId=<?= $fileId ?>'>this document</a>.</p>
+            <p>You are signing the <i>infNFe</i> node of <a href='/download/sample.php?id=SAMPLE_NFE'>this sample XML</a>.</p>
         </div>
 
         <?php
@@ -52,7 +44,7 @@ if (!StorageMock::exists($fileId)) {
         ?>
         <div class="form-group">
             <label for="certificateSelect">Choose a certificate</label>
-            <select id="certificateSelect" class="form-control"></select>
+            <select id="certificateSelect" class="custom-select"></select>
         </div>
 
         <?php

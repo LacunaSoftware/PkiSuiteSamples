@@ -26,7 +26,7 @@ $documentsIds = array_map(function ($id) {
 
 <?php include '../menu.php' ?>
 
-<div class="body-content container">
+<div class="container content">
     <div id="messagesPanel"></div>
 
     <?php // Messages about the signature process will be rendered in here ?>
