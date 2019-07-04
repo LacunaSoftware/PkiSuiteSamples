@@ -106,7 +106,7 @@ file [build.gradle](springmvc/build.gradle)
 	} 
 
 	dependencies {
-		compile("com.lacunasoftware.pkiexpress:pki-express:1.8.0")
+		compile("com.lacunasoftware.pkiexpress:pki-express:1.9.3")
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -116,7 +116,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.8.0</version>
+			<version>1.9.3</version>
 		</dependency>
 		...
 	</dependencies>
