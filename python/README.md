@@ -59,6 +59,18 @@ Or informing on your project's `requirements.txt` file:
 
 	pkiexpress==1.3.2
 
+Activating PKI Express
+----------------------
+
+After installing PKI Express, is necessary to activate it. On Linux, execute the following
+command with root permissions:
+
+	$ sudo pkie activate LacunaPkiLicense.config
+	
+On Windows, run the _PKI Express Configuration Manager_ (*file `pkiemgr.exe` on the
+installation folder* ex.: C:\Program Files\Lacuna Software\PKI Express) and follow the
+instructions to activate PKI Express.
+
 See also
 --------
 
