@@ -18,7 +18,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// On PrinterFriendlyVersionController, we stored the unformatted version of the verification
 			// code (without hyphens) but used the formatted version (with hiphens) on the printer-friendly
 			// PDF. Now, we remove the hyphens before looking it up.
-			var verificationCode = Util.ParseVerificationCode(c);
+			var verificationCode = AlphaCode.Parse(c);
 
 			// Get document associated with verification code.
 			var fileId = StorageMock.LookupVerificationCode(verificationCode);
