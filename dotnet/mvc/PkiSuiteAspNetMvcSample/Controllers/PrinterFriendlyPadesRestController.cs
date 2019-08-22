@@ -65,7 +65,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var verificationCode = StorageMock.GetVerificationCode(userfile);
 			if (verificationCode == null) {
 				// If not, generate a code an register it.
-				verificationCode = Util.GenerateVerificationCode();
+				verificationCode = AlphaCode.Generate();
 				StorageMock.SetVerificationCode(userfile, verificationCode);
 			}
 
@@ -83,7 +83,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// The verification code is generated without hyphens to save storage space and avoid
 			// copy-and-paste problems. On the PDF generation, we use the "formatted" version, with hyphens
 			// (which will later be discarded on the verification page).
-			var formattedVerificationCode = Util.FormatVerificationCode(verificationCode);
+			var formattedVerificationCode = AlphaCode.Format(verificationCode);
 
 			// Build the verification link from the constant "VerificationLinkFormat" (see above) and the
 			// formatted verification code.
@@ -184,7 +184,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				pdf.TextElement()
 				.OnContainer(pdf.Container().Height(elementHeight).AnchorTop(verticalOffset + 0.2).FullWidth())
 				.AlignTextCenter()
-				.AddSection(pdf.TextSection().WithFontSize(NormalFontSize * 1.6).WithText("SIGNATURE\nVERIFICATION"))
+				.AddSection(pdf.TextSection().WithFontSize(NormalFontSize * 1.6).WithText("SIGNATURE\nCHECK"))
 			);
 			verticalOffset += elementHeight;
 
