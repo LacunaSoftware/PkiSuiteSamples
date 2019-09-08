@@ -31,10 +31,10 @@ public class PrinterFriendlyPadesRestController {
 	private final String verificationSiteNameWithArticle = "my Verification Center";
 
 	// Publicly accessible URL of your website. Preferably HTTPS.
-	private final String verificationSite = "http://localhost:60963/";
+	private final String verificationSite = "http://localhost:60695/";
 
 	// Format of the verification link, with "%s" as the verification code placeholder.
-	private final String verificationLinkFormat = "http://localhost:60963/check?c=%s";
+	private final String verificationLinkFormat = "http://localhost:60695/cpr?c=%s";
 
 	// "Normal" font size. Sizes of header fonts are defined based on this size.
 	private final int normalFontSize = 12;
