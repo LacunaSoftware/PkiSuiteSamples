@@ -1,0 +1,67 @@
+﻿@using PkiSuiteAspNetMvcSample.Controllers
+@using PkiSuiteAspNetMvcSample.Models.Sdk
+@model OpenCadesSignatureModel
+
+<h2 class="ls-title">Open existing CAdES Signature with PKI</h2>
+
+<h5>The given file contains @Model.Signature.Signers.Count signatures:</h5>
+
+<div id="accordion">
+
+	@for (var i = 0; i < Model.Signature.Signers.Count; i++) {
+
+		var signer = Model.Signature.Signers[i];
+		var collapseId = string.Format("signer_{0}_collapse", i);
+		var headingId = string.Format("signer_{0}_heading", i);
+
+		<div class="card">
+			<div class="card-header open-header" id="@headingId">
+				<a class="collapsed alert-link" role="button" data-toggle="collapse" href="#@collapseId" aria-expanded="true" aria-controls="@collapseId">@signer.Certificate.SubjectName.CommonName</a>
+				@if (signer.ValidationResults != null) {
+					<span> </span>
+					if (signer.ValidationResults.IsValid) {
+						<span class="badge badge-success">valid</span>
+					} else {
+						<span class="badge badge-danger">invalid</span>
+					}
+				}
+			</div>
+			<div id="@collapseId" class="collapse" role="tabpanel" aria-labelledby="@headingId" data-parent="#accordion">
+				<div class="card-body">
+					@if (signer.SigningTime != null) {
+						<p>Signing time: @TimeZoneInfo.ConvertTime(signer.SigningTime.Value, PrinterFriendlyPadesRestController.TimeZone).ToString(PrinterFriendlyPadesRestController.DateFormat, PrinterFriendlyPadesRestController.CultureInfo) (@PrinterFriendlyPadesRestController.TimeZoneDisplayName)</p>
+					}
+					<p>Message digest: @signer.MessageDigest.Algorithm @BitConverter.ToString(signer.MessageDigest.Value) </p>
+					@if (signer.SignaturePolicy != null) {
+						<p>Signature policy: @signer.SignaturePolicy.Oid</p>
+					}
+					<p>
+						Signer information:
+						<ul>
+							<li>Subject: @signer.Certificate.SubjectName.CommonName</li>
+							<li>Email: @signer.Certificate.EmailAddress</li>
+							<li>
+								ICP-Brasil fields
+								<ul>
+									<li>Tipo de certificado: @signer.Certificate.PkiBrazil.CertificateType</li>
+									<li>CPF: @signer.Certificate.PkiBrazil.Cpf</li>
+									<li>Responsavel: @signer.Certificate.PkiBrazil.Responsavel</li>
+									<li>Empresa: @signer.Certificate.PkiBrazil.CompanyName</li>
+									<li>CNPJ: @signer.Certificate.PkiBrazil.Cnpj</li>
+									<li>RG: @signer.Certificate.PkiBrazil.RGNumero @signer.Certificate.PkiBrazil.RGEmissor @signer.Certificate.PkiBrazil.RGEmissorUF</li>
+									<li>OAB: @signer.Certificate.PkiBrazil.OabNumero @signer.Certificate.PkiBrazil.OabUF</li>
+								</ul>
+							</li>
+						</ul>
+					</p>
+					@if (signer.ValidationResults != null) {
+						<p>
+							Validation results:<br />
+							<textarea style="width: 100%" rows="20">@signer.ValidationResults.ToString()</textarea>
+						</p>
+					}
+				</div>
+			</div>
+		</div>
+	}
+</div>

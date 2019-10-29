@@ -34,7 +34,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return File(content, MimeMapping.GetMimeMapping(filename), filename);
 		}
 
-		// GET Download/SamplePDF/<file_id>
+		// GET Download/Sample/<file_id>
 		[HttpGet]
 		public ActionResult Sample(SampleDocs id) {
 			string filename;
