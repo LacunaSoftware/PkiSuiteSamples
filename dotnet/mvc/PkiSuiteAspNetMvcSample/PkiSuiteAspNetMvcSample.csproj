@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ListCertJQueryController.cs" />
     <Compile Include="Controllers\ListCertSelect2Controller.cs" />
     <Compile Include="Controllers\OpenCadesSignatureRestController.cs" />
+    <Compile Include="Controllers\OpenCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureRestController.cs" />
     <Compile Include="Controllers\OpenXmlSignatureSdkController.cs" />
     <Compile Include="Controllers\OpenXmlSignatureRestController.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Models\Sdk\CadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\CertificateModel.cs" />
     <Compile Include="Models\Sdk\DigestAlgorithmAndValueModel.cs" />
+    <Compile Include="Models\Sdk\OpenCadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\OpenXmlSignatureModel.cs" />
     <Compile Include="Models\Sdk\SignatureAlgorithmAndValueModel.cs" />
     <Compile Include="Models\Sdk\SignatureCompleteModel.cs" />
@@ -368,6 +370,7 @@
     <Content Include="Views\ServerFiles\Index.cshtml" />
     <Content Include="Views\PadesSignatureWeb\Index.cshtml" />
     <Content Include="Views\CadesSignatureWeb\Index.cshtml" />
+    <Content Include="Views\OpenCadesSignatureSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
