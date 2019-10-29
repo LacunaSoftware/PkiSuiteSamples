@@ -180,33 +180,26 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 
 		public static string GetSampleDocPath(SampleDocs fileId, out string filename) {
 			filename = null;
-
-			string path;
 			switch (fileId) {
 				case SampleDocs.SamplePdf:
-					filename = "SampleDocument.pdf";
-					path = GetSampleDocPath();
+					filename = "SamplePdf.pdf";
 					break;
 				case SampleDocs.PdfSignedOnce:
 					filename = "SamplePdfSignedOnce.pdf";
-					path = Path.Combine(ContentPath, "SampleDocument.pdf");
 					break;
 				case SampleDocs.PdfSignedTwice:
 					filename = "SamplePdfSignedTwice.pdf";
-					path = Path.Combine(ContentPath, "SampleDocument.pdf");
 					break;
 				case SampleDocs.CmsSignedOnce:
 					filename = "SampleCms.p7s";
-					path = Path.Combine(ContentPath, "SampleDocument.pdf");
 					break;
 				case SampleDocs.CmsSignedTwice:
 					filename = "SampleCmsSignedTwice.p7s";
-					path = Path.Combine(ContentPath, "SampleDocument.pdf");
 					break;
 				default:
 					throw new InvalidOperationException();
 			}
-			return path;
+			return Path.Combine(ContentPath, filename);
 		}
 
 		public static byte[] GetSampleDocContent(SampleDocs fileId) {
@@ -220,11 +213,11 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		}
 
 		public static string GetSampleDocPath() {
-			return Path.Combine(ContentPath, "SampleDocument.pdf");
+			return Path.Combine(ContentPath, "SamplePdf.pdf");
 		}
 
 		public static byte[] GetSampleDocContent() {
-			return File.ReadAllBytes(Path.Combine(ContentPath, "SampleDocument.pdf"));
+			return File.ReadAllBytes(Path.Combine(ContentPath, "SamplePdf.pdf"));
 		}
 
 		public static byte[] GetPdfStampContent() {
@@ -256,10 +249,6 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 
 		public static string GetSampleManifestPath() {
 			return Path.Combine(ContentPath, "EventoManifesto.xml");
-		}
-
-		public static string GetSampleBStampedPath() {
-			return Path.Combine(ContentPath, "BStamped.pdf");
 		}
 
 		public static byte[] GetIcpBrasilLogoContent() {

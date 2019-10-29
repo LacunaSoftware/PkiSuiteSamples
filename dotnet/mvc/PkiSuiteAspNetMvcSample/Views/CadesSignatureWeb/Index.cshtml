@@ -1,0 +1,301 @@
+﻿<h2 class="ls-title">Local PAdES Signature with Web PKI</h2>
+
+<form role="form">
+
+	<div class="form-group">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col">
+						<span id="fileToBeSigned">No file selected!</span>
+					</div>
+					<div class="col">
+						<span id="signatureInfo"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group" ng-show="file == null">
+		<label for="searchFileButton" style="display: block;">Submit the files to be signed*: </label>
+		<button id="searchFileButton" type="button" class="btn btn-default" ng-click="selectFiles()">
+			<i class="fas fa-search"></i> Select File
+		</button>
+	</div>
+
+	<div class="form-group">
+		<div class="form-check"><input class="form-check-input" type="checkbox" id="inclEncapContentCb" checked><label for="inclEncapContentCb">Include encapsulated content</label></div>
+	</div>
+
+	<div class="form-group">
+		<label>Select a certificate*:</label>
+		<select id="certificateSelect" class="form-control">
+			<option value="">Select ...</option>
+		</select>
+	</div>
+
+	<button id="signButton" type="button" class="btn btn-primary" disabled>
+		<i class="fas fa-pencil-alt"></i> Sign
+	</button>
+	<button id="refreshButton" type="button" class="btn btn-default">
+		<i class="fas fa-retweet"></i> Refresh
+	</button>
+</form>
+
+@section Scripts {
+
+	<script>
+
+		$(document).ready(function () {
+			// To test outside of "localhost", place your Web PKI license on the variable "webPkiLicense".
+			var _webPkiLicense = null;
+			// Global variables.
+			var files = null;
+			// Initialize Web PKI component setting or not the license.
+			var pki = new LacunaWebPKI(_webPkiLicense);
+			// -------------------------------------------------------------------------------------------------
+			// Initializes the signature form.
+			// -------------------------------------------------------------------------------------------------
+			var init = function () {
+				// Block the UI while we get things ready.
+				$.blockUI({ message: 'Initializing ...' });
+				// Wireup of button clicks.
+				$('#signButton').click(sign);
+				$('#refreshButton').click(refresh);
+				$('#searchFileButton').click(searchFile);
+				// Call the init() method on the LacunaWebPKI object, passing a callback for when the component
+				// is ready to be used and another to be called when an error occurs on any of the subsequent
+				// operations. For more information, see:
+				// http://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html
+				// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
+				pki.init({
+					ready: loadCertificates, // As soon as the component is ready we'll load the certificates.
+					defaultError: onWebPkiError // Web PKI error callback.
+				});
+			};
+			// -------------------------------------------------------------------------------------------------
+			// Function called when the user clicks the "Refresh" button.
+			// -------------------------------------------------------------------------------------------------
+			function refresh() {
+				// Invoke the loading of the certificates.
+				loadCertificates();
+			}
+			// -------------------------------------------------------------------------------------------------
+			// Function that loads the certificates, either on startup or when the user clicks the "Refresh"
+			// button. At this point, the UI is already blocked.
+			// -------------------------------------------------------------------------------------------------
+			function loadCertificates() {
+
+				// Block the UI while we get things ready.
+				$.blockUI({ message: 'Loading certificates ...' });
+				// Call the listCertificates() method to list the user's certificates.
+				pki.listCertificates({
+					// ID of the <select> element to the populated with the certificates.
+					selectId: 'certificateSelect',
+					// Function that will be called to get the text that should be displayed for each option.
+					selectOptionFormatter: function (cert) {
+						var s = cert.subjectName + ' (issued by ' + cert.issuerName + ')';
+						if (new Date() > cert.validityEnd) {
+							s = '[EXPIRED] ' + s;
+						}
+						return s;
+					}
+				}).success(function () {
+					// Once the certificates have been listed, unblock the UI.
+					$.unblockUI();
+				});
+			}
+			// -------------------------------------------------------------------------------------------------
+			// Function called when the user clicks the "Select File" button.
+			// -------------------------------------------------------------------------------------------------
+			function searchFile() {
+				// Call the showFileBrowser() method on the LacunaWebPKi object, passing the dialog title and
+				// the success callback to store the opened file.
+				pki.showFileBrowser({
+					dialogTitle: 'Select the PDF to be signed'
+				}).success(function (result) {
+					// If the user didn't cancel the operation.
+					if (!result.userCancelled) {
+						// In this sample, will store the file information on "file" global variable declared
+						// above.
+						file = result.files[0];
+						// Show file informations on page.
+						$('#fileToBeSigned')
+							.html($('<a/>')
+								.attr('href', '#')
+								.text(file.name)
+								.click(function () { pki.openFile(file.id); }))
+							.append(' (' + displaySize(file.length) + ')');
+						// Enabled button
+						$('#signButton').prop('disabled', false);
+					}
+				});
+			};
+			// -------------------------------------------------------------------------------------------------
+			// Function called when the user clicks the "Sign" button.
+			// -------------------------------------------------------------------------------------------------
+			function sign() {
+				if (!file) {
+					alert('Select a file to be signed!');
+					return;
+				}
+				// Block the UI while we perform the signature.
+				$.blockUI({ message: 'Signing ...' });
+				pki.signCades({
+					fileId: file.id,
+					autoDetectCosign: true,
+					includeEncapsulatedContent: $('#inclEncapContentCb').is(':checked'),
+					output: {
+						mode: 'autoSave',
+						fileNameSuffix: '-signed',
+					},
+					certificateThumbprint: $('#certificateSelect').val(),
+					policy: 'BrazilAdrBasica',
+					trustArbitrators: [
+						// ICP-Brasil
+						pki.standardTrustArbitrators.pkiBrazil,
+						// Lacuna Software Test Root (development only!)
+						{
+							type: 'trustedRoot',
+							trustedRoot: _lacunaTestRoot
+						}
+					]
+				}).success(function (result) {
+					if (result.isValid) {
+						// Show successful signature infomation.
+						$('#signatureInfo')
+							.html('<i class="fas fa-check" style="color: green;"></i> ')
+							.append($('<a/>')
+								.prop('href', '#')
+								.text(result.signatureInfo.file.name)
+								.click(function () { pki.openFile(result.signatureInfo.file.id); }))
+							.append(' [')
+							.append($('<a/>')
+								.prop('href', '#')
+								.text('Open file location')
+								.click(function () { pki.openFolder(result.signatureInfo.file.id); }))
+							.append(']');
+						// Disable upload button and sign buttons if the signature was succesful.
+						$('#signButton').prop('disabled', true);
+						$('#searchFileButton').prop('disabled', true);
+					} else {
+						// Show validation results. We chose popper package to show this information, but might
+						// want to substitute this implementation with more user-friendly UI component to show
+						// the validation results.
+						$('#signatureInfo')
+							.html('<i class="fas fa-times" style="color: red;"></i> ')
+							.append($('<a/>')
+								.prop('href', '#')
+								.attr('data-toggle', 'popover')
+								.attr('data-placement', 'bottom')
+								.attr('title', 'Validation Results')
+								.attr('data-content', vrToString(result.signingCertificateValidationResults, ''))
+								.text('Validation Error')
+								.popover());
+					}
+					// Unblock UI.
+					$.unblockUI();
+				}).error(function (e) {
+
+					// Show error. We chose popper package to show this information, but might
+					// want to substitute this implementation with more user-friendly UI component to show
+					// the error.
+					$('#signatureInfo')
+						.html('<i class="fas fa-times" style="color: red;"></i> ')
+						.append($('<a/>')
+							.prop('href', '#')
+							.attr('data-toggle', 'popover')
+							.attr('data-placement', 'bottom')
+							.attr('title', 'An error has occured')
+							.attr('data-content', e, '')
+							.text('Signature Error')
+							.popover());
+
+					// Unblock UI.
+					$.unblockUI();
+				});
+			}
+			// -------------------------------------------------------------------------------------------------
+			// Function called if an error occurs on the Web PKI component.
+			// -------------------------------------------------------------------------------------------------
+			function onWebPkiError(message, error, origin) {
+				// Unblock the UI.
+				$.unblockUI();
+				// Log the error to the browser console (for debugging purposes).
+				if (console) {
+					console.log('An error has occurred on the signature browser component: ' + message, error);
+				}
+				// Show the message to the user. You might want to substitute the alert below with a more
+				// user-friendly UI component to show the error.
+				alert(message);
+			}
+			// -------------------------------------------------------------------------------------------------
+			// Function called to display chosen file's size.
+			// -------------------------------------------------------------------------------------------------
+			function displaySize(size) {
+				if (size) {
+					if (size >= 1048576) {
+						return (size / 1048576).toFixed(2) + ' MB';
+					} else if (size > 1024) {
+						return (size / 1024).toFixed(2) + ' KB';
+					} else {
+						return size.toString() + ' bytes';
+					}
+				} else {
+					return "";
+				}
+			}
+			// -------------------------------------------------------------------------------------------------
+			// Function called to convert ValidationResults into a string.
+			// -------------------------------------------------------------------------------------------------
+			function vrToString(vr, ident) {
+				var text = '';
+				var itemIdent = ident || '   ';
+				var i = 0;
+				if (vr.errors.length) {
+					text += ident + 'Errors:\n';
+				}
+				for (i = 0; i < vr.errors.length; i++) {
+					text += itemIdent + '- ' + vr.errors[i].message;
+					if (vr.errors[i].detail) {
+						text += ' (' + vr.errors[i].detail + ')';
+					}
+					text += '\n';
+					if (vr.errors[i].innerValidationResults) {
+						text += vrToString(vr.errors[i].innerValidationResults, itemIdent + '\t');
+					}
+				}
+				if (vr.warnings.length) {
+					text += ident + 'Warnings:\n';
+				}
+				for (i = 0; i < vr.warnings.length; i++) {
+					text += itemIdent + '- ' + vr.warnings[i].message;
+					if (vr.warnings[i].detail) {
+						text += ' (' + vr.warnings[i].detail + ')';
+					}
+					text += '\n';
+					if (vr.warnings[i].innerValidationResults) {
+						text += vrToString(vr.warnings[i].innerValidationResults, ident + '\t');
+					}
+				}
+				if (vr.passedChecks.length) {
+					text += ident + 'Passed Checks:\n';
+				}
+				for (i = 0; i < vr.passedChecks.length; i++) {
+					text += itemIdent + '- ' + vr.passedChecks[i].message;
+					if (vr.passedChecks[i].detail) {
+						text += ' (' + vr.passedChecks[i].detail + ')';
+					}
+					text += '\n';
+					if (vr.passedChecks[i].innerValidationResults) {
+						text += vrToString(vr.passedChecks[i].innerValidationResults, ident + '\t');
+					}
+				}
+				return text;
+			}
+			init();
+		});
+
+	</script>
+}
