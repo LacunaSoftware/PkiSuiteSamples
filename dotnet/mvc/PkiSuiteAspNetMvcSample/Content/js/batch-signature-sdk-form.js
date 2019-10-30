@@ -236,9 +236,9 @@ var batchSignatureSdkForm = (function () {
 			dataType: 'json',
 			success: function (response) {
 				// Add the parameters to the document information (we'll need it in the second and third steps)
-				step.transferDataFileId = response.transferDataFileId;
-				step.toSignHash = response.toSignHashBase64;
-				step.digestAlgorithmOid = response.digestAlgorithmOid;
+				step.transferDataFileId = response.TransferDataFileId;
+				step.toSignHash = response.ToSignHashBase64;
+				step.digestAlgorithmOid = response.DigestAlgorithmOid;
 				// Call the "done" callback signalling we're done with the document.
 				done(step);
 			},
@@ -297,7 +297,7 @@ var batchSignatureSdkForm = (function () {
 			},
 			dataType: 'json',
 			success: function (response) {
-				step.signedFileId = response.signedFileId;
+				step.signedFileId = response.SignedFileId;
 				// Render success.
 				renderSuccess(step);
 				// Call the "done" callback signalling we're done with the document.
