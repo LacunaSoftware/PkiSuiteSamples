@@ -4,7 +4,13 @@
 
 <h2 class="ls-title">Open existing CAdES Signature with PKI</h2>
 
-<h5>The given file contains @Model.Signature.Signers.Count signatures:</h5>
+<h5>Signature information</h5>
+<p>This signature has an encapsulated file? @(!string.IsNullOrEmpty(Model.File) ? "Yes." : "No.")</p>
+@if (!string.IsNullOrEmpty(Model.File)) {
+	<a class="btn btn-primary" href="Download/File/@Model.File">Download encapsulated file</a>
+}
+
+<p class="pt-3">The given file contains @Model.Signature.Signers.Count signatures:</p>
 
 <div id="accordion">
 
