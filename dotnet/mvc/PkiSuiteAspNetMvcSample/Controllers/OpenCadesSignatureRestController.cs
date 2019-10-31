@@ -39,13 +39,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Set the CAdES signature file.
 			sigExplorer.SetSignatureFile(userfilePath);
 
-			// Call the Open() method, which returns the signature file's information.
-			var signature = await sigExplorer.OpenAsync();
-
+			// Call the OpenAndExtractContent() method, which returns the signature file's information and the encapsulated content.
+			var data = await sigExplorer.OpenAndExtractContentAsync();
+			var signature = data.Signature;
+			var encapsulatedContent = data.Signature.HasEncapsulatedContent ? data.EncapsulatedContent : null;
+			
 			// Render the information (see file OpenCadesSignature/Index.html for more information on
 			// the information returned).
 			return View(new OpenCadesSignatureModel() {
-				Signature = signature
+				Signature = signature,
+				File = encapsulatedContent != null ? StorageMock.Store(encapsulatedContent.GetContent()) : ""
 			});
 		}
 	}

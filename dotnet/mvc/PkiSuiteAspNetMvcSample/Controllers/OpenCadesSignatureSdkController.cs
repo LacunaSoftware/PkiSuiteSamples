@@ -22,8 +22,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Open Cades file
 			var cadesSignature = CadesSignature.Open(userfileContent);
 
-			cadesSignature.SetExternalData(StorageMock.GetSampleDocContent());
-
 			// Specify the parameters for the signature validation:
 			// Define the trust arbitrator used to validate the certificate.
 			var trustArbitrator = Util.GetTrustArbitrator();
