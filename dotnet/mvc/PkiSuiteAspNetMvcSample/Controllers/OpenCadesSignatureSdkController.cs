@@ -28,7 +28,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var policyMapper = CadesPoliciesForValidation.GetCadesBasic(trustArbitrator);
 
 			return View(new OpenCadesSignatureModel() {
-				File = cadesSignature.HasEncapsulatedContent ? StorageMock.Store(cadesSignature.GetEncapsulatedContent()) : "",
+				// WARNING: this sample always consider the encapsulated content type as pdf, so the downloadable file uses pdf extension
+				File = cadesSignature.HasEncapsulatedContent ? StorageMock.Store(cadesSignature.GetEncapsulatedContent(), ".pdf") : "",
 				Signature = new CadesSignatureModel(cadesSignature, policyMapper)
 			});
 		}

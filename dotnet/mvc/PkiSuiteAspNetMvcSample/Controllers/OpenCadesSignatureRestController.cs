@@ -48,7 +48,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// the information returned).
 			return View(new OpenCadesSignatureModel() {
 				Signature = signature,
-				File = encapsulatedContent != null ? StorageMock.Store(encapsulatedContent.GetContent()) : ""
+				// WARNING: this sample always consider the encapsulated content type as pdf, so the downloadable file uses pdf extension
+				File = encapsulatedContent != null ? StorageMock.Store(encapsulatedContent.GetContent(), ".pdf") : ""
 			});
 		}
 	}
