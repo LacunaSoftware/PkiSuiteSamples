@@ -8,33 +8,30 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class OpenCadesSignatureSdkController : BaseController
-    {
-        /**
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class OpenCadesSignatureSdkController : BaseController {
+		/**
 		 * This action open a Cades file and inspect its signatures.
 		 */
-        public ActionResult Index(string userfile)
-        {
-            // Our action only works if a userfile is given to work with.
-            byte[] userfileContent;
-            if (!StorageMock.TryGetFile(userfile, out userfileContent))
-            {
-                return HttpNotFound();
-            }
-            // Open Cades file
-            var cadesSignature = CadesSignature.Open(userfileContent);
+		public ActionResult Index(string userfile) {
+			// Our action only works if a userfile is given to work with.
+			byte[] userfileContent;
+			if (!StorageMock.TryGetFile(userfile, out userfileContent)) {
+				return HttpNotFound();
+			}
+			// Open Cades file
+			var cadesSignature = CadesSignature.Open(userfileContent);
 
-            // Specify the parameters for the signature validation:
-            // Define the trust arbitrator used to validate the certificate.
-            var trustArbitrator = Util.GetTrustArbitrator();
-            var policyMapper = CadesPoliciesForValidation.GetCadesBasic(trustArbitrator);
+			// Specify the parameters for the signature validation:
+			// Define the trust arbitrator used to validate the certificate.
+			var trustArbitrator = Util.GetTrustArbitrator();
+			var policyMapper = CadesPoliciesForValidation.GetCadesBasic(trustArbitrator);
 
-            return View(new OpenCadesSignatureModel()
-            {
-                Signature = new CadesSignatureModel(cadesSignature, policyMapper)
-            });
-        }
-    }
+			return View(new OpenCadesSignatureModel() {
+				// WARNING: this sample always consider the encapsulated content type as pdf, so the downloadable file uses pdf extension
+				File = cadesSignature.HasEncapsulatedContent ? StorageMock.Store(cadesSignature.GetEncapsulatedContent(), ".pdf") : "",
+				Signature = new CadesSignatureModel(cadesSignature, policyMapper)
+			});
+		}
+	}
 }
