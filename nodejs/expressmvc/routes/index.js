@@ -13,5 +13,6 @@ router.use('/download', require('./download'));
 router.use('/pades-signature-express', require('./pades-signature-express'));
 router.use('/pades-signature-restpki', require('./pades-signature-restpki'));
 router.use('/upload', require('./upload'));
+router.use('/server-files', require('./server-files'));
 
 module.exports = router;

@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+
+	h2(class='ls-title') Choose one of the available files on the server
+
+	p
+		| You will be redirected to&nbsp;
+		b /#{rc}
+	form(method='post', id="filesForm")
+		input(type="hidden", name="selectedFile", id="selectedFile")
+		div(class='row')
+			each file, index in availableFiles
+				div(class='col-md-3')
+					div(class='card')
+						div(class='card-header') Document ##{index+1} 
+							a(href='/' + file.downloadUrl)
+								i.fas.fa-file-download
+						div(class='card-body') #{file.description}
+						div(class='card-footer') 
+							button(type='buttom', class='use-file btn btn-primary', style='font-size: 14px;', id=file.id)
+								<i class='fas fa-hand-point-down'></i> Use This
+
+block scripts
+
+	script.
+		$('.use-file').click(function (e) {
+			$('#selectedFile').val(this.id);
+			$('#filesForm').submit();
+		});
+			

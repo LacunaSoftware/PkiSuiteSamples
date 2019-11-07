@@ -14,7 +14,10 @@ block scripts
 				//express: '/check-pki-express?rc=authentication',
 				restpki: '/check-restpki-token?rc=authentication'
 			},
-			// cosignCms: { },
+			cosignCms: { 
+				//express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignCms'
+				restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=cosignCms'
+			},
 			// cosignPdf: { },
 			// issueCertServer: { },
 			// issueCertUser: { },
@@ -24,10 +27,10 @@ block scripts
 			// printerFriendlyPdf: { },
 			// readCert: { },
 			// rsa: { },
-			//signCmsServer: {
+			signCmsServer: {
 			//	express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
-			//	restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
-			//},
+				restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
+			},
 			signCmsUser: {
 				//express: '/check-pki-express?rc=upload&fwd=cades-signature',
 				restpki: '/check-restpki-token?rc=upload&fwd=cades-signature'

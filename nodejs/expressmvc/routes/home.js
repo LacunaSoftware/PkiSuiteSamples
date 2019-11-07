@@ -31,7 +31,7 @@ router.get('/check-pki-express', (req, res, next) => {
 			const op = req.query['op'];
 			if (fwd) {
 				if (op) {
-					res.redirect(`/${rc}?rc=${fwd}-express&op${op}`);
+					res.redirect(`/${rc}?rc=${fwd}-express&op=${op}`);
 				} else {
 					res.redirect(`/${rc}?rc=${fwd}-express`);
 				}
@@ -64,7 +64,7 @@ router.get('/check-restpki-token', (req, res, next) => {
 		const op = req.query['op'];
 		if (fwd) {
 			if (op) {
-				res.redirect(`/${rc}?rc=${fwd}-restpki&op${op}`);
+				res.redirect(`/${rc}?rc=${fwd}-restpki&op=${op}`);
 			} else {
 				res.redirect(`/${rc}?rc=${fwd}-restpki`);
 			}

@@ -69,6 +69,10 @@ class StorageMock {
 		let filePath = path.join(StorageMock.appDataPath, filename);
 		return fs.readFileSync(filePath);
 	}
+	static readSampleDocSync(sampleId){
+		let filePath = this.getSampleDocPath(sampleId);
+		return fs.readFileSync(filePath);
+	}
 	static getSampleDocName(sampleId) {
 		switch (sampleId) {
 			case SampleDocs.SAMPLE_PDF:

@@ -17,7 +17,7 @@ let appRoot = process.cwd();
  * All CAdES signature examples converge to this action, but with different URL
  * arguments:
  *
- *    1. Signature with a server file               : no arguments filled
+ *    1. Signature with a server file               : "fileId" filled
  *    2. Signature with a file uploaded by the user : "fileId" filled
  *    3. Co-signature of a previously signed CMS    : "cmsfile" filled
  */
