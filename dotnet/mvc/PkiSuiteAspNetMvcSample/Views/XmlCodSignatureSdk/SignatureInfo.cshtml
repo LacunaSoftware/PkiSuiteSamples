@@ -1,0 +1,14 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
+@model SignatureInfoModel
+
+<h2 class="ls-title">COD XML signature (COD element) with PKI SDK</h2>
+
+<p>COD element signed successfully!</p>
+
+<p>
+	<a href="/Download/File/@Model.File" class="btn btn-info">Download XML with signed COD element</a>
+	<a href="/OpenXmlSignatureSdk?userfile=@Model.File" class="btn btn-outline-info">Validate signature</a><br />
+	<br />
+	<a href="/XmlCodSignatureSdk/SignCodeh/@Model.File" class="btn btn-primary">Sign CODEH element</a>
+</p>
+

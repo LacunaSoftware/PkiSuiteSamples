@@ -106,7 +106,7 @@ file [build.gradle](springmvc/build.gradle)
 	} 
 
 	dependencies {
-		compile("com.lacunasoftware.pkiexpress:pki-express:1.8.0")
+		compile("com.lacunasoftware.pkiexpress:pki-express:1.9.3")
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -116,7 +116,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.8.0</version>
+			<version>1.9.3</version>
 		</dependency>
 		...
 	</dependencies>
@@ -132,6 +132,17 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
 [package page on BinTray](https://bintray.com/lacunasoftware/maven/pki-express) and click on
 the link "SET ME UP!".
+
+Activating PKI Express
+----------------------
+
+After installing PKI Express, is necessary to activate it. On Linux, execute the following
+command with root permissions:
+
+	$ sudo pkie activate LacunaPkiLicense.config
+	
+On Windows, run the _PKI Express Configuration Manager_ (**file `pkiemgr.exe` on the installation folder** 
+ex.: C:\Program Files\Lacuna Software\PKI Express) and follow the instructions to activate PKI Express.
 
 See also
 --------

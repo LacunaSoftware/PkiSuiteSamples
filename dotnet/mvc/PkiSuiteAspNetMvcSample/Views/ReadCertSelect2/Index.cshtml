@@ -188,16 +188,17 @@
 
 			// Render the key usages of the certificates.
 			certInfoElement.append($('<span>').append('<b>Key Usage</b>: ')).append($('<br>'));
-			// Render "CRL Sign" usage.
-			renderKeyUsage(certInfoElement, cert.keyUsage.crlSign, 'CRL Sign');
-			// Render "Data Encipherment" usage.
-			renderKeyUsage(certInfoElement, cert.keyUsage.dataEncipherment, 'Data Encipherment');
-			// Render "Digital Signature" usage.
-			renderKeyUsage(certInfoElement, cert.keyUsage.digitalSignature, 'Digital Signature');
-			// Render "Key Encipherment" usage.
-			renderKeyUsage(certInfoElement, cert.keyUsage.keyEncipherment, 'Key Encipherment');
-			// Render "Non Repudiation" usage.
-			renderKeyUsage(certInfoElement, cert.keyUsage.nonRepudiation, 'Non Repudiation');
+			var keyUsageList = $('<ul>');
+			renderKeyUsage(keyUsageList, cert.keyUsage.crlSign, 'CRL Signature');
+			renderKeyUsage(keyUsageList, cert.keyUsage.dataEncipherment, 'Data Encipherment');
+			renderKeyUsage(keyUsageList, cert.keyUsage.decipherOnly, 'Decipher Only');
+			renderKeyUsage(keyUsageList, cert.keyUsage.digitalSignature, 'Digital Signature');
+			renderKeyUsage(keyUsageList, cert.keyUsage.encipherOnly, 'Encipher Only');
+			renderKeyUsage(keyUsageList, cert.keyUsage.keyAgreement, 'Key Agreement');
+			renderKeyUsage(keyUsageList, cert.keyUsage.keyCertSign, 'Key Certificate Signature');
+			renderKeyUsage(keyUsageList, cert.keyUsage.keyEncipherment, 'Key Encipherment');
+			renderKeyUsage(keyUsageList, cert.keyUsage.nonRepudiation, 'Non Repudiation');
+			certInfoElement.append(keyUsageList);
 		}
 
 		// --------------------------------------------------------------------------------------------------
@@ -221,17 +222,10 @@
 		// --------------------------------------------------------------------------------------------------
 		// Useful methods on certificate's rendering.
 		// --------------------------------------------------------------------------------------------------
-		function renderKeyUsage(element, keyUsage, keyUsageText) {
-			element
-				.append($('<span>')
-					.append('&nbsp&nbsp;&nbsp&nbsp;')
-					.append($('<b>').append(keyUsageText))
-					.append(': ')
-					.append($('<span>')
-						.addClass('badge')
-						.addClass(keyUsage ? 'badge-success' : 'badge-danger')
-						.append(keyUsage.toString())))
-				.append($('<br>'));
+		function renderKeyUsage(list, usage, keyUsageText) {
+			if (usage) {
+				list.append($('<li>').text(keyUsageText));
+			}
 		}
 
 		// Once the page is ready, we call the init() function on the javascript code
