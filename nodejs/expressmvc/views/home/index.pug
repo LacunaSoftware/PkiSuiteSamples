@@ -18,7 +18,10 @@ block scripts
 				//express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignCms'
 				restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=cosignCms'
 			},
-			// cosignPdf: { },
+			cosignPdf: {
+				//express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignPdf'
+				restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
+			 },
 			// issueCertServer: { },
 			// issueCertUser: { },
 			// listCert: { },
@@ -45,10 +48,10 @@ block scripts
 			},
 			// signMultiPdfUser: { },
 			// signNfe: { },
-			//signPdfServer: {
+			signPdfServer: {
 			//	express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
-			//	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
-			//},
+				restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
+			},
 			signPdfUser: {
 				express: '/check-pki-express?rc=upload&fwd=pades-signature',
 				restpki: '/check-restpki-token?rc=upload&fwd=pades-signature'

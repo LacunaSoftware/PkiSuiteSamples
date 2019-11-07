@@ -38,7 +38,7 @@ router.post('/', (req, res, next) => {
     
     // Copy file to the App_Data folder, where the upload files is stored.
     let file = StorageMock.readSampleDocSync(sampleId);
-    let fileId = StorageMock.storeSync(file, null, fileExtension);
+    let fileId = StorageMock.storeSync(file, null, "."+fileExtension);
     
     // Redirect the user to the signature route, passing the name of the file as
 	// a URL argument.
