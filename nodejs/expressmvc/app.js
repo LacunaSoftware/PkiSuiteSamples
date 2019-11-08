@@ -3,7 +3,7 @@ const express = require('express'),
       path = require('path'),
       morgan = require('morgan'),
       bodyParser = require('body-parser');
-
+const moment = require('moment');
 const { Config } = require('./config');
 
 // Create global app object
@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 	//res.locals.userId = req.session['userId'] || null;
 
 	// Pass moment callback for formatting dates.
-	//res.locals.moment = moment;
+	res.locals.moment = moment;
 
 	// Get Web PKI and REST PKI Configuration
 	const WEB_PKI_CONFIG = Config.getInstance().get('webPki');

@@ -55,13 +55,16 @@ block scripts
 			signPdfUser: {
 				express: '/check-pki-express?rc=upload&fwd=pades-signature',
 				restpki: '/check-restpki-token?rc=upload&fwd=pades-signature'
-			}
+			},
 			// signPdfServerKey: { },
 			// signXmlServer: { },
 			// signXmlServerKey: { },
 			// signaturePackage: { },
 			// validateCmsSig: { },
-			// validatePdfSig: { },
+			validatePdfSig: { 
+				express: '/check-pki-express?rc=upload&fwd=open-pades',
+				// restpki: '/check-restpki-token?rc=upload&fwd=open-pades'
+			},
 			// validateXmlSig: { }
 		};
 
