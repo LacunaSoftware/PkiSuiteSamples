@@ -10,7 +10,9 @@ const SampleDocs = {
 	PDF_SIGNED_ONCE: 1,
 	PDF_SIGNED_TWICE: 2,
 	CMS_SIGNED_ONCE: 3,
-	CMS_SIGNED_TWICE: 4
+	CMS_SIGNED_TWICE: 4,
+	SAMPLE_XML: 5,
+	SAMPLE_NFE: 6
 };
 
 class StorageMock {
@@ -85,6 +87,10 @@ class StorageMock {
 				return 'SampleCms.p7s';
 			case SampleDocs.CMS_SIGNED_TWICE:
 				return 'SampleCmsSignedTwice.p7s';
+			case SampleDocs.SAMPLE_XML:
+				return 'SampleDocument.xml';
+			case SampleDocs.SAMPLE_NFE:
+					return 'SampleNFe.xml';
 			default:
 				throw new Error('Invalid sample document identification.');
 		}

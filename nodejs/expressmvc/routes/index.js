@@ -16,5 +16,7 @@ router.use('/pades-signature-express', require('./pades-signature-express'));
 router.use('/pades-signature-restpki', require('./pades-signature-restpki'));
 router.use('/upload', require('./upload'));
 router.use('/server-files', require('./server-files'));
+router.use('/xml-nfe-signature-restpki', require('./xml-nfe-signature-restpki'));
+router.use('/xml-signature-restpki', require('./xml-signature-restpki'));
 
 module.exports = router;
