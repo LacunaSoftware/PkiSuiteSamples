@@ -32,11 +32,16 @@ router.get('/', (req, res, next) => {
 /**
  * GET /download/doc
  *
- * ...
  */
 router.get('/doc', (req, res, next) => {
 	const fileId = req.query['fileId'];
 	const path = StorageMock.getBatchDocPath(fileId);
+	res.download(path);
+});
+
+router.get('/sample', (req, res, next) => {
+	const fileId = Number(req.query['fileId']);
+	const path = StorageMock.getSampleDocPath(fileId);
 	res.download(path);
 });
 

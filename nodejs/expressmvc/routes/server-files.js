@@ -55,7 +55,7 @@ class ServerFileModel{
     constructor(id, description){
         this.id = id;
         this.description = description;
-        this.downloadUrl = StorageMock.getSampleDocPath(id);
+        this.downloadUrl = '/download/sample?fileId=' + id;
     }
 }
 module.exports = router;

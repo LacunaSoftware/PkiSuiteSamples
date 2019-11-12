@@ -9,7 +9,7 @@ const { Util } = require('../util');
 const router = express.Router();
 
 /**
- * GET /open-pades-restpki
+ * GET /open-pades
  *
  * This route only submits a PDF file to PKI Express for inspection of its signatures.
  */
