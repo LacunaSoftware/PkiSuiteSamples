@@ -29,7 +29,7 @@ repositories {
 
 dependencies {
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.9.3'
-    implementation 'com.lacunasoftware.restpki:restpki-client:1.10.1'
+    implementation 'com.lacunasoftware.restpki:restpki-client:1.12.1'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
