@@ -38,8 +38,8 @@ rest-pki:
   # ======================================================
   #   >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
   # ======================================================
-  accessToken: 'ohbl1j0m4T_BVuDa0eBD_AOjeoAbULGD77JE3c4TBDQGrh01eckKCDGZP4amcQA3cqw3fpoQnTzgTavqy8IGzbGf1aYxGx64H-YteC1JEf0vGL_7Jf8QCxEZ2bcbKuwUTGqiBwhRI1IMRfvj90BpA7AM-USu2qRqGdUSFmtUU7oTwfNJGrj7TnFPh3x83HzcOqvPOyb23piy3nzpW9zOFfMW32USuGT32vu3XJi8JIbxEAVSsKPy7izWWx0WTr28-O4yX8OH5vSDUJzMFtNUw1WYJLB-_P-eePkBDrih_LkL28oJFVdIB7ewXPYg9X6QY7uQPCOCho6TyerUwPnkJE3eo0_vLkli145rd7q0P1YYBjil9i5y5zS-LEOgovcR4gOdl8eW1Hpw0Def5DuIErQSOowih6HA2L99VYgMXCyCKajmK2Q_Z0qJdRsetMIC8hu4ghb0XSdOcEv4d1a6N1xr82gpdyohQtPGF4XieDao9Zk7TM2iFqkzdb20L-64EvURJQ'
-  # This is a TRIAL token. It will expire at 30/11/2019
+  accessToken: 'ftCmcHGLdSk_6r7T46fGugFvHSLwPljry7wYRSVYA2LNSKUzbNkw6iHp_VxWH513738Tb_sJ0oAF_nJbV8upWuQG4ndbhk-kLJCwahmlAJg-_r9WUuSE5iF1p5sctLe-WoCO3M9py2j2wOjjzaokWTsuAbRkTRygKTADesP5sopwhQUvrO71U_wQM4C_ZOwz36yYQ9ywfiww60AzPoCfDnOcGJgGd3Bchy-bfz7XUNBPEgERhiu2RfRHz_0Akb6DiC9p7G26v4d0aRd_oNPY2pCr5q2SUD6qL9lWpRuD2O16f0vn-3CPagXtW_fBo281yVXDuRLmsMmdiwDWK060iLN31gOkK0PalqA527ivRFc4wDu9ZwhIibExV5gRFKiY-Ld_lFaJ_ykHi6MsmyyDaCMiIRrQ-tt6qoA2yx73U855Wsoj0qkf0TWQo5qH5jJqRdpdBdjMmVjXzyBimDhqSt7W738XeeRioCF7tno3BhBNBhXmboJBtOGZ0D9dRG6TnorOeg'
+  # This is a TRIAL token. It will expire at 31/01/2020
   # If the REST PKI's samples do not work, please contact our support by
   # email: suporte@lacunasoftware.com
 
@@ -57,8 +57,8 @@ amplia:
   # ======================================================
   #       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
   # ======================================================
-  apiKey: 'pki-suite-samples-02|3db2755e371a6041a56d9ed559c27e89327e4bafc1430454bfd3e2c617d0cb47'
-  # This is a TRIAL API key to use Amplia. It will expire at 30/11/2019
+  apiKey: 'pki-suite-samples-02|6b7b2441f5f7744990d771120e50cbd68fa2d749a322f3760ba3bc49925dfc87'
+  # This is a TRIAL API key to use Amplia. It will expire at 31/01/2020
   # If the Amplia's samples do not work please contact our support by email:
   # suporte@lacunasoftware.com
 

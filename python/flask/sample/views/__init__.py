@@ -15,6 +15,7 @@ from .download import blueprint as download
 from .home import blueprint as home
 from .list_cert_jquery import blueprint as list_cert_jquery
 from .list_cert_select2 import blueprint as list_cert_select2
+from .open_cades_express import blueprint as open_cades_express
 from .open_pades_express import blueprint as open_pades_express
 from .open_pades_rest import blueprint as open_pades_rest
 from .pades_server_key_express import blueprint as pades_server_key_express
@@ -47,6 +48,7 @@ blueprints = {
     home,
     list_cert_jquery,
     list_cert_select2,
+    open_cades_express,
     open_pades_express,
     open_pades_rest,
     pades_server_key_express,

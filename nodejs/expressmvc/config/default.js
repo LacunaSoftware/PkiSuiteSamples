@@ -27,8 +27,8 @@ module.exports = {
 		// ========================================================
 		//     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
 		// ========================================================
-		accessToken: 'ohbl1j0m4T_BVuDa0eBD_AOjeoAbULGD77JE3c4TBDQGrh01eckKCDGZP4amcQA3cqw3fpoQnTzgTavqy8IGzbGf1aYxGx64H-YteC1JEf0vGL_7Jf8QCxEZ2bcbKuwUTGqiBwhRI1IMRfvj90BpA7AM-USu2qRqGdUSFmtUU7oTwfNJGrj7TnFPh3x83HzcOqvPOyb23piy3nzpW9zOFfMW32USuGT32vu3XJi8JIbxEAVSsKPy7izWWx0WTr28-O4yX8OH5vSDUJzMFtNUw1WYJLB-_P-eePkBDrih_LkL28oJFVdIB7ewXPYg9X6QY7uQPCOCho6TyerUwPnkJE3eo0_vLkli145rd7q0P1YYBjil9i5y5zS-LEOgovcR4gOdl8eW1Hpw0Def5DuIErQSOowih6HA2L99VYgMXCyCKajmK2Q_Z0qJdRsetMIC8hu4ghb0XSdOcEv4d1a6N1xr82gpdyohQtPGF4XieDao9Zk7TM2iFqkzdb20L-64EvURJQ',
-		// This is a TRIAL token. It will be expired at 30/11/2019.
+		accessToken: 'ftCmcHGLdSk_6r7T46fGugFvHSLwPljry7wYRSVYA2LNSKUzbNkw6iHp_VxWH513738Tb_sJ0oAF_nJbV8upWuQG4ndbhk-kLJCwahmlAJg-_r9WUuSE5iF1p5sctLe-WoCO3M9py2j2wOjjzaokWTsuAbRkTRygKTADesP5sopwhQUvrO71U_wQM4C_ZOwz36yYQ9ywfiww60AzPoCfDnOcGJgGd3Bchy-bfz7XUNBPEgERhiu2RfRHz_0Akb6DiC9p7G26v4d0aRd_oNPY2pCr5q2SUD6qL9lWpRuD2O16f0vn-3CPagXtW_fBo281yVXDuRLmsMmdiwDWK060iLN31gOkK0PalqA527ivRFc4wDu9ZwhIibExV5gRFKiY-Ld_lFaJ_ykHi6MsmyyDaCMiIRrQ-tt6qoA2yx73U855Wsoj0qkf0TWQo5qH5jJqRdpdBdjMmVjXzyBimDhqSt7W738XeeRioCF7tno3BhBNBhXmboJBtOGZ0D9dRG6TnorOeg',
+		// This is a TRIAL token. It will be expired at 31/01/2020.
 		// If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
 		// In order to use this sample on a "on premises" installation of
