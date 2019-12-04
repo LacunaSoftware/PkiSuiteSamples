@@ -4,10 +4,7 @@
 
 <script>
     SampleRoutes = {
-        authCert: {
-            // express: ''
-            restpki: '/check-rest-token/authentication'
-        },
+        // authCert: { },
         // cosignCms: { },
         // cosignPdf: { },
         // issueCertServer: { },
@@ -27,8 +24,14 @@
         // signMultiPdfServer: { },
         // signMultiPdfUser: { },
         // signNfe: { },
-        // signPdfServer: { },
-        // signPdfUser: { },
+        signPdfServer: {
+            // express: ''
+            restpki: 'check-rest-token/server-files/pades-signature/sign-pdf'
+        },
+        signPdfUser: {
+            // express: ''
+            restpki: 'check-rest-token/upload/pades-signature'
+        },
         // signPdfServerKey: { },
         // signXmlServer: { },
         // signXmlServerKey: { },
@@ -38,6 +41,6 @@
         // validateXmlSig: { }
     };
 </script>
-<%= javascript_include_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js' %>
-<%= javascript_include_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js' %>
-<%= javascript_include_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/main.b8fb1a5c5c784500d9a3.js' %>
+<%= javascript_pack_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js' %>
+<%= javascript_pack_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js' %>
+<%= javascript_pack_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/main.b8fb1a5c5c784500d9a3.js' %>

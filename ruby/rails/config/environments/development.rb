@@ -16,6 +16,7 @@ Rails.application.configure do
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
+    config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
@@ -26,11 +27,6 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
-
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
-  config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -43,18 +39,10 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  # Raises error for missing translations
+  # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  # ----------------------------------------------------------------------------
-  # Lacuna Configuration
-  # ----------------------------------------------------------------------------
-
-  # Trust in Lacuna Test PKI (for development purposes only!)
-  config.x.trust_lacuna_test_root = true
-  # THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
 end

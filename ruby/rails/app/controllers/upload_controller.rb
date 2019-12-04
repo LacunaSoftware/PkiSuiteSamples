@@ -1,25 +1,16 @@
 class UploadController < ApplicationController
 
   def index
-    flash[:rc] = params[:rc]
+    @rc = params[:rc]
   end
 
   def action
-
     # Check that a file was indeed uploaded
-    if params[:upload_form].nil?
-      raise 'No file upload'
-    end
-    userfile = params[:upload_form][:userfile]
+    raise 'No file upload' if params[:upload_form].nil?
 
-
-    extension = File.extname(userfile.original_filename)
-
-    filename = SecureRandom.hex(10).to_s + extension
-    File.open(Rails.root.join('public', 'uploads', filename), 'wb') do |file|
-      file.write(userfile.read)
-    end
-
-    redirect_to :controller => flash[:rc], :action => 'index', :userfile => filename
+    file = params[:upload_form][:userfile]
+    original_filename = file.original_filename
+    file_id = store(file.read, nil, original_filename)
+    redirect_to "/#{params[:rc]}/#{file_id}"
   end
 end

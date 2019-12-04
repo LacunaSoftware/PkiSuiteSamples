@@ -14,14 +14,19 @@
 !/tmp/.keep
 
 
-/node_modules
-/yarn-error.log
-
 /public/assets
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-# Ruby Mine
-.idea/*
+/public/files
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# RubyMine
+.idea
