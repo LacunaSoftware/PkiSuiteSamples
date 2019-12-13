@@ -1,7 +1,8 @@
 'use strict';
 const { RestPkiClient, StandardSecurityContexts } = require('restpki-client');
 const { TimestampAuthority } = require('pki-express');
-
+const fs = require('fs');
+const crypto = require('crypto');
 const { Config } = require('./config');
 const { StorageMock } = require('./storage-mock');
 
@@ -142,6 +143,99 @@ class Util {
 		}
 		return array;
 	}
+
+	static getValidationResultIcon(isValid) {
+		let appRoot = process.cwd();
+		let filename = isValid ? 'ok.png' : 'not-ok.png';
+		return fs.readFileSync(appRoot + '/public/' + filename);
+	}
+
+	static getIcpBrasilLogoContent() {
+		let appRoot = process.cwd();
+		return fs.readFileSync(appRoot + '/public/icp-brasil.png');
+	}
+
+	static joinStringPt(strings) {
+		let text = '';
+		let count = strings.length;
+		for (let i = 0; i < strings.length; i++) {
+			if (i > 0) {
+				if (i < count - 1) {
+					text += ', ';
+				} else {
+					text += ' e ';
+				}
+			}
+			text += strings[i];
+		}
+		return text;
+	}
+
+	static generateVerificationCode() {
+
+		/*
+		 * Configuration of the code generation
+		 * ------------------------------------
+		 *
+		 * - CodeSize   : size of the code in characters
+		 *
+		 * Entropy
+		 * -------
+		 *
+		 * The resulting entropy of the code in bits is the size of the code
+		 * times 4. Here are some suggestions:
+		 *
+		 * - 12 characters = 48 bits
+		 * - 16 characters = 64 bits
+		 * - 20 characters = 80 bits
+		 * - 24 characters = 92 bits
+		 */
+		let codeSize = 16;
+  
+		// Generate the entropy with Node.js Crypto's cryptographically strong
+		// pseudo-random generation function.
+		let numBytes = Math.floor(codeSize / 2);
+		let randBuffer = crypto.randomBytes(numBytes);
+  
+		return randBuffer.toString('hex').toUpperCase();
+	 }
+  
+	static formatVerificationCode(code) {
+		/*
+		* Examples
+		* --------
+		*
+		* - codeSize = 12, codeGroups = 3 : XXXX-XXXX-XXXX
+		* - codeSize = 12, codeGroups = 4 : XXX-XXX-XXX-XXX
+		* - codeSize = 16, codeGroups = 4 : XXXX-XXXX-XXXX-XXXX
+		* - codeSize = 20, codeGroups = 4 : XXXXX-XXXXX-XXXXX-XXXXX
+		* - codeSize = 20, codeGroups = 5 : XXXX-XXXX-XXXX-XXXX-XXXX
+		* - codeSize = 25, codeGroups = 5 : XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+		*/
+		let codeGroups = 4;
+
+		// Return the code separated in groups
+		let charsPerGroup = (code.length - code.length % codeGroups) / codeGroups;
+		let text = '';
+		for (let i = 0; i < code.length; i++) {
+			if (i !== 0 && i % charsPerGroup === 0) {
+				text += '-';
+			}
+			text += code[i];
+		}
+
+		return text;
+	}
+
+	static parseVerificationCode(code) {
+		let text = '';
+		for (let i = 0; i < code.length; i++) {
+			if (code[i] !== '-') {
+				text += code[i];
+			}
+		}
+		return text;
+	}  
 }
 
 exports.Util = Util;
