@@ -9,11 +9,11 @@ class PadesSignatureRestController < ApplicationController
   # signature page.
   def index
 
-    # Retrieve "fileId" parameter.
+    # Retrieve "file_id" parameter.
     @file_to_sign = params[:file_id]
 
     # Verify if the :file_id exists with the help of our StorageMock class.
-    # This sample can only executed if the provided file exists.
+    # This sample can only be executed if the provided file exists.
     unless exist?(@file_to_sign)
       render text: 'Not Found', status: 404 && return
     end

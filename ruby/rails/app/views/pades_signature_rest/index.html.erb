@@ -8,8 +8,8 @@
     <%= hidden_field_tag(:token, @token) %>
 
     <div class="form-group">
-      <%= label_tag(:file_to_sign, 'File to sign') %>
-      <p>You'll are signing <a href='/download/<%= @file_to_sign %>'>this document</a>.</p>
+      <label>File to sign</label>
+      <p>You are signing <a href='/download/<%= @file_to_sign %>'>this document</a>.</p>
     </div>
 
     <%

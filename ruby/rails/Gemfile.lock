@@ -108,6 +108,7 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.5-x64-mingw32)
       mini_portile2 (~> 2.4.0)
+    pki_express (1.0.0)
     public_suffix (4.0.1)
     rack (2.0.7)
     rack-proxy (0.6.5)
@@ -210,6 +211,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   jbuilder (~> 2.7)
+  pki_express (~> 1.0.0)
   rails (~> 6.0.1)
   rest_pki (~> 1.0.0)
   sass-rails (>= 6)

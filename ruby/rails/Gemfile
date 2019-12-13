@@ -40,3 +40,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Lacuna's REST PKI client gem. Published on RubyGems: https://rubygems.org/gems/rest_pki
 gem 'rest_pki', '~> 1.0.0'
+
+# Lacuna's PKI Express gem. Published on RubyGems: https://rubygems.org/gems/pki_express
+gem 'pki_express', '~> 1.0.0'

@@ -14,11 +14,11 @@ module StorageMock
     # safety.
     filename += extension unless extension.nil?
 
-    Rails.root.join('tmp', 'files', filename)
+    Rails.root.join('private', 'files', filename)
   end
 
   def get_resource_path(resource_file)
-    Rails.root.join('public', resource_file)
+    Rails.root.join('private', resource_file)
   end
 
   def generate_filename(extension, filename = nil)
@@ -46,6 +46,12 @@ module StorageMock
     name
   end
 
+  def generate_file_id(extension, original_filename=nil)
+    filename = generate_filename(extension, original_filename)
+    filename.gsub('.', '_')
+    # Note: The file_id are generated with "." as "_" because of URL safety.
+  end
+
   def retrieve_filename(file_id)
     filename = file_id.gsub('_', '.')
     # Note: we're passing the filename arguments with "_" as "." because of URL
@@ -62,10 +68,10 @@ module StorageMock
     file_id = generate_filename(extension, filename)
 
     # Ensure files folder exists
-    files_folder = Rails.root.join('tmp', 'files')
+    files_folder = Rails.root.join('private', 'files')
     Dir.mkdir(files_folder) unless File.directory?(files_folder)
 
-    path = Rails.root.join('tmp', 'files', file_id)
+    path = Rails.root.join('private', 'files', file_id)
     File.open(path, 'wb') do |file|
       file.write(content)
     end
@@ -97,12 +103,12 @@ module StorageMock
   end
 
   def get_batch_doc_path(id)
-    Rails.root.join('public', "0#{id.to_i % 10}.pdf")
+    Rails.root.join('private', "0#{id.to_i % 10}.pdf")
   end
 
   def get_pdf_stamp_content
     content = nil
-    File.open(Rails.root.join('public', 'stamp.png'), 'rb') do |file|
+    File.open(Rails.root.join('private', 'stamp.png'), 'rb') do |file|
       content = file.read
     end
     content

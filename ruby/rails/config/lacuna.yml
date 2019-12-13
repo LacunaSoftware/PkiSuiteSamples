@@ -24,7 +24,7 @@ development:
 
   pki_express:
     # List of custom trusted roots. In this sample, we will get the certificate
-    # files from public/static folder.
+    # files from private/ folder.
     trusted_roots: []
 
     # Offline mode. Set this, if you want that PKI Express to run on offline

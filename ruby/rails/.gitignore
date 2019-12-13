@@ -21,6 +21,7 @@
 /config/master.key
 
 /public/files
+/private/files
 /public/packs
 /public/packs-test
 /node_modules
