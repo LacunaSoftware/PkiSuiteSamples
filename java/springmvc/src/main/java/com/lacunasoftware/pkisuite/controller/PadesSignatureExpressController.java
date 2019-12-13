@@ -36,7 +36,7 @@ public class PadesSignatureExpressController {
 	}
 
 	/**
-	 * GET /pades-signature-express/start?fileId={fileToSign}
+	 * POST /pades-signature-express/start?fileId={fileToSign}
 	 *
 	 * This action receives the form submission from the signature page. It will perform a PAdES
 	 * signature in three steps using PKI Express and Web PKI.

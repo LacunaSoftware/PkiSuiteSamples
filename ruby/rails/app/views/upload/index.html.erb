@@ -1,0 +1,89 @@
+<h2 class="ls-title">Upload a file</h2>
+<h5 class="ls-subtitle">
+  You will be redirected to route <b>/<%= @rc %></b>
+</h5>
+
+<div class="ls-content">
+  <%= form_for(:upload_form, :html => {:id => 'uploadForm'}) do |f| %>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="custom-file">
+
+          <%= f.file_field(:userfile, {:id => 'fileInput', :class => 'custom-file-input ls-upload'}) %>
+          <label id="fileInputLabel" for="fileInput" class="custom-file-label border">
+            <span class="filename">Choose file</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%
+  # This javascript is only an optional feature for this upload page. It will
+  # use jQuery to improve the UX of the page. Feel free to alter it however you
+  # want.
+%>
+<script>
+    // -------------------------------------------------------------------------
+    // This function will be called as soon as the page is loaded.
+    // -------------------------------------------------------------------------
+    function init() {
+
+        var fileInputFieldRef = $('input#fileInput');
+
+        // Register callback for when a file is chosen.
+        fileInputFieldRef.change(onFileChosen);
+
+        // Custom "hover" behavior for better UX.
+        fileInputFieldRef.hover(function () {
+            $('#fileInputLabel').addClass('border-primary');
+        }, function() {
+            $('#fileInputLabel').removeClass('border-primary');
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // This function will be called when a file is submitted.
+    // -------------------------------------------------------------------------
+    function onFileChosen() {
+
+        // Only executes if the a file is chosen.
+        if (this.value) {
+
+            var labelRef = $('label#fileInputLabel');
+
+            // Change label color to show success. Cancel "hover" behavior
+            // defined on init() function.
+            labelRef
+                .off('hover')
+                .removeClass('border-primary')
+                .addClass('border-success text-success');
+
+            // Update input with chosen file.
+            var filename = this.value.substr(this.value.lastIndexOf('\\') + 1);
+            labelRef.text(filename);
+
+            // Show message, informing that will redirect to some other page,
+            // which will happen on server-side after submission.
+            $.blockUI({message: 'Redirecting ...'});
+            setTimeout(function () {
+
+                // Submit form.
+                $('#uploadForm').submit();
+
+            }, 1000);
+        }
+    }
+
+    // Once the page is ready, we call the init() function on the javascript
+    // code (see function init() above).
+    $(document).ready(init);
+
+    // Once the user is redirected after choosing, the file the value of the
+    // <input> (#fileInput) is reset. This is important when the user wants to
+    // come back to this page and encounter it with cached chosen file.
+    $(window).on("beforeunload", function () {
+        $('input#fileInput').val(null);
+    });
+</script>
