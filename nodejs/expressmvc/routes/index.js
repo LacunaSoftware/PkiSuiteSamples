@@ -24,5 +24,6 @@ router.use('/list-cert-select2', require('./list-cert-select2'));
 router.use('/list-cert-jquery', require('./list-cert-jquery'));
 router.use('/read-cert-select2', require('./read-cert-select2'));
 router.use('/read-cert-jquery', require('./read-cert-jquery'));
+router.use('/rsa-web', require('./rsa-web'));
 
 module.exports = router;
