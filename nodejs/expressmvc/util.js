@@ -170,6 +170,25 @@ class Util {
 		}
 		return text;
 	}
+	
+	static getDescription(cert) {
+		let text = '';
+		text += Util.getDisplayName(cert);
+		if (cert.pkiBrazil.cpf) {
+			text += ` (CPF ${cert.pkiBrazil.cpfFormatted})`;
+		}
+		if (cert.pkiBrazil.cnpj) {
+			text += `, empresa ${cert.pkiBrazil.companyName} (CNPJ ${cert.pkiBrazil.cnpjFormatted})`
+		}
+		return text;
+	}
+
+	static getDisplayName(cert) {
+		if (cert.pkiBrazil.responsavel) {
+			return cert.pkiBrazil.responsavel;
+		}
+		return cert.subjectName.commonName;
+	}
 
 	static generateVerificationCode() {
 
