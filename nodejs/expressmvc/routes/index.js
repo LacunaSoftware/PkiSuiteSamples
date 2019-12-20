@@ -27,5 +27,7 @@ router.use('/read-cert-select2', require('./read-cert-select2'));
 router.use('/read-cert-jquery', require('./read-cert-jquery'));
 router.use('/rsa-web', require('./rsa-web'));
 router.use('/pades-server-key-express', require('./pades-server-key-express'));
+// TODO: uncomment this when pki-express lib has PAdES timestamp support
+// router.use('/timestamp-pdf-express', require('./timestamp-pdf-express'));
 
 module.exports = router;

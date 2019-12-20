@@ -122,7 +122,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 
 			// Get an instance of the PDF Marker class, used to apply marks on the
 			// PDF.
-         let pdfMarker = new PdfMarker();
+        	let pdfMarker = new PdfMarker();
 			// Set PKI default options (see util.js).
 			Util.setPkiDefaults(pdfMarker);
 			// Specify the file to be marked.
