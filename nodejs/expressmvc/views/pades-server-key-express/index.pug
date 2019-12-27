@@ -8,21 +8,20 @@ block content
 
     div(class="ls-content")
 
-        //- TODO: uncomment when pades-signer sign function has param to enable certificate retrieval
-        //- p
-        //-     | Signer information:
-        //-     ul
-        //-         li Subject: #{signer.subjectName.commonName}
-        //-         li Email: #{signer.emailAddress}
-        //-         li ICP-Brasil fields
-        //-             ul
-        //-                 li Tipo de certificado: #{signer.pkiBrazil.certificateType}
-        //-                 li CPF: #{signer.pkiBrazil.cpfFormatted}
-        //-                 li Responsavel: #{signer.pkiBrazil.responsavel}
-        //-                 li Empresa: #{signer.pkiBrazil.companyName}
-        //-                 li CNPJ: #{signer.pkiBrazil.cnpjFormatted}
-        //-                 li RG: #{signer.pkiBrazil.rgNumero} #{signer.pkiBrazil.rgEmissor} #{signer.pkiBrazil.rgEmissorUF}
-        //-                 li OAB: #{signer.pkiBrazil.oabNumero} #{signer.pkiBrazil.oabUF}
+        p
+            | Signer information:
+            ul
+                li Subject: #{signer.subjectName.commonName}
+                li Email: #{signer.emailAddress}
+                li ICP-Brasil fields
+                    ul
+                        li Tipo de certificado: #{signer.pkiBrazil.certificateType}
+                        li CPF: #{signer.pkiBrazil.cpfFormatted}
+                        li Responsavel: #{signer.pkiBrazil.responsavel}
+                        li Empresa: #{signer.pkiBrazil.companyName}
+                        li CNPJ: #{signer.pkiBrazil.cnpjFormatted}
+                        li RG: #{signer.pkiBrazil.rgNumero} #{signer.pkiBrazil.rgEmissor} #{signer.pkiBrazil.rgEmissorUF}
+                        li OAB: #{signer.pkiBrazil.oabNumero} #{signer.pkiBrazil.oabUF}
 
         h3 Actions:
         ul
@@ -30,9 +29,8 @@ block content
                 a(href=`/download?fileId=${signedPdf}`, target='_blank') Download the signed file
             li
                 a(href=`printer-version-pades-express?fileId=${signedPdf}`, target='_blank') Download a printer-friendly version of the signed file
-            //- TODO: uncomment when pki-express lib supports pdf timestamp
-            //- li
-            //-     a(href=`/timestamp-pdf-express?fileId=${signedPdf}`) Download a timestamped version of the signed file
+            li
+                a(href=`/timestamp-pdf-express?fileId=${signedPdf}`) Download a timestamped version of the signed file
             li
                 a(href=`/open-pades-express?fileId=${signedPdf}`) Open/validate the signed file
             li
