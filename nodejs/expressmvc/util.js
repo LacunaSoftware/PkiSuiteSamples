@@ -163,7 +163,7 @@ class Util {
 				if (i < count - 1) {
 					text += ', ';
 				} else {
-					text += ' e ';
+					text += ' and ';
 				}
 			}
 			text += strings[i];
@@ -178,7 +178,7 @@ class Util {
 			text += ` (CPF ${cert.pkiBrazil.cpfFormatted})`;
 		}
 		if (cert.pkiBrazil.cnpj) {
-			text += `, empresa ${cert.pkiBrazil.companyName} (CNPJ ${cert.pkiBrazil.cnpjFormatted})`
+			text += `, company ${cert.pkiBrazil.companyName} (CNPJ ${cert.pkiBrazil.cnpjFormatted})`
 		}
 		return text;
 	}

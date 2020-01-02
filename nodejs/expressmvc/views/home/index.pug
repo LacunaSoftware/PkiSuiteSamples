@@ -30,7 +30,10 @@ block scripts
 			 },
 			// mergeCmsSigs: { },
 			// printerFriendlyCms: { },
-			// printerFriendlyPdf: { },
+			printerFriendlyPdf: {
+				express: '/check-pki-express?rc=upload&fwd=printer-version-pades',
+				restpki: '/check-restpki-token?rc=upload&fwd=printer-version-pades'
+			 },
 			readCert: {
 				select2: '/read-cert-select2',
 				jquery: '/read-cert-jquery'

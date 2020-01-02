@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const moment = require('moment');
 const {
    PadesSignatureExplorer,
@@ -61,9 +62,10 @@ router.get('/', function(req, res, next) {
       res.status(404).send('Not found');
       return;
    }
-
+   
    // Locate document and read content.
-   let filePath = appRoot + '/app-data/' + fileId;
+   let filename = fileId.replace('_', '.');
+	let filePath = path.join(appRoot, 'app-data', filename);
 
    // Check if doc already has a verification code registered on storage.
    let verificationCode = StorageMock.getVerificationCode(req.session, fileId);

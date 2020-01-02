@@ -60,7 +60,8 @@ router.get('/', function(req, res, next) {
 	}
 
 	// Locate document and read content.
-	let filePath = path.join(appRoot, 'app-data', fileId);
+	let filename = fileId.replace('_', '.');
+	let filePath = path.join(appRoot, 'app-data', filename);
 	if (!fs.existsSync(filePath)) {
 		res.status(404).send('Not found');
 		return;
