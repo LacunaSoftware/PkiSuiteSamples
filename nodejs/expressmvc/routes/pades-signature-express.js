@@ -140,13 +140,15 @@ router.post('/complete', (req, res, next) => {
 
 	// Complete the signature process.
 	signatureFinisher
-		.complete()
-		.then(() => {
+		.complete(getCert=true)
+		.then((result) => {
 
 			// After complete the signature, render the result page, passing the
 			// outputFile containing the signed file.
+			let certificate = result
 			res.render('pades-signature-express/complete', {
-				signedPdf: outputFile
+				signedPdf: outputFile,
+				signerCert: certificate
 			});
 
 		})
