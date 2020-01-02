@@ -12,7 +12,7 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='x2st_aScMCgWz24m27aH8aUtQwF44ar_4tYmI9wEaN8rBRtg0466e0vYoDtxdjhq_ncufxevzMdXqjLlWXgIxgULdRfSfZsc94XZHrWWtWbWubksGnNg-fzsXo59T_m8afBLk5esE7109KOJ95InQ46SKaJk_vXnpaNDmgDBCX1JByRWhkwXN22LlQdv0wpbZ_ulFg0J-VmvWGeXUsUhCx8u72A9YQnnASt5eZd72tAttJ-Uot3QmVwmgwnI3b9aHF35EVMHP95qwZbEtxoVcH6pLVpqjgFPHELL50uNg6mWt4XqdzyAey_W-6rPGyDcBvinXcagIh_dDk7YabViZWdfu-cOZgXfTxI6igqrbmeoVIkEFMrwa9gPuE8P7_L_fCpwEqy8dVp6rYpcQq-lWOtQzQV_h2gk71XW86WZl-Rt0Y7fXmsBUWWVcI1RJyDkNaZSxNwcrrJk_JoB11YSK02EbNmgMLxd5w-Pm16ba7IHpHyolA4Z5J44SHffGZZWpiSD_g'
+    REST_PKI_ACCESS_TOKEN='ftCmcHGLdSk_6r7T46fGugFvHSLwPljry7wYRSVYA2LNSKUzbNkw6iHp_VxWH513738Tb_sJ0oAF_nJbV8upWuQG4ndbhk-kLJCwahmlAJg-_r9WUuSE5iF1p5sctLe-WoCO3M9py2j2wOjjzaokWTsuAbRkTRygKTADesP5sopwhQUvrO71U_wQM4C_ZOwz36yYQ9ywfiww60AzPoCfDnOcGJgGd3Bchy-bfz7XUNBPEgERhiu2RfRHz_0Akb6DiC9p7G26v4d0aRd_oNPY2pCr5q2SUD6qL9lWpRuD2O16f0vn-3CPagXtW_fBo281yVXDuRLmsMmdiwDWK060iLN31gOkK0PalqA527ivRFc4wDu9ZwhIibExV5gRFKiY-Ld_lFaJ_ykHi6MsmyyDaCMiIRrQ-tt6qoA2yx73U855Wsoj0qkf0TWQo5qH5jJqRdpdBdjMmVjXzyBimDhqSt7W738XeeRioCF7tno3BhBNBhXmboJBtOGZ0D9dRG6TnorOeg'
     # This is a TRIAL token. It will be expired at 31/12/2019.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
