@@ -8,6 +8,7 @@ let router = express.Router();
 router.use('/', require('./home'));
 router.use('/authentication-restpki', require('./authentication-restpki'));
 router.use('/batch-pades-signature-express', require('./batch-pades-signature-express'));
+router.use('/batch-pades-signature-restpki', require('./batch-pades-signature-restpki'));
 router.use('/cades-signature-restpki', require('./cades-signature-restpki'));
 router.use('/download', require('./download'));
 router.use('/open-pades-express', require('./open-pades-express'));
