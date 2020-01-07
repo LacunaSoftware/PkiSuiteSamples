@@ -1,10 +1,22 @@
 import os
+import uuid
 
 from os.path import exists
 from os.path import join
 
 from flask import current_app
 from flask import session
+from enum import Enum
+
+
+class SampleDocs (Enum): 
+	SAMPLE_PDF =  0
+	PDF_SIGNED_ONCE = 1
+	PDF_SIGNED_TWICE = 2
+	CMS_SIGNED_ONCE = 3
+	CMS_SIGNED_TWICE = 4
+	SAMPLE_XML = 5
+	SAMPLE_NFE = 6
 
 
 def create_app_data():
@@ -28,6 +40,25 @@ def get_pdf_stamp_content():
     with open(join(current_app.static_folder, 'PdfStamp.png'), 'rb') as f:
         pdf_stamp = f.read()
     return pdf_stamp
+
+
+def get_sample_doc_name(sample_id):
+    if sample_id == SampleDocs.SAMPLE_PDF:
+        return 'SampleDocument.pdf'
+    elif sample_id == SampleDocs.PDF_SIGNED_ONCE:
+        return 'SamplePdfSignedOnce.pdf'
+    elif sample_id == SampleDocs.PDF_SIGNED_TWICE:
+        return 'SamplePdfSignedTwice.pdf'
+    elif sample_id == SampleDocs.CMS_SIGNED_ONCE:
+        return 'SampleCms.p7s'
+    elif sample_id == SampleDocs.CMS_SIGNED_TWICE:
+        return 'SampleCmsSignedTwice.p7s'
+    elif sample_id == SampleDocs.SAMPLE_XML:
+        return 'SampleDocument.xml'
+    elif sample_id == SampleDocs.SAMPLE_NFE:
+            return 'SampleNFe.xml'
+    else:
+        raise Exception('Invalid sample document identification.')
 
 
 def get_sample_nfe_path():

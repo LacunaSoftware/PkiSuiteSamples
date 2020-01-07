@@ -31,6 +31,7 @@ from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .upload import blueprint as upload
 from .xml_nfe_signature_rest import blueprint as xml_nfe_signature_rest
 from .xml_signature_rest import blueprint as xml_signature_rest
+from .server_files import blueprint as server_files
 
 blueprints = {
     authentication_express,
@@ -63,4 +64,5 @@ blueprints = {
     upload,
     xml_nfe_signature_rest,
     xml_signature_rest,
+    server_files,
 }
