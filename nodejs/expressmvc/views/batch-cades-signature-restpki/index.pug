@@ -2,29 +2,34 @@ extends ../layout
 
 block content
 
-	h2(class='ls-title') Batch of PAdES Signature with REST PKI
+	h2(class="ls-title") Batch of CAdES Signature with REST PKI
 
-	form(id='signForm', method='POST')
+	form(id="signForm" method="POST")
 
 		.form-group
 			label File to sign
 			p
 				| You'll be signing the following files:
-				//- UL element to hold the batch's documents (we'll render these programatically, see
-				//- batch-signature-form.js).
+				//- UL element to hold the batch's documents (we'll render these
+				//- programmatically, see batch-signature-restpki-form.js).
 				ul(id="docList")
 
-		//- Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate it
-		//- later on (see batch-signature-form.js).
+		//- Render a select (combo box) to list the user's certificates. For
+		//- now it will be empty, we'll populated it later on
+		//- (see batch-signature-restpki-form.js).
 		.form-group
-			label(for='certificateSelect') Choose a certificate
-			select(id='certificateSelect', class='form-control')
+			label(for="certificateSelect") Choose a certificate
+			select(id="certificateSelect" class="form-control")
 
-		//- Action buttons. Notice that the "Sign Batch" button is NOT a submit button. When the user clicks the button,
-		//- we must first use the Web PKI component to perform the client-side computation necessary and only when
-		//- that computation is finished we'll submit the form programmatically (see batch-signature-form.js).
-		button(id='signButton', type='button', class='btn btn-primary') Sign Batch
-		button(id='refreshButton', type='button', class='btn btn-outline-primary') Refresh Certificates
+		//- Action buttons. Notice that the "Sign Batch" button is NOT a submit
+		//- button. When the user clicks the button, we must first use the
+		//- Web PKI component to perform the client-side computation necessary
+		//- and only when that computation is finished we'll submit the form
+		//- programmatically (see batch-signature-restpki-form.js).
+		button(id="signButton" type="button" class="btn btn-primary")
+			i(class="fas fa-list") &nbsp; Sign Batch
+		button(id="refreshButton" type="button" class="btn btn-outline-primary")
+			i(class="fas fa-retweet") &nbsp; Refresh Certificates
 
 block scripts
 
@@ -45,6 +50,6 @@ block scripts
 				docList: $('#docList'),                      // The reference to the list of documents.
 				refreshButton: $('#refreshButton'),          // The "refresh" button.
 				signButton: $('#signButton'),                 // The button that initiates the operation.
-				ctrlEndpoint: '/batch-pades-signature-restpki'        // The API controller endpoint to be called by Ajax.
+				ctrlEndpoint: '/batch-cades-signature-restpki'        // The API controller endpoint to be called by Ajax.
 			});
 		});

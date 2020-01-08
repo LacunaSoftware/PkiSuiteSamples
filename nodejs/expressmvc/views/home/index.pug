@@ -51,7 +51,10 @@ block scripts
 			},
 			// signCmsServerKey: { },
 			// signCod: { },
-			// signMultiCmsServer: { },
+			signMultiCmsServer: {
+				//- express:
+				restpki: '/check-restpki-token?rc=batch-cades-signature'
+			},
 			// signMultiCmsUser: { },
 			signMultiPdfServer: {
 				express: '/check-pki-express?rc=batch-pades-signature',
