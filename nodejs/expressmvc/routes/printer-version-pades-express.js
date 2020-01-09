@@ -14,7 +14,7 @@ const { StorageMock } = require('../storage-mock');
 const { Util } = require('../util');
 
 let router = express.Router();
-let appRoot = process.cwd();
+let APP_ROOT = process.cwd();
 
 // #############################################################################
 // Configuration of the Printer-Friendly version
@@ -28,7 +28,7 @@ const verificationSite = 'http://localhost:3000';
 
 // Format of the verification link, without the verification code, that is added
 // on generatePrinterFriendlyVersion() method.
-const verificationLinkFormat = 'http://localhost:3000/check?c=';
+const verificationLinkFormat = 'http://localhost:3000/check-pades-express?code=';
 
 // "Normal" font size. Sizes of header fonts are defined based on this size.
 const normalFontSize = 12;
@@ -48,7 +48,7 @@ const timeZoneDisplayName = 'Brasilia timezone';
  * GET /printer-friendly-version
  *
  * This generates a printer-friendly version from a signature file using
- * REST PKI.
+ * PKI Express.
  */
 router.get('/', function(req, res, next) {
 
@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
 
 	// Locate document and read content.
 	let filename = fileId.replace('_', '.');
-	let filePath = path.join(appRoot, 'app-data', filename);
+	let filePath = path.join(APP_ROOT, 'app-data', filename);
 	if (!fs.existsSync(filePath)) {
 		res.status(404).send('Not found');
 		return;
@@ -281,7 +281,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 			// Generate path for output file and add the marker.
 			StorageMock.createAppData(); // Make sure the "app-data" folder exists.
 			outputFile = uuidv4() + '.pdf';
-			pdfMarker.outputFile = path.join(appRoot, 'app-data', outputFile);
+			pdfMarker.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 			// Apply marks.
 			return pdfMarker.apply();
@@ -289,7 +289,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 		}).then(() => {
 
 			// Read printer-friendly version.
-			fs.readFile(path.join(appRoot, 'app-data', outputFile), (err, pfvContent) => {
+			fs.readFile(path.join(APP_ROOT, 'app-data', outputFile), (err, pfvContent) => {
 				if (err) {
 					reject(err);
 					return;

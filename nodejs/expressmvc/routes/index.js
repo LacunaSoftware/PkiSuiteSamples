@@ -23,6 +23,7 @@ router.use('/xml-signature-restpki', require('./xml-signature-restpki'));
 router.use('/printer-version-pades-restpki', require('./printer-version-pades-restpki'));
 router.use('/printer-version-pades-express', require('./printer-version-pades-express'));
 router.use('/check-pades-restpki', require('./check-pades-restpki'));
+router.use('/check-pades-express', require('./check-pades-express'));
 router.use('/list-cert-select2', require('./list-cert-select2'));
 router.use('/list-cert-jquery', require('./list-cert-jquery'));
 router.use('/read-cert-select2', require('./read-cert-select2'));
