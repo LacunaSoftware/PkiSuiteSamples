@@ -7,8 +7,8 @@ const { Util } = require('../util');
 const { PadesVisualElementsExpress } = require('../pades-visual-elements-express');
 const { StorageMock } = require('../storage-mock');
 
-let router = express.Router();
-let appRoot = process.cwd();
+const router = express.Router();
+const APP_ROOT = process.cwd();
 
 /**
  * GET /batch-signature
@@ -20,14 +20,13 @@ let appRoot = process.cwd();
  * document one by one and will call the server asynchronously to start and
  * complete each signature.
  */
-router.get('/', (req, res, next) => {
-
+router.get('/', (req, res) => {
 	// It is up to your application's business logic to determine which documents
 	// will compose the batch.
-	let documentsIds = Util.range(1, 30);
+	const documentsIds = Util.range(1, 30);
 
 	res.render('batch-pades-signature-express', {
-		documentsIds: documentsIds
+		documentsIds,
 	});
 });
 
@@ -41,15 +40,14 @@ router.get('/', (req, res, next) => {
  * signature using Web PKI (see batch-signature-form.js).
  */
 router.post('/start', (req, res, next) => {
-
 	// Get the parameters for this signature (received from the POST call via
 	// AJAX, see batch-signature-form.js).
-	let id = req.body['id'];
-	let certContent = req.body['certContent'];
+	const { id } = req.body;
+	const { certContent } = req.body;
 
 	// Get an instantiate of the PadesSignatureStarter class, responsible for
 	// receiving the signature elements and start the signature process.
-	let signatureStarter = new PadesSignatureStarter();
+	const signatureStarter = new PadesSignatureStarter();
 
 	// Set PKI default options (see util.js).
 	Util.setPkiDefaults(signatureStarter);
@@ -71,7 +69,8 @@ router.post('/start', (req, res, next) => {
 
 	// Set the visual representation. We provided a dictionary that represents
 	// the visual representation JSON model.
-	signatureStarter.setVisualRepresentationSync(PadesVisualElementsExpress.getVisualRepresentation());
+	signatureStarter
+		.setVisualRepresentationSync(PadesVisualElementsExpress.getVisualRepresentation());
 
 	// Start the signature process. Receive as response the following fields:
 	// - toSignHash: The hash to be signed.
@@ -79,14 +78,12 @@ router.post('/start', (req, res, next) => {
 	//                    component to compute this signature.
 	// - transferFile: A temporary file to be passed to "complete" step.
 	signatureStarter.start()
-		.then(response => {
-
+		.then((response) => {
 			// Respond this request with the fields received from start() method to
 			// be used on the javascript or on the complete action.
 			res.json(response);
 		})
-		.catch(err => next(err));
-
+		.catch((err) => next(err));
 });
 
 /**
@@ -99,18 +96,17 @@ router.post('/start', (req, res, next) => {
  * so that the page can render a link to it.
  */
 router.post('/complete', (req, res, next) => {
-
 	let outputFile = null;
 
 	// Get the parameters for this signature (received from the POST call via
 	// AJAX, see batch-signature-form.js).
-	let id = req.body['id'];
-	let transferFile = req.body['transferFile'];
-	let signature = req.body['signature'];
+	const { id } = req.body;
+	const { transferFile } = req.body;
+	const { signature } = req.body;
 
 	// Get an instance of the PadesSignatureFinisher class, responsible for
 	// completing the signature process.
-	let signatureFinisher = new SignatureFinisher();
+	const signatureFinisher = new SignatureFinisher();
 
 	// Set PKI default options (see util.js).
 	Util.setPkiDefaults(signatureFinisher);
@@ -126,8 +122,8 @@ router.post('/complete', (req, res, next) => {
 
 	// Generate path for output file and add the signature finisher.
 	StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
-	outputFile = uuidv4() + '.pdf';
-	signatureFinisher.outputFile = path.join(appRoot, 'app-data', outputFile);
+	outputFile = `${uuidv4()}.pdf`;
+	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Complete the signature process.
 	signatureFinisher.complete()
@@ -136,8 +132,7 @@ router.post('/complete', (req, res, next) => {
 			// decode this value).
 			res.json(outputFile);
 		})
-		.catch(err => next(err));
-
+		.catch((err) => next(err));
 });
 
 module.exports = router;

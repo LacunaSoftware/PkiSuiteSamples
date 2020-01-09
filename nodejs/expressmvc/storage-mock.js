@@ -1,4 +1,4 @@
-'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const uuidv4 = require('uuid/v4');
@@ -12,11 +12,10 @@ const SampleDocs = {
 	CMS_SIGNED_ONCE: 3,
 	CMS_SIGNED_TWICE: 4,
 	SAMPLE_XML: 5,
-	SAMPLE_NFE: 6
+	SAMPLE_NFE: 6,
 };
 
 class StorageMock {
-
 	static get appDataPath() {
 		return path.join(APP_ROOT, 'app-data');
 	}
@@ -26,7 +25,7 @@ class StorageMock {
 	}
 
 	static getDataPath(fileId, extension = '') {
-		let filename = fileId.replace('_', '.');
+		const filename = fileId.replace('_', '.');
 		return path.join(StorageMock.appDataPath, filename + extension);
 	}
 
@@ -34,10 +33,10 @@ class StorageMock {
 		return path.join(StorageMock.resourcesPath, resource);
 	}
 
-	static existsSync({fileId, extension = '', outputFilename = false}) {
-		let filename = fileId.replace('_', '.') + extension;
-		let filePath = path.join(StorageMock.appDataPath, filename);
-		let exists = fs.existsSync(filePath);
+	static existsSync({ fileId, extension = '', outputFilename = false }) {
+		const filename = fileId.replace('_', '.') + extension;
+		const filePath = path.join(StorageMock.appDataPath, filename);
+		const exists = fs.existsSync(filePath);
 
 		if (outputFilename) {
 			return { exists, filename };
@@ -47,7 +46,6 @@ class StorageMock {
 	}
 
 	static storeSync(content, filename = null, extension = '') {
-
 		// Guarantees that the 'app-data' folder exists.
 		StorageMock.createAppData();
 
@@ -55,10 +53,10 @@ class StorageMock {
 		if (!filename) {
 			filename = uuidv4();
 		}
-		let fileId = filename + extension;
+		const fileId = filename + extension;
 
 		// Store file.
-		let filePath = path.join(StorageMock.appDataPath, fileId);
+		const filePath = path.join(StorageMock.appDataPath, fileId);
 		fs.writeFileSync(filePath, content);
 
 		// Replace extension '.' to '_' to be passed as parameters on URL for
@@ -73,8 +71,8 @@ class StorageMock {
 		// This should be implemented on your application as a SELECT on your
 		// "document table" by the ID of the document, returning the value of the
 		// verification code column.
-		if (session['Files/' + fileId + '/Code']) {
-			return session['Files/' + fileId + '/Code'];
+		if (session[`Files/${fileId}/Code`]) {
+			return session[`Files/${fileId}/Code`];
 		}
 		return null;
 	}
@@ -85,8 +83,8 @@ class StorageMock {
 		// This should be implemented on your application as a UPDATE on your
 		// "document table" filling the verification code column, which should be
 		// an indexed column.
-		session['Files/' + fileId + '/Code'] = code;
-		session['Codes/' + code] = fileId;
+		session[`Files/${fileId}/Code`] = code;
+		session[`Codes/${code}`] = fileId;
 	}
 
 	// Returns the ID of the document associated with a given verification code,
@@ -99,41 +97,44 @@ class StorageMock {
 		// This should be implemented on your application as a SELECT on your
 		// "document table" by the verification code column, which should be an
 		// indexed column.
-		if (session['Codes/' + code]) {
-			return session['Codes/' + code];
+		if (session[`Codes/${code}`]) {
+			return session[`Codes/${code}`];
 		}
 		return null;
 	}
 
 	static readSync(fileId, extension = '') {
-		let filename = fileId.replace('_', '.') + extension;
-		let filePath = path.join(StorageMock.appDataPath, filename);
+		const filename = fileId.replace('_', '.') + extension;
+		const filePath = path.join(StorageMock.appDataPath, filename);
 		return fs.readFileSync(filePath);
 	}
-	static readSampleDocSync(sampleId){
-		let filePath = this.getSampleDocPath(sampleId);
+
+	static readSampleDocSync(sampleId) {
+		const filePath = this.getSampleDocPath(sampleId);
 		return fs.readFileSync(filePath);
 	}
+
 	static getSampleDocName(sampleId) {
 		switch (sampleId) {
-			case SampleDocs.SAMPLE_PDF:
-				return 'SampleDocument.pdf';
-			case SampleDocs.PDF_SIGNED_ONCE:
-				return 'SamplePdfSignedOnce.pdf';
-			case SampleDocs.PDF_SIGNED_TWICE:
-				return 'SamplePdfSignedTwice.pdf';
-			case SampleDocs.CMS_SIGNED_ONCE:
-				return 'SampleCms.p7s';
-			case SampleDocs.CMS_SIGNED_TWICE:
-				return 'SampleCmsSignedTwice.p7s';
-			case SampleDocs.SAMPLE_XML:
-				return 'SampleDocument.xml';
-			case SampleDocs.SAMPLE_NFE:
-					return 'SampleNFe.xml';
-			default:
-				throw new Error('Invalid sample document identification.');
+		case SampleDocs.SAMPLE_PDF:
+			return 'SampleDocument.pdf';
+		case SampleDocs.PDF_SIGNED_ONCE:
+			return 'SamplePdfSignedOnce.pdf';
+		case SampleDocs.PDF_SIGNED_TWICE:
+			return 'SamplePdfSignedTwice.pdf';
+		case SampleDocs.CMS_SIGNED_ONCE:
+			return 'SampleCms.p7s';
+		case SampleDocs.CMS_SIGNED_TWICE:
+			return 'SampleCmsSignedTwice.p7s';
+		case SampleDocs.SAMPLE_XML:
+			return 'SampleDocument.xml';
+		case SampleDocs.SAMPLE_NFE:
+			return 'SampleNFe.xml';
+		default:
+			throw new Error('Invalid sample document identification.');
 		}
 	}
+
 	static getSampleDocPath(sampleId) {
 		const filename = StorageMock.getSampleDocName(sampleId);
 		return path.join(APP_ROOT, 'public', filename);
@@ -156,8 +157,6 @@ class StorageMock {
 			fs.mkdirSync(StorageMock.appDataPath);
 		}
 	}
-
-
 }
 
 exports.SampleDocs = SampleDocs;

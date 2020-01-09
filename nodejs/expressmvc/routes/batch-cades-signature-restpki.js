@@ -6,28 +6,28 @@ const { CadesSignatureStarter, StandardSignaturePolicies, CadesSignatureFinisher
 const { Util } = require('../util');
 const { StorageMock } = require('../storage-mock');
 
-let router = express.Router();
-let appRoot = process.cwd();
+const router = express.Router();
+const APP_ROOT = process.cwd();
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
 	// It is up to your application's business logic to determine which documents
 	// will compose the batch.
-	let documentsIds = Util.range(1, 30);
+	const documentsIds = Util.range(1, 30);
 
 	// Render the batch signature signature page.
 	res.render('batch-cades-signature-restpki', {
-		documentsIds: documentsIds
+		documentsIds,
 	});
 });
 
 router.post('/start', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
 	// AJAX, see batch-signature-form.js).
-	let id = req.body['id'];
-	
+	const { id } = req.body;
+
 	// Get an instantiate of the CadesSignatureStarter class, responsible for
 	// receiving the signature elements and start the signature process.
-	signatureStarter = new CadesSignatureStarter(Util.getRestPkiClient());
+	const signatureStarter = new CadesSignatureStarter(Util.getRestPkiClient());
 
 	// Set the document to be signed based on its ID.
 	signatureStarter.setFileToSignFromPath(StorageMock.getBatchDocPath(id));
@@ -55,18 +55,17 @@ router.post('/start', (req, res, next) => {
 	// signature-form.js) and also to complete the signature after
 	// the form is submitted (see method action()). This should not be
 	// mistaken with the API access token.
-	return signatureStarter.startWithWebPki().then((result) => {
-	   // Return a JSON with the token obtained from REST PKI (the page will use
-	   // jQuery to decode this value).
-	   return res.json(result.token);
-	}).catch((err) => next(err));
+	return signatureStarter.startWithWebPki()
+		// Return a JSON with the token obtained from REST PKI (the page will use
+		// jQuery to decode this value).
+		.then((result) => res.json(result.token))
+		.catch((err) => next(err));
 });
 
 router.post('/complete', (req, res, next) => {
-
 	// Get an instance of the CadesSignatureFinisher class, responsible for
 	// completing the signature process.
-	let signatureFinisher = new CadesSignatureFinisher(Util.getRestPkiClient());
+	const signatureFinisher = new CadesSignatureFinisher(Util.getRestPkiClient());
 
 	// Set the token.
 	signatureFinisher.token = req.body.token;
@@ -75,22 +74,17 @@ router.post('/complete', (req, res, next) => {
 	// return value is the CMS content.
 	return signatureFinisher.finish()
 		.then((result) => {
-
-			// The "certificate" property of the SignatureResult object contains
-			// information about the certificate used by the user to sign the file.
-			let signerCert = result.certificate;
-
 			// At this point, you'd typically store the signed PDF on your database.
 			// For demonstration purposes, we'll store the CMS on a temporary folder
 			// publicly accessible and render a link to it.
 			StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
-			let filename = uuidv4() + '.p7s';
+			const filename = `${uuidv4()}.p7s`;
 
 			// The SignatureResult object has functions for writing the signature file
 			// to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFileSync(path.join(appRoot, 'app-data', filename));
+			result.writeToFileSync(path.join(APP_ROOT, 'app-data', filename));
 
 			// Render the result page.
 			return res.json(filename);

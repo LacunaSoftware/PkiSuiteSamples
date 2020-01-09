@@ -1,8 +1,8 @@
-const express = require('express'),
-      session = require('express-session'),
-      path = require('path'),
-      morgan = require('morgan'),
-      bodyParser = require('body-parser');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const moment = require('moment');
 const { Config } = require('./config');
 
@@ -28,7 +28,7 @@ app.set('view engine', 'pug');
 // Configure server.
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
@@ -38,7 +38,7 @@ app.use(session({
 	secret: Config.getInstance().get('sessionSecret'),
 	saveUninitialized: true,
 	resave: true,
-	store: new session.MemoryStore()
+	store: new session.MemoryStore(),
 }));
 
 /**
@@ -48,7 +48,7 @@ app.use(session({
 // Pug template engine before rendering the page.
 app.use((req, res, next) => {
 	// Pass some session parameters.
-	//res.locals.userId = req.session['userId'] || null;
+	// res.locals.userId = req.session['userId'] || null;
 
 	// Pass moment callback for formatting dates.
 	res.locals.moment = moment;
@@ -58,10 +58,10 @@ app.use((req, res, next) => {
 	const REST_PKI_CONFIG = Config.getInstance().get('restPki');
 
 	// Pass Web PKI license
-	res.locals.webPkiLicense = WEB_PKI_CONFIG['license'];
+	res.locals.webPkiLicense = WEB_PKI_CONFIG.license;
 
 	// Pass REST PKI endpoint
-	res.locals.restPkiEndpoint = REST_PKI_CONFIG['endpoint'];
+	res.locals.restPkiEndpoint = REST_PKI_CONFIG.endpoint;
 
 	next();
 });
@@ -86,7 +86,7 @@ app.use((req, res, next) => {
  * Development error handler: Will print stacktrace.
  */
 if (Config.getInstance().get('environment') === 'development') {
-	app.use((err, req, res, _next) => {
+	app.use((err, req, res) => {
 		const status = err.status || 500;
 		res.status(status);
 		res.render('error', {
@@ -94,7 +94,7 @@ if (Config.getInstance().get('environment') === 'development') {
 			method: req.method,
 			errorMessage: err.message,
 			statusCode: status,
-			stackTrace: err.stack
+			stackTrace: err.stack,
 		});
 	});
 }
@@ -102,12 +102,12 @@ if (Config.getInstance().get('environment') === 'development') {
 /**
  * Production error handler: No stack traces leaked to user.
  */
-app.use((err, req, res, _next) => {
+app.use((err, req, res) => {
 	res.status(err.status || 500);
 	res.render('error', {
 		route: req.originalUrl,
 		method: req.method,
-		errorMessage: err.message
+		errorMessage: err.message,
 	});
 });
 

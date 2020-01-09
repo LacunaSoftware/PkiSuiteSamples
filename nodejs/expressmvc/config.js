@@ -1,4 +1,4 @@
-'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
@@ -12,9 +12,7 @@ const DEFAULT_ENVIRONMENT = 'default';
 let config = null;
 
 class Config {
-
 	constructor(environment = null) {
-
 		// Declare fields.
 		this._initialized = false;
 		this._file = null;
@@ -33,8 +31,7 @@ class Config {
 	}
 
 	load(environment = DEFAULT_ENVIRONMENT) {
-
-		let defaults = require('./config/default');
+		const defaults = require('./config/default');
 
 		// Locate settings file.
 		const settingsFile = `${environment}.js`;
@@ -45,7 +42,7 @@ class Config {
 
 		this._file = settingsFile;
 		try {
-			let settings = require(configPath);
+			const settings = require(configPath);
 			this._settings = _.merge({}, defaults, settings);
 		} catch (err) {
 			throw new Error(`There is an invalid module on ${settingsFile} file.`);
@@ -54,7 +51,7 @@ class Config {
 		this._initialized = true;
 	}
 
-	//region "file" Accessors
+	// region "file" Accessors
 
 	getFile() {
 		return this._file;
@@ -64,9 +61,9 @@ class Config {
 		return this._file;
 	}
 
-	//endregion
+	// endregion
 
-	//region "initialized" Accessors
+	// region "initialized" Accessors
 
 	getInitialized() {
 		return this._initialized;
@@ -76,7 +73,7 @@ class Config {
 		return this._initialized;
 	}
 
-	//endregion
+	// endregion
 
 	get(key) {
 		return this._settings[key] || null;

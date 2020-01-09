@@ -7,8 +7,8 @@ const { Util } = require('../util');
 const { PadesVisualElementsRestPki } = require('../pades-visual-elements-restpki');
 const { StorageMock } = require('../storage-mock');
 
-let router = express.Router();
-let appRoot = process.cwd();
+const router = express.Router();
+const APP_ROOT = process.cwd();
 
 /**
  * GET /batch-signature
@@ -20,14 +20,13 @@ let appRoot = process.cwd();
  * document one by one and will call the server asynchronously to start and
  * complete each signature.
  */
-router.get('/', (req, res, next) => {
-
+router.get('/', (req, res) => {
 	// It is up to your application's business logic to determine which documents
 	// will compose the batch.
-	let documentsIds = Util.range(1, 30);
+	const documentsIds = Util.range(1, 30);
 
 	res.render('batch-pades-signature-restpki', {
-		documentsIds: documentsIds
+		documentsIds,
 	});
 });
 
@@ -41,14 +40,13 @@ router.get('/', (req, res, next) => {
  * signature using Web PKI (see batch-signature-form.js).
  */
 router.post('/start', (req, res, next) => {
-
 	// Get the parameters for this signature (received from the POST call via
 	// AJAX, see batch-signature-form.js).
-	let id = req.body['id'];
+	const { id } = req.body;
 
 	// Get an instantiate of the PadesSignatureStarter class, responsible for
 	// receiving the signature elements and start the signature process.
-	let signatureStarter = new PadesSignatureStarter(Util.getRestPkiClient());
+	const signatureStarter = new PadesSignatureStarter(Util.getRestPkiClient());
 
 	// Set signature policy.
 	signatureStarter.signaturePolicy = StandardSignaturePolicies.PADES_BASIC;
@@ -58,12 +56,11 @@ router.post('/start', (req, res, next) => {
 
 	// Set Base64-encoded certificate's content to signature starter.
 	signatureStarter.securityContext = Util.getSecurityContextId();
-	
+
 	// Set the visual representation to the signature. We have encapsulated this
 	// code (on pades-visual-elements.js) to be used on various PAdES examples.
 	PadesVisualElementsRestPki.getVisualRepresentation()
-		.then(visualRepresentation => {
-
+		.then((visualRepresentation) => {
 			// Set the visual representation to signatureStarter.
 			signatureStarter.visualRepresentation = visualRepresentation;
 
@@ -76,7 +73,7 @@ router.post('/start', (req, res, next) => {
 			// mistaken with the API access token.
 			return signatureStarter.startWithWebPki();
 		})
-		.then(result => {
+		.then((result) => {
 			// Respond this request with the fields received from start() method to
 			// be used on the javascript or on the complete action.
 			res.json(result.token);
@@ -96,7 +93,7 @@ router.post('/start', (req, res, next) => {
 router.post('/complete', (req, res, next) => {
 	// Get an instance of the PadesSignatureFinisher class, responsible for
 	// completing the signature process.
-	let signatureFinisher = new PadesSignatureFinisher(Util.getRestPkiClient());
+	const signatureFinisher = new PadesSignatureFinisher(Util.getRestPkiClient());
 
 	// Set the token.
 	signatureFinisher.token = req.body.token;
@@ -110,13 +107,13 @@ router.post('/complete', (req, res, next) => {
 			// folder publicly accessible and render a link to it.
 
 			StorageMock.createAppData(); // Make sure the "app-data" folder exists.
-			let filename = uuidv4() + '.pdf';
+			const filename = `${uuidv4()}.pdf`;
 
 			// The SignatureResult object has functions for writing the signature
 			// file to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFileSync(path.join(appRoot, 'app-data', filename));
+			result.writeToFileSync(path.join(APP_ROOT, 'app-data', filename));
 
 			// Render the result page, showing the signed file and the signer
 			// certification info.

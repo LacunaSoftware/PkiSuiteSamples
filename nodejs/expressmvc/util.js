@@ -145,14 +145,14 @@ class Util {
 	}
 
 	static getValidationResultIcon(isValid) {
-		let appRoot = process.cwd();
+		let APP_ROOT = process.cwd();
 		let filename = isValid ? 'ok.png' : 'not-ok.png';
-		return fs.readFileSync(appRoot + '/public/' + filename);
+		return fs.readFileSync(APP_ROOT + '/public/' + filename);
 	}
 
 	static getIcpBrasilLogoContent() {
-		let appRoot = process.cwd();
-		return fs.readFileSync(appRoot + '/public/icp-brasil.png');
+		let APP_ROOT = process.cwd();
+		return fs.readFileSync(APP_ROOT + '/public/icp-brasil.png');
 	}
 
 	static joinStringPt(strings) {

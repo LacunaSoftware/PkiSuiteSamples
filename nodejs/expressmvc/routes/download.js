@@ -10,13 +10,13 @@ const router = express.Router();
  * Route to return a file identified by the "fileId" query parameter.
  */
 router.get('/', (req, res, next) => {
-	const fileId = req.query['fileId'];
+	const { fileId } = req.query;
 
 	// Verify if the provided file exists. And output the filename to be used
 	// to download the file.
-	const { exists, filename } = StorageMock.existsSync({fileId, outputFilename: true});
+	const { exists, filename } = StorageMock.existsSync({ fileId, outputFilename: true });
 	if (!exists) {
-		let err = new Error('The fileId was not found');
+		const err = new Error('The fileId was not found');
 		err.status = 404;
 		next(err);
 		return;
@@ -33,14 +33,14 @@ router.get('/', (req, res, next) => {
  * GET /download/doc
  *
  */
-router.get('/doc', (req, res, next) => {
-	const fileId = req.query['fileId'];
+router.get('/doc', (req, res) => {
+	const { fileId } = req.query;
 	const path = StorageMock.getBatchDocPath(fileId);
 	res.download(path);
 });
 
-router.get('/sample', (req, res, next) => {
-	const fileId = Number(req.query['fileId']);
+router.get('/sample', (req, res) => {
+	const fileId = Number(req.query.fileId);
 	const path = StorageMock.getSampleDocPath(fileId);
 	res.download(path);
 });
