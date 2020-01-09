@@ -2,35 +2,35 @@ extends ../layout
 
 block content
 
-    h2(class='ls-title') CAdES Signature with REST PKI
+   h2(class='ls-title') CAdES Signature with REST PKI
 
-    form(id='signForm', method='POST')
+   form(id='signForm', method='POST')
 
-        //- Render the token that in a hidden input field.
-        input(type='hidden', name='token', id='tokenInput' value=token)
+      //- Render the token that in a hidden input field.
+      input(type='hidden', name='token', id='tokenInput' value=token)
 
-        .form-group
-            label File to sign
-            p
-                if fileId
-                    | You'll be signing&nbsp;
-                    a(href=`/download?fileId=${fileId}`, target='_blank') this document
-                else if cmsfile
-                    | You'll be co-signing&nbsp;
-                    a(href=`/download?fileId=${cmsfile}`, target='_blank') this CMS
-                | .
+      .form-group
+         label File to sign
+         p
+            if fileId
+               | You'll be signing&nbsp;
+               a(href=`/download?fileId=${fileId}`, target='_blank') this document
+            else if cmsfile
+               | You'll be co-signing&nbsp;
+               a(href=`/download?fileId=${cmsfile}`, target='_blank') this CMS
+            | .
 
-        //- Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate it
-        //- later on (see signature-form.js).
-        .form-group
-            label(for='certificateSelect') Choose a certificate
-            select(id='certificateSelect', class='form-control')
+      //- Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate it
+      //- later on (see signature-form.js).
+      .form-group
+         label(for='certificateSelect') Choose a certificate
+         select(id='certificateSelect', class='form-control')
 
-        //- Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user clicks the button,
-        //- we must first use the Web PKI component to perform the client-side computation necessary and only when
-        //- that computation is finished we'll submit the form programmatically (see signature-form.js).
-        button(id='signButton', type='button', class='btn btn-primary mr-1') Sign File
-        button(id='refreshButton', type='button', class='btn btn-outline-primary') Refresh Certificates
+      //- Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user clicks the button,
+      //- we must first use the Web PKI component to perform the client-side computation necessary and only when
+      //- that computation is finished we'll submit the form programmatically (see signature-form.js).
+      button(id='signButton', type='button', class='btn btn-primary mr-1') Sign File
+      button(id='refreshButton', type='button', class='btn btn-outline-primary') Refresh Certificates
 
 block scripts
 
@@ -44,12 +44,12 @@ block scripts
 
    script.
       $(document).ready(function() {
-          // Once the page is ready, we call the init() function on the javascript code (see signature-form.js).
-          signatureForm.init({
-            token: '#{token}',                          // The token acquired from REST PKI.
-            form: $('#signForm'),                       // The form that should be submitted when the operation is completed.
-            certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
-            refreshButton: $('#refreshButton'),         // The "refresh" button.
-            signButton: $('#signButton')                // The button that initiates the operation.
-          });
+         // Once the page is ready, we call the init() function on the javascript code (see signature-form.js).
+         signatureForm.init({
+         token: '#{token}',                          // The token acquired from REST PKI.
+         form: $('#signForm'),                       // The form that should be submitted when the operation is completed.
+         certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
+         refreshButton: $('#refreshButton'),         // The "refresh" button.
+         signButton: $('#signButton')                // The button that initiates the operation.
+         });
       });
