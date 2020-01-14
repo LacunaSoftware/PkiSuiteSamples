@@ -54,14 +54,14 @@
     <Reference Include="Lacuna.Pki, Version=2.5.3.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestClient, Version=1.11.1.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestClient.1.11.1\lib\net45\Lacuna.RestClient.dll</HintPath>
+    <Reference Include="Lacuna.RestClient, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestClient.1.12.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.20.1\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.21.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.21.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.20.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.20.0\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Client.1.20.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.T8, Version=1.2.1.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.T8.dll</HintPath>
@@ -78,8 +78,8 @@
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
