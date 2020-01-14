@@ -1,0 +1,98 @@
+<h2 class="ls-title">Choose one of the available files on the server</h2>
+<h5 class="ls-subtitle">
+  You will be redirected to route
+  <b>/<%= @rc %></b>
+</h5>
+
+<div class="ls-content">
+  <%= form_for :server_files_form, :html => {:id => 'serverFilesForm'} do |f| %>
+    <%= hidden_field_tag(:is_cms_cosign, @is_cms_cosign) %>
+    <%= hidden_field_tag(:chosen_file_id, nil, :id => 'chosenFileIdField') %>
+
+    <!--
+      Group of cards containing the server file's information. On each card its
+      possible to choose it to be used on the next operation or to download the
+      server file. This is only an example of choosing a server file, you can
+      change this file or use your own logic. The operation only requires the
+      content of this document or its path.
+    -->
+    <div class="form-group">
+      <div class="row">
+        <% @available_files.each_with_index {|file, index| %>
+          <div class="col col-md-3">
+            <div id="<%= file[:id] %>-card" class="card server-file shadow">
+              <h5 class="card-header text-center">
+                Document #<%= index + 1 %>
+              </h5>
+
+              <div class="card-body">
+                <p><%= file[:description] %></p>
+              </div>
+
+              <div class="buttons">
+                <!--
+                  Button used to choose a sample file. It will execute the
+                  function chooseFile() on the javascript below. The field "id"
+                  from the Thymeleaf's variable "file" has the task of
+                  identifying the document on server side after submitting this
+                  form.
+                -->
+                <button id="<%= file[:id] %>-choice-btn"
+                        type="button"
+                        class="choose-file btn btn-primary"
+                        onclick="chooseFile('<%= file[:id] %>')">
+                  <i class="fas fa-check"></i> Use This
+                </button>
+
+                <a id="<%= file[:id] %>-download-btn"
+                   class="btn btn-outline-primary"
+                   href="/download/sample/<%= file[:id] %>">
+                  <i class="fas fa-file-download"></i> Download
+                </a>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!--
+	This javascript is only an optional feature for this upload page. It will use
+	jQuery to improve the UX of the page. Feel free to alter it however you want.
+-->
+<script>
+  // ---------------------------------------------------------------------------
+  // Function called when the user clicks the "Use This" button. It will store
+  // the file's id on the hidden <input> (#chosenFileIdField), which will be
+  // passed to server when submitting the <form> (#filesForm). After this, it
+  // submits the form#filesForm.
+  // ---------------------------------------------------------------------------
+  function chooseFile(chosenFileId) {
+
+    // Store the file's id on hidden <input> (#chosenFileIdField).
+    $('#chosenFileIdField').val(chosenFileId);
+
+    // Highlight card referred to the chosen file.
+    $('#' + chosenFileId + '-card')
+        .addClass('border border-success text-success');
+
+    $('#' + chosenFileId + '-choice-btn')
+        .removeClass('btn-primary')
+        .addClass('btn-success');
+
+    $('#' + chosenFileId + '-download-btn')
+        .removeClass('btn-outline-primary')
+        .addClass('btn-outline-success');
+
+    // Show message, informing that will redirect to some other page, which will
+    // happen on server-side after submission.
+    $.blockUI({message: 'Redirecting ...'});
+    setTimeout(function () {
+      // Submit form.
+      $('#serverFilesForm').submit();
+    }, 1000);
+  }
+
+</script>

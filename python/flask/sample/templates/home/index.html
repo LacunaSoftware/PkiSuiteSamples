@@ -75,7 +75,10 @@
 		},
 		// signXmlServerKey: { },
 		// signaturePackage: { },
-		// validateCmsSig: { },
+		validateCmsSig: {
+			express: '/check-express/upload/open-cades'
+			//restpki: ''
+		},
 		validatePdfSig: {
 			express: '/check-express/upload/open-pades',
 			restpki: '/check-rest-token/upload/open-pades'
