@@ -15,5 +15,8 @@
     "lacuna/restpki-client": "^2.3.4",
     "lacuna/pki-express": "^1.6.0",
     "lacuna/amplia-client": "^1.0.2"
+  },
+  "config": {
+	"process-timeout": 0
   }
 }
