@@ -42,11 +42,11 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -83,7 +83,7 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
     </ul>
 </div>
 
-<? include '../scripts.php' ?>
+<? include '../shared/scripts.php' ?>
 
 </body>
 </html>

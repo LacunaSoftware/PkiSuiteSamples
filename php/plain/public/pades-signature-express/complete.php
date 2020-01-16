@@ -1,9 +1,10 @@
 <?php
 
 /**
- * This block will be executed only when it's on the "complete" step. In this sample, the state is
- * set as "complete" programmatically after the Web PKI component perform the signature and submit
- * the form (see method sign() on content/js/signature-form.js).
+ * This block will be executed only when it's on the "complete" step. In this
+ * sample, the state is set as "complete" programmatically after the Web PKI
+ * component perform the signature and submit the form (see method sign() on
+ * content/js/signature-form.js).
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -25,7 +26,8 @@ $transferFileId = !empty($_POST['transferFileId']) ? $_POST['transferFileId'] : 
 $digestAlgorithm = !empty($_POST['digestAlgorithm']) ? $_POST['digestAlgorithm'] : null;
 $signature = !empty($_POST['signature']) ? $_POST['signature'] : null;
 
-// Get an instance of the SignatureFinisher class, responsible for completing the signature process.
+// Get an instance of the SignatureFinisher class, responsible for completing
+// the signature process.
 $signatureFinisher = new SignatureFinisher();
 
 // Set PKI default options (see Util.php).
@@ -41,7 +43,7 @@ $signatureFinisher->setTransferFile($transferFileId);
 $signatureFinisher->setSignature($signature);
 
 // Generate path for output file and add to signature finisher.
-StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
+StorageMock::createAppData(); // make sure the "app-data" folder exists (Util.php)
 $outputFile = uniqid() . ".pdf";
 $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
@@ -52,11 +54,11 @@ $signatureFinisher->complete();
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -72,7 +74,7 @@ $signatureFinisher->complete();
     </ul>
 </div>
 
-<? include '../scripts.php' ?>
+<? include '../shared/scripts.php' ?>
 
 </body>
 </html>

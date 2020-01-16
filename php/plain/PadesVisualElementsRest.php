@@ -11,7 +11,7 @@ use Lacuna\RestPki\PdfMarkTextElement;
 use Lacuna\RestPki\PdfTextSection;
 use Lacuna\RestPki\PdfTextStyle;
 
-class PadesVisualElementsRestPki {
+class PadesVisualElementsRest {
 
     public static function getVisualRepresentation()
     {

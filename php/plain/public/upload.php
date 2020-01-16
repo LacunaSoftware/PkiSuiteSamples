@@ -63,48 +63,37 @@ if (isset($_FILES['userfile'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'shared/head.php' ?>
 </head>
 <body>
 
-<?php include 'menu.php' ?>
+<?php include 'shared/menu.php' ?>
 
 <div class="container content">
-    <div id="messagesPanel">
-        <?php
-        // This section will be only shown if some error has occurred in the last signature attempt.
-        // If the user uploads a new file, this error message is cleared.
-        ?>
-        <?php if (isset($errorMessage)) { ?>
+	<div id="messagesPanel"></div>
 
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><span class="fas fa-times"></span></span></button>
-                <span><?= $errorMessage ?></span>
-            </div>
+	<h2 class="ls-title">Upload a file</h2>
+	<h5 class="ls-subtitle">You will be redirected to <b>/<?= $rc ?></b></h5>
 
-        <?php } ?>
-    </div>
+	<div class="ls-content">
+		<form method="POST" enctype="multipart/form-data">
 
-    <h2 class="ls-title">Upload a file</h2>
+       <?php
+       // MAX_FILE_SIZE = 10MB (see http://php.net/manual/en/features.file-upload.post-method.php)
+       ?>
+		<input type="hidden" name="MAX_FILE_SIZE" value="<?= MAX_FILE_SIZE ?>"/>
 
-    <p>You will be redirected to <b>/<?= $rc ?></b></p>
-    <form method="POST" enctype="multipart/form-data">
+		<label for="selectFile">
+			Select file:
+			<input id="selectFile" type="file" name="userfile" style="display: block;"/>
+		</label>
 
-        <?php
-        // MAX_FILE_SIZE = 10MB (see http://php.net/manual/en/features.file-upload.post-method.php)
-        ?>
-        <input type="hidden" name="MAX_FILE_SIZE" value="<?= MAX_FILE_SIZE ?>"/>
-
-        <label for="selectFile">
-            Select file:
-            <input id="selectFile" type="file" name="userfile" style="display: block;" />
-        </label>
-
-        <input type="submit" value="Upload" name="submit" class="btn btn-primary" style="display: block;"/>
-    </form>
+		<input type="submit" value="Upload" name="submit" class="btn btn-primary" style="display: block;"/>
+		</form>
+	</div>
 </div>
 
-<?php include 'scripts.php' ?>
+<?php include 'shared/scripts.php' ?>
 
 </body>
 </html>

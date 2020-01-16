@@ -38,7 +38,7 @@ try {
 } catch (Exception $ex) {
     // Save error information on session storage.
     if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-    $_SESSION['script'] = 'xml-nfe-signature-restpki/index.php';
+    $_SESSION['script'] = 'xml-nfe-signature-rest/index.php';
     $_SESSION['message'] = $ex->getMessage();
     $_SESSION['trace'] = $ex->getTraceAsString();
     $_SESSION['status'] = 500;
@@ -56,11 +56,11 @@ Util::setExpiredPage();
 ?><!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -68,7 +68,7 @@ Util::setExpiredPage();
     <h2 class="ls-title">Sign a Brazilian NFe stored on the server with REST PKI</h2>
 
     <?php // Notice that we'll post to a different PHP file. ?>
-    <form id="signForm" action="xml-nfe-signature-restpki/complete.php" method="POST">
+    <form id="signForm" action="xml-nfe-signature-rest/complete.php" method="POST">
 
         <?php // Render the $token in a hidden input field. ?>
         <input type="hidden" name="token" value="<?= $token ?>">
@@ -98,21 +98,21 @@ Util::setExpiredPage();
 
 </div>
 
-<?php include '../scripts.php' ?>
+<?php include '../shared/scripts.php' ?>
 
 <?php
 // The file below contains the JS lib for accessing the Web PKI component. For more
 // information, see: https://webpki.lacunasoftware.com/#/Documentation
 ?>
-<script type="text/javascript" src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
-        integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js"
+        integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300="
         crossorigin="anonymous"></script>
 
 <?php
 // The file below contains the logic for calling the Web PKI component. It is only an example, feel free to alter it
 // to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
 ?>
-<script src="scripts/signature-form.js"></script>
+<script src="../scripts/signature-form.js"></script>
 <script>
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript code (see signature-form.js).

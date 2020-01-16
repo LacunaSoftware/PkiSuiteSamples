@@ -19,19 +19,19 @@ $rc = isset($_GET['rc']) ? $_GET['rc'] : null;
 $fwd = isset($_GET['fwd']) ? $_GET['fwd'] : null;
 $op = isset($_GET['op']) ? $_GET['op'] : null;
 
-// Get Amplia configuration.
-$ampliaConfig = getConfig()['amplia'];
+// Get REST PKI configuration.
+$restPkiConfig = getConfig()['restPki'];
 
-if (!empty($ampliaConfig['apiKey']) && strpos($ampliaConfig['apiKey'], ' API KEY ') === false) {
+if (!empty($restPkiConfig['accessToken']) && strpos($restPkiConfig['accessToken'], ' ACCESS TOKEN ') === false) {
 
     if (!empty($fwd)) {
         if (!empty($op)) {
-            $redirectUrl = "/$rc?rc=$fwd-amplia&op=$op";
+            $redirectUrl = "/$rc?rc=$fwd-rest&op=$op";
         } else {
-            $redirectUrl = "/$rc?rc=$fwd-amplia";
+            $redirectUrl = "/$rc?rc=$fwd-rest";
         }
     } else {
-        $redirectUrl = "/$rc-amplia";
+        $redirectUrl = "/$rc-rest";
     }
 
     header("Location: {$redirectUrl}", true, 302);
@@ -42,19 +42,23 @@ if (!empty($ampliaConfig['apiKey']) && strpos($ampliaConfig['apiKey'], ' API KEY
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'shared/head.php' ?>
 </head>
 <body>
 
-<?php include 'menu.php' ?>
+<?php include 'shared/menu.php' ?>
 
-<div class="container content ">
+<div class="container content">
     <div id="messagesPanel"></div>
-    <h1 class="ls-title">Amplia's API key was not set</h1>
 
+    <h2 class="ls-title">REST PKI's access token was not set</h2>
+
+    <div class="ls-content">
+
+    </div>
 </div>
 
-<?php include 'scripts.php' ?>
+<?php include 'shared/scripts.php' ?>
 
 </body>
 </html>

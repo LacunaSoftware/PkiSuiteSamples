@@ -69,11 +69,11 @@ try {
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -96,14 +96,14 @@ try {
     </form>
 </div>
 
-<?php include '../scripts.php' ?>
+<?php include '../shared/scripts.php' ?>
 
 <?php
 // The file below contains the JS lib for accessing the Web PKI component. For more
 // information, see: https://webpki.lacunasoftware.com/#/Documentation
 ?>
-<script type="text/javascript" src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
-        integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js"
+        integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300="
         crossorigin="anonymous"></script>
 
 <?php
@@ -111,7 +111,7 @@ try {
 // free to alter it to meet your application's needs. You can also bring the code into the
 // javascript block below if you prefer.
 ?>
-<script src="scripts/signature-complete-form.js"></script>
+<script src="../scripts/signature-complete-form.js"></script>
 
 <script>
     $(document).ready(function () {
