@@ -38,10 +38,10 @@
         // printerFriendlyPdf: { },
         // readCert: { },
         // rsa: { },
-        // signCmsServer: {
-        //     express: '/check-express.php?rc=server-files&fwd=cades-signature&op=signCms',
-        //     restpki: '/check-rest-token.php?rc=server-files&fwd=cades-signature&op=signCms'
-        // },
+        signCmsServer: {
+            express: '/check-express.php?rc=server-files&fwd=cades-signature&op=signCms',
+            restpki: '/check-rest-token.php?rc=server-files&fwd=cades-signature&op=signCms'
+        },
         signCmsUser: {
             express: '/check-express.php?rc=upload.php&fwd=cades-signature',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=cades-signature'
@@ -59,10 +59,10 @@
             express: '/check-express.php?rc=xml-nfe-signature',
             restpki: '/check-rest-token.php?rc=xml-nfe-signature'
         },
-        // signPdfServer: {
-        //     express: '/check-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
-        //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=signPdf'
-        // },
+        signPdfServer: {
+            express: '/check-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
+            restpki: '/check-rest-token.php?rc=server-files&fwd=pades-signature&op=signPdf'
+        },
         signPdfUser: {
             express: '/check-express.php?rc=upload.php&fwd=pades-signature',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-signature'

@@ -5,7 +5,7 @@
   "autoload": {
     "files": [
       "Util.php",
-      "PadesVisualElementsRestPki.php",
+      "PadesVisualElementsRest.php",
       "PadesVisualElementsExpress.php",
       "StorageMock.php",
       "config.php"
@@ -17,6 +17,6 @@
     "lacuna/amplia-client": "^1.0.2"
   },
   "config": {
-	"process-timeout": 0
+    "process-timeout": 0
   }
 }

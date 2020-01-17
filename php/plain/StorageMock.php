@@ -4,13 +4,28 @@ require __DIR__ . '/vendor/autoload.php';
 
 class SampleDocs
 {
-    const SAMPLE_PDF = 0;
-    const PDF_SIGNED_ONCE = 1;
-    const PDF_SIGNED_TWICE = 2;
-    const CMS_SIGNED_ONCE = 3;
-    const CMS_SIGNED_TWICE = 4;
-    const SAMPLE_NFE = 5;
-    const SAMPLE_XML = 6;
+    const SAMPLE_PDF = 'SAMPLE_PDF';
+    const PDF_SIGNED_ONCE = 'PDF_SIGNED_ONCE';
+    const PDF_SIGNED_TWICE = 'PDF_SIGNED_TWICE';
+    const CMS_SIGNED_ONCE = 'CMS_SIGNED_ONCE';
+    const CMS_SIGNED_TWICE = 'CMS_SIGNED_TWICE';
+    const SAMPLE_NFE = 'SAMPLE_NFE';
+    const SAMPLE_XML = 'SAMPLE_XML';
+}
+
+class ServerFile
+{
+    public $id;
+    public $description;
+
+    public function __construct($id, $description) {
+        $this->id = $id;
+        $this->description = $description;
+    }
+
+    public function getDownloadUrl() {
+        return '/download/sample.php?docId=' . $this->id;
+    }
 }
 
 class StorageMock
@@ -131,34 +146,31 @@ class StorageMock
         }
     }
 
-    static function getSampleDocPath($fileId, &$filename = null)
+    static function getSampleDocName($fileId)
     {
-
         switch ($fileId) {
             case SampleDocs::SAMPLE_PDF:
-                $filename = 'SampleDocument.pdf';
-                break;
+                return 'SampleDocument.pdf';
             case SampleDocs::PDF_SIGNED_ONCE:
-                $filename = 'SamplePdfSignedOnce.pdf';
-                break;
+                return 'SamplePdfSignedOnce.pdf';
             case SampleDocs::PDF_SIGNED_TWICE:
-                $filename = 'SamplePdfSignedTwice.pdf';
-                break;
+                return 'SamplePdfSignedTwice.pdf';
             case SampleDocs::CMS_SIGNED_ONCE:
-                $filename = 'SampleCms.p7s';
-                break;
+                return 'SampleCms.p7s';
             case SampleDocs::CMS_SIGNED_TWICE:
-                $filename = 'SampleCmsSignedTwice.p7s';
-                break;
+                return 'SampleCmsSignedTwice.p7s';
             case SampleDocs::SAMPLE_NFE:
-                $filename = 'SampleNFe.xml';
-                break;
+                return 'SampleNFe.xml';
             case SampleDocs::SAMPLE_XML:
-                $filename = 'SampleDocument.xml';
-                break;
+                return 'SampleDocument.xml';
             default:
-                throw new \Exception('Invalid fileId');
+                throw new \Exception('File not found');
         }
+    }
+
+    static function getSampleDocPath($fileId, &$filename = null)
+    {
+        $filename = self::getSampleDocName($fileId);
         return StorageMock::RESOURCES_PATH . $filename;
     }
 
