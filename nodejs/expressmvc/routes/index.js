@@ -11,7 +11,11 @@ router.use('/batch-pades-signature-express', require('./batch-pades-signature-ex
 router.use('/batch-pades-signature-restpki', require('./batch-pades-signature-restpki'));
 router.use('/batch-cades-signature-restpki', require('./batch-cades-signature-restpki'));
 router.use('/cades-signature-restpki', require('./cades-signature-restpki'));
+// router.use('/cades-signature-express', require('./cades-signature-express')); // TODO: Uncomment when PKI Express supports cades signature 
 router.use('/download', require('./download'));
+// router.use('/merge-cades-express', require('./merge-cades-express')); // TODO: Uncomment when PKI Express supports merge cades file
+// router.use('/merge-server-files', require('./merge-server-files')); // TODO: Uncomment when PKI Express supports merge cades file
+// router.use('/open-cades-express', require('./open-cades-express')); // TODO: Uncomment when PKI Express supports cades validation
 router.use('/open-pades-express', require('./open-pades-express'));
 router.use('/open-pades-restpki', require('./open-pades-restpki'));
 router.use('/pades-signature-express', require('./pades-signature-express'));

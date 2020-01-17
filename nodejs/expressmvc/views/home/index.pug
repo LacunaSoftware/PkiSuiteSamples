@@ -15,7 +15,7 @@ block scripts
             restpki: '/check-restpki-token?rc=authentication'
          },
          cosignCms: { 
-            //express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignCms',
+            //- express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignCms', // uncomment when PKI Express supports cades co-sign
             restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=cosignCms'
          },
          cosignPdf: {
@@ -28,7 +28,9 @@ block scripts
             select2: '/list-cert-select2',
             jquery: '/list-cert-jquery'
          },
-         // mergeCmsSigs: { },
+         //- mergeCmsSigs: { // uncomment when PKI Express supports merge cades signatures
+         //-    express: '/check-pki-express?rc=merge-server-files&fwd=merge-cades',
+         //- },
          // printerFriendlyCms: { },
          printerFriendlyPdf: {
             express: '/check-pki-express?rc=upload&fwd=printer-version-pades',
@@ -41,12 +43,12 @@ block scripts
          rsa: {
             webpki: '/rsa-web'
          },
-         signCmsServer: {
-         //	express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
+         signCmsServer: { // uncomment when PKI Express supports cades signature
+         	//- express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
             restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
          },
          signCmsUser: {
-            //express: '/check-pki-express?rc=upload&fwd=cades-signature',
+            //- express: '/check-pki-express?rc=upload&fwd=cades-signature', // uncomment when PKI Express supports cades signature
             restpki: '/check-restpki-token?rc=upload&fwd=cades-signature'
          },
          // signCmsServerKey: { },
@@ -82,7 +84,9 @@ block scripts
          },
          // signXmlServerKey: { },
          // signaturePackage: { },
-         // validateCmsSig: { },
+         //- validateCmsSig: { // uncomment when PKI Express supports cades validation
+            //- express: '/check-pki-express?rc=upload&fwd=open-cades',
+         //- },
          validatePdfSig: { 
             express: '/check-pki-express?rc=upload&fwd=open-pades',
             restpki: '/check-restpki-token?rc=upload&fwd=open-pades'

@@ -1,0 +1,38 @@
+//- TODO: Uncomment when PKI Express supports merge cades file 
+//- extends ../layout
+
+//- block content
+
+//-    h2(class='ls-title') Choose one of the avaliable merge combinations
+
+//-    p All CMS/CAdES Signatures are related to 
+//-       a(href=`/download/sample?fileId=${sampleFileId}`) this file
+//-       | .
+//-    form(method='post', id='mergeFilesForm')
+//-       input(type="hidden", name="selectedSample", id="selectedSample")
+//-       div(class='row')
+//-          each file, index in availableFiles
+//-             div(class='col-md-3')
+//-                div(class='card')
+//-                   div(class='card-header') Merge Option ##{index+1} 
+//-                   div(class='card-body') 
+//-                      p
+//-                         | #{file.description}
+//-                         br
+//-                         br
+//-                         | This sample consists of 
+//-                         a(href=`/download/sample?fileId=${file.id1}`) this file 
+//-                         | and 
+//-                         a(href=`/download/sample?fileId=${file.id2}`) this file 
+//-                         | .
+//-                   div(class='card-footer') 
+//-                      button(type='buttom', class='use-file btn btn-primary', style='font-size: 14px;', id=file.optionId)
+//-                         <i class='fas fa-hand-point-down'></i> Use This
+
+//- block scripts
+
+//-    script.
+//-       $('.use-file').click(function (e) {
+//-          $('#selectedSample').val(this.id);
+//-          $('#filesForm').submit();
+//-       });
