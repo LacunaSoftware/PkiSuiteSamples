@@ -10,13 +10,18 @@ from enum import Enum
 
 
 class SampleDocs (Enum): 
-	SAMPLE_PDF =  0
-	PDF_SIGNED_ONCE = 1
-	PDF_SIGNED_TWICE = 2
-	CMS_SIGNED_ONCE = 3
-	CMS_SIGNED_TWICE = 4
-	SAMPLE_XML = 5
-	SAMPLE_NFE = 6
+    SAMPLE_PDF =  0
+    PDF_SIGNED_ONCE = 1
+    PDF_SIGNED_TWICE = 2
+    CMS_SIGNED_ONCE = 3
+    CMS_SIGNED_TWICE = 4
+    SAMPLE_XML = 5
+    SAMPLE_NFE = 6
+    CMS_DETACHED_1 = 7
+    CMS_DETACHED_2 = 8
+    CMS_ATTACHED_1 = 9
+    CMS_ATTACHED_2 = 10
+    CMS_DATA_FILE = 11
 
 
 def create_app_data():
@@ -56,7 +61,17 @@ def get_sample_doc_name(sample_id):
     elif sample_id == SampleDocs.SAMPLE_XML:
         return 'SampleDocument.xml'
     elif sample_id == SampleDocs.SAMPLE_NFE:
-            return 'SampleNFe.xml'
+        return 'SampleNFe.xml'
+    elif sample_id == SampleDocs.CMS_DETACHED_1:
+        return 'CMSDetached1.p7s'
+    elif sample_id == SampleDocs.CMS_DETACHED_2:
+        return 'CMSDetached2.p7s'
+    elif sample_id == SampleDocs.CMS_ATTACHED_1:
+        return 'CMSAttached1.p7s'
+    elif sample_id == SampleDocs.CMS_ATTACHED_2:
+        return 'CMSAttached2.p7s'
+    elif sample_id == SampleDocs.CMS_DATA_FILE:
+        return 'CMSDataFile.pdf'
     else:
         raise Exception('Invalid sample document identification.')
 

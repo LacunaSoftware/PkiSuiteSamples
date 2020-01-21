@@ -15,6 +15,8 @@ from .download import blueprint as download
 from .home import blueprint as home
 from .list_cert_jquery import blueprint as list_cert_jquery
 from .list_cert_select2 import blueprint as list_cert_select2
+from .merge_cades_express import blueprint as merge_cades_express
+from .merge_server_files import blueprint as merge_server_files
 from .open_cades_express import blueprint as open_cades_express
 from .open_pades_express import blueprint as open_pades_express
 from .open_pades_rest import blueprint as open_pades_rest
@@ -49,6 +51,8 @@ blueprints = {
     home,
     list_cert_jquery,
     list_cert_select2,
+    merge_cades_express,
+    merge_server_files,
     open_cades_express,
     open_pades_express,
     open_pades_rest,
