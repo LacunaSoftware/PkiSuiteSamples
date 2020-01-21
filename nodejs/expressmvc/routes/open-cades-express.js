@@ -1,4 +1,4 @@
-//- TODO: Uncomment when PKI Express supports cades validation
+// - TODO: Uncomment when PKI Express supports cades validation
 // const express = require('express');
 // const path = require('path');
 // const uuidv4 = require('uuid/v4');
@@ -37,6 +37,8 @@
 // 	// inspect them.
 // 	sigExplorer.setSignatureFileFromPathSync(filePath);
 
+// 	// Generate path for output file and add the signature finisher.
+// 	StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
 // 	const outputFile = `${uuidv4()}.pdf`;
 // 	sigExplorer.setExtractContentPath(path.join(APP_ROOT, 'app-data', outputFile));
 

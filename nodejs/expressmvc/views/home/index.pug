@@ -31,7 +31,9 @@ block scripts
          //- mergeCmsSigs: { // uncomment when PKI Express supports merge cades signatures
          //-    express: '/check-pki-express?rc=merge-server-files&fwd=merge-cades',
          //- },
-         // printerFriendlyCms: { },
+         //- printerFriendlyCms: { // uncomment when PKI Express supports cades validation
+         //-    express: '/check-pki-express?rc=upload&fwd=printer-version-cades',
+         //- },
          printerFriendlyPdf: {
             express: '/check-pki-express?rc=upload&fwd=printer-version-pades',
             restpki: '/check-restpki-token?rc=upload&fwd=printer-version-pades'

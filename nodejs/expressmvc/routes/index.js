@@ -24,8 +24,10 @@ router.use('/upload', require('./upload'));
 router.use('/server-files', require('./server-files'));
 router.use('/xml-nfe-signature-restpki', require('./xml-nfe-signature-restpki'));
 router.use('/xml-signature-restpki', require('./xml-signature-restpki'));
+// router.use('/printer-version-cades-express', require('./printer-version-cades-express')); // TODO: Uncomment when PKI Express supports cades validation
 router.use('/printer-version-pades-restpki', require('./printer-version-pades-restpki'));
 router.use('/printer-version-pades-express', require('./printer-version-pades-express'));
+// router.use('/check-cades-express', require('./check-cades-express')); // TODO: Uncomment when PKI Express supports cades validation
 router.use('/check-pades-restpki', require('./check-pades-restpki'));
 router.use('/check-pades-express', require('./check-pades-express'));
 router.use('/list-cert-select2', require('./list-cert-select2'));
