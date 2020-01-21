@@ -45,7 +45,8 @@
 // 		.then((signature) => {
 // 			// Render the signature opening page.
 // 			res.render('open-cades-express', { signature, outputFile });
-// 		});
+// 		})
+// 		.catch((err) => next(err));
 // });
 
 // module.exports = router;
