@@ -1,11 +1,9 @@
 const express = require('express');
 const { PadesSignatureExplorer, StandardSignaturePolicies } = require('pki-express');
-const path = require('path');
 const { Util } = require('../util');
 const { StorageMock } = require('../storage-mock');
 
 const router = express.Router();
-const APP_ROOT = process.cwd();
 
 /*
 * GET /check
@@ -35,7 +33,7 @@ router.get('/', (req, res, next) => {
 	Util.setPkiDefaults(sigExplorer);
 
 	// Locate document from storage.
-	const filePath = path.join(APP_ROOT, '/app-data/', fileId);
+	const filePath = StorageMock.getDataPath(fileId);
 
 	// Se the PDF file to be inspected.
 	sigExplorer.setSignatureFileFromPathSync(filePath);

@@ -5,7 +5,6 @@ const { Util } = require('../util');
 const { StorageMock } = require('../storage-mock');
 
 const router = express.Router();
-const APP_ROOT = process.cwd();
 
 /*
 * GET /check
@@ -33,7 +32,7 @@ router.get('/', (req, res, next) => {
 	const sigExplorer = new PadesSignatureExplorer(Util.getRestPkiClient());
 
 	// Se the PDF file to be inspected.
-	sigExplorer.signatureFile = `${APP_ROOT}/app-data/${fileId}`;
+	sigExplorer.signatureFile = StorageMock.getDataPath(fileId);
 
 	// Specify that we want to validate the signatures in the file, not only
 	// inspect them.
