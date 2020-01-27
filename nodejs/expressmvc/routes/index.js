@@ -9,6 +9,7 @@ router.use('/', require('./home'));
 router.use('/authentication-restpki', require('./authentication-restpki'));
 router.use('/batch-pades-signature-express', require('./batch-pades-signature-express'));
 router.use('/batch-pades-signature-restpki', require('./batch-pades-signature-restpki'));
+// router.use('/batch-cades-signature-express', require('./batch-cades-signature-express')); // TODO: Uncomment when PKI Express supports cades signature
 router.use('/batch-cades-signature-restpki', require('./batch-cades-signature-restpki'));
 router.use('/cades-signature-restpki', require('./cades-signature-restpki'));
 // router.use('/cades-signature-express', require('./cades-signature-express')); // TODO: Uncomment when PKI Express supports cades signature 
