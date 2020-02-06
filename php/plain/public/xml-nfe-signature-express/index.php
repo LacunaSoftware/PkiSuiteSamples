@@ -25,38 +25,40 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 
     <h2 class="ls-title">Sign a Brazilian NFe stored on the server with PKI Express</h2>
 
-    <form id="signForm" action="xml-nfe-signature-express/start.php" method="POST">
+    <div class="ls-content">
+        <form id="signForm" action="xml-nfe-signature-express/start.php" method="POST">
 
-        <?php
-        // Hidden fields used to pass data from the server-side to the javascript and vice-versa.
-        ?>
-        <input type="hidden" id="certThumbField" name="certThumb">
-        <input type="hidden" id="certContentField" name="certContent">
+            <?php
+            // Hidden fields used to pass data from the server-side to the javascript and vice-versa.
+            ?>
+            <input type="hidden" id="certThumbField" name="certThumb">
+            <input type="hidden" id="certContentField" name="certContent">
 
-        <div class="form-group">
-            <label>File to sign</label>
-            <p>You are signing the <i>infNFe</i> node of <a href='/download/sample.php?docId=SAMPLE_NFE'>this sample XML</a>.</p>
-        </div>
+            <div class="form-group">
+                <label>File to sign</label>
+                <p>You are signing the <i>infNFe</i> node of <a href='/download/sample.php?docId=SAMPLE_NFE'>this sample XML</a>.</p>
+            </div>
 
-        <?php
-        // Render a select (combo box) to list the user's certificates. For now it will be empty,
-        // we'll populate it later on (see signature-start-form.js).
-        ?>
-        <div class="form-group">
-            <label for="certificateSelect">Choose a certificate</label>
-            <select id="certificateSelect" class="custom-select"></select>
-        </div>
+            <?php
+            // Render a select (combo box) to list the user's certificates. For now it will be empty,
+            // we'll populate it later on (see signature-start-form.js).
+            ?>
+            <div class="form-group">
+                <label for="certificateSelect">Choose a certificate</label>
+                <select id="certificateSelect" class="custom-select"></select>
+            </div>
 
-        <?php
-        // Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user
-        // clicks the button, we must first use the Web PKI component to perform the client-side
-        // computation necessary and only when that computation is finished we'll submit the form
-        // programmatically (see signature-start-form.js).
-        ?>
-        <button id="signButton" type="button" class="btn btn-primary">Sign File</button>
-        <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+            <?php
+            // Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user
+            // clicks the button, we must first use the Web PKI component to perform the client-side
+            // computation necessary and only when that computation is finished we'll submit the form
+            // programmatically (see signature-start-form.js).
+            ?>
+            <button id="signButton" type="button" class="btn btn-primary">Sign File</button>
+            <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
 
-    </form>
+        </form>
+    </div>
 </div>
 
 <?php include '../shared/scripts.php' ?>

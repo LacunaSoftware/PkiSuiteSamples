@@ -64,13 +64,15 @@ $signatureFinisher->complete();
 
     <h2 class="ls-title">CAdES Signature with PKI Express</h2>
 
-    <p>File signed successfully!</p>
+    <div class="ls-content">
+        <p>File signed successfully!</p>
 
-    <h3>Actions:</h3>
-    <ul>
-        <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
-        <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
-    </ul>
+        <h3>Actions:</h3>
+        <ul>
+            <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
+            <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
+        </ul>
+    </div>
 </div>
 
 <? include '../shared/scripts.php' ?>

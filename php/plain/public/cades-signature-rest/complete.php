@@ -52,10 +52,11 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 
     <h2 class="ls-title">CAdES Signature with REST PKI</h2>
 
-    <p>File signed successfully!</p>
+    <div class="ls-content">
+        <p>File signed successfully!</p>
 
-    <p>
-        Signer information:
+        <p>
+            Signer information:
         <ul>
             <li>Subject: <?= $signerCert->subjectName->commonName ?></li>
             <li>Email: <?= $signerCert->emailAddress ?></li>
@@ -73,13 +74,14 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
                 </ul>
             </li>
         </ul>
-    </p>
+        </p>
 
-    <h3>Actions:</h3>
-    <ul>
-        <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
-        <li><a href="/cades-signature-rest?cosign=<?= $filename ?>">Co-sign with another certificate</a></li>
-    </ul>
+        <h3>Actions:</h3>
+        <ul>
+            <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
+            <li><a href="/cades-signature-rest?cosign=<?= $filename ?>">Co-sign with another certificate</a></li>
+        </ul>
+    </div>
 </div>
 
 <? include '../shared/scripts.php' ?>

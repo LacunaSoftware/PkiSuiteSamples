@@ -34,40 +34,41 @@ if (!StorageMock::exists($fileId)) {
 
     <h2 class="ls-title">PAdES Signature with PKI Express</h2>
 
-    <form id="signForm" action="pades-signature-express/start.php?fileId=<?= $fileId ?>" method="POST">
+    <div class="ls-content">
+        <form id="signForm" action="pades-signature-express/start.php?fileId=<?= $fileId ?>" method="POST">
 
-        <?php
-        // Hidden fields used to pass data from the server-side to the
-        // javascript and vice-versa.
-        ?>
-        <input type="hidden" id="certThumbField" name="certThumb">
-        <input type="hidden" id="certContentField" name="certContent">
+            <?php
+            // Hidden fields used to pass data from the server-side to the
+            // javascript and vice-versa.
+            ?>
+            <input type="hidden" id="certThumbField" name="certThumb">
+            <input type="hidden" id="certContentField" name="certContent">
 
-        <div class="form-group">
-            <label>File to sign</label>
-            <p>You are signing <a href='/download?fileId=<?= $fileId ?>'>this document</a>.</p>
-        </div>
+            <div class="form-group">
+                <label>File to sign</label>
+                <p>You are signing <a href='/download?fileId=<?= $fileId ?>'>this document</a>.</p>
+            </div>
 
-        <?php
-        // Render a select (combo box) to list the user's certificates. For now
-        // it will be empty, we'll populate it later on (see
-        // signature-start-form.js).
-        ?>
-        <div class="form-group">
-            <label for="certificateSelect">Choose a certificate</label>
-            <select id="certificateSelect" class="form-control"></select>
-        </div>
+            <?php
+            // Render a select (combo box) to list the user's certificates. For now
+            // it will be empty, we'll populate it later on (see
+            // signature-start-form.js).
+            ?>
+            <div class="form-group">
+                <label for="certificateSelect">Choose a certificate</label>
+                <select id="certificateSelect" class="form-control"></select>
+            </div>
 
-        <?php
-        // Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user
-        // clicks the button, we must first use the Web PKI component to perform the client-side
-        // computation necessary and only when that computation is finished we'll submit the form
-        // programmatically (see signature-start-form.js).
-        ?>
-        <button id="signButton" type="button" class="btn btn-primary">Sign File</button>
-        <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
-
-    </form>
+            <?php
+            // Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user
+            // clicks the button, we must first use the Web PKI component to perform the client-side
+            // computation necessary and only when that computation is finished we'll submit the form
+            // programmatically (see signature-start-form.js).
+            ?>
+            <button id="signButton" type="button" class="btn btn-primary">Sign File</button>
+            <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+        </form>
+    </div>
 </div>
 
 <?php include '../shared/scripts.php' ?>

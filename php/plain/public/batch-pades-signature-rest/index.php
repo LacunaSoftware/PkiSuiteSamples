@@ -35,43 +35,43 @@ $documentsIds = array_map(function ($id) {
 
     <h2 class="ls-title">Batch Signature with REST PKI</h2>
 
-    <form id="signForm" method="POST">
+    <div class="ls-content">
+        <form id="signForm" method="POST">
 
+            <div class="form-group">
+                <label>File to sign</label>
 
-        <div class="form-group">
-            <label>File to sign</label>
-
-            <p>
-                You'll be signing the following files:
-                <?php
-                // UL element to hold the batch's documents (we'll render these
-                // programmatically, see batch-pades-signature-restpki-form.js).
-                ?>
+                <p>
+                    You'll be signing the following files:
+                    <?php
+                    // UL element to hold the batch's documents (we'll render these
+                    // programmatically, see batch-pades-signature-restpki-form.js).
+                    ?>
                 <ul id="docList"/>
-            </p>
-        </div>
+                </p>
+            </div>
 
-        <?php
-        // Render a select (combo box) to list the user's certificates. For now
-        // it will be empty, we'll populate it later on
-        // (see batch-pades-signature-restpki-form.js).
-        ?>
-        <div class="form-group">
-            <label for="certificateSelect">Choose a certificate</label>
-            <select id="certificateSelect" class="form-control"></select>
-        </div>
+            <?php
+            // Render a select (combo box) to list the user's certificates. For now
+            // it will be empty, we'll populate it later on
+            // (see batch-pades-signature-restpki-form.js).
+            ?>
+            <div class="form-group">
+                <label for="certificateSelect">Choose a certificate</label>
+                <select id="certificateSelect" class="form-control"></select>
+            </div>
 
-        <?php
-        // Action buttons. Notice that the "Sign File" button is NOT a submit
-        // button. When the user clicks the button, we must first use the Web
-        // PKI component to perform the client-side computation necessary and
-        // only when that computation is finished we'll submit the form
-        // programmatically (see batch-pades-signature-restpki-form.js).
-        ?>
-        <button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
-        <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
-
-    </form>
+            <?php
+            // Action buttons. Notice that the "Sign File" button is NOT a submit
+            // button. When the user clicks the button, we must first use the Web
+            // PKI component to perform the client-side computation necessary and
+            // only when that computation is finished we'll submit the form
+            // programmatically (see batch-pades-signature-restpki-form.js).
+            ?>
+            <button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
+            <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+        </form>
+    </div>
 </div>
 
 <?php include '../shared/scripts.php' ?>

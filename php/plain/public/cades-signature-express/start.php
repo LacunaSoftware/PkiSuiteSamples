@@ -71,21 +71,23 @@ $transferFileId = $response->transferFile;
 
     <h2 class="ls-title">CAdES Signature with PKI Express</h2>
 
-    <form id="signForm" action="cades-signature-express/complete.php?fileId=<?= $fileToSign ?>" method="POST">
+    <div class="ls-content">
+        <form id="signForm" action="cades-signature-express/complete.php?fileId=<?= $fileToSign ?>" method="POST">
 
-        <?php
-        // Hidden fields used to pass data from the server-side to the
-        // javascript and vice-versa.
-        ?>
-        <input type="hidden" id="certThumbField" name="certThumb" value="<?= $certThumb ?>">
-        <input type="hidden" id="certContentField" name="certContent" value="<?= $certContent ?>">
-        <input type="hidden" id="toSignHashField" name="toSignHash" value="<?= $toSignHash ?>">
-        <input type="hidden" id="transferFileIdField" name="transferFileId" value="<?= $transferFileId ?>">
-        <input type="hidden" id="digestAlgorithmField" name="digestAlgorithm" value="<?= $digestAlgorithm ?>">
-        <input type="hidden" id="signatureField" name="signature">
+            <?php
+            // Hidden fields used to pass data from the server-side to the
+            // javascript and vice-versa.
+            ?>
+            <input type="hidden" id="certThumbField" name="certThumb" value="<?= $certThumb ?>">
+            <input type="hidden" id="certContentField" name="certContent" value="<?= $certContent ?>">
+            <input type="hidden" id="toSignHashField" name="toSignHash" value="<?= $toSignHash ?>">
+            <input type="hidden" id="transferFileIdField" name="transferFileId" value="<?= $transferFileId ?>">
+            <input type="hidden" id="digestAlgorithmField" name="digestAlgorithm" value="<?= $digestAlgorithm ?>">
+            <input type="hidden" id="signatureField" name="signature">
 
-        <a id="tryAgainButton" class="btn btn-primary" href="/cades-signature-express?fileId=<?= $fileToSign ?>">Try Again</a>
-    </form>
+            <a id="tryAgainButton" class="btn btn-primary" href="/cades-signature-express?fileId=<?= $fileToSign ?>">Try Again</a>
+        </form>
+    </div>
 </div>
 
 <?php include '../shared/scripts.php' ?>

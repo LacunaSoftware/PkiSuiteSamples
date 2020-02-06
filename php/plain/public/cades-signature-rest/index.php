@@ -98,39 +98,41 @@ Util::setExpiredPage();
 
     <h2 class="ls-title">CAdES Signature with REST PKI</h2>
 
-    <?php // Notice that we'll post to a different PHP file. ?>
-    <form id="signForm" action="cades-signature-rest/complete.php" method="POST">
+    <div class="ls-content">
+        <?php // Notice that we'll post to a different PHP file. ?>
+        <form id="signForm" action="cades-signature-rest/complete.php" method="POST">
 
-        <?php // Render the $token in a hidden input field. ?>
-        <input type="hidden" name="token" value="<?= $token ?>">
+            <?php // Render the $token in a hidden input field. ?>
+            <input type="hidden" name="token" value="<?= $token ?>">
 
-        <div class="form-group">
-            <label>File to sign</label>
-            <?php if (!empty($cmsToCoSign)) { ?>
-                <p>You are co-signing <a href='/download?fileId=<?= $cmsToCoSign ?>'>this CMS</a>.</p>
-            <?php } else { ?>
-                <p>You are signing <a href='/download?fileId=<?= $fileToSign ?>'>this document</a>.</p>
-            <?php } ?>
-        </div>
+            <div class="form-group">
+                <label>File to sign</label>
+                <?php if (!empty($cmsToCoSign)) { ?>
+                    <p>You are co-signing <a href='/download?fileId=<?= $cmsToCoSign ?>'>this CMS</a>.</p>
+                <?php } else { ?>
+                    <p>You are signing <a href='/download?fileId=<?= $fileToSign ?>'>this document</a>.</p>
+                <?php } ?>
+            </div>
 
-        <?php
-        // Render a select (combo box) to list the user's certificates. For now
-        // it will be empty, we'll populate it later on (see signature-form.js).
-        ?>
-        <div class="form-group">
-            <label for="certificateSelect">Choose a certificate</label>
-            <select id="certificateSelect" class="form-control"></select>
-        </div>
+            <?php
+            // Render a select (combo box) to list the user's certificates. For now
+            // it will be empty, we'll populate it later on (see signature-form.js).
+            ?>
+            <div class="form-group">
+                <label for="certificateSelect">Choose a certificate</label>
+                <select id="certificateSelect" class="form-control"></select>
+            </div>
 
-        <?php
-        // Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user
-        // clicks the button, we must first use the Web PKI component to perform the client-side
-        // computation necessary and only when that computation is finished we'll submit the form
-        // programmatically (see signature-form.js).
-        ?>
-        <button id="signButton" type="button" class="btn btn-primary">Sign File</button>
-        <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
-    </form>
+            <?php
+            // Action buttons. Notice that the "Sign File" button is NOT a submit button. When the user
+            // clicks the button, we must first use the Web PKI component to perform the client-side
+            // computation necessary and only when that computation is finished we'll submit the form
+            // programmatically (see signature-form.js).
+            ?>
+            <button id="signButton" type="button" class="btn btn-primary">Sign File</button>
+            <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+        </form>
+    </div>
 </div>
 
 <?php include '../shared/scripts.php' ?>
