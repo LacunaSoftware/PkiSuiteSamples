@@ -89,14 +89,14 @@ $documentsIds = array_map(function ($id) {
 // only an example, feel free to alter it to meet your application's needs. You
 // can also bring the code into the javascript block below if you prefer.
 ?>
-<script src="../scripts/batch-signature-restpki-form.js"></script>
+<script src="../scripts/batch-signature-rest-form.js"></script>
 
 <script>
 
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript
         // code (see batch-pades-signature-restpki-form.js).
-        batchSignatureRestPkiForm.init({
+        batchSignatureRestForm.init({
             documentsIds: <?= json_encode($documentsIds); ?>,  // The documents IDs.
             docList: $('#docList'),                            // The reference to the list of documents.
             certificateSelect: $('#certificateSelect'),        // The <select> element (combo box) to list the certificates.

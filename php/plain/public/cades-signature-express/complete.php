@@ -43,8 +43,7 @@ $signatureFinisher->setTransferFile($transferFile);
 $signatureFinisher->setSignature($signature);
 
 // Generate path for output file and add to signature finisher.
-StorageMock::createAppData(); // make sure the "app-data" folder exists (Util.php)
-$outputFile = uniqid() . ".p7s";
+$outputFile = StorageMock::generateFileId('p7s');
 $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
 // Complete the signature process.

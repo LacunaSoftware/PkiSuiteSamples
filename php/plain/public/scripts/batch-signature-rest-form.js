@@ -2,7 +2,7 @@
 // This file contains logic for calling the Web PKI component to sign a batch of documents. It is
 // only an example, feel free to alter it to meet your application's needs.
 // ------------------------------------------------------------------------------------------------
-var batchSignatureRestPkiForm = (function () {
+var batchSignatureRestForm = (function () {
 
     // The Javascript class "Queue" defined here helps to process the documents in the batch. You
     // don't necessarily need to understand this code, only how to use it (see the usage below on
@@ -209,7 +209,7 @@ var batchSignatureRestPkiForm = (function () {
 
     // ---------------------------------------------------------------------------------------------
     // Function that performs the first step described above for each document, which is the call
-    // batch-pades-signature-restpki/complete in order to start the signature and get the token associated
+    // batch-pades-signature-rest/complete in order to start the signature and get the token associated
     // with the signature process.
     //
     // This function is called by the Queue.process function, taking documents from the "start"
@@ -220,7 +220,7 @@ var batchSignatureRestPkiForm = (function () {
         // Call the server asynchronously to start the signature (the server will call REST PKI and
         // will return the signature operation token).
         $.ajax({
-            url: '/batch-pades-signature-restpki/start.php',
+            url: '/batch-pades-signature-rest/start.php',
             method: 'POST',
             data: {
                 id: step.docId
@@ -280,7 +280,7 @@ var batchSignatureRestPkiForm = (function () {
 
         // Call the server asynchronously to notify that the signature has been performed.
         $.ajax({
-            url: '/batch-pades-signature-restpki/complete.php',
+            url: '/batch-pades-signature-rest/complete.php',
             method: 'POST',
             data: {
                 token: step.token // The signature process is guaranteed to be URL safe.

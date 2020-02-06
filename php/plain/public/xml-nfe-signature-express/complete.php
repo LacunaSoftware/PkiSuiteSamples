@@ -41,8 +41,7 @@ try {
     $signatureFinisher->setSignature($signature);
 
     // Generate path for output file and add to signature finisher.
-    StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php).
-    $outputFile = uniqid() . ".xml";
+    $outputFile = StorageMock::generateFileId('xml');
     $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
     // Complete the signature process.

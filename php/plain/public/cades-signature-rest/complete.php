@@ -10,7 +10,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Lacuna\RestPki\CadesSignatureFinisher2;
 
 // Get the token for this signature (rendered in a hidden input field, see
-// cades-signature-restpki.php).
+// cades-signature-rest.php).
 $token = $_POST['token'];
 
 // Instantiate the CadesSignatureFinisher2 class, responsible for completing the signature process.
@@ -30,8 +30,7 @@ $signerCert = $signatureResult->certificate;
 // At this point, you'd typically store the CMS on your database. For demonstration purposes, we'll
 // store the CMS on a temporary folder publicly accessible and render a link to it.
 
-StorageMock::createAppData(); // Make sure the "app-data" folder exists (Util.php).
-$filename = uniqid() . ".p7s";
+$filename = StorageMock::generateFileId('p7s');
 
 // The SignatureResult object has functions for writing the signature file to a local file
 // (writeToFile()) and to get its raw contents (getContent()). For large files, use writeToFile()
@@ -79,7 +78,7 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
     <h3>Actions:</h3>
     <ul>
         <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
-        <li><a href="/cades-signature-restpki?cosign=<?= $filename ?>">Co-sign with another certificate</a></li>
+        <li><a href="/cades-signature-rest?cosign=<?= $filename ?>">Co-sign with another certificate</a></li>
     </ul>
 </div>
 

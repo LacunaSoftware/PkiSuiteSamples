@@ -5,7 +5,7 @@
  * each document being signed. It receives the ID of the document and initiates
  * a PAdES signature using REST PKI and returns a JSON with the token, which
  * identifies this signature process, to be used in the next signature steps
- * (see batch-pades-signature-restpki-form.js).
+ * (see batch-pades-signature-rest-form.js).
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -67,7 +67,7 @@ $signatureStarter->setPdfToSignFromPath(StorageMock::getBatchDocPath($id));
 // Call the startWithWebPki() method, which initiates the signature. This yields
 // the token, a 43-character case-sensitive URL-safe string, which identifies
 // this signature process. We'll use this value to call the signWithRestPki()
-// method on the Web PKI component (see batch-pades-signature-restpki-form.js)
+// method on the Web PKI component (see batch-pades-signature-rest-form.js)
 // and also to complete the signature on the POST action below (this should not
 // be mistaken with the API access token).
 $token = $signatureStarter->startWithWebPki();

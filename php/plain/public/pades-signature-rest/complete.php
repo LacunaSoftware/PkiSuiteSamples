@@ -31,8 +31,7 @@ $signerCert = $signatureResult->certificate;
 // At this point, you'd typically store the signed PDF on your database. For demonstration purposes,
 // we'll store the PDF on a temporary folder publicly accessible and render a link to it.
 
-StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
-$filename = uniqid() . ".pdf";
+$filename = StorageMock::generateFileId('pdf');
 
 // The SignatureResult object has functions for writing the signature file to a local file
 // (writeToFile()) and to get its raw contents (getContent()). For large files, use writeToFile() in
@@ -80,7 +79,7 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 		<h3>Actions:</h3>
 		<ul>
 			<li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
-			<li><a href="/pades-signature-restpki?fileId=<?= $filename ?>">Co-sign with another certificate</a></li>
+			<li><a href="/pades-signature-rest?fileId=<?= $filename ?>">Co-sign with another certificate</a></li>
 		</ul>
 	</div>
 

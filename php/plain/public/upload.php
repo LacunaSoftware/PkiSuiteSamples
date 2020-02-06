@@ -30,7 +30,7 @@ if (isset($_FILES['userfile'])) {
 
         // Generate a unique filename
         StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
-        $filename = uniqid() . ".{$fileExt}";
+        $filename = StorageMock::generateFileId($fileExt, $file['name']);
 
         // Move the file to the "app-data" folder with the unique filename
         if (!move_uploaded_file($file['tmp_name'], StorageMock::getDataPath($filename))) {

@@ -20,17 +20,17 @@
             express: '/check-express.php?rc=authentication',
             restpki: '/check-rest-token.php?rc=authentication'
         },
-        // cosignCms: {
-        //     express: '/check-pki-express.php?rc=server-files&fwd=cades-signature&op=cosignCms',
-        //     restpki: '/check-restpki-token.php?rc=server-files&fwd=cades-signature&op=cosignCms'
-        // },
-        // cosignPdf: {
-        //     express: '/check-pki-express.php?rc=server-files&fwd=pades-signature&op=cosignPdf',
-        //     restpki: '/check-restpki-token.php?rc=server-files&fwd=pades-signature&op=cosignPdf'
-        // },
+        cosignCms: {
+            express: '/check-express.php?rc=server-files&fwd=cades-signature&op=cosignCms',
+            restpki: '/check-rest-token.php?rc=server-files&fwd=cades-signature&op=cosignCms'
+        },
+        cosignPdf: {
+            express: '/check-express.php?rc=server-files&fwd=pades-signature&op=cosignPdf',
+            restpki: '/check-rest-token.php?rc=server-files&fwd=pades-signature&op=cosignPdf'
+        },
         // issueCertServer: { },
         issueCertUser: {
-            amplia: '/check-amplia-api-key.php?rc=issue-cert-user'
+            amplia: '/check-amplia-key.php?rc=issue-cert-user'
         },
         // listCert: { },
         // mergeCmsSigs: { },

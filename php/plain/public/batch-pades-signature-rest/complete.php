@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 }
 
 // Get the token for this signature (received from the post call, see
-// batch-signature-restpki-form.js).
+// batch-signature-rest-form.js).
 $token = $_POST['token'];
 
 // Instantiate the PadesSignatureFinisher2 class, responsible for completing the
@@ -39,7 +39,7 @@ $signerCert = $signatureResult->certificate;
 // At this point, you'd typically store the signed PDF on your database. For
 // demonstration purposes, we'll store the PDF on a temporary folder publicly
 // accessible and render a link to it
-// (see batch-pades-signature-restpki-form.js).
+// (see batch-pades-signature-rest-form.js).
 
 StorageMock::createAppData(); // make sure the "app-data" folder exists (Util.php).
 $filename = uniqid() . ".pdf";

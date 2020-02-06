@@ -75,7 +75,7 @@ Util::setExpiredPage();
 
         <div class="form-group">
             <label>File to sign</label>
-            <p>You are signing the <i>infNFe</i> node of <a href='/download/sample.php?id=SAMPLE_NFE'>this sample XML</a>.</p>
+            <p>You are signing the <i>infNFe</i> node of <a href='/download/sample.php?docId=SAMPLE_NFE'>this sample XML</a>.</p>
         </div>
 
         <?php

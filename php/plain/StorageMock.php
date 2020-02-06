@@ -33,54 +33,114 @@ class StorageMock
     const APP_DATA_PATH = __DIR__ . '/app-data/';
     const RESOURCES_PATH = __DIR__ . '/resources/';
 
-    static function getDataPath($fileId, $extension = '')
+    static function exists($fileId, &$filename = null)
     {
-        $filename = str_replace('_', '.', $fileId) . $extension;
-        return StorageMock::APP_DATA_PATH . $filename;
+        $filename = str_replace('_', '.', $fileId);
+        // Note: we're passing the filename arguments with "_" as "." because of
+        // URL safety.
+
+        $filePath = self::APP_DATA_PATH . $filename;
+        return file_exists($filePath);
+    }
+
+    static function getDataPath($fileId)
+    {
+        $filename = str_replace('_', '.', $fileId);
+        // Note: we're passing the filename arguments with "_" as "." because of
+        // URL safety.
+
+        return self::APP_DATA_PATH . $filename;
     }
 
     static function getResourcePath($resource)
     {
-        return StorageMock::RESOURCES_PATH . $resource;
+        return self::RESOURCES_PATH . $resource;
     }
 
-    static function exists($fileId, &$filename = null)
+    static function generateFilename($extension, $originalFilename = null)
+    {
+        $validExtension = null;
+        if (!empty($originalFilename)) {
+            $validExtension = pathinfo($originalFilename, PATHINFO_EXTENSION);
+            $filename = pathinfo($originalFilename, PATHINFO_FILENAME);
+        } else {
+            $filename = "";
+        }
+
+        if (!empty($extension)) {
+            if ($extension[0] == '.') {
+                $validExtension = substr($extension, 1, count($extension) - 1);
+            } else {
+                $validExtension = $extension;
+            }
+        }
+
+        $name = '';
+        if (!empty($filename)) {
+            $name .= $filename;
+            $name .= '.';
+        }
+        $name .= uniqid();
+        if (!empty($validExtension)) {
+            $name .= '.';
+            $name .= $validExtension;
+        }
+
+        return $name;
+    }
+
+    static function generateFileId($extension, $originalFilename = null)
+    {
+        $filename = self::generateFilename($extension, $originalFilename);
+        // Replace extension '.'. to '_' to be passe as parameters on URL for
+        // safety.
+        return str_replace(".", "_", $filename);
+    }
+
+    static function retrieveFilename($fileId)
     {
         $filename = str_replace('_', '.', $fileId);
-        $filePath = StorageMock::APP_DATA_PATH . $filename;
-        return file_exists($filePath);
+        // Note: we're passing the filename arguments with "_" as "." because of
+        // URL safety.
+
+        $last = strripos($filename, '.');
+        $first = strripos($filename, '.', $last - strlen($filename) - 1);
+        if ($last && $first && $first >= 0 && $last >= 0 && $first != $last) {
+            return substr($filename, 0, $first) . substr($filename, $last);
+        }
+        return $filename;
     }
 
     static function read($fileId, &$filename = null)
     {
         $filename = str_replace('_', '.', $fileId);
-        $filePath = StorageMock::APP_DATA_PATH . $filename;
+        // Note: we're passing the filename arguments with "_" as "." because of
+        // URL safety.
+
+        $filePath = self::APP_DATA_PATH . $filename;
         return file_get_contents($filePath);
     }
 
-    static function store($content, $extension = '', $filename = null)
+    static function store($content, $extension = '', $originalFilename = null)
     {
 
         // Guarantees tha the 'app-data' folder exists.
-        StorageMock::createAppData();
+        self::createAppData();
 
-        // Generate fileId.
-        if (empty($filename)) {
-            $filename = uniqid();
-        }
-        $fileId = $filename . $extension;
+        $filename = self::generateFilename($extension, $originalFilename);
 
         // Store file.
-        $filePath = StorageMock::APP_DATA_PATH . $fileId;
+        $filePath = self::APP_DATA_PATH . $filename;
         file_put_contents($filePath, $content);
 
-        // Replace extension '.'. to '_' to be passe as parameters on URL for safety.
-        return str_replace('.', '_', $fileId);
+        // Replace extension '.'. to '_' to be passe as parameters on URL for
+        // safety.
+        return str_replace('.', '_', $filename);
     }
 
     /**
-     * Returns the verification code associated with the given document, or null if no verification
-     * code has been associated with it.
+     * Returns the verification code associated with the given document, or null
+     * if no verification code has been associated with it.
      */
     static function getVerificationCode($fileId)
     {
@@ -90,8 +150,9 @@ class StorageMock
         }
 
         // >>>>> NOTICE <<<<<
-        // This should be implemented on your application as a SELECT on your "document table" by
-        // the ID of the document, returning the value of the verification code column.
+        // This should be implemented on your application as a SELECT on your
+        // "document table" by the ID of the document, returning the value of
+        // the verification code column.
         if (isset($_SESSION['Files/' . $fileId . '/Code'])) {
             return $_SESSION['Files/' . $fileId . '/Code'];
         }
@@ -109,15 +170,16 @@ class StorageMock
         }
 
         // >>>>> NOTICE <<<<<
-        // This should be implemented on your application as a UPDATE on your "document table"
-        // filling the verification code column, which should be an indexed column.
+        // This should be implemented on your application as a UPDATE on your
+        // "document table" filling the verification code column, which should
+        // be an indexed column.
         $_SESSION['Files/' . $fileId . '/Code'] = $code;
         $_SESSION['Codes/' . $code] = $fileId;
     }
 
     /**
-     * Returns the ID of the document associated with a given verification code, or null if no
-     * document matches the given code.
+     * Returns the ID of the document associated with a given verification code,
+     * or null if no document matches the given code.
      */
     static function lookupVerificationCode($code)
     {
@@ -131,8 +193,9 @@ class StorageMock
         }
 
         // >>>>> NOTICE <<<<<
-        // This should be implemented on your application as a SELECT on your "document table" by
-        // the verification code column, which should be an indexed column.
+        // This should be implemented on your application as a SELECT on your
+        // "document table" by the verification code column, which should be an
+        // indexed column.
         if (isset($_SESSION['Codes/' . $code])) {
             return $_SESSION['Codes/' . $code];
         }
@@ -150,7 +213,7 @@ class StorageMock
     {
         switch ($fileId) {
             case SampleDocs::SAMPLE_PDF:
-                return 'SampleDocument.pdf';
+                return 'SamplePdf.pdf';
             case SampleDocs::PDF_SIGNED_ONCE:
                 return 'SamplePdfSignedOnce.pdf';
             case SampleDocs::PDF_SIGNED_TWICE:
