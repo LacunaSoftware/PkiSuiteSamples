@@ -12,8 +12,8 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='ftCmcHGLdSk_6r7T46fGugFvHSLwPljry7wYRSVYA2LNSKUzbNkw6iHp_VxWH513738Tb_sJ0oAF_nJbV8upWuQG4ndbhk-kLJCwahmlAJg-_r9WUuSE5iF1p5sctLe-WoCO3M9py2j2wOjjzaokWTsuAbRkTRygKTADesP5sopwhQUvrO71U_wQM4C_ZOwz36yYQ9ywfiww60AzPoCfDnOcGJgGd3Bchy-bfz7XUNBPEgERhiu2RfRHz_0Akb6DiC9p7G26v4d0aRd_oNPY2pCr5q2SUD6qL9lWpRuD2O16f0vn-3CPagXtW_fBo281yVXDuRLmsMmdiwDWK060iLN31gOkK0PalqA527ivRFc4wDu9ZwhIibExV5gRFKiY-Ld_lFaJ_ykHi6MsmyyDaCMiIRrQ-tt6qoA2yx73U855Wsoj0qkf0TWQo5qH5jJqRdpdBdjMmVjXzyBimDhqSt7W738XeeRioCF7tno3BhBNBhXmboJBtOGZ0D9dRG6TnorOeg'
-    # This is a TRIAL token. It will be expired at 31/12/2019.
+    REST_PKI_ACCESS_TOKEN='VF0jCF4QWfjvUQ1cUBmeePrSNALinTQ1BgfGh0IMSFh3lBiiCpiQPba8NptdB_DwMKRItmccgQITMonKtX1U-kmrUYqsPegmKh7xzQUkBgiT9-ZzqcsH7sCk1mydDOKlG42QnQXMyTQWiexPeNhe8ZybGIcQGIblU72vGc8T5nRylMk4s3-jeXyYqiP8xLYKBlO50U7PByKk66OsjaVpF4dmUWXd96pVrNZ9J2KbWaNQEDh9rtUghIr88vwnE30kV5TL2hJz_LDI-smnSWYinJNPGpyWSrrLHI5uA6GplJbJNFvIn1bIYO2xjHkoESoaaaf3vu9Dh2ZNpofLN9YdCAqcFwYREnmJYCUjZZ9yQn2ba8w4xbIyDMg7q6hn_DPJUvB-H4NsVH3rMwaOzA0bXRTxcVi9SmWbJ8TmtPpmSMww21db9G6qW62yaa9j1VgHa2XjgvQSyISVPQIqUGaJKBsg82wpjf2lfTxpujruVvKE_u1_51RQP0M_2YmM40udL3zuBg'
+    # This is a TRIAL token. It will be expired at 31/03/2019.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
