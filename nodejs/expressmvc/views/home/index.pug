@@ -53,7 +53,9 @@ block scripts
             //- express: '/check-pki-express?rc=upload&fwd=cades-signature', // uncomment when PKI Express supports cades signature
             restpki: '/check-restpki-token?rc=upload&fwd=cades-signature'
          },
-         // signCmsServerKey: { },
+         //- signCmsServerKey: { // uncomment when PKI Express supports cades signature
+         //-    express: '/check-pki-express?rc=upload&fwd=cades-server-key',
+         //- },
          // signCod: { },
          signMultiCmsServer: {
             //- express: '/check-pki-express?rc=batch-cades-signature', // uncomment when PKI Express supports cades signature
