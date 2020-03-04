@@ -15,7 +15,7 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.1",
     "restpki-client": "^1.0.2",
-    "pki-express": "^1.4.0",
+    "pki-express": "^1.5.0",
     "pug": "~2.0.3",
     "uuid": "^3.3.2",
     "lodash": "^4.17.11"

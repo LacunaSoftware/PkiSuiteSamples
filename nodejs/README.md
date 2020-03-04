@@ -54,7 +54,7 @@ Or informing on your project's `package.json` file:
 ```json
 {
   "dependencies": {
-    "pki-express": "1.2.1"
+    "pki-express": "1.5.0"
   }
 }
 ```
