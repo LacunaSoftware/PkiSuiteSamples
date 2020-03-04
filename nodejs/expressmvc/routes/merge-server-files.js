@@ -39,17 +39,17 @@ router.post('/', (req, res) => {
 	
 	switch (sampleId) {
 	case 0:
-		redirectUrl += `/detached?dataFileId=${StorageMock.storeSync(dataFile, null, '.pdf')}&`;
+		redirectUrl += `?dataFileId=${StorageMock.storeSync(dataFile, null, '.pdf')}&`;
 		file1 = StorageMock.readSampleDocSync(SampleDocs.CMS_DETACHED_1.valueOf());
 		file2 = StorageMock.readSampleDocSync(SampleDocs.CMS_DETACHED_2.valueOf());
 		break;
 	case 1:
-		redirectUrl += `/mixed?dataFileId=${StorageMock.storeSync(dataFile, null, '.pdf')}&`;
+		redirectUrl += `?dataFileId=${StorageMock.storeSync(dataFile, null, '.pdf')}&`;
 		file1 = StorageMock.readSampleDocSync(SampleDocs.CMS_ATTACHED_1.valueOf());
 		file2 = StorageMock.readSampleDocSync(SampleDocs.CMS_DETACHED_2.valueOf());
 		break;
 	case 2:
-		redirectUrl += '/attached?';
+		redirectUrl += '?';
 		file1 = StorageMock.readSampleDocSync(SampleDocs.CMS_ATTACHED_1.valueOf());
 		file2 = StorageMock.readSampleDocSync(SampleDocs.CMS_ATTACHED_2.valueOf());
 		break;
