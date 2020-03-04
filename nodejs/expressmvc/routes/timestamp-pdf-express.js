@@ -1,4 +1,3 @@
-// TODO: uncomment this when pki-express lib has PAdES timestamp support
 const express = require('express');
 const path = require('path');
 const fs = require('fs');

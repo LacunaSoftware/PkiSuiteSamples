@@ -13,12 +13,11 @@ const SampleDocs = {
 	CMS_SIGNED_TWICE: 4,
 	SAMPLE_XML: 5,
 	SAMPLE_NFE: 6,
-	// TODO: Uncomment when PKI Express supports merge cades file 
-	// CMS_DETACHED_1: 7,
-	// CMS_DETACHED_2: 8,
-	// CMS_ATTACHED_1: 9,
-	// CMS_ATTACHED_2: 10,
-	// CMS_DATA_FILE: 11,
+	CMS_DETACHED_1: 7,
+	CMS_DETACHED_2: 8,
+	CMS_ATTACHED_1: 9,
+	CMS_ATTACHED_2: 10,
+	CMS_DATA_FILE: 11,
 };
 
 class StorageMock {
@@ -136,17 +135,16 @@ class StorageMock {
 			return 'SampleDocument.xml';
 		case SampleDocs.SAMPLE_NFE:
 			return 'SampleNFe.xml';
-		// TODO: Uncomment when PKI Express supports merge cades file
-		// case SampleDocs.CMS_ATTACHED_1:
-		// 	return 'CMSAttached1.p7s';
-		// case SampleDocs.CMS_ATTACHED_2:
-		// 	return 'CMSAttached2.p7s';
-		// case SampleDocs.CMS_DETACHED_1:
-		// 	return 'CMSDetached1.p7s';
-		// case SampleDocs.CMS_DETACHED_2:
-		// 	return 'CMSDetached2.p7s';
-		// case SampleDocs.CMS_DATA_FILE:
-		// 	return 'CMSDataFile.pdf';
+		case SampleDocs.CMS_ATTACHED_1:
+			return 'CMSAttached1.p7s';
+		case SampleDocs.CMS_ATTACHED_2:
+			return 'CMSAttached2.p7s';
+		case SampleDocs.CMS_DETACHED_1:
+			return 'CMSDetached1.p7s';
+		case SampleDocs.CMS_DETACHED_2:
+			return 'CMSDetached2.p7s';
+		case SampleDocs.CMS_DATA_FILE:
+			return 'CMSDataFile.pdf';
 		default:
 			throw new Error('Invalid sample document identification.');
 		}
