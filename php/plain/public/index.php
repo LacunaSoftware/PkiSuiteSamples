@@ -46,7 +46,9 @@
             express: '/check-express.php?rc=upload.php&fwd=cades-signature',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=cades-signature'
         },
-        // signCmsServerKey: { },
+        signCmsServerKey: {
+            express: '/check-express.php?rc=upload.php&fwd=cades-server-key'
+        },
         // signCod: { },
         // signMultiCmsServer: { },
         // signMultiCmsUser: { },
@@ -66,8 +68,10 @@
         signPdfUser: {
             express: '/check-express.php?rc=upload.php&fwd=pades-signature',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-signature'
+        },
+        signPdfServerKey: {
+            express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
         }
-        // signPdfServerKey: { },
         // signXmlServer: { },
         // signXmlServerKey: { },
         // signaturePackage: { },

@@ -52,7 +52,7 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 	<div id="messagesPanel"></div>
 
 	<h2 class="ls-title">PAdES Signature with REST PKI</h2>
-	<h5 class="ls-subtitle">File signed successfully!</h5>
+    <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
 	<div class="ls-content">
 		<p>

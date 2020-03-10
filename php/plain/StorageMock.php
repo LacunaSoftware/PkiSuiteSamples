@@ -262,4 +262,9 @@ class StorageMock
     {
         return StorageMock::RESOURCES_PATH . 'vr.json';
     }
+
+    static function getSampleCertificatePath()
+    {
+        return StorageMock::RESOURCES_PATH . 'Pierre de Fermat.pfx';
+    }
 }
