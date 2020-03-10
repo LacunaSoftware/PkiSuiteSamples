@@ -9,29 +9,17 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 }
 
 // Get sampleId from URL.
-$id = $_GET['id'];
+$id = $_GET['docId'];
 
 switch ($id) {
-    case 'SAMPLE_PDF':
-        $sampleId = SampleDocs::SAMPLE_PDF;
-        break;
-    case 'PDF_SIGNED_ONCE':
-        $sampleId = SampleDocs::PDF_SIGNED_ONCE;
-        break;
-    case 'PDF_SIGNED_TWICE':
-        $sampleId = SampleDocs::PDF_SIGNED_TWICE;
-        break;
-    case 'CMS_SIGNED_ONCE':
-        $sampleId = SampleDocs::CMS_SIGNED_ONCE;
-        break;
-    case 'CMS_SIGNED_TWICE':
-        $sampleId = SampleDocs::CMS_SIGNED_TWICE;
-        break;
-    case 'SAMPLE_NFE':
-        $sampleId = SampleDocs::SAMPLE_NFE;
-        break;
-    case 'SAMPLE_XML':
-        $sampleId = SampleDocs::SAMPLE_XML;
+    case SampleDocs::SAMPLE_PDF:
+    case SampleDocs::PDF_SIGNED_ONCE:
+    case SampleDocs::PDF_SIGNED_TWICE:
+    case SampleDocs::CMS_SIGNED_ONCE:
+    case SampleDocs::CMS_SIGNED_TWICE:
+    case SampleDocs::SAMPLE_NFE:
+    case SampleDocs::SAMPLE_XML:
+        $sampleId = $id;
         break;
     default:
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);

@@ -11,11 +11,11 @@ $error = !empty($_SESSION['error']) ? $_SESSION['error'] : null;
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include 'head.php' ?>
+    <?php include 'shared/head.php' ?>
 </head>
 <body>
 
-<?php include 'menu.php' ?>
+<?php include 'shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -47,7 +47,7 @@ $error = !empty($_SESSION['error']) ? $_SESSION['error'] : null;
     </div>
 </div>
 
-<?php include 'scripts.php' ?>
+<?php include 'shared/scripts.php' ?>
 
 </body>
 </html>

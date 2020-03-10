@@ -8,11 +8,12 @@
  * document one by one and will call the server asynchronously to start and
  * complete each signature.
  */
+
 require __DIR__ . '/../../vendor/autoload.php';
 
 // It is up to your application's business logic to determine which documents
 // will compose the batch.
-$documentsIds = array_map(function($id) {
+$documentsIds = array_map(function ($id) {
     return sprintf("%02d", $id);
 }, range(1, 30));
 
@@ -29,10 +30,10 @@ $documentsIds = array_map(function($id) {
 <div class="container content">
     <div id="messagesPanel"></div>
 
-    <?php // Messages about the signature process will be rendered in here. ?>
+    <?php // Messages about the signature process will be rendered in here ?>
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">Batch Signature with PKI Express</h2>
+    <h2 class="ls-title">Batch Signature with REST PKI</h2>
 
     <div class="ls-content">
         <form id="signForm" method="POST">
@@ -43,8 +44,8 @@ $documentsIds = array_map(function($id) {
                 <p>
                     You'll be signing the following files:
                     <?php
-                    // UL element to hold the batch's documents (we'll render
-                    // these programatically, see batch-signature-form.js).
+                    // UL element to hold the batch's documents (we'll render these
+                    // programmatically, see batch-pades-signature-restpki-form.js).
                     ?>
                 <ul id="docList"/>
                 </p>
@@ -53,7 +54,7 @@ $documentsIds = array_map(function($id) {
             <?php
             // Render a select (combo box) to list the user's certificates. For now
             // it will be empty, we'll populate it later on
-            // (see batch-signature-form.js).
+            // (see batch-pades-signature-restpki-form.js).
             ?>
             <div class="form-group">
                 <label for="certificateSelect">Choose a certificate</label>
@@ -61,15 +62,14 @@ $documentsIds = array_map(function($id) {
             </div>
 
             <?php
-            // Action buttons. Notice that the "Sign Batch" button is NOT a submit
-            // button. When the user clicks the button, we must first use the
-            // Web PKI component to perform the client-side computation necessary
-            // and only when that computation is finished we'll submit the form
-            // programmatically (see batch-signature-form.js).
+            // Action buttons. Notice that the "Sign File" button is NOT a submit
+            // button. When the user clicks the button, we must first use the Web
+            // PKI component to perform the client-side computation necessary and
+            // only when that computation is finished we'll submit the form
+            // programmatically (see batch-pades-signature-restpki-form.js).
             ?>
             <button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
             <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
-
         </form>
     </div>
 </div>
@@ -89,14 +89,14 @@ $documentsIds = array_map(function($id) {
 // only an example, feel free to alter it to meet your application's needs. You
 // can also bring the code into the javascript block below if you prefer.
 ?>
-<script src="../scripts/batch-signature-express-form.js"></script>
+<script src="../scripts/batch-signature-rest-form.js"></script>
 
 <script>
 
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript
-        // code (see batch-signature-form.js).
-        batchSignatureExpressForm.init({
+        // code (see batch-pades-signature-restpki-form.js).
+        batchSignatureRestForm.init({
             documentsIds: <?= json_encode($documentsIds); ?>,  // The documents IDs.
             docList: $('#docList'),                            // The reference to the list of documents.
             certificateSelect: $('#certificateSelect'),        // The <select> element (combo box) to list the certificates.
@@ -106,9 +106,6 @@ $documentsIds = array_map(function($id) {
     });
 
 </script>
-
-
-
 
 </body>
 </html>
