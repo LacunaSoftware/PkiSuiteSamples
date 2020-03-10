@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <h2 class="ls-title">Issue a certificate storing the key on the user's machine with Amplia</h2>
@@ -52,17 +52,18 @@
     </div>
 </div>
 
-<?php include '../scripts.php' ?>
+<?php include '../shared/scripts.php' ?>
 
 <?php
-// The file below contains the logic for filling and validating form. It is only an example, feel
-// free to alter it to meet your application's needs. You can also bring the code in to the
-// javascript block below if you prefer.
+// The file below contains the logic for filling and validating form. It is only
+// an example, feel free to alter it to meet your application's needs. You can
+// also bring the code in to the javascript block below if you prefer.
 ?>
 <script src="scripts/issue-cert-form.js"></script>
 <script>
     $(document).ready(function () {
-        // Once the page is ready, we call the init() function on the javascript code (see issue-cert-form.js).
+        // Once the page is ready, we call the init() function on the javascript
+        // code (see issue-cert-form.js).
         issueCertForm.init({
             issueForm: $('#issueForm'),               // The form that should be submitted when the button "issueButton" is clicked.
             subjectNameField: $('#subjectNameField'), // The "subjectName" field reference.
