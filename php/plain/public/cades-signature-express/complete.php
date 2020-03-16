@@ -1,9 +1,10 @@
 <?php
 
 /**
- * This block will be executed only when it's on the "complete" step. In this sample, the state is
- * set as "complete" programmatically after the Web PKI component perform the signature and submit
- * the form (see method sign() on content/js/signature-form.js).
+ * This block will be executed only when it's on the "complete" step. In this
+ * sample, the state is set as "complete" programmatically after the Web PKI
+ * component perform the signature and submit the form (see method sign() on
+ * content/js/signature-form.js).
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -25,7 +26,8 @@ $transferFile = !empty($_POST['transferFileId']) ? $_POST['transferFileId'] : nu
 $digestAlgorithm = !empty($_POST['digestAlgorithm']) ? $_POST['digestAlgorithm'] : null;
 $signature = !empty($_POST['signature']) ? $_POST['signature'] : null;
 
-// Get an instance of the SignatureFinisher class, responsible for completing the signature process.
+// Get an instance of the SignatureFinisher class, responsible for completing
+// the signature process.
 $signatureFinisher = new SignatureFinisher();
 
 // Set PKI default options (see Util.php).
@@ -41,8 +43,7 @@ $signatureFinisher->setTransferFile($transferFile);
 $signatureFinisher->setSignature($signature);
 
 // Generate path for output file and add to signature finisher.
-StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
-$outputFile = uniqid() . ".p7s";
+$outputFile = StorageMock::generateFileId('p7s');
 $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
 // Complete the signature process.
@@ -52,27 +53,30 @@ $signatureFinisher->complete();
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
 
     <h2 class="ls-title">CAdES Signature with PKI Express</h2>
+    <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
-    <p>File signed successfully!</p>
+    <div class="ls-content">
+        <p>File signed successfully!</p>
 
-    <h3>Actions:</h3>
-    <ul>
-        <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
-        <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
-    </ul>
+        <h3>Actions:</h3>
+        <ul>
+            <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
+            <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
+        </ul>
+    </div>
 </div>
 
-<? include '../scripts.php' ?>
+<? include '../shared/scripts.php' ?>
 
 </body>
 </html>

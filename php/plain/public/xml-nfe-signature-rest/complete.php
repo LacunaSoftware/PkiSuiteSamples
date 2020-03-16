@@ -34,7 +34,7 @@ try {
 } catch (Exception $ex) {
     // Save error information on session storage.
     if (session_status() !== PHP_SESSION_ACTIVE) session_start();
-    $_SESSION['script'] = 'xml-nfe-signature-restpki/complete.php';
+    $_SESSION['script'] = 'xml-nfe-signature-rest/complete.php';
     $_SESSION['message'] = $ex->getMessage();
     $_SESSION['trace'] = $ex->getTraceAsString();
     $_SESSION['status'] = 500;
@@ -46,12 +46,11 @@ try {
 ?><!DOCTYPE html>
 <html>
 <head>
-    <title>XML element signature</title>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -84,6 +83,8 @@ try {
         </ul>
     </div>
 </div>
+
+<? include '../shared/scripts.php' ?>
 
 </body>
 </html>

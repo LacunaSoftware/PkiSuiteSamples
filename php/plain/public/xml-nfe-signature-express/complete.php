@@ -41,8 +41,7 @@ try {
     $signatureFinisher->setSignature($signature);
 
     // Generate path for output file and add to signature finisher.
-    StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php).
-    $outputFile = uniqid() . ".xml";
+    $outputFile = StorageMock::generateFileId('xml');
     $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
     // Complete the signature process.
@@ -64,11 +63,11 @@ try {
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <div id="messagesPanel"></div>
@@ -84,7 +83,7 @@ try {
     </div>
 </div>
 
-<? include '../scripts.php' ?>
+<? include '../shared/scripts.php' ?>
 
 </body>
 </html>

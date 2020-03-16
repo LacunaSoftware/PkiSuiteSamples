@@ -23,7 +23,7 @@ if (!StorageMock::exists($fileId)) {
 
 $path = StorageMock::getDataPath($fileId);
 
-header('Content-Disposition: attachment; filename="'. basename($path) .'"');
+header('Content-Disposition: attachment; filename="'. StorageMock::retrieveFilename($fileId) .'"');
 header('Content-Length: ' . filesize($path));
 readfile($path);
 exit;
