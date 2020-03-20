@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   
   get '/read-cert-jquery/', action: :index, controller: :read_cert_jquery
   get '/read-cert-select2/', action: :index, controller: :read_cert_select2
+  get '/rsa-web/', action: :index, controller: :rsa_web
 
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest

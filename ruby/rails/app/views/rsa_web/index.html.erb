@@ -1,0 +1,297 @@
+<h2 class="ls-title">Basic RSA Sample with Web PKI</h2>
+
+<div class="ls-content">
+
+    <div class="row">
+        <div class="col col-lg-6">
+            <form id="rsaForm">
+                <%
+                    # Render a select (combo box) to list the users certificates.
+                    # For now it will be empty, we'll populate it after page loading
+                    # (see function loadCertificates() below).
+                %>
+                <div class="form-group">
+                    <label for="certificateSelect">Choose a certificate</label>
+                    <select id="certificateSelect" class="custom-select"></select>
+                </div>
+
+                <%
+                    # The text input to be used as data to be signed. The hash used
+                    # when click the "Sign Data's Hash" button is a SHA-256 of the
+                    # data passed on this field (see functions signData() and
+                    # signHash() below).
+                %>
+                <div class="form-group">
+                    <label for="signData">Text to sign</label>
+                    <input id="signData"
+                                type="text"
+                                class="form-control"
+                                maxlength="60"
+                                value=">>>> PLACE HERE THE DATA TO BE SIGNED <<<<" />
+                </div>
+
+                <%
+                    # Action buttons. The "Sign Data" button, which will trigger the
+                    # signature of the data filling the "Text to sign" field. The
+                    # "Sign Data's Hash" button, which will trigger the signature of
+                    # the data's SHA-256 digest. Note: this data are the same used
+                    # on "Sign Data" operation. The "Refresh Certificates" button,
+                    # which is responsible to reload the certificate list. This
+                    # operation uses the same function used on page loading (see
+                    # function refresh() below).
+                %>
+                <div class="form-group">
+                    <button id="signDataButton" type="button" class="btn btn-primary">
+                        <i class="fas fa-signature"></i> Sign Data
+                    </button>
+                    <button id="signHashButton" type="button" class="btn btn-info">
+                        <i class="fas fa-hashtag"></i> Sign Data's Hash
+                    </button>
+                    <button id="refreshButton" type="button" class="btn btn-outline-primary">
+                        <i class="fas fa-retweet"></i> Refresh Certificates
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <%
+            # The panel where the signature's information will be rendered using
+            # JQuery, after we compute the signature using Web PKI module.
+        %>
+        <div class="col col-lg-6">
+            <div id="signInfoPanel" class="text-wrap" style="word-wrap: break-word;"></div>
+        </div>
+    </div>
+
+</div>
+
+<%
+    # The file below contains the JS lib for accessing the Web PKI component.
+    # For more information, see:
+    # https://webpki.lacunasoftware.com/#/Documentation
+%>
+<script type="text/javascript"
+            src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+            integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+            crossorigin="anonymous"></script>
+
+<%
+    # This library is used to calculate the SHA-256 value of the data on
+    # input#signData, before been passed to Web PKI to be signed.
+%>
+<script type="text/javascript"
+            src="https://rawgit.com/emn178/js-sha256/master/build/sha256.min.js"></script>
+
+<script>
+    // Variable that will store an instance of the Lacuna Web PKI object. If a
+    // license was set on application.yml, the layout.html master view will
+    // have placed it on the global variable _webPkiLicense, which we pass to
+    // the class constructor.
+    var pki = new LacunaWebPKI(_webPkiLicense);
+
+    // -----------------------------------------------------------------------
+    // This method will be called as soon as the page is loaded. It will
+    // initialize Web PKI and load the certificates on the page.
+    // -----------------------------------------------------------------------
+    function init() {
+
+        // Wire up buttons click.
+        $('#refreshButton').click(refresh);
+        $('#signDataButton').click(signData);
+        $('#signHashButton').click(signHash);
+
+        // Block the UI while we get things ready.
+        $.blockUI({ message: 'Initializing ...' });
+
+        // Call the init() method on the LacunaWebPKI object, passing a
+        // callback for when the component is ready to be used and another to
+        // be called when an error occurrs on any of the subsequent operations.
+        // For more information, see:
+        // https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
+        // http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
+        pki.init({
+            ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
+            defaultError: onWebPkiError  // Generic error callback defined below.
+        });
+    }
+
+    // -----------------------------------------------------------------------
+    // Function called when the user clicks the "Refresh" button.
+    // -----------------------------------------------------------------------
+    function refresh() {
+        // Enable select again. This select can be disabled when there is no
+        // certificate on the user's machine.
+        $('#certificateSelect').prop('disabled', false);
+
+        // Block the UI while we load the certificates.
+        $.blockUI({ message: 'Refreshing ...' });
+        // Invoke the loading of the certificates.
+        loadCertificates();
+    }
+
+    // -----------------------------------------------------------------------
+    // Function that loads the certificates, either on startup or when the
+    // user clicks the "Refresh" button. At this point, the UI is already
+    // blocked.
+    // -----------------------------------------------------------------------
+    function loadCertificates() {
+
+        // Call the listCertificates() method to list the user's certificates.
+        // For more information see:
+        // http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
+        pki.listCertificates({
+
+            // The ID of the <select> element to be populated with the
+            // certificates.
+            selectId: 'certificateSelect',
+
+            // Function that will be called to get the text that should be
+            // displayed for each option.
+            selectOptionFormatter: function (cert) {
+                var s = cert.subjectName + ' (issued by ' + cert.issuerName + ')';
+                if (new Date() > cert.validityEnd) {
+                    s = '[EXPIRED] ' + s;
+                }
+                return s;
+            }
+
+        }).success(function (certs) {
+
+            // Verify if there is no certificates available to disable the
+            // <select> element, showing the messaging informing that.
+            if (certs.length === 0) {
+                $('#certificateSelect')
+                    .append('<option value="null">There is no certificate on your machine</option>')
+                    .prop('disabled', true);
+            }
+
+            // Once the certificates have been listed, unblock the UI.
+            $.unblockUI();
+        });
+    }
+
+    // -----------------------------------------------------------------------
+    // Function called when the user clicks the "Sign Data" button.
+    // -----------------------------------------------------------------------
+    function signData() {
+
+        // Block the UI.
+        $.blockUI({ message: 'Signing ...' });
+
+        // Get the thumbprint of the selected certificate.
+        var selectedCertThumbprint = $('#certificateSelect').val();
+
+        // Read data from the field and convert to an base64-encoded string.
+        var base64dataToSign = btoa($('#signData').val());
+
+        // Call signData() on the Web PKI component passing:
+        //    - The "data to be signed";
+        //    - The digest algorithm to compute the passed data's digest;
+        //    - The certificate's thumbprint, selected by the user.
+        pki.signData({
+            data: base64dataToSign,
+            digestAlgorithm: 'SHA-256',
+            thumbprint: selectedCertThumbprint
+        }).success(function (signature) {
+
+            // Render the signature results.
+            $('#signInfoPanel')
+                .append('<h5>Signature Result</h5>')
+                .append('<hr/>')
+                .append('<p class="h5"><span class="badge badge-success"><i class="fas fa-check"></i> Signed Successfully</span></p>')
+                .append('<label for="signatureValue">Signature</label>')
+                .append('<p id="signatureValue" class="text-justify">' + signature + '</p>')
+                .append('<button type="button" class="btn btn-primary" onclick="location.reload();"><i class="fas fa-undo-alt"></i> Try Again</button>');
+
+            // Disable form elements.
+            disableFormElements();
+
+            // Unblock the UI.
+            $.unblockUI();
+
+        });
+    }
+
+    // -----------------------------------------------------------------------
+    // Function called when the user clicks the "Sign Hash" button.
+    // -----------------------------------------------------------------------
+    function signHash() {
+
+        // Block the UI.
+        $.blockUI({ message: 'Signing ...' });
+
+        // Get the thumbprint of the selected certificate.
+        var selectedCertThumbprint = $('#certificateSelect').val();
+
+        // Read data from the field and generate the digest value (e.g.
+        // SHA-256) hash from it. After that, convert to an Base64-encoded
+        // string.
+        var hashToSign = sha256.arrayBuffer($('#signData').val());
+        var base64Hash = btoa(String.fromCharCode.apply(null, new Uint8Array(hashToSign)));
+
+        // Call signHash() on the Web PKI component passing:
+        //    - The "hash to be signed";
+        //    - The digest algorithm used when computing the passed hash value;
+        //    - The certificate's thumbprint, selected by the user.
+        pki.signHash({
+            hash: base64Hash,
+            digestAlgorithm: 'SHA-256',
+            thumbprint: selectedCertThumbprint
+        }).success(function (signature) {
+
+            // Render the signature results.
+            $('#signInfoPanel')
+                .append('<h5>Signature Result</h5>')
+                .append('<hr/>')
+                .append('<p class="h5"><span class="badge badge-success"><i class="fas fa-check"></i> Signed Successfully</span></p>')
+                .append('<label for="hashValue">Generated Hash (SHA-256)</label>')
+                .append('<p id="hashValue" class="text-justify">' + base64Hash + '</p>')
+                .append('<label for="signatureValue">Signature</label>')
+                .append('<p id="signatureValue" class="text-justify">' + signature + '</p>')
+                .append('<button type="button" class="btn btn-primary" onclick="location.reload();"><i class="fas fa-undo-alt"></i> Try Again</button>');
+
+            // Disable form elements.
+            disableFormElements();
+
+            // Unblock the UI.
+            $.unblockUI();
+        });
+    }
+
+    // -----------------------------------------------------------------------
+    // Function to be called after the signature is completed to disable all
+    // form elements.
+    // -----------------------------------------------------------------------
+    function disableFormElements() {
+        $('#rsaForm').addClass('disabled');
+        $('#certificateSelect').prop('disabled', true);
+        $('#signData').prop('disabled', true);
+        $('#signDataButton').prop('disabled', true);
+        $('#signHashButton').prop('disabled', true);
+        $('#refreshButton').prop('disabled', true);
+    }
+
+    // -----------------------------------------------------------------------
+    // Function called if an error occurs on the Web PKI component.
+    // -----------------------------------------------------------------------
+    function onWebPkiError(message, error, origin) {
+
+        // Unblock the UI.
+        $.unblockUI();
+
+        // Log the error to the browser console (for debugging purposes).
+        if (console) {
+            console.log('An error has occurred on the signature browser component: ' + message, error);
+        }
+
+        // Show the message to the user. You might want to substitute the alert
+        // below with a more user-friendly UI component to show the error (see
+        // function addAlert() on layout.html).
+        addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
+    }
+
+    // Once the page is ready, we call the init() function on the javascript
+    // code (see function init() above).
+    $(document).ready(init);
+
+</script>
