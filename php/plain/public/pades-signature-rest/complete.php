@@ -31,8 +31,7 @@ $signerCert = $signatureResult->certificate;
 // At this point, you'd typically store the signed PDF on your database. For demonstration purposes,
 // we'll store the PDF on a temporary folder publicly accessible and render a link to it.
 
-StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
-$filename = uniqid() . ".pdf";
+$filename = StorageMock::generateFileId('pdf');
 
 // The SignatureResult object has functions for writing the signature file to a local file
 // (writeToFile()) and to get its raw contents (getContent()). For large files, use writeToFile() in
@@ -43,48 +42,50 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
-    <div id="messagesPanel"></div>
+	<div id="messagesPanel"></div>
 
-    <h2 class="ls-title">PAdES Signature with REST PKI</h2>
+	<h2 class="ls-title">PAdES Signature with REST PKI</h2>
+    <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
-    <p>File signed successfully!</p>
+	<div class="ls-content">
+		<p>
+			Signer information:
+		<ul>
+			<li>Subject: <?= $signerCert->subjectName->commonName ?></li>
+			<li>Email: <?= $signerCert->emailAddress ?></li>
+			<li>
+				ICP-Brasil fields
+				<ul>
+					<li>Tipo de certificado: <?= $signerCert->pkiBrazil->certificateType ?></li>
+					<li>CPF: <?= $signerCert->pkiBrazil->cpf ?></li>
+					<li>Responsavel: <?= $signerCert->pkiBrazil->responsavel ?></li>
+					<li>Empresa: <?= $signerCert->pkiBrazil->companyName ?></li>
+					<li>CNPJ: <?= $signerCert->pkiBrazil->cnpj ?></li>
+					<li>
+						RG: <?= $signerCert->pkiBrazil->rgNumero . " " . $signerCert->pkiBrazil->rgEmissor . " " . $signerCert->pkiBrazil->rgEmissorUF ?></li>
+					<li>OAB: <?= $signerCert->pkiBrazil->oabNumero . " " . $signerCert->pkiBrazil->oabUF ?></li>
+				</ul>
+			</li>
+		</ul>
+		</p>
 
-    <p>
-        Signer information:
-    <ul>
-        <li>Subject: <?= $signerCert->subjectName->commonName ?></li>
-        <li>Email: <?= $signerCert->emailAddress ?></li>
-        <li>
-            ICP-Brasil fields
-            <ul>
-                <li>Tipo de certificado: <?= $signerCert->pkiBrazil->certificateType ?></li>
-                <li>CPF: <?= $signerCert->pkiBrazil->cpf ?></li>
-                <li>Responsavel: <?= $signerCert->pkiBrazil->responsavel ?></li>
-                <li>Empresa: <?= $signerCert->pkiBrazil->companyName ?></li>
-                <li>CNPJ: <?= $signerCert->pkiBrazil->cnpj ?></li>
-                <li>
-                    RG: <?= $signerCert->pkiBrazil->rgNumero . " " . $signerCert->pkiBrazil->rgEmissor . " " . $signerCert->pkiBrazil->rgEmissorUF ?></li>
-                <li>OAB: <?= $signerCert->pkiBrazil->oabNumero . " " . $signerCert->pkiBrazil->oabUF ?></li>
-            </ul>
-        </li>
-    </ul>
-    </p>
+		<h3>Actions:</h3>
+		<ul>
+			<li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
+			<li><a href="/pades-signature-rest?fileId=<?= $filename ?>">Co-sign with another certificate</a></li>
+		</ul>
+	</div>
 
-    <h3>Actions:</h3>
-    <ul>
-        <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
-        <li><a href="/pades-signature-restpki?fileId=<?= $filename ?>">Co-sign with another certificate</a></li>
-    </ul>
 </div>
 
-<? include '../scripts.php' ?>
+<? include '../shared/scripts.php' ?>
 
 </body>
 </html>
