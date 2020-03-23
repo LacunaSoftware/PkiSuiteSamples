@@ -29,7 +29,7 @@ REST PKI's client lib
 
 The recommend way to install **REST PKI's client library for Node.js** is through [npm](https://www.npmjs.com/):
 
-    $ npm install pki-express
+    $ npm install restpki-client
 
 Or informing on your project's `package.json` file:
 
@@ -37,6 +37,23 @@ Or informing on your project's `package.json` file:
 {
   "dependencies": {
     "restpki-client": "1.0.1"
+  }
+}
+```
+
+Amplia's client lib
+---------------------
+
+The recommend way to install **REST PKI's client library for Node.js** is through [npm](https://www.npmjs.com/):
+
+    $ npm install amplia-client
+
+Or informing on your project's `package.json` file:
+
+```json
+{
+  "dependencies": {
+    "restpki-client": "1.0.0"
   }
 }
 ```
