@@ -10,28 +10,31 @@ const multer = require('multer');
 
 const { StorageMock } = require('../storage-mock');
 
-let upload = multer();
-let router = express.Router();
+const upload = multer();
+const router = express.Router();
 
 router.get('/', (req, res) => {
 	res.render('upload', {
-		rc: req.query['rc']
+		rc: req.query.rc,
 	});
 });
 
 router.post('/', upload.single('userfile'), (req, res) => {
-
 	// Generate a unique filename with the original extension.
-	let extension = path.extname(req.file.originalname);
+	const extension = path.extname(req.file.originalname);
 
 	// Store file generating a UUID to identify the document.
-	let fileId = StorageMock.storeSync(req.file.buffer, null, extension);
+	const fileId = StorageMock.storeSync(req.file.buffer, null, extension);
 
 	// Redirect the user to the signature route, passing the name of the file as
 	// a URL argument.
-	let redirectUrl = req.query['rc'];
+	let redirectUrl = req.query.rc;
 	if (fileId) {
 		redirectUrl += `?fileId=${fileId}`;
+	}
+	if (req.query['certId']) {
+		let querySymbol = fileId ? '&' : '?';
+		redirectUrl += `${querySymbol}certId=${req.query['certId']}`;
 	}
 	res.redirect(redirectUrl);
 });

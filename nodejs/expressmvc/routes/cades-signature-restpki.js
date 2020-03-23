@@ -5,8 +5,7 @@ const { CadesSignatureStarter, CadesSignatureFinisher, StandardSignaturePolicies
 const { Util } = require('../util');
 const { StorageMock } = require('../storage-mock');
 
-let router = express.Router();
-let appRoot = process.cwd();
+const router = express.Router();
 
 /*
  * GET /cades-signature
@@ -17,18 +16,16 @@ let appRoot = process.cwd();
  * All CAdES signature examples converge to this action, but with different URL
  * arguments:
  *
- *    1. Signature with a server file               : no arguments filled
+ *    1. Signature with a server file               : "fileId" filled
  *    2. Signature with a file uploaded by the user : "fileId" filled
  *    3. Co-signature of a previously signed CMS    : "cmsfile" filled
  */
-router.get('/', function(req, res, next) {
-
+router.get('/', (req, res, next) => {
 	// Get an instance of the CadesSignatureStarter class, responsible for
 	// receiving the signature elements and start the signature process.
-	let signatureStarter = new CadesSignatureStarter(Util.getRestPkiClient());
+	const signatureStarter = new CadesSignatureStarter(Util.getRestPkiClient());
 
 	if (req.query.cmsfile) {
-
 		/*
 		 * If the URL argument "cmsfile" is filled, the user has asked to co-sign
 		 * a previously signed CMS. We'll set the path to the CMS to be co-signed,
@@ -45,9 +42,7 @@ router.get('/', function(req, res, next) {
 		 *       being co-signed.
 		 */
 		signatureStarter.cmsToCoSign = StorageMock.getDataPath(req.query.cmsfile);
-
 	} else {
-
 		// If the URL argument "fileId" is filled, it means the user was
 		// redirected here by the route "upload" (signature with file uploaded by
 		// user). We'll set the path of the file to be signed, which was saved
@@ -78,7 +73,6 @@ router.get('/', function(req, res, next) {
 	// with the API access token.
 	signatureStarter.startWithWebPki()
 		.then((result) => {
-
 			// The token acquired above can only be used for a single signature
 			// attempt. In order to retry the signature it is necessary to get a new
 			// token. This can be a problem if the user uses the back button of the
@@ -92,12 +86,10 @@ router.get('/', function(req, res, next) {
 			res.render('cades-signature-restpki', {
 				token: result.token,
 				fileId: req.query.fileId,
-				cmsfile: req.query.cmsfile
+				cmsfile: req.query.cmsfile,
 			});
-
 		})
 		.catch((err) => next(err));
-
 });
 
 /*
@@ -106,11 +98,10 @@ router.get('/', function(req, res, next) {
  * This route receives the form submission from the view 'cades-signature'.
  * We'll call REST PKI to complete the signature.
  */
-router.post('/', function(req, res, next) {
-
+router.post('/', (req, res, next) => {
 	// Get an instance of the CadesSignatureFinisher class, responsible for
 	// completing the signature process.
-	let signatureFinisher = new CadesSignatureFinisher(Util.getRestPkiClient());
+	const signatureFinisher = new CadesSignatureFinisher(Util.getRestPkiClient());
 
 	// Set the token.
 	signatureFinisher.token = req.body.token;
@@ -119,17 +110,16 @@ router.post('/', function(req, res, next) {
 	// returns the SignatureResult object.
 	signatureFinisher.finish()
 		.then((result) => {
-
 			// The "certificate" property of the SignatureResult object contains
 			// information about the certificate used by the user to sign the file.
-			let signerCert = result.certificate;
+			const signerCert = result.certificate;
 
 			// At this point, you'd typically store the signed PDF on you database.
 			// For demonstration purposes, we'll store the PDF on a temporary folder
 			// publicly accessible and render a link to it.
 
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
-			let filename = uuidv4() + '.p7s';
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
+			const filename = `${uuidv4()}.p7s`;
 
 			// The SignatureResult object has functions for writing the signature file
 			// to a local life (writeToFile()) and to get its raw contents
@@ -140,12 +130,10 @@ router.post('/', function(req, res, next) {
 			// Render the result page.
 			res.render('cades-signature-restpki/complete', {
 				cmsFile: filename,
-				signerCert: signerCert
+				signerCert,
 			});
-
 		})
 		.catch((err) => next(err));
-
 });
 
 module.exports = router;
