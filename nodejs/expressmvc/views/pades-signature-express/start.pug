@@ -2,39 +2,39 @@ extends ../layout
 
 block content
 
-	h2(class='ls-title') PAdES Signature with PKI Express
+   h2(class='ls-title') PAdES Signature with PKI Express
 
-	form(id='signForm', action=`/pades-signature-express/complete?fileId=${fileId}`, method='POST')
+   form(id='signForm', action=`/pades-signature-express/complete?fileId=${fileId}`, method='POST')
 
-		//- Hidden fields to be used to pass data from the action to the "signature complete form" javascript (see
-		//- signature-complete-form.js) and vice-versa.
-		input(type='hidden', name='certThumbField', id='certThumb' value=certThumb)
-		input(type='hidden', name='transferFileField', id='transferFile' value=transferFile)
-		input(type='hidden', name='toSignHashField', id='toSignHash' value=toSignHash)
-		input(type='hidden', name='digestAlgorithmField', id='digestAlgorithm' value=digestAlgorithm)
-		input(type='hidden', name='signatureField', id='signature')
+      //- Hidden fields to be used to pass data from the action to the "signature complete form" javascript (see
+      //- signature-complete-form.js) and vice-versa.
+      input(type='hidden', name='certThumbField', id='certThumb' value=certThumb)
+      input(type='hidden', name='transferFileField', id='transferFile' value=transferFile)
+      input(type='hidden', name='toSignHashField', id='toSignHash' value=toSignHash)
+      input(type='hidden', name='digestAlgorithmField', id='digestAlgorithm' value=digestAlgorithm)
+      input(type='hidden', name='signatureField', id='signature')
 
-		a(id='tryAgainButton', class='btn btn-primary' href=`/pades-signature-express?fileId=${fileId}`) Try Again
+      a(id='tryAgainButton', class='btn btn-primary' href=`/pades-signature-express?fileId=${fileId}`) Try Again
 
 block scripts
 
-	//- The file below contains the JS lib for accessing the Web PKI component. For more information, see:
-	//- https://webpki.lacunasoftware.com/#/Documentation
-	script(type='text/javascript', src='https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js', integrity='sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA=', crossorigin='anonymous')
+   //- The file below contains the JS lib for accessing the Web PKI component. For more information, see:
+   //- https://webpki.lacunasoftware.com/#/Documentation
+   script(type="text/javascript", src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js", integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300=", crossorigin="anonymous")
 
-	//- The file below contains the logic for calling the Web PKI component. It is only an example, feel free to alter
-	//- it to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
-	script(src="/javascripts/signature-complete-form.js")
+   //- The file below contains the logic for calling the Web PKI component. It is only an example, feel free to alter
+   //- it to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
+   script(src="/javascripts/signature-complete-form.js")
 
-	script.
-		$(document).ready(function() {
-			// Once the page is ready, we call the init() function on the javascript code (see signature-complete-form.js).
-			signatureCompleteForm.init({
-				form: $('#signForm'),                         // The form that should be submitted when the operation is completed.
-				certThumbField: $('#certThumb'),              // The "certificate thumbprint" hidden field reference.
-				toSignHashField: $('#toSignHash'),            // The "to sign hash" hidden field reference.
-				digestAlgorithmField: $('#digestAlgorithm'),  // The "digest algorithm" hidden field reference.
-				signatureField: $('#signature'),              // The "signature" hidden field reference.
-				tryAgainButton: $('#tryAgainButton')          // The "Try Again" button reference.
-			});
-		});
+   script.
+      $(document).ready(function() {
+         // Once the page is ready, we call the init() function on the javascript code (see signature-complete-form.js).
+         signatureCompleteForm.init({
+            form: $('#signForm'),                         // The form that should be submitted when the operation is completed.
+            certThumbField: $('#certThumb'),              // The "certificate thumbprint" hidden field reference.
+            toSignHashField: $('#toSignHash'),            // The "to sign hash" hidden field reference.
+            digestAlgorithmField: $('#digestAlgorithm'),  // The "digest algorithm" hidden field reference.
+            signatureField: $('#signature'),              // The "signature" hidden field reference.
+            tryAgainButton: $('#tryAgainButton')          // The "Try Again" button reference.
+         });
+      });
