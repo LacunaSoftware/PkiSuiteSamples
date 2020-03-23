@@ -90,7 +90,7 @@ router.post('/', (req, res, next) => {
 			// For demonstration purposes, we'll store the XML on a temporary folder
 			// publicly accessible and render a link to it.
 
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists.
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 			const filename = `${uuidv4()}.xml`;
 			// The SignatureResult object has functions for writing the signature file
 			// to a local file (writeToFile()) and to get its raw contents

@@ -38,6 +38,30 @@ module.exports = {
 	},
 
 	// --------------------------------------------------------------------------
+	// Amplia
+	// --------------------------------------------------------------------------
+	amplia: {
+
+		// The CA's id that will be used to issue a certificate using Amplia. We
+		// have configured to the sample CA from sample subscription for these
+		// samples.
+		caId: 'eaffa754-1fb5-474a-b9ef-efe43101e89f',
+
+		// ========================================================
+		//     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
+		// ========================================================
+		apiKey: 'pki-suite-samples-01|7b8ce23fa7a74a42a8dd478ac5da0dd265a9cf3e991122b74dbab89ab5e815fb',
+		// This is a TRIAL API key to use Amplia. It will expire at 30/04/2020
+		// If the Amplia's samples do not work please contact our support by email:
+		// suporte@lacunasoftware.com
+		//
+		// In order to use this sample on a "on premises" installation of
+		// Amplia, fill the field below with the URL address of your REST PKI
+		// installation (with the trailing '/' character).
+		endpoint: 'https://amplia.lacunasoftware.com/'
+	},
+
+	// --------------------------------------------------------------------------
 	// PKI Express
 	// --------------------------------------------------------------------------
 	pkiExpress: {

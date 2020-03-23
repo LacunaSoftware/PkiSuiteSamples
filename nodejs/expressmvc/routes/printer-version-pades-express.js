@@ -301,7 +301,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 			pdfMarker.marks.push(manifestMark);
 
 			// Generate path for output file and add the marker.
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists.
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 			outputFile = `${uuidv4()}.pdf`;
 			pdfMarker.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 

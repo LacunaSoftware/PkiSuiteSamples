@@ -2,6 +2,7 @@ const { RestPkiClient, StandardSecurityContexts } = require('restpki-client');
 const { TimestampAuthority } = require('pki-express');
 const fs = require('fs');
 const crypto = require('crypto');
+const { AmpliaClient } = require("amplia-client");
 const { Config } = require('./config');
 const { StorageMock } = require('./storage-mock');
 
@@ -66,6 +67,44 @@ class Util {
 		// Otherwise, accept only certificates from ICP-Brasil, by passing the
 		// "PKI_BRAZIL" security context.
 		return StandardSecurityContexts.PKI_BRAZIL;
+	}
+
+	// endregion
+
+	// region Amplia Configuration
+
+	/**
+	 * Creates an instance of the AmpliaClient, use to the perform request to
+	 * Amplia API. Here the default configuration will be set to the client
+	 * before it would be used on the sample.
+	 */
+	static getAmpliaClient() {
+
+		// Get configuration from config/{env}.js file. It will choose the
+		// desirable configuration according to the environment of the
+		// application.
+		let CONFIG = Config.getInstance().get('amplia');
+
+		// Get Amplia API key to be used on the requests authentication.
+		let key = CONFIG['apiKey'];
+
+		// Throw exception if API key is not set (this check is here just for the
+		// sake of newcomers, you can remove it).
+		if (!key || key.indexOf(' API KEY ') >= 0) {
+			throw new Error('The Amplia API key was not set! Hint: to run this ' +
+				'sample you must generate an API key on the Amplia website and ' +
+				'paste it on the file config/default.js.');
+		}
+
+		// Get Amplia endpoint.
+		let endpoint = CONFIG['endpoint'];
+
+		// Return an instance of AmpliaClient class, passing the endpoint and the
+		// API key.
+		return new AmpliaClient({
+			endpoint: endpoint,
+			apiKey: key
+		});
 	}
 
 	// endregion
@@ -136,6 +175,20 @@ class Util {
 			array[i] += start;
 		}
 		return array;
+	}
+
+	static formatDate(date) {
+		let day = date.getDate().toString();
+		let month = (date.getMonth() + 1).toString();
+		let year = date.getFullYear().toString();
+		return `${month.padStart(2, '0')}-${day.padStart(2, '0')}-${year.padStart(2, '0')}`;
+	}
+
+	static getTwoYearsFromNowDate() {
+		let today = new Date();
+		let year = today.getFullYear();
+		today.setFullYear(year + 2);
+		return Util.formatDate(today);
 	}
 
 	static getValidationResultIcon(isValid) {

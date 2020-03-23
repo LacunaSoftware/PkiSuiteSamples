@@ -20,10 +20,14 @@ block scripts
          },
          cosignPdf: {
             express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=cosignPdf',
-            restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
+            restpki: '/checiek-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
          },
-         // issueCertServer: { },
-         // issueCertUser: { },
+         issueCertServer: {
+            amplia: '/check-amplia-api-key?rc=issue-cert-server'
+         },
+         issueCertUser: {
+            amplia: '/check-amplia-api-key?rc=issue-cert-user'
+         },
          listCert: {
             select2: '/list-cert-select2',
             jquery: '/list-cert-jquery'

@@ -77,7 +77,7 @@ router.post('/complete', (req, res, next) => {
 			// At this point, you'd typically store the signed PDF on your database.
 			// For demonstration purposes, we'll store the CMS on a temporary folder
 			// publicly accessible and render a link to it.
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
 			const filename = `${uuidv4()}.p7s`;
 
 			// The SignatureResult object has functions for writing the signature file

@@ -32,6 +32,10 @@ router.post('/', upload.single('userfile'), (req, res) => {
 	if (fileId) {
 		redirectUrl += `?fileId=${fileId}`;
 	}
+	if (req.query['certId']) {
+		let querySymbol = fileId ? '&' : '?';
+		redirectUrl += `${querySymbol}certId=${req.query['certId']}`;
+	}
 	res.redirect(redirectUrl);
 });
 

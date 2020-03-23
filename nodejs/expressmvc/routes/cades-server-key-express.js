@@ -60,7 +60,7 @@ router.get('/', (req, res, next) => {
 		signer._encapsulatedContent = true;
 
 		// Generate path for output file and add the signature finisher.
-		StorageMock.createAppData(); // Make sure the "app-data" folder exists.
+		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 		// Perform the signature.
 		const getCert = true;

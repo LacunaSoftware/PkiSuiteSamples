@@ -118,7 +118,7 @@ router.post('/', (req, res, next) => {
 			// For demonstration purposes, we'll store the PDF on a temporary folder
 			// publicly accessible and render a link to it.
 
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
 			const filename = `${uuidv4()}.p7s`;
 
 			// The SignatureResult object has functions for writing the signature file

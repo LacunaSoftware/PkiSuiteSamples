@@ -52,7 +52,7 @@ class StorageMock {
 
 	static storeSync(content, filename = null, extension = '') {
 		// Guarantees that the 'app-data' folder exists.
-		StorageMock.createAppData();
+		StorageMock.createAppDataSync();
 
 		// Generate fileId.
 		if (!filename) {
@@ -163,11 +163,15 @@ class StorageMock {
 		return fs.readFileSync(path.join(APP_ROOT, 'public', 'PdfStamp.png'));
 	}
 
+	static getSamplePkcs12Path() {
+		return path.join(APP_ROOT, 'public', 'Pierre de Fermat.pfx');
+	}
+
 	static getBatchDocPath(id) {
 		return path.join(APP_ROOT, 'public', `0${id % 10}.pdf`);
 	}
 
-	static createAppData() {
+	static createAppDataSync() {
 		if (!fs.existsSync(StorageMock.appDataPath)) {
 			fs.mkdirSync(StorageMock.appDataPath);
 		}

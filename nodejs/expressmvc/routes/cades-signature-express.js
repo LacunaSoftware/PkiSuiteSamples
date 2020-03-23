@@ -119,7 +119,7 @@ router.post('/complete', (req, res, next) => {
 	signatureFinisher.signature = signature;
 
 	// Generate path for output file and add to the signature finisher.
-	StorageMock.createAppData(); // Guarantees that "app data" folder exists.
+	StorageMock.createAppDataSync(); // Guarantees that "app data" folder exists.
 	const outputFile = `${uuidv4()}.p7s`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 

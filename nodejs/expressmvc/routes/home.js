@@ -73,4 +73,27 @@ router.get('/check-restpki-token', (req, res) => {
 	}
 });
 
+/**
+ * GET /check-amplia-api-key
+ *
+ * ...
+ */
+router.get('/check-amplia-api-key', (req, res) => {
+	const { apiKey } = Config.getInstance().get('amplia');
+	if (!apiKey || apiKey.indexOf(' API KEY ') >= 0) {
+		res.render('home/amplia-api-key-not-set');
+	} else {
+		const { rc, fwd, op } = req.query;
+		if (fwd) {
+			if (op) {
+				res.redirect(`/${rc}?rc=${fwd}-amplia&op=${op}`);
+			} else {
+				res.redirect(`/${rc}?rc=${fwd}-amplia`);
+			}
+		} else {
+			res.redirect(`/${rc}-amplia`);
+		}
+	}
+});
+
 module.exports = router;

@@ -1,53 +1,56 @@
 extends ../layout
 
 block content
-   h2 Check signatures on printer-friendly PDF with PKI Express
+   h2(class='ls-title') Check signatures on printer-friendly PDF with PKI Express
+   h3(class='ls-subtitle') Signature Information
 
-   h3 The given file contains #{signature.signers.length} signatures:
+   div(class="ls-content")
+      p The given file contains #{signature.signers.length} signatures:
+      div(id="accordion")
+         each signer, index in signature.signers
+            - let collapseId = "signer_"+index+"_collapse"
+            - let headingId = "signer_"+index+"_heading"
 
-   div(class="panel-group", id="accordion", role="tablist", aria-multiselectable="true")
+            div(class="card")
+               div(class="card-header open-header" id=headingId)
+                  a(class="collapsed" role="button" data-toggle="collapse" href=`#${collapseId}` aria-expanded="true" aria-controls=`${collapseId}`) #{signer.certificate.subjectName.commonName}
 
-      each signer, index in signature.signers
-         - var collapseId = `signer_${index}_collapse`;
-         - var headingId = `signer_${index}_heading`;
+                  if signer.validationResults
+                     span &nbsp;
+                     if signer.validationResults.isValid()
+                        i(class="fas fa-check-circle text-success")
+                     else
+                        i(class="fas fa-times-circle text-danger")
 
-         div(class="panel panel-default")
-            div(class="panel-heading", role="tab", id=`${headingId}`)
-               h4(class="panel-title")
-                  a(class="collapsed", role="button", data-toggle="collapse", data-parent="#accordion" href=`#${collapseId}`, aria-expanded="true", aria-controls=`${collapseId}`)
-                     | #{signer.certificate.subjectName.commonName}
-                     if signer.validationResults
-                        text &nbsp;-&nbsp;
-                        if signer.validationResults.isValid()
-                           span(style="color: green; font-weight: bold;") valid
-                        else
-                           span(style="color: red; font-weight: bold;") invalid
-
-            div(id=`${collapseId}`, class="panel-collapse collapse", role="tabpanel", aria-labelledby=`${headingId}`)
-               div(class="panel-body")
-                  p Signing time: #{signer.signingTime}
-                  p Message digest: #{signer.messageDigest.algorithm.name} #{signer.messageDigest.hexValue.toUpperCase()}
-                  if signer.signaturePolicy
-                     p Signature policy: #{signer.signaturePolicy.oid}
-                  p
-                  | Signer information:
-                  ul
-                     li Subject: #{signer.certificate.subjectName.commonName}
-                     li Email: #{signer.emailAddress}
-                     li ICP-Brasil fields:
+               div(id=collapseId class="collapse" role="tabpanel" aria-labelledby=headingId data-parent="#accordion")
+                  div(class="card-body")
+                     if signer.signingTime
+                        //- Date format when converting date into a string using moment library, passed throw the
+                        //- middleware (see https://momentjs.com/docs/#/displaying/format for other date formats).
+                        - var dateFormat = 'DD/MM/YYYY HH:mm';
+                        p Signing time: #{moment(signer.signingTime).format(dateFormat)}
+                     p
+                     | Message digest: #{signer.messageDigest.algorithm.name} #{signer.messageDigest.hexValue.toUpperCase()}
+                     if signer.signaturePolicy
+                        p
+                        | Signature policy: #{signer.signaturePolicy.oid}
+                     p
+                        | Signer information:
                         ul
-                           li Tipo de certificado: #{signer.certificate.pkiBrazil.certificateType}
-                           li CPF: #{signer.certificate.pkiBrazil.cpfFormatted}
-                           li Responsavel: #{signer.certificate.pkiBrazil.responsavel}
-                           li Empresa: #{signer.certificate.pkiBrazil.companyName}
-                           li CNPJ: #{signer.certificate.pkiBrazil.cnpjFormatted}
-                           li RG: #{signer.certificate.pkiBrazil.rgNumero} #{signer.certificate.pkiBrazil.rgEmissor} #{signer.certificate.pkiBrazil.rgEmissorUF}
-                           li OAB: #{signer.certificate.pkiBrazil.oabNumero} #{signer.certificate.pkiBrazil.oabUF}
-
-                  p Validation Results:
-
-                  p
-                     textarea(style="width: 100%" rows="20") #{signer.validationResults.toString()}
+                           li Subject: #{signer.certificate.subjectName.commonName}
+                           li Email: #{signer.certificate.emailAddress}
+                           li ICP-Brasil fields
+                              ul
+                                 li Tipo de certificado: #{signer.certificate.pkiBrazil.certificateType}
+                                 li CPF: #{signer.certificate.pkiBrazil.cpfFormatted}
+                                 li Responsavel: #{signer.certificate.pkiBrazil.responsavel}
+                                 li Empresa: #{signer.certificate.pkiBrazil.companyName}
+                                 li CNPJ: #{signer.certificate.pkiBrazil.cnpjFormatted}
+                                 li RG: #{signer.certificate.pkiBrazil.rgNumero} #{signer.certificate.pkiBrazil.rgEmissor} #{signer.certificate.pkiBrazil.rgEmissorUF}
+                                 li OAB: #{signer.certificate.pkiBrazil.oabNumero} #{signer.certificate.pkiBrazil.oabUF}
+                     if signer.validationResults
+                        label(for="validations") Validation results
+                        textarea(id="validations" style="width: 100%;" rows="20") #{signer.validationResults}
 
    h3 Actions:
    ul

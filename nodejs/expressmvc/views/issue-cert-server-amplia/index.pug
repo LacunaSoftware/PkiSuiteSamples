@@ -1,0 +1,42 @@
+extends ../layout
+
+block content
+
+   h2 Issue a certificate storing the private key on the server
+
+   form(id='issueForm', method='POST')
+
+      h4 ICP-Brazil Certificate
+
+      div(class='form-group')
+         label
+            b Subject Name
+         div(class='row')
+            div(class='col col-sm-4')
+               input(id='subjectNameField', name='subjectName', class="form-control", type="text", placeholder='Name', required=true)
+
+      div(class='form-group')
+         label
+            b CPF
+         div(class='row')
+            div(class='col col-sm-2')
+               input(id='cpfField', name='cpf', class="form-control", type="text", placeholder='Nº CPF', required=true)
+
+      button(id='issueButton', class='btn btn-primary') Issue Certificate
+
+block scripts
+
+   //- The file below contains the logic for filling and validating form. It is only an example, feel free to alter
+   //- it to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
+   script(src='/javascripts/issue-cert-form.js')
+
+   script.
+      $(document).ready(function () {
+         // Once the page is ready, we call the init() function on the javascript code (see issue-cert-form.js).
+         issueCertForm.init({
+            issueForm: $('#issueForm'),               // The form that should be submitted when the button "issueButton" is clicked.
+            subjectNameField: $('#subjectNameField'), // The "subjectName" field reference.
+            cpfField: $('#cpfField'),                 // The "cpf" field reference.
+            issueButton: $('#issueButton')            // The button that initiates the issuing operation on server-side.
+         });
+      });

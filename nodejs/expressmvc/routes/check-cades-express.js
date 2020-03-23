@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
 	sigExplorer.securityContextId = Util.getSecurityContextId(res.locals.environment);
 
 	// Generate path for output file and add the signature finisher.
-	StorageMock.createAppData(); // Make sure the "app-data" folder exists (util.js).
+	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
 	const extractedContent = `${uuidv4()}.pdf`;
 	sigExplorer.setExtractContentPath(path.join(APP_ROOT, 'app-data', extractedContent));
 

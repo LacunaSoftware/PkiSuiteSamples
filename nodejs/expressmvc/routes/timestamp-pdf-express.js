@@ -53,7 +53,7 @@ function generateTimestampVersion(pdfPath) {
 		// Set the PDF to be timestamped.
 		stamper.setPdfFromPath(pdfPath).then(() => {
 			// Generate path for output file and add to the stamper.
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists.
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 			const outputFile = `${uuidv4()}.pdf`;
 			const outputFilePath = path.join(APP_ROOT, 'app-data', outputFile);
 			stamper.setOutputFilePath(outputFilePath);

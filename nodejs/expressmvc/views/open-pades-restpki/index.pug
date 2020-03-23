@@ -15,11 +15,11 @@ block content
                   <a class="collapsed" role="button" data-toggle="collapse" href="##{collapseId}" aria-expanded="true" aria-controls=#{collapseId}> #{signer.certificate.subjectName.commonName} </a>
 
                   if signer.validationResults
-                     span
+                     span &nbsp;
                      if signer.validationResults.isValid()
-                        span(class="badge badge-success") valid
+                        i(class="fas fa-check-circle text-success")
                      else
-                        span(class="badge badge-danger") invalid
+                        i(class="fas fa-times-circle text-danger")
 
                div(id=collapseId class="collapse" role="tabpanel" aria-labelledby=headingId data-parent="#accordion")
                   div(class="card-body")
