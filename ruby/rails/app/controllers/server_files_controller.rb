@@ -43,13 +43,19 @@ class ServerFilesController < ApplicationController
 
     # Copy file to the temporary folder, where the upload files are stored.
     file_id = nil
-    File.open(path, 'rb') do |file|
-      file_id = store(file.read, 'pdf', filename)
+    if(params[:is_cms_cosign] == 'false')
+      File.open(path, 'rb') do |file|
+        file_id = store(file.read, 'pdf', filename)
+      end
+    elsif(params[:is_cms_cosign] == 'true')
+      File.open(path, 'rb') do |file|
+        file_id = store(file.read, 'p7s', filename)
+      end
     end
 
     # Only the REST PKI sample needs to pass this file as "cosign" variable when
     # cosigning a CMS file.
-    if params[:rc] == 'cades-signature-rest' && params[:is_cms_cosign]
+    if (params[:rc] == 'cades-signature-rest') && (params[:is_cms_cosign] == 'true')
       redirect_to "/#{params[:rc]}/cosign/#{file_id}"
     else
       redirect_to "/#{params[:rc]}/#{file_id}"

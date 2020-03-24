@@ -8,7 +8,9 @@
             // express: ,
             restpki: 'check-rest-token/authentication/'
          },
-        // cosignCms: { },
+        cosignCms: { 
+            restpki: 'check-rest-token/server-files/cades-signature/cosign-cms'
+        },
         cosignPdf: {
             express: 'check-express/server-files/pades-signature/cosign-pdf',
             restpki: 'check-rest-token/server-files/pades-signature/cosign-pdf'
@@ -29,8 +31,12 @@
         rsa: { 
             webpki: '/rsa-web/'
         },
-        // signCmsServer: { },
-        // signCmsUser: { },
+        signCmsServer: {
+            restpki: 'check-rest-token/server-files/cades-signature/sign-cms'
+         },
+        signCmsUser: {
+            restpki: 'check-rest-token/upload/cades-signature'
+         },
         // signCmsServerKey: { },
         // signCod: { },
         // signMultiCmsServer: { },
