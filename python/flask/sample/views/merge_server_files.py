@@ -26,18 +26,17 @@ def index(rc):
         sample_id = int(request.form['selectedSample'])
         data_file = get_sample_doc_name(SampleDocs.CMS_DATA_FILE)
 
-        redirect_url = rc
+        redirect_url = rc + "/"
 
         if sample_id == 0:
-            redirect_url += "/detached/" + copy_from_static_to_app_data(data_file) + '/'
+            redirect_url += copy_from_static_to_app_data(data_file) + '/'
             file1 = get_sample_doc_name(SampleDocs.CMS_DETACHED_1)
             file2 = get_sample_doc_name(SampleDocs.CMS_DETACHED_2)
         elif sample_id == 1:
-            redirect_url += "/mixed/" + copy_from_static_to_app_data(data_file) + '/'
+            redirect_url += copy_from_static_to_app_data(data_file) + '/'
             file1 = get_sample_doc_name(SampleDocs.CMS_ATTACHED_1)
             file2 = get_sample_doc_name(SampleDocs.CMS_DETACHED_2)
         else:
-            redirect_url += "/attached/"
             file1 = get_sample_doc_name(SampleDocs.CMS_ATTACHED_1)
             file2 = get_sample_doc_name(SampleDocs.CMS_ATTACHED_2)
 
@@ -51,7 +50,7 @@ def copy_from_static_to_app_data(filename):
     with open(os.path.join(current_app.static_folder, filename), 'rb') as f:
         sample_file = f.read()
     # Generate a unique filename.
-    new_filename = '%s.%s' % (str(uuid.uuid4()), 'pdf')
+    new_filename = '%s.%s' % (str(uuid.uuid4()), 'p7s')
 
     # Move the file to the "app_data" with the unique filename. Make sure
     # the "app_data" folder exists (static/util.py).
