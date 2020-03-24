@@ -32,7 +32,7 @@ var signatureForm = (function () {
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
-			defaultError: onWebPkiError, // Generic error callback defined below.
+			defaultFail: onWebPkiError,  // Generic error callback defined below.
 			restPkiUrl: _restPkiEndpoint // REST PKI endpoint to communication between Web PKI.
 		});
 	}

@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+   h2(class="ls-title") CAdES Signature using Server Key with PKI Express
+   h5(class="ls-subtitle")
+      | File signed successfully!&nbsp;
+      i(class="fas fa-check-circle text-success")
+   div(class="ls-content")
+
+      p
+         | Signer information:
+         ul
+            li Subject: #{signerCert.subjectName.commonName}
+            li Email: #{signerCert.emailAddress}
+            li ICP-Brasil fields
+               ul
+                  li Tipo de certificado: #{signerCert.pkiBrazil.certificateType}
+                  li CPF: #{signerCert.pkiBrazil.cpfFormatted}
+                  li Responsavel: #{signerCert.pkiBrazil.responsavel}
+                  li Empresa: #{signerCert.pkiBrazil.companyName}
+                  li CNPJ: #{signerCert.pkiBrazil.cnpjFormatted}
+                  li RG: #{signerCert.pkiBrazil.rgNumero} #{signerCert.pkiBrazil.rgEmissor} #{signerCert.pkiBrazil.rgEmissorUF}
+                  li OAB: #{signerCert.pkiBrazil.oabNumero} #{signerCert.pkiBrazil.oabUF}
+
+      h3 Actions:
+      ul
+         li
+            a(href=`/download?fileId=${cmsFile}`, target='_blank') Download the signed file
+         li
+            a(href=`printer-version-cades-express?fileId=${cmsFile}`, target='_blank') Download a printer-friendly version of the signed file
+         li
+            a(href=`/open-cades-express?fileId=${cmsFile}`) Open/validate the signed file
+         li
+            a(href=`/cades-signature-express?cmsfile=${cmsFile}`) Co-sign with another certificate

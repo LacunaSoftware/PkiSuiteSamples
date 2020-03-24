@@ -5,18 +5,18 @@
   "autoload": {
     "files": [
       "Util.php",
-      "PadesVisualElementsRestPki.php",
+      "PadesVisualElementsRest.php",
       "PadesVisualElementsExpress.php",
       "StorageMock.php",
       "config.php"
     ]
   },
   "require": {
-    "lacuna/restpki-client": "^2.3.4",
+    "lacuna/restpki-client": "^2.4.0",
     "lacuna/pki-express": "^1.6.0",
     "lacuna/amplia-client": "^1.0.2"
   },
   "config": {
-	"process-timeout": 0
+    "process-timeout": 0
   }
 }

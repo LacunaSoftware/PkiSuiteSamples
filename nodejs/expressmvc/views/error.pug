@@ -1,17 +1,17 @@
 extends layout
 
 block content
-	h2(class='ls-title') Some error has occurred
-	h4 Route: #{method} #{route}
+   h2(class='ls-title') Some error has occurred
+   h4 Route: #{method} #{route}
 
-	br
-	if statusCode
-		label(for='status') Status Code
-		p(id='status') #{statusCode}
+   br
+   if statusCode
+      label(for='status') Status Code
+      p(id='status') #{statusCode}
 
-	label(for='message') Error Message
-	p(id='message') #{errorMessage}
+   label(for='message') Error Message
+   p(id='message') #{errorMessage}
 
-	if stackTrace
-		label(for='trace') Stack Trace
-		textarea(class='form-control', id='trace', rows='30', style='width: 100%; margin-bottom: 15px; word-break: break-all; resize: none;') #{stackTrace}
+   if stackTrace
+      label(for='trace') Stack Trace
+      textarea(class='form-control', id='trace', rows='30', style='width: 100%; margin-bottom: 15px; word-break: break-all; resize: none;') #{stackTrace}

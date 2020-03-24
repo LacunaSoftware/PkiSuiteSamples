@@ -4,10 +4,8 @@ const { StorageMock } = require('./storage-mock');
 const { Util } = require('./util');
 
 class PadesVisualElementsRestPki {
-
 	static getVisualRepresentation() {
-
-		let visualRepresentation = {
+		const visualRepresentation = {
 			text: {
 
 				// For a full list of the supported tags, see:
@@ -25,32 +23,30 @@ class PadesVisualElementsRestPki {
 					left: 0.2,
 					top: 0.2,
 					right: 0.2,
-					bottom: 0.2
-				}
+					bottom: 0.2,
+				},
 
 			},
 			image: {
 
 				// We'll use as background the image content/PdfStamp.png
 				resource: {
-					content: new Buffer(StorageMock.getPdfStampContent()).toString('base64'), // Base-64 encoded!
-					mimeType: 'image/png'
+					content: Buffer.from(StorageMock.getPdfStampContent()).toString('base64'), // Base-64 encoded!
+					mimeType: 'image/png',
 				},
 
 				// Align the image to the right horizontally.
 				horizontalAlign: 'Right',
 				// Align the image to the center vertically.
-				verticalAlign: 'Center'
-			}
+				verticalAlign: 'Center',
+			},
 		};
 
-		return new Promise(function (resolve, reject) {
-
+		return new Promise(((resolve, reject) => {
 			// Position of the visual representation. We get the footnote position
 			// preset and customize it.
 			PadesVisualPositioningPresets.getFootnote(Util.getRestPkiClient())
 				.then((visualPositioning) => {
-
 					// Customize position preset.
 					visualPositioning.auto.container.height = 4.94;
 					visualPositioning.auto.signatureRectangleSize.width = 8.0;
@@ -62,8 +58,7 @@ class PadesVisualElementsRestPki {
 					resolve(visualRepresentation);
 				})
 				.catch((err) => reject(err));
-
-		});
+		}));
 	}
 }
 

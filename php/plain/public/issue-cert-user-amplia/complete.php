@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <?php include '../head.php' ?>
+    <?php include '../shared/head.php' ?>
 </head>
 <body>
 
-<?php include '../menu.php' ?>
+<?php include '../shared/menu.php' ?>
 
 <div class="container content">
     <h2 class="ls-title">Issue a certificate storing the key on the user's machine with Amplia</h2>
@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<?php include '../scripts.php' ?>
+<?php include '../shared/scripts.php' ?>
 
 </body>
 </html>

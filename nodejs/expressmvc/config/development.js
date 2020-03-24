@@ -22,12 +22,18 @@ module.exports = {
 	// 	license: '...'
 	// },
 
-
 	// REST PKI
 	// restPki: {
 	// 	accessToken: '...',
 	// 	endpoint: '...'
 	// },
+
+	// Amplia
+	// amplia: {
+	// 	caId: '...',
+	// 	apiKey: '...',
+	// 	endpoint: '...'
+	// }
 
 	// // PKI Express
 	// pkiExpress: {
