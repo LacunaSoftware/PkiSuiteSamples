@@ -29,6 +29,12 @@ Rails.application.routes.draw do
   get '/cades-signature-rest/cosign/:cmsfile', action: :index, controller: :cades_signature_rest, as: :cades_cosignature_rest
   post '/cades-signature-rest/', action: :action, controller: :cades_signature_rest, as: :cades_signature_post_rest
 
+  get '/xml-signature-rest/', action: :index, controller: :xml_signature_rest, as: :xml_signature_rest
+  post '/xml-signature-rest/', action: :action, controller: :xml_signature_rest
+
+  get '/xml-nfe-signature-rest/', action: :index, controller: :xml_nfe_signature_rest, as: :xml_nfe_signature_rest
+  post '/xml-nfe-signature-rest/', action: :action, controller: :xml_nfe_signature_rest
+
   get '/authentication-rest/', action: :index, controller: :authentication_rest, as: :authentication_rest
   post '/authentication-rest/', action: :action, controller: :authentication_rest
 

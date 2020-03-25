@@ -92,6 +92,10 @@ module StorageMock
       'SampleCms.p7s'
     when :cms_signed_twice
       'SampleCmsSignedTwice.p7s'
+    when :sample_xml
+      'SampleXML.xml'
+    when :sample_nfe
+      'SampleNFe.xml'
     else
       raise Exception('File not found')
     end
