@@ -25,6 +25,10 @@ Rails.application.routes.draw do
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest
 
+  get '/batch-pades-rest/', action: :index, controller: :batch_pades_rest, as: :batch_pades_rest
+  post '/batch-pades-rest/start/', action: :start, controller: :batch_pades_rest
+  post '/batch-pades-rest/complete/', action: :complete, controller: :batch_pades_rest
+
   get '/cades-signature-rest/:file_id', action: :index, controller: :cades_signature_rest, as: :cades_signature_rest
   get '/cades-signature-rest/cosign/:cmsfile', action: :index, controller: :cades_signature_rest, as: :cades_cosignature_rest
   post '/cades-signature-rest/', action: :action, controller: :cades_signature_rest, as: :cades_signature_post_rest
