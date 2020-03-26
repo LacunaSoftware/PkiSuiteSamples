@@ -33,6 +33,10 @@ Rails.application.routes.draw do
   get '/cades-signature-rest/cosign/:cmsfile', action: :index, controller: :cades_signature_rest, as: :cades_cosignature_rest
   post '/cades-signature-rest/', action: :action, controller: :cades_signature_rest, as: :cades_signature_post_rest
 
+  get '/batch-cades-rest/', action: :index, controller: :batch_cades_rest, as: :batch_cades_rest
+  post '/batch-cades-rest/start/', action: :start, controller: :batch_cades_rest
+  post '/batch-cades-rest/complete/', action: :complete, controller: :batch_cades_rest
+
   get '/xml-signature-rest/', action: :index, controller: :xml_signature_rest, as: :xml_signature_rest
   post '/xml-signature-rest/', action: :action, controller: :xml_signature_rest
 
