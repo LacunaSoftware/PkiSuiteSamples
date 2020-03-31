@@ -50,7 +50,15 @@ Rails.application.routes.draw do
   post '/pades-signature-express/start/:file_id', action: :start, controller: :pades_signature_express
   post '/pades-signature-express/complete/:file_id', action: :complete, controller: :pades_signature_express
 
+  get '/batch-pades-express/', action: :index, controller: :batch_pades_express, as: :batch_pades_express
+  post '/batch-pades-express/start/', action: :start, controller: :batch_pades_express
+  post '/batch-pades-express/complete/', action: :complete, controller: :batch_pades_express
+
   get '/cades-signature-express/:file_id', action: :index, controller: :cades_signature_express, as: :cades_signature_express
   post '/cades-signature-express/start/:file_id', action: :start, controller: :cades_signature_express, as: :cades_signature_start_express
   post '/cades-signature-express/complete/:file_id', action: :complete, controller: :cades_signature_express, as: :cades_signature_complete_express
+
+  get '/batch-cades-express/', action: :index, controller: :batch_cades_express, as: :batch_cades_express
+  post '/batch-cades-express/start/', action: :start, controller: :batch_cades_express
+  post '/batch-cades-express/complete/', action: :complete, controller: :batch_cades_express
 end
