@@ -49,4 +49,8 @@ Rails.application.routes.draw do
   get '/pades-signature-express/:file_id', action: :index, controller: :pades_signature_express, as: :pades_signature_express
   post '/pades-signature-express/start/:file_id', action: :start, controller: :pades_signature_express
   post '/pades-signature-express/complete/:file_id', action: :complete, controller: :pades_signature_express
+
+  get '/cades-signature-express/:file_id', action: :index, controller: :cades_signature_express, as: :cades_signature_express
+  post '/cades-signature-express/start/:file_id', action: :start, controller: :cades_signature_express, as: :cades_signature_start_express
+  post '/cades-signature-express/complete/:file_id', action: :complete, controller: :cades_signature_express, as: :cades_signature_complete_express
 end
