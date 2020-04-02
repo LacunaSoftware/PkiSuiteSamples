@@ -99,7 +99,7 @@ var batchSignatureExpressForm = (function () {
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates,    // As soon as the component is ready we'll load the certificates.
-			defaultError: onWebPkiError // Generic error callback (see function declaration below).
+			defaultFail: onWebPkiError  // Generic error callback (see function declaration below).
 		});
 	}
 
@@ -230,7 +230,7 @@ var batchSignatureExpressForm = (function () {
 	function startSignature(step, done) {
 		// Call the server asynchronously to start the signature.
 		$.ajax({
-			url: '/batch-pades-signature-express/start',
+			url: formElements.ctrlEndpoint + '/start',
 			method: 'POST',
 			data: {
 				id: step.docId,
@@ -296,7 +296,7 @@ var batchSignatureExpressForm = (function () {
 	function completeSignature(step, done) {
 		// Call the server asynchronously to notify that the signature has been performed.
 		$.ajax({
-			url: 'batch-pades-signature-express/complete',
+			url: formElements.ctrlEndpoint + '/complete',
 			method: 'POST',
 			data: {
 				id: step.docId,

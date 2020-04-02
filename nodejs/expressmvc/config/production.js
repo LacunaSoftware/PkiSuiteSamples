@@ -26,14 +26,21 @@ module.exports = {
 	// },
 
 	// REST PKI
-	restPki: {
-		// accessToken: '...',
-		// endpoint: '...'
-	},
+	// restPki: {
+	// 	accessToken: '...',
+	// 	endpoint: '...'
+	// },
+
+	// Amplia
+	// amplia: {
+	// 	caId: '...',
+	// 	apiKey: '...',
+	// 	endpoint: '...'
+	// }
 
 	// PKI Express
-	pkiExpress: {
-		// trustedRoots: [...],
-		// offline: true | false,
-	},
+	// pkiExpress: {
+	// 	trustedRoots: [...],
+	// 	offline: true | false,
+	// },
 };

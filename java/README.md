@@ -91,6 +91,48 @@ If your project uses another tool for dependency resolution (e.g. Ivy), please v
 [package page on BinTray](https://bintray.com/lacunasoftware/maven/restpki-client) and click on
 the link "SET ME UP!".
 
+Amplia's client lib
+---------------------
+
+The samples use a client lib which encapsulates the API calls to Amplia. This library
+supports **Java 7 or greater**. The lib should be **referenced as a dependency**, as can
+be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
+
+	repositories {
+		mavenCentral()
+		maven {
+			url  "http://dl.bintray.com/lacunasoftware/maven" 
+		}
+	} 
+
+	dependencies {
+		compile("com.lacunasoftware.amplia:amplia-client:1.0.0")
+	}
+
+If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
+
+	<dependencies>
+		...
+		<dependency>
+			<groupId>com.lacunasoftware.amplia</groupId>
+			<artifactId>amplia-client</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		...
+	</dependencies>
+	...
+	<repositories>
+		<repository>
+			<id>lacuna.repository</id>
+			<name>lacuna repository</name>
+			<url>http://dl.bintray.com/lacunasoftware/maven</url>
+		</repository>
+	</repositories>
+
+If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
+[package page on BinTray](https://bintray.com/lacunasoftware/maven/amplia-client) and click on
+the link "SET ME UP!".
+
 PKI Express's helper library
 ----------------------------
 
