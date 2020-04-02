@@ -66,7 +66,6 @@ $signatureFinisher->complete();
     <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
     <div class="ls-content">
-        <p>File signed successfully!</p>
 
         <h3>Actions:</h3>
         <ul>
