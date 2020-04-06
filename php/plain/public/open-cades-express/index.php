@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Lacuna\PkiExpress\CadesSignatureExplorer;
 
@@ -48,7 +48,7 @@ $signature = $sigExplorer->open();
     <h2 class="ls-title">Open/validate existing CAdES signature with PKI Express</h2>
     <h3 class="ls-subtitle">The given file contains <?= count($signature->signers) ?> signatures:</h3>
 
-    <div class="ls-content">
+
         <div id="accordion">
             <?php for ($i = 0; $i < count($signature->signers); $i++) {
 
@@ -59,9 +59,8 @@ $signature = $sigExplorer->open();
                 ?>
                 <div class="card">
                     <div class="card-header open-header" id="<?= $headingId ?>">
-                        <a class="collapsed" role="button" data-toggle="collapse" href="#<?= $collapseId ?>" aria-expanded="true" aria-controls="<?= $collapseId ?>"><?= $signer->certificate->subject->commonName ?></a>
+                        <a class="collapsed" role="button" data-toggle="collapse" href="#<?= $collapseId ?>" aria-expanded="false" aria-controls="<?= $collapseId ?>"><?= $signer->certificate->subjectName->commonName ?></a>
                         <?php if ($signer->validationResults != null) { ?>
-                            <span>&nbsp;</span>
                             <?php if ($signer->validationResults->isValid()) { ?>
                                 <i class="fas fa-check-circle text-success"></i>
                             <?php } else { ?>
@@ -98,9 +97,8 @@ $signature = $sigExplorer->open();
                                 </li>
                             </ul>
                             <?php if ($signer->validationResults != null) { ?>
-                                <label for="validations">Validation results:
-                                    <textarea id=" validations" style="width: 100%;" rows="20"><?= $signer->validationResults ?></textarea>
-                                </label>
+                                <label for="validations">Validation results:</label>
+                                <textarea id=" validations" style="width: 100%;" rows="20"><?= $signer->validationResults ?></textarea>
                             <?php } ?>
                         </div>
                     </div>
@@ -108,7 +106,9 @@ $signature = $sigExplorer->open();
 
             <?php } ?>
         </div>
-    </div>
 </div>
 
+<?php include '../shared/scripts.php' ?>
+
+</body>
 </html>

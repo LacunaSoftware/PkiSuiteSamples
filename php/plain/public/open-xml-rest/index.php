@@ -3,7 +3,7 @@
  * This file submits a Xml file to Rest PKI for inspection and renders the results.
  */
 
-require __DIR__ . '../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Lacuna\RestPki\StandardSignaturePolicies;
 use Lacuna\RestPki\XmlSignatureExplorer;
@@ -67,9 +67,8 @@ $signatures = $sigExplorer->open();
                 ?>
                 <div class="card">
                     <div class="card-header open-header" id="<?= $headingId ?>">
-                        <a class="collapsed" role="button" data-toggle="collapse" href="#<?= $collapseId ?>" aria-expanded="true" aria-controls="<?= $collapseId ?>"><?= $signature->certificate->subject->commonName ?></a>
+                        <a class="collapsed" role="button" data-toggle="collapse" href="#<?= $collapseId ?>" aria-expanded="true" aria-controls="<?= $collapseId ?>"><?= $signature->certificate->subjectName->commonName ?></a>
                         <?php if ($signature->validationResults != null) { ?>
-                            <span>&nbsp;</span>
                             <?php if ($signature->validationResults->isValid()) { ?>
                                 <i class="fas fa-check-circle text-success"></i>
                             <?php } else { ?>
@@ -79,11 +78,20 @@ $signatures = $sigExplorer->open();
                     </div>
                     <div id="<?= $collapseId ?>" class="collapse" role="tabpanel" aria-labelledby="<?= $headingId ?>" data-parent="#accordion">
                         <div class="card-body">
+                            <?php if ($signature->type != null) { ?>
+                                <p><strong>Type</strong>: <?= $signature->type ?></p>
+                            <?php } ?>
+                            <?php if ($signature->signedElement != null) { ?>
+                                <p>
+                                    <strong>Signed element</strong>: <?= $signature->signedElement->localName ?>
+                                    <?php if ($signature->signedElement->namespaceUri != null) { ?>
+                                        <span>(xmlns: <?= $signature->signedElement->namespaceUri ?>)</span>
+                                    <?php } ?>
+                                </p>
+                            <?php } ?>
                             <?php if ($signature->signingTime != null) { ?>
                                 <p><strong>Signing time</strong>: <?= date("d/m/Y H:i", strtotime($signature->signingTime)) ?></p>
                             <?php } ?>
-
-                            <p><strong>Message digest</strong>: <?= $signature->messageDigest->algorithm->name . " " . strtoupper($signature->messageDigest->hexValue) ?></p>
                             <?php if ($signature->signaturePolicy != null) { ?>
                                 <p>Signature policy: <?= $signature->signaturePolicy->oid ?></p>
                             <?php } ?>
@@ -106,9 +114,8 @@ $signatures = $sigExplorer->open();
                                 </li>
                             </ul>
                             <?php if ($signature->validationResults != null) { ?>
-                                <label for="validations">Validation results:
-                                    <textarea id=" validations" style="width: 100%;" rows="20"><?= $signature->validationResults ?></textarea>
-                                </label>
+                                <label for="validations">Validation results:</label>
+                                <textarea id=" validations" style="width: 100%;" rows="20"><?= $signature->validationResults ?></textarea>
                             <?php } ?>
                         </div>
                     </div>
@@ -118,6 +125,8 @@ $signatures = $sigExplorer->open();
         </div>
     </div>
 </div>
+
+<?php include '../shared/scripts.php' ?>
 
 </body>
 </html>

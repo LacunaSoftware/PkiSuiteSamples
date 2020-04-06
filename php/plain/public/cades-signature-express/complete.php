@@ -70,6 +70,7 @@ $signatureFinisher->complete();
         <h3>Actions:</h3>
         <ul>
             <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
+            <li><a href="/open-cades-express?fileId=<?= $outputFile ?>">Open/validate the signed file</a></li>
             <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
         </ul>
     </div>
