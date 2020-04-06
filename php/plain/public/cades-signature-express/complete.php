@@ -66,11 +66,11 @@ $signatureFinisher->complete();
     <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
     <div class="ls-content">
-        <p>File signed successfully!</p>
 
         <h3>Actions:</h3>
         <ul>
             <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
+            <li><a href="/open-cades-express?fileId=<?= $outputFile ?>">Open/validate the signed file</a></li>
             <li><a href="/cades-signature-express?fileId=<?= $outputFile ?>">Co-sign with another certificate</a></li>
         </ul>
     </div>

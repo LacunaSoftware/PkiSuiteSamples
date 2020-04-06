@@ -71,13 +71,22 @@
         },
         signPdfServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
-        }
+        },
         // signXmlServer: { },
         // signXmlServerKey: { },
         // signaturePackage: { },
-        // validateCmsSig: { },
-        // validatePdfSig: { },
-        // validateXmlSig: { }
+        validateCmsSig: {
+            express: '/check-express.php?rc=upload.php&fwd=open-cades',
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=open-cades'
+        },
+        validatePdfSig: {
+            express: '/check-express.php?rc=upload.php&fwd=open-pades',
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=open-pades'
+        },
+        validateXmlSig: {
+            // express: '',
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=open-xml'
+        }
     };
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>

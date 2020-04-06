@@ -79,6 +79,7 @@ $signatureResult->writeToFile(StorageMock::getDataPath($filename));
         <h3>Actions:</h3>
         <ul>
             <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
+            <li><a href="/open-cades-rest?fileId=<?= $filename ?>">Open/validate the signed file</a></li>
             <li><a href="/cades-signature-rest?cosign=<?= $filename ?>">Co-sign with another certificate</a></li>
         </ul>
     </div>
