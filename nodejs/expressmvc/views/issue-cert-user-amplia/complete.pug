@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+
+   h2 Issue a certificate storing the private key on the user's machine
+
+   p The certificate was successfully issued!
+
+   h3 Actions:
+
+   label
+      | Use the certificate to sign a PDF using:
+      br
+      a(href='/upload?rc=pades-signature-express', class='btn btn-primary') PKI Express
+      | &nbsp;
+      a(href='/upload?rc=pades-signature-restpki', class='btn btn-info') REST PKI

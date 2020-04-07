@@ -1,9 +1,6 @@
-'use strict';
 
 class PadesVisualElementsExpress {
-
 	static getVisualRepresentation() {
-
 		// Create a visual representation.
 		return {
 
@@ -24,20 +21,20 @@ class PadesVisualElementsExpress {
 					left: 0.2,
 					top: 0.2,
 					right: 0.2,
-					bottom: 0.2
-				}
+					bottom: 0.2,
+				},
 			},
 			image: {
 
 				// We'll use as background the image static/PdfStamp.png.
 				resource: {
-					url: 'fref://stamp'
+					url: 'fref://stamp',
 				},
 
 				// Align the image to the right horizontally.
 				horizontalAlign: 'Right',
 				// Align the image to the center vertically.
-				verticalAlign: 'Center'
+				verticalAlign: 'Center',
 			},
 			position: {
 				pageNumber: -1,
@@ -46,15 +43,15 @@ class PadesVisualElementsExpress {
 						left: 1.5,
 						right: 1.5,
 						bottom: 1.5,
-						height: 4.94
+						height: 4.94,
 					},
 					signatureRectangleSize: {
 						height: 4.94,
-						width: 8.0
+						width: 8.0,
 					},
-					rowSpacing: 0.0
-				}
-			}
+					rowSpacing: 0.0,
+				},
+			},
 
 		};
 	}

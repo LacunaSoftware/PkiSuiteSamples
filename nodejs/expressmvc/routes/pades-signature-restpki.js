@@ -5,15 +5,15 @@ const {
 	PadesSignatureStarter,
 	PadesSignatureFinisher,
 	PadesMeasurementUnits,
-	StandardSignaturePolicies
+	StandardSignaturePolicies,
 } = require('restpki-client');
 
 const { Util } = require('../util');
 const { PadesVisualElementsRestPki } = require('../pades-visual-elements-restpki');
 const { StorageMock } = require('../storage-mock');
 
-let router = express.Router();
-let APP_ROOT = process.cwd();
+const router = express.Router();
+const APP_ROOT = process.cwd();
 
 /**
  * GET /pades-signature
@@ -25,14 +25,13 @@ let APP_ROOT = process.cwd();
  * the user, use this route. The difference is that, when the file is uploaded
  * by the user, the route is called with a URL argument named "fileId".
  */
-router.get('/', function(req, res, next) {
-
+router.get('/', (req, res, next) => {
 	// Get parameters from url
-	const fileId = req.query['fileId'];
+	const { fileId } = req.query;
 
 	// Verify if the provided fileId exists.
-	if (!StorageMock.existsSync({fileId: fileId})) {
-		let notFound = new Error('The fileId was not found');
+	if (!StorageMock.existsSync({ fileId })) {
+		const notFound = new Error('The fileId was not found');
 		notFound.status = 404;
 		next(notFound);
 		return;
@@ -40,7 +39,7 @@ router.get('/', function(req, res, next) {
 
 	// Get an instance of the PadesSignatureStarter class, responsible for
 	// receiving the signature elements and start the signature process.
-	let signatureStarter = new PadesSignatureStarter(Util.getRestPkiClient());
+	const signatureStarter = new PadesSignatureStarter(Util.getRestPkiClient());
 
 	// Set PDF to be signed.
 	signatureStarter.setPdfToSignFromPath(StorageMock.getDataPath(fileId));
@@ -59,8 +58,7 @@ router.get('/', function(req, res, next) {
 	// Set the visual representation to the signature. We have encapsulated this
 	// code (on pades-visual-elements.js) to be used on various PAdES examples.
 	PadesVisualElementsRestPki.getVisualRepresentation()
-		.then(visualRepresentation => {
-
+		.then((visualRepresentation) => {
 			// Set the visual representation to signatureStarter.
 			signatureStarter.visualRepresentation = visualRepresentation;
 
@@ -72,10 +70,8 @@ router.get('/', function(req, res, next) {
 			// after the form is submitted (see post method). This should not be
 			// mistaken with the API access token.
 			return signatureStarter.startWithWebPki();
-
 		})
-		.then(result => {
-
+		.then((result) => {
 			// The token acquired can only be used for a single signature attempt.
 			// In order to retry the signature it is necessary to get a new token.
 			// This can be a problem if the user uses the back button of the
@@ -88,9 +84,8 @@ router.get('/', function(req, res, next) {
 			// Render the signature page.
 			res.render('pades-signature-restpki', {
 				token: result.token,
-				fileId: req.query.fileId
+				fileId: req.query.fileId,
 			});
-
 		})
 		.catch((err) => next(err));
 });
@@ -101,11 +96,10 @@ router.get('/', function(req, res, next) {
  * This route receives the form submission from the view 'pades-signature'.
  * We'll call REST PKI to complete the signature.
  */
-router.post('/', function(req, res, next) {
-
+router.post('/', (req, res, next) => {
 	// Get an instance of the PadesSignatureFinisher class, responsible for
 	// completing the signature process.
-	let signatureFinisher = new PadesSignatureFinisher(Util.getRestPkiClient());
+	const signatureFinisher = new PadesSignatureFinisher(Util.getRestPkiClient());
 
 	// Set the token.
 	signatureFinisher.token = req.body.token;
@@ -114,17 +108,16 @@ router.post('/', function(req, res, next) {
 	// returns the SignatureResult object.
 	signatureFinisher.finish()
 		.then((result) => {
-
 			// The "certificate" property of the SignatureResult object contains
 			// information about the certificate used by the user to sign the file.
-			let signerCert = result.certificate;
+			const signerCert = result.certificate;
 
 			// At this point, you'd typically store the signed PDF on you database.
 			// For demonstration purposes, we'll store the PDF on a temporary
 			// folder publicly accessible and render a link to it.
 
-			StorageMock.createAppData(); // Make sure the "app-data" folder exists.
-			let filename = uuidv4() + '.pdf';
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
+			const filename = `${uuidv4()}.pdf`;
 
 			// The SignatureResult object has functions for writing the signature
 			// file to a local life (writeToFile()) and to get its raw contents
@@ -136,12 +129,10 @@ router.post('/', function(req, res, next) {
 			// certification info.
 			res.render('pades-signature-restpki/complete', {
 				signedPdf: filename,
-				signerCert: signerCert
+				signerCert,
 			});
-
 		})
 		.catch((err) => next(err));
-
 });
 
 module.exports = router;

@@ -1,64 +1,109 @@
 extends ../layout
 
 block styles
-	link(rel='stylesheet', href='https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css')
+   link(rel='stylesheet', href='https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css')
 
 block content
-	app-root
+   app-root
 
 block scripts
 
-	script.
-		SampleRoutes = {
-			authCert: {
-				//express: '/check-pki-express?rc=authentication',
-				restpki: '/check-restpki-token?rc=authentication'
-			},
-			// cosignCms: { },
-			// cosignPdf: { },
-			// issueCertServer: { },
-			// issueCertUser: { },
-			// listCert: { },
-			// mergeCmsSigs: { },
-			// printerFriendlyCms: { },
-			// printerFriendlyPdf: { },
-			// readCert: { },
-			// rsa: { },
-			//signCmsServer: {
-			//	express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
-			//	restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
-			//},
-			signCmsUser: {
-				//express: '/check-pki-express?rc=upload&fwd=cades-signature',
-				restpki: '/check-restpki-token?rc=upload&fwd=cades-signature'
-			},
-			// signCmsServerKey: { },
-			// signCod: { },
-			// signMultiCmsServer: { },
-			// signMultiCmsUser: { },
-			signMultiPdfServer: {
-				express: '/check-pki-express?rc=batch-pades-signature',
-				//restpki: '/check-restpki-token?rc=batch-signature'
-			},
-			// signMultiPdfUser: { },
-			// signNfe: { },
-			//signPdfServer: {
-			//	express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
-			//	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
-			//},
-			signPdfUser: {
-				express: '/check-pki-express?rc=upload&fwd=pades-signature',
-				restpki: '/check-restpki-token?rc=upload&fwd=pades-signature'
-			}
-			// signPdfServerKey: { },
-			// signXmlServer: { },
-			// signXmlServerKey: { },
-			// signaturePackage: { },
-			// validateCmsSig: { },
-			// validatePdfSig: { },
-			// validateXmlSig: { }
-		};
+   script.
+      SampleRoutes = {
+         authCert: {
+            //express: '/check-pki-express?rc=authentication',
+            restpki: '/check-restpki-token?rc=authentication'
+         },
+         cosignCms: { 
+            express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignCms',
+            restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=cosignCms'
+         },
+         cosignPdf: {
+            express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=cosignPdf',
+            restpki: '/checiek-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
+         },
+         issueCertServer: {
+            amplia: '/check-amplia-api-key?rc=issue-cert-server'
+         },
+         issueCertUser: {
+            amplia: '/check-amplia-api-key?rc=issue-cert-user'
+         },
+         listCert: {
+            select2: '/list-cert-select2',
+            jquery: '/list-cert-jquery'
+         },
+         mergeCmsSigs: {
+            express: '/check-pki-express?rc=merge-server-files&fwd=merge-cades'
+            // restpki: ''
+         },
+         printerFriendlyCms: {
+            express: '/check-pki-express?rc=upload&fwd=printer-version-cades'
+            // restpki: ''
+         },
+         printerFriendlyPdf: {
+            express: '/check-pki-express?rc=upload&fwd=printer-version-pades',
+            restpki: '/check-restpki-token?rc=upload&fwd=printer-version-pades'
+         },
+         readCert: {
+            select2: '/read-cert-select2',
+            jquery: '/read-cert-jquery'
+         },
+         rsa: {
+            webpki: '/rsa-web'
+         },
+         signCmsServer: {
+            express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
+            restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
+         },
+         signCmsUser: {
+            express: '/check-pki-express?rc=upload&fwd=cades-signature',
+            restpki: '/check-restpki-token?rc=upload&fwd=cades-signature'
+         },
+         signCmsServerKey: {
+            express: '/check-pki-express?rc=upload&fwd=cades-server-key'
+         },
+         // signCod: { },
+         signMultiCmsServer: {
+            express: '/check-pki-express?rc=batch-cades-signature',
+            restpki: '/check-restpki-token?rc=batch-cades-signature'
+         },
+         // signMultiCmsUser: { },
+         signMultiPdfServer: {
+            express: '/check-pki-express?rc=batch-pades-signature',
+            restpki: '/check-restpki-token?rc=batch-pades-signature'
+         },
+         // signMultiPdfUser: { },
+         signNfe: {
+            // express: '/check-pki-express?rc=xml-nfe-signature',
+            restpki: '/check-restpki-token?rc=xml-nfe-signature'
+         },
+         signPdfServer: {
+            express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
+            restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
+         },
+         signPdfUser: {
+            express: '/check-pki-express?rc=upload&fwd=pades-signature',
+            restpki: '/check-restpki-token?rc=upload&fwd=pades-signature'
+         },
+         signPdfServerKey: {
+            express: '/check-pki-express?rc=upload&fwd=pades-server-key'
+         },
+         signXmlServer: {
+            // express: '/check-pki-express?rc=xml-signature',
+            restpki: '/check-restpki-token?rc=xml-signature'
+         },
+         // signXmlServerKey: { },
+         // signaturePackage: { },
+         validateCmsSig: { // uncomment when PKI Express supports cades validation
+            express: '/check-pki-express?rc=upload&fwd=open-cades'
+         },
+         validatePdfSig: { 
+            express: '/check-pki-express?rc=upload&fwd=open-pades',
+            restpki: '/check-restpki-token?rc=upload&fwd=open-pades'
+         }
+         // validateXmlSig: { }
+      };
 
-	script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js')
-	script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js')
-	script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js')
+   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js')
+   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js')
+   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js')
