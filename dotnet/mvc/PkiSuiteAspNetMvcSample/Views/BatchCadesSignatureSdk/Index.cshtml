@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
 @model BatchSignatureModel
 
-<h2 class="ls-title">Batch of PAdES Signatures with PKI SDK</h2>
+<h2 class="ls-title">Batch of CAdES Signatures with PKI SDK</h2>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
 	<div id="messagesPanel"></div>
@@ -42,7 +42,7 @@
 		to alter it to meet your application's needs. You can also bring the code into the javascript block
 		below if you prefer.
 	*@
-	<script src="@Url.Content("~/Content/js/batch-pades-signature-sdk-form.js")"></script>
+	<script src="@Url.Content("~/Content/js/batch-cades-signature-sdk-form.js")"></script>
 	<script>
 		$(document).ready(function () {
 			batchSignatureSdkForm.init({
@@ -51,7 +51,7 @@
 				docList: $('#docList'),
 				refreshButton: $('#refreshButton'),
 				signButton: $('#signButton'),
-				controllerEndpoint: '/BatchPadesSignatureSdk'
+				controllerEndpoint: '/BatchCadesSignatureSdk'
 			});
 		});
 	</script>

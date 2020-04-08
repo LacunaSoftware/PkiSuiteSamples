@@ -54,7 +54,7 @@
 				// restpki: ''
 			},
 			signMultiCmsServer: {
-				// pki: { },
+				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchCadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchCadesSignatureRest" }))'
 			},
 			// signMultiCmsUser: { },

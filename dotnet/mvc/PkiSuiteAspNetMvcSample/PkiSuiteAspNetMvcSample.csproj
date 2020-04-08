@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -195,10 +195,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Sdk\BatchSignatureCompleteRequest.cs" />
+    <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
+    <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
+    <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
     <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
-    <Compile Include="Models\Sdk\BatchSignatureStartResponse.cs" />
+    <Compile Include="Models\Sdk\BatchCadesSignatureStartResponse.cs" />
+    <Compile Include="Models\Sdk\BatchPadesSignatureStartResponse.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\CadesPolicyMapperWrapper.cs" />
     <Compile Include="Classes\PadesVisualElements.cs" />
@@ -272,7 +275,8 @@
     <Content Include="Content\icp-brasil.png" />
     <Content Include="Content\InvoiceWithSigs.xml" />
     <Content Include="Content\js\authentication-form.js" />
-    <Content Include="Content\js\batch-signature-sdk-form.js" />
+    <Content Include="Content\js\batch-cades-signature-sdk-form.js" />
+    <Content Include="Content\js\batch-pades-signature-sdk-form.js" />
     <Content Include="Content\js\batch-signature-rest-form.js" />
     <Content Include="Content\js\lacuna-web-pki-2.11.0.js" />
     <Content Include="Content\js\signature-complete-form.js" />
@@ -381,6 +385,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
