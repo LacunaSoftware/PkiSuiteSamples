@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -258,6 +258,11 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		public static byte[] GetValidationResultIcon(bool isValid) {
 			var filename = isValid ? "ok.png" : "not-ok.png";
 			return File.ReadAllBytes(Path.Combine(ContentPath, filename));
+		}
+
+		public static byte[] GetServerCertificate()
+		{
+			return File.ReadAllBytes(Path.Combine(ContentPath, "Pierre de Fermat.pfx"));
 		}
 
 	}
