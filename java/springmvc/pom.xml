@@ -30,13 +30,13 @@
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.9.3</version>
+			<version>1.11.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.lacunasoftware.restpki</groupId>
 			<artifactId>restpki-client</artifactId>
-			<version>1.10.1</version>
+			<version>1.12.1</version>
 		</dependency>
 		
 		<dependency>
