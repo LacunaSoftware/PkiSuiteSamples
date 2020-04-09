@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers
 {
-    public class PadesServerKeySdkController : Controller
+    public class PadesServerKeySdkController : BaseController
     {
         private IPadesPolicyMapper GetSignaturePolicy()
         {

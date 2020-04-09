@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeySdkController.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
@@ -254,8 +255,10 @@
     <Compile Include="Models\Sdk\CadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\CertificateModel.cs" />
     <Compile Include="Models\Sdk\DigestAlgorithmAndValueModel.cs" />
+    <Compile Include="Models\Sdk\OpenPadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\OpenCadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\OpenXmlSignatureModel.cs" />
+    <Compile Include="Models\Sdk\PadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\SignatureAlgorithmAndValueModel.cs" />
     <Compile Include="Models\Sdk\SignatureCompleteModel.cs" />
     <Compile Include="Models\Sdk\SignatureInfoModel.cs" />
@@ -390,6 +393,7 @@
     <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
     <Content Include="Views\CadesServerKeySdk\Index.cshtml" />
     <Content Include="Views\PadesServerKeySdk\Index.cshtml" />
+    <Content Include="Views\OpenPadesSignatureSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

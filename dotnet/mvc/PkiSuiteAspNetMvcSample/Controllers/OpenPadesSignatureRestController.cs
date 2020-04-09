@@ -19,8 +19,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public async Task<ActionResult> Index(string userfile) {
 
 			// Our action only works if a userfile is given to work with.
-			string userfilePath;
-			if (!StorageMock.TryGetFile(userfile, out userfilePath)) {
+			if (!StorageMock.TryGetFile(userfile, out string userfilePath))
+			{
 				return HttpNotFound();
 			}
 

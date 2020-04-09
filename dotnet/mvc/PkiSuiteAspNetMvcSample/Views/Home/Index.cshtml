@@ -93,7 +93,7 @@
 				// webpki: '
 			},
 			validatePdfSig: {
-				// pki: '',
+				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureRest" }))'
 				// webpki: ''
 			},

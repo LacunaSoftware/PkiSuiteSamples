@@ -11,7 +11,7 @@ using PkiSuiteAspNetMvcSample.Models.Sdk;
 
 namespace PkiSuiteAspNetMvcSample.Controllers
 {
-    public class CadesServerKeySdkController : Controller
+    public class CadesServerKeySdkController : BaseController
     {
 		/**
 			This method defines the signature policy that will be used on the signature.
