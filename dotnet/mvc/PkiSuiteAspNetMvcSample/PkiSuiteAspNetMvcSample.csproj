@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\PadesServerKeySdkController.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
@@ -388,6 +389,7 @@
     <None Include="packages.config" />
     <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
     <Content Include="Views\CadesServerKeySdk\Index.cshtml" />
+    <Content Include="Views\PadesServerKeySdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

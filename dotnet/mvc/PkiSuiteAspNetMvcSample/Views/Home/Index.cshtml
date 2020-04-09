@@ -78,7 +78,9 @@
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRest" }))',
 				webpki: '@Html.Raw(Url.Action("Index", "PadesSignatureWeb"))'
 			},
-			//signPdfServerKey: { },
+			signPdfServerKey: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesServerKeySdk" }))'
+			},
 			signXmlServer: {
 				// pki: '',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRest" }))'
