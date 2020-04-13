@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
@@ -398,6 +399,7 @@
     <Content Include="Views\XmlSignatureSdk\Complete.cshtml" />
     <Content Include="Views\XmlSignatureSdk\Index.cshtml" />
     <Content Include="Views\XmlSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlServerKeySdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

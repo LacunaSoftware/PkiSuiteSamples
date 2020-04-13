@@ -85,7 +85,9 @@
 				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRest" }))'
 			},
-			// signXmlServerKey: { },
+			signXmlServerKey: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlServerKeySdk" }))'
+			},
 			// signaturePackage: { },
 			validateCmsSig: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenCadesSignatureSdk" }))',
