@@ -1,4 +1,4 @@
-﻿@section Styles {
+@section Styles {
 	<link rel="stylesheet" href="https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css" />
 }
 
@@ -26,7 +26,9 @@
 				jquery: '@Html.Raw(Url.Action("Index", "ListCertJQuery"))',
 				select2: '@Html.Raw(Url.Action("Index", "ListCertSelect2"))'
 			},
-			// mergeCmsSigs: { },
+			mergeCmsSigs: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "MergeServerFiles", @ctrl = "MergeCadesSdk"}))',
+			},
 			// printerFriendlyCms: { },
 			printerFriendlyPdf: {
 				// pki: '',

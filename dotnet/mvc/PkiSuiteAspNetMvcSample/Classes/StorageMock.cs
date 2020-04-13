@@ -11,7 +11,12 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		PdfSignedOnce,
 		PdfSignedTwice,
 		CmsSignedOnce,
-		CmsSignedTwice
+		CmsSignedTwice,
+		CmsDataFile,
+		CmsDetached1,
+		CmsDetached2,
+		CmsAttached1,
+		CmsAttached2
 	}
 
 	public class StorageMock {
@@ -75,6 +80,18 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 				throw new FileNotFoundException("File not found: " + filename);
 			}
 			return fileInfo.OpenRead();
+		}
+
+		internal static string CopySampleToAppData(SampleDocs sample)
+		{
+			var path = GetSampleDocPath(sample);
+			
+			var extension = new FileInfo(path).Extension;
+
+			using (var inStream = OpenRead(path))
+			{
+				return StorageMock.Store(inStream, extension);
+			}
 		}
 
 		public static byte[] Read(string fileId) {
@@ -195,6 +212,21 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 					break;
 				case SampleDocs.CmsSignedTwice:
 					filename = "SampleCmsSignedTwice.p7s";
+					break;
+				case SampleDocs.CmsDataFile:
+					filename = "CMSDataFile.pdf";
+					break;
+				case SampleDocs.CmsAttached1:
+					filename = "CMSAttached1.p7s";
+					break;
+				case SampleDocs.CmsAttached2:
+					filename = "CMSAttached2.p7s";
+					break;
+				case SampleDocs.CmsDetached1:
+					filename = "CMSDetached1.p7s";
+					break;
+				case SampleDocs.CmsDetached2:
+					filename = "CMSDetached2.p7s";
 					break;
 				default:
 					throw new InvalidOperationException();

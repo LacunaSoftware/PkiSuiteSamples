@@ -197,10 +197,13 @@
   <ItemGroup>
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\MergeCadesSdkController.cs" />
+    <Compile Include="Controllers\MergeServerFilesController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
+    <Compile Include="Models\MergeServerFilesModel.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
@@ -391,6 +394,11 @@
     <Content Include="Views\OpenCadesSignatureSdk\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\CMSAttached1.p7s" />
+    <Content Include="Content\CMSAttached2.p7s" />
+    <Content Include="Content\CMSDataFile.pdf" />
+    <Content Include="Content\CMSDetached1.p7s" />
+    <Content Include="Content\CMSDetached2.p7s" />
     <None Include="packages.config" />
     <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
     <Content Include="Views\CadesServerKeySdk\Index.cshtml" />
@@ -400,6 +408,8 @@
     <Content Include="Views\XmlSignatureSdk\Index.cshtml" />
     <Content Include="Views\XmlSignatureSdk\SignatureInfo.cshtml" />
     <Content Include="Views\XmlServerKeySdk\Index.cshtml" />
+    <Content Include="Views\MergeServerFiles\Index.cshtml" />
+    <Content Include="Views\MergeCadesSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
