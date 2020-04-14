@@ -31,7 +31,7 @@
 			},
 			// printerFriendlyCms: { },
 			printerFriendlyPdf: {
-				// pki: '',
+				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesSdk", @op = "printerFriendlyPdf" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesRest", @op ="printerFriendlyPdf" }))'
 			},
 			readCert: {
