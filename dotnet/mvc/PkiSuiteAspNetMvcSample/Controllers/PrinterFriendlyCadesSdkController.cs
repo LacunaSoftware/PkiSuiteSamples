@@ -1,4 +1,5 @@
 ﻿using Lacuna.Pki;
+using Lacuna.Pki.Cades;
 using Lacuna.Pki.Pades;
 using Lacuna.Pki.Pdf;
 using PkiSuiteAspNetMvcSample.Classes;
@@ -16,8 +17,8 @@ using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers
 {
-    public class PrinterFriendlyPadesSdkController : BaseController
-    {
+    public class PrinterFriendlyCadesSdkController : BaseController
+	{
 		// ####################################################################################################
 		// Configuration of the Printer-Friendly version
 		// ####################################################################################################
@@ -29,8 +30,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		private const string VerificationSite = "http://localhost:54123/";
 
 		// Format of the verification link, with "{0}" as the verification code placeholder.
-		private const string VerificationLinkFormat = "http://localhost:54123/CheckPadesSdk?c={0}";
-
+		private const string VerificationLinkFormat = "http://localhost:54123/CheckCadesSdk?c={0}";
+		
 		// "Normal" font size. Sizes of header fonts are defined based on this size.
 		private const int NormalFontSize = 12;
 
@@ -52,9 +53,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		// generatePrinterFriendlyVersion() below.
 		// ####################################################################################################
 
-		// GET: PrinterFriendlyPadesSdk?userfile={id}
+		// GET: PrinterFriendlyCadesSdk?userfile={id}
 		public ActionResult Index(string userfile)
-        {
+		{
 			// Locate document and read content from storage. Our action only works if the a valid fileId is
 			// given.
 			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent))
@@ -78,7 +79,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			return File(pfvContent, "application/pdf", "printer-friendly.pdf");
 		}
 
-		private byte[] GeneratePrinterFriendlyVersion(byte[] pdfContent, string verificationCode)
+		private byte[] GeneratePrinterFriendlyVersion(byte[] fileContent, string verificationCode)
 		{
 			// The verification code is generated without hyphens to save storage space and avoid
 			// copy-and-paste problems. On the PDF generation, we use the "formatted" version, with hyphens
@@ -89,89 +90,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// formatted verification code.
 			var verificationLink = string.Format(VerificationLinkFormat, formattedVerificationCode);
 
-			// Inspect signatures on the uploaded PDF
-			var signature = PadesSignature.Open(pdfContent);
+			// Inspect signatures on the uploaded CAdES
+			var signature = CadesSignature.Open(fileContent);
 
 			// Create PDF with verification information from the signed PDF.
 			var pdfMarker = new PdfMarker();
-
-			// ICP-Brasil logo on bottom-right corner of every page (except on the page which will be created at
-			// the end of the document).
-			pdfMarker.AddMark(new PdfMark()
-			{
-				PageOption = PdfMarkPageOptions.AllPages,
-				Container = new PadesVisualRectangle()
-				{
-					Width = 1,
-					Right = 1,
-					Height = 1,
-					Bottom = 1
-				},
-				Elements = new List<PdfMarkElement>() {
-					new PdfMarkImage() {
-						ImageContent = StorageMock.GetIcpBrasilLogoContent(),
-						Opacity = 75
-					}
-				}
-			});
-
-			// Summary on bottom margin of every page (except on the page which will be created at the end of
-			// the document).
-			var signerNames = Util.JoinStringsPt(signature.Signers.Select(s => GetDisplayName(s.Signer.SigningCertificate)));
-			var allPagesMessage = string.Format("This document was digitally signed by {0}.\nTo verify the signatures go to {1} on {2} and inform the code {3}", signerNames, VerificationSiteNameWithArticle, VerificationSite, formattedVerificationCode);
-
-			pdfMarker.AddMark(new PdfMark()
-			{
-				PageOption = PdfMarkPageOptions.AllPages,
-				Container = new PadesVisualRectangle()
-				{
-					Height = 2,
-					Bottom = 0,
-					Left = 1.5,
-					Right = 3.5
-				},
-				Elements = new List<PdfMarkElement>() {
-					new PdfMarkText() {
-						Texts = new List<PdfTextSection>() {
-							new PdfTextSection() {
-								Style = PdfTextStyle.Normal,
-								Text = allPagesMessage
-							}
-						}
-					}
-				}
-			});
-
-			// Summary on right margin of every page (except on the page which will be created at the end of the
-			// document), rotated 90 degrees counterclockwise (text goes up).
-			pdfMarker.AddMark(new PdfMark()
-			{
-				PageOption = PdfMarkPageOptions.AllPages,
-				Container = new PadesVisualRectangle()
-				{
-					Width = 2,
-					Right = 0,
-					Top = 1.5,
-					Bottom = 3.5
-				},
-				Elements = new List<PdfMarkElement>() {
-					new PdfMarkText() {
-						Rotation = PdfMarkRotation.D90,
-						Texts = new List<PdfTextSection>() {
-							new PdfTextSection() {
-								Style = PdfTextStyle.Normal,
-								Text = allPagesMessage
-							}
-						}
-					}
-				}
-			});
 
 			// Create a "manifest" mark on a new page added on the end of the document. We'll add several
 			// elements to this marks.
 			var manifestMark = new PdfMark()
 			{
-				PageOption = PdfMarkPageOptions.NewPage,
 				// This mark's container is the whole page with 1-inch margins.
 				Container = new PadesVisualRectangle()
 				{
@@ -309,7 +237,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				elementHeight = 1.5;
 
 				// Validate signature based on the PAdES Basic policy.
-				var policyMapper = PadesPoliciesForGeneration.GetPadesBasic(Util.GetTrustArbitrator());
+				var policyMapper = CadesPoliciesForValidation.GetCadesBasic(Util.GetTrustArbitrator());
 				var validationResults = signature.ValidateSignature(signer, policyMapper);
 
 				// Green "check" or red "X" icon depending on result of validation for this signer.
@@ -336,12 +264,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 						Right = 0
 					},
 					Texts = new List<PdfTextSection>() {
-						new PdfTextSection() {
-							Style = PdfTextStyle.Normal,
-							FontSize = NormalFontSize,
-							Text = GetSignerDescription(signer)
+							new PdfTextSection() {
+								Style = PdfTextStyle.Normal,
+								FontSize = NormalFontSize,
+								Text = GetSignerDescription(signer)
+							}
 						}
-					}
 				});
 
 				verticalOffset += elementHeight;
@@ -349,7 +277,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Some vertical padding from last signer.
 			verticalOffset += 1;
-
+				
 			// Paragraph with link to veritifcation site and citing both the verification code above and the
 			// verification link below.
 			elementHeight = 2.5;
@@ -407,12 +335,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			});
 			pdfMarker.AddMark(manifestMark);
 
-			// Prevent from throwing exception when the file to be marked already have a signature (default: true).
-			pdfMarker.ThrowIfSignedPdf = false;
-			// Note: Before applying the marks, all signature from the signed file will be removed.
-
 			// Apply marks and return the printer-friendly PDF's content.
-			return pdfMarker.WriteMarks(pdfContent);
+			return pdfMarker.WriteMarks(StorageMock.GetEmptyPdfContent());
 		}
 
 		private static string GetDisplayName(PKCertificate c)
@@ -439,10 +363,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			return text.ToString();
 		}
 
-		private static string GetSignerDescription(PadesSignerInfo signer)
+		private static string GetSignerDescription(CadesSignerInfo signer)
 		{
 			var text = new StringBuilder();
-			text.Append(GetDescription(signer.Signer.SigningCertificate));
+			text.Append(GetDescription(signer.SigningCertificate));
 			if (signer.SigningTime != null)
 			{
 				var dateStr = TimeZoneInfo.ConvertTime(signer.SigningTime.Value, TimeZone).ToString(DateFormat, CultureInfo);

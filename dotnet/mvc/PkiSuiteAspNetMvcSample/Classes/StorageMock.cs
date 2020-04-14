@@ -291,6 +291,10 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return File.ReadAllBytes(Path.Combine(ContentPath, "icp-brasil.png"));
 		}
 
+		public static byte[] GetEmptyPdfContent() {
+			return File.ReadAllBytes(Path.Combine(ContentPath, "empty.pdf"));
+		}
+
 		public static byte[] GetValidationResultIcon(bool isValid) {
 			var filename = isValid ? "ok.png" : "not-ok.png";
 			return File.ReadAllBytes(Path.Combine(ContentPath, filename));

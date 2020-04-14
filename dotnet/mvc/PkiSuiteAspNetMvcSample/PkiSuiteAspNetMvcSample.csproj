@@ -203,11 +203,13 @@
   <ItemGroup>
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
     <Compile Include="Controllers\MergeCadesSdkController.cs" />
     <Compile Include="Controllers\MergeServerFilesController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
@@ -407,6 +409,7 @@
     <Content Include="Content\CMSDataFile.pdf" />
     <Content Include="Content\CMSDetached1.p7s" />
     <Content Include="Content\CMSDetached2.p7s" />
+    <Content Include="Content\empty.pdf" />
     <None Include="packages.config" />
     <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
     <Content Include="Views\CadesServerKeySdk\Index.cshtml" />
@@ -419,6 +422,7 @@
     <Content Include="Views\MergeServerFiles\Index.cshtml" />
     <Content Include="Views\MergeCadesSdk\Index.cshtml" />
     <Content Include="Views\CheckPadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckCadesSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

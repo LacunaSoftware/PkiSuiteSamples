@@ -29,7 +29,9 @@
 			mergeCmsSigs: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "MergeServerFiles", @ctrl = "MergeCadesSdk"}))',
 			},
-			// printerFriendlyCms: { },
+			printerFriendlyCms: {
+				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyCadesSdk", @op = "printerFriendlyCades" }))',
+			},
 			printerFriendlyPdf: {
 				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesSdk", @op = "printerFriendlyPdf" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesRest", @op ="printerFriendlyPdf" }))'

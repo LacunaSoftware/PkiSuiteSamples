@@ -1,5 +1,5 @@
 ﻿using Lacuna.Pki;
-using Lacuna.Pki.Pades;
+using Lacuna.Pki.Cades;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.Sdk;
 using System;
@@ -11,9 +11,9 @@ using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers
 {
-    public class CheckPadesSdkController : BaseController
+    public class CheckCadesSdkController : BaseController
     {
-		// GET: CheckPadesSdk?c={id}
+		// GET: CheckCadesSdk?c={id}
 		public ActionResult Index(string c)
 		{
 
@@ -37,18 +37,18 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// Read document from storage.
 			var fileContent = StorageMock.Read(fileId);
 
-			var signature = PadesSignature.Open(fileContent);
+			var signature = CadesSignature.Open(fileContent);
 
 			// Specify the parameters for the signature validation:
 			// Define the trust arbitrator used to validate the certificate.
 			var trustArbitrator = Util.GetTrustArbitrator();
-			var policyMapper = PadesPoliciesForValidation.GetPadesBasic(trustArbitrator);
+			var policyMapper = CadesPoliciesForValidation.GetCadesBasic(trustArbitrator);
 
 			// Render the information (see file Check/Index.html for more information on
 			// the information returned).
-			return View(new OpenPadesSignatureModel()
+			return View(new OpenCadesSignatureModel()
 			{
-				Signature = new PadesSignatureModel(signature, policyMapper),
+				Signature = new CadesSignatureModel(signature, policyMapper),
 				File = fileId
 			});
 		}
