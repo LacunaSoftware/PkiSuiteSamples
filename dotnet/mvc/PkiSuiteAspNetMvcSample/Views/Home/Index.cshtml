@@ -30,10 +30,11 @@
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "MergeServerFiles", @ctrl = "MergeCadesSdk"}))',
 			},
 			printerFriendlyCms: {
-				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyCadesSdk", @op = "printerFriendlyCades" }))',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyCadesSdk", @op = "printerFriendlyCades" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyCadesRest", @op ="printerFriendlyCades" }))'
 			},
 			printerFriendlyPdf: {
-				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesSdk", @op = "printerFriendlyPdf" }))',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesSdk", @op = "printerFriendlyPdf" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesRest", @op ="printerFriendlyPdf" }))'
 			},
 			readCert: {
@@ -60,7 +61,7 @@
 				// restpki: ''
 			},
 			signMultiCmsServer: {
-				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchCadesSignatureSdk" }))',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchCadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchCadesSignatureRest" }))'
 			},
 			// signMultiCmsUser: { },
@@ -86,7 +87,7 @@
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesServerKeySdk" }))'
 			},
 			signXmlServer: {
-				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlSignatureSdk" }))',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRest" }))'
 			},
 			signXmlServerKey: {
@@ -99,7 +100,7 @@
 				// webpki: '
 			},
 			validatePdfSig: {
-				 pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureSdk" }))',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureRest" }))'
 				// webpki: ''
 			},
