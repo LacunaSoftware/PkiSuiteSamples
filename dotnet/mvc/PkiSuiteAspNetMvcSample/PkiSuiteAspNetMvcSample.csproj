@@ -213,6 +213,7 @@
     <Compile Include="Controllers\PrinterFriendlyCadesRestController.cs" />
     <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
+    <Compile Include="Controllers\XmlCodSignatureRestController.cs" />
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\MergeServerFilesModel.cs" />
@@ -426,6 +427,10 @@
     <Content Include="Views\CheckPadesSdk\Index.cshtml" />
     <Content Include="Views\CheckCadesSdk\Index.cshtml" />
     <Content Include="Views\CheckCadesRest\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignCodeh.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignCodehSignatureInfo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -57,8 +57,8 @@
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "CadesServerKeySdk" }))'
 			},
 			signCod: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignatureSdk" }))'
-				// restpki: ''
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlCodSignatureRest" }))'
 			},
 			signMultiCmsServer: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchCadesSignatureSdk" }))',
