@@ -118,5 +118,62 @@ module StorageMock
     content
   end
 
+  # def get_icp_brasil_logo_content()
+  #   content = nil
+  #   File.open(Rails.root.join('private', 'icp-brasil.png'), 'rb') do |file|
+  #     content = file.read
+  #   end
+  #   content
+  # end
+  
+  # def get_validation_result_icon(is_valid)
+  #   filename = is_valid ? 'ok.png' : 'not-ok.png'
+  #   content = nil
+  #   File.open(Rails.root.join('private', filename), 'rb') do |file|
+  #     content = file.read
+  #   end
+  #   content
+  # end
+
+  # # Returns the verification code associated with the given document, or null
+  # # if no verification code has been associated with it.
+  # def get_verification_code(file_id)
+  #   if file_id.to_s.empty?
+  #     return nil
+  #   end
+  #   # >>>>> NOTICE <<<<<
+  #   # This should be implemented on your application as a SELECT on your
+  #   # "document table" by the ID of the document, returning the value of the
+  #   # verification code column.
+  #   if session["Files/#{file_id}/Code"]
+  #     return session["Files/#{file_id}/Code"]
+  #   end
+  #   nil
+  # end
+
+  # def set_verification_code(file_id, code)
+  #   # >>>>> NOTICE <<<<<
+  #   # This should be implemented on your application as a UPDATE on your
+  #   # "document table" filling the verification code column, which should be
+  #   # an indexed column.
+  #   session["Files/#{file_id}/Code"] = code
+  #   session["Codes/#{code}"] = file_id
+  # end
+  
+  # # Returns the ID of the document associated with a given verification code,
+  # # or null if no document matches the given code.
+  # def lookup_verification_code(code)
+  #   if code.to_s.empty?
+  #     return nil
+  #   end
+  #   # >>>>> NOTICE <<<<<
+  #   # This should be implemented on your application as a SELECT on your
+  #   # "document table" by the verification code column, which should be an
+  #   # indexed column.
+  #   if session["Codes/#{code}"]
+  #     return session["Codes/#{code}"]
+  #   end
+  #   nil
+  # end
 
 end

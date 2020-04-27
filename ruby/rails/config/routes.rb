@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root action: :index, controller: :home
+  root action: :index, controller: :home, as: :home
 
   get '/check-express/:rc(/:fwd(/:op))', action: :check_pki_express, controller: :home
   get '/check-rest-token/:rc(/:fwd(/:op))', action: :check_rest_pki_token, controller: :home
@@ -22,6 +22,11 @@ Rails.application.routes.draw do
   get '/read-cert-select2/', action: :index, controller: :read_cert_select2
   get '/rsa-web/', action: :index, controller: :rsa_web
 
+  # get '/open-pades-rest/:file_id', action: :index, controller: :open_pades_rest, as: :open_pades_rest
+
+  # get '/printer-version-pades-rest/:file_id', action: :index, controller: :printer_version_pades_rest, as: :printer_version_pades_rest
+  # get '/check-pades-rest/:code', action: :index, controller: :check_pades_rest, as: :check_pades_rest
+  #
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest
 
