@@ -34,7 +34,7 @@ module StorageMock
 
     name = ''
     unless filename.nil? || filename.empty?
-      name += filename
+      name += filename.gsub('_', '.')
       name += '.'
     end
     name += SecureRandom.uuid
