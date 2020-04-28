@@ -29,9 +29,22 @@
 #     # generatePrinterFriendlyVersion() below.
 #     # #############################################################################
 
-#     # GET /printer-friendly-version
-#     # This generates a printer-friendly version from a signature file using REST PKI.
+#     # GET /printer-version-pades-rest
+#     # This action loads printer_version_pades_rest/index.html.erb
 #     def index
+#         # Retrieve "file_id" parameter.
+#         @file_id = params[:file_id]
+
+#         # Verify if the :file_id exists with the help of our StorageMock class.
+#         # This sample can only be executed if the provided file exists.
+#         unless exist?(@file_id)
+#             render text: 'Not Found', status: 404 && return
+#         end
+#     end
+
+#     # GET /printer-version-pades-rest/download/
+#     # This generates a printer-friendly version from a signature file using REST PKI.
+#     def download
 #         # Retrieve "file_id" parameter.
 #         @file_id = params[:file_id]
 
