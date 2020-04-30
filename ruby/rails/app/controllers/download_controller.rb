@@ -18,4 +18,10 @@ class DownloadController < ApplicationController
     path = get_sample_doc_path(sample_id)
     send_file(path, filename: filename)
   end
+
+  def doc
+    doc_id = params[:id]
+    path = get_batch_doc_path(doc_id)
+    send_file(path, filename: "0#{doc_id}.pdf")
+  end
 end

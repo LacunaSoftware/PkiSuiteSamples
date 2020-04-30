@@ -1,0 +1,188 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous" />
+
+<h2 class="ls-title">List certificates available on the user's machine with Select2</h2>
+
+<div class="ls-content">
+
+  <form id="listCertForm">
+    <%
+      # Render a select (combo box) to list the users' certificates. For now
+      # it will be empty, we'll populate it after page loading (see function
+      # loadCertificates() below).
+    %>
+    <div class="form-group">
+      <label for="certificateSelect">Choose a certificate</label>
+      <select id="certificateSelect" class="js-example-basic-single js-states custom-select"></select>
+    </div>
+
+    <%
+      # The "Refresh Certificates" button, which is responsible to reload
+      # the certificate list. This operation uses the same function used
+      # on page loading (see function refresh() below).
+    %>
+    <div class="form-group">
+      <button id="refreshButton" type="button" class="btn btn-primary">
+        <i class="fas fa-retweet"></i> Refresh Certificates
+      </button>
+      <a href="https://select2.org" target="_blank" class="btn btn-outline-primary">
+        <i class="fas fa-external-link-alt"></i> More information about Select2
+      </a>
+    </div>
+  </form>
+</div>
+
+<%
+  # The file below contains the JS lib for accessing the Web PKI component.
+  # For more information, see: https://webpki.lacunasoftware.com/#/Documentation
+%>
+<script type="text/javascript"
+      src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+      integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+      crossorigin="anonymous"></script>
+
+<%
+  # This file contains the Select2 library used on this sample. For more
+  # information, see: https://select2.org/
+%>
+<script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<script>
+  <%
+    # Variable that will store an instance of the Lacuna WebPKI object. If a
+    # license was set on application.yml, the layout.html master template
+    # will have placed it on the global variable _webPkiLicense, which we
+    # pass to the class constructor.
+  %>
+  var pki = new LacunaWebPKI(_webPkiLicense);
+
+  // -----------------------------------------------------------------------
+  // This function will be called as soon as the page is loaded. It will
+  // initialize Web PKI and load the certificates on the page.
+  // -----------------------------------------------------------------------
+  function init() {
+
+    // Wire up "refresh" button.
+    $('#refreshButton').click(refresh);
+
+    // Block the UI while we get things ready.
+    $.blockUI({ message: 'Initializing ...' });
+
+    // Call the init() function on the LacunaWebPKI object, passing a
+    // callback for when the component is ready to be used and another to
+    // be called when an error occurs on any of the subsequent operations.
+    // For more information, see:
+    // https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
+    // http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
+    pki.init({
+      ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
+      defaultError: onWebPkiError  // Generic error callback defined below.
+    });
+  }
+
+  // -----------------------------------------------------------------------
+  // Function called when the user clicks the "Refresh" button.
+  // -----------------------------------------------------------------------
+  function refresh() {
+    // Enable select again. This select can be disabled when there is no
+    // certificate on the user's machine.
+    $('#certificateSelect').prop('disabled', false);
+
+    // Block the UI while we load the certificates.
+    $.blockUI({ message: 'Refreshing ...' });
+    // Invoke the loading of the certificates again.
+    loadCertificates();
+  }
+
+  // -----------------------------------------------------------------------
+  // Function that loads the certificates, either on startup or when the
+  // user clicks the "Refresh" button. At this point, the UI is already
+  // blocked.
+  // -----------------------------------------------------------------------
+  function loadCertificates() {
+
+    // Call the listCertificates() function to list the user's
+    // certificates. For more information see:
+    // http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
+    pki.listCertificates().success(function (certs) {
+
+      // Create an object to be shown on Select2 from each certificate.
+      // Its define which certificate are valid or invalid. At last, sort
+      // the list of objects by its validity.
+      var select2Certs = $.map(certs, function (cert) {
+
+        var obj = {};
+        if (cert.validityEnd < new Date()) {
+          // In this case, the certificate is expired.
+          obj.id = cert.thumbprint;
+          obj.disabled = true;
+          obj.text = cert.subjectName;
+          obj.error = 'Expired ' + cert.validityEnd.toISOString().split('T')[0];
+        } else {
+          // It is a valid certificate.
+          obj.id = cert.thumbprint;
+          obj.disabled = false;
+          obj.text = cert.subjectName + ' (issued by ' + cert.issuerName + ')';
+        }
+        return obj;
+
+      }).sort(function (a, b) { return a.disabled - b.disabled; });
+
+      $('.js-example-basic-single').select2({
+
+        // The certificates data to be shown.
+        data: select2Certs,
+
+        // Function that will be called to get the text that should be
+        // displayed for each option.
+        templateResult: function (cert) {
+          if (!cert.id) {
+            return cert.text;
+          }
+          var $certificate;
+          if (cert.disabled) {
+            $certificate = $('<span>' + cert.text + ' <font style="color:red;">' + cert.error + '</font></span>');
+          } else {
+            $certificate = $('<span><font style="font-weight: bold;">' + cert.text + '</font></span>');
+          }
+          return $certificate;
+        }
+      });
+
+      // Verify if there is no certificates available to disable the
+      // <select> element, showing the messaging informing that.
+      if (certs.length === 0) {
+        $('#certificateSelect')
+          .append('<option value="null">There is no certificate on your machine</option>')
+          .prop('disabled', true);
+      }
+
+      // Once the certificates have been listed, unblock the UI.
+      $.unblockUI();
+    });
+  }
+
+  // -----------------------------------------------------------------------
+  // Function called if an error occurs on the Web PKI component.
+  // -----------------------------------------------------------------------
+  function onWebPkiError(message, error, origin) {
+
+    // Unblock the UI.
+    $.unblockUI();
+
+    // Log the error to the browser console (for debugging purposes).
+    if (console) {
+      console.log('An error has occurred on the signature browser component: ' + message, error);
+    }
+
+    // Show the message to the user. You might want to substitute the alert
+    // below with a more user-friendly UI component to show the error (see
+    // function addAlert() on layout.html).
+    addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
+  }
+
+  // Once the page is ready, we call the init() function on the javascript
+  // code (see function init() above).
+  $(document).ready(init);
+
+</script>

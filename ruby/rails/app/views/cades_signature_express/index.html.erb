@@ -1,12 +1,8 @@
-<h2 class="ls-title">PAdES Signature with PKI Express</h2>
+<h2 class="ls-title">CAdES Signature with PKI Express</h2>
 
 <div class="ls-content">
 
-  <%
-    # This form will be shown initially and when this page is rendered to
-    # perform the signature using Web PKI component.
-  %>
-  <%= form_tag("/pades-signature-express/start/#{@file_to_sign}", {:id => 'signForm'}) do %>
+  <%= form_tag(:cades_signature_start_express, {:id => 'signForm'}) do %>
 
     <%
       # Hidden fields used to pass data from the server-side to the javascript
@@ -17,34 +13,35 @@
 
     <div class="form-group">
       <label>File to sign</label>
-      <p>You are signing <a href='/download/<%= @file_to_sign %>'>this document</a>.</p>
+        <p>You are signing <a href='/download/<%= @file_to_sign %>'>this document</a>.</p>
     </div>
 
     <%
-      # Render a select (combo box) to list the user's certificates. For now
-      # it will be empty, we'll populate it later on (see
-      # signature-start-form.js).
+      # Render a select (combo box) to list the user's certificates. For now it
+      # will be empty, we'll populate it later on
+      # (see assets/javascripts/signature-form.js).
     %>
     <div class="form-group">
-      <%= label_tag(:certificate_select, 'Choose a certificate') %>
-      <%= select_tag(:certificate_select, nil, {:class => 'custom-select', :id => 'certificateSelect'}) %>
+      <%= label_tag('certificateSelect', 'Choose a certificate') %>
+      <%= select_tag('certificateSelect', nil, {:class => 'custom-select'}) %>
     </div>
 
     <%
-      # Action buttons. Notice that the "Sign File" button is NOT a submit
-      # button. When the user clicks the button, we must first use the Web PKI
-      # component to perform the client-side computation necessary and only when
-      # that computation is finished we'll submit the form programmatically (see
-      # signature-start-form.js).
+      # Action buttons. Notice that the "Sign In" button is NOT a submit button.
+      # When the user clicks the button, we must first use the Web PKI component
+      # to perform the client-side computation necessary and only when that
+      # computation is finished we'll submit the form programmatically (see
+      # assets/javascripts/signature-form.js).
     %>
     <div class="form-group">
       <button id="signButton" type="button" class="btn btn-primary">
         <i class="fas fa-file-signature"></i> Sign File
       </button>
       <button id="refreshButton" type="button" class="btn btn-outline-primary">
-        <i class="fas fa-retweet"></i> Refresh Certificates
+        <i class="fas-fa-retweet"></i> Refresh Certificates
       </button>
     </div>
+
   <% end %>
 </div>
 
@@ -62,8 +59,8 @@
 <%= javascript_include_tag 'signature-start-form' %>
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function () {
-    // Once the page is ready, we call the init() function on the javascript code
-    // (see signature-start-form.js).
+    // Once the page is ready, we call the init() function on the
+    // javascript code (see signature-start-form.js).
     signatureStartForm.init({
         form: $('#signForm'),                       // The form that should be submitted when the operation is complete.
         certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
