@@ -11,7 +11,7 @@ class BatchPadesExpressController < ApplicationController
   # complete each signature.
 
   def index
-    @documentsIds = [*1..30]
+    @documents_ids = [*1..30]
   end
 
   # POST /batch-pades-signature-rest/start

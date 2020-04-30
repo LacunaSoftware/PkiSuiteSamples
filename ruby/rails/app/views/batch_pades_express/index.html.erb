@@ -60,12 +60,12 @@
   $(document).ready(function() {
       // Once the page is ready, we call the init() function on the javascript code (see batch-signature-form.js).
       batchSignatureExpressForm .init({
-        documentsIds: <%=@documentsIds%>,        // The IDs of documents.
+        documentsIds: <%= @documents_ids %>,         // The IDs of documents.
         certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.
         docList: $('#docList'),                      // The reference to the list of documents.
         refreshButton: $('#refreshButton'),          // The "refresh" button.
-        signButton: $('#signButton'),                 // The button that initiates the operation.
-        ctrlEndpoint: '/batch-pades-express'   // The API controller endpoint to be called by Ajax.
+        signButton: $('#signButton'),                // The button that initiates the operation.
+        ctrlEndpoint: '/batch-pades-express'         // The API controller endpoint to be called by Ajax.
       });
   });
 </script>

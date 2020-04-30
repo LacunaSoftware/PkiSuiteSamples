@@ -43,11 +43,11 @@ class ServerFilesController < ApplicationController
 
     # Copy file to the temporary folder, where the upload files are stored.
     file_id = nil
-    if(params[:is_cms_cosign] == 'false')
+    if params[:is_cms_cosign] == 'false'
       File.open(path, 'rb') do |file|
         file_id = store(file.read, 'pdf', filename)
       end
-    elsif(params[:is_cms_cosign] == 'true')
+    elsif params[:is_cms_cosign] == 'true'
       File.open(path, 'rb') do |file|
         file_id = store(file.read, 'p7s', filename)
       end

@@ -9,7 +9,7 @@ class BatchCadesExpressController < ApplicationController
   # document one by one and will call the server asynchronously to start and
   # complete each signature.
   def index
-    @documentsIds = [*1..30]
+    @documents_ids = [*1..30]
   end
 
   # POST /batch-cades-signature-express/start

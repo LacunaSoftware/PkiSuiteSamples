@@ -1,8 +1,6 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.3'
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.1'
 # Use SCSS for stylesheets
@@ -39,7 +37,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Lacuna's REST PKI client gem. Published on RubyGems: https://rubygems.org/gems/rest_pki
-gem 'rest_pki', '~> 1.0.0'
+gem 'rest_pki', '~> 1.1.0'
 
 # Lacuna's PKI Express gem. Published on RubyGems: https://rubygems.org/gems/pki_express
 gem 'pki_express', '~> 1.0.0'

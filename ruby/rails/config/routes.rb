@@ -22,11 +22,11 @@ Rails.application.routes.draw do
   get '/read-cert-select2/', action: :index, controller: :read_cert_select2
   get '/rsa-web/', action: :index, controller: :rsa_web
 
-  # get '/open-pades-rest/:file_id', action: :index, controller: :open_pades_rest, as: :open_pades_rest
+  get '/open-pades-rest/:file_id', action: :index, controller: :open_pades_rest, as: :open_pades_rest
 
-  # get '/printer-version-pades-rest/:file_id', action: :index, controller: :printer_version_pades_rest, as: :printer_version_pades_rest
-  # get '/printer-version-pades-rest/download/:file_id', action: :download, controller: :printer_version_pades_rest, as: :download_printer_version_pades_rest
-  # get '/check-pades-rest/:code', action: :index, controller: :check_pades_rest, as: :check_pades_rest
+  get '/printer-version-pades-rest/:file_id', action: :index, controller: :printer_version_pades_rest, as: :printer_version_pades_rest
+  get '/printer-version-pades-rest/download/:file_id', action: :download, controller: :printer_version_pades_rest, as: :download_printer_version_pades_rest
+  get '/check-pades-rest/:code', action: :index, controller: :check_pades_rest, as: :check_pades_rest
   
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest

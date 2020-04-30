@@ -1,60 +1,59 @@
-<!--
 <h2 class="ls-title">Open existing PAdES Signature with REST PKI</h2>
+<h5 class="ls-subtitle">The given file contains <%= @signature.signers.count %> signatures:</h5>
 
-<h5>The given file contains <%= @signature.signers.count %> signatures:</h5>
-
-<div id="accordion">
-  <% @signature.signers.each_with_index do |signer, index| %>
-    <% collapse_id = "signer_#{index}_collapse"
-       heading_id = "signer_#{index}_heading"
-    %>
-    <div class="card">
-      <div class="card-header open-header" <%=heading_id%>>
-        <a class="collapsed" role="button" data-toggle="collapse" href="#<%=collapse_id%>" aria-expanded="true" aria-controls=<%=collapse_id%>>
-          <%= signer.certificate.subject_name.common_name %>
-        </a>
-        <% unless (signer.validation_results.nil?) %>
-          <span> </span>
-          <% if (signer.validation_results.is_valid) %>
-            <span class="badge badge-success">valid</span>
-          <% else %>
-            <span class="badge badge-danger">invalid</span>
-          <% end%>
-        <% end%>
-      </div>
-      <div id=<%=collapse_id%> class="collapse" role="tabpanel" aria-labelledby=<%=heading_id%> data-parent="#accordion">
-        <div class="card-body">
-          <% unless signer.signing_time.nil? %>
-            <p>Signing time: <%= DateTime.parse(signer.signing_time).new_offset(@datetime_offset).strftime('%d/%m/%Y %H:%M') %></p>
-          <% end %>
-          <p>Message digest: <%= signer.message_digest.hex_value.upcase %> </p>
-          <% unless signer.signature_policy.nil? %>
-            <p>Signature policy: <%= signer.signature_policy.oid %></p>
-          <% end %>
-          <p>Signer information:</p>
-          <ul>
-            <li>Subject: <%= signer.certificate.subject_name.common_name %> </li>
-            <li>Email: <%= signer.certificate.email_address %></li>
-            <li>
-              ICP-Brasil fields
-              <ul>
-                <li>Tipo de certificado: <%= signer.certificate.pki_brazil.certificate_type %></li>
-                <li>CPF: <%= signer.certificate.pki_brazil.cpf_formatted %></li>
-                <li>Responsavel: <%= signer.certificate.pki_brazil.responsavel %></li>
-                <li>Empresa: <%= signer.certificate.pki_brazil.company_name %></li>
-                <li>CNPJ: <%= signer.certificate.pki_brazil.cnpj_formatted %> </li>
-                <li>RG: <%= "#{signer.certificate.pki_brazil.rg_numero} #{signer.certificate.pki_brazil.rg_emissor} #{signer.certificate.pki_brazil.rg_emissor_uf}" %></li>
-                <li>OAB: <%= "#{signer.certificate.pki_brazil.oab_numero} #{signer.certificate.pki_brazil.oab_uf}" %></li>
-              </ul>
-            </li>
-          </ul>
+<div class="ls-content">
+  <div id="accordion">
+    <% @signature.signers.each_with_index do |signer, index| %>
+      <% collapse_id = "signer_#{index}_collapse"
+         heading_id = "signer_#{index}_heading"
+      %>
+      <div class="card">
+        <div class="card-header open-header" <%=heading_id%>>
+          <a class="collapsed" role="button" data-toggle="collapse" href="#<%=collapse_id%>" aria-expanded="true" aria-controls=<%=collapse_id%>>
+            <%= signer.certificate.subject_name.common_name %>
+          </a>
           <% unless signer.validation_results.nil? %>
-            <p>Validation results:</p>
-            <textarea style="width: 100%" rows="20"><%=signer.validation_results.__to_string%></textarea>
-          <% end %>
+            <span> </span>
+            <% if signer.validation_results.is_valid %>
+              <span class="badge badge-success">valid</span>
+            <% else %>
+              <span class="badge badge-danger">invalid</span>
+            <% end%>
+          <% end%>
+        </div>
+        <div id=<%=collapse_id%> class="collapse" role="tabpanel" aria-labelledby=<%=heading_id%> data-parent="#accordion">
+          <div class="card-body">
+            <% unless signer.signing_time.nil? %>
+              <p>Signing time: <%= DateTime.parse(signer.signing_time).new_offset(@datetime_offset).strftime('%d/%m/%Y %H:%M') %></p>
+            <% end %>
+            <p>Message digest: <%= signer.message_digest.hex_value.upcase %> </p>
+            <% unless signer.signature_policy.nil? %>
+              <p>Signature policy: <%= signer.signature_policy.oid %></p>
+            <% end %>
+            <p>Signer information:</p>
+            <ul>
+              <li>Subject: <%= signer.certificate.subject_name.common_name %> </li>
+              <li>Email: <%= signer.certificate.email_address %></li>
+              <li>
+                ICP-Brasil fields
+                <ul>
+                  <li>Tipo de certificado: <%= signer.certificate.pki_brazil.certificate_type %></li>
+                  <li>CPF: <%= signer.certificate.pki_brazil.cpf_formatted %></li>
+                  <li>Responsavel: <%= signer.certificate.pki_brazil.responsavel %></li>
+                  <li>Empresa: <%= signer.certificate.pki_brazil.company_name %></li>
+                  <li>CNPJ: <%= signer.certificate.pki_brazil.cnpj_formatted %> </li>
+                  <li>RG: <%= "#{signer.certificate.pki_brazil.rg_numero} #{signer.certificate.pki_brazil.rg_emissor} #{signer.certificate.pki_brazil.rg_emissor_uf}" %></li>
+                  <li>OAB: <%= "#{signer.certificate.pki_brazil.oab_numero} #{signer.certificate.pki_brazil.oab_uf}" %></li>
+                </ul>
+              </li>
+            </ul>
+            <% unless signer.validation_results.nil? %>
+              <p>Validation results:</p>
+              <textarea style="width: 100%" rows="20"><%=signer.validation_results.__to_string%></textarea>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
--->
