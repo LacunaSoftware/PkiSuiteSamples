@@ -195,6 +195,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\XmlContractSignatureRestController.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
     <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
@@ -283,6 +284,7 @@
     <Content Include="Content\ok.png" />
     <Content Include="Content\PdfStamp.png" />
     <Content Include="Content\SampleCodEnvelope.xml" />
+    <Content Include="Content\SampleContract.xml" />
     <Content Include="Content\SampleDocument.xml" />
     <Content Include="Content\SampleNFe.xml" />
     <Content Include="favicon.ico" />
@@ -381,6 +383,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Views\XmlContractSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlContractSignatureRest\SignatureInfo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
