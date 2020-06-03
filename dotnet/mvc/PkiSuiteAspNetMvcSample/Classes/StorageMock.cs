@@ -63,6 +63,11 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return true;
 		}
 
+		internal static string GetSampleContractPath()
+		{
+			return Path.Combine(ContentPath, "SampleContract.xml");
+		}
+
 		public static Stream OpenRead(string filename) {
 
 			if (string.IsNullOrEmpty(filename)) {
