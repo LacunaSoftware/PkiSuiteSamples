@@ -15,10 +15,8 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class PrinterFriendlyCadesSdkController : BaseController
-	{
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class PrinterFriendlyCadesSdkController : BaseController {
 		// ####################################################################################################
 		// Configuration of the Printer-Friendly version
 		// ####################################################################################################
@@ -31,7 +29,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 		// Format of the verification link, with "{0}" as the verification code placeholder.
 		private const string VerificationLinkFormat = "http://localhost:54123/CheckCadesSdk?c={0}";
-		
+
 		// "Normal" font size. Sizes of header fonts are defined based on this size.
 		private const int NormalFontSize = 12;
 
@@ -54,19 +52,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		// ####################################################################################################
 
 		// GET: PrinterFriendlyCadesSdk?userfile={id}
-		public ActionResult Index(string userfile)
-		{
+		public ActionResult Index(string userfile) {
 			// Locate document and read content from storage. Our action only works if the a valid fileId is
 			// given.
-			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent))
-			{
+			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent)) {
 				return HttpNotFound();
 			}
 
 			// Check if doc already has a verification code registered on storage.
 			var verificationCode = StorageMock.GetVerificationCode(userfile);
-			if (verificationCode == null)
-			{
+			if (verificationCode == null) {
 				// If not, generate a code an register it.
 				verificationCode = AlphaCode.Generate();
 				StorageMock.SetVerificationCode(userfile, verificationCode);
@@ -79,8 +74,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			return File(pfvContent, "application/pdf", "printer-friendly.pdf");
 		}
 
-		private byte[] GeneratePrinterFriendlyVersion(byte[] fileContent, string verificationCode)
-		{
+		private byte[] GeneratePrinterFriendlyVersion(byte[] fileContent, string verificationCode) {
 			// The verification code is generated without hyphens to save storage space and avoid
 			// copy-and-paste problems. On the PDF generation, we use the "formatted" version, with hyphens
 			// (which will later be discarded on the verification page).
@@ -98,11 +92,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Create a "manifest" mark on a new page added on the end of the document. We'll add several
 			// elements to this marks.
-			var manifestMark = new PdfMark()
-			{
+			var manifestMark = new PdfMark() {
 				// This mark's container is the whole page with 1-inch margins.
-				Container = new PadesVisualRectangle()
-				{
+				Container = new PadesVisualRectangle() {
 					Top = 2.54,
 					Bottom = 2.54,
 					Right = 2.54,
@@ -116,10 +108,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			elementHeight = 3;
 			// ICP-Brasil logo on the upper-left corner.
-			manifestMark.Elements.Add(new PdfMarkImage()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkImage() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
 					Width = elementHeight, /* Using elemengHeight as width because the image is square. */
@@ -131,15 +121,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// QR Code with the verification link on the upper-right corner. We will generate a PdfMarkImage from
 			// a QR Code generated using the QRCoder library.
 			byte[] qrCodeImageContent;
-			using (var qrGenerator = new QRCodeGenerator())
-			{
-				using (var qrCodeData = qrGenerator.CreateQrCode(verificationLink, QRCodeGenerator.ECCLevel.M))
-				{
-					using (var qrCode = new QRCode(qrCodeData))
-					{
+			using (var qrGenerator = new QRCodeGenerator()) {
+				using (var qrCodeData = qrGenerator.CreateQrCode(verificationLink, QRCodeGenerator.ECCLevel.M)) {
+					using (var qrCode = new QRCode(qrCodeData)) {
 						var qrCodeBitmap = qrCode.GetGraphic(10, Color.Black, Color.White, false);
-						using (var buffer = new MemoryStream())
-						{
+						using (var buffer = new MemoryStream()) {
 							qrCodeBitmap.Save(buffer, ImageFormat.Png);
 							qrCodeImageContent = buffer.ToArray();
 						};
@@ -147,10 +133,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				}
 			}
 
-			manifestMark.Elements.Add(new PdfMarkImage()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkImage() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
 					Width = elementHeight, /* Using elemengHeight as width because the image is square. */
@@ -160,10 +144,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			});
 
 			// Header "SIGNATURES VERIFICATION" centered between ICP-Brasil logo and QR Code.
-			manifestMark.Elements.Add(new PdfMarkText()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkText() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset + 0.2,
 					Right = 0,
@@ -186,10 +168,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Header with verification code.
 			elementHeight = 2;
-			manifestMark.Elements.Add(new PdfMarkText()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkText() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
 					Right = 0,
@@ -210,10 +190,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// Paragraph saying "this document was signed by the following signer etc" and mentioning the time zone of the
 			// date/times below.
 			elementHeight = 2.5;
-			manifestMark.Elements.Add(new PdfMarkText()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkText() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
 					Left = 0,
@@ -231,8 +209,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			verticalOffset += elementHeight;
 
 			// Iterate signers.
-			foreach (var signer in signature.Signers)
-			{
+			foreach (var signer in signature.Signers) {
 
 				elementHeight = 1.5;
 
@@ -241,10 +218,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				var validationResults = signature.ValidateSignature(signer, policyMapper);
 
 				// Green "check" or red "X" icon depending on result of validation for this signer.
-				manifestMark.Elements.Add(new PdfMarkImage()
-				{
-					RelativeContainer = new PadesVisualRectangle()
-					{
+				manifestMark.Elements.Add(new PdfMarkImage() {
+					RelativeContainer = new PadesVisualRectangle() {
 						Height = 0.5,
 						Top = verticalOffset + 0.2,
 						Width = 0.5,
@@ -254,10 +229,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				});
 
 				// Description of signer (see method GetSignerDescription() below).
-				manifestMark.Elements.Add(new PdfMarkText()
-				{
-					RelativeContainer = new PadesVisualRectangle()
-					{
+				manifestMark.Elements.Add(new PdfMarkText() {
+					RelativeContainer = new PadesVisualRectangle() {
 						Height = elementHeight,
 						Top = verticalOffset,
 						Left = 0.8,
@@ -277,14 +250,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Some vertical padding from last signer.
 			verticalOffset += 1;
-				
+
 			// Paragraph with link to veritifcation site and citing both the verification code above and the
 			// verification link below.
 			elementHeight = 2.5;
-			manifestMark.Elements.Add(new PdfMarkText()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkText() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
 					Right = 0,
@@ -314,10 +285,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Verification link.
 			elementHeight = 1.5;
-			manifestMark.Elements.Add(new PdfMarkText()
-			{
-				RelativeContainer = new PadesVisualRectangle()
-				{
+			manifestMark.Elements.Add(new PdfMarkText() {
+				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
 					Right = 0,
@@ -339,36 +308,29 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			return pdfMarker.WriteMarks(StorageMock.GetEmptyPdfContent());
 		}
 
-		private static string GetDisplayName(PKCertificate c)
-		{
-			if (!string.IsNullOrEmpty(c.PkiBrazil.Responsavel))
-			{
+		private static string GetDisplayName(PKCertificate c) {
+			if (!string.IsNullOrEmpty(c.PkiBrazil.Responsavel)) {
 				return c.PkiBrazil.Responsavel;
 			}
 			return c.SubjectName.CommonName;
 		}
 
-		private static string GetDescription(PKCertificate c)
-		{
+		private static string GetDescription(PKCertificate c) {
 			var text = new StringBuilder();
 			text.Append(GetDisplayName(c));
-			if (!string.IsNullOrEmpty(c.PkiBrazil.CPF))
-			{
+			if (!string.IsNullOrEmpty(c.PkiBrazil.CPF)) {
 				text.AppendFormat(" (CPF {0})", c.PkiBrazil.CpfFormatted);
 			}
-			if (!string.IsNullOrEmpty(c.PkiBrazil.Cnpj))
-			{
+			if (!string.IsNullOrEmpty(c.PkiBrazil.Cnpj)) {
 				text.AppendFormat(", company {0} (CNPJ {1})", c.PkiBrazil.CompanyName, c.PkiBrazil.CnpjFormatted);
 			}
 			return text.ToString();
 		}
 
-		private static string GetSignerDescription(CadesSignerInfo signer)
-		{
+		private static string GetSignerDescription(CadesSignerInfo signer) {
 			var text = new StringBuilder();
 			text.Append(GetDescription(signer.SigningCertificate));
-			if (signer.SigningTime != null)
-			{
+			if (signer.SigningTime != null) {
 				var dateStr = TimeZoneInfo.ConvertTime(signer.SigningTime.Value, TimeZone).ToString(DateFormat, CultureInfo);
 				text.AppendFormat(" on {0}", dateStr);
 			}

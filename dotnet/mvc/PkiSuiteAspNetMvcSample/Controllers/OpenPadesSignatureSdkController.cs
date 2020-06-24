@@ -7,19 +7,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class OpenPadesSignatureSdkController : BaseController
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class OpenPadesSignatureSdkController : BaseController {
 		/**
 		 * This action open a Cades file and inspect its signatures.
 		 */
-		public ActionResult Index(string userfile)
-		{
+		public ActionResult Index(string userfile) {
 			// Our action only works if a userfile is given to work with.
 			byte[] userfileContent;
-			if (!StorageMock.TryGetFile(userfile, out userfileContent))
-			{
+			if (!StorageMock.TryGetFile(userfile, out userfileContent)) {
 				return HttpNotFound();
 			}
 			// Open Cades file
@@ -30,8 +26,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			var trustArbitrator = Util.GetTrustArbitrator();
 			var policyMapper = PadesPoliciesForValidation.GetPadesBasic(trustArbitrator);
 
-			return View(new OpenPadesSignatureModel()
-			{
+			return View(new OpenPadesSignatureModel() {
 				Signature = new PadesSignatureModel(signature, policyMapper)
 			});
 		}

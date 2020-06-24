@@ -49,7 +49,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// It is up to your application's business logic to determine which server documents to be available
 			// for the signature.
-			var model = new ServerFilesModel() { 
+			var model = new ServerFilesModel() {
 				ReturnController = rc,
 				IsCmsCoSign = isCmsCoSign,
 				AvailableFiles = availableFiles,
@@ -61,7 +61,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		// POST: ServerFiles
 		[HttpPost]
 		public ActionResult Index(ServerFilesModel model) {
-			
+
 			// Copy file to the App_Data folder, where the upload files is stored.
 			var fileId = StorageMock.CopySampleToAppData(model.ChosenFileId);
 

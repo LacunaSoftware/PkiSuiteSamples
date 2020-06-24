@@ -9,15 +9,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class BatchCadesSignatureSdkController : BaseController
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class BatchCadesSignatureSdkController : BaseController {
 		/**
 			This method defines the signature policy that will be used on the signature.
 		 */
-		private ICadesPolicyMapper getSignaturePolicy()
-		{
+		private ICadesPolicyMapper getSignaturePolicy() {
 
 			var policy = CadesPoliciesForGeneration.GetPkiBrazilAdrBasica();
 
@@ -32,12 +29,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		}
 
 		// GET: BatchCadesSignatureSdk
-		public ActionResult Index()
-        {
+		public ActionResult Index() {
 			// It is up to your application's business logic to determine which documents will compose the
 			// batch.
-			var model = new BatchSignatureModel()
-			{
+			var model = new BatchSignatureModel() {
 				DocumentIds = Enumerable.Range(1, 30).ToList() // From 1 to 30.
 			};
 			// Render the batch signature page.
@@ -51,14 +46,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 * of each document in the batch.
 		 */
 		[HttpPost]
-		public ActionResult Start(BatchSignatureStartRequest request)
-		{
+		public ActionResult Start(BatchSignatureStartRequest request) {
 			// Instantiate a CadesSigner class
 			var cadesSigner = new CadesSigner();
 
 			// Get the file's content.
-			if (!StorageMock.TryGetFile(StorageMock.GetBatchDocPath(request.Id), out byte[] fileContent))
-			{
+			if (!StorageMock.TryGetFile(StorageMock.GetBatchDocPath(request.Id), out byte[] fileContent)) {
 				return HttpNotFound();
 			}
 
@@ -80,12 +73,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// - The "to-sign-hash" (digest of the "to-sign-bytes"). And the OID of the digest algorithm to be 
 			// used during the signature operation. this information is need in the signature computation with
 			// Web PKI component. (see batch-cades-signature-form.js). And the to-sign-bytes.
-			return Json(new BatchCadesSignatureStartResponse()
-			{
+			return Json(new BatchCadesSignatureStartResponse() {
 				ToSignHash = signatureAlg.DigestAlgorithm.ComputeHash(toSignBytes),
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
 				ToSignBytes = toSignBytes
-			}) ;
+			});
 
 		}
 
@@ -96,8 +88,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 * it'll be redirect to SignatureInfo action to show the signature file.
 		 */
 		[HttpPost]
-		public ActionResult Complete(BatchCadesSignatureCompleteRequest request)
-		{
+		public ActionResult Complete(BatchCadesSignatureCompleteRequest request) {
 			// Instantiate a CadesSigner class
 			var cadesSigner = new CadesSigner();
 
@@ -121,8 +112,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// Get the signature as an array of bytes
 			byte[] signatureContent = cadesSigner.GetSignature();
 
-			return Json(new BatchSignatureCompleteResponse()
-			{
+			return Json(new BatchSignatureCompleteResponse() {
 				SignedFileId = StorageMock.Store(signatureContent, ".p7s")
 			});
 		}

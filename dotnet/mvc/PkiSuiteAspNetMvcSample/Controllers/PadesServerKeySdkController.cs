@@ -9,32 +9,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class PadesServerKeySdkController : BaseController
-    {
-        private IPadesPolicyMapper GetSignaturePolicy()
-        {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class PadesServerKeySdkController : BaseController {
+		private IPadesPolicyMapper GetSignaturePolicy() {
 
-            // Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
-            var arbitrator = Util.GetTrustArbitrator();
+			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
+			var arbitrator = Util.GetTrustArbitrator();
 
-            return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
-        }
+			return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
+		}
 
-        // GET: PadesServerKeySdk
-        public ActionResult Index(string userfile)
-        {
+		// GET: PadesServerKeySdk
+		public ActionResult Index(string userfile) {
 			byte[] signatureContent;
 			PKCertificateWithKey certWithKey;
-			try
-			{
+			try {
 				// Instantiate a CadesSigner class
 				var padesSigner = new PadesSigner();
 
 				// Verify if the userfile exists and get the content of the userfile.
-				if (!StorageMock.TryGetFile(userfile, out byte[] userfileContent))
-				{
+				if (!StorageMock.TryGetFile(userfile, out byte[] userfileContent)) {
 					return HttpNotFound();
 				}
 
@@ -58,22 +52,19 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 				// Get the signed PDF as an array of bytes
 				signatureContent = padesSigner.GetPadesSignature();
-			}
-			catch (ValidationException ex)
-			{
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
 			}
 
-			return View(new SignatureInfoModel()
-			{
+			return View(new SignatureInfoModel() {
 				// Store the signature file on the folder "App_Data/".
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".pdf"),
 				SignerCertificate = certWithKey.Certificate
 			});
 		}
-    }
+	}
 }

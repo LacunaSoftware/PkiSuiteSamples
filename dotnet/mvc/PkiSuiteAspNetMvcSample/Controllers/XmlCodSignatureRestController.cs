@@ -9,20 +9,17 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    /**
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	/**
 	 * This controller performs two signatures on the same XML document, one on each element, according to the standard Certificación de Origen Digital (COD),
 	 * from Asociación Latinoamericana de Integración (ALADI). For more information, please see:
 	 * 
 	 * - Spanish: http://www.aladi.org/nsfweb/Documentos/2327Rev2.pdf
 	 * - Portuguese: http://www.mdic.gov.br/images/REPOSITORIO/secex/deint/coreo/2014_09_19_-_Brasaladi_761_-_Documento_ALADI_SEC__di_2327__Rev_2_al_port_.pdf
 	 */
-    public class XmlCodSignatureRestController : BaseController
-	{
+	public class XmlCodSignatureRestController : BaseController {
 		// GET CodXmlSignature
-		public async Task<ActionResult> Index()
-		{
+		public async Task<ActionResult> Index() {
 			// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
 			var signatureStarter = new XmlElementSignatureStarter(Util.GetRestPkiClient());
@@ -56,20 +53,17 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			base.SetNoCacheHeaders();
 
 			// Render the signature page with the token obtained from REST PKI.
-			return View(new SignatureModel()
-			{
+			return View(new SignatureModel() {
 				Token = token
 			});
 		}
 
 		// GET CodXmlSignature
 		[HttpPost]
-		public async Task<ActionResult> Index(SignatureModel model)
-		{
+		public async Task<ActionResult> Index(SignatureModel model) {
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
 			// process.
-			var signatureFinisher = new XmlSignatureFinisher(Util.GetRestPkiClient())
-			{
+			var signatureFinisher = new XmlSignatureFinisher(Util.GetRestPkiClient()) {
 				// Set the token for this signature (rendered in a hidden input field, see the view).
 				Token = model.Token
 			};
@@ -86,20 +80,17 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			var fileId = StorageMock.Store(signedXml, ".xml");
 
 			// Render the signature information page.
-			return View("SignatureInfo", new SignatureInfoModel()
-			{
+			return View("SignatureInfo", new SignatureInfoModel() {
 				File = fileId,
 				SignerCertificate = signerCert
 			});
 		}
-		
+
 		// GET CodXmlSignature/SignCodeh
 		[HttpGet]
-		public async Task<ActionResult> SignCodeh(string id)
-		{
+		public async Task<ActionResult> SignCodeh(string id) {
 			// Recover XML envelope with signed COD element from "storage" based on its ID
-			if (!StorageMock.TryGetFile(id, out byte[] content))
-			{
+			if (!StorageMock.TryGetFile(id, out byte[] content)) {
 				return HttpNotFound();
 			}
 
@@ -136,20 +127,17 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			base.SetNoCacheHeaders();
 
 			// Render the signature page with the token obtained from REST PKI.
-			return View(new SignatureModel()
-			{
+			return View(new SignatureModel() {
 				Token = token
 			});
 		}
-		
+
 		// POST CodXmlSignature/SignCodeh
 		[HttpPost]
-		public async Task<ActionResult> SignCodeh(SignatureModel model)
-		{
+		public async Task<ActionResult> SignCodeh(SignatureModel model) {
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
 			// process.
-			var signatureFinisher = new XmlSignatureFinisher(Util.GetRestPkiClient())
-			{
+			var signatureFinisher = new XmlSignatureFinisher(Util.GetRestPkiClient()) {
 				// Set the token for this signature (rendered in a hidden input field, see the view).
 				Token = model.Token
 			};
@@ -166,12 +154,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			var fileId = StorageMock.Store(signedXml, ".xml");
 
 			// Render the signature information page.
-			return View("SignCodehSignatureInfo", new SignatureInfoModel()
-			{
+			return View("SignCodehSignatureInfo", new SignatureInfoModel() {
 				File = fileId,
 				SignerCertificate = signerCert
 			});
 		}
-		
+
 	}
 }

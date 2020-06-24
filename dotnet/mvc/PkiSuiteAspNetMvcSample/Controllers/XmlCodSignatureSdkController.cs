@@ -353,7 +353,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Store the signature file on the folder "App_Data/" and redirect to the SignCodehResult action with the filename.
 				File = StorageMock.Store(signatureContent, ".xml")
 			};
-			
+
 			return RedirectToAction("SignCodehSignatureInfo");
 		}
 

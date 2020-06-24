@@ -9,15 +9,12 @@ using System.Web;
 using System.Web.Mvc;
 using PkiSuiteAspNetMvcSample.Models.Sdk;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class CadesServerKeySdkController : BaseController
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class CadesServerKeySdkController : BaseController {
 		/**
 			This method defines the signature policy that will be used on the signature.
 		 */
-		private ICadesPolicyMapper getSignaturePolicy()
-		{
+		private ICadesPolicyMapper getSignaturePolicy() {
 
 			var policy = CadesPoliciesForGeneration.GetPkiBrazilAdrBasica();
 
@@ -32,18 +29,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		}
 
 		// GET: CadesServerKeySdk
-		public ActionResult Index(string userfile)
-		{
+		public ActionResult Index(string userfile) {
 			byte[] signatureContent;
 			PKCertificateWithKey certWithKey;
-			try
-			{
+			try {
 				// Instantiate a CadesSigner class
 				var cadesSigner = new CadesSigner();
 
 				// Verify if the userfile exists and get the content of the userfile.
-				if (!StorageMock.TryGetFile(userfile, out byte[] userfileContent))
-				{
+				if (!StorageMock.TryGetFile(userfile, out byte[] userfileContent)) {
 					return HttpNotFound();
 				}
 
@@ -54,9 +48,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				// Get the server's certificate, stores it and and set as the signer certificate.
 				var certContent = StorageMock.GetServerCertificate();
 				var store = Pkcs12CertificateStore.Load(certContent, "1234");
-				certWithKey =  store.GetCertificatesWithKey().First();
+				certWithKey = store.GetCertificatesWithKey().First();
 				cadesSigner.SetSigningCertificate(certWithKey);
-				
+
 				// Set the signature policy
 				cadesSigner.SetPolicy(getSignaturePolicy());
 
@@ -65,16 +59,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 				// Get the signature as an array of bytes
 				signatureContent = cadesSigner.GetSignature();
-			}
-			catch (ValidationException ex)
-			{
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
 			}
 
-			return View(new SignatureInfoModel() { 
+			return View(new SignatureInfoModel() {
 				// Store the signature file on the folder "App_Data/".
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".p7s"),

@@ -9,15 +9,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class XmlServerKeySdkController : BaseController
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class XmlServerKeySdkController : BaseController {
 		/**
 		 * This method defines the signature policy that will be used on the signature.
 		 */
-		private XmlPolicySpec getSignaturePolicy()
-		{
+		private XmlPolicySpec getSignaturePolicy() {
 
 			var policy = BrazilXmlPolicySpec.GetNFePadraoNacional();
 
@@ -33,13 +30,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		}
 
 		// GET: XmlServerKeySdk
-		public ActionResult Index()
-        {
+		public ActionResult Index() {
 			byte[] signatureContent;
 			PKCertificateWithKey certWithKey;
 
-			try
-			{
+			try {
 				// Instantiate a XmlSigner class
 				var signer = new FullXmlSigner();
 
@@ -61,22 +56,19 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 				// Get the signed XML as an array of bytes
 				signatureContent = signer.GetSignedXml();
-			}
-			catch (ValidationException ex)
-			{
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
 			}
 
-			return View(new SignatureInfoModel()
-			{
+			return View(new SignatureInfoModel() {
 				// Store the signature file on the folder "App_Data/".
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".pdf"),
 				SignerCertificate = certWithKey.Certificate
 			});
 		}
-    }
+	}
 }

@@ -12,10 +12,8 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class PrinterFriendlyCadesRestController : Controller
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class PrinterFriendlyCadesRestController : Controller {
 		// ####################################################################################################
 		// Configuration of the Printer-Friendly version
 		// ####################################################################################################
@@ -51,19 +49,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		// ####################################################################################################
 
 		// GET: PrinterFriendlyCadesRest?userfile={id}
-		public ActionResult Index(string userfile)
-		{
+		public ActionResult Index(string userfile) {
 			// Locate document and read content from storage. Our action only works if the a valid fileId is
 			// given.
-			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent))
-			{
+			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent)) {
 				return HttpNotFound();
 			}
 
 			// Check if doc already has a verification code registered on storage.
 			var verificationCode = StorageMock.GetVerificationCode(userfile);
-			if (verificationCode == null)
-			{
+			if (verificationCode == null) {
 				// If not, generate a code an register it.
 				verificationCode = AlphaCode.Generate();
 				StorageMock.SetVerificationCode(userfile, verificationCode);
@@ -75,8 +70,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// Return printer-friendly version as a downloadable file.
 			return File(pfvContent, "application/pdf", "printer-friendly.pdf");
 		}
-		private byte[] GeneratePrinterFriendlyVersion(byte[] fileContent, string verificationCode)
-		{
+		private byte[] GeneratePrinterFriendlyVersion(byte[] fileContent, string verificationCode) {
 
 			var client = Util.GetRestPkiClient();
 
@@ -93,8 +87,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			var blob = client.UploadFile(fileContent);
 
 			// 2. Inspect signatures on the uploaded CAdES file
-			var sigExplorer = new CadesSignatureExplorer(client)
-			{
+			var sigExplorer = new CadesSignatureExplorer(client) {
 				Validate = true,
 				AcceptableExplicitPolicies = SignaturePolicyCatalog.GetPkiBrazilCades(),
 				SecurityContextId = Util.GetSecurityContextId(),
@@ -172,8 +165,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			verticalOffset += elementHeight;
 
 			// Iterate signers.
-			foreach (var signer in signature.Signers)
-			{
+			foreach (var signer in signature.Signers) {
 
 				elementHeight = 1.5;
 
@@ -226,36 +218,29 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			return result.GetContent();
 		}
 
-		private static string GetDisplayName(PKCertificate c)
-		{
-			if (!string.IsNullOrEmpty(c.PkiBrazil.Responsavel))
-			{
+		private static string GetDisplayName(PKCertificate c) {
+			if (!string.IsNullOrEmpty(c.PkiBrazil.Responsavel)) {
 				return c.PkiBrazil.Responsavel;
 			}
 			return c.SubjectName.CommonName;
 		}
 
-		private static string GetDescription(PKCertificate c)
-		{
+		private static string GetDescription(PKCertificate c) {
 			var text = new StringBuilder();
 			text.Append(GetDisplayName(c));
-			if (!string.IsNullOrEmpty(c.PkiBrazil.Cpf))
-			{
+			if (!string.IsNullOrEmpty(c.PkiBrazil.Cpf)) {
 				text.AppendFormat(" (CPF {0})", c.PkiBrazil.CpfFormatted);
 			}
-			if (!string.IsNullOrEmpty(c.PkiBrazil.Cnpj))
-			{
+			if (!string.IsNullOrEmpty(c.PkiBrazil.Cnpj)) {
 				text.AppendFormat(", company {0} (CNPJ {1})", c.PkiBrazil.CompanyName, c.PkiBrazil.CnpjFormatted);
 			}
 			return text.ToString();
 		}
 
-		private static string GetSignerDescription(CadesSignerInfo signer)
-		{
+		private static string GetSignerDescription(CadesSignerInfo signer) {
 			var text = new StringBuilder();
 			text.Append(GetDescription(signer.Certificate));
-			if (signer.SigningTime != null)
-			{
+			if (signer.SigningTime != null) {
 				var dateStr = TimeZoneInfo.ConvertTime(signer.SigningTime.Value, TimeZone).ToString(DateFormat, CultureInfo);
 				text.AppendFormat(" on {0}", dateStr);
 			}

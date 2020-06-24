@@ -8,16 +8,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class XmlSignatureSdkController : BaseController
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class XmlSignatureSdkController : BaseController {
 
 		/**
 		 * This method defines the signature policy that will be used on the signature.
 		 */
-		private XmlPolicySpec getSignaturePolicy()
-		{
+		private XmlPolicySpec getSignaturePolicy() {
 
 			var policy = BrazilXmlPolicySpec.GetNFePadraoNacional();
 
@@ -34,8 +31,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 		// GET: XmlSignature
 		[HttpGet]
-		public ActionResult Index()
-		{
+		public ActionResult Index() {
 			return View();
 		}
 
@@ -47,14 +43,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 * (the "to-sign-hash").
 		 */
 		[HttpPost]
-		public ActionResult Index(SignatureStartModel model)
-		{
+		public ActionResult Index(SignatureStartModel model) {
 
 			byte[] toSignHash, transferData;
 			SignatureAlgorithm signatureAlg;
 
-			try
-			{
+			try {
 				// Instantiate a XmlSigner class
 				var signer = new FullXmlSigner();
 
@@ -71,9 +65,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				// be used on the client-side, based on the signature policy.
 				toSignHash = signer.GenerateToSignHash(out signatureAlg, out transferData);
 
-			}
-			catch (ValidationException ex)
-			{
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired. 
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
@@ -87,8 +79,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// - The "to-sign-hash" to be signed. (see signature-complete-form.js)
 			// - The OID of the digest algorithm to be used during the signature operation.
 			// We'll store this value on TempData, that will store in dictionary shared between actions.
-			TempData["SignatureCompleteModel"] = new SignatureCompleteModel()
-			{
+			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
 				CertThumb = model.CertThumb,
 				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 				ToSignHash = toSignHash,
@@ -100,12 +91,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 		// GET: XmlSignature/Complete
 		[HttpGet]
-		public ActionResult Complete()
-		{
+		public ActionResult Complete() {
 			// Recovery data from Index action, if returns null, it'll be redirected to Index 
 			// action again.
-			if (!(TempData["SignatureCompleteModel"] is SignatureCompleteModel model))
-			{
+			if (!(TempData["SignatureCompleteModel"] is SignatureCompleteModel model)) {
 				return RedirectToAction("Index");
 			}
 
@@ -119,17 +108,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 * it'll be redirect to SignatureInfo action to show the signature file.
 		 */
 		[HttpPost]
-		public ActionResult Complete(SignatureCompleteModel model)
-		{
+		public ActionResult Complete(SignatureCompleteModel model) {
 
 			byte[] signatureContent;
 
-			try
-			{
+			try {
 
 				// Recover the "transfer data" content stored in a temporary file.
-				if (!StorageMock.TryGetFile(model.TransferDataFileId, out byte[] transferDataContent))
-				{
+				if (!StorageMock.TryGetFile(model.TransferDataFileId, out byte[] transferDataContent)) {
 					return HttpNotFound();
 				}
 
@@ -149,9 +135,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 				// Get the signed XML as an array of bytes
 				signatureContent = signer.GetSignedXml();
 
-			}
-			catch (ValidationException ex)
-			{
+			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate is revoked.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
@@ -161,8 +145,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			// - The filename to be available to download in next action.
 			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
-			TempData["SignatureInfoModel"] = new SignatureInfoModel()
-			{
+			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
@@ -174,12 +157,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 		// GET: XmlSignature/SignatureInfo
 		[HttpGet]
-		public ActionResult SignatureInfo()
-		{
+		public ActionResult SignatureInfo() {
 			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
 			// action again.
-			if (!(TempData["SignatureInfoModel"] is SignatureInfoModel model))
-			{
+			if (!(TempData["SignatureInfoModel"] is SignatureInfoModel model)) {
 				return RedirectToAction("Index");
 			}
 

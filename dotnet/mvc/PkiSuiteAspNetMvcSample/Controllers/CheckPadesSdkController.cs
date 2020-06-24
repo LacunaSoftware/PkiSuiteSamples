@@ -9,13 +9,10 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-    public class CheckPadesSdkController : BaseController
-    {
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class CheckPadesSdkController : BaseController {
 		// GET: CheckPadesSdk?c={id}
-		public ActionResult Index(string c)
-		{
+		public ActionResult Index(string c) {
 
 			// On PrinterFriendlyVersionController, we stored the unformatted version of the verification
 			// code (without hyphens) but used the formatted version (with hiphens) on the printer-friendly
@@ -24,8 +21,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Get document associated with verification code.
 			var fileId = StorageMock.LookupVerificationCode(verificationCode);
-			if (fileId == null)
-			{
+			if (fileId == null) {
 				// Invalid code give!
 				// Small delay to slow down brute-force attacks (if you want to be extra careful you might
 				// want to add a CAPTCHA to the process).
@@ -46,8 +42,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
 			// Render the information (see file Check/Index.html for more information on
 			// the information returned).
-			return View(new OpenPadesSignatureModel()
-			{
+			return View(new OpenPadesSignatureModel() {
 				Signature = new PadesSignatureModel(signature, policyMapper),
 				File = fileId
 			});
