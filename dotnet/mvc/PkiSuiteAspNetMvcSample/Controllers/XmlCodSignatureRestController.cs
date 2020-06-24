@@ -34,7 +34,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			signatureStarter.SetToSignElementId("COD");
 
 			// Set the signature policy
-			signatureStarter.SetSignaturePolicy(StandardXmlSignaturePolicies.PkiBrazil.NFePadraoNacional);
+			signatureStarter.SetSignaturePolicy(StandardXmlSignaturePolicies.CodSha1);
 
 			// Set the security context to be used to determine trust in the certificate chain. We have
 			// encapsulated the security context choice on Util.cs.
@@ -114,7 +114,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			signatureStarter.SetToSignElementId("CODEH");
 
 			// Set the signature policy
-			signatureStarter.SetSignaturePolicy(StandardXmlSignaturePolicies.PkiBrazil.NFePadraoNacional);
+			signatureStarter.SetSignaturePolicy(StandardXmlSignaturePolicies.CodSha1);
 
 			// Set the security context to be used to determine trust in the certificate chain. We have
 			// encapsulated the security context choice on Util.cs.
