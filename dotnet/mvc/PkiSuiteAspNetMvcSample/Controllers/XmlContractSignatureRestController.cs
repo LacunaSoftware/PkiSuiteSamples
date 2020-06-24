@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PkiSuiteAspNetMvcSample.Controllers
-{
-	public class XmlContractSignatureRestController : BaseController
-	{
+namespace PkiSuiteAspNetMvcSample.Controllers {
+	public class XmlContractSignatureRestController : BaseController {
 		/**
 		 * This action initiates a XML element signature using REST PKI and renders the signature page.
 		 * The XML element signature is recommended in cases which there is a need to sign a specific
@@ -23,8 +21,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 * with a URL argument named "userfile".
 		 */
 		[HttpGet]
-		public async Task<ActionResult> Index()
-		{
+		public async Task<ActionResult> Index() {
 
 			// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
@@ -59,8 +56,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			base.SetNoCacheHeaders();
 
 			// Render the signature page with the token obtained from REST PKI.
-			return View(new SignatureModel()
-			{
+			return View(new SignatureModel() {
 				Token = token
 			});
 		}
@@ -70,13 +66,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 * signature.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Index(SignatureModel model)
-		{
+		public async Task<ActionResult> Index(SignatureModel model) {
 
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
 			// process.
-			var signatureFinisher = new XmlSignatureFinisher(Util.GetRestPkiClient())
-			{
+			var signatureFinisher = new XmlSignatureFinisher(Util.GetRestPkiClient()) {
 				// Set the token for this signature (rendered in a hidden input field, see the view).
 				Token = model.Token
 			};
@@ -93,8 +87,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			var fileId = StorageMock.Store(signedXml, ".xml");
 
 			// Render the signature information page.
-			return View("SignatureInfo", new SignatureInfoModel()
-			{
+			return View("SignatureInfo", new SignatureInfoModel() {
 				File = fileId,
 				SignerCertificate = signerCert
 			});

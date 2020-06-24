@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class CheckPadesRestController : BaseController {
 
-		// GET: Check?c={id}
+		// GET: CheckPadesRest?c={id}
 		public ActionResult Index(string c) {
 
 			// On PrinterFriendlyVersionController, we stored the unformatted version of the verification

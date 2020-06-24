@@ -26,8 +26,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			string filename;
 			try {
 				content = StorageMock.Read(id, out filename);
-			}
-			catch (FileNotFoundException) {
+			} catch (FileNotFoundException) {
 				return HttpNotFound();
 			}
 

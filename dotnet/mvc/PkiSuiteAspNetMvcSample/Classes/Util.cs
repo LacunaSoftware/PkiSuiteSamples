@@ -109,8 +109,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 				if (index > 0) {
 					if (index < count - 1) {
 						text.Append(", ");
-					}
-					else {
+					} else {
 						text.Append(" e ");
 					}
 				}

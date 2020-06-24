@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace PkiSuiteAspNetMvcSample.Models.Sdk {
 	public class XmlSignatureModel {
-		
+
 		public XmlSignedEntityTypes Type { get; set; }
 		public XmlElementModel SignedElement { get; set; }
 		public SignatureAlgorithmAndValueModel Signature { get; set; }
