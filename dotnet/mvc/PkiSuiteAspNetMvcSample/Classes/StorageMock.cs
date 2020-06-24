@@ -68,8 +68,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return true;
 		}
 
-		internal static string GetSampleContractPath()
-		{
+		internal static string GetSampleContractPath() {
 			return Path.Combine(ContentPath, "SampleContract.xml");
 		}
 
@@ -87,14 +86,12 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return fileInfo.OpenRead();
 		}
 
-		internal static string CopySampleToAppData(SampleDocs sample)
-		{
+		internal static string CopySampleToAppData(SampleDocs sample) {
 			var path = GetSampleDocPath(sample);
-			
+
 			var extension = new FileInfo(path).Extension;
 
-			using (var inStream = OpenRead(path))
-			{
+			using (var inStream = OpenRead(path)) {
 				return StorageMock.Store(inStream, extension);
 			}
 		}
@@ -305,8 +302,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return File.ReadAllBytes(Path.Combine(ContentPath, filename));
 		}
 
-		public static byte[] GetServerCertificate()
-		{
+		public static byte[] GetServerCertificate() {
 			return File.ReadAllBytes(Path.Combine(ContentPath, "Pierre de Fermat.pfx"));
 		}
 
