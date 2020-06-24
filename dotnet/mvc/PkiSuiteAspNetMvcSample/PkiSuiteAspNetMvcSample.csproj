@@ -219,6 +219,8 @@
     <Compile Include="Models\MergeServerFilesModel.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
+    <Compile Include="Controllers\XmlContractSignatureRestController.cs" />
+    <Compile Include="Models\Sdk\BatchSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
     <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureStartResponse.cs" />
@@ -310,6 +312,7 @@
     <Content Include="Content\ok.png" />
     <Content Include="Content\PdfStamp.png" />
     <Content Include="Content\SampleCodEnvelope.xml" />
+    <Content Include="Content\SampleContract.xml" />
     <Content Include="Content\SampleDocument.xml" />
     <Content Include="Content\SampleNFe.xml" />
     <Content Include="favicon.ico" />
@@ -431,6 +434,8 @@
     <Content Include="Views\XmlCodSignatureRest\SignatureInfo.cshtml" />
     <Content Include="Views\XmlCodSignatureRest\SignCodeh.cshtml" />
     <Content Include="Views\XmlCodSignatureRest\SignCodehSignatureInfo.cshtml" />
+    <Content Include="Views\XmlContractSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlContractSignatureRest\SignatureInfo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
