@@ -4,9 +4,17 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Api.Models.Sdk {
-	public class BatchSignatureStartResponse {
+	public class BatchCadesSignatureStartResponse {
 
-		public string TransferDataFileId { get; set; }
+		public byte[] ToSignBytes { get; set; }
+		public string ToSignBytesBase64 {
+			get {
+				return ToSignBytes != null ? Convert.ToBase64String(ToSignBytes) : "";
+			}
+			set {
+				ToSignBytes = !string.IsNullOrEmpty(value) ? Convert.FromBase64String(value) : null;
+			}
+		}
 
 		public byte[] ToSignHash { get; set; }
 		public string ToSignHashBase64 {

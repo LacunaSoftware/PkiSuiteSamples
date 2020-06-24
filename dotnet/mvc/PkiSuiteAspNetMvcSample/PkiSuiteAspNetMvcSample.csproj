@@ -54,14 +54,14 @@
     <Reference Include="Lacuna.Pki, Version=2.5.3.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestClient, Version=1.11.1.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestClient.1.11.1\lib\net45\Lacuna.RestClient.dll</HintPath>
+    <Reference Include="Lacuna.RestClient, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestClient.1.12.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.20.1\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.21.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.21.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.20.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.20.0\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Client.1.20.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.T8, Version=1.2.1.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.T8.dll</HintPath>
@@ -69,6 +69,11 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.9\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -78,8 +83,8 @@
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
@@ -161,6 +166,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Diagnostics.DiagnosticSource">
@@ -195,11 +201,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\CadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\CheckCadesRestController.cs" />
+    <Compile Include="Controllers\CheckCadesSdkController.cs" />
+    <Compile Include="Controllers\CheckPadesSdkController.cs" />
+    <Compile Include="Controllers\MergeCadesSdkController.cs" />
+    <Compile Include="Controllers\MergeServerFilesController.cs" />
+    <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\PadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyCadesRestController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
+    <Compile Include="Controllers\XmlCodSignatureRestController.cs" />
+    <Compile Include="Controllers\XmlServerKeySdkController.cs" />
+    <Compile Include="Controllers\XmlSignatureSdkController.cs" />
+    <Compile Include="Models\MergeServerFilesModel.cs" />
+    <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
+    <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
     <Compile Include="Controllers\XmlContractSignatureRestController.cs" />
-    <Compile Include="Models\Sdk\BatchSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
     <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
-    <Compile Include="Models\Sdk\BatchSignatureStartResponse.cs" />
+    <Compile Include="Models\Sdk\BatchCadesSignatureStartResponse.cs" />
+    <Compile Include="Models\Sdk\BatchPadesSignatureStartResponse.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\CadesPolicyMapperWrapper.cs" />
     <Compile Include="Classes\PadesVisualElements.cs" />
@@ -250,8 +274,10 @@
     <Compile Include="Models\Sdk\CadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\CertificateModel.cs" />
     <Compile Include="Models\Sdk\DigestAlgorithmAndValueModel.cs" />
+    <Compile Include="Models\Sdk\OpenPadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\OpenCadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\OpenXmlSignatureModel.cs" />
+    <Compile Include="Models\Sdk\PadesSignatureModel.cs" />
     <Compile Include="Models\Sdk\SignatureAlgorithmAndValueModel.cs" />
     <Compile Include="Models\Sdk\SignatureCompleteModel.cs" />
     <Compile Include="Models\Sdk\SignatureInfoModel.cs" />
@@ -273,7 +299,8 @@
     <Content Include="Content\icp-brasil.png" />
     <Content Include="Content\InvoiceWithSigs.xml" />
     <Content Include="Content\js\authentication-form.js" />
-    <Content Include="Content\js\batch-signature-sdk-form.js" />
+    <Content Include="Content\js\batch-cades-signature-sdk-form.js" />
+    <Content Include="Content\js\batch-pades-signature-sdk-form.js" />
     <Content Include="Content\js\batch-signature-rest-form.js" />
     <Content Include="Content\js\lacuna-web-pki-2.11.0.js" />
     <Content Include="Content\js\signature-complete-form.js" />
@@ -382,7 +409,30 @@
     <Content Include="Views\OpenCadesSignatureSdk\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\CMSAttached1.p7s" />
+    <Content Include="Content\CMSAttached2.p7s" />
+    <Content Include="Content\CMSDataFile.pdf" />
+    <Content Include="Content\CMSDetached1.p7s" />
+    <Content Include="Content\CMSDetached2.p7s" />
+    <Content Include="Content\empty.pdf" />
     <None Include="packages.config" />
+    <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\CadesServerKeySdk\Index.cshtml" />
+    <Content Include="Views\PadesServerKeySdk\Index.cshtml" />
+    <Content Include="Views\OpenPadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\XmlSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlServerKeySdk\Index.cshtml" />
+    <Content Include="Views\MergeServerFiles\Index.cshtml" />
+    <Content Include="Views\MergeCadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckPadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckCadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckCadesRest\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignCodeh.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignCodehSignatureInfo.cshtml" />
     <Content Include="Views\XmlContractSignatureRest\Index.cshtml" />
     <Content Include="Views\XmlContractSignatureRest\SignatureInfo.cshtml" />
   </ItemGroup>

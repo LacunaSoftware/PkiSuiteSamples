@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Api.Models.Sdk {
-	public class BatchSignatureCompleteRequest {
+	public class BatchPadesSignatureCompleteRequest {
 		public byte[] Signature { get; set; }
 		public string SignatureBase64 {
 			get {
