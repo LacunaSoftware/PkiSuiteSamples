@@ -220,7 +220,6 @@
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
     <Compile Include="Controllers\XmlContractSignatureRestController.cs" />
-    <Compile Include="Models\Sdk\BatchSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
     <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureStartResponse.cs" />
