@@ -45,26 +45,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.6.7\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="iTextSharp.LGPLv2.Core, Version=1.6.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.LGPLv2.Core.1.6.7\lib\net40\iTextSharp.LGPLv2.Core.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.DataAnnotations, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.DataAnnotations.1.2.0\lib\net45\Lacuna.DataAnnotations.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.Pki, Version=2.5.3.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.Pki.dll</HintPath>
+    <Reference Include="Lacuna.Pki, Version=2.7.2.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.7.2\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.RestClient, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.RestClient.1.12.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.21.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.21.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.23.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.23.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.RestPki.Client, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.RestPki.Client.1.20.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.T8, Version=1.2.1.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.T8.dll</HintPath>
+    <Reference Include="Lacuna.T8, Version=1.2.2.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.7.2\lib\net46\Lacuna.T8.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -201,6 +204,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Enums.cs" />
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
     <Compile Include="Controllers\CheckCadesRestController.cs" />
@@ -210,6 +214,7 @@
     <Compile Include="Controllers\MergeServerFilesController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\PrescricaoEletronicaSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyCadesRestController.cs" />
     <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
@@ -217,6 +222,7 @@
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\MergeServerFilesModel.cs" />
+    <Compile Include="Models\Sdk\PrescricaoDataModel.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
     <Compile Include="Controllers\XmlContractSignatureRestController.cs" />
@@ -435,6 +441,10 @@
     <Content Include="Views\XmlCodSignatureRest\SignCodehSignatureInfo.cshtml" />
     <Content Include="Views\XmlContractSignatureRest\Index.cshtml" />
     <Content Include="Views\XmlContractSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\PrescricaoEletronicaSdk\Complete.cshtml" />
+    <Content Include="Views\PrescricaoEletronicaSdk\Start.cshtml" />
+    <Content Include="Views\PrescricaoEletronicaSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\PrescricaoEletronicaSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
