@@ -12,7 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
-	public class PrescricaoEletronicaSdkController : BaseController {
+	public class ReceitaSimplesSdkController : BaseController {
 		private IPadesPolicyMapper GetSignaturePolicy() {
 
 			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
@@ -37,7 +37,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			"Brasília", "Maria da Silva", "Clínica Local", "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias",
 			"Bairro do Mar", "0000000", "DF" };
 
-		// GET: PrescricaoEletronica
+		// GET: ReceitaSimples
 		public ActionResult Index() {
 			return View(new PrescricaoDataModel { 
 				UFs = ufs
@@ -45,7 +45,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: PrescricaoEletronica
+		* POST: ReceitaSimples
 		* 
 		* This action is called once the user enter the data for the prescrição, and generates
 		* the file to be signed.
@@ -194,7 +194,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: PrescricaoEletronica/Start
+		* POST: ReceitaSimples/Start
 		* 
 		* This action is called once the user's certificate encoding has been read, and contains the 
 		* logic to prepare the hash that needs to be actually signed with the user's private key
@@ -286,7 +286,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("Complete", new { userfile = model.UserFile });
 		}
 
-		// GET: PrescricaoEletronica/Complete?userfile=<file_id>
+		// GET: ReceitaSimples/Complete?userfile=<file_id>
 		[HttpGet]
 		public ActionResult Complete(string userfile) {
 
@@ -301,7 +301,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: PrescricaoEletronica/Complete
+		* POST: ReceitaSimples/Complete
 		* 
 		* This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
 		* it'll be redirect to SignatureInfo action to show the signature file.
@@ -354,7 +354,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("SignatureInfo");
 		}
 
-		// GET: PrescricaoEletronica/SignatureInfo
+		// GET: ReceitaSimples/SignatureInfo
 		[HttpGet]
 		public ActionResult SignatureInfo() {
 

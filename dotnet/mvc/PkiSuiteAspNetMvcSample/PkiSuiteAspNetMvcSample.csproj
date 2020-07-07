@@ -214,7 +214,7 @@
     <Compile Include="Controllers\MergeServerFilesController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeySdkController.cs" />
-    <Compile Include="Controllers\PrescricaoEletronicaSdkController.cs" />
+    <Compile Include="Controllers\ReceitaSimplesSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyCadesRestController.cs" />
     <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
@@ -441,10 +441,10 @@
     <Content Include="Views\XmlCodSignatureRest\SignCodehSignatureInfo.cshtml" />
     <Content Include="Views\XmlContractSignatureRest\Index.cshtml" />
     <Content Include="Views\XmlContractSignatureRest\SignatureInfo.cshtml" />
-    <Content Include="Views\PrescricaoEletronicaSdk\Complete.cshtml" />
-    <Content Include="Views\PrescricaoEletronicaSdk\Start.cshtml" />
-    <Content Include="Views\PrescricaoEletronicaSdk\SignatureInfo.cshtml" />
-    <Content Include="Views\PrescricaoEletronicaSdk\Index.cshtml" />
+    <Content Include="Views\ReceitaSimplesSdk\Complete.cshtml" />
+    <Content Include="Views\ReceitaSimplesSdk\Start.cshtml" />
+    <Content Include="Views\ReceitaSimplesSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\ReceitaSimplesSdk\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
