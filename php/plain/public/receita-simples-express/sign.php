@@ -32,7 +32,7 @@ $defaultFieldValues = array( "+00 (00) 0000-0000", "Complexo Hospitalar", "00/00
 // Guarantees tha the 'app-data' folder exists.
 StorageMock::createAppData();
 
-$fileId = StorageMock::generateFilename(".pdf", null);
+$fileId = StorageMock::generateFilename(".pdf", null) . ".pdf";
 $filePath = StorageMock::APP_DATA_PATH . $fileId;
 
 // create new PDF document
