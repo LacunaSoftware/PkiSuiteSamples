@@ -1,0 +1,11 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Rest
+@model SignatureInfoModel
+
+<h2 class="ls-title">COD XML signature (CODEH element) with REST PKI</h2>
+
+<p>CODEH element signed successfully!</p>
+
+<p>
+	<a href="/Download/File/@Model.File" class="btn btn-info">Download XML with signed COD and CODEH elements</a>
+	<a href="/OpenXmlSignatureRest?userfile=@Model.File" class="btn btn-outline-info">Validate signatures</a>
+</p>

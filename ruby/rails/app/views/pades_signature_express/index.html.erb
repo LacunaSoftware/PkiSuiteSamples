@@ -61,16 +61,16 @@
 %>
 <%= javascript_include_tag 'signature-start-form' %>
 <script type="text/javascript" charset="utf-8">
-    $(document).ready(function () {
-        // Once the page is ready, we call the init() function on the javascript code
-        // (see signature-start-form.js).
-        signatureStartForm.init({
-            form: $('#signForm'),                       // The form that should be submitted when the operation is complete.
-            certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
-            refreshButton: $('#refreshButton'),         // The "refresh" button.
-            signButton: $('#signButton'),               // The button that initiates the operation.
-            certThumbField: $('#certThumbField'),       // The "certThumb" field.
-            certContentField: $('#certContentField')    // The "certContent" field.
-        });
+  $(document).ready(function () {
+    // Once the page is ready, we call the init() function on the javascript code
+    // (see signature-start-form.js).
+    signatureStartForm.init({
+        form: $('#signForm'),                       // The form that should be submitted when the operation is complete.
+        certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
+        refreshButton: $('#refreshButton'),         // The "refresh" button.
+        signButton: $('#signButton'),               // The button that initiates the operation.
+        certThumbField: $('#certThumbField'),       // The "certThumb" field.
+        certContentField: $('#certContentField')    // The "certContent" field.
     });
+  });
 </script>
