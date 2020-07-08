@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file perform a PAdES signature in three steps using PKI Express and Web
- * PKI.
+ * This file generates the Receita Simples file and it performs a PAdES 
+ * signature in three steps using PKI Express and Web PKI.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -55,7 +55,7 @@ $pdf->setFormDefaultProp(array(
     'strokeColor'=>array(255, 128, 128)));
 
 // Add form field
-// REQUIRED!
+
 // Field "Tipo de Documento". This text field identifies the type of
 // document is being generated. It's a hidden field because this type
 // is identified by the field name and NOT by the value of this field.
@@ -70,31 +70,26 @@ $pdf->Ln(10);
 
 $pdf->SetFont('helvetica', '', 12);
 
-// Name
+// Add Field - Nome Completo Emitente
 $pdf->Cell(55, 7, 'NOME DO(A) MÉDICO(A):');
 $pdf->TextField('03_Nome Completo Emitente', 100, 7, array(
     'readonly' => 'true',
     'value'=> $nomeMedico));
 $pdf->Ln(8);
 
-// REQUIRED!
-// Field "CRM". This text field contains the doctor's register
-// number on CRM. In this sample, we are filling in the field with
-// value of the variable "crm" defined above, that's why we set
-// this field as read-only.
+// Add Field - CRM
 $pdf->Cell(55, 7, 'CRM:');
 $pdf->TextField(FieldName::CRM, 100, 7, array(
     'readonly' => 'true',
     'value'=> $crm));
 $pdf->Ln(8);
 
-// REQUIRED!
-// Field "CRM UF". This combo box field contains the "UF" where the
-// doctor is registered. 
+// Add Field - CRM UF
 $pdf->Cell(55, 7, 'CRM UF:');
 $pdf->ComboBox(FieldName::CRM_UF, 100, 7, $ufs, array('value'=> $crmUF));
 $pdf->Ln(8);
 
+// Add other fields
 $length = count($defaultFieldLabel);
 for ($i=0; $i < $length ; $i++) { 
     $pdf->Cell(55, 7, $defaultFieldLabel[$i]);

@@ -2,9 +2,8 @@
 
 /**
  * This block will be executed only when it's on the "start" step. In this
- * sample, the state is set
- * as "start" programmatically after the user press the "Sign File" button
- * (see method sign() on content/js/signature-form.js).
+ * sample, the state is set as "start" programmatically after the user press 
+ * the "Sign File" button (see method sign() on content/js/signature-form.js).
  */
 require __DIR__ . '/../../vendor/autoload.php';
 

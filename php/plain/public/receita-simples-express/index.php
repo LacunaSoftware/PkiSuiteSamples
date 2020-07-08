@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file perform a PAdES signature in three steps using PKI Express and Web
- * PKI.
+ * This file initiates the generation of Receita Simples file. The form is posted 
+ * to another file, receita-simples-express.php/sign, which generate the file.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
