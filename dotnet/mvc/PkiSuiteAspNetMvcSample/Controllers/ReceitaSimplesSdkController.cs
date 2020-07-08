@@ -74,7 +74,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				var table = new PdfPTable(6);
 				table.WidthPercentage = 100;
 
-				// REQUIRED!
 				// Field "Tipo de Documento". This text field identifies the type of
 				// document is being generated. It's a hidden field because this type
 				// is identified by the field name and NOT by the value of this field.
@@ -91,6 +90,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				};
 				table.AddCell(tipoField);
 
+				// Fields with default values
 				for (int i = 0; i < DefaultFieldName.Length; i++) {
 					var fieldLabel = new PdfPCell() {
 						Colspan = 2,
@@ -128,11 +128,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				};
 				table.AddCell(doctorNameField);
 
-				// REQUIRED!
 				// Field "CRM". This text field contains the doctor's register
-				// number on CRM. In this sample, we are filling in the field with
-				// value of the variable "crm" defined above, that's why we set
-				// this field as read-only.
+				// number on CRM.
 				var crmLabel = new PdfPCell() {
 					Colspan = 2,
 					Border = Rectangle.NO_BORDER,
@@ -151,11 +148,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				};
 				table.AddCell(crmField);
 
-				// REQUIRED!
 				// Field "CRM UF". This combo box field contains the "UF" where the
-				// doctor is registered. In this sample, we are filling in the field
-				// with value of the variable "crmUF" defined above, that's why we
-				// set this field as read-only.
+				// doctor is registered.
 				var crmUFLabel = new PdfPCell() {
 					Colspan = 2,
 					Border = Rectangle.NO_BORDER,
@@ -186,7 +180,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 		}
 
-		// GET: PadesSignature
+		// GET: ReceitaSimples/Start?userfile=<file_id>
 		public ActionResult Start(string userfile) {
 			return View(new SignatureStartModel() {
 				UserFile = userfile
