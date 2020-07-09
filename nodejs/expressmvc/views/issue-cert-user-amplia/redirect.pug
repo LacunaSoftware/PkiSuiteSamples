@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+
+   h2 Issue a certificate storing the private key on the user's machine
+
+block scripts
+   script.
+      $(document).ready(function () {
+
+         var timer = 3;
+         $.blockUI({message: 'You will be redirected in <span id="timer">' + timer + '</span> seconds...'});
+
+         // Redirects after "timer" seconds.
+         let intervalId = setInterval(function () {
+            timer--;
+            $('#timer').text(timer);
+
+            if (timer <= 0) {
+               clearInterval(intervalId);
+               window.location.href = '#{redirectLink}';
+            }
+         }, 1000);
+
+      });

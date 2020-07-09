@@ -26,15 +26,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			string filename;
 			try {
 				content = StorageMock.Read(id, out filename);
-			}
-			catch (FileNotFoundException) {
+			} catch (FileNotFoundException) {
 				return HttpNotFound();
 			}
 
 			return File(content, MimeMapping.GetMimeMapping(filename), filename);
 		}
 
-		// GET Download/SamplePDF/<file_id>
+		// GET Download/Sample/<file_id>
 		[HttpGet]
 		public ActionResult Sample(SampleDocs id) {
 			string filename;
@@ -54,6 +53,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public ActionResult SampleNFe() {
 			var fileContent = StorageMock.Read(StorageMock.GetSampleNFePath());
 			return File(fileContent, "text/xml", "SampleNFe.xml");
+		}
+
+		// GET Download/SampleContract
+		[HttpGet]
+		public ActionResult SampleContract() {
+			var fileContent = StorageMock.Read(StorageMock.GetSampleContractPath());
+			return File(fileContent, "text/xml", "SampleContract.xml");
 		}
 
 		// GET Download/SampleInvoice

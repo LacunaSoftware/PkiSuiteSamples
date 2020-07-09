@@ -54,14 +54,14 @@
     <Reference Include="Lacuna.Pki, Version=2.5.3.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestClient, Version=1.11.1.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestClient.1.11.1\lib\net45\Lacuna.RestClient.dll</HintPath>
+    <Reference Include="Lacuna.RestClient, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestClient.1.12.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.20.1\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.21.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.21.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.19.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.19.0\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Client.1.20.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.T8, Version=1.2.1.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.5.3\lib\net46\Lacuna.T8.dll</HintPath>
@@ -69,6 +69,11 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.9\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -78,8 +83,8 @@
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
@@ -161,6 +166,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Diagnostics.DiagnosticSource">
@@ -195,71 +201,95 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\CadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\CheckCadesRestController.cs" />
+    <Compile Include="Controllers\CheckCadesSdkController.cs" />
+    <Compile Include="Controllers\CheckPadesSdkController.cs" />
+    <Compile Include="Controllers\MergeCadesSdkController.cs" />
+    <Compile Include="Controllers\MergeServerFilesController.cs" />
+    <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\PadesServerKeySdkController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyCadesRestController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
+    <Compile Include="Controllers\XmlCodSignatureRestController.cs" />
+    <Compile Include="Controllers\XmlServerKeySdkController.cs" />
+    <Compile Include="Controllers\XmlSignatureSdkController.cs" />
+    <Compile Include="Models\MergeServerFilesModel.cs" />
+    <Compile Include="Models\Sdk\BatchCadesSignatureCompleteRequest.cs" />
+    <Compile Include="Models\Sdk\BatchPadesSignatureCompleteRequest.cs" />
+    <Compile Include="Controllers\XmlContractSignatureRestController.cs" />
+    <Compile Include="Models\Sdk\BatchSignatureCompleteResponse.cs" />
+    <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
+    <Compile Include="Models\Sdk\BatchCadesSignatureStartResponse.cs" />
+    <Compile Include="Models\Sdk\BatchPadesSignatureStartResponse.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\CadesPolicyMapperWrapper.cs" />
     <Compile Include="Classes\PadesVisualElements.cs" />
     <Compile Include="Classes\StorageMock.cs" />
     <Compile Include="Classes\Util.cs" />
-    <Compile Include="Controllers\AuthenticationPkiController.cs" />
-    <Compile Include="Controllers\AuthenticationRestPkiController.cs" />
+    <Compile Include="Controllers\AuthenticationSdkController.cs" />
+    <Compile Include="Controllers\AuthenticationRestController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BatchCadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\BatchPadesSignaturePkiController.cs" />
-    <Compile Include="Controllers\BatchPadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\CadesSignaturePkiController.cs" />
-    <Compile Include="Controllers\CadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\CheckPadesRestPkiController.cs" />
+    <Compile Include="Controllers\BatchCadesSignatureRestController.cs" />
+    <Compile Include="Controllers\BatchPadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\BatchPadesSignatureRestController.cs" />
+    <Compile Include="Controllers\CadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\CadesSignatureRestController.cs" />
+    <Compile Include="Controllers\CadesSignatureWebController.cs" />
+    <Compile Include="Controllers\CheckPadesRestController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListCertJQueryController.cs" />
     <Compile Include="Controllers\ListCertSelect2Controller.cs" />
-    <Compile Include="Controllers\OpenCadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\OpenPadesSignatureBStampRestPkiController.cs" />
-    <Compile Include="Controllers\OpenPadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\OpenXmlSignaturePkiController.cs" />
-    <Compile Include="Controllers\OpenXmlSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\PadesSignaturePkiController.cs" />
-    <Compile Include="Controllers\PadesSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\PrinterFriendlyPadesRestPkiController.cs" />
+    <Compile Include="Controllers\OpenCadesSignatureRestController.cs" />
+    <Compile Include="Controllers\OpenCadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\OpenPadesSignatureRestController.cs" />
+    <Compile Include="Controllers\OpenXmlSignatureSdkController.cs" />
+    <Compile Include="Controllers\OpenXmlSignatureRestController.cs" />
+    <Compile Include="Controllers\PadesSignatureSdkController.cs" />
+    <Compile Include="Controllers\PadesSignatureRestController.cs" />
+    <Compile Include="Controllers\PadesSignatureWebController.cs" />
+    <Compile Include="Controllers\PrinterFriendlyPadesRestController.cs" />
     <Compile Include="Controllers\ReadCertJQueryController.cs" />
     <Compile Include="Controllers\ReadCertSelect2Controller.cs" />
-    <Compile Include="Controllers\RSAWebPkiController.cs" />
+    <Compile Include="Controllers\RSAWebController.cs" />
     <Compile Include="Controllers\ServerFilesController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
-    <Compile Include="Controllers\XmlCodSignaturePkiController.cs" />
-    <Compile Include="Controllers\XmlNFeSignaturePkiController.cs" />
-    <Compile Include="Controllers\XmlNFeSignatureRestPkiController.cs" />
-    <Compile Include="Controllers\XmlSignatureRestPkiController.cs" />
+    <Compile Include="Controllers\XmlCodSignatureSdkController.cs" />
+    <Compile Include="Controllers\XmlNFeSignatureSdkController.cs" />
+    <Compile Include="Controllers\XmlNFeSignatureRestController.cs" />
+    <Compile Include="Controllers\XmlSignatureRestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Pki\AuthenticationModel.cs" />
-    <Compile Include="Models\Pki\AuthenticationInfoModel.cs" />
-    <Compile Include="Models\Pki\BatchSignatureCompleteRequest.cs" />
-    <Compile Include="Models\Pki\BatchSignatureCompleteResponse.cs" />
-    <Compile Include="Models\Pki\BatchSignatureModel.cs" />
-    <Compile Include="Models\Pki\BatchSignatureStartRequest.cs" />
-    <Compile Include="Models\Pki\BatchSignatureStartResponse.cs" />
-    <Compile Include="Models\RestPki\OpenCadesSignatureModel.cs" />
-    <Compile Include="Models\RestPki\OpenPadesSignatureBStampModel.cs" />
-    <Compile Include="Models\RestPki\OpenPadesSignatureModel.cs" />
-    <Compile Include="Models\RestPki\OpenXmlSignatureModel.cs" />
-    <Compile Include="Models\Pki\CadesSignatureModel.cs" />
-    <Compile Include="Models\Pki\CertificateModel.cs" />
-    <Compile Include="Models\Pki\DigestAlgorithmAndValueModel.cs" />
-    <Compile Include="Models\Pki\OpenXmlSignatureModel.cs" />
-    <Compile Include="Models\Pki\SignatureAlgorithmAndValueModel.cs" />
-    <Compile Include="Models\Pki\SignatureCompleteModel.cs" />
-    <Compile Include="Models\Pki\SignatureInfoModel.cs" />
-    <Compile Include="Models\Pki\SignaturePolicyIdentifierModel.cs" />
-    <Compile Include="Models\Pki\SignatureStartModel.cs" />
-    <Compile Include="Models\Pki\ValidationResultsModel.cs" />
-    <Compile Include="Models\Pki\XmlSignatureModel.cs" />
-    <Compile Include="Models\RestPki\AuthenticationModel.cs" />
-    <Compile Include="Models\RestPki\AuthenticationInfoModel.cs" />
-    <Compile Include="Models\RestPki\BatchSignatureModel.cs" />
-    <Compile Include="Models\RestPki\SignatureInfoModel.cs" />
-    <Compile Include="Models\RestPki\SignatureModel.cs" />
+    <Compile Include="Models\Sdk\AuthenticationModel.cs" />
+    <Compile Include="Models\Sdk\AuthenticationInfoModel.cs" />
+    <Compile Include="Models\Sdk\BatchSignatureModel.cs" />
+    <Compile Include="Models\Rest\OpenCadesSignatureModel.cs" />
+    <Compile Include="Models\Rest\OpenPadesSignatureBStampModel.cs" />
+    <Compile Include="Models\Rest\OpenPadesSignatureModel.cs" />
+    <Compile Include="Models\Rest\OpenXmlSignatureModel.cs" />
+    <Compile Include="Models\Sdk\CadesSignatureModel.cs" />
+    <Compile Include="Models\Sdk\CertificateModel.cs" />
+    <Compile Include="Models\Sdk\DigestAlgorithmAndValueModel.cs" />
+    <Compile Include="Models\Sdk\OpenPadesSignatureModel.cs" />
+    <Compile Include="Models\Sdk\OpenCadesSignatureModel.cs" />
+    <Compile Include="Models\Sdk\OpenXmlSignatureModel.cs" />
+    <Compile Include="Models\Sdk\PadesSignatureModel.cs" />
+    <Compile Include="Models\Sdk\SignatureAlgorithmAndValueModel.cs" />
+    <Compile Include="Models\Sdk\SignatureCompleteModel.cs" />
+    <Compile Include="Models\Sdk\SignatureInfoModel.cs" />
+    <Compile Include="Models\Sdk\SignaturePolicyIdentifierModel.cs" />
+    <Compile Include="Models\Sdk\SignatureStartModel.cs" />
+    <Compile Include="Models\Sdk\ValidationResultsModel.cs" />
+    <Compile Include="Models\Sdk\XmlSignatureModel.cs" />
+    <Compile Include="Models\Rest\AuthenticationModel.cs" />
+    <Compile Include="Models\Rest\AuthenticationInfoModel.cs" />
+    <Compile Include="Models\Rest\BatchSignatureModel.cs" />
+    <Compile Include="Models\Rest\SignatureInfoModel.cs" />
+    <Compile Include="Models\Rest\SignatureModel.cs" />
     <Compile Include="Models\RedirectModel.cs" />
     <Compile Include="Models\ServerFilesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,8 +299,9 @@
     <Content Include="Content\icp-brasil.png" />
     <Content Include="Content\InvoiceWithSigs.xml" />
     <Content Include="Content\js\authentication-form.js" />
-    <Content Include="Content\js\batch-signature-pki-form.js" />
-    <Content Include="Content\js\batch-signature-restpki-form.js" />
+    <Content Include="Content\js\batch-cades-signature-sdk-form.js" />
+    <Content Include="Content\js\batch-pades-signature-sdk-form.js" />
+    <Content Include="Content\js\batch-signature-rest-form.js" />
     <Content Include="Content\js\lacuna-web-pki-2.11.0.js" />
     <Content Include="Content\js\signature-complete-form.js" />
     <Content Include="Content\js\signature-form.js" />
@@ -280,10 +311,10 @@
     <Content Include="Content\ok.png" />
     <Content Include="Content\PdfStamp.png" />
     <Content Include="Content\SampleCodEnvelope.xml" />
+    <Content Include="Content\SampleContract.xml" />
     <Content Include="Content\SampleDocument.xml" />
     <Content Include="Content\SampleNFe.xml" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -311,10 +342,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\00.pdf" />
     <Content Include="Content\01.pdf" />
     <Content Include="Content\02.pdf" />
@@ -326,55 +353,88 @@
     <Content Include="Content\08.pdf" />
     <Content Include="Content\09.pdf" />
     <Content Include="Content\BStamped.pdf" />
-    <Content Include="Content\SampleDocument.pdf" />
-    <None Include="packages.config" />
-    <Content Include="Views\AuthenticationPki\Index.cshtml" />
-    <Content Include="Views\AuthenticationRestPki\Index.cshtml" />
-    <Content Include="Views\AuthenticationRestPki\Failed.cshtml" />
+    <Content Include="Content\SampleCms.p7s" />
+    <Content Include="Content\SampleCmsSignedTwice.p7s" />
+    <Content Include="Content\SamplePdf.pdf" />
+    <Content Include="Content\SamplePdfSignedOnce.pdf" />
+    <Content Include="Content\SamplePdfSignedTwice.pdf" />
+    <Content Include="Views\AuthenticationSdk\Index.cshtml" />
+    <Content Include="Views\AuthenticationRest\Index.cshtml" />
+    <Content Include="Views\AuthenticationRest\Failed.cshtml" />
     <Content Include="Views\Home\PkiLicenseNotFound.cshtml" />
     <Content Include="Views\Home\RestPkiTokenNotSet.cshtml" />
-    <Content Include="Views\AuthenticationPki\Success.cshtml" />
-    <Content Include="Views\AuthenticationRestPki\Success.cshtml" />
-    <Content Include="Views\BatchCadesSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\BatchPadesSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\CadesSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\CadesSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\CheckPadesRestPki\Index.cshtml" />
-    <Content Include="Views\OpenCadesSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\OpenPadesSignatureBStampRestPki\Index.cshtml" />
-    <Content Include="Views\OpenPadesSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\OpenXmlSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\PadesSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\PadesSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\XmlNFeSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\XmlNFeSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\XmlSignatureRestPki\Index.cshtml" />
-    <Content Include="Views\XmlSignatureRestPki\SignatureInfo.cshtml" />
-    <Content Include="Views\BatchPadesSignaturePki\Index.cshtml" />
-    <Content Include="Views\CadesSignaturePki\Index.cshtml" />
-    <Content Include="Views\CadesSignaturePki\Complete.cshtml" />
-    <Content Include="Views\CadesSignaturePki\SignatureInfo.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\Index.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\Complete.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCodeh.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignatureInfo.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCodehComplete.cshtml" />
-    <Content Include="Views\XmlCodSignaturePki\SignCodehSignatureInfo.cshtml" />
-    <Content Include="Views\PadesSignaturePki\Index.cshtml" />
-    <Content Include="Views\PadesSignaturePki\Complete.cshtml" />
-    <Content Include="Views\PadesSignaturePki\SignatureInfo.cshtml" />
-    <Content Include="Views\OpenXmlSignaturePki\Index.cshtml" />
-    <Content Include="Views\XmlNFeSignaturePki\Index.cshtml" />
-    <Content Include="Views\XmlNFeSignaturePki\Complete.cshtml" />
-    <Content Include="Views\XmlNFeSignaturePki\SignatureInfo.cshtml" />
+    <Content Include="Views\AuthenticationSdk\Success.cshtml" />
+    <Content Include="Views\AuthenticationRest\Success.cshtml" />
+    <Content Include="Views\BatchCadesSignatureRest\Index.cshtml" />
+    <Content Include="Views\BatchPadesSignatureRest\Index.cshtml" />
+    <Content Include="Views\CadesSignatureRest\Index.cshtml" />
+    <Content Include="Views\CadesSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\CheckPadesRest\Index.cshtml" />
+    <Content Include="Views\OpenCadesSignatureRest\Index.cshtml" />
+    <Content Include="Views\OpenPadesSignatureRest\Index.cshtml" />
+    <Content Include="Views\OpenXmlSignatureRest\Index.cshtml" />
+    <Content Include="Views\PadesSignatureRest\Index.cshtml" />
+    <Content Include="Views\PadesSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlNFeSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlNFeSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\BatchPadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\CadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\CadesSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\CadesSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlCodSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\XmlCodSignatureSdk\SignCodeh.cshtml" />
+    <Content Include="Views\XmlCodSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlCodSignatureSdk\SignCodehComplete.cshtml" />
+    <Content Include="Views\XmlCodSignatureSdk\SignCodehSignatureInfo.cshtml" />
+    <Content Include="Views\PadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\PadesSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\PadesSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\OpenXmlSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlNFeSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlNFeSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\XmlNFeSignatureSdk\SignatureInfo.cshtml" />
     <Content Include="Views\Upload\Index.cshtml" />
-    <Content Include="Views\RSAWebPki\Index.cshtml" />
+    <Content Include="Views\RSAWeb\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ListCertJQuery\Index.cshtml" />
     <Content Include="Views\ListCertSelect2\Index.cshtml" />
     <Content Include="Views\ReadCertJQuery\Index.cshtml" />
     <Content Include="Views\ReadCertSelect2\Index.cshtml" />
     <Content Include="Views\ServerFiles\Index.cshtml" />
+    <Content Include="Views\PadesSignatureWeb\Index.cshtml" />
+    <Content Include="Views\CadesSignatureWeb\Index.cshtml" />
+    <Content Include="Views\OpenCadesSignatureSdk\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\CMSAttached1.p7s" />
+    <Content Include="Content\CMSAttached2.p7s" />
+    <Content Include="Content\CMSDataFile.pdf" />
+    <Content Include="Content\CMSDetached1.p7s" />
+    <Content Include="Content\CMSDetached2.p7s" />
+    <Content Include="Content\empty.pdf" />
+    <None Include="packages.config" />
+    <Content Include="Views\BatchCadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\CadesServerKeySdk\Index.cshtml" />
+    <Content Include="Views\PadesServerKeySdk\Index.cshtml" />
+    <Content Include="Views\OpenPadesSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\XmlSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlServerKeySdk\Index.cshtml" />
+    <Content Include="Views\MergeServerFiles\Index.cshtml" />
+    <Content Include="Views\MergeCadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckPadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckCadesSdk\Index.cshtml" />
+    <Content Include="Views\CheckCadesRest\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignCodeh.cshtml" />
+    <Content Include="Views\XmlCodSignatureRest\SignCodehSignatureInfo.cshtml" />
+    <Content Include="Views\XmlContractSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlContractSignatureRest\SignatureInfo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,83 @@
+<%= stylesheet_link_tag :application, rel: "stylesheet", href: "https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css" %>
+
+<app-root></app-root>
+
+<script>
+    SampleRoutes = {
+        authCert: {
+            // express: ,
+            restpki: 'check-rest-token/authentication/'
+         },
+        cosignCms: { 
+            express: 'check-express/server-files/cades-signature/cosign-cms',
+            restpki: 'check-rest-token/server-files/cades-signature/cosign-cms'
+        },
+        cosignPdf: {
+            express: 'check-express/server-files/pades-signature/cosign-pdf',
+            restpki: 'check-rest-token/server-files/pades-signature/cosign-pdf'
+        },
+        // issueCertServer: { },
+        // issueCertUser: { },
+        listCert: {
+            jquery: '/list-cert-jquery/',
+            select2: '/list-cert-select2/'
+         },
+        // mergeCmsSigs: { },
+        // printerFriendlyCms: { },
+        printerFriendlyPdf: {
+            restpki: 'check-rest-token/upload/printer-version-pades'
+        },
+        readCert: {
+            jquery: '/read-cert-jquery/',
+            select2: '/read-cert-select2/'
+        },
+        rsa: { 
+            webpki: '/rsa-web/'
+        },
+        signCmsServer: {
+            express: 'check-express/server-files/cades-signature/sign-cms',
+            restpki: 'check-rest-token/server-files/cades-signature/sign-cms'
+         },
+        signCmsUser: {
+            express: 'check-express/upload/cades-signature',
+            restpki: 'check-rest-token/upload/cades-signature'
+         },
+        // signCmsServerKey: { },
+        // signCod: { },
+        signMultiCmsServer: { 
+            express: 'check-express/batch-cades/',
+            restpki: 'check-rest-token/batch-cades/'
+        },
+        // signMultiCmsUser: { },
+        signMultiPdfServer: { 
+            express: 'check-express/batch-pades/',
+            restpki: 'check-rest-token/batch-pades/'
+        },
+        // signMultiPdfUser: { },
+        signNfe: {
+            restpki: 'check-rest-token/xml-nfe-signature/'
+         },
+        signPdfServer: {
+            express: 'check-express/server-files/pades-signature/sign-pdf',
+            restpki: 'check-rest-token/server-files/pades-signature/sign-pdf'
+        },
+        signPdfUser: {
+            express: 'check-express/upload/pades-signature',
+            restpki: 'check-rest-token/upload/pades-signature'
+        },
+        // signPdfServerKey: { },
+        signXmlServer: { 
+            restpki: 'check-rest-token/xml-signature/'
+        },
+        // signXmlServerKey: { },
+        // signaturePackage: { },
+        // validateCmsSig: { },
+        validatePdfSig: {
+            restpki: 'check-rest-token/upload/open-pades'
+        },
+        // validateXmlSig: { }
+    };
+</script>
+<%= javascript_pack_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js' %>
+<%= javascript_pack_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js' %>
+<%= javascript_pack_tag :application, src: 'https://cdn.lacunasoftware.com/pki-suite-samples/main.b8fb1a5c5c784500d9a3.js' %>

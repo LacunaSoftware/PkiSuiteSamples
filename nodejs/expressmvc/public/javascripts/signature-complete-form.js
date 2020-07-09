@@ -29,7 +29,7 @@ var signatureCompleteForm = (function () {
 		// https://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: sign,                    // As soon as the component is ready we'll perform the signature.
-			defaultError: onWebPkiError     // Generic error callback defined below.
+			defaultFail: onWebPkiError      // Generic error callback defined below.
 		});
 	}
 

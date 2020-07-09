@@ -15,7 +15,7 @@ namespace PkiSuiteAspNetMvcSample.Models {
 	public class ServerFileModel {
 		public SampleDocs Id { get; set; }
 		public string Description { get; set; }
-		
+
 		public string DownloadUrl {
 			get {
 				return string.Format("/Download/Sample/{0}", Id);

@@ -2,14 +2,14 @@ extends ../layout
 
 block content
 
-	h2(class='ls-title') Upload a file
+   h2(class='ls-title') Upload a file
 
-	p
-		| You will be redirected to&nbsp;
-		b /#{rc}
-	form(method='post', enctype='multipart/form-data')
-		label(for='selectFile')
-			| Select file:
-			input(id='selectFile', type='file', name='userfile', style='display: block;')
+   p
+      | You will be redirected to&nbsp;
+      b /#{rc}
+   form(method='post', enctype='multipart/form-data')
+      label(for='selectFile')
+         | Select file:
+         input(id='selectFile', type='file', name='userfile', style='display: block;')
 
-		input(type='submit', value='Upload', name='submit' class='btn btn-primary', style='display: block;')
+      input(type='submit', value='Upload', name='submit' class='btn btn-primary', style='display: block;')

@@ -1,0 +1,44 @@
+<h2 class="ls-title">Authentication with REST PKI</h2>
+<%if @result.is_valid%>
+  <h5 class="ls-subtitle">Authentication succeeded <i class="fas fa-check-circle text-success"></i></h5>
+
+  <div class="ls-content">
+    <p>
+      User certificate information:
+      <ul>
+        <li>Subject: <%= @user_cert.subjectName.commonName %> </li>
+        <li>Email: <%= @user_cert.emailAddress %></li>
+        <li>
+        ICP-Brasil fields
+        <ul>
+          <li>Tipo de certificado: <%= @user_cert.pkiBrazil.certificateType %></li>
+          <li>CPF: <%= @user_cert.pkiBrazil.cpf %></li>
+          <li>Responsavel: <%= @user_cert.pkiBrazil.responsavel %></li>
+          <li>Empresa: <%= @user_cert.pkiBrazil.companyName %></li>
+          <li>CNPJ: <%= @user_cert.pkiBrazil.cnpj %> </li>
+          <li>RG: <%= "#{@user_cert.pkiBrazil.rgNumero} #{@user_cert.pkiBrazil.rgEmissor} #{@user_cert.pkiBrazil.rgEmissorUF}" %></li>
+          <li>OAB: <%= "#{@user_cert.pkiBrazil.oabNumero} #{@user_cert.pkiBrazil.oabUF}" %></li>
+        </ul>
+        </li>
+      </ul>
+    </p>
+  </div>
+<%else%>
+  <h5 class="ls-subtitle">Authentication failed <i class="fas fa-times-circle text-danger"></i></h5>
+
+  <div class="ls-content">
+    <%
+      # The $vr object can be  used as a string, but the string contains tabs and
+      # new line characters for formatting, which we'll convert to <br>'s and
+      # &nbsp;'s.
+    %>
+    <p>
+      <%=simple_format(@vr_html.__to_string.gsub('\t', '&nbsp;&nbsp;&nbsp;&nbsp;').gsub('\n', '<br/>')) %>
+    </p>
+    <p>
+      <a href="/authentication-rest" class="btn btn-primary">
+        <i class="fas fa-undo-alt"></i> Try again
+      </a>
+    </p>
+  </div>
+<%end%>

@@ -27,14 +27,38 @@ module.exports = {
 		// ========================================================
 		//     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
 		// ========================================================
-		accessToken: 'EgHO0LNnl8P8eYlE3gaXX32iiX7WxQ-rcuVv2piMtnwYLXvn6ENIYJzSpJ9k1J1y5nmaAhgPaaax3M1KYk1jCBHaqN8Lv7ip6jnvbTucDRZ-U-a99x-L1SBqVheeT_jTWvIWhGI5RPTXRa2NMxlCM7StaWOvYHWIykSJaM9dM8lgB1rzW_XR-NbPxKSIyk3Wp1k0Piw8KGEz2XrkKEfjElzSNmuTFd-FU4ltZUFtn8LL6tKaGE0iyC14PNk5maSmRKFWrN_LpFvzF7yoZLad5Z640diJHTpkYZ--O10CFScI1LvpMUXhAj60eeTnniq24vwkOwlD79DBwNrhWxKuQHWPpRq-ooxT0fO4iS3UySzh1EaNm8zjdDwvmL985fbFjuDDCLEHhenF_2g_YEB5CCJLq3_dSOsq1SwsoezqRidGGkG3mMpcCkAYibGvtUeRLt6RiEyUPSP80GgO5-Y2Rs-oE-GFirvrZ40LSjNAbvSJO0JZ5wudH586B1ZDtfHqPiWgBcWgATG3jKjWCieM_tk5VHY',
-		// This is a TRIAL token. It will be expired at 31/10/2019.
+		accessToken: 'NwwJCTbvLfr67RhLIeLd1Ut8S9itJDPBKXcF-CpRdoSkY4_nJrCuuKI3BDMgCqfwuNXfj3_aQP6keDMd8wxF5cEmptKmzTLdzvL7XGuYPNOcs7fjiipEWE1hL7AWsfFQdMVz8pYHPjpU9J7iO72WiHI2ELAqqhyNVrpT4MCR97b4FT3e43DBBqiF8nF_NK_oRuH50ycmVzme1zLPx-S-lmpXcfgjHl3lTLxjv36YD803dAF0gOgGD7L-rUqGEF80I_ATgXuEqCPhZw8dNdueTYDSN56kuATEWilYAzwwrd3eCeNq5qUyXVjiJg0s5OgNnsRe7pnGXQ6wu-zoIWLakIoPrhTYYnF85XzMM3SgKgGsxI9wxM3HvtgGgHfYXO4BRpACP_7kcqwwqP6e0P-u6Cp1skoOk_-vA4czbRW9DOf1cOelTLDLJbS0fnhgNXgW9_IycXxNC6EKZZWAI8rTDgw2jcTBQsvYNyCVKDtDSE4pOm6TQDxXzSHXMMdReZ4nyxvxjw',
+		// This is a TRIAL token. It will be expired at 31/08/2020.
 		// If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
 		// In order to use this sample on a "on premises" installation of
 		// REST PKI, fill the field below with the URL address of your REST PKI
 		// installation (with the trailing '/' character).
 		endpoint: 'https://pki.rest/'
+	},
+
+	// --------------------------------------------------------------------------
+	// Amplia
+	// --------------------------------------------------------------------------
+	amplia: {
+
+		// The CA's id that will be used to issue a certificate using Amplia. We
+		// have configured to the sample CA from sample subscription for these
+		// samples.
+		caId: 'eaffa754-1fb5-474a-b9ef-efe43101e89f',
+
+		// ========================================================
+		//     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
+		// ========================================================
+		apiKey: 'pki-suite-samples-01|1f3c9a4bbfdab24b9c1afabef298f166caba68aa76123d2341bf7c24c3d45529',
+		// This is a TRIAL API key to use Amplia. It will expire at 31/08/2020
+		// If the Amplia's samples do not work please contact our support by email:
+		// suporte@lacunasoftware.com
+		//
+		// In order to use this sample on a "on premises" installation of
+		// Amplia, fill the field below with the URL address of your REST PKI
+		// installation (with the trailing '/' character).
+		endpoint: 'https://amplia.lacunasoftware.com/'
 	},
 
 	// --------------------------------------------------------------------------
