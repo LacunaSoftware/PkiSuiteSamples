@@ -11,6 +11,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Lacuna\RestPki\PadesSignatureStarter;
 use Lacuna\RestPki\StandardSignaturePolicies;
 use Lacuna\RestPki\PadesMeasurementUnits;
+use Lacuna\RestPki\PadesCertificationLevels;
 
 // Only accepts GET requests.
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -94,7 +95,7 @@ $pdf->Ln(8);
 
 // Add Field - CRM UF
 $pdf->Cell(55, 7, 'CRM UF:');
-$pdf->ComboBox(FieldName::CRM_UF, 100, 7, $ufs, array('value'=> $crmUF));
+$pdf->ComboBox(FieldName::CRM_UF, 100, 7, $ufs, array('value'=> $crmUF, 'readonly' => 'true'));
 $pdf->Ln(8);
 
 // Add other fields
@@ -120,7 +121,7 @@ $signatureStarter = new PadesSignatureStarter($client);
 
 // REQUIRED!
 // Use a policy accepted by ICP-Brasil.
-$signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC;
+$signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC_WITHOUT_LTV;
 
 // Set the security context. We have encapsulated the security context choice on util.php.
 $signatureStarter->securityContext = Util::getSecurityContextId();
@@ -135,7 +136,7 @@ $signatureStarter->customSignatureFieldName = "Signature1 Emitente";
 
 // REQUIRED!
 // Set Certification Level to not allow changes after signed.
-
+$signatureStarter->certificationLevel = PadesCertificationLevels::CERTIFIED_NO_CHANGES_ALLOWED;
 
 // Set the visual representation to the signature. We have encapsulated this code (on util-pades.php) to be used on
 // various PAdES examples.
