@@ -86,7 +86,7 @@ $pdf->Ln(8);
 
 // Add Field - CRM UF
 $pdf->Cell(55, 7, 'CRM UF:');
-$pdf->ComboBox(FieldName::CRM_UF, 100, 7, $ufs, array('value'=> $crmUF));
+$pdf->ComboBox(FieldName::CRM_UF, 100, 7, $ufs, array('value'=> $crmUf));
 $pdf->Ln(8);
 
 // Add other fields
