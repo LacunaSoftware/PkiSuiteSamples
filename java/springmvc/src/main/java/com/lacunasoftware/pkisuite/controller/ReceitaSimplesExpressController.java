@@ -1,15 +1,11 @@
 package com.lacunasoftware.pkisuite.controller;
+
 import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.lacunasoftware.pkisuite.prescricao.ComboFieldCellWrapper;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.lacunasoftware.pkisuite.prescricao.DocumentType;
 import com.lacunasoftware.pkisuite.prescricao.FieldName;
-import com.lacunasoftware.pkisuite.prescricao.TextFieldCellWrapper;
+import com.lacunasoftware.pkisuite.prescricao.PdfGeneration;
 import com.lacunasoftware.pkisuite.util.express.PadesVisualElements;
 
 import com.lacunasoftware.pkiexpress.PadesSignatureStarter;
@@ -30,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/receita-simples-express")
@@ -65,136 +62,32 @@ public class ReceitaSimplesExpressController {
 	) throws IOException, DocumentException {
 		String fileId = StorageMock.generateFilename(".pdf");
 		Path path = StorageMock.getTempFolderPath().resolve(fileId);
-		String[] DefaultFieldName = new String[] { 
-			"03_Telefone Local de Atendimento", "03_Endereço Local de Atendimento", "03_Data Emissão_af_date",
-			"03_Cidade Local de Atendimento", "01_Nome do Paciente", "03_Nome Local de Atendimento", 
-			"02_Prescrição", "03_Bairro Local de Atendimento", "03_CNES", "03_UF Local de atendimento" };
 
-		String[] DefaultFieldLabel = new String[] { 
-			"Telefone", "Endereço", "Data de Emissão", "Cidade", "Nome do Paciente", "Nome Local de Atendimento",
-			"Prescrição", "Bairro", "CNES", "UF" };
+		try (FileOutputStream fs = new FileOutputStream(path.toFile())) {
+	
+			// See prescricao/PdfGeneration.java, to see how the custom sample pdf is generated.
+			byte[] content = PdfGeneration.receitaSimples(name, crm, crmUf);
+			
+			PdfReader reader = new PdfReader(content);
+			PdfStamper pdfStamper = new PdfStamper(reader, fs);
+			
+			// REQUIRED!!!
+			// Add all the required receita simples metadata,
+			// when value is not specified it uses empty strings.
+			HashMap<String, String> info = reader.getInfo();
+			info.put(DocumentType.PRESCRICAO_MEDICAMENTO.getValue(), "Prescrição de medicamento");
+			info.put(FieldName.CRM.getValue(), crm);
+			info.put(FieldName.CRM_UF.getValue(), crmUf);
+			info.put(FieldName.CRM_ESPECIALIDADE.getValue(), "");
+			info.put(FieldName.CRF.getValue(), "");
+			info.put(FieldName.CRF_UF.getValue(), "");
+			info.put(FieldName.CRF_ESPECIALIDADE.getValue(), "");
 
-		String[] DefaultFieldValues = new String[] { 
-			"+00 (00) 0000-0000", "Complexo Hospitalar", "00/00/0000", "Brasília", "Maria da Silva",
-			"Clínica Local", "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias", "Bairro do Mar",
-			"0000000", "DF" };
-
-		try (FileOutputStream fos = new FileOutputStream(path.toFile())) {
-			Document document = new Document();
-			PdfWriter writer = PdfWriter.getInstance(document, fos);
-			document.open();
-
-			// Add title.
-			Paragraph title = new Paragraph("RECEITU\u00C1RIO SIMPLES", new Font((BaseFont) null, 20f, Font.BOLD));
-			title.setSpacingAfter(5f);
-			title.setAlignment(Element.ALIGN_CENTER);
-			document.add(title);
-
-			PdfPTable table = new PdfPTable(6);
-			table.setWidthPercentage(100);
-
-			// Field "Tipo de Documento". This text field identifies the type of
-			// document is being generated. It's a hidden field because this type
-			// is identified by the field name and NOT by the value of this field.
-			PdfPCell tipoField = new PdfPCell();
-			tipoField.setColspan(6);
-			tipoField.setBorder(Rectangle.NO_BORDER);
-			TextFieldCellWrapper tipoCellWrapper = new TextFieldCellWrapper();
-			// See DocumentType.java, to see what is the vale of this enum below.
-			tipoCellWrapper.setFieldName(DocumentType.PRESCRICAO_MEDICAMENTO.getValue());
-			tipoCellWrapper.setValue("");
-			tipoCellWrapper.setReadOnly(true);
-			tipoCellWrapper.setHidden(true);
-			tipoField.setCellEvent(tipoCellWrapper);
-			table.addCell(tipoField);
-
-			// Field "Nome do(a) Médico(a)".
-			PdfPCell doctorNameLabel = new PdfPCell();
-			doctorNameLabel.setColspan(2);
-			doctorNameLabel.setBorder(Rectangle.NO_BORDER);
-			doctorNameLabel.addElement(new Phrase("NOME DO(A) M\u00C9DICO(A):"));
-			table.addCell(doctorNameLabel);
-			PdfPCell doctorNameField = new PdfPCell();
-			doctorNameField.setColspan(4);
-			doctorNameField.setBorder(Rectangle.NO_BORDER);
-			TextFieldCellWrapper doctorNameCellWrapper = new TextFieldCellWrapper();
-			doctorNameCellWrapper.setFieldName("03_Nome Completo Emitente");
-			doctorNameCellWrapper.setValue(name);
-			doctorNameCellWrapper.setReadOnly(true);
-			doctorNameField.setCellEvent(doctorNameCellWrapper);
-			table.addCell(doctorNameField);
-
-			// Field "CRM". This text field contains the doctor's register
-			// number on CRM.
-			PdfPCell crmLabel = new PdfPCell();
-			crmLabel.setColspan(2);
-			crmLabel.setBorder(Rectangle.NO_BORDER);
-			crmLabel.addElement(new Phrase("CRM:"));
-			table.addCell(crmLabel);
-			PdfPCell crmField = new PdfPCell();
-			crmField.setColspan(4);
-			crmField.setBorder(Rectangle.NO_BORDER);
-			TextFieldCellWrapper crmCellWrapper = new TextFieldCellWrapper();
-			// See FieldName.java, to see what is the value of this enum below.
-			crmCellWrapper.setFieldName(FieldName.CRM.getValue());
-			crmCellWrapper.setValue(crm);
-			crmCellWrapper.setReadOnly(true);
-			crmField.setCellEvent(crmCellWrapper);
-			table.addCell(crmField);
-
-			// Field "CRM UF". This combo box field contains the "UF" where the
-			// doctor is registered.
-			PdfPCell crmUfLabel = new PdfPCell();
-			crmUfLabel.setColspan(2);
-			crmUfLabel.setBorder(Rectangle.NO_BORDER);
-			crmUfLabel.addElement(new Phrase("CRM UF:"));
-			table.addCell(crmUfLabel);
-			PdfPCell crmUfField = new PdfPCell();
-			crmUfField.setColspan(1);
-			crmUfField.setBorder(Rectangle.NO_BORDER);
-			ComboFieldCellWrapper crmUfCellWrapper = new ComboFieldCellWrapper();
-			// See FieldName.java, to see what is the value of this enum below.
-			crmUfCellWrapper.setFieldName(FieldName.CRM_UF.getValue());
-			crmUfCellWrapper.setOptions(new String[] { 
-				"AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA",
-				"PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" });
-			crmUfCellWrapper.setSelection(crmUf);
-			crmUfCellWrapper.setReadOnly(true);
-			crmUfField.setCellEvent(crmUfCellWrapper);
-			table.addCell(crmUfField);
-			PdfPCell empty = new PdfPCell();
-			empty.setColspan(3);
-			empty.setBorder(Rectangle.NO_BORDER);
-			table.addCell(empty);
-
-			// Other Fields
-			PdfPCell otherFieldLabel;
-			PdfPCell otherField;
-			TextFieldCellWrapper otherFieldCellWrapper;
-
-			for (int i = 0; i < DefaultFieldValues.length; i++) {
-				otherFieldLabel = new PdfPCell();
-				otherFieldLabel.setColspan(2);
-				otherFieldLabel.setBorder(Rectangle.NO_BORDER);
-				otherFieldLabel.addElement(new Phrase(DefaultFieldLabel[i] + ":"));
-				table.addCell(otherFieldLabel);
-				otherField = new PdfPCell();
-				otherField.setColspan(4);
-				otherField.setBorder(Rectangle.NO_BORDER);
-				otherFieldCellWrapper = new TextFieldCellWrapper();
-				otherFieldCellWrapper.setFieldName(DefaultFieldName[i]);
-				otherFieldCellWrapper.setValue(DefaultFieldValues[i]);
-				otherFieldCellWrapper.setReadOnly(true);
-				otherField.setCellEvent(otherFieldCellWrapper);
-				table.addCell(otherField);
-			}
-
-			// Add table.
-			document.add(table);
-
-			document.close();
-			writer.close();
+			// Add metadata HashMap
+			pdfStamper.setMoreInfo(info);
+			pdfStamper.close();
 		}
+
 		model.addAttribute("fileId", fileId);
 		return "receita-simples-express/sign";
 	}
@@ -222,7 +115,7 @@ public class ReceitaSimplesExpressController {
 
 		// REQUIRED!
 		// Use a policy accepted by ICP-Brasil.
-		signatureStarter.setSignaturePolicy(StandardSignaturePolicies.PadesBasicWithLTV);
+		signatureStarter.setSignaturePolicy(StandardSignaturePolicies.PadesBasic);
 
 		// Set PDF to be signed.
 		signatureStarter.setPdfToSign(StorageMock.getDataPath(fileToSign));
@@ -236,11 +129,6 @@ public class ReceitaSimplesExpressController {
 		// Set visual representation. We provide a Java class that represents the visual
 		// representation model.
 		signatureStarter.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());
-
-		// REQUIRED!
-		// Use a custom signature field name. This field MUST have the
-		// "Emitente" keyword as the last keyword.
-		signatureStarter.setCustomSignatureFieldName("Signature1 Emitente");
 
 		// Start the signature process. Receive as response a SignatureStartResult instance
 		// containing the following fields:

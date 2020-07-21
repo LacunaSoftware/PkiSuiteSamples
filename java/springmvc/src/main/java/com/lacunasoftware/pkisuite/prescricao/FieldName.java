@@ -1,12 +1,12 @@
 package com.lacunasoftware.pkisuite.prescricao;
 
 public enum FieldName {
-	CRM("2_16_76_1_4_2_2_1"),
-	CRM_UF("2_16_76_1_4_2_2_2"),
-	CRM_ESPECIALIDADE("2_16_76_1_4_2_2_3"),
-	CRF("2_16_76_1_4_2_3_1"),
-	CRF_UF("2_16_76_1_4_2_3_1"),
-	CRF_ESPECIALIDADE("2_16_76_1_4_2_3_1");
+	CRM("2.16.76.1.4.2.2.1"),
+	CRM_UF("2.16.76.1.4.2.2.2"),
+	CRM_ESPECIALIDADE("2.16.76.1.4.2.2.3"),
+	CRF("2.16.76.1.4.2.3.1"),
+	CRF_UF("2.16.76.1.4.2.3.1"),
+	CRF_ESPECIALIDADE("2.16.76.1.4.2.3.1");
 
 	private String value;
 
