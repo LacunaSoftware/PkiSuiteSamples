@@ -25,7 +25,7 @@ function getConfig()
             // If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
             // Address of your Rest PKI installation (with the trailing '/' character)
-            "endpoint" => null,
+            "endpoint" => 'https://pki.rest/',
         ],
 
         // -----------------------------------------------------------------------------------------
