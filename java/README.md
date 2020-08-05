@@ -64,7 +64,7 @@ be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 	} 
 
 	dependencies {
-		compile("com.lacunasoftware.restpki:restpki-client:1.12.1")
+		compile("com.lacunasoftware.restpki:restpki-client:1.13.0")
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -74,7 +74,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.restpki</groupId>
 			<artifactId>restpki-client</artifactId>
-			<version>1.12.1</version>
+			<version>1.13.0</version>
 		</dependency>
 		...
 	</dependencies>
@@ -148,7 +148,7 @@ file [build.gradle](springmvc/build.gradle)
 	} 
 
 	dependencies {
-		compile("com.lacunasoftware.pkiexpress:pki-express:1.11.0")
+		compile("com.lacunasoftware.pkiexpress:pki-express:1.13.0")
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -158,7 +158,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.11.0</version>
+			<version>1.13.0</version>
 		</dependency>
 		...
 	</dependencies>
