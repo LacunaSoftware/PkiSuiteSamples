@@ -20,7 +20,7 @@ block scripts
          },
          cosignPdf: {
             express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=cosignPdf',
-            restpki: '/checiek-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
+            restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
          },
          issueCertServer: {
             amplia: '/check-amplia-api-key?rc=issue-cert-server'
@@ -94,7 +94,7 @@ block scripts
          },
          // signXmlServerKey: { },
          // signaturePackage: { },
-         validateCmsSig: { // uncomment when PKI Express supports cades validation
+         validateCmsSig: {
             express: '/check-pki-express?rc=upload&fwd=open-cades'
          },
          validatePdfSig: { 
