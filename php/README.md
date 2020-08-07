@@ -47,7 +47,7 @@ turn requires **PHP 5.5** or greater.
 
 	{
 		"require": {
-			"lacuna/pki-express": "^1.5.0"
+			"lacuna/pki-express": "^1.7.0"
 		}
 	}
 

@@ -97,7 +97,7 @@ namespace PkiSuiteAspNetMvcSample.Models.Sdk {
 			}
 			if (signer.SignatureAlgorithm != null && signer.SignatureValue != null) {
 				Signature = new SignatureAlgorithmAndValueModel(signer.SignatureAlgorithm, signer.SignatureValue);
-			} 
+			}
 			if (signer.SignaturePolicy != null && !signer.SignaturePolicy.IsImplicit) {
 				SignaturePolicy = new SignaturePolicyIdentifierModel(signer.SignaturePolicy);
 			}

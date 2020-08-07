@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +11,12 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		PdfSignedOnce,
 		PdfSignedTwice,
 		CmsSignedOnce,
-		CmsSignedTwice
+		CmsSignedTwice,
+		CmsDataFile,
+		CmsDetached1,
+		CmsDetached2,
+		CmsAttached1,
+		CmsAttached2
 	}
 
 	public class StorageMock {
@@ -63,6 +68,10 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return true;
 		}
 
+		internal static string GetSampleContractPath() {
+			return Path.Combine(ContentPath, "SampleContract.xml");
+		}
+
 		public static Stream OpenRead(string filename) {
 
 			if (string.IsNullOrEmpty(filename)) {
@@ -75,6 +84,16 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 				throw new FileNotFoundException("File not found: " + filename);
 			}
 			return fileInfo.OpenRead();
+		}
+
+		internal static string CopySampleToAppData(SampleDocs sample) {
+			var path = GetSampleDocPath(sample);
+
+			var extension = new FileInfo(path).Extension;
+
+			using (var inStream = OpenRead(path)) {
+				return StorageMock.Store(inStream, extension);
+			}
 		}
 
 		public static byte[] Read(string fileId) {
@@ -196,6 +215,21 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 				case SampleDocs.CmsSignedTwice:
 					filename = "SampleCmsSignedTwice.p7s";
 					break;
+				case SampleDocs.CmsDataFile:
+					filename = "CMSDataFile.pdf";
+					break;
+				case SampleDocs.CmsAttached1:
+					filename = "CMSAttached1.p7s";
+					break;
+				case SampleDocs.CmsAttached2:
+					filename = "CMSAttached2.p7s";
+					break;
+				case SampleDocs.CmsDetached1:
+					filename = "CMSDetached1.p7s";
+					break;
+				case SampleDocs.CmsDetached2:
+					filename = "CMSDetached2.p7s";
+					break;
 				default:
 					throw new InvalidOperationException();
 			}
@@ -235,6 +269,10 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		public static string GetSampleXmlDocumentPath() {
 			return Path.Combine(ContentPath, "SampleDocument.xml");
 		}
+		public static byte[] GetSampleXmlDocumentContent() {
+			return File.ReadAllBytes(Path.Combine(ContentPath, "SampleDocument.xml"));
+		}
+
 		public static string GetBatchDocPath(int id) {
 			return Path.Combine(ContentPath, string.Format("{0:D2}.pdf", id % 10));
 		}
@@ -255,9 +293,17 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return File.ReadAllBytes(Path.Combine(ContentPath, "icp-brasil.png"));
 		}
 
+		public static byte[] GetEmptyPdfContent() {
+			return File.ReadAllBytes(Path.Combine(ContentPath, "empty.pdf"));
+		}
+
 		public static byte[] GetValidationResultIcon(bool isValid) {
 			var filename = isValid ? "ok.png" : "not-ok.png";
 			return File.ReadAllBytes(Path.Combine(ContentPath, filename));
+		}
+
+		public static byte[] GetServerCertificate() {
+			return File.ReadAllBytes(Path.Combine(ContentPath, "Pierre de Fermat.pfx"));
 		}
 
 	}

@@ -73,7 +73,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// - The "to-sign-hash" (digest of the "to-sign-bytes"). And the OID of the digest algorithm to be 
 			// used during the signature operation. this information is need in the signature computation with
 			// Web PKI component. (see batch-signature-form.js)
-			return Json(new BatchSignatureStartResponse() {
+			return Json(new BatchPadesSignatureStartResponse() {
 				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 				ToSignHash = signatureAlg.DigestAlgorithm.ComputeHash(toSignBytes),
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid
@@ -87,7 +87,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * it'll be redirect to SignatureInfo action to show the signature file.
 		 */
 		[HttpPost]
-		public ActionResult Complete(BatchSignatureCompleteRequest request) {
+		public ActionResult Complete(BatchPadesSignatureCompleteRequest request) {
 
 			byte[] signatureContent;
 
