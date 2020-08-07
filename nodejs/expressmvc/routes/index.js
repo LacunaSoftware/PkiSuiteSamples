@@ -25,6 +25,7 @@ router.use('/list-cert-jquery', require('./list-cert-jquery'));
 router.use('/merge-cades-express', require('./merge-cades-express'));
 router.use('/merge-server-files', require('./merge-server-files'));
 router.use('/open-cades-express', require('./open-cades-express'));
+router.use('/open-cades-restpki', require('./open-cades-restpki'));
 router.use('/open-pades-express', require('./open-pades-express'));
 router.use('/open-pades-restpki', require('./open-pades-restpki'));
 router.use('/pades-server-key-express', require('./pades-server-key-express'));
