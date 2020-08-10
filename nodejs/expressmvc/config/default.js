@@ -50,8 +50,8 @@ module.exports = {
 		// ========================================================
 		//     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
 		// ========================================================
-		apiKey: 'pki-suite-samples-01|1f3c9a4bbfdab24b9c1afabef298f166caba68aa76123d2341bf7c24c3d45529',
-		// This is a TRIAL API key to use Amplia. It will expire at 31/08/2020
+		apiKey: 'pki-suite-samples-02|ed86943f9f22d64d8d35496a3ced7e3fa2a5a5fe4c4cd5af0886ead87910e4ad',
+		// This is a TRIAL API key to use Amplia. It will expire at 30/09/2020
 		// If the Amplia's samples do not work please contact our support by email:
 		// suporte@lacunasoftware.com
 		//
