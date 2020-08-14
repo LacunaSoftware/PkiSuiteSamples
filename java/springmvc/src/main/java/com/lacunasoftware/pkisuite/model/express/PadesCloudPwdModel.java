@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.List;
 
-public class PadesServerKeyPwdFlowModel {
+public class PadesCloudPwdModel {
 	List<TrustServiceInfo> services;
 	String cpf;
 
