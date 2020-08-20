@@ -4,7 +4,6 @@
 
 <div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
 	<h2 class="ls-title">PAdES Signature using cloud certificate with PKI Express (OAuth Flow)</h2>
-	<h5 class="ls-subtitle">Choose a trust provider:</h5>
 
 	<div class="ls-content" th:with="condition=${model.getServices() != null and model.getServices().size() > 0}">
 
