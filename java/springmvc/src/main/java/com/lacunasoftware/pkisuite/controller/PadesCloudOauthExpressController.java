@@ -50,7 +50,7 @@ public class PadesCloudOauthExpressController {
 	}
 
 	@GetMapping("/pades-cloud-oauth-express/complete")
-	public String authorize(
+	public ModelAndView authorize(
 		@RequestParam(value="code", required = false) String authorizationCode,
 		@RequestParam(value="state", required = false) String state
 	) throws IOException {
@@ -58,15 +58,8 @@ public class PadesCloudOauthExpressController {
 
 		TrustServiceSessionResult result = manager.completeAuth(authorizationCode, state);
 
-		// Render complete page.
-		return String.format("redirect:/pades-cloud-oauth-express/sign?trustSession=%s&fileId=%s", result.getSession(), result.getCustomState());
-	}
-
-	@GetMapping(value = "/pades-cloud-oauth-express/sign")
-	public ModelAndView sign(
-		@RequestParam(value="fileId") String fileToSign,
-		@RequestParam(value="trustSession") String trustSession
-	) throws IOException {
+		// Recover file to be signed on custom state parameter.
+		String fileToSign = result.getCustomState();
 
 		// Verify if the provided fileToSign exists.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
@@ -87,7 +80,7 @@ public class PadesCloudOauthExpressController {
 		signer.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
 		// Set trust session acquired on the following steps of this sample.
-		signer.setTrustServiceSession(trustSession);
+		signer.setTrustServiceSession(result.getSession());
 
 		// Set visual representation. We provide a Java class that represents the visual
 		// representation.

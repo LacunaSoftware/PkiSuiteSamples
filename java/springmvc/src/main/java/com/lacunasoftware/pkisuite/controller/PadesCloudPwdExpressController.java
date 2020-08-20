@@ -44,7 +44,7 @@ public class PadesCloudPwdExpressController {
 	}
 
 	@PostMapping("/pades-cloud-pwd-express/authorize")
-	public String authorize(
+	public ModelAndView authorize(
 		@RequestParam(value="fileId") String fileToSign,
 		@RequestParam(value="cpf") String cpf,
 		@RequestParam(value="service") String service,
@@ -56,16 +56,6 @@ public class PadesCloudPwdExpressController {
 		String plainCpf = cpf.replaceAll("[.-]", "");
 
 		TrustServiceSessionResult result = manager.passwordAuthorize(service, plainCpf, password);
-
-		// Render complete page.
-		return String.format("redirect:/pades-cloud-pwd-express/sign?trustSession=%s&fileId=%s", result.getSession(), fileToSign);
-	}
-
-	@GetMapping(value = "/pades-cloud-pwd-express/sign")
-	public ModelAndView sign(
-		@RequestParam(value="fileId") String fileToSign,
-		@RequestParam(value="trustSession") String trustSession
-	) throws IOException {
 
 		// Verify if the provided fileToSign exists.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
@@ -86,7 +76,7 @@ public class PadesCloudPwdExpressController {
 		signer.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
 		// Set trust session acquired on the following steps of this sample.
-		signer.setTrustServiceSession(trustSession);
+		signer.setTrustServiceSession(result.getSession());
 
 		// Set visual representation. We provide a Java class that represents the visual
 		// representation.
