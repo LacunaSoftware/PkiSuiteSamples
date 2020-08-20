@@ -3,7 +3,7 @@
 <body>
 
 <div th:fragment="content">
-	<h2 class="ls-title">PAdES Signature with REST PKI</h2>
+	<h2 class="ls-title">Receita Simples with REST PKI</h2>
 	<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
 	<div class="ls-content">
@@ -31,9 +31,7 @@
 		<h3>Actions:</h3>
 		<ul>
 			<li><a th:href="@{'/download/' + ${signedPdf}}">Download the signed file</a></li>
-			<li><a th:href="@{/printer-friendly-pades-rest(fileId=${signedPdf})}">Download a printer-friendly version of the signed file</a></li>
 			<li><a th:href="@{/open-pades-rest(fileId=${signedPdf})}">Open/validate the signed file</a></li>
-			<li><a th:href="@{/pades-signature-rest(fileId=${signedPdf})}">Co-sign with another certificate</a></li>
 		</ul>
 
 	</div>

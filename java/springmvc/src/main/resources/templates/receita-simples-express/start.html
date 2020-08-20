@@ -3,15 +3,15 @@
 <body>
 
 <div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
-	<h2 class="ls-title">CAdES Signature with PKI Express</h2>
+	<h2 class="ls-title">Receita Simples with PKI Express</h2>
 
 	<div class="ls-content">
 
 		<!--
 			This form will be shown initially and when this page is rendered to perform the
 			signature using Web PKI component.
-	   -->
-		<form id="signForm" method="POST" action="#" th:action="@{/cades-signature-express/complete(fileId=${fileId})}">
+		-->
+		<form id="signForm" method="POST" action="#" th:action="@{/receita-simples-express/complete(fileId=${fileId})}">
 
 			<!--
 				Hidden fields used to pass data from the server-side to the javascript
@@ -24,7 +24,7 @@
 			<input type="hidden" id="digestAlgorithmField" name="digestAlgorithm" th:value="${digestAlgorithm}" />
 			<input type="hidden" id="signatureField" name="signature" />
 
-			<a id="tryAgainButton" class="btn btn-primary" th:href="@{/cades-signature-express(fileId=${fileId})}">
+			<a id="tryAgainButton" class="btn btn-primary" th:href="@{/receita-simples-express(fileId=${fileId})}">
 				<i class="fas fa-undo-alt"></i> Try Again
 			</a>
 		</form>
