@@ -73,7 +73,7 @@ class Util {
         }
 
         // Set the operator to "OFFLINE MODE" (default: false):
-        $operator->offline = true;
+        $operator->offline = $config->pkiExpress->offline;
 
         // Set the operator to use a timestamp authority when performing an timestamp operation. In this
         // sample, we will use the REST PKI by default to emit a timestamp. It only be filled if the

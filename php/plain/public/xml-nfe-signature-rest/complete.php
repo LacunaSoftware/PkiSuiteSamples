@@ -29,7 +29,7 @@ try {
     // At this point, you'd typically store the signed XML on your database. For demonstration purposes, we'll
     // store the PDF on a temporary folder publicly accessible and render a link to it.
 
-    $filename = StorageMock::store($signedXml, '.xml');
+    $filename = StorageMock::store($signedXml, 'xml');
 
 } catch (Exception $ex) {
     // Save error information on session storage.
@@ -80,6 +80,7 @@ try {
         <h3>Actions:</h3>
         <ul>
             <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
+            <li><a href="/open-xml-rest?fileId=<?= $filename ?>">Open/validate the signed file</a></li>
         </ul>
     </div>
 </div>

@@ -1,4 +1,4 @@
-﻿@section Styles {
+@section Styles {
 	<link rel="stylesheet" href="https://cdn.lacunasoftware.com/pki-suite-samples/styles.c87e17c78cd2c969b0f3.css" />
 }
 
@@ -26,10 +26,15 @@
 				jquery: '@Html.Raw(Url.Action("Index", "ListCertJQuery"))',
 				select2: '@Html.Raw(Url.Action("Index", "ListCertSelect2"))'
 			},
-			// mergeCmsSigs: { },
-			// printerFriendlyCms: { },
+			mergeCmsSigs: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "MergeServerFiles", @ctrl = "MergeCadesSdk"}))',
+			},
+			printerFriendlyCms: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyCadesSdk", @op = "printerFriendlyCades" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyCadesRest", @op ="printerFriendlyCades" }))'
+			},
 			printerFriendlyPdf: {
-				// pki: '',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesSdk", @op = "printerFriendlyPdf" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PrinterFriendlyPadesRest", @op ="printerFriendlyPdf" }))'
 			},
 			readCert: {
@@ -48,13 +53,15 @@
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "CadesSignatureRest" }))',
 				webpki: '@Html.Raw(Url.Action("Index", "PadesSignatureWeb"))'
 			},
-			//signCmsServerKey: { },
+			signCmsServerKey: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "CadesServerKeySdk" }))'
+			},
 			signCod: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignatureSdk" }))'
-				// restpki: ''
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlCodSignatureSdk" }))',
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlCodSignatureRest" }))'
 			},
 			signMultiCmsServer: {
-				// pki: { },
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "BatchCadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "BatchCadesSignatureRest" }))'
 			},
 			// signMultiCmsUser: { },
@@ -76,12 +83,16 @@
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRest" }))',
 				webpki: '@Html.Raw(Url.Action("Index", "PadesSignatureWeb"))'
 			},
-			//signPdfServerKey: { },
+			signPdfServerKey: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesServerKeySdk" }))'
+			},
 			signXmlServer: {
-				// pki: '',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlSignatureRest" }))'
 			},
-			// signXmlServerKey: { },
+			signXmlServerKey: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlServerKeySdk" }))'
+			},
 			// signaturePackage: { },
 			validateCmsSig: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenCadesSignatureSdk" }))',
@@ -89,7 +100,7 @@
 				// webpki: '
 			},
 			validatePdfSig: {
-				// pki: '',
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenPadesSignatureRest" }))'
 				// webpki: ''
 			},
@@ -100,6 +111,6 @@
 		};
 	</script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js"></script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.4fad4f57426952c5568b.js"></script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.2f29231baf2b86312281.js"></script>
 }

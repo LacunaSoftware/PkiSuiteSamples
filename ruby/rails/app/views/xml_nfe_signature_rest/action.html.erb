@@ -1,0 +1,27 @@
+<h2 class="ls-title">NFe Signature with REST PKI</h2>
+<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+
+<div class="ls-content">
+  <p>Signer information:</p>
+  <ul>
+    <li>Subject: <%= @signer_cert.subjectName.commonName %> </li>
+    <li>Email: <%= @signer_cert.emailAddress %></li>
+    <li>
+      ICP-Brasil fields
+      <ul>
+        <li>Tipo de certificado: <%= @signer_cert.pkiBrazil.certificateType %></li>
+        <li>CPF: <%= @signer_cert.pkiBrazil.cpf %></li>
+        <li>Responsavel: <%= @signer_cert.pkiBrazil.responsavel %></li>
+        <li>Empresa: <%= @signer_cert.pkiBrazil.companyName %></li>
+        <li>CNPJ: <%= @signer_cert.pkiBrazil.cnpj %> </li>
+        <li>RG: <%= "#{@signer_cert.pkiBrazil.rgNumero} #{@signer_cert.pkiBrazil.rgEmissor} #{@signer_cert.pkiBrazil.rgEmissorUF}" %></li>
+        <li>OAB: <%= "#{@signer_cert.pkiBrazil.oabNumero} #{@signer_cert.pkiBrazil.oabUF}" %></li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Actions:</h3>
+  <ul>
+    <li><a href="/download/<%= @signed_pdf %>">Download the signed file</a></li>
+  </ul>
+</div>

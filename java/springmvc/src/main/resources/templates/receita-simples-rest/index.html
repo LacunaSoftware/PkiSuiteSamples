@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Receita Simples with REST PKI</h2>
+
+	<div class="ls-content">
+		<form id="generateForm" method="POST" action="#" th:action="@{/receita-simples-rest/sign}">
+			<div class="form-group">
+				<label for="name">Doctor's Name:</label>
+				<input type="text" name="name" id="name" placeholder="João da Silva" class="form-control" required="true"/>
+			</div>
+			<div class="form-group">
+				<label for="crm">CRM:</label>
+				<input type="text" name="crm" id="crm" class="form-control" placeholder="00000000-0" required="true"/>
+			</div>
+			<div class="form-group">
+				<label for="crmUf">CRM UF:</label>
+				<select id="crmUf" name="crmUf" class="form-control" required="true">
+					<span th:each="value : ${ufs}">
+						<option th:value="${value}"><span th:text="${value}"></span></option>
+					</span>
+				</select>
+			</div>
+			<button id="signButton" type="submit" class="btn btn-primary">Generate File</button>
+		</form>
+
+	</div>
+</div>
+</body>
+</html>
