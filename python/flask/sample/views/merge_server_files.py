@@ -64,6 +64,6 @@ def copy_from_static_to_app_data(filename):
 class MergeServerFileModel:
     def __init__(self, optionId, id1, id2, description):
         self.optionId = optionId
-        self.id1 = id1.value
-        self.id2 = id2.value
+        self.id1 = id1
+        self.id2 = id2
         self.description = description

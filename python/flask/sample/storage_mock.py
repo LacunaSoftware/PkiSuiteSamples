@@ -6,10 +6,9 @@ from os.path import join
 
 from flask import current_app
 from flask import session
-from enum import Enum
 
 
-class SampleDocs (Enum): 
+class SampleDocs (): 
     SAMPLE_PDF =  0
     PDF_SIGNED_ONCE = 1
     PDF_SIGNED_TWICE = 2

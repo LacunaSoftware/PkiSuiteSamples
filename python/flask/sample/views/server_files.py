@@ -27,7 +27,7 @@ def index(rc, op):
         return render_template('server_files/index.html', rc=rc, available_files=available_files)
     else:
         sample_id = int(request.form['selectedFile'])
-        filename = get_sample_doc_name(SampleDocs(sample_id))
+        filename = get_sample_doc_name(sample_id)
         file_extension = filename.rsplit('.', 1)[1]
         
         # Copy file to the App_Data folder, where the upload files is stored.
@@ -54,6 +54,6 @@ def index(rc, op):
 
 class ServerFileModel:
     def __init__(self, id, description):
-        self.id = id.value
+        self.id = id
         self.description = description
-        self.download_url = '/download/sample/' + str(id.value) 
+        self.download_url = '/download/sample/' + str(id) 
