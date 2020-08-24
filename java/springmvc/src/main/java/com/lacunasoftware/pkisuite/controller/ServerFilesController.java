@@ -43,7 +43,7 @@ public class ServerFilesController {
 				availableFiles.add(new ServerFile(SampleDocs.CMS_SIGNED_TWICE, "A sample CMS file that was signed twice."));
 				break;
 			case "cosignPdf":
-			case "printerFriendly":
+			case "printerFriendlyPdf":
 				availableFiles.add(new ServerFile(SampleDocs.PDF_SIGNED_ONCE, "A sample PDF that was signed just once."));
 				availableFiles.add(new ServerFile(SampleDocs.PDF_SIGNED_TWICE, "A sample PDF that was signed twice."));
 				break;
