@@ -7,6 +7,7 @@ import com.lacunasoftware.restpki.RestPkiClient;
 import com.lacunasoftware.restpki.SecurityContext;
 import com.lacunasoftware.pkisuite.config.ApplicationProperties;
 import com.lacunasoftware.pkisuite.config.ProxyProperties;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -169,5 +170,23 @@ public class Util {
 		c.setTime(new Date());
 		c.add(Calendar.YEAR, years);
 		return c.getTime();
+	}
+
+	public static String joinStringsPt(List<String> strings) {
+		StringBuilder text = new StringBuilder();
+		int size = strings.size();
+		int index = 0;
+		for (String s : strings) {
+			if (index > 0) {
+				if (index < size - 1) {
+					text.append(", ");
+				} else {
+					text.append(" e ");
+				}
+			}
+			text.append(s);
+			++index;
+		}
+		return text.toString();
 	}
 }
