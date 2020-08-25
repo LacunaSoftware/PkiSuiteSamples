@@ -1,0 +1,27 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
+@model PrescricaoDataModel
+
+	<h2 class="ls-title">Receita Simples with PKI SDK</h2>
+
+@using (Html.BeginForm("Index", "ReceitaSimplesSdk", FormMethod.Post, new { id = "prescricaoForm", role = "form" })) {
+	@Html.ValidationSummary("", new { @class = "text-danger" })
+
+	<div class="form-group">
+		<label for="name">Doctor's Name:</label>
+		<input type="text" name="name" id="name" placeholder="João da Silva" class="form-control" required/>
+	</div>
+	<div class="form-group">
+		<label for="crm">CRM:</label>
+		<input type="text" name="crm" id="crm" class="form-control" placeholder="00000000-0" required/>
+	</div>
+	<div class="form-group">
+		<label for="crmUf">CRM UF:</label>
+		<select id="crmUf" name="crmUf" class="form-control" required>
+			@foreach (var item in Model.UFs) {
+				<option value="@item">@item</option>
+			}
+		</select>
+	</div>
+
+	<button id="submitButton" type="submit" class="btn btn-primary">Send</button>
+}
