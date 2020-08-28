@@ -3,7 +3,7 @@
 {% block content %}
 
 	<h2 class='ls-title'> Choose one of the avaliable merge combinations </h2>
-	<p> All CMS/CAdES Signatures are related to <a href="/download/sample/{{sampleFileId}}"></a> this file </a>. </p>
+	<p> All CMS/CAdES Signatures are related to <a href="/download/sample/{{sampleFileId}}"> this file </a>. </p>
 	<form method='post' id='mergeFilesForm')>
 		<input type="hidden" name="selectedSample" id="selectedSample">
 		<div class='row'>
@@ -17,7 +17,11 @@
 						{{file.description}}
 						<br>
 						<br>
-						This sample consists of <a href="/download/sample/{{file.id1}}">this file</a> and <a href="/download/sample/{{file.id2}}">this file</a>.
+						{% if file.id2 %}
+							This sample consists of <a href="/download/sample/{{file.id1}}">this file</a> and <a href="/download/sample/{{file.id2}}">this file</a>.
+						{% else %}
+							This sample consists of <a href="/download/sample/{{file.id1}}">this file</a>.
+						{% endif %}
 					</div>
 					<div class='card-footer'>
 						<button type='buttom' class='use-file btn btn-primary' style='font-size: 14px;' id="{{file.optionId}}">
