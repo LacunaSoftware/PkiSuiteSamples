@@ -19,7 +19,8 @@ def index(rc):
         available_files = [
             MergeServerFileModel(0, SampleDocs.CMS_DETACHED_1, SampleDocs.CMS_DETACHED_2, 'A sample where both CMS don\'t have encapsulated content.'),
             MergeServerFileModel(1, SampleDocs.CMS_ATTACHED_1, SampleDocs.CMS_DETACHED_2, 'A sample where a CMS has encapsulated content and another doesn\'t.'),
-            MergeServerFileModel(2, SampleDocs.CMS_ATTACHED_1, SampleDocs.CMS_ATTACHED_2, 'A sample where both CMS have encapsulated content.')]
+            MergeServerFileModel(2, SampleDocs.CMS_ATTACHED_1, SampleDocs.CMS_ATTACHED_2, 'A sample where both CMS have encapsulated content.'),
+            MergeServerFileModel(3, SampleDocs.CMS_DETACHED_1, None, 'A sample where the original file is attached to a CMS that doesn\'t have encapsulated content.')]
         sample_file_id = SampleDocs.CMS_DATA_FILE
         return render_template('merge_server_files/index.html', available_files=available_files, sample_file_id=sample_file_id)
     else:
@@ -29,18 +30,30 @@ def index(rc):
         redirect_url = rc + "/"
 
         if sample_id == 0:
-            redirect_url += copy_from_static_to_app_data(data_file) + '/'
             file1 = get_sample_doc_name(SampleDocs.CMS_DETACHED_1)
             file2 = get_sample_doc_name(SampleDocs.CMS_DETACHED_2)
+
+            redirect_url += copy_from_static_to_app_data(data_file) + \
+                      '/' + copy_from_static_to_app_data(file1)     + \
+                      '/' + copy_from_static_to_app_data(file2)
         elif sample_id == 1:
-            redirect_url += copy_from_static_to_app_data(data_file) + '/'
             file1 = get_sample_doc_name(SampleDocs.CMS_ATTACHED_1)
             file2 = get_sample_doc_name(SampleDocs.CMS_DETACHED_2)
-        else:
+
+            redirect_url += copy_from_static_to_app_data(data_file) + \
+                      '/' + copy_from_static_to_app_data(file1)     + \
+                      '/' + copy_from_static_to_app_data(file2)
+        elif sample_id == 2:
             file1 = get_sample_doc_name(SampleDocs.CMS_ATTACHED_1)
             file2 = get_sample_doc_name(SampleDocs.CMS_ATTACHED_2)
 
-        redirect_url += copy_from_static_to_app_data(file1) + '/' + copy_from_static_to_app_data(file2)
+            redirect_url += copy_from_static_to_app_data(file1) + \
+                      '/' + copy_from_static_to_app_data(file2)
+        else:
+            file1 = get_sample_doc_name(SampleDocs.CMS_DETACHED_1)
+
+            redirect_url += 'attach/' + copy_from_static_to_app_data(data_file) + \
+                            '/' +       copy_from_static_to_app_data(file1)
 
         return redirect(redirect_url)
 

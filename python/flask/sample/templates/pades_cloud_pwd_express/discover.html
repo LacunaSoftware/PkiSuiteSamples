@@ -14,7 +14,7 @@
 						<label for="serviceField">Choose a trust provider:</label>
 						<select id="serviceField" name="service" class="form-control col col-sm-2" >
 							{% for s in services %} 
-								<option value="{{ s.service }}">{{s.service}} ({{s.provider}})</option>
+								<option value="{{ s.service.name }}">{{s.service.name}} ({{s.provider}})</option>
 							{% endfor %} 
 						</select>
 					</div>

@@ -8,4 +8,4 @@ click==6.7
 wheel==0.31.1
 docopt==0.6.1
 restpki-client==1.1.1
-pkiexpress==1.7.0
+pkiexpress==1.7.1
