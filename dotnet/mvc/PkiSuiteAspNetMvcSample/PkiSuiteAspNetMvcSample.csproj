@@ -57,23 +57,23 @@
     <Reference Include="Lacuna.DataAnnotations, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.DataAnnotations.1.2.0\lib\net45\Lacuna.DataAnnotations.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.Pki, Version=2.7.2.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.7.2\lib\net46\Lacuna.Pki.dll</HintPath>
+    <Reference Include="Lacuna.Pki, Version=2.7.5.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.Pki.BrazilTrustServices, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f9a343ef085a160f, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.BrazilTrustServices.1.0.1\lib\net461\Lacuna.Pki.BrazilTrustServices.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestClient, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestClient.1.12.0\lib\net45\Lacuna.RestClient.dll</HintPath>
+    <Reference Include="Lacuna.RestClient, Version=1.14.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestClient.1.14.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.23.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.23.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.24.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.24.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.20.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.20.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=1.21.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Client.1.21.0\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.T8, Version=1.2.2.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.7.2\lib\net46\Lacuna.T8.dll</HintPath>
+    <Reference Include="Lacuna.T8, Version=1.2.3.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.T8.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -333,7 +333,6 @@
     <Content Include="Content\js\batch-cades-signature-sdk-form.js" />
     <Content Include="Content\js\batch-pades-signature-sdk-form.js" />
     <Content Include="Content\js\batch-signature-rest-form.js" />
-    <Content Include="Content\js\lacuna-web-pki-2.11.0.js" />
     <Content Include="Content\js\signature-complete-form.js" />
     <Content Include="Content\js\signature-form.js" />
     <Content Include="Content\js\signature-start-form.js" />
