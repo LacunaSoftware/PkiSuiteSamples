@@ -72,6 +72,12 @@
         signPdfServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
         },
+        signPdfCloudPwd: {
+            express: '/check-express.php?rc=upload.php&fwd=pades-cloud-pwd'
+        },
+        signPdfCloudOAuth: {
+            express: '/check-express.php?rc=upload.php&fwd=pades-cloud-oauth'
+        },
         // signXmlServer: { },
         // signXmlServerKey: { },
         // signaturePackage: { },
