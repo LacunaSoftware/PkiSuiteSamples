@@ -43,7 +43,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set a visual representation for the signature.
 				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki()
 			};
-			
+
 			// Set the file to be signed.
 			signatureStarter.SetPdfToSign(userfilePath);
 

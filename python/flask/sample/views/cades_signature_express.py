@@ -27,6 +27,7 @@ blueprint = Blueprint(os.path.basename(__name__), __name__,
 
 
 @blueprint.route('/<file_id>')
+@blueprint.route('/cosign/<file_id>')
 def index(file_id):
     """
 

@@ -16,17 +16,28 @@
 			restpki: '/check-rest-token/authentication'
 		},
 
-		// cosignCms: { },
-		// cosignPdf: { },
+		cosignCms: {
+			express: '/check-express/server-files/cades-signature/cosignCms',
+			restpki: '/check-rest-token/server-files/cades-signature/cosignCms'
+		},
+		cosignPdf: {
+			express: '/check-express/server-files/pades-signature/cosignPdf',
+			restpki: '/check-rest-token/server-files/pades-signature/cosignPdf'
+		},
 		// issueCertServer: { },
 		// issueCertUser: { },
 		listCert: {
 			jquery: 'list-cert-jquery',
 			select2: 'list-cert-select2'
 		},
-		// mergeCmsSigs: { },
+		mergeCmsSigs: {
+			express: '/check-express/merge-server-files/merge-cades',
+		},
 		// printerFriendlyCms: { },
-		// printerFriendlyPdf: { },
+		printerFriendlyPdf: {
+			express: '/check-express/upload/printer-version-pades',
+			restpki: '/check-rest-token/upload/printer-version-pades'
+		 },
 		readCert: {
 			jquery: 'read-cert-jquery',
 			select2: 'read-cert-select2'
@@ -34,10 +45,10 @@
 		rsa: {
 			webpki: '/rsa-web'
 		},
-		// signCmsServer: {
-		// 	express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms',
-		// 	restpki: '/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms'
-		// },
+		signCmsServer: {
+			express: '/check-express/server-files/cades-signature/signCms',
+			restpki: '/check-rest-token/server-files/cades-signature/signCms'
+		},
 		signCmsUser: {
 			express: '/check-express/upload/cades-signature',
 			restpki: '/check-rest-token/upload/cades-signature'
@@ -59,16 +70,22 @@
 		signNfe: {
 			restpki: '/check-rest-token/xml-nfe-signature'
 		},
-		// signPdfServer: {
-		// 	express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf',
-		// 	restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf'
-		// },
+		signPdfServer: {
+			express: '/check-express/server-files/pades-signature/signPdf',
+			restpki: '/check-rest-token/server-files/pades-signature/signPdf'
+		},
 		signPdfUser: {
 			express: '/check-express/upload/pades-signature',
 			restpki: '/check-rest-token/upload/pades-signature'
 		},
 		signPdfServerKey: {
 			express: '/check-express/upload/pades-server-key'
+		},
+		signPdfCloudPwd: {
+			express: '/check-express/upload/pades-cloud-pwd'
+		},
+		signPdfCloudOAuth: {
+			express: '/check-express/upload/pades-cloud-oauth'
 		},
 		signXmlServer: {
 			restpki: '/check-rest-token/xml-signature'
@@ -87,6 +104,6 @@
 	};
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.4fad4f57426952c5568b.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.2f29231baf2b86312281.js"></script>
 {% endblock %}

@@ -1,0 +1,55 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
+@model SignatureStartModel
+
+<h2 class="ls-title">Sign a XML file stored on the server with PKI SDK</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
+	@Html.ValidationSummary("", new { @class = "text-danger" })
+
+	@* Hidden fields used to pass data from the action to the "signature form" javascript (see below) and vice-versa *@
+	@Html.HiddenFor(m => m.CertThumbBase64, new { id = "certThumb" })
+	@Html.HiddenFor(m => m.CertContentBase64, new { id = "certContent" })
+
+	<div class="form-group">
+		<label>File to sign</label>
+		<p>You are signing this <b>entire</b>  <a href='~/Content/SampleDocument.xml'>sample XML</a>.</p>
+	</div>
+
+	<div class="form-group">
+		<label for="certificateSelect">Choose a certificate</label>
+		<select id="certificateSelect" class="form-control"></select>
+	</div>
+
+	<button id="signButton" type="button" class="btn btn-primary">Sign File</button>
+	<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+}
+
+@section Scripts {
+
+	@*
+		The file below contains the JS lib for accessing the Web PKI component. For more information, see:
+		https://webpki.lacunasoftware.com/#/Documentation
+	*@
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.3.min.js"
+			  integrity="sha256-P92LF1ePw0qwnmbefDpDiMcr8rmwFkcxVX+utanmlek="
+			  crossorigin="anonymous"></script>
+
+	@*
+		The file below contains the logic for calling the Web PKI component. It is only an example, feel
+		free to alter it to meet your application's needs. You can also bring the code into the javascript
+		block below if you prefer.
+	*@
+	<script src="@Url.Content("~/Content/js/signature-start-form.js")"></script>
+	<script>
+		$(document).ready(function () {
+			signatureStartForm.init({
+				form: $('#signForm'),
+				certificateSelect: $('#certificateSelect'),
+				signButton: $('#signButton'),
+				refreshButton: $('#refreshButton'),
+				certThumbField: $('#certThumb'),
+				certContentField: $('#certContent')
+			});
+		});
+	</script>
+}

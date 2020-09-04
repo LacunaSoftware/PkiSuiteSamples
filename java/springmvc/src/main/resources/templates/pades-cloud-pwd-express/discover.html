@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<body>
+
+<div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
+	<h2 class="ls-title">PAdES Signature using cloud certificate with PKI Express (Password Flow)</h2>
+
+	<div class="ls-content" th:with="condition=${model.getServices() != null and model.getServices().size() > 0}">
+
+		<div th:unless="${condition}">
+			<p>No trusted services was found with this CPF.</p>
+			<button onclick="window.history.back()" class="btn btn-primary">Try Again</button>
+		</div>
+		<form id="pwdFlowForm" th:if="${condition}" th:action="@{/pades-cloud-pwd-express/authorize(fileId=${fileId})}" method="POST">
+			<input id="cpfField" type="hidden" name="cpf" th:value="${model.getCpf()}" />
+
+			<div class="form-group">
+				<div class="px-0">
+					<label for="serviceField">Inform your trust provider:</label>
+					<select id="serviceField" name="service" class="form-control col col-sm-2" >
+						<option th:each="service : ${model.getServices()}" th:value="${service.getService()}"><span th:text="${service.getService().toLowerCase()}"></span> (<span th:text="${service.getProvider()}"></span>)</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="px-0">
+					<label for="passwordField">Inform your password authorization:</label>
+					<input id="passwordField" class="form-control col col-sm-2" type="password" name="password" />
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">
+				<i class="fas fa-file-signature"></i> Sign
+			</button>
+
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

@@ -72,6 +72,12 @@
         signPdfServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
         },
+        signPdfCloudPwd: {
+            express: '/check-express.php?rc=upload.php&fwd=pades-cloud-pwd'
+        },
+        signPdfCloudOAuth: {
+            express: '/check-express.php?rc=upload.php&fwd=pades-cloud-oauth'
+        },
         // signXmlServer: { },
         // signXmlServerKey: { },
         // signaturePackage: { },
@@ -90,8 +96,8 @@
     };
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.a66f828dca56eeb90e02.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.27ba7ccfa975df7b6881.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.db28c76ceb0f94cfee6c.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.4fad4f57426952c5568b.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.2f29231baf2b86312281.js"></script>
 
 </body>
 </html>

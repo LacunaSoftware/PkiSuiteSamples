@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
-	
+
 	public class CadesSignatureRestController : BaseController {
 
 		/**
@@ -117,7 +117,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Get an instance of the CadesSignatureFinisher2 class, responsible for completing the signature
 			// process.
 			var signatureFinisher = new CadesSignatureFinisher2(Util.GetRestPkiClient()) {
-		
+
 				// Set the token for this signature (rendered in a hidden input field, see the view).
 				Token = model.Token
 			};

@@ -1,0 +1,60 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
+@model BatchSignatureModel
+
+<h2 class="ls-title">Batch of CAdES Signatures with PKI SDK</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "signForm", role = "form" })) {
+	<div id="messagesPanel"></div>
+
+	<div class="form-group">
+		<label>File to sign</label>
+		<p>
+			You'll be signing the following files:
+			@* UL element to hold the batch's documents (we'll render these programatically, see javascript below) *@
+			<ul id="docList" />
+		</p>
+	</div>
+
+	<div class="form-group">
+		<label for="certificateSelect">Choose a certificate</label>
+		<select id="certificateSelect" class="form-control"></select>
+	</div>
+
+	@*
+		Action buttons. Notice that the "Sign Batch" button is NOT a submit button. When the user clicks the button,
+		the process of signing the batch is started, the screen is blocked. Only after all documents has been already
+		processed, the screen is unblocked.
+	*@
+	<button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
+	<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
+}
+
+@section Scripts {
+
+	@*
+		The file below contains the JS lib for accessing the Web PKI component. For more information, see:
+		https://webpki.lacunasoftware.com/#/Documentation
+	*@
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.3.min.js"
+			  integrity="sha256-P92LF1ePw0qwnmbefDpDiMcr8rmwFkcxVX+utanmlek="
+			  crossorigin="anonymous"></script>
+
+	@*
+		The file below contains the logic for calling the Web PKI component. It is only an example, feel free
+		to alter it to meet your application's needs. You can also bring the code into the javascript block
+		below if you prefer.
+	*@
+	<script src="@Url.Content("~/Content/js/batch-cades-signature-sdk-form.js")"></script>
+	<script>
+		$(document).ready(function () {
+			batchSignatureSdkForm.init({
+				documentsIds: [ @string.Join("," , Model.DocumentIds) ],
+				certificateSelect: $('#certificateSelect'),
+				docList: $('#docList'),
+				refreshButton: $('#refreshButton'),
+				signButton: $('#signButton'),
+				controllerEndpoint: '/BatchCadesSignatureSdk'
+			});
+		});
+	</script>
+}
