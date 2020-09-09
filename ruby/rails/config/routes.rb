@@ -31,6 +31,11 @@ Rails.application.routes.draw do
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest
 
+  get '/receita-simples-express/', action: :index, controller: :receita_simples_express, as: :receita_simples_express
+  post '/receita-simples-express/generate/', action: :generate, controller: :receita_simples_express
+  post '/receita-simples-express/start/:file_id', action: :start, controller: :receita_simples_express
+  post '/receita-simples-express/complete/:file_id', action: :complete, controller: :receita_simples_express
+
   get '/batch-pades-rest/', action: :index, controller: :batch_pades_rest, as: :batch_pades_rest
   post '/batch-pades-rest/start/', action: :start, controller: :batch_pades_rest
   post '/batch-pades-rest/complete/', action: :complete, controller: :batch_pades_rest
