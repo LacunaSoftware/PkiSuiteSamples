@@ -33,6 +33,14 @@ Rails.application.routes.draw do
 
   get '/pades-server-key-express/:file_id', action: :index, controller: :pades_server_key_express
 
+  get '/pades-cloud-oauth-express/complete', action: :complete, controller: :pades_cloud_oauth_express
+  get '/pades-cloud-oauth-express/:file_id', action: :index, controller: :pades_cloud_oauth_express, as: :pades_cloud_oauth_express
+  post '/pades-cloud-oauth-express/discover/:file_id', action: :discover, controller: :pades_cloud_oauth_express
+
+  get '/pades-cloud-pwd-express/:file_id', action: :index, controller: :pades_cloud_pwd_express, as: :pades_cloud_pwd_express
+  post '/pades-cloud-pwd-express/discover/:file_id', action: :discover, controller: :pades_cloud_pwd_express
+  post '/pades-cloud-pwd-express/authorize/:file_id', action: :authorize, controller: :pades_cloud_pwd_express
+
   get '/receita-simples-express/', action: :index, controller: :receita_simples_express, as: :receita_simples_express
   post '/receita-simples-express/generate/', action: :generate, controller: :receita_simples_express
   post '/receita-simples-express/start/:file_id', action: :start, controller: :receita_simples_express
