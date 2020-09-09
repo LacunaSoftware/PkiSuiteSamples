@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest
 
+  get '/pades-server-key-express/:file_id', action: :index, controller: :pades_server_key_express
+
   get '/receita-simples-express/', action: :index, controller: :receita_simples_express, as: :receita_simples_express
   post '/receita-simples-express/generate/', action: :generate, controller: :receita_simples_express
   post '/receita-simples-express/start/:file_id', action: :start, controller: :receita_simples_express
