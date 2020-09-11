@@ -1,0 +1,14 @@
+<h2 class="ls-title">PAdES Signature using cloud certificate with PKI Express (Oauth Flow)</h2>
+
+<div class="ls-content">
+  <%= form_tag("/pades-cloud-oauth-express/discover/#{@file_to_sign}", {:id => 'selectFlowForm'}) do %>
+    <div class="px-0 col col-sm-2">
+      <label for="cpfField">Inform your CPF:</label>
+      <input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00"/>
+    </div>
+
+    <button id="searchButton" type="submit" class="btn btn-primary mt-2">
+      <i class="fas fa-search"></i> Search
+    </button>
+  <% end %>
+</div>

@@ -1,0 +1,52 @@
+<h2 class="ls-title">Receita Simples with PKI Express</h2>
+
+<div class="ls-content">
+
+  <%
+    # This form will be shown initially and when this page is rendered to
+    # perform the signature using Web PKI component.
+  %>
+  <%= form_tag("/receita-simples-express/complete/#{@file_to_sign}", {:id => 'signForm'}) do %>
+
+    <%
+      # Hidden fields used to pass data from the server-side to the javascript
+      # (see signature-complete-form.js) and vice-versa.
+    %>
+    <%= hidden_field_tag(:cert_thumb, @cert_thumb, id: 'certThumbField') %>
+    <%= hidden_field_tag(:cert_content, @cert_content, id: 'certContentField') %>
+    <%= hidden_field_tag(:to_sign_hash, @to_sign_hash, id: 'toSignHashField') %>
+    <%= hidden_field_tag(:transfer_file_id, @transfer_file_id, id: 'transferFileIdField') %>
+    <%= hidden_field_tag(:digest_algorithm, @digest_algorithm, id: 'digestAlgorithmField') %>
+    <%= hidden_field_tag(:signature, nil, id: 'signatureField') %>
+
+    <a id="tryAgainButton" class="btn btn-primary" href="/pades-signature-express/<%= @file_to_sign %>">
+      <i class="fas fa-undo-alt"></i> Try Again
+    </a>
+  <% end %>
+</div>
+
+<%
+  # The file below contains the JS lib for accessing the Web PKI component. For
+  # more information, see: https://webpki.lacunasoftware.com/#/Documentation
+%>
+<%= javascript_pack_tag :application, src: 'https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js', integrity: 'sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA=', crossorigin: 'anonymous' %>
+
+<%
+  # The file below contains the necessary calls to the Web component. Once the
+  # necessary computations have been done, the javascript code will submit our
+  # form.
+%>
+<%= javascript_include_tag 'signature-complete-form' %>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        // Once the page is ready, we call the init() function on the javascript code
+        // (see signature-complete-form.js).
+        signatureCompleteForm.init({
+            form: $('#signForm'),                             // The form that should be submitted when the operation is complete.
+            certThumbField: $('#certThumbField'),             // The "certThumb" field.
+            toSignHashField: $('#toSignHashField'),           // The "toSignHash" field.
+            digestAlgorithmField: $('#digestAlgorithmField'), // The "digestAlgorithm" field.
+            signatureField: $('#signatureField')              // The "signature" field.
+        });
+    });
+</script>
