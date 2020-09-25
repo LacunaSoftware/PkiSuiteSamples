@@ -88,6 +88,12 @@ block scripts
          signPdfServerKey: {
             express: '/check-pki-express?rc=upload&fwd=pades-server-key'
          },
+         signPdfCloudOAuth: {
+            express: '/check-pki-express?rc=upload&fwd=pades-cloud-oauth'
+         },
+         signPdfCloudPwd: {
+            express: '/check-pki-express?rc=upload&fwd=pades-cloud-pwd'
+         },
          signXmlServer: {
             // express: '/check-pki-express?rc=xml-signature',
             restpki: '/check-restpki-token?rc=xml-signature'

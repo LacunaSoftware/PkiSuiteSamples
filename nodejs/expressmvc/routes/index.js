@@ -31,6 +31,8 @@ router.use('/open-pades-restpki', require('./open-pades-restpki'));
 router.use('/pades-server-key-express', require('./pades-server-key-express'));
 router.use('/pades-signature-express', require('./pades-signature-express'));
 router.use('/pades-signature-restpki', require('./pades-signature-restpki'));
+router.use('/pades-cloud-oauth-express', require('./pades-cloud-oauth-express'));
+router.use('/pades-cloud-pwd-express', require('./pades-cloud-pwd-express'));
 router.use('/printer-version-cades-express', require('./printer-version-cades-express'));
 router.use('/printer-version-pades-restpki', require('./printer-version-pades-restpki'));
 router.use('/printer-version-pades-express', require('./printer-version-pades-express'));
