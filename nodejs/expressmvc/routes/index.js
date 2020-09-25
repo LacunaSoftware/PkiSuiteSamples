@@ -43,6 +43,7 @@ router.use('/server-files', require('./server-files'));
 router.use('/timestamp-pdf-express', require('./timestamp-pdf-express'));
 router.use('/upload', require('./upload'));
 router.use('/xml-nfe-signature-restpki', require('./xml-nfe-signature-restpki'));
+router.use('/xml-nfe-signature-express', require('./xml-nfe-signature-express'));
 router.use('/xml-signature-restpki', require('./xml-signature-restpki'));
 
 module.exports = router;
