@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class='ls-title'>
+        Choose one of the available files on the server
+    </h2>
+
+	<p>
+		You will be redirected to <b>/{{rc}}</b>
+    </p>
+	<form method='post' id="filesForm">
+        <input type="hidden" name="selectedFile" id="selectedFile">
+		<div class='row'>
+            {% for file in available_files %}
+            <div class='col-md-3'>
+                <div class='card'>
+                    <div class='card-header'>
+                        Document {{loop.index}} 
+                        <a href='{{file.download_url}}'>
+                            <i class='fas fa-file-download'></i>
+                        </a>
+                    </div> 
+                    <div class='card-body'>
+                        {{file.description}}
+                    </div> 
+                    <div class='card-footer'>
+                        <button type='buttom' class='use-file btn btn-primary' style='font-size: 14px;' id="{{file.id}}">
+                            <i class='fas fa-hand-point-down'></i> Use This
+                        </button>
+                    </div> 
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+                
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+                                
+    <script>
+        $('.use-file').click(function (e) {
+            $('#selectedFile').val(this.id);
+            $('#filesForm').submit();
+        });
+    </script>
+{% endblock %}	

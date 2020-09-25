@@ -15,10 +15,14 @@ from .download import blueprint as download
 from .home import blueprint as home
 from .list_cert_jquery import blueprint as list_cert_jquery
 from .list_cert_select2 import blueprint as list_cert_select2
+from .merge_cades_express import blueprint as merge_cades_express
+from .merge_server_files import blueprint as merge_server_files
 from .open_cades_express import blueprint as open_cades_express
 from .open_pades_express import blueprint as open_pades_express
 from .open_pades_rest import blueprint as open_pades_rest
 from .pades_server_key_express import blueprint as pades_server_key_express
+from .pades_cloud_pwd_express import blueprint as pades_cloud_pwd_express
+from .pades_cloud_oauth_express import blueprint as pades_cloud_oauth_express
 from .pades_signature_express import blueprint as pades_signature_express
 from .pades_signature_rest import blueprint as pades_signature_restpki
 from .printer_version_pades_express import blueprint as \
@@ -31,6 +35,7 @@ from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .upload import blueprint as upload
 from .xml_nfe_signature_rest import blueprint as xml_nfe_signature_rest
 from .xml_signature_rest import blueprint as xml_signature_rest
+from .server_files import blueprint as server_files
 
 blueprints = {
     authentication_express,
@@ -48,12 +53,16 @@ blueprints = {
     home,
     list_cert_jquery,
     list_cert_select2,
+    merge_cades_express,
+    merge_server_files,
     open_cades_express,
     open_pades_express,
     open_pades_rest,
     pades_server_key_express,
     pades_signature_express,
     pades_signature_restpki,
+    pades_cloud_pwd_express,
+    pades_cloud_oauth_express,
     printer_version_pades_express,
     printer_version_pades_rest,
     read_cert_jquery,
@@ -63,4 +72,5 @@ blueprints = {
     upload,
     xml_nfe_signature_rest,
     xml_signature_rest,
+    server_files,
 }

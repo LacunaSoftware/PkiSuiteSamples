@@ -39,7 +39,10 @@
 		},
 		// mergeCmsSigs: { },
 		// printerFriendlyCms: { },
-		// printerFriendlyPdf: { },
+		printerFriendlyPdf: {
+			//express:
+			restpki: '/check-rest-token?rc=server-files&fwd=printer-friendly-pades&op=printerFriendlyPdf'
+		},
 		readCert: {
 			jquery: '/read-cert-jquery',
 			select2: '/read-cert-select2'
@@ -78,12 +81,17 @@
 		},
 		 signPdfCloudPwd: {
 			express: '/check-express?rc=upload&fwd=pades-cloud-pwd'
-		 }
+		 },
+		 signPdfCloudOAuth: {
+			 express: '/check-express?rc=upload&fwd=pades-cloud-oauth'
+		 },
 		// signXmlServer: { },
 		// signXmlServerKey: { },
 		// signaturePackage: { },
 		// validateCmsSig: { },
-		// validatePdfSig: { },
+		validatePdfSig: {
+			restpki: '/check-rest-token?rc=upload&fwd=open-pades'
+		}
 		// validateXmlSig: { }
 	};
 	 /* ]]> */
