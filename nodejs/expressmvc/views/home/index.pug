@@ -98,7 +98,9 @@ block scripts
             express: '/check-pki-express?rc=xml-signature',
             restpki: '/check-restpki-token?rc=xml-signature'
          },
-         // signXmlServerKey: { },
+         signXmlServerKey: {
+            express: '/check-pki-express?rc=xml-server-key'
+         },
          // signaturePackage: { },
          validateCmsSig: {
             express: '/check-pki-express?rc=upload&fwd=open-cades',

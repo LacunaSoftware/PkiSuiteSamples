@@ -44,6 +44,7 @@ router.use('/timestamp-pdf-express', require('./timestamp-pdf-express'));
 router.use('/upload', require('./upload'));
 router.use('/xml-nfe-signature-restpki', require('./xml-nfe-signature-restpki'));
 router.use('/xml-nfe-signature-express', require('./xml-nfe-signature-express'));
+router.use('/xml-server-key-express', require('./xml-server-key-express'));
 router.use('/xml-signature-restpki', require('./xml-signature-restpki'));
 router.use('/xml-signature-express', require('./xml-signature-express'));
 
