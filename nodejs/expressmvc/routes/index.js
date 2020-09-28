@@ -5,6 +5,7 @@ const router = express.Router();
 /**
  * Define routes.
  */
+router.use('/authentication-express', require('./authentication-express'));
 router.use('/authentication-restpki', require('./authentication-restpki'));
 router.use('/batch-pades-signature-express', require('./batch-pades-signature-express'));
 router.use('/batch-pades-signature-restpki', require('./batch-pades-signature-restpki'));
