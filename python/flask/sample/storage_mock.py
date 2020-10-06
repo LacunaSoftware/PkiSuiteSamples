@@ -1,10 +1,26 @@
 import os
+import uuid
 
 from os.path import exists
 from os.path import join
 
 from flask import current_app
 from flask import session
+
+
+class SampleDocs (): 
+    SAMPLE_PDF =  0
+    PDF_SIGNED_ONCE = 1
+    PDF_SIGNED_TWICE = 2
+    CMS_SIGNED_ONCE = 3
+    CMS_SIGNED_TWICE = 4
+    SAMPLE_XML = 5
+    SAMPLE_NFE = 6
+    CMS_DETACHED_1 = 7
+    CMS_DETACHED_2 = 8
+    CMS_ATTACHED_1 = 9
+    CMS_ATTACHED_2 = 10
+    CMS_DATA_FILE = 11
 
 
 def create_app_data():
@@ -28,6 +44,35 @@ def get_pdf_stamp_content():
     with open(join(current_app.static_folder, 'PdfStamp.png'), 'rb') as f:
         pdf_stamp = f.read()
     return pdf_stamp
+
+
+def get_sample_doc_name(sample_id):
+    if sample_id == SampleDocs.SAMPLE_PDF:
+        return 'SampleDocument.pdf'
+    elif sample_id == SampleDocs.PDF_SIGNED_ONCE:
+        return 'SamplePdfSignedOnce.pdf'
+    elif sample_id == SampleDocs.PDF_SIGNED_TWICE:
+        return 'SamplePdfSignedTwice.pdf'
+    elif sample_id == SampleDocs.CMS_SIGNED_ONCE:
+        return 'SampleCms.p7s'
+    elif sample_id == SampleDocs.CMS_SIGNED_TWICE:
+        return 'SampleCmsSignedTwice.p7s'
+    elif sample_id == SampleDocs.SAMPLE_XML:
+        return 'SampleDocument.xml'
+    elif sample_id == SampleDocs.SAMPLE_NFE:
+        return 'SampleNFe.xml'
+    elif sample_id == SampleDocs.CMS_DETACHED_1:
+        return 'CMSDetached1.p7s'
+    elif sample_id == SampleDocs.CMS_DETACHED_2:
+        return 'CMSDetached2.p7s'
+    elif sample_id == SampleDocs.CMS_ATTACHED_1:
+        return 'CMSAttached1.p7s'
+    elif sample_id == SampleDocs.CMS_ATTACHED_2:
+        return 'CMSAttached2.p7s'
+    elif sample_id == SampleDocs.CMS_DATA_FILE:
+        return 'CMSDataFile.pdf'
+    else:
+        raise Exception('Invalid sample document identification.')
 
 
 def get_sample_nfe_path():

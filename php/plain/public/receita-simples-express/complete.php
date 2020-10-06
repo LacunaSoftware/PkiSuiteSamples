@@ -10,72 +10,79 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Lacuna\PkiExpress\SignatureFinisher;
 
-// Only accepts POST requests.
-if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
-    die();
-}
+try {
+    // Only accepts POST requests.
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
+        die();
+    }
 
-// Get URL parameter "fileId"
-$fileToSign = !empty($_GET['fileId']) ? $_GET['fileId'] : null;
+    // Get URL parameter "fileId"
+    $fileToSign = !empty($_GET['fileId']) ? $_GET['fileId'] : null;
 
-// Recover variables from the POST arguments to be used on this step.
-$certThumb = !empty($_POST['certThumb']) ? $_POST['certThumb'] : null;
-$toSignHash = !empty($_POST['toSignHash']) ? $_POST['toSignHash'] : null;
-$transferFileId = !empty($_POST['transferFileId']) ? $_POST['transferFileId'] : null;
-$digestAlgorithm = !empty($_POST['digestAlgorithm']) ? $_POST['digestAlgorithm'] : null;
-$signature = !empty($_POST['signature']) ? $_POST['signature'] : null;
+    // Recover variables from the POST arguments to be used on this step.
+    $certThumb = !empty($_POST['certThumb']) ? $_POST['certThumb'] : null;
+    $toSignHash = !empty($_POST['toSignHash']) ? $_POST['toSignHash'] : null;
+    $transferFileId = !empty($_POST['transferFileId']) ? $_POST['transferFileId'] : null;
+    $digestAlgorithm = !empty($_POST['digestAlgorithm']) ? $_POST['digestAlgorithm'] : null;
+    $signature = !empty($_POST['signature']) ? $_POST['signature'] : null;
 
-// Get an instance of the SignatureFinisher class, responsible for completing
-// the signature process.
-$signatureFinisher = new SignatureFinisher();
+    // Get an instance of the SignatureFinisher class, responsible for completing
+    // the signature process.
+    $signatureFinisher = new SignatureFinisher();
 
-// Set PKI default options (see Util.php).
-Util::setPkiDefaults($signatureFinisher);
+    // Set PKI default options (see Util.php).
+    Util::setPkiDefaults($signatureFinisher);
 
-// Set PDF to be signed. It's the same file we used on "start" step.
-$signatureFinisher->setFileToSign(StorageMock::getDataPath($fileToSign));
+    // Set PDF to be signed. It's the same file we used on "start" step.
+    $signatureFinisher->setFileToSign(StorageMock::getDataPath($fileToSign));
 
-// Set transfer file.
-$signatureFinisher->setTransferFile($transferFileId);
+    // Set transfer file.
+    $signatureFinisher->setTransferFile($transferFileId);
 
-// Set the signature value.
-$signatureFinisher->setSignature($signature);
+    // Set the signature value.
+    $signatureFinisher->setSignature($signature);
 
-// Generate path for output file and add to signature finisher.
-$outputFile = StorageMock::generateFileId('pdf');
-$signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
+    // Generate path for output file and add to signature finisher.
+    $outputFile = StorageMock::generateFileId('pdf');
+    $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 
-// Complete the signature process.
-$signatureFinisher->complete();
+    // Complete the signature process.
+    $signatureFinisher->complete();
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <?php include '../shared/head.php' ?>
-</head>
-<body>
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <?php include '../shared/head.php' ?>
+    </head>
+    <body>
 
-<?php include '../shared/menu.php' ?>
+    <?php include '../shared/menu.php' ?>
 
-<div class="container content">
-    <div id="messagesPanel"></div>
+    <div class="container content">
+        <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">Receita Simples with PKI Express</h2>
-    <h5 class="ls-subtitle">Receita simples signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+        <h2 class="ls-title">Receita Simples with PKI Express</h2>
+        <h5 class="ls-subtitle">Receita simples signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
-    <div class="ls-content">
+        <div class="ls-content">
 
-        <h3>Actions:</h3>
-        <ul>
-            <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
-            <li><a href="/open-pades-express?fileId=<?= $outputFile ?>">Open/validate the signed file</a></li>
-        </ul>
+            <h3>Actions:</h3>
+            <ul>
+                <li><a href="/download?fileId=<?= $outputFile ?>">Download the signed file</a></li>
+                <li><a href="/open-pades-express?fileId=<?= $outputFile ?>">Open/validate the signed file</a></li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<? include '../shared/scripts.php' ?>
+    <? include '../shared/scripts.php' ?>
 
-</body>
-</html>
+    </body>
+    </html>
+
+<?php
+    } catch (Exception $e) {
+        include '../shared/catch-error.php';
+    }
+?>

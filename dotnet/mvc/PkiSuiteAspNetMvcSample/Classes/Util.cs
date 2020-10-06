@@ -1,4 +1,5 @@
 ﻿using Lacuna.Pki;
+using Lacuna.Pki.BrazilTrustServices;
 using Lacuna.Pki.Stores;
 using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
@@ -97,6 +98,66 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			trustArbitrator.Add(new TrustedRoots(lacunaRoot));
 #endif
 			return trustArbitrator;
+		}
+
+		public static ITrustServicesManager GetTrustServicesManager() {
+			return TrustServicesManagerFactory.Create(GetTrustServicesOptions());
+		}
+
+		public static TrustServicesOptions GetTrustServicesOptions() {
+			var options = new TrustServicesOptions();
+
+			// Config BirdId credentials.
+			if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:BirdId:ClientId"]) &&
+				!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:BirdId:ClientSecret"])) {
+				options.Services.Add(new TrustServiceConfig() {
+					Service = TrustServiceName.BirdID,
+					ClientId = ConfigurationManager.AppSettings["TrustServices:BirdId:ClientId"],
+					ClientSecret = ConfigurationManager.AppSettings["TrustServices:BirdId:ClientSecret"],
+				});
+			}
+
+			// Config ViDaaS credentials.
+			if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:ViDaaS:ClientId"]) &&
+				!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:ViDaaS:ClientSecret"])) {
+				options.Services.Add(new TrustServiceConfig() {
+					Service = TrustServiceName.VIDaaS,
+					ClientId = ConfigurationManager.AppSettings["TrustServices:ViDaaS:ClientId"],
+					ClientSecret = ConfigurationManager.AppSettings["TrustServices:ViDaaS:ClientSecret"],
+				});
+			}
+
+			// Config NeoId credentials.
+			if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:NeoId:ClientId"]) &&
+				!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:NeoId:ClientSecret"])) {
+				options.Services.Add(new TrustServiceConfig() {
+					Service = TrustServiceName.NeoID,
+					ClientId = ConfigurationManager.AppSettings["TrustServices:NeoId:ClientId"],
+					ClientSecret = ConfigurationManager.AppSettings["TrustServices:NeoId:ClientSecret"],
+				});
+			}
+
+			// Config RemoteId credentials.
+			if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:RemoteId:ClientId"]) &&
+				!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:RemoteId:ClientSecret"])) {
+				options.Services.Add(new TrustServiceConfig() {
+					Service = TrustServiceName.RemoteID,
+					ClientId = ConfigurationManager.AppSettings["TrustServices:RemoteId:ClientId"],
+					ClientSecret = ConfigurationManager.AppSettings["TrustServices:RemoteId:ClientSecret"],
+				});
+			}
+
+			// Config SafeId credentials.
+			if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:SafeId:ClientId"]) &&
+				!string.IsNullOrEmpty(ConfigurationManager.AppSettings["TrustServices:SafeId:ClientSecret"])) {
+				options.Services.Add(new TrustServiceConfig() {
+					Service = TrustServiceName.SafeID,
+					ClientId = ConfigurationManager.AppSettings["TrustServices:SafeId:ClientId"],
+					ClientSecret = ConfigurationManager.AppSettings["TrustServices:SafeId:ClientSecret"],
+				});
+			}
+
+			return options;
 		}
 
 		#endregion

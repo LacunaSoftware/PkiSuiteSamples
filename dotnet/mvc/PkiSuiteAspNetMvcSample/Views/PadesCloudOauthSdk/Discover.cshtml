@@ -1,0 +1,45 @@
+﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
+@model PadesCloudOauthModel
+
+<h2 class="ls-title">PAdES Signature Using Cloud Certificate with PKI Express (OAuth Flow)</h2>
+
+<div class="ls-content">
+	@if (Model.Services != null && Model.Services.Count > 0) {
+		using (Html.BeginForm("Authorize", "PadesCloudOauthSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "pwdFlowForm", role = "form" })) {
+			<input id="cpfField" type="hidden" name="cpf" value="@Model.Cpf" />
+
+			<div class="form-group">
+				<div class="px-0">
+					<label for="serviceField">Choose your trust provider:</label>
+					<select id="serviceField" name="service" class="form-control col col-sm-2">
+						@foreach (var service in Model.Services) {
+							<option value="@service.AuthUrl">@service.ServiceInfo.Service.ToString().ToLower() (@service.ServiceInfo.Service.ToString())</option>
+						}
+					</select>
+				</div>
+			</div>
+
+			<button type="button" class="btn btn-primary" onclick="redirectUser()">
+				<i class="fas fa-file-signature"></i> Sign
+			</button>
+		}
+	} else {
+		<div>
+			<p>No trusted services was found with this CPF.</p>
+			<button onclick="window.history.back()" class="btn btn-primary">Try Again</button>
+		</div>
+	}
+</div>
+
+@section Scripts {
+	<script type="text/javascript">
+		function redirectUser() {
+
+			// Get redirect URL of the chosen provider.
+			var redirectUrl = $('#serviceField').val();
+
+			// Redirect user.
+			window.location = redirectUrl;
+		}
+	</script>
+}
