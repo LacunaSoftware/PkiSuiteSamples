@@ -2,7 +2,6 @@ package com.lacunasoftware.pkisuite.controller;
 
 import com.lacunasoftware.pkiexpress.PadesSignatureExplorer;
 import com.lacunasoftware.pkiexpress.PadesSignature;
-import com.lacunasoftware.pkiexpress.SignatureValidationPolicies;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,7 @@ public class OpenPadesExpressController {
 
         // Set the PDF file to be inspected.
         sigExplorer.setSignatureFile(StorageMock.getDataPath(signatureFile));
-        // sigExplorer.setSignatureValidationPolicy(SignatureValidationPolicies.AdobeReader);
+
         // Specify that we want to validate the signatures in the file, not only inspect them.
         sigExplorer.setValidate(true);
 
