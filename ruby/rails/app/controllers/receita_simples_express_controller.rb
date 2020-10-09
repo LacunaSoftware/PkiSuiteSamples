@@ -48,7 +48,7 @@ class ReceitaSimplesExpressController < ApplicationController
 
     info = {
       Title: 'Receita Simples',
-      Author: name,
+      Author: nome_medico,
       Subject: 'Receita Simples',
       Keywords: 'metadata pdf',
       Creator: 'PkiSuiteSample',
