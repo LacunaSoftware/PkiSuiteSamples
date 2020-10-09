@@ -54,13 +54,13 @@ class ReceitaSimplesExpressController < ApplicationController
       Creator: 'PkiSuiteSample',
       Producer: 'Prawn',
       CreationDate: Time.now,
-      '2_16_76_1_12_1_1': '',
-      '2_16_76_1_4_2_2_1': crm,
-      '2_16_76_1_4_2_2_2': crm_uf,
-      '2_16_76_1_4_2_2_3': '',
-      '2_16_76_1_4_2_3_1': '',
-      '2_16_76_1_4_2_3_1': '',
-      '2_16_76_1_4_2_3_1': ''
+      '2.16.76.1.12.1.1': '',      # Prescrição de medicamento
+      '2.16.76.1.4.2.2.1': crm,    # CRM
+      '2.16.76.1.4.2.2.2': crm_uf, # CRM UF
+      '2.16.76.1.4.2.2.3': '',     # Especialidade
+      '2.16.76.1.4.2.3.1': '',     # CRF
+      '2.16.76.1.4.2.3.2': '',     # CRF UF
+      '2.16.76.1.4.2.3.3': ''      # Especialidade
     }
 
     @file_to_sign = generate_file_id('pdf')
