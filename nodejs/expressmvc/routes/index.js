@@ -39,6 +39,7 @@ router.use('/printer-version-pades-restpki', require('./printer-version-pades-re
 router.use('/printer-version-pades-express', require('./printer-version-pades-express'));
 router.use('/read-cert-select2', require('./read-cert-select2'));
 router.use('/read-cert-jquery', require('./read-cert-jquery'));
+router.use('/receita-simples-express', require('./receita-simples-express'));
 router.use('/rsa-web', require('./rsa-web'));
 router.use('/server-files', require('./server-files'));
 router.use('/timestamp-pdf-express', require('./timestamp-pdf-express'));
