@@ -21,34 +21,46 @@ class ReceitaSimplesExpressController < ApplicationController
     crm = params[:crm]
     crm_uf = params[:crm_uf]
 
-    ufs = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 
-    'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO']
-
-    default_field_name = [ "03_Telefone Local de Atendimento", "03_Endereço Local de Atendimento",
-        "03_Data Emissão_af_date", "03_Cidade Local de Atendimento", "01_Nome do Paciente",
-        "03_Nome Local de Atendimento", "02_Prescrição", "03_Bairro Local de Atendimento", "03_CNES",
-        "03_UF Local de atendimento" ]
-    default_field_label = [ "Telefone", "Endereço", "Data de Emissão", "Cidade", 
-        "Nome do Paciente", "Nome Local de Atendimento", "Prescrição", "Bairro", "CNES", "UF" ]
-    default_field_values = [ "+00 (00) 0000-0000", "Complexo Hospitalar", "00/00/0000",
-        "Brasília", "Maria da Silva", "Clínica Local", "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias",
-        "Bairro do Mar", "0000000", "DF" ]
+    default_field_label = [ 
+      "Nome do Paciente", 
+      "Nome Local de Atendimento", 
+      "Telefone", 
+      "Endereço", 
+      "Cidade", 
+      "Bairro", 
+      "CNES", 
+      "UF", 
+      "Data de Emissão", 
+      "Prescrição"
+    ]
+    default_field_values = [ 
+      "Maria da Silva", 
+      "Clínica Local", 
+      "+00 (00) 0000-0000", 
+      "Complexo Hospitalar", 
+      "Brasília", 
+      "Bairro do Mar", 
+      "0000000", 
+      "DF", 
+      "00/00/0000",
+      "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias"
+    ]
 
     info = {
-      Title: 'My title',
-      Author: 'John Doe',
-      Subject: 'My Subject',
-      Keywords: 'test metadata ruby pdf dry',
-      Creator: 'ACME Soft App',
+      Title: 'Receita Simples',
+      Author: nome_medico,
+      Subject: 'Receita Simples',
+      Keywords: 'metadata pdf',
+      Creator: 'PkiSuiteSample',
       Producer: 'Prawn',
       CreationDate: Time.now,
-      '2_16_76_1_12_1_1': '',
-      '2_16_76_1_4_2_2_1': crm,
-      '2_16_76_1_4_2_2_2': crm_uf,
-      '2_16_76_1_4_2_2_3': '',
-      '2_16_76_1_4_2_3_1': '',
-      '2_16_76_1_4_2_3_1': '',
-      '2_16_76_1_4_2_3_1': ''
+      '2.16.76.1.12.1.1': '',      # Prescrição de medicamento
+      '2.16.76.1.4.2.2.1': crm,    # CRM
+      '2.16.76.1.4.2.2.2': crm_uf, # CRM UF
+      '2.16.76.1.4.2.2.3': '',     # Especialidade
+      '2.16.76.1.4.2.3.1': '',     # CRF
+      '2.16.76.1.4.2.3.2': '',     # CRF UF
+      '2.16.76.1.4.2.3.3': ''      # Especialidade
     }
 
     @file_to_sign = generate_file_id('pdf')
@@ -58,7 +70,7 @@ class ReceitaSimplesExpressController < ApplicationController
       end
       define_grid(columns: 5, rows: 8, gutter: 10)
       grid([1, 0], [7, 1]).bounding_box do
-        text 'NOME DO(A) MÉDICO(A): '
+        text 'Nome do(a) Médico(a): '
         move_down 10
         text 'CRM: '
         move_down 10
