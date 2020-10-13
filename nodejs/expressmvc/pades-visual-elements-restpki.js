@@ -9,11 +9,14 @@ class PadesVisualElementsRestPki {
 			text: {
 
 				// For a full list of the supported tags, see:
-				// https://github.com/LacunaSoftware/RestPkiSamples/blob/master/PadesTags.md
+				// https://docs.lacunasoftware.com/articles/rest-pki/pades-tags.html
 				text: 'Signed by {{name}} ({{national_id}})',
 				fontSize: 13.0,
 				// Specify that the signing time should also be rendered.
 				includeSigningTime: true,
+				// Optionally set the horizontal alignment of the text ('Left' or
+				// 'Right'), if not set the default is 'Left'.
+				horizontalAlign: 'Left',
 				// Optionally set the container within the signature rectangle on
 				// which to place the text. By default, the text can occupy the
 				// entire rectangle (how much of the rectangle the text will actually

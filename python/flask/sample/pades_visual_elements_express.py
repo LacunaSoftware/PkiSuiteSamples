@@ -19,7 +19,7 @@ class PadesVisualElementsExpress:
             'text': {
 
                 # For a full list of the supported tags, see:
-                # https://github.com/LacunaSoftware/RestPkiSamples/blob/master/PadesTags.md
+                # https://docs.lacunasoftware.com/articles/pki-express/pades-tags.html
                 'text': 'Signed by {{name}} ({{national_id}})',
                 'fontSize': 13.0,
                 # Specify that the signing time should also be rendered.

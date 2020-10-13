@@ -23,7 +23,7 @@ public class PadesVisualElements {
 		PadesVisualRepresentation visualRepresentation = new PadesVisualRepresentation();
 
 		// For a full list of supported tags, see:
-		// https://github.com/LacunaSoftware/RestPkiSamples/blob/master/PadesTags.md
+		// https://docs.lacunasoftware.com/articles/rest-pki/pades-tags.html
 		PadesVisualText text = new PadesVisualText("Signed by {{name}} ({{national_id}})");
 		text.setFontSize(13.0);
 		// Specify that the signing time should also be rendered.
