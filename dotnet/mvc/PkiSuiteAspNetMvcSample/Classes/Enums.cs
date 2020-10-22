@@ -72,10 +72,10 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		[Value("2_16_76_1_4_2_3_1")]
 		Crf,
 
-		[Value("2_16_76_1_4_2_3_1")]
+		[Value("2_16_76_1_4_2_3_2")]
 		CrfUF,
 
-		[Value("2_16_76_1_4_2_3_1")]
+		[Value("2_16_76_1_4_2_3_3")]
 		CrfEspecialidade,
 	}
 }

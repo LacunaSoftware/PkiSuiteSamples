@@ -1,0 +1,25 @@
+<h2 class="ls-title">Receita Simples with PKI Express</h2>
+
+<div class="ls-content">
+
+  <%= form_tag("/receita-simples-express/generate/", {:id => 'generateForm'}) do %>
+
+    <div class="form-group">
+        <label for="name">Doctor's Name:</label>
+        <input type="text" name="name" id="name" placeholder="João da Silva" class="form-control" required/>
+    </div>
+    <div class="form-group">
+        <label for="crm">CRM:</label>
+        <input type="text" name="crm" id="crm" class="form-control" placeholder="00000000-0" required/>
+    </div>
+    <div class="form-group">
+        <label for="crmUf">CRM UF:</label>
+        <select id="crmUf" name="crm_uf" class="form-control" required>
+          <% @ufs.each do |uf| %>
+            <option value="<%= uf %>"><%= uf %></option>';
+          <% end %>
+        </select>
+    </div>
+    <button id="generateButton" type="submit" class="btn btn-primary">Generate File</button>
+  <% end %>
+</div>
