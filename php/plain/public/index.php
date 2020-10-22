@@ -49,7 +49,9 @@
         signCmsServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=cades-server-key'
         },
-        // signCod: { },
+        signCod: { 
+            express: '/check-express.php?rc=xml-cod-signature'
+        },
         // signMultiCmsServer: { },
         // signMultiCmsUser: { },
         signMultiPdfServer: {
