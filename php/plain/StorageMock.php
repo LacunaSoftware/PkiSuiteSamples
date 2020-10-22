@@ -11,6 +11,7 @@ class SampleDocs
     const CMS_SIGNED_TWICE = 'CMS_SIGNED_TWICE';
     const SAMPLE_NFE = 'SAMPLE_NFE';
     const SAMPLE_XML = 'SAMPLE_XML';
+    const SAMPLE_COD_ENVELOPE = 'SAMPLE_COD_ENVELOPE';
 }
 
 class ServerFile
@@ -226,6 +227,8 @@ class StorageMock
                 return 'SampleNFe.xml';
             case SampleDocs::SAMPLE_XML:
                 return 'SampleDocument.xml';
+            case SampleDocs::SAMPLE_COD_ENVELOPE:
+                return 'SampleCodEnvelope.xml';
             default:
                 throw new \Exception('File not found');
         }
