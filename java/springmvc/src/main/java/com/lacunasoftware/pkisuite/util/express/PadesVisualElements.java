@@ -16,14 +16,17 @@ public class PadesVisualElements {
 		// Create a visual representation for the signature.
 		PadesVisualRepresentation vr = new PadesVisualRepresentation();
 
-		// The tags {{name}} and {{br_cpf_formatted}} will be substituted according to the
+		// The tags {{name}} and {{national_id}} will be substituted according to the
 		// user's certificate:
 		//
-		//      name             : full name of the signer;
-		//      br_cpf_formatted : if the certificate is ICP-Brasil, contains the signer's
-		//                         CPF.
+		//      name        : full name of the signer;
+		//      national_id : if the certificate is ICP-Brasil, contains the signer's
+		//                    CPF.
 		//
-		PadesVisualText text = new PadesVisualText("Signed by {{name}} ({{br_cpf_formatted}})", true);
+		// For a full list of the supported tags, see:
+		// https://docs.lacunasoftware.com/articles/pki-express/pades-tags.html
+		//
+		PadesVisualText text = new PadesVisualText("Signed by {{name}} ({{national_id}})", true);
 		// Set font size.
 		text.setFontSize(13.0);
 		// Create text container and add to PadesVisualText object.

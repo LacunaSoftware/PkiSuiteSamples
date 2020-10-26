@@ -8,7 +8,9 @@ class PadesVisualElementsExpress {
         return array(
             'text' => array(
                 'fontSize' => 13.0,
-                'text' => "Signed by {{name}} ({{br_cpf_formatted}})",
+                # For a full list of the supported tags, see:
+                # https://docs.lacunasoftware.com/articles/pki-express/php/visual-rep/index.html#pades-tags
+                'text' => "Signed by {{name}} ({{national_id}})",
                 'includeSigningTime' => true,
                 'horizontalAlign' => null,
                 'container' => array(
