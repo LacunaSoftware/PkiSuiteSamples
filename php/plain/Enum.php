@@ -21,6 +21,6 @@ class FieldName
     const CRM_UF = "2_16_76_1_4_2_2_2";
     const CRM_ESPECIALIDADE = "2_16_76_1_4_2_2_3";
     const CRF = "2_16_76_1_4_2_3_1";
-    const CRF_UF = "2_16_76_1_4_2_3_1";
-    const CRF_ESPECIALIDADE = "2_16_76_1_4_2_3_1";
+    const CRF_UF = "2_16_76_1_4_2_3_2";
+    const CRF_ESPECIALIDADE = "2_16_76_1_4_2_3_3";
 }

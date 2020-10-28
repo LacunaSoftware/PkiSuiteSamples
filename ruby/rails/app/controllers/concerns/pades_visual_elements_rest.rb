@@ -12,9 +12,9 @@ module PadesVisualElementsRest
     # Create a visual representation
     visual_representation = {
       text: {
-        # For a full list of supported tags, see:
-        # https://github.com/LacunaSoftware/RestPkiSamples/blob/master/PadesTags.md
-        text: 'Signed by {{signerName}} ({{signerNationalId}})',
+        # For a full list of the supported tags, see:
+        # https://docs.lacunasoftware.com/articles/rest-pki/pades-tags.html
+        text: 'Signed by {{name}} ({{national_id}})',
         fontSize: 13.0,
         # Specify that the signing time should also be rendered.
         includeSigningTime: true,
