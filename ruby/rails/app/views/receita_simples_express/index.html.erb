@@ -20,33 +20,6 @@
           <% end %>
         </select>
     </div>
-    <button id="signButton" type="submit" class="btn btn-primary">Generate File</button>
+    <button id="generateButton" type="submit" class="btn btn-primary">Generate File</button>
   <% end %>
 </div>
-
-<%
-  # The file below contains the JS lib for accessing the Web PKI component. For
-  # more information, see: https://webpki.lacunasoftware.com/#/Documentation
-%>
-<%= javascript_pack_tag :application, src: 'https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js', integrity: 'sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA=', crossorigin: 'anonymous' %>
-
-<%
-  # The file below contains the necessary calls to the Web component. Once the
-  # necessary computations have been done, the javascript code will submit our
-  # form.
-%>
-<%= javascript_include_tag 'signature-start-form' %>
-<script type="text/javascript" charset="utf-8">
-  $(document).ready(function () {
-    // Once the page is ready, we call the init() function on the javascript code
-    // (see signature-start-form.js).
-    signatureStartForm.init({
-        form: $('#signForm'),                       // The form that should be submitted when the operation is complete.
-        certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
-        refreshButton: $('#refreshButton'),         // The "refresh" button.
-        signButton: $('#signButton'),               // The button that initiates the operation.
-        certThumbField: $('#certThumbField'),       // The "certThumb" field.
-        certContentField: $('#certContentField')    // The "certContent" field.
-    });
-  });
-</script>
