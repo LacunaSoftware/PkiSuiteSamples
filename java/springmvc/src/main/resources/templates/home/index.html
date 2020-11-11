@@ -90,7 +90,9 @@
 		// signXmlServer: { },
 		// signXmlServerKey: { },
 		// signaturePackage: { },
-		// validateCmsSig: { },
+		validateCmsSig: {
+			express: '/check-express?rc=upload&fwd=open-cades',
+		},
 		validatePdfSig: {
 			express: '/check-express?rc=upload&fwd=open-pades',
 			restpki: '/check-rest-token?rc=upload&fwd=open-pades'
