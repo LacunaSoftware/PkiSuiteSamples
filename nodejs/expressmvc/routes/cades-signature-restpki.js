@@ -125,13 +125,15 @@ router.post('/', (req, res, next) => {
 			// to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFileSync(StorageMock.getDataPath(filename));
-
-			// Render the result page.
-			res.render('cades-signature-restpki/complete', {
-				cmsFile: filename,
-				signerCert,
-			});
+			result.writeToFile(StorageMock.getDataPath(filename))
+			.then(() => {
+				// Render the result page.
+				res.render('cades-signature-restpki/complete', {
+					cmsFile: filename,
+					signerCert,
+				});
+			})
+			.catch((err) => { throw err; });
 		})
 		.catch((err) => next(err));
 });
