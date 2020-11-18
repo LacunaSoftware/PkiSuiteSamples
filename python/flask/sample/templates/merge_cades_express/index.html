@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class='ls-title'>Merge CMS/CAdES signatures with PKI Express </h2>
+	<p>Files merged successfully! </p>
+	<h3>Actions:</h3>
+	<ul>
+		<li><a href="/download/{{ output_file }}">Download the merged file</a></li>
+		<li><a href="/cades-signature-express/{{ output_file }}">Co-sign with another certificate</a></li>
+		<li><a href="/open-cades-express/{{ output_file }}">Open/validate the merged file</a></li>
+	</ul>
+
+{% endblock %}

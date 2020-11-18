@@ -15,7 +15,7 @@
   "require": {
     "tecnickcom/tcpdf": "6.3.5",
     "lacuna/restpki-client": "^2.7.0",
-    "lacuna/pki-express": "^1.9.0",
+    "lacuna/pki-express": "^1.12.2",
     "lacuna/amplia-client": "^1.0.2"
   },
   "config": {

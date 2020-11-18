@@ -1,4 +1,5 @@
 import os
+import uuid
 
 from flask import Blueprint, current_app, render_template
 from pkiexpress import CadesSignatureExplorer
@@ -31,9 +32,11 @@ def index(file_id):
     # Set the file to be inspected.
     sig_explorer.set_signature_file_from_path(file_path)
 
+    output_file = '%s.pdf' % (str(uuid.uuid4()))
+    sig_explorer.extract_content_path = os.path.join(current_app.config['APPDATA_FOLDER'], output_file)
     # Call the open() method, which returns the signature file's information.
     signature = sig_explorer.open()
 
     # Render the signature opening page.
     return render_template('/open_cades_express/index.html',
-                           signature=signature)
+                           signature=signature, output_file=output_file)

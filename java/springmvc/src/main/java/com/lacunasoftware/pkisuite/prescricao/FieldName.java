@@ -5,8 +5,8 @@ public enum FieldName {
 	CRM_UF("2.16.76.1.4.2.2.2"),
 	CRM_ESPECIALIDADE("2.16.76.1.4.2.2.3"),
 	CRF("2.16.76.1.4.2.3.1"),
-	CRF_UF("2.16.76.1.4.2.3.1"),
-	CRF_ESPECIALIDADE("2.16.76.1.4.2.3.1");
+	CRF_UF("2.16.76.1.4.2.3.2"),
+	CRF_ESPECIALIDADE("2.16.76.1.4.2.3.3");
 
 	private String value;
 

@@ -2,10 +2,12 @@ import os
 from datetime import datetime
 from io import BytesIO
 from os.path import join
+import uuid
 
 from flask import Blueprint
 from flask import current_app
-from flask import send_file
+from flask import current_app
+from flask import send_from_directory
 from restpki_client import Color, StandardSignaturePolicies
 from restpki_client import PadesSignatureExplorer
 from restpki_client import PdfHelper
@@ -335,11 +337,15 @@ def generate_printer_friendly_version(pdf_path, verification_code):
     # Add marks.
     pdf_marker.marks.append(manifest_mark)
 
+    # Generate path for output file and add the marker.
+    pfv_filename = "%s.pdf" % str(uuid.uuid4())
+
     # Apply marks.
     result = pdf_marker.apply()
+    result.write_to_file(join(current_app.config['APPDATA_FOLDER'], pfv_filename))
 
     # Return content of the printer-friendly version.
-    return result.open()
+    return pfv_filename
 
 
 @blueprint.route('/<file_id>')
@@ -354,10 +360,6 @@ def index(file_id):
         set_verification_code(file_id, verification_code)
 
     # Generate marks on printer-friendly version.
-    pfv_stream = generate_printer_friendly_version(file_path, verification_code)
+    pfv_file = generate_printer_friendly_version(file_path, verification_code)
 
-    return send_file(
-        pfv_stream,
-        mimetype='application/pdf',
-        as_attachment=True,
-        attachment_filename='printer-friendly.pdf')
+    return send_from_directory(current_app.config['APPDATA_FOLDER'], pfv_file)
