@@ -4,7 +4,6 @@ block content
 
    h2(class='ls-title') Open existing PAdES Signature with PKI Express
    h5(class="ls-subtitle") The given file contains #{signature.signers.length} signatures:
-
    div(class="ls-content")
       div(id="accordion")
          each signer, index in signature.signers
@@ -13,7 +12,7 @@ block content
 
             div(class="card")
                div(class="card-header open-header" id=headingId)
-                  a(class="collapsed" role="button" data-toggle="collapse" href="##{collapseId}" aria-expanded="true" aria-controls=#{collapseId}) #{signer.certificate.subjectName.commonName}
+                  <a class="collapsed" role="button" data-toggle="collapse" href="##{collapseId}" aria-expanded="true" aria-controls=#{collapseId}> #{signer.certificate.subjectName.commonName} </a>
 
                   if signer.validationResults
                      span &nbsp;

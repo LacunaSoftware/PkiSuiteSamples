@@ -123,14 +123,16 @@ router.post('/', (req, res, next) => {
 			// file to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFileSync(path.join(APP_ROOT, 'app-data', filename));
-
-			// Render the result page, showing the signed file and the signer
-			// certification info.
-			res.render('pades-signature-restpki/complete', {
-				signedPdf: filename,
-				signerCert,
-			});
+			result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
+			.then(()=>{
+				// Render the result page, showing the signed file and the signer
+				// certification info.
+				res.render('pades-signature-restpki/complete', {
+					signedPdf: filename,
+					signerCert,
+				});
+			})
+			.catch((err) => next(err));
 		})
 		.catch((err) => next(err));
 });

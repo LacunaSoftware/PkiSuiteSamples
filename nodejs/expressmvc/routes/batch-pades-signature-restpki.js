@@ -113,11 +113,13 @@ router.post('/complete', (req, res, next) => {
 			// file to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFileSync(path.join(APP_ROOT, 'app-data', filename));
-
-			// Render the result page, showing the signed file and the signer
-			// certification info.
-			res.json(filename);
+			result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
+			.then(() => {
+				// Render the result page, showing the signed file and the signer
+				// certification info.
+				res.json(filename);
+			})
+			.catch((err) => { throw err });
 		})
 		.catch((err) => next(err));
 });
