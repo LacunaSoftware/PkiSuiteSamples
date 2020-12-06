@@ -63,7 +63,10 @@ function getConfig()
 
             // Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode
             // is useful when there is no network available.
-            "offline" => false
+            "offline" => false,
+
+            # Default password to be used on generating a PKCS #12 file.
+            "pkcs12Password" => "FZQkTVLy2MErFCu2H0e8Lq9QPW2cqEgMrp/PES9m5JZ9xej6mCheNtuK8bj/qLhMsV4PvPg2w964A8E/N2WaYA",
         ),
 
         // -----------------------------------------------------------------------------------------
