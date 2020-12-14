@@ -4,7 +4,7 @@ from os.path import basename
 from os.path import exists
 from os.path import join
 
-from flask import Blueprint
+from flask import Blueprint, request
 from flask import current_app
 from flask import make_response
 from flask import render_template
@@ -42,11 +42,24 @@ def index(file_id):
     # Set PDF to be signed.
     signer.set_pdf_to_sign_from_path(file_path)
 
-    # The PKCS #12 certificate path.
-    signer.set_pkcs12_from_path(join(current_app.static_folder,
-                                     'Pierre de Fermat.pfx'))
-    # Set the certificate's PIN.
-    signer.cert_password = '1234'
+    # Set the PKCS #12 certificate path. There is a logic for choosing the generate the PKCS #12
+    # from "issue certificate" samples or a sample PKCS #12. If no "certId" parameter is passed,
+    # this example will use a default PFX file "Pierre de Fermat.pfx" stored at static/ folder.
+    if request.args.get('certId', None) is None:
+        # The PKCS #12 certificate path.
+        signer.set_pkcs12_from_path(join(current_app.static_folder,
+                                         'Pierre de Fermat.pfx'))
+        # Set the certificate's PIN.
+        signer.cert_password = '1234'
+    else:
+        # Verify if the provided certId refers to an existing certificate file and key.
+        cert_id = request.args.get('certId', None)
+        if not exists(join(current_app.config['APPDATA_FOLDER'], cert_id)):
+            return render_template('error.html', msg='File not found')
+
+        # Set generate PKCS #12 and its password
+        signer.set_pkcs12_from_path(join(current_app.config['APPDATA_FOLDER'], cert_id))
+        signer.cert_password = '1234'
 
     # Set a file reference for the stamp file. Note that this file can be
     # referenced later by "fref://{alias}" at the "url" field on the visual
