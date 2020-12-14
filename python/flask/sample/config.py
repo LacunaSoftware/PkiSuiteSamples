@@ -23,6 +23,28 @@ class Config(object):
     REST_PKI_ENDPOINT = 'https://pki.rest/'
 
     # --------------------------------------------------------------------------
+    # Amplia
+    # --------------------------------------------------------------------------
+
+    # The CA's id that will be used to issue a certificate using Amplia. We
+    # have configured to the sample CA from sample subscription for these
+    # samples.
+    AMPLIA_CA_ID = 'eaffa754-1fb5-474a-b9ef-efe43101e89f'
+
+    # ========================================================
+    #     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
+    # ========================================================
+    AMPLIA_API_KEY = 'pki-suite-samples-02|6ad0c0c4a610b540bcf7dd4187ea1ee83f189c6d347ed6de74daca6ca3c70335'
+    # This is a TRIAL API key to use Amplia. It will expire at 31/01/2021.
+    # If the Amplia's samples do not work please contact our support by email:
+    # suporte@lacunasoftware.com
+
+    # In order to use this sample on a "on premises" installation of
+    # Amplia, fill the field below with the URL address of your REST PKI
+    # installation (with the trailing '/' character).
+    AMPLIA_ENDPOINT = 'https://amplia.lacunasoftware.com/'
+
+    # --------------------------------------------------------------------------
     # PKI Express
     # --------------------------------------------------------------------------
 
