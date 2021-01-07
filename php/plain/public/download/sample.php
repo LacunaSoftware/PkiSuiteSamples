@@ -19,6 +19,7 @@ switch ($id) {
     case SampleDocs::CMS_SIGNED_TWICE:
     case SampleDocs::SAMPLE_NFE:
     case SampleDocs::SAMPLE_XML:
+    case SampleDocs::SAMPLE_COD_ENVELOPE:
         $sampleId = $id;
         break;
     default:

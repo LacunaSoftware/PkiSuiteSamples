@@ -28,7 +28,9 @@
             express: '/check-express.php?rc=server-files&fwd=pades-signature&op=cosignPdf',
             restpki: '/check-rest-token.php?rc=server-files&fwd=pades-signature&op=cosignPdf'
         },
-        // issueCertServer: { },
+        issueCertServer: {
+            amplia: '/check-amplia-key.php?rc=issue-cert-server'
+        },
         issueCertUser: {
             amplia: '/check-amplia-key.php?rc=issue-cert-user'
         },
@@ -49,7 +51,9 @@
         signCmsServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=cades-server-key'
         },
-        // signCod: { },
+        signCod: { 
+            express: '/check-express.php?rc=xml-cod-signature'
+        },
         // signMultiCmsServer: { },
         // signMultiCmsUser: { },
         signMultiPdfServer: {

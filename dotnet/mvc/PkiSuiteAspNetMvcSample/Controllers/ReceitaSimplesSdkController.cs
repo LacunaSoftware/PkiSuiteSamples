@@ -1,10 +1,11 @@
-﻿using iTextSharp.text;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Lacuna.Pki;
 using Lacuna.Pki.Pades;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.Sdk;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,21 +26,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			"MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS",
 			"SC", "SE", "SP", "TO" };
 
-		private readonly string[] DefaultFieldName = { "03_Telefone Local de Atendimento", "03_Endereço Local de Atendimento",
-			"03_Data Emissão_af_date", "03_Cidade Local de Atendimento", "01_Nome do Paciente",
-			"03_Nome Local de Atendimento", "02_Prescrição", "03_Bairro Local de Atendimento", "03_CNES",
-			"03_UF Local de atendimento" };
-
-		private readonly string[] DefaultFieldLabel = { "Telefone", "Endereço", "Data de Emissão", "Cidade", 
-			"Nome do Paciente", "Nome Local de Atendimento", "Prescrição", "Bairro", "CNES", "UF" };
-
-		private readonly string[] DefaultFieldValues = { "+00 (00) 0000-0000", "Complexo Hospitalar", "00/00/0000",
-			"Brasília", "Maria da Silva", "Clínica Local", "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias",
-			"Bairro do Mar", "0000000", "DF" };
-
 		// GET: ReceitaSimples
 		public ActionResult Index() {
-			return View(new PrescricaoDataModel { 
+			return View(new PrescricaoDataModel {
 				UFs = ufs
 			});
 		}
@@ -61,119 +50,30 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			using (var stream = new FileStream(userFile, FileMode.OpenOrCreate)) {
 
-				var document = new Document();
-				var writer = PdfWriter.GetInstance(document, stream);
-				document.Open();
+				// PdfGeneration.ReceitaSimples(), to see how the custom sample pdf is generated.
+				var content = PdfGeneration.ReceitaSimples(model.Name, model.Crm, model.CrmUf);
 
-				// Add title.
-				var title = new Paragraph("RECEITUÁRIO SIMPLES", new Font(null, 20f, Font.BOLD)) {
-					Alignment = Element.ALIGN_CENTER,
-				};
-				document.Add(title);
+				var reader = new PdfReader(content);
+				var stamper = new PdfStamper(reader, stream);
 
-				var table = new PdfPTable(6);
-				table.WidthPercentage = 100;
+				// REQUIRED!!!
+				// Add all the required receita simples metadata,
+				// when value is not specified it uses empty strings.
+				var infos = new Hashtable
+				{
+					{ DocumentType.PrescricaoMedicamento.GetValue(), "Prescrição de medicamento" },
+					{ FieldName.Crm.GetValue(), model.Crm },
+					{ FieldName.CrmUF.GetValue(), model.CrmUf },
+					{ FieldName.CrmEspecialidade.GetValue(), "" },
+					{ FieldName.Crf.GetValue(), "" },
+					{ FieldName.CrfUF.GetValue(), "" },
+					{ FieldName.CrfEspecialidade.GetValue(), "" }
+				};
 
-				// Field "Tipo de Documento". This text field identifies the type of
-				// document is being generated. It's a hidden field because this type
-				// is identified by the field name and NOT by the value of this field.
-				var tipoField = new PdfPCell() {
-					Colspan = 6,
-					Border = Rectangle.NO_BORDER,
-				};
-				tipoField.CellEvent = new TextFieldCellWrapper() {
-					// See Enums.cs, to see what is the value of this enum below.
-					FieldName = DocumentType.PrescricaoMedicamento.GetValue(),
-					Value = string.Empty,
-					ReadOnly = true,
-					Hidden = true,
-				};
-				table.AddCell(tipoField);
-
-				// Fields with default values
-				for (int i = 0; i < DefaultFieldName.Length; i++) {
-					var fieldLabel = new PdfPCell() {
-						Colspan = 2,
-						Border = Rectangle.NO_BORDER,
-					};
-					fieldLabel.AddElement(new Phrase(DefaultFieldLabel[i]));
-					table.AddCell(fieldLabel);
-					var valueField = new PdfPCell() {
-						Colspan = 4,
-						Border = Rectangle.NO_BORDER,
-					};
-					valueField.CellEvent = new TextFieldCellWrapper() {
-						FieldName = DefaultFieldName[i],
-						Value = DefaultFieldValues[i],
-						ReadOnly = true,
-					};
-					table.AddCell(valueField);
-				}
-
-				// Field "Nome do(a) Médico(a)".
-				var doctorNameLabel = new PdfPCell() {
-					Colspan = 2,
-					Border = Rectangle.NO_BORDER,
-				};
-				doctorNameLabel.AddElement(new Phrase("NOME DO(A) MÉDICO(A):"));
-				table.AddCell(doctorNameLabel);
-				var doctorNameField = new PdfPCell() {
-					Colspan = 4,
-					Border = Rectangle.NO_BORDER,
-				};
-				doctorNameField.CellEvent = new TextFieldCellWrapper() {
-					FieldName = "03_Nome Completo Emitente",
-					Value = model.Name,
-					ReadOnly = true,
-				};
-				table.AddCell(doctorNameField);
-
-				// Field "CRM". This text field contains the doctor's register
-				// number on CRM.
-				var crmLabel = new PdfPCell() {
-					Colspan = 2,
-					Border = Rectangle.NO_BORDER,
-				};
-				crmLabel.AddElement(new Phrase("CRM:"));
-				table.AddCell(crmLabel);
-				var crmField = new PdfPCell() {
-					Colspan = 4,
-					Border = Rectangle.NO_BORDER,
-				};
-				crmField.CellEvent = new TextFieldCellWrapper() {
-					// See Enums.cs, to see what is the value of this enum below.
-					FieldName = FieldName.Crm.GetValue(),
-					Value = model.Crm,
-					ReadOnly = true,
-				};
-				table.AddCell(crmField);
-
-				// Field "CRM UF". This combo box field contains the "UF" where the
-				// doctor is registered.
-				var crmUFLabel = new PdfPCell() {
-					Colspan = 2,
-					Border = Rectangle.NO_BORDER,
-				};
-				crmUFLabel.AddElement(new Phrase("CRM UF:"));
-				table.AddCell(crmUFLabel);
-				var crmUFField = new PdfPCell() {
-					Colspan = 4,
-					Border = Rectangle.NO_BORDER,
-				};
-				crmUFField.CellEvent = new ComboFieldCellWrapper() {
-					// See Enums.cs, to see what is the value of this enum below.
-					FieldName = FieldName.CrmUF.GetValue(),
-					Options = ufs,
-					Selection = model.CrmUf,
-					ReadOnly = true,
-				};
-				table.AddCell(crmUFField);
-
-				// Add table.
-				document.Add(table);
-
-				document.Close();
-				writer.Close();
+				// Add metadata to pdf
+				stamper.MoreInfo = infos;
+				stamper.Close();
+				reader.Close();
 			}
 			return RedirectToAction("Start", new SignatureStartModel() {
 				UserFile = filename.Replace(".", "_")
@@ -363,73 +263,76 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 	}
 
-	/**
-	 * This class is used to encapsulated a text field inside a table's cell.
-	 * It is not mandadory to use this class in the sample, but it helps to
-	 * create a grid to organize things into the PDF.
-	 */
-	class TextFieldCellWrapper : IPdfPCellEvent {
-		public string FieldName { get; set; }
-		public string Value { get; set; }
-		public bool ReadOnly { get; set; } = default;
-		public bool Hidden { get; set; } = default;
+	class PdfGeneration {
+		public PdfGeneration() { }
 
-		public void CellLayout(PdfPCell cell, Rectangle rectangle, PdfContentByte[] canvases) {
-			// Get cell writer.
-			var writer = canvases[0].PdfWriter;
+		public static byte[] ReceitaSimples(string name, string crm, string crmUf)
+		{
+			string[] DefaultLabels = { "Telefone", "Endereço", "Bairro", "Cidade",
+				"UF", "Nome Local de Atendimento", "CNES", "Nome do Paciente", "Prescrição", "Data de Emissão" };
 
-			// Create text field
-			var field = new TextField(writer, rectangle, FieldName);
-			field.Text = Value;
+			string[] DefaultValues = { "+00 (00) 0000-0000", "Complexo Hospitalar", "Bairro do Mar",
+				"Brasília", "DF", "Clínica Local", "0000000", "Maria da Silva",
+				"Remédio X ---------- 1 comprimido de 12 em 12 horas por 3 dias", "00/00/0000" };
 
-			// Configure Read-only option.
-			if (ReadOnly) {
-				field.Options = BaseField.READ_ONLY;
+			var stream = new MemoryStream();
+			var document = new Document();
+			var writer = PdfWriter.GetInstance(document, stream);
+			document.Open();
+
+			// Add title.
+			var title = new Paragraph("RECEITUÁRIO SIMPLES", new Font(null, 20f, Font.BOLD))
+			{
+				Alignment = Element.ALIGN_CENTER,
+			};
+			document.Add(title);
+
+			var table = new PdfPTable(6)
+			{
+				WidthPercentage = 100
+			};
+
+			var nameCell = new PdfPCell()
+			{
+				Colspan = 6,
+				Border = Rectangle.NO_BORDER,
+			};
+			nameCell.AddElement(new Phrase("Nome do(a) médico(a):\t" + name));
+			table.AddCell(nameCell);
+			var crmCell = new PdfPCell()
+			{
+				Colspan = 6,
+				Border = Rectangle.NO_BORDER,
+			};
+			crmCell.AddElement(new Phrase("CRM:\t" + crm));
+			table.AddCell(crmCell);
+			var crmUfCell = new PdfPCell()
+			{
+				Colspan = 6,
+				Border = Rectangle.NO_BORDER,
+			};
+			crmUfCell.AddElement(new Phrase("CRM UF:\t" + crmUf));
+			table.AddCell(crmUfCell);
+
+			// Default values
+			for (int i = 0; i < DefaultLabels.Length; i++)
+			{
+				var cell = new PdfPCell()
+				{
+					Colspan = 6,
+					Border = Rectangle.NO_BORDER,
+				};
+				cell.AddElement(new Phrase(DefaultLabels[i] + ":\t" + DefaultValues[i]));
+				table.AddCell(cell);
 			}
 
-			// Configure Read-only option.
-			if (Hidden) {
-				field.Visibility = BaseField.HIDDEN;
-			}
+			// Add table.
+			document.Add(table);
 
-			// Add text field.
-			writer.AddAnnotation(field.GetTextField());
-		}
-	}
+			document.Close();
+			writer.Close();
 
-	/**
-	 * This class is used to encapsulated a combo box field inside a table's
-	 * cell. It is not mandadory to use this class in the sample, but it
-	 * helps to create a grid to organize things into the PDF.
-	 */
-	class ComboFieldCellWrapper : IPdfPCellEvent {
-		public string FieldName { get; set; }
-		public string[] Options { get; set; }
-		public string Selection { get; set; }
-		public bool ReadOnly { get; set; } = default;
-		public bool Hidden { get; set; } = default;
-
-		public void CellLayout(PdfPCell cell, Rectangle rectangle, PdfContentByte[] canvases) {
-			// Get cell writer.
-			var writer = canvases[0].PdfWriter;
-
-			// Create text field.
-			var field = new TextField(writer, rectangle, FieldName);
-			field.Choices = Options;
-			field.ChoiceSelection = Array.IndexOf(Options, Selection);
-
-			// Configure Read-only option.
-			if (ReadOnly) {
-				field.Options = BaseField.READ_ONLY;
-			}
-
-			// Configure Read-only option.
-			if (Hidden) {
-				field.Visibility = BaseField.HIDDEN;
-			}
-
-			// Add combo field.
-			writer.AddAnnotation(field.GetComboField());
+			return stream.ToArray();
 		}
 	}
 }

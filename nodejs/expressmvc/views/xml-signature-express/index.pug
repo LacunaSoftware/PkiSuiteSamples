@@ -1,0 +1,58 @@
+extends ../layout
+
+block content
+
+   div(class='container')
+      h2(class='ls-title') Sign a XML stored on the server with PKI Express
+
+      form(id='signForm' action='/xml-signature-express/start' method='POST')
+
+         //- Hidden fields to be used to pass data from the action to the 
+         //- "signature start form" javascript (see signature-start-form.js) and vice-versa.
+         input(type='hidden', name='certContentField', id='certContent' value=certContent)
+         input(type='hidden', name='certThumbField', id='certThumb' value=certThumb)
+
+         .form-group
+            label File to sign
+            p
+               | You are signing this 
+               b entire &nbsp;
+               a(href=`/download/sample?fileId=${sampleId}`) sample XML
+               | .
+
+         //- Render a select (combo box) to list the user's certificates. 
+         //- For now it will be empty, we'll populate it later on (see signature-start-form.js).
+         .form-group
+            label(for='certificateSelect') Choose a certificate
+            select(id='certificateSelect', class='form-control')
+
+         //- Action buttons. Notice that the "Sign File" button is NOT a submit button.
+         //- When the user clicks the button, we must first use the Web PKI component 
+         //- to perform the client-side computation necessary and only when that 
+         //- computation is finished we'll submit the form programmatically (see signature-start-form.js).
+         button(id='signButton', type='button', class='btn btn-primary') Sign File
+         button(id='refreshButton', type='button', class='btn btn-outline-primary') Refresh Certificates
+
+block scripts
+   //- The file below contains the JS lib for accessing the Web PKI component. For more information, see:
+   //- https://webpki.lacunasoftware.com/#/Documentation
+   script(type="text/javascript", src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js", integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300=", crossorigin="anonymous")
+
+   //- The file below contains the logic for calling the Web PKI component. 
+   //- It is only an example, feel free to alter it to meet your application's
+   //- needs. You can also bring the code into the javascript block below if you prefer.
+   script(src="/javascripts/signature-start-form.js")
+
+   script.
+      $(document).ready(function() {
+         // Once the page is ready, we call the init() function
+         // on the javascript code (see signature-start-form.js).
+         signatureStartForm.init({
+            form: $('#signForm'),                        // The form that should be submitted when the operation is completed.
+            certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.
+            refreshButton: $('#refreshButton'),          // The "refresh" button.
+            signButton: $('#signButton'),                // The button that initiates the operation.
+            certThumbField: $('#certThumb'),             // The "certificate thumbprint" hidden field reference.
+            certContentField: $('#certContent')          // The "certificate content" hidden field reference.
+         });
+      });

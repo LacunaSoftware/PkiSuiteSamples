@@ -6,6 +6,7 @@ from datetime import datetime
 from datetime import timedelta
 from os.path import join
 
+from amplia_client import AmpliaClient
 from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
@@ -72,6 +73,30 @@ def get_security_context_id():
 # endregion
 
 
+# region Amplia
+
+def get_amplia_client():
+    # Get Amplia API key to be used on the requests authentication.
+    api_key = current_app.config['AMPLIA_API_KEY']
+
+    # Throw exception if token is not set (this check is here just for the sake
+    # of newcomers, you can remove it)
+    if api_key is None:
+        raise Exception(
+            'The Amplia\'s API key was not set! Hint: to run this sample'
+            ' you must generate an API access token on the REST PKI website'
+            ' and paste it on sample/config.py file.')
+
+    # Get Amplia's endpoint.
+    endpoint = current_app.config['AMPLIA_ENDPOINT']
+
+    # Return an instance of AmpliaClient class, passing the endpoint and
+    # the API key.
+    return AmpliaClient(endpoint, api_key)
+
+# endregion
+
+
 # region PKI Express
 
 def set_pki_defaults(operator):
@@ -115,6 +140,15 @@ def set_pki_defaults(operator):
     # THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
 
 # endregion
+
+
+def format_date(date):
+    return date.strftime("%m-%d-%Y")
+
+
+def get_two_years_from_now_date():
+    two_years_from_now = datetime.now() + timedelta(days=2*365)
+    return format_date(two_years_from_now)
 
 
 def get_expired_page_headers(headers):

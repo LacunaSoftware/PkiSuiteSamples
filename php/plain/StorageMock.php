@@ -11,6 +11,7 @@ class SampleDocs
     const CMS_SIGNED_TWICE = 'CMS_SIGNED_TWICE';
     const SAMPLE_NFE = 'SAMPLE_NFE';
     const SAMPLE_XML = 'SAMPLE_XML';
+    const SAMPLE_COD_ENVELOPE = 'SAMPLE_COD_ENVELOPE';
 }
 
 class ServerFile
@@ -69,7 +70,7 @@ class StorageMock
 
         if (!empty($extension)) {
             if ($extension[0] == '.') {
-                $validExtension = substr($extension, 1, count($extension) - 1);
+                $validExtension = substr($extension, 1, strlen($extension) - 1);
             } else {
                 $validExtension = $extension;
             }
@@ -137,6 +138,35 @@ class StorageMock
         // safety.
         return str_replace('.', '_', $filename);
     }
+
+    // region Certificate & Key Store
+
+    static function existsKey($certId, $extension)
+    {
+        $filename = $certId . $extension;
+        $filePath = self::APP_DATA_PATH . $filename;
+        return file_exists($filePath);
+    }
+
+    static function getKeyPath($certId, $extension)
+    {
+        $filename = $certId . $extension;
+        return self::APP_DATA_PATH . $filename;
+    }
+
+    static function storeKey($content, $extension, $certId)
+    {
+        // Guarantees tha the 'app-data' folder exists.
+        self::createAppData();
+
+        $filename = $certId . $extension;
+
+        // Store file.
+        $filePath = self::APP_DATA_PATH . $filename;
+        file_put_contents($filePath, $content);
+    }
+
+    // endregion
 
     /**
      * Returns the verification code associated with the given document, or null
@@ -226,6 +256,8 @@ class StorageMock
                 return 'SampleNFe.xml';
             case SampleDocs::SAMPLE_XML:
                 return 'SampleDocument.xml';
+            case SampleDocs::SAMPLE_COD_ENVELOPE:
+                return 'SampleCodEnvelope.xml';
             default:
                 throw new \Exception('File not found');
         }
