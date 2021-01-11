@@ -39,6 +39,8 @@ def upload(rc):
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
         # Redirect the user to the redirect parameter "rc".
+        if request.args.get('certId', None) is not None:
+            return redirect('/%s/%s?certId=%s' % (rc, filename, request.args.get('certId')))
         return redirect('/%s/%s' % (rc, filename))
     else:
         return render_template('upload/index.html')
