@@ -299,4 +299,19 @@ class StorageMock
     {
         return StorageMock::RESOURCES_PATH . 'Pierre de Fermat.pfx';
     }
+
+    static function getWebhookHandlerLogPath(){
+        // Guarantees tha the 'app-data' folder exists.
+        self::createAppData();
+
+        $filename = "WebhookHandler.log";
+        return self::APP_DATA_PATH . $filename;
+    }
+
+    static function logWebhookHandler($log){
+        $filePath = self::getWebhookHandlerLogPath();
+        $data = date('Y-m-d H:i:s') . ': ' . $log . "\n";
+        // Log
+        file_put_contents($filePath, $data, FILE_APPEND);
+    }
 }

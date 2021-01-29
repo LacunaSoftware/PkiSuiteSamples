@@ -3,10 +3,11 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Lacuna\Amplia\AmpliaClient;
+use Lacuna\RestPki\RestPkiOptions;
+use Lacuna\RestPki\RestPkiCoreClient;
 use Lacuna\RestPki\RestPkiClient;
 use Lacuna\RestPki\StandardSecurityContexts;
 use Lacuna\PkiExpress\TimestampAuthority;
-
 class Util {
 
     //region REST PKI
@@ -33,6 +34,28 @@ class Util {
         }
 
         return new RestPkiClient($endpoint, $accessToken);
+    }
+
+    public static function getRestPkiCoreClient()
+    {
+        // Get configuration.
+        $config = getConfig();
+
+        // Get your API Key value from REST PKI NG configuration.
+        $apiKey = $config['restPkiNg']['apiKey'];
+
+        // Throw exception if key is not set (this check is here just for the sake of newcomers, you
+        // can remove it).
+        if (empty($apiKey) || strpos($apiKey, ' API KEY ') !== false) {
+            throw new \Exception('The REST PKI NG API Key was not set! Hint: to run this ' .
+                'sample you must generate an API Key on the REST PKI NG website and paste it ' .
+                'on the file config.php');
+        }
+
+        $endpoint = $config['restPkiNg']['endpoint'];
+
+        $options = new RestPkiOptions($endpoint, $apiKey);
+        return new RestPkiCoreClient($options);
     }
 
     /**
