@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h2 class="ls-title">Issue a certificate storing the private key on the server</h2>
+    <h5 class="ls-subtitle"> The certificate {{ cert.subject_name.common_name }} was successfully issued!</h5>
+
+    <h3>Actions:</h3>
+    <ul>
+		<li><a href="/download/{{ pkcs12_id }}">Download the PKCS #12 file</a></li>
+		<li><a href="/upload/pades-server-key-express?certId={{ pkcs12_id }}">Use the certificate to sign a PDF using PKI Express</a></li>
+	</ul>
+
+{% endblock %}

@@ -70,7 +70,7 @@ class StorageMock
 
         if (!empty($extension)) {
             if ($extension[0] == '.') {
-                $validExtension = substr($extension, 1, count($extension) - 1);
+                $validExtension = substr($extension, 1, strlen($extension) - 1);
             } else {
                 $validExtension = $extension;
             }
@@ -138,6 +138,35 @@ class StorageMock
         // safety.
         return str_replace('.', '_', $filename);
     }
+
+    // region Certificate & Key Store
+
+    static function existsKey($certId, $extension)
+    {
+        $filename = $certId . $extension;
+        $filePath = self::APP_DATA_PATH . $filename;
+        return file_exists($filePath);
+    }
+
+    static function getKeyPath($certId, $extension)
+    {
+        $filename = $certId . $extension;
+        return self::APP_DATA_PATH . $filename;
+    }
+
+    static function storeKey($content, $extension, $certId)
+    {
+        // Guarantees tha the 'app-data' folder exists.
+        self::createAppData();
+
+        $filename = $certId . $extension;
+
+        // Store file.
+        $filePath = self::APP_DATA_PATH . $filename;
+        file_put_contents($filePath, $content);
+    }
+
+    // endregion
 
     /**
      * Returns the verification code associated with the given document, or null
@@ -269,5 +298,20 @@ class StorageMock
     static function getSampleCertificatePath()
     {
         return StorageMock::RESOURCES_PATH . 'Pierre de Fermat.pfx';
+    }
+
+    static function getWebhookHandlerLogPath(){
+        // Guarantees tha the 'app-data' folder exists.
+        self::createAppData();
+
+        $filename = "WebhookHandler.log";
+        return self::APP_DATA_PATH . $filename;
+    }
+
+    static function logWebhookHandler($log){
+        $filePath = self::getWebhookHandlerLogPath();
+        $data = date('Y-m-d H:i:s') . ': ' . $log . "\n";
+        // Log
+        file_put_contents($filePath, $data, FILE_APPEND);
     }
 }
