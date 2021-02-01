@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file initiates a PAdES signature session using REST PKI NG simple flow.
+ * This file initiates a PAdES signature session using REST PKI Core simple flow.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -16,7 +16,7 @@ try {
     }
 
     // Define the return URL
-    $RETURN_URL = "http://localhost:8000/signature-session-rest-ng/complete.php";
+    $RETURN_URL = "http://localhost:8000/signature-session-rest-core/complete.php";
 
     // RestPkiService Configuration
     $client = Util::getRestPkiCoreClient();
@@ -38,14 +38,14 @@ try {
     <?php include '../shared/menu.php' ?>
 
     <div class="container content">
-        <h2 class="ls-title">Signature Session with REST PKI NG (Simple flow)</h2>
+        <h2 class="ls-title">Signature Session with REST PKI Core (Simple flow)</h2>
             <div class="ls-content">
                 <p>
                     We will redirect you to REST PKI.
-                    After you finish the signature, REST PKI NG will redirect you back.
+                    After you finish the signature, REST PKI will redirect you back.
                 </p>
                 <button type="button" class="btn btn-primary" onclick="redirectUser()">
-                    <i class="fas fa-file-signature"></i> Go to REST PKI NG
+                    <i class="fas fa-file-signature"></i> Go to REST PKI
                 </button>
             </div>
     </div>
@@ -53,7 +53,7 @@ try {
     <?php include '../shared/scripts.php' ?>
     <script fragment="scripts" type="text/javascript" inline="javascript">
         function redirectUser() {
-            // Redirect to REST PKI NG that will return to the $RETURN_URL once 
+            // Redirect to REST PKI that will return to the $RETURN_URL once 
             // the signature session is finished
             window.open('<?=$response->redirectUrl?>');
         }
