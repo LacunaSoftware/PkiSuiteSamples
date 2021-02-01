@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is called by the REST PKI NG once the signature session is finished.
+ * This file is called by the REST PKI Core once the signature session is finished.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -36,7 +36,7 @@ try {
     <?php include '../shared/menu.php' ?>
 
     <div class="container content">
-        <h2 class="ls-title">Signature Session with REST PKI NG (Simple flow)</h2>
+        <h2 class="ls-title">Signature Session with REST PKI Core (Simple flow)</h2>
         <?php if ($session->status == SignatureSessionStatus::COMPLETED){ ?>
             <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
