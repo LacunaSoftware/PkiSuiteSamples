@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file receives the REST PKI NG's webhook event notification
+ * This file receives the REST PKI Core's webhook event notification
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
