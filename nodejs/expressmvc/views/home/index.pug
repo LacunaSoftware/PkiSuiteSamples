@@ -11,7 +11,7 @@ block scripts
    script.
       SampleRoutes = {
          authCert: {
-            //express: '/check-pki-express?rc=authentication',
+            express: '/check-pki-express?rc=authentication',
             restpki: '/check-restpki-token?rc=authentication'
          },
          cosignCms: { 
@@ -20,7 +20,7 @@ block scripts
          },
          cosignPdf: {
             express: '/check-pki-express?rc=server-files&fwd=pades-signature&op=cosignPdf',
-            restpki: '/checiek-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
+            restpki: '/check-restpki-token?rc=server-files&fwd=pades-signature&op=cosignPdf'
          },
          issueCertServer: {
             amplia: '/check-amplia-api-key?rc=issue-cert-server'
@@ -74,7 +74,7 @@ block scripts
          },
          // signMultiPdfUser: { },
          signNfe: {
-            // express: '/check-pki-express?rc=xml-nfe-signature',
+            express: '/check-pki-express?rc=xml-nfe-signature',
             restpki: '/check-restpki-token?rc=xml-nfe-signature'
          },
          signPdfServer: {
@@ -88,14 +88,23 @@ block scripts
          signPdfServerKey: {
             express: '/check-pki-express?rc=upload&fwd=pades-server-key'
          },
+         signPdfCloudOAuth: {
+            express: '/check-pki-express?rc=upload&fwd=pades-cloud-oauth'
+         },
+         signPdfCloudPwd: {
+            express: '/check-pki-express?rc=upload&fwd=pades-cloud-pwd'
+         },
          signXmlServer: {
-            // express: '/check-pki-express?rc=xml-signature',
+            express: '/check-pki-express?rc=xml-signature',
             restpki: '/check-restpki-token?rc=xml-signature'
          },
-         // signXmlServerKey: { },
+         signXmlServerKey: {
+            express: '/check-pki-express?rc=xml-server-key'
+         },
          // signaturePackage: { },
-         validateCmsSig: { // uncomment when PKI Express supports cades validation
-            express: '/check-pki-express?rc=upload&fwd=open-cades'
+         validateCmsSig: {
+            express: '/check-pki-express?rc=upload&fwd=open-cades',
+            restpki: '/check-restpki-token?rc=upload&fwd=open-cades'
          },
          validatePdfSig: { 
             express: '/check-pki-express?rc=upload&fwd=open-pades',

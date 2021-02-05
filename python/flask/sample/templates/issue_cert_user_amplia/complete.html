@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h2 class="ls-title">Issue a certificate storing the private key on the user's machine</h2>
+    <h5 class="ls-subtitle"> The certificate was successfully issued!</h5>
+
+    <h3>Actions:</h3>
+    <ul>
+		<li><a href="/upload/pades-signature-express">Use the certificate to sign a PDF using PKI Express</a></li>
+		<li><a href="/upload/pades-signature-rest">Use the certificate to sign a PDF using REST PKI</a></li>
+	</ul>
+
+{% endblock %}

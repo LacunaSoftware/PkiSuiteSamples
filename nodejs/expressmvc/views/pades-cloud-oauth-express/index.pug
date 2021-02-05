@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+   h2(class='ls-title') PAdES Signature using cloud certificate with PKI Express (OAuth Flow)
+
+   div(class='ls-content')
+      form(id='selectFlowForm' action=`/pades-cloud-oauth-express/discover?fileId=${fileId}` method='POST')
+         .form-group
+            label File to sign
+            p
+               | You are signing&nbsp;
+               a(href=`/download?fileId=${fileId}`, target='_blank') this document
+               | .
+         div(class='px-0 col col-sm-2')
+            label(for='cpfField') Inform your CPF:
+            input(id='cpfField' class='form-control' type='text' name='cpf' placeholder='000.000.000-00' value=cpf)
+
+         button(id='searchButton' type='submit' class='btn btn-primary mt-2')
+            i(class='fas fa-search') Search
