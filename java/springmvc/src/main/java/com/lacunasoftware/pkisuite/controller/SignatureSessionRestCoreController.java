@@ -23,12 +23,12 @@ public class SignatureSessionRestCoreController {
 	@GetMapping("/signature-session-rest-core")
 	public String get(Model model, HttpServletResponse response) throws RestException {
 
-		RestPkiService service = RestPkiServiceFactory.GetService(Util.getRestPkiCoreOptions());
+		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CreateSignatureSessionRequest request = new CreateSignatureSessionRequest();
 		request.setReturnUrl(RETURN_URL);
 
-		CreateSignatureSessionResponse sessionResponse = service.CreateSignatureSession(request);
+		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request);
 
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/index.html).
 		model.addAttribute("redirectUrl", sessionResponse.getRedirectUrl());
@@ -43,12 +43,12 @@ public class SignatureSessionRestCoreController {
 	@GetMapping("/signature-session-rest-core/webhook")
 	public String usingWebhook(Model model, HttpServletResponse response) throws RestException {
 
-		RestPkiService service = RestPkiServiceFactory.GetService(Util.getRestPkiCoreOptions());
+		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CreateSignatureSessionRequest request = new CreateSignatureSessionRequest();
 		request.setEnableBackgroundProcessing(true);
 
-		CreateSignatureSessionResponse sessionResponse = service.CreateSignatureSession(request);
+		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request);
 
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/index.html).
 		model.addAttribute("redirectUrl", sessionResponse.getRedirectUrl());
@@ -67,16 +67,16 @@ public class SignatureSessionRestCoreController {
 		@RequestParam(value="signatureSessionId") String sessionId
 	) throws RestException {
 		// Get service
-		RestPkiService service = RestPkiServiceFactory.GetService(Util.getRestPkiCoreOptions());
+		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 		// Get session information
-		SignatureSession session = service.GetSignatureSession(UUID.fromString(sessionId));
+		SignatureSession session = service.getSignatureSession(UUID.fromString(sessionId));
 
 		model.addAttribute("sessionStatus", session.getStatus());
 
 		if (session.getStatus() == SignatureSessionStatus.Completed){
 			// If signature completed, get document information
 			UUID docId = session.getDocuments().get(0).getId();
-			Document doc = service.GetDocument(docId);
+			Document doc = service.getDocument(docId);
 
 			model.addAttribute("originalFile", doc.getOriginalFile());
 			model.addAttribute("signedFile", doc.getSignedFile());

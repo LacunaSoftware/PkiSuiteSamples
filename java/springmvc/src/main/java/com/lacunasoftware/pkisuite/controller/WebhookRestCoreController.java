@@ -17,7 +17,10 @@ import com.lacunasoftware.restpki.*;
 
 @Controller
 public class WebhookRestCoreController {
-
+	/**
+	 * Due to the limitations of Spring's serializer, this method has the
+	 * responsibility of deserializing the model received in the request.
+	 */
 	public WebhookEventModel deserializeWebhookEvent(HttpServletRequest request) throws IOException {
 		String body = IOUtils.toString(request.getReader());
 		ObjectMapper mapper = new ObjectMapper();
@@ -26,7 +29,6 @@ public class WebhookRestCoreController {
 
 	/**
 	 * This action receives the REST PKI Core's webhook event notification.
-	 * 
 	 */
 	@RequestMapping(value = "/webhook-rest-core", method = { RequestMethod.POST })
 	public ResponseEntity<Object> post(HttpServletRequest request) {
@@ -37,16 +39,16 @@ public class WebhookRestCoreController {
 			// Verify Webhook Event Type.
 			if (event.getType() == WebhookEventTypes.DocumentSignatureCompleted) {
 				// RestPkiService configuration.
-				RestPkiService service = RestPkiServiceFactory.GetService(Util.getRestPkiCoreOptions());
+				RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 				// Get document from ID. It updates the download locations.
-				Document document = service.GetDocument(event.getDocument().getId());
+				Document document = service.getDocument(event.getDocument().getId());
 
 				// Get the link to download the signedFile.
 				String downloadLink = document.getSignedFile().getLocation();
 
 				// Get the signed file content.
-				InputStream signedContent = service.OpenRead(downloadLink);
+				InputStream signedContent = service.openRead(downloadLink);
 
 				// Store file content.
 				String outputFile = StorageMock.store(signedContent, ".pdf");
