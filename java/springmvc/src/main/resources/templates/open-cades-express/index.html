@@ -3,10 +3,19 @@
 <body>
 
 <div th:fragment="content">
-	<h2 class="ls-title">Open existing PAdES Signature with REST PKI</h2>
-	<h5 class="ls-subtitle">The given file contains <span th:text="${signature.getSigners().size()}"/> signatures:</h5>
+	<h2 class="ls-title">Open existing CAdES Signature with PKI Express</h2>
+	<h5 class="ls-subtitle">Signature Information</h5>
 
 	<div class="ls-content">
+		<p> This signature has an encapsulated file? 
+			<span th:if="${signature.getHasEncapsulatedContent()}">Yes</span>
+			<span th:if="${!signature.getHasEncapsulatedContent()}">No</span>
+		</p>
+		<span th:if="${signature.getHasEncapsulatedContent()}">
+			<a class="btn btn-primary mb-3"  th:href="@{'/download/' + ${outputFile}}">Download encapsulated file as PDF</a>
+		</span>
+
+		<p>The given file contains <span th:text="${signature.getSigners().size()}"/> signatures:</p>
 		<div id="accordion">
 			<div class="card" th:each="signer,iterStat : ${signature.getSigners()}" th:with="collapseId='signer_' + ${iterStat.index} + '_collapse', headingId='signer_' + ${iterStat.index} + '_heading'">
 				<div class="card-header open-header" th:id="${headingId}">
