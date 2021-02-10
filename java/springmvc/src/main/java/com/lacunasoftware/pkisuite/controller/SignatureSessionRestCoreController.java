@@ -66,20 +66,21 @@ public class SignatureSessionRestCoreController {
 		Model model,
 		@RequestParam(value="signatureSessionId") String sessionId
 	) throws RestException {
+		// Get service
 		RestPkiService service = RestPkiServiceFactory.GetService(Util.getRestPkiCoreOptions());
-
 		// Get session information
 		SignatureSession session = service.GetSignatureSession(UUID.fromString(sessionId));
 
-		if (session.getStatus() == SignatureSessionStatus.COMPLETED){
+		model.addAttribute("sessionStatus", session.getStatus());
+
+		if (session.getStatus() == SignatureSessionStatus.Completed){
 			// If signature completed, get document information
 			UUID docId = session.getDocuments().get(0).getId();
 			Document doc = service.GetDocument(docId);
 
-			model.addAttribute("originalFile", doc.getOriginalFile().getLocation());
-			model.addAttribute("signedFile", doc.getSignedFile().getLocation());
+			model.addAttribute("originalFile", doc.getOriginalFile());
+			model.addAttribute("signedFile", doc.getSignedFile());
 		}
-		model.addAttribute("sessionStatus", session.getStatus());
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/complete.html).
 		return "signature-session-rest-core/complete";
 	}

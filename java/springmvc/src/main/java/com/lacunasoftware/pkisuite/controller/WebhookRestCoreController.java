@@ -1,18 +1,17 @@
 package com.lacunasoftware.pkisuite.controller;
 
 import java.io.InputStream;
-
+import org.apache.commons.io.IOUtils;
 import javax.servlet.http.HttpServletRequest;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
 import com.lacunasoftware.restpki.*;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class WebhookRestCoreController {
@@ -22,23 +21,27 @@ public class WebhookRestCoreController {
 	 * 
 	 */
 	@RequestMapping(value = "/webhook-rest-core", method = { RequestMethod.POST })
-	public ResponseEntity<Object> post( HttpServletRequest request ) {
+	public ResponseEntity<Object> post(HttpServletRequest request) {
 		try {
+			// Get WebhookEventModel instance from body - JSON.
+			String body = IOUtils.toString(request.getReader());
 			ObjectMapper mapper = new ObjectMapper();
-			WebhookEventModel event = mapper.readValue(request.getInputStream(), WebhookEventModel.class);
+			WebhookEventModel event = mapper.readValue(body, WebhookEventModel.class);
 
-			System.out.println(event);
 			// Verify Webhook Event Type.
-			if(event.getType() == WebhookEventTypes.DOCUMENTSIGNATURECOMPLETED) {
+			if (event.getType() == WebhookEventTypes.DocumentSignatureCompleted) {
 				// RestPkiService configuration.
 				RestPkiService service = RestPkiServiceFactory.GetService(Util.getRestPkiCoreOptions());
-				
+
+				// Get document from ID. It updates the download locations.
+				Document document = service.GetDocument(event.getDocument().getId());
+
 				// Get the link to download the signedFile.
-				String downloadLink = event.getDocument().getSignedFile().getLocation();
-		
+				String downloadLink = document.getSignedFile().getLocation();
+
 				// Get the signed file content.
 				InputStream signedContent = service.OpenRead(downloadLink);
-		
+
 				// Store file content.
 				String outputFile = StorageMock.store(signedContent, ".pdf");
 				System.out.println("Webhook: Signed file stored - " + outputFile);
