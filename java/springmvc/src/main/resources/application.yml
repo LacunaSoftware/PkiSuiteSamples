@@ -47,6 +47,20 @@ rest-pki:
   # with the URL address of your REST PKI installation (with the trailing '/' character)
   endpoint: null
 
+# REST PKI Core parameters
+rest-pki-core:
+  # ======================================================
+  #     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
+  # ======================================================
+  apiKey: 'pki-suite-samples-01|aa0177874a83a54ab34ac91f554f75e3a9955a33f89e2c76432da4bdff4af040'
+  # This is a TRIAL key. It will expire at 31/03/2021.
+  # If the REST PKI's samples do not work, please contact our support by
+  # email: suporte@lacunasoftware.com
+
+  # In order to use this sample on a "on premises" installation of REST PKI, fill the field below
+  # with the URL address of your REST PKI Core installation (with the trailing '/' character)
+  endpoint: null
+
 # Amplia parameters
 amplia:
 

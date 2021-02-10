@@ -4,6 +4,8 @@ import com.lacunasoftware.amplia.AmpliaClient;
 import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
 import com.lacunasoftware.restpki.RestPkiClient;
+import com.lacunasoftware.restpki.RestPkiCoreClient;
+import com.lacunasoftware.restpki.RestPkiOptions;
 import com.lacunasoftware.restpki.SecurityContext;
 import com.lacunasoftware.pkisuite.config.ApplicationProperties;
 import com.lacunasoftware.pkisuite.config.ProxyProperties;
@@ -63,6 +65,51 @@ public class Util {
 		}
 
 		return new RestPkiClient(endpoint, accessToken, proxy);
+	}
+
+	public static RestPkiOptions getRestPkiCoreOptions() {
+
+		String apiKey = getProperties().getRestPkiCore().getApiKey();
+
+		// Throw exception if token is not set (this check is here just for the sake of newcomers,
+		// you can remove it).
+		if (isNullOrEmpty(apiKey) || apiKey.contains(" API KEY ")) {
+			throw new RuntimeException("The API key was not set! Hint: to run this sample " +
+				"you must generate an API key on the REST PKI website and paste it on the " +
+				"file src/main/resources/application.yml");
+		}
+
+		Proxy proxy = null;
+		// If you need to set a proxy for outgoing connections.
+		ProxyProperties proxyProperties = getProperties().getProxy();
+		if (!isNullOrEmpty(proxyProperties.getHost()) && proxyProperties.getPort() != null) {
+			proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyProperties.getHost(), proxyProperties.getPort()));
+
+			// If your proxy requires authentication.
+			if (!isNullOrEmpty(proxyProperties.getUsername()) && !isNullOrEmpty(proxyProperties.getPassword())) {
+				Authenticator.setDefault(new Authenticator() {
+					@Override
+					public PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(
+							getProperties().getProxy().getUsername(),
+							getProperties().getProxy().getPassword().toCharArray()
+						);
+					}
+				});
+			}
+		}
+
+		String endpoint = getProperties().getRestPkiCore().getEndpoint();
+		if (endpoint == null || endpoint.length() == 0) {
+			endpoint = "https://core.pki.rest/";
+		}
+
+		RestPkiOptions options = new RestPkiOptions();
+		options.setEndpoint(endpoint);
+		options.setProxy(proxy);
+		options.setApiKey(apiKey);
+
+		return options;
 	}
 
 	public static SecurityContext getSecurityContextId() {
