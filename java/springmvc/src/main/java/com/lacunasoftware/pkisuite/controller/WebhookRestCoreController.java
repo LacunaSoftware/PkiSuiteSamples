@@ -1,10 +1,12 @@
 package com.lacunasoftware.pkisuite.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,12 @@ import com.lacunasoftware.restpki.*;
 @Controller
 public class WebhookRestCoreController {
 
+	public WebhookEventModel deserializeWebhookEvent(HttpServletRequest request) throws IOException {
+		String body = IOUtils.toString(request.getReader());
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(body, WebhookEventModel.class);
+	}
+
 	/**
 	 * This action receives the REST PKI Core's webhook event notification.
 	 * 
@@ -24,9 +32,7 @@ public class WebhookRestCoreController {
 	public ResponseEntity<Object> post(HttpServletRequest request) {
 		try {
 			// Get WebhookEventModel instance from body - JSON.
-			String body = IOUtils.toString(request.getReader());
-			ObjectMapper mapper = new ObjectMapper();
-			WebhookEventModel event = mapper.readValue(body, WebhookEventModel.class);
+			WebhookEventModel event = deserializeWebhookEvent(request);
 
 			// Verify Webhook Event Type.
 			if (event.getType() == WebhookEventTypes.DocumentSignatureCompleted) {
