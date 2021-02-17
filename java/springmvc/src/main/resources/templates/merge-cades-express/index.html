@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<head>
+	<link th:fragment="style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous" />
+</head>
+<body>
+
+<div th:fragment="content">
+	<h2 class='ls-title'>Merge CMS/CAdES signatures with PKI Express </h2>
+
+	<div class="ls-content">
+		<p>Files merged successfully! </p>
+		<h3>Actions:</h3>
+		<ul>
+			<li><a th:href="@{'/download/' + ${cmsFile}}">Download the signed file</a></li>
+			<li><a th:href="@{/cades-signature-express(fileId=${cmsFile})}">Co-sign with another certificate</a></li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

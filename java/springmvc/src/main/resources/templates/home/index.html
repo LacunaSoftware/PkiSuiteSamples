@@ -37,7 +37,9 @@
 			jquery: '/list-cert-jquery',
 			select2: '/list-cert-select2'
 		},
-		// mergeCmsSigs: { },
+		mergeCmsSigs: {
+			express: '/check-express?rc=merge-server-files&fwd=merge-cades'
+		},
 		// printerFriendlyCms: { },
 		printerFriendlyPdf: {
 			//express:
@@ -88,8 +90,11 @@
 		// signXmlServer: { },
 		// signXmlServerKey: { },
 		// signaturePackage: { },
-		// validateCmsSig: { },
+		validateCmsSig: {
+			express: '/check-express?rc=upload&fwd=open-cades',
+		},
 		validatePdfSig: {
+			express: '/check-express?rc=upload&fwd=open-pades',
 			restpki: '/check-rest-token?rc=upload&fwd=open-pades'
 		}
 		// validateXmlSig: { }

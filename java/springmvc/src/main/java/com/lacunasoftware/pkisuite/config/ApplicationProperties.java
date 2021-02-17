@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationProperties {
 	private RestPkiProperties restPki;
+	private RestPkiCoreProperties restPkiCore;
 	private WebPkiProperties webPki;
 	private PkiExpressProperties pkiExpress;
 	private AmpliaProperties amplia;
@@ -36,6 +37,15 @@ public class ApplicationProperties {
 	@Autowired
 	public void setRestPki(RestPkiProperties restPki) {
 		this.restPki = restPki;
+	}
+
+	public RestPkiCoreProperties getRestPkiCore() {
+		return restPkiCore;
+	}
+
+	@Autowired
+	public void setRestPkiCore(RestPkiCoreProperties restPkiCore) {
+		this.restPkiCore = restPkiCore;
 	}
 
 	public WebPkiProperties getWebPki() {
