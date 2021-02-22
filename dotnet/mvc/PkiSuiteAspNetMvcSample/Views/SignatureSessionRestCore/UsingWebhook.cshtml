@@ -1,0 +1,22 @@
+﻿@using Lacuna.RestPki.Api.SignatureSessions
+@model CreateSignatureSessionResponse
+
+<h2 class="ls-title">Signature Session with REST PKI Core (Webhook flow)</h2>
+
+<div class="ls-content">
+	<p>
+		We will redirect you to REST PKI.
+	</p>
+	<button type="button" class="btn btn-primary" onclick="redirectUser()">
+		<i class="fas fa-file-signature"></i> Go to REST PKI
+	</button>
+</div>
+
+@section Scripts {
+	<script type="text/javascript">
+		function redirectUser() {
+			// Redirect user.
+			window.location = '@Model.RedirectUrl';
+		}
+	</script>
+}
