@@ -162,6 +162,34 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 
 		#endregion
 
+		#region REST PKI Core
+
+		public static IRestPkiService GetRestPkiService()
+		{
+			return RestPkiServiceFactory.GetService(GetRestPkiOptions());
+		}
+
+		public static RestPkiOptions GetRestPkiOptions()
+		{
+			var apiKey = ConfigurationManager.AppSettings["RestPkiCoreApiKey"];
+			if (string.IsNullOrEmpty(apiKey) || apiKey.Contains(" API KEY "))
+			{
+				throw new Exception("The API key was not set! Hint: to run this sample you must generate an API key on the REST PKI Core website and paste it on the web.config file");
+			}
+			var endpoint = ConfigurationManager.AppSettings["RestPkiCoreEndpoint"];
+			if (string.IsNullOrEmpty(endpoint))
+			{
+				endpoint = "https://core.pki.rest/";
+			}
+
+			var options = new RestPkiOptions();
+			options.Endpoint = endpoint;
+			options.ApiKey = apiKey;
+			return options;
+		}
+
+		#endregion
+
 		public static string JoinStringsPt(IEnumerable<string> strings) {
 			var text = new System.Text.StringBuilder();
 			var count = strings.Count();
