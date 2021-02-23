@@ -16,7 +16,9 @@
 	<script type="text/javascript">
 		function redirectUser() {
 			// Redirect user.
-			window.location = '@Model.RedirectUrl';
+			var redirectUrl = '@Html.Raw(@Model.RedirectUrl)';
+
+			window.location = redirectUrl;
 		}
 	</script>
 }
