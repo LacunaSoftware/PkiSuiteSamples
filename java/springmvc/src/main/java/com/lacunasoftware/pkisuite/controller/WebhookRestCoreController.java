@@ -37,7 +37,7 @@ public class WebhookRestCoreController {
 			WebhookEventModel event = deserializeWebhookEvent(request);
 
 			// Verify Webhook Event Type.
-			if (event.getType() == WebhookEventTypes.DocumentSignatureCompleted) {
+			if (event.getType() == WebhookEventTypes.DOCUMENTSIGNATURECOMPLETED) {
 				// RestPkiService configuration.
 				RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
