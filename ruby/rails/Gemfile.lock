@@ -109,7 +109,7 @@ GEM
     nokogiri (1.10.5-x64-mingw32)
       mini_portile2 (~> 2.4.0)
     pdf-core (0.8.1)
-    pki_express (1.1.0)
+    pki_express (1.2.0)
     prawn (2.3.0)
       pdf-core (~> 0.8.1)
       ttfunk (~> 1.6)
@@ -216,7 +216,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   jbuilder (~> 2.7)
-  pki_express (~> 1.1.0)
+  pki_express (~> 1.2.0)
   prawn (~> 2.3)
   rails (~> 6.0.1)
   rest_pki (~> 1.1.0)
