@@ -73,7 +73,7 @@ public class SignatureSessionRestCoreController {
 
 		model.addAttribute("sessionStatus", session.getStatus());
 
-		if (session.getStatus() == SignatureSessionStatus.Completed){
+		if (session.getStatus() == SignatureSessionStatus.COMPLETED){
 			// If signature completed, get document information
 			UUID docId = session.getDocuments().get(0).getId();
 			Document doc = service.getDocument(docId);

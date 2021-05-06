@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/rsa-web/', action: :index, controller: :rsa_web
 
   get '/open-pades-rest/:file_id', action: :index, controller: :open_pades_rest, as: :open_pades_rest
+  get '/open-pades-express/:file_id', action: :index, controller: :open_pades_express, as: :open_pades_express
 
   get '/printer-version-pades-rest/:file_id', action: :index, controller: :printer_version_pades_rest, as: :printer_version_pades_rest
   get '/printer-version-pades-rest/download/:file_id', action: :download, controller: :printer_version_pades_rest, as: :download_printer_version_pades_rest
