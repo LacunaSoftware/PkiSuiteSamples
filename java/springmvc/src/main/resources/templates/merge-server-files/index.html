@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<head>
+	<link th:fragment="style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous" />
+</head>
+<body>
+
+<div th:fragment="content">
+	<h2 class='ls-title'> Choose one of the avaliable merge combinations </h2>
+	<p> All CMS/CAdES Signatures are related to <a th:href="${model.getDownloadUrl()}"> this file </a>. </p>
+	<form id="mergeFilesForm"
+	      th:object="${model}"
+	      method="POST"
+	      th:with="quantFiles = ${model.getAvailableFiles().size()}">
+		<input type="hidden" th:field="*{cmsDataFile}" />
+		<input type="hidden" id="chosenFileIdsField" th:field="*{chosenFileIds}" />
+		<input type="hidden" id="needDataFileField" th:field="*{needDataFile}" />
+
+		<!--
+			Group of cards containing the server file's information. On each card its possible to
+			choose it to be used on the next operation or to download the server file. This is only
+			an example of choosing a server file, you can change this file or use your own logic.
+			The operation only requires the content of this document or its path.
+		-->
+		<div class="form-group"
+			 th:with="lines = ${quantFiles / 4 + (quantFiles % 4 == 0 ? -1 : 0)}">
+			<div class="row" th:each="i : ${#numbers.sequence(0, lines)}">
+			<th:block th:each="j : ${#numbers.sequence(0, 3)}" th:with="index = ${i} * 4 + ${j}">
+
+				<div class="col col-md-3"
+					th:if="${index} &lt; ${quantFiles}"
+					th:with="file = ${model.getAvailableFiles()[index]}">
+
+					<div th:id="${index} + '-card'" class="card server-file shadow">
+						<h5 class="card-header text-center">
+							Merge Option #<span th:text="${index} + 1"></span>
+						</h5>
+
+						<div class='card-body' th:with="urls = ${file.getDownloadUrls()}">
+							<p th:text="${file.getDescription()}"></p>
+							<br/>
+							<span th:if="${urls.size() == 1}">
+								<p>This sample consists of 
+									<a th:href="${urls[0]}">this file</a>.
+								</p>
+							</span>
+							<span th:unless="${urls.size() == 1}">
+								<p>This sample consists of 
+									<a th:href="${urls[0]}">this file</a> 
+									and 
+									<a th:href="${urls[1]}">this file</a>.
+								</p>
+							</span> 
+						</div>
+						
+						<div class='card-footer'>
+							<!--
+							Button used to choose a sample file. It will execute the function
+							chooseFile() on the javascript below. The field "id" from the
+							Thymeleaf's variable "file" has the task of identifying the document
+							on server side after submitting this form.
+						-->
+							<button th:id="${index} + '-choice-btn'"
+									type="button"
+									class="choose-file btn btn-primary"
+									th:onclick="|chooseFile('${index}', '${file.getFiles()[0]}', '${file.getFiles().size() == 1 ? null : file.getFiles()[1]}', '${file.getNeedDataFile()}')|">
+								<i class="fas fa-check"></i> Use This
+							</button>
+						</div>
+					</div>
+				</div>
+			</th:block>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!--
+	This javascript is only an optional feature for this upload page. It will use jQuery to improve
+	the UX of the page. Feel free to alter it however you want.
+-->
+<script th:fragment="scripts">
+	/*<![CDATA[*/
+
+	// ----------------------------------------------------------------------------------------------
+	// Function called when the user clicks the "Use This" button. It will store the file's id on the
+	// hidden <input> (#chosenFileIdsField), which will be passed to server when submitting the
+	// <form> (#filesForm). After this, it submits the form#filesForm.
+	// ----------------------------------------------------------------------------------------------
+	function chooseFile(index, item1, item2, needDataFile) {
+
+		// Store the files id on hidden <input> (#chosenFileIdsField).
+		if(item2 == 'null'){
+			$('#chosenFileIdsField').val([item1]);
+		} else {
+			$('#chosenFileIdsField').val([item1, item2]);
+		}
+		// Store the file's needDataFile on hidden <input> (#needDataFileField).
+		$('#needDataFileField').val(needDataFile);
+
+		// Highlight card referred to the chosen file.
+
+		$('#' + index + '-card')
+			.addClass('border border-success text-success');
+
+		$('#' + index + '-choice-btn')
+			.removeClass('btn-primary')
+			.addClass('btn-success');
+
+		// Show message, informing that will redirect to some other page, which will happen on
+		// server-side after submission.
+		$.blockUI({message: 'Redirecting ...'});
+		setTimeout(function () {
+
+			// Submit form.
+			$('#mergeFilesForm').submit();
+
+		}, 1000);
+	}
+
+	/*]]>*/
+</script>
+
+</body>
+</html>

@@ -290,6 +290,16 @@ public class StorageMock {
 				return "SampleCms.p7s";
 			case CMS_SIGNED_TWICE:
 				return "SampleCmsSignedTwice.p7s";
+			case CMS_DETACHED_1:
+				return "CMSDetached1.p7s";
+			case CMS_DETACHED_2:
+				return "CMSDetached2.p7s";
+			case CMS_ATTACHED_1:
+				return "CMSAttached1.p7s";
+			case CMS_ATTACHED_2:
+				return "CMSAttached2.p7s";
+			case CMS_DATA_FILE:
+				return "CMSDataFile.pdf";
 			default:
 				throw new FileNotFoundException();
 		}
