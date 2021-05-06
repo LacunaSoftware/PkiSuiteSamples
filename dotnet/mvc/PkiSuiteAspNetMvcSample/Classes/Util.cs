@@ -164,7 +164,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			options.Services.Add(new TrustServiceConfig() {
 				Service = "BirdID (Homologação)",
 				Provider = "SOLUTI",
-				BadgeUrl = "https://cdn.lacunasoftware.com/img/psc/birdid.png",
+				BadgeUrl = "https://cdn.lacunasoftware.com/img/psc/birdid-hml.png",
 				Endpoint = "https://apihom.birdid.com.br/",
 				ClientId = "ae02a53062db1c845df4a57b8e47dbbf047378b4",
 				ClientSecret = "f36c483e0966c4eaecd4d2d167f742e3c2c12fd0",
