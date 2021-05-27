@@ -60,3 +60,23 @@ def check_rest_token(rc, fwd=None, op=None):
             return redirect('/%s/%s-rest/%s' % (rc, fwd, op))
         return redirect('/%s/%s-rest' % (rc, fwd))
     return redirect('/%s-rest' % rc)
+
+
+@blueprint.route('/check-amplia-api-key/<rc>')
+@blueprint.route('/check-amplia-api-key/<rc>/<fwd>')
+@blueprint.route('/check-amplia-api-key/<rc>/<fwd>/<op>')
+def check_amplia_api_key(rc, fwd=None, op=None):
+    """
+
+    This function will check if the REST PKI token is set.
+
+    """
+    access_token = current_app.config['AMPLIA_API_KEY']
+    if access_token is None or len(access_token) == 0:
+        return render_template('home/amplia-key-not-set.html')
+
+    if fwd is not None and len(fwd) > 0:
+        if op is not None and len(op) > 0:
+            return redirect('/%s/%s-amplia/%s' % (rc, fwd, op))
+        return redirect('/%s/%s-amplia' % (rc, fwd))
+    return redirect('/%s-amplia' % rc)

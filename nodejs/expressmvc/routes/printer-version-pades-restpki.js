@@ -85,7 +85,7 @@ router.get('/', (req, res, next) => {
 		.catch((err) => next(err));
 });
 
-function generatePrinterFriendlyVersion(pdfPath, verificationCode, environment) {
+async function generatePrinterFriendlyVersion(pdfPath, verificationCode, environment) {
 	// The verification code is generated without hyphens to save storage space
 	// and avoid copy-and-paste problems. On the PDF generation, we use the
 	// "formatted" version, with hyphens (which will later be discarded on the
@@ -120,265 +120,258 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode, environment) 
 	signatureExplorer.securityContextId = Util.getSecurityContextId(environment);
 
 	// Call the open() method, which returns the signature file's information.
-	return new Promise((resolve, reject) => {
-		signatureExplorer.open()
-			.then((signature) => {
-				// 2. Create PDF with verification info from uploaded PDF.
+	signature = await signatureExplorer.open();
 
-				const pdfMarker = new PdfMarker(Util.getRestPkiClient());
-				pdfMarker.setFileFromPath(pdfPath);
+	// 2. Create PDF with verification info from uploaded PDF.
+	const pdfMarker = new PdfMarker(Util.getRestPkiClient());
+	pdfMarker.setFileFromPath(pdfPath);
 
-				// Build string with joined names of signers (see method _getDisplayName()
-				// below).
-				const certDisplayNames = [];
-				signature.signers.forEach((signer) => {
-					certDisplayNames.push(_getDisplayName(signer.certificate));
-				});
-				const signerNames = Util.joinStringPt(certDisplayNames);
-				const allPagesMessage = `This document was digitally signed by ${signerNames}.\n`
-             + `To check the signatures, visit ${verificationSiteNameWithArticle}`
-             + ` at ${verificationSite} and inform this code ${formattedVerificationCode}.`;
-
-				let pdfMark;
-				let manifestMark;
-				let element;
-				let textSection;
-
-				pdfMark = new PdfMark();
-				pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
-				pdfMark.container = {
-					width: 1,
-					right: 1,
-					height: 1,
-					bottom: 1,
-				};
-				element = new PdfMarkImageElement();
-				element.opacity = 75;
-				element.image = new PdfMarkImage(Util.getIcpBrasilLogoContent(), 'image/png');
-				pdfMark.elements.push(element);
-				pdfMarker.marks.push(pdfMark);
-				pdfMark.backgroundColor = new Color(0, 0, 0, 1);
-
-				// Summary on bottom margin of every page (except on the page which will
-				// be created at the end of the document).
-				pdfMark = new PdfMark();
-				pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
-				pdfMark.container = {
-					left: 1.5,
-					right: 3.5,
-					height: 2,
-					bottom: 0,
-				};
-				element = new PdfMarkTextElement();
-				element.opacity = 75;
-				element.textSections.push(new PdfTextSection(allPagesMessage));
-				pdfMark.elements.push(element);
-				pdfMarker.marks.push(pdfMark);
-				pdfMark.backgroundColor = new Color(0, 0, 0, 1);
-
-				// Summary on right margin of every page (except on the page which will be
-				// created at the end of the document), rotated 90 degrees
-				// counter-clockwise (text goes up).
-				pdfMark = new PdfMark();
-				pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
-				pdfMark.container = {
-					width: 2,
-					right: 0,
-					top: 1.5,
-					bottom: 3.5,
-				};
-				element = new PdfMarkTextElement();
-				element.rotation = 90;
-				element.opacity = 75;
-				element.textSections.push(new PdfTextSection(allPagesMessage));
-				pdfMark.elements.push(element);
-				pdfMarker.marks.push(pdfMark);
-				pdfMark.backgroundColor = new Color(0, 0, 0, 1);
-
-				// Create a "manifest" mark on a new page added on the end of the
-				// document. We'll add several elements to this mark.
-				manifestMark = new PdfMark();
-				manifestMark.pageOption = PdfMarkPageOptions.NEW_PAGE;
-				manifestMark.container = {
-					top: 1.5,
-					bottom: 1.5,
-					left: 1.5,
-					right: 1.5,
-				};
-
-				// We'll keep track of our "vertical offset" as we add elements to the
-				// mark.
-				let verticalOffset = 0;
-				let elementHeight;
-
-				elementHeight = 3;
-				// ICP-Brasil logo on the upper-left corner.
-				element = new PdfMarkImageElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset,
-					width: elementHeight, // Using elementHeight as width because the image has square format.
-					left: 0,
-				};
-				element.image = new PdfMarkImage(Util.getIcpBrasilLogoContent(), 'image/png');
-				manifestMark.elements.push(element);
-
-				// QR Code with the verification link on the upper-right corner.
-				element = new PdfMarkQRCodeElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset,
-					width: elementHeight, // Using elementHeight as width because the image has square format.
-					right: 0,
-				};
-				element.qrCodeData = verificationLink;
-				manifestMark.elements.push(element);
-
-				// Header "VERIFICAÇÃO DAS ASSINATURAS" centered between ICP-Brasil logo
-				// and QR Code.
-				element = new PdfMarkTextElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset + 0.2,
-					// Full width.
-					left: 0,
-					right: 0,
-				};
-				element.align = 'Center';
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize * 1.6;
-				textSection.text = 'SIGNATURE\nCHECK';
-				element.textSections.push(textSection);
-				manifestMark.elements.push(element);
-				verticalOffset += elementHeight;
-
-				// Vertical padding.
-				verticalOffset += 1.7;
-
-				// Header with verification code.
-				elementHeight = 2;
-				element = new PdfMarkTextElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset,
-					// Full width.
-					left: 0,
-					right: 0,
-				};
-				element.align = 'Center';
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize * 1.2;
-				textSection.text = `Verification code: ${formattedVerificationCode}`;
-				element.textSections.push(textSection);
-				manifestMark.elements.push(element);
-				verticalOffset += elementHeight;
-
-				// Paragraph saying "this document was signed by the following signers
-				// etc" and mentioning the time zone of the date/times below.
-				elementHeight = 2.5;
-				element = new PdfMarkTextElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset,
-					// Full width.
-					left: 0,
-					right: 0,
-				};
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize;
-				textSection.text = `This document was digitally signed by the following signers on the indicated dates (${timeZoneDisplayName}):`;
-				element.textSections.push(textSection);
-				manifestMark.elements.push(element);
-				verticalOffset += elementHeight;
-
-				// Iterate signers.
-				signature.signers.forEach((signer) => {
-					elementHeight = 1.5;
-					// Green "check" or red "X" icon depending on result of validation for
-					// this signer.
-					element = new PdfMarkImageElement();
-					element.relativeContainer = {
-						height: 0.5,
-						top: verticalOffset + 0.2,
-						width: 0.5,
-						left: 0,
-					};
-					element.image = new PdfMarkImage(Util.getValidationResultIcon(signer.validationResults.isValid()), 'image/png');
-					manifestMark.elements.push(element);
-
-					// Description of signer (see method __getSignerDescription() below.
-					element = new PdfMarkTextElement();
-					element.relativeContainer = {
-						height: elementHeight,
-						top: verticalOffset,
-						left: 0.8,
-						right: 0,
-					};
-					textSection = new PdfTextSection();
-					textSection.fontSize = normalFontSize;
-					textSection.text = _getSignerDescription(signer);
-					element.textSections.push(textSection);
-					manifestMark.elements.push(element);
-
-					verticalOffset += elementHeight;
-				});
-
-				verticalOffset += 1.0;
-
-				// Paragraph with link to verification site and citing both the
-				// verification code above and the verification link below.
-				elementHeight = 2.5;
-				element = new PdfMarkTextElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset,
-					// Full width
-					left: 0,
-					right: 0,
-				};
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize;
-				textSection.text = `In order to check the signatures, visit ${verificationSiteNameWithArticle} at `;
-				element.textSections.push(textSection);
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize;
-				textSection.color = Color.fromRGBString('#0000FF', 100);
-				textSection.text = verificationSite;
-				element.textSections.push(textSection);
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize;
-				textSection.text = ' and inform the code above or access the link below:';
-				element.textSections.push(textSection);
-				manifestMark.elements.push(element);
-				verticalOffset += elementHeight;
-
-				// Verification link.
-				elementHeight = 1.5;
-				element = new PdfMarkTextElement();
-				element.relativeContainer = {
-					height: elementHeight,
-					top: verticalOffset,
-					// Full width
-					left: 0,
-					right: 0,
-				};
-				element.align = 'Center';
-				textSection = new PdfTextSection();
-				textSection.fontSize = normalFontSize;
-				textSection.color = Color.fromRGBString('#0000FF', 100);
-				textSection.text = verificationLink;
-				element.textSections.push(textSection);
-				manifestMark.elements.push(element);
-
-				// Apply marks.
-				pdfMarker.marks.push(manifestMark);
-				return pdfMarker.apply();
-			})
-			.then((result) => {
-				resolve(new Buffer(result.content, 'base64'));
-			})
-			.catch((err) => reject(err));
+	// Build string with joined names of signers (see method _getDisplayName()
+	// below).
+	const certDisplayNames = [];
+	signature.signers.forEach((signer) => {
+		certDisplayNames.push(_getDisplayName(signer.certificate));
 	});
+	const signerNames = Util.joinStringPt(certDisplayNames);
+	const allPagesMessage = `This document was digitally signed by ${signerNames}.\n`
+	+ `To check the signatures, visit ${verificationSiteNameWithArticle}`
+	+ ` at ${verificationSite} and inform this code ${formattedVerificationCode}.`;
+
+	let pdfMark;
+	let manifestMark;
+	let element;
+	let textSection;
+
+	pdfMark = new PdfMark();
+	pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
+	pdfMark.container = {
+		width: 1,
+		right: 1,
+		height: 1,
+		bottom: 1,
+	};
+	element = new PdfMarkImageElement();
+	element.opacity = 75;
+	element.image = new PdfMarkImage(Util.getIcpBrasilLogoContent(), 'image/png');
+	pdfMark.elements.push(element);
+	pdfMarker.marks.push(pdfMark);
+	pdfMark.backgroundColor = new Color(0, 0, 0, 1);
+
+	// Summary on bottom margin of every page (except on the page which will
+	// be created at the end of the document).
+	pdfMark = new PdfMark();
+	pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
+	pdfMark.container = {
+		left: 1.5,
+		right: 3.5,
+		height: 2,
+		bottom: 0,
+	};
+	element = new PdfMarkTextElement();
+	element.opacity = 75;
+	element.textSections.push(new PdfTextSection(allPagesMessage));
+	pdfMark.elements.push(element);
+	pdfMarker.marks.push(pdfMark);
+	pdfMark.backgroundColor = new Color(0, 0, 0, 1);
+
+	// Summary on right margin of every page (except on the page which will be
+	// created at the end of the document), rotated 90 degrees
+	// counter-clockwise (text goes up).
+	pdfMark = new PdfMark();
+	pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
+	pdfMark.container = {
+		width: 2,
+		right: 0,
+		top: 1.5,
+		bottom: 3.5,
+	};
+	element = new PdfMarkTextElement();
+	element.rotation = 90;
+	element.opacity = 75;
+	element.textSections.push(new PdfTextSection(allPagesMessage));
+	pdfMark.elements.push(element);
+	pdfMarker.marks.push(pdfMark);
+	pdfMark.backgroundColor = new Color(0, 0, 0, 1);
+
+	// Create a "manifest" mark on a new page added on the end of the
+	// document. We'll add several elements to this mark.
+	manifestMark = new PdfMark();
+	manifestMark.pageOption = PdfMarkPageOptions.NEW_PAGE;
+	manifestMark.container = {
+		top: 1.5,
+		bottom: 1.5,
+		left: 1.5,
+		right: 1.5,
+	};
+
+	// We'll keep track of our "vertical offset" as we add elements to the
+	// mark.
+	let verticalOffset = 0;
+	let elementHeight;
+
+	elementHeight = 3;
+	// ICP-Brasil logo on the upper-left corner.
+	element = new PdfMarkImageElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset,
+		width: elementHeight, // Using elementHeight as width because the image has square format.
+		left: 0,
+	};
+	element.image = new PdfMarkImage(Util.getIcpBrasilLogoContent(), 'image/png');
+	manifestMark.elements.push(element);
+
+	// QR Code with the verification link on the upper-right corner.
+	element = new PdfMarkQRCodeElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset,
+		width: elementHeight, // Using elementHeight as width because the image has square format.
+		right: 0,
+	};
+	element.qrCodeData = verificationLink;
+	manifestMark.elements.push(element);
+
+	// Header "VERIFICAÇÃO DAS ASSINATURAS" centered between ICP-Brasil logo
+	// and QR Code.
+	element = new PdfMarkTextElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset + 0.2,
+		// Full width.
+		left: 0,
+		right: 0,
+	};
+	element.align = 'Center';
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize * 1.6;
+	textSection.text = 'SIGNATURE\nCHECK';
+	element.textSections.push(textSection);
+	manifestMark.elements.push(element);
+	verticalOffset += elementHeight;
+
+	// Vertical padding.
+	verticalOffset += 1.7;
+
+	// Header with verification code.
+	elementHeight = 2;
+	element = new PdfMarkTextElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset,
+		// Full width.
+		left: 0,
+		right: 0,
+	};
+	element.align = 'Center';
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize * 1.2;
+	textSection.text = `Verification code: ${formattedVerificationCode}`;
+	element.textSections.push(textSection);
+	manifestMark.elements.push(element);
+	verticalOffset += elementHeight;
+
+	// Paragraph saying "this document was signed by the following signers
+	// etc" and mentioning the time zone of the date/times below.
+	elementHeight = 2.5;
+	element = new PdfMarkTextElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset,
+		// Full width.
+		left: 0,
+		right: 0,
+	};
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize;
+	textSection.text = `This document was digitally signed by the following signers on the indicated dates (${timeZoneDisplayName}):`;
+	element.textSections.push(textSection);
+	manifestMark.elements.push(element);
+	verticalOffset += elementHeight;
+
+	// Iterate signers.
+	signature.signers.forEach((signer) => {
+		elementHeight = 1.5;
+		// Green "check" or red "X" icon depending on result of validation for
+		// this signer.
+		element = new PdfMarkImageElement();
+		element.relativeContainer = {
+			height: 0.5,
+			top: verticalOffset + 0.2,
+			width: 0.5,
+			left: 0,
+		};
+		element.image = new PdfMarkImage(Util.getValidationResultIcon(signer.validationResults.isValid()), 'image/png');
+		manifestMark.elements.push(element);
+
+		// Description of signer (see method __getSignerDescription() below.
+		element = new PdfMarkTextElement();
+		element.relativeContainer = {
+			height: elementHeight,
+			top: verticalOffset,
+			left: 0.8,
+			right: 0,
+		};
+		textSection = new PdfTextSection();
+		textSection.fontSize = normalFontSize;
+		textSection.text = _getSignerDescription(signer);
+		element.textSections.push(textSection);
+		manifestMark.elements.push(element);
+
+		verticalOffset += elementHeight;
+	});
+
+	verticalOffset += 1.0;
+
+	// Paragraph with link to verification site and citing both the
+	// verification code above and the verification link below.
+	elementHeight = 2.5;
+	element = new PdfMarkTextElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset,
+		// Full width
+		left: 0,
+		right: 0,
+	};
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize;
+	textSection.text = `In order to check the signatures, visit ${verificationSiteNameWithArticle} at `;
+	element.textSections.push(textSection);
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize;
+	textSection.color = Color.fromRGBString('#0000FF', 100);
+	textSection.text = verificationSite;
+	element.textSections.push(textSection);
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize;
+	textSection.text = ' and inform the code above or access the link below:';
+	element.textSections.push(textSection);
+	manifestMark.elements.push(element);
+	verticalOffset += elementHeight;
+
+	// Verification link.
+	elementHeight = 1.5;
+	element = new PdfMarkTextElement();
+	element.relativeContainer = {
+		height: elementHeight,
+		top: verticalOffset,
+		// Full width
+		left: 0,
+		right: 0,
+	};
+	element.align = 'Center';
+	textSection = new PdfTextSection();
+	textSection.fontSize = normalFontSize;
+	textSection.color = Color.fromRGBString('#0000FF', 100);
+	textSection.text = verificationLink;
+	element.textSections.push(textSection);
+	manifestMark.elements.push(element);
+
+	// Apply marks.
+	pdfMarker.marks.push(manifestMark);
+	var result = await pdfMarker.apply();
+	return await result.getContent();
 }
 
 function _getDisplayName(cert) {

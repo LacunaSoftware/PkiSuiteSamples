@@ -1,0 +1,15 @@
+﻿@using Lacuna.RestPki.Client
+@model SignatureSession
+
+<h2 class="ls-title">Signature Session with REST PKI Core(Simple flow)</h2>
+
+@foreach (var doc  in Model.Documents)
+{
+	<p>@doc.OriginalFile.Name signed successfully!</p>
+
+	<h3>Actions:</h3>
+	<ul>
+		<li><a href="@doc.SignedFile.Location">Download the signed file</a></li>
+		<li><a href="@doc.OriginalFile.Location">Download the original file</a></li>
+	</ul>
+}

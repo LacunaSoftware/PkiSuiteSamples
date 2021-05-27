@@ -47,6 +47,7 @@ public class OpenPadesRestController {
 		// Specify the parameters for the signature validation:
 		// Accept any PAdES signature as long as the signer has an ICP-Brasil certificate.
 		sigExplorer.setDefaultSignaturePolicy(SignaturePolicy.PadesBasic);
+
 		// Specify the security context to be used to determine trust in the certificate chain. We
 		// have encapsulated the security context on Util.java.
 		sigExplorer.setSecurityContext(Util.getSecurityContextId());

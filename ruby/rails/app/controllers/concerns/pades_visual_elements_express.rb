@@ -10,13 +10,15 @@ module PadesVisualElementsExpress
     # Create a visual representation
     vr = PkiExpress::PadesVisualRepresentation.new
 
-    # The tags {{name}} and {{br_cpf_formatted}} will be substituted according
+    # The tags {{name}} and {{national_id}} will be substituted according
     # to the user's certificate:
     #
-    #      name             : full name of the signer;
-    #      br_cpf_formatted : if the certificate is ICP-Brasil, contains the
-    #                         signer's CPF.
-    text = PkiExpress::PadesVisualText.new('Signed by {{name}} ({{br_cpf_formatted}})', true)
+    #      name         : full name of the signer;
+    #      national_id  : if the certificate is ICP-Brasil, contains the
+    #                     signer's CPF.
+    # For a full list of the supported tags, see:
+    # https://docs.lacunasoftware.com/articles/pki-express/pades-tags.html
+    text = PkiExpress::PadesVisualText.new('Signed by {{name}} ({{national_id}})', true)
     text.font_size = 13.0
     # Create a text  container and add PadesVisualText object.
     container = PkiExpress::PadesVisualRectangle.new

@@ -11,6 +11,8 @@ gem 'webpacker', '~> 4.0'
 gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+# PDF generator for Ruby. Read more: https://github.com/prawnpdf/prawn
+gem 'prawn', '~> 2.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -40,4 +42,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rest_pki', '~> 1.1.0'
 
 # Lacuna's PKI Express gem. Published on RubyGems: https://rubygems.org/gems/pki_express
-gem 'pki_express', '~> 1.0.0'
+gem 'pki_express', '~> 1.2.0'

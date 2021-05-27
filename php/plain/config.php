@@ -20,12 +20,28 @@ function getConfig()
             // ====================================================
             //     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
             // ====================================================
-            'accessToken' => '0IYXNpevGWB_5BNxDAVtZQ3-Jp8tNTVDZ9L5jNYJLnadW0Xon6HCibbHCWFyTlR1AHXxA_z_ItAz9t0DtjivOt7ON-ERljXukzWIiMftcJJuGrLijsL-kr2ciPMA2xCOtG9OZEAwQQPwOBMaf78Yq0XRkHZ0ceoQuISIZoX740wXiRFDBh2DKZhf6E5DEnQXSZj_KoaPx5h9KzbTyeAdVyJu6lZqy_iEnIecae1p5WLQqxR1NU2tXc8fuvAuE4EQ_KXlbSjuiyVHVRTe-NTuNUycJb_sQ5jW51rNoxDCgcrIa_pcnUdmqWsYugOHRLegTFmNyo7dJPsKDmQyQ3C391VNv9j9LtncJOiexkWlDgxaGs2159cButhSwvUxRMAjNRiF7uzUIe2h1Lvo6-5QY6NidbPd7Zo4IzcWiWkAGhgEtkuvEpH04qhIT8GJ2Wk8Na_1IW0CbVCSghu8a_IpWF-AM1oN0xzUq999418Mhv_naeen81JS0X3eEZOCWlpaTz9YcA',
-            // This is a TRIAL token. It will be expired at 30/09/2020.
+            'accessToken' => 'PmFZl-vOhi4AD79_QTU0fPSVTiuX1of4TVE9631OHttO3o5ayF4Rjw5aiVvoF6Fs-_YHSXb5KDcQhQ1XeA7EHgywALWsfIoOTe66srDIqTemxLvEKg0_FzQwBogpWLQfg-C-WgSsQMx0c_MfVleIV6qce5Cqg8G0ZJ1GQlFQLL9yRH4xDMwJ6rk8hQacEROI22szWsN8LyEaQ9Deh-K8GcbVZzgF4M5WPCpjZLdsdrCOU9qGfXBYGWs42XqrI8Ld12G1Hp8P2vp3p6BN0DU8iVQfMOkXqAGUKSnYsGku3iDn0wiPX5fNOMNsXrI03pkhc-tL6cUjK3RaidsZfOK1At6XAYvn4dFEPpihyqJLlISk3Cfua3e8JWDdVs8sbER8U4fgozDnNXV9xSeo2ogdRwsHuzjRQUhGIvLS8XIg5oWU9tmV-8NpBM38GK165CVIl0EJlQymA_RXWqdEw2F-HDCa3ojHF14fDcA9jTcPm3EdpzKs_HX81pGYSBRRH3xDbgrE4w',
+            // This is a TRIAL token. It will be expired at 30/06/2021.
             // If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
             // Address of your Rest PKI installation (with the trailing '/' character)
             "endpoint" => 'https://pki.rest/',
+        ],
+
+        // -----------------------------------------------------------------------------------------
+        // REST PKI NG
+        // -----------------------------------------------------------------------------------------
+        'restPkiNg' => [
+
+            // ====================================================
+            //     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
+            // ====================================================
+            'apiKey' => 'pki-suite-samples-02|667bd5e55e71444584bb87f37989cf89a5fd0e705ac035fe30e571464bd93539',
+            // This is a TRIAL API KEY. It will be expired at 30/06/2021.
+            // If the REST PKI NG sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
+
+            // Address of your Rest PKI NG installation (with the trailing '/' character)
+            "endpoint" => 'https://core.pki.rest/',
         ],
 
         // -----------------------------------------------------------------------------------------
@@ -40,8 +56,8 @@ function getConfig()
             // ======================================================
             //       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
             // ======================================================
-            'apiKey' => 'pki-suite-samples-02|ed86943f9f22d64d8d35496a3ced7e3fa2a5a5fe4c4cd5af0886ead87910e4ad',
-            // This is a TRIAL API key to use Amplia. It will expire at 30/09/2020.
+            'apiKey' => 'pki-suite-samples-02|99022048c3adf9498db86660ccebc6407f6cad2a5f48259fe7cf9c10dcebafe6',
+            // This is a TRIAL API key to use Amplia. It will expire at 30/06/2021.
             // If the Amplia's samples do not work please contact our support by email:
             // suporte@lacunasoftware.com
 
@@ -63,7 +79,10 @@ function getConfig()
 
             // Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode
             // is useful when there is no network available.
-            "offline" => false
+            "offline" => false,
+
+            # Default password to be used on generating a PKCS #12 file.
+            "pkcs12Password" => "FZQkTVLy2MErFCu2H0e8Lq9QPW2cqEgMrp/PES9m5JZ9xej6mCheNtuK8bj/qLhMsV4PvPg2w964A8E/N2WaYA",
         ),
 
         // -----------------------------------------------------------------------------------------

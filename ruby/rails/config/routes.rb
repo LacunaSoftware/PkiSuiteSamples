@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/rsa-web/', action: :index, controller: :rsa_web
 
   get '/open-pades-rest/:file_id', action: :index, controller: :open_pades_rest, as: :open_pades_rest
+  get '/open-pades-express/:file_id', action: :index, controller: :open_pades_express, as: :open_pades_express
 
   get '/printer-version-pades-rest/:file_id', action: :index, controller: :printer_version_pades_rest, as: :printer_version_pades_rest
   get '/printer-version-pades-rest/download/:file_id', action: :download, controller: :printer_version_pades_rest, as: :download_printer_version_pades_rest
@@ -30,6 +31,21 @@ Rails.application.routes.draw do
   
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest
+
+  get '/pades-server-key-express/:file_id', action: :index, controller: :pades_server_key_express
+
+  get '/pades-cloud-oauth-express/complete', action: :complete, controller: :pades_cloud_oauth_express
+  get '/pades-cloud-oauth-express/:file_id', action: :index, controller: :pades_cloud_oauth_express, as: :pades_cloud_oauth_express
+  post '/pades-cloud-oauth-express/discover/:file_id', action: :discover, controller: :pades_cloud_oauth_express
+
+  get '/pades-cloud-pwd-express/:file_id', action: :index, controller: :pades_cloud_pwd_express, as: :pades_cloud_pwd_express
+  post '/pades-cloud-pwd-express/discover/:file_id', action: :discover, controller: :pades_cloud_pwd_express
+  post '/pades-cloud-pwd-express/authorize/:file_id', action: :authorize, controller: :pades_cloud_pwd_express
+
+  get '/receita-simples-express/', action: :index, controller: :receita_simples_express, as: :receita_simples_express
+  post '/receita-simples-express/generate/', action: :generate, controller: :receita_simples_express
+  post '/receita-simples-express/start/:file_id', action: :start, controller: :receita_simples_express
+  post '/receita-simples-express/complete/:file_id', action: :complete, controller: :receita_simples_express
 
   get '/batch-pades-rest/', action: :index, controller: :batch_pades_rest, as: :batch_pades_rest
   post '/batch-pades-rest/start/', action: :start, controller: :batch_pades_rest

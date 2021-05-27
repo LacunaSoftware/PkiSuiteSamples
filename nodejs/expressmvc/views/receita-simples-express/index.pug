@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+
+   h2(class='ls-title') Receita Simples with PKI Express
+
+   form(id='generateForm', action=`/receita-simples-express/generate/`, method='POST')
+
+      div(class='form-group')
+         label(for='name') Doctor's Name:</label>
+         input(type='text' name='name' id='name' placeholder='João da Silva' class='form-control' required)
+      div(class='form-group')
+         label(for='crm') CRM:</label>
+         input(type='text' name='crm' id='crm' class='form-control' placeholder='00000000-0' required)
+      div(class='form-group')
+         label(for='crmUf') CRM UF:
+         select( id='crmUf' name='crmUf' class='form-control' required)
+            each uf in ufs
+               option(value=uf) #{uf}
+      button(id='signButton' type='submit' class='btn btn-primary') Generate File

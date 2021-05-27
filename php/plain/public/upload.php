@@ -15,6 +15,7 @@ const MAX_FILE_SIZE = 10485760; // 10MB
 
 // Get URL parameter "rc".
 $rc = $_GET['rc'];
+$certId = $_GET['certId'];
 
 if (isset($_FILES['userfile'])) {
 
@@ -39,8 +40,14 @@ if (isset($_FILES['userfile'])) {
 
         // Redirect the user to the provided page (by the "goto" URL argument), passing the name of
         // the file as a URL argument.
-        header("Location: {$rc}?fileId={$filename}", true, 302);
-        exit;
+        if (isset($certId)) {
+            header("Location: {$rc}?fileId={$filename}&certId={$certId}", true, 302);
+            exit;
+        } else {
+            header("Location: {$rc}?fileId={$filename}", true, 302);
+            exit;
+        }
+
 
     } else {
 

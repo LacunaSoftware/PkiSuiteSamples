@@ -65,14 +65,23 @@
             express: 'check-express/upload/pades-signature',
             restpki: 'check-rest-token/upload/pades-signature'
         },
-        // signPdfServerKey: { },
+        signPdfServerKey: { 
+            express: 'check-express/upload/pades-server-key'
+        },
         signXmlServer: { 
             restpki: 'check-rest-token/xml-signature/'
+        },
+        signPdfCloudPwd: {
+          express: '/check-express/upload/pades-cloud-pwd'
+        },
+        signPdfCloudOAuth: {
+            express: '/check-express/upload/pades-cloud-oauth'
         },
         // signXmlServerKey: { },
         // signaturePackage: { },
         // validateCmsSig: { },
         validatePdfSig: {
+            express: 'check-express/upload/open-pades',
             restpki: 'check-rest-token/upload/open-pades'
         },
         // validateXmlSig: { }
