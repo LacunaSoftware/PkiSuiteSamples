@@ -81,7 +81,7 @@ Util::setExpiredPage();
 
             <div class="form-group">
                 <label>File to sign</label>
-                <p>You are signing this entire <a href='/download/sample.php?docId=SAMPLE_NFE'> sample XML</a>.</p>
+                <p>You are signing this entire <a href='/download/sample.php?docId=SAMPLE_XML'> sample XML</a>.</p>
             </div>
 
             <?php
