@@ -58,13 +58,10 @@ be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 
 	repositories {
 		mavenCentral()
-		maven {
-			url  "http://dl.bintray.com/lacunasoftware/maven" 
-		}
 	} 
 
 	dependencies {
-		compile("com.lacunasoftware.restpki:restpki-client:1.13.0")
+		compile("com.lacunasoftware.restpki:restpki-client:1.15.2")
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -74,18 +71,11 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.restpki</groupId>
 			<artifactId>restpki-client</artifactId>
-			<version>1.13.0</version>
+			<version>1.15.2</version>
 		</dependency>
 		...
 	</dependencies>
 	...
-	<repositories>
-		<repository>
-			<id>lacuna.repository</id>
-			<name>lacuna repository</name>
-			<url>http://dl.bintray.com/lacunasoftware/maven</url>
-		</repository>
-	</repositories>
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
 [package page on BinTray](https://bintray.com/lacunasoftware/maven/restpki-client) and click on
@@ -100,9 +90,6 @@ be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 
 	repositories {
 		mavenCentral()
-		maven {
-			url  "http://dl.bintray.com/lacunasoftware/maven" 
-		}
 	} 
 
 	dependencies {
@@ -121,13 +108,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		...
 	</dependencies>
 	...
-	<repositories>
-		<repository>
-			<id>lacuna.repository</id>
-			<name>lacuna repository</name>
-			<url>http://dl.bintray.com/lacunasoftware/maven</url>
-		</repository>
-	</repositories>
+
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
 [package page on BinTray](https://bintray.com/lacunasoftware/maven/amplia-client) and click on
@@ -142,13 +123,10 @@ file [build.gradle](springmvc/build.gradle)
 
 	repositories {
 		mavenCentral()
-		maven {
-			url  "http://dl.bintray.com/lacunasoftware/maven" 
-		}
 	} 
 
 	dependencies {
-		compile("com.lacunasoftware.pkiexpress:pki-express:1.13.0")
+		compile("com.lacunasoftware.pkiexpress:pki-express:1.17.1")
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -158,18 +136,11 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.13.0</version>
+			<version>1.17.1</version>
 		</dependency>
 		...
 	</dependencies>
 	...
-	<repositories>
-		<repository>
-			<id>lacuna.repository</id>
-			<name>lacuna repository</name>
-			<url>http://dl.bintray.com/lacunasoftware/maven</url>
-		</repository>
-	</repositories>
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
 [package page on BinTray](https://bintray.com/lacunasoftware/maven/pki-express) and click on

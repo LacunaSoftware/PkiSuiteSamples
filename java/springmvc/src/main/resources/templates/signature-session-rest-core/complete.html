@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<body>
+	<div th:fragment="content">
+		<h2 class="ls-title">Signature Session with REST PKI Core (Simple flow)</h2>
+		<th:block th:if="${sessionStatus == T(com.lacunasoftware.restpki.SignatureSessionStatus).COMPLETED}">
+			<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+		
+			<div class="ls-content">
+				<h3>Actions:</h3>
+				<ul>
+					<li><a th:href="${originalFile.getLocation()}">Download the original file</a></li>
+					<li><a th:href="${signedFile.getLocation()}">Download the signed file</a></li>
+				</ul>
+			</div>
+		</th:block>
+		<th:block th:if="${sessionStatus == T(com.lacunasoftware.restpki.SignatureSessionStatus).USERCANCELLED}">
+			<h5 class="ls-subtitle">Signature Session Cancelled by the user! <i class="fas fa-check-circle text-danger"></i></h5>
+		</th:block>
+	</div>
+</body>
+</html>

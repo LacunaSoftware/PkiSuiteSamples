@@ -66,11 +66,20 @@
     <Reference Include="Lacuna.RestClient, Version=1.14.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.RestClient.1.14.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.24.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.24.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.25.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.25.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.21.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.21.0\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=1.21.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Client.1.21.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Lacuna.RestPkiCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Api.1.0.0\lib\net45\Lacuna.RestPkiCore.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Lacuna.RestPkiCore.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Client.1.0.0\lib\net46\Lacuna.RestPkiCore.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Lacuna.Spa.Api, Version=2.2.0.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Spa.Api.2.2.0\lib\net45\Lacuna.Spa.Api.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.T8, Version=1.2.3.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.T8.dll</HintPath>
@@ -88,8 +97,8 @@
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.Annotations, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.3.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.OracleClient" />
@@ -231,6 +240,7 @@
     <Compile Include="Controllers\CheckCadesRestController.cs" />
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
+    <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
     <Compile Include="Controllers\MergeCadesSdkController.cs" />
     <Compile Include="Controllers\MergeServerFilesController.cs" />
     <Compile Include="Controllers\OpenPadesSignatureSdkController.cs" />
@@ -241,6 +251,8 @@
     <Compile Include="Controllers\PrinterFriendlyCadesRestController.cs" />
     <Compile Include="Controllers\PrinterFriendlyCadesSdkController.cs" />
     <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
+    <Compile Include="Controllers\SignatureSessionRestCoreController.cs" />
+    <Compile Include="Controllers\WebhookRestCoreController.cs" />
     <Compile Include="Controllers\XmlCodSignatureRestController.cs" />
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
@@ -475,6 +487,9 @@
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Index.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\SignatureSessionRestCore\UsingWebhook.cshtml" />
+    <Content Include="Views\SignatureSessionRestCore\Index.cshtml" />
+    <Content Include="Views\SignatureSessionRestCore\Callback.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
