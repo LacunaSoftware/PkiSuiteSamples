@@ -82,7 +82,9 @@
         signPdfCloudOAuth: {
             express: '/check-express.php?rc=upload.php&fwd=pades-cloud-oauth'
         },
-        // signXmlServer: { },
+        signXmlServer: {
+            restpki: '/check-rest-token.php?rc=xml-signature'
+        },
         // signXmlServerKey: { },
         // signaturePackage: { },
         validateCmsSig: {
