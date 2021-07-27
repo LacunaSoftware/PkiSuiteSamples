@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  font-family: 'Exo 2',sans-serif;
+  font-size: 1.25rem;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}

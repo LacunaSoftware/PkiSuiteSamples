@@ -1,0 +1,41 @@
+<ngx-loading [show]="loading">Redirecting...</ngx-loading>
+<h2 class="ls-title">Choose one of the available files on the server</h2>
+<h5 class="ls-subtitle">You will be redirected to route <b>/{{rc}} </b></h5>
+<div class="ls-content">
+  <!--Group of cards containing the server file's information. On each card its possible to choose it to be
+  used on the next operation or to download the server file. This is only an example of choosing a server
+  file, you can change this file or use your own logic. The operation only requires the content of this
+  document or its path.-->
+  <div class="form-group">
+    <div class="row">
+      <ng-template ngFor let-item [ngForOf]="availableFiles" let-i="index">
+        <div class="col col-md-3">
+          <div class="card server-file shadow" id="{{item.id}}-card">
+            <h5 class="card-header text-center">Document #{{i + 1 }}</h5>
+
+            <div class="card-body">
+              <p>{{item.description}}</p>
+            </div>
+
+            <div class="buttons">
+              <!--Button used to choose a sample file. It will execute the function chooseFile() on
+              the javascript below. The field "id" from the Thymeleaf's variable "file" has the
+              task of identifying the document on server side after submitting this form.-->
+              <button type="button" class="choose-file btn btn-primary"
+                      id="{{item.id}}-choice-btn" (click)="chooseFile(item)">
+                <i class="fas fa-check"></i> Use this
+              </button>
+
+              <!--Link to download the server file.-->
+              <a id="{{item.id}}-download-btn" href="{{item.getDownloadUrl()}}"
+                 class="btn btn-outline-primary">
+                <i class="fas fa-file-download"></i> Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
