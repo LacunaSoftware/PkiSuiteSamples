@@ -1,0 +1,20 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CompletePadesSignatureRequest, CompletePadesSignatureResponse, StartPadesSignatureRequest, StartPadesSignatureResponse } from '../../api/sdk/pades-signature';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PadesSignatureService {
+
+  constructor( private http: HttpClient ) { }
+
+  startPadesSignature(request: StartPadesSignatureRequest): Observable<StartPadesSignatureResponse> {
+    return this.http.post<StartPadesSignatureResponse>(`/api/PadesSignatureSdk/Start`, request);
+  }
+
+  completePadesSignature(request: CompletePadesSignatureRequest): Observable<CompletePadesSignatureResponse> {
+    return this.http.post<CompletePadesSignatureResponse>(`/api/PadesSignatureSdk/Complete`, request);
+  }
+}
