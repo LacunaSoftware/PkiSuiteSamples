@@ -44,7 +44,7 @@ def index(rc, op):
             
         # Redirect the user to the signature route, passing the name of the file as
         # a URL argument.
-        redirect_url = rc
+        redirect_url = '../../' + rc
         if op == "cosignCms":
             redirect_url += '/cosign/' + file_id
         else:
