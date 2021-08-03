@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PkiSuiteAspNetSpaSample", "PkiSuiteAspNetSpaSample\PkiSuiteAspNetSpaSample.csproj", "{CEE02DFC-29C5-44E9-9918-D579531A04AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEE02DFC-29C5-44E9-9918-D579531A04AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE02DFC-29C5-44E9-9918-D579531A04AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE02DFC-29C5-44E9-9918-D579531A04AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE02DFC-29C5-44E9-9918-D579531A04AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {92583CAB-8A16-4D64-B5B4-16A8405CC787}
+	EndGlobalSection
+EndGlobal

@@ -1,9 +1,9 @@
 Flask==1.0.2
 Flask-Session==0.3.1
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.1.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 click==6.7
 wheel==0.31.1
 docopt==0.6.1
