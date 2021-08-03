@@ -27,7 +27,7 @@ def index(rc):
         sample_id = int(request.form['selectedSample'])
         data_file = get_sample_doc_name(SampleDocs.CMS_DATA_FILE)
 
-        redirect_url = rc + "/"
+        redirect_url = '../../' + rc + "/"
 
         if sample_id == 0:
             file1 = get_sample_doc_name(SampleDocs.CMS_DETACHED_1)
