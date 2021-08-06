@@ -1,17 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, CompletePadesSignatureResponse, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
-import { PadesSignatureService } from '../../services/sdk/pades-signature.service';
+import { CompletePadesSignatureRequest, CompletePadesSignatureResponse, StartPadesSignatureRequest } from '../../api/rest/pades-signature';
+import { PadesSignatureService } from '../../services/rest/pades-signature.service';
 import { Config } from '../../api/configuration';
 
-
 @Component({
-  selector: 'app-pades-signature-sdk',
-  templateUrl: './pades-signature-sdk.component.html',
-  styleUrls: ['./pades-signature-sdk.component.css']
+  selector: 'app-pades-signature-rest',
+  templateUrl: './pades-signature-rest.component.html',
+  styleUrls: ['./pades-signature-rest.component.css']
 })
-export class PadesSignatureSdkComponent implements OnInit {
+export class PadesSignatureRestComponent implements OnInit {
 
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
@@ -73,44 +72,36 @@ export class PadesSignatureSdkComponent implements OnInit {
 
   sign() {
     this.setLoading(true);
-    this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startRequest: StartPadesSignatureRequest = {
-        userFile: this.fileId,
-        certContent: certContent
-      };
 
-      this.padesSignatureService.startPadesSignature(startRequest).subscribe(
-        (startResponse => {
-          this.pki.signHash({
-            thumbprint: this.selectedCertificate,
-            hash: startResponse.toSignHash,
-            digestAlgorithm: startResponse.digestAlgorithm
-          }).success(signature => {
-
-            let completeRequest: CompletePadesSignatureRequest = {
-              transferDataFileId: startResponse.transferDataId,
-              signature: signature
-            };
-
-            this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
-              (completeResponse => {
-                this.signedFileId = completeResponse.signedFileId;
-                this.result = true;
-                this.setLoading(false);
-              }),
-              (err => {
-                console.error('Error while completing signature: ' + err.message);
-                this.error = true;
-                this.setLoading(false);
-              }));
-          });
-        }),
-        (err => {
-          console.error('Error while starting signature: ' + err.message);
-          this.error = true;
-          this.setLoading(false);
-        }));
-     });
+    let startRequest: StartPadesSignatureRequest = {
+      userFile: this.fileId
+    };
+    this.padesSignatureService.startPadesSignature(startRequest).subscribe((result => {
+      this.pki.signWithRestPki({
+        token: result.token,
+        thumbprint: this.selectedCertificate
+      }).success(() => {
+        let completeRequest: CompletePadesSignatureRequest = {
+          token: result.token
+        }
+        this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
+          (completeResponse => {
+            this.signedFileId = completeResponse.signedFileId;
+            this.result = true;
+            this.setLoading(false);
+          }),
+          (err => {
+            console.error('Error while completing signature: ' + err.message);
+            this.error = true;
+            this.setLoading(false);
+          }));
+      });
+    }),
+    (err => {
+      console.error('Error while starting signature: ' + err.message);
+      this.error = true;
+      this.setLoading(false);
+    }));
   }
 
   setLoading(value: boolean): void {
