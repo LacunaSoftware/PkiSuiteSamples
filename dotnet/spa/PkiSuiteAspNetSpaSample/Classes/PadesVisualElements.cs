@@ -7,10 +7,12 @@ using System.Drawing;
 namespace PkiSuiteAspNetSpaSample.Classes {
 	public class PadesVisualElements {
 		private readonly StorageMock _storageMock;
+		private readonly Util _util;
 
-		public PadesVisualElements(StorageMock storageMock)
+		public PadesVisualElements(StorageMock storageMock, Util util)
 		{
 			_storageMock = storageMock;
+			_util = util;
 		}
 
 		#region PKI SDK
@@ -102,7 +104,7 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 
 			// Position of the visual represention. We get the footnote position preset and customize
 			// it.
-			var visualPositioning = RestPki.PadesVisualPositioning.GetFootnote(Util.GetRestPkiClient());
+			var visualPositioning = RestPki.PadesVisualPositioning.GetFootnote(_util.GetRestPkiClient());
 			visualPositioning.Container.Height = 4.94;
 			visualPositioning.SignatureRectangleSize.Width = 8.0;
 			visualPositioning.SignatureRectangleSize.Height = 4.94;

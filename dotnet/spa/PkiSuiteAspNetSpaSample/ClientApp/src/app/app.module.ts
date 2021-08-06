@@ -7,11 +7,11 @@ import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { HomeComponent } from './components/home/home.component';
 import { ServerFilesComponent } from './components/server-files/server-files.component';
 import { SampleFilesService } from './services/sample-files.service';
 import { PadesSignatureService } from './services/sdk/pades-signature.service';
 import { PadesSignatureSdkComponent } from './components/pades-signature-sdk/pades-signature-sdk.component';
+import { PadesSignatureRestComponent } from './components/pades-signature-rest/pades-signature-rest.component';
 import { StartupService } from './services/startup.service';
 import { InitErrorGuard, InitSuccessGuard } from './guards/init.guard';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
@@ -20,9 +20,9 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
     ServerFilesComponent,
     PadesSignatureSdkComponent,
+    PadesSignatureRestComponent,
     ServiceUnavailableComponent,
   ],
   imports: [
@@ -37,6 +37,7 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
         children: [
           { path: 'server-files', component: ServerFilesComponent },
           { path: 'pades-signature-sdk', component: PadesSignatureSdkComponent },
+          { path: 'pades-signature-rest', component: PadesSignatureRestComponent },
         ]
       },
       {

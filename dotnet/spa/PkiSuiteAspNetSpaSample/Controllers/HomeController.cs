@@ -1,8 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using PkiSuiteAspNetSpaSample.Models;
 using System.Configuration;
 
 namespace PkiSuiteAspNetSpaSample.Controllers {
 	public class HomeController : Controller {
+
+		private readonly IOptions<RestPkiConfig> _restPkiConfig;
+		private readonly IOptions<RestPkiCoreConfig> _restPkiCoreConfig;
+
+		public HomeController(IOptions<RestPkiConfig> restPkiConfig, IOptions<RestPkiCoreConfig> restPkiCoreConfig)
+		{
+			_restPkiConfig = restPkiConfig;
+			_restPkiCoreConfig = restPkiCoreConfig;
+		}
+
 		[HttpGet]
 		public IActionResult Index()
 		{
@@ -37,7 +49,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		// Checks REST PKI access token
 		public ActionResult CheckRestPkiToken(string rc, string fwd = "", string op = "")
 		{
-			var accessToken = ConfigurationManager.AppSettings["RestPkiAccessToken"];
+			var accessToken = _restPkiConfig.Value.AccessToken;
 			if (string.IsNullOrEmpty(accessToken) || accessToken.Contains(" API "))
 			{
 				return View("RestPkiTokenNotSet");
