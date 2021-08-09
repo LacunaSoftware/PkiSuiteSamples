@@ -1,5 +1,4 @@
 ﻿using Lacuna.RestPki.Api;
-using Lacuna.RestPki.Api.PadesSignature;
 using Lacuna.RestPki.Client;
 using Microsoft.AspNetCore.Mvc;
 using PkiSuiteAspNetSpaSample.Classes;
@@ -10,20 +9,18 @@ using System.Threading.Tasks;
 namespace PkiSuiteAspNetSpaSample.Controllers {
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-	public class PadesSignatureRestController : ControllerBase {
+	public class CadesSignatureRestController : ControllerBase {
 		private readonly StorageMock _storageMock;
 		private readonly Util _util;
-		private readonly PadesVisualElements _padesVisualElements;
 
-		public PadesSignatureRestController(StorageMock storageMock, Util util, PadesVisualElements padesVisualElements)
+		public CadesSignatureRestController(StorageMock storageMock, Util util)
 		{
 			_storageMock = storageMock;
 			_util = util;
-			_padesVisualElements = padesVisualElements;
 		}
 
 		/**
-		* POST: PadesSignature/Start
+		* POST: CadesSignature/Start
 		*/
 		[HttpPost]
 		public async Task<Models.Rest.SignatureStartResponse> StartAsync([FromBody] Models.Rest.SignatureStartRequest request) {
@@ -37,43 +34,27 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 					throw new Exception("Userfile not found");
 				}
 
-				// Get an instance of the PadesSignatureStarter class, responsible for receiving the signature
+				// Get an instance of the CadesSignatureStarter class, responsible for receiving the signature
 				// elements and start the signature process.
-				var signatureStarter = new PadesSignatureStarter(_util.GetRestPkiClient())
+				var signatureStarter = new CadesSignatureStarter(_util.GetRestPkiClient())
 				{
 
-					// Set the unit of measurement used to edit the pdf marks and visual representations.
-					MeasurementUnits = PadesMeasurementUnits.Centimeters,
-
 					// Set the signature policy.
-					SignaturePolicyId = StandardPadesSignaturePolicies.Basic,
+					SignaturePolicyId = StandardCadesSignaturePolicies.CadesBes,
 
 					// Set the security context to be used to determine trust in the certificate chain. We have
 					// encapsulated the security context choice on Util.cs.
 					SecurityContextId = Util.GetSecurityContextId(),
-
-					// Set a visual representation for the signature.
-					VisualRepresentation = this._padesVisualElements.GetVisualRepresentationForRestPki()
 				};
 
-				// Set the file to be signed.
-				signatureStarter.SetPdfToSign(userfilePath);
-
-				/*
-					Optionally, add marks to the PDF before signing. These differ from the signature visual
-					representation in that they are actually changes done to the document prior to signing, not
-					binded to any signature. Therefore, any number of marks can be added, for instance one per
-					page, whereas there can only be one visual representation per signature. However, since the
-					marks are in reality changes to the PDF, they can only be added to documents which have no
-					previous signatures, otherwise such signatures would be made invalid by the changes to the
-					document (see property PadesSignatureStarter.BypassMarksIfSigned). This problem does not
-					occurr with signature visual representations.
-
-					We have encapsulated this code in a method to include several possibilities depending on the
-					argument passed. Experiment changing the argument to see different examples of PDF marks.
-					Once you decide which is best for your case, you can place the code directly here.
-				*/
-				//signatureStarter.PdfMarks.Add(PadesVisualElements.GetPdfMark(1));
+				if (request.IsCmsCosign)
+				{
+					signatureStarter.SetCmsToCoSign(userfilePath);
+				} else
+				{
+					// Set the file to be signed.
+					signatureStarter.SetFileToSign(userfilePath);
+				}
 
 				// Call the StartWithWebPki() method, which initiates the signature. This yields the token, a
 				// 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
@@ -101,16 +82,16 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		}
 
 		/**
-		* POST: PadesSignature/Complete
+		* POST: CadesSignature/Complete
 		*/
 		[HttpPost]
 		public async Task<SignatureCompleteResponse> CompleteAsync([FromBody] SignatureCompleteRequest request) {
 			string fileId;
 
 			try {
-				// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
+				// Get an instance of the CadesSignatureFinisher2 class, responsible for completing the
 				// signature process.
-				var signatureFinisher = new PadesSignatureFinisher2(_util.GetRestPkiClient())
+				var signatureFinisher = new CadesSignatureFinisher2(_util.GetRestPkiClient())
 				{
 
 					// Set the token for this signature. (rendered in a hidden input field, see the view)

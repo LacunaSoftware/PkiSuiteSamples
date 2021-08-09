@@ -1,5 +1,5 @@
 <ngx-loading [show]="loading"></ngx-loading>
-<h2 class="ls-title">PAdES Signature with REST PKI</h2>
+<h2 class="ls-title">CAdES Signature with PKI SDK</h2>
 
 <div *ngIf="!result && !loading && !error">
   <div class="form-group">
@@ -26,7 +26,7 @@
     <h3>Actions:</h3>
     <ul>
       <li><a href="api/Download/File/{{signedFileId}}">Download the signed file</a></li>
-      <li><a href="/pades-signature-rest;fileid={{signedFileId}}">Co-sign with another certificate</a></li>
+      <li><a href="/pades-signature-sdk;cmsfile={{signedFileId}}">Co-sign with another certificate</a></li>
     </ul>
   </div>
 </div>

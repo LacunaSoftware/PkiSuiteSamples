@@ -19,7 +19,10 @@
 			//printerFriendlyPdf: { },
 			//readCert: { },
 			//rsa: { },
-			//signCmsServer: { },
+			signCmsServer: {
+				pki: '/RedirectToSPA?rc=server-files&fwd=cades-signature&op=SignCms',
+				restpki: '/CheckRestPkiToken?rc=server-files&fwd=cades-signature&op=SignCms'
+			},
 			//signCmsUser: { },
 			//signCmsServerKey: { },
 			//signCod: { },

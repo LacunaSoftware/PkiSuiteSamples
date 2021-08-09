@@ -2,21 +2,22 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/rest/signature';
-import { PadesSignatureService } from '../../services/rest/pades-signature.service';
+import { CadesSignatureService } from '../../services/rest/cades-signature.service';
 import { Config } from '../../api/configuration';
 
 @Component({
-  selector: 'app-pades-signature-rest',
-  templateUrl: './pades-signature-rest.component.html',
-  styleUrls: ['./pades-signature-rest.component.css']
+  selector: 'app-cades-signature-rest',
+  templateUrl: './cades-signature-rest.component.html',
+  styleUrls: ['./cades-signature-rest.component.css']
 })
-export class PadesSignatureRestComponent implements OnInit {
+export class CadesSignatureRestComponent implements OnInit {
 
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
   error: boolean = false;
+  isCmsCosign: boolean = false;
   fileId: string = "";
   certificateList: CertificateModel[] = [];
   selectedCertificate: string;
@@ -24,14 +25,19 @@ export class PadesSignatureRestComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private padesSignatureService: PadesSignatureService,
+    private cadesSignatureService: CadesSignatureService,
     private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.loading = true;
     this.route.params.subscribe(params => {
-      this.fileId = params['fileid'];
+      if (params['fileid'] != null) {
+        this.fileId = params['fileid'];
+      } else {
+        this.fileId = params['cmsfile'];
+        this.isCmsCosign = true;
+      }
     });
     this.pki.init({
       ready: this.onWebPkiReady,
@@ -70,14 +76,14 @@ export class PadesSignatureRestComponent implements OnInit {
     });
   };
 
-  sign() {
+  sign(): void {
     this.setLoading(true);
 
     let startRequest: StartSignatureRequest = {
       userFile: this.fileId,
-      isCmsCosign: false
+      isCmsCosign: this.isCmsCosign
     };
-    this.padesSignatureService.startPadesSignature(startRequest).subscribe((result => {
+    this.cadesSignatureService.startCadesSignature(startRequest).subscribe((result => {
       this.pki.signWithRestPki({
         token: result.token,
         thumbprint: this.selectedCertificate
@@ -85,7 +91,7 @@ export class PadesSignatureRestComponent implements OnInit {
         let completeRequest: CompleteSignatureRequest = {
           token: result.token
         }
-        this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
+        this.cadesSignatureService.completeCadesSignature(completeRequest).subscribe(
           (completeResponse => {
             this.signedFileId = completeResponse.signedFileId;
             this.result = true;
@@ -98,11 +104,11 @@ export class PadesSignatureRestComponent implements OnInit {
           }));
       });
     }),
-    (err => {
-      console.error('Error while starting signature: ' + err.message);
-      this.error = true;
-      this.setLoading(false);
-    }));
+      (err => {
+        console.error('Error while starting signature: ' + err.message);
+        this.error = true;
+        this.setLoading(false);
+      }));
   }
 
   setLoading(value: boolean): void {

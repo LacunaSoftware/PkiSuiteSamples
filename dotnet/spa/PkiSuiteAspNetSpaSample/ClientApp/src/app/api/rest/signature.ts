@@ -1,21 +1,22 @@
 import { ValidationResults } from "web-pki";
 
-export interface StartPadesSignatureRequest {
+export interface StartSignatureRequest {
   userFile: string,
+  isCmsCosign: boolean,
 }
 
-export interface StartPadesSignatureResponse {
+export interface StartSignatureResponse {
   token: string,
   userFile: string,
   success: boolean,
   validationResults: ValidationResults,
 }
 
-export interface CompletePadesSignatureRequest {
+export interface CompleteSignatureRequest {
   token: string,
 }
 
-export interface CompletePadesSignatureResponse {
+export interface CompleteSignatureResponse {
   signedFileId: string,
   success: boolean,
   validationResults: ValidationResults,

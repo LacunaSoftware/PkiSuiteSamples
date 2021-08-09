@@ -15,6 +15,9 @@ import { PadesSignatureRestComponent } from './components/pades-signature-rest/p
 import { StartupService } from './services/startup.service';
 import { InitErrorGuard, InitSuccessGuard } from './guards/init.guard';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
+import { CadesSignatureSdkComponent } from './components/cades-signature-sdk/cades-signature-sdk.component';
+import { CadesSignatureRestComponent } from './components/cades-signature-rest/cades-signature-rest.component';
+import { CadesSignatureService } from './services/sdk/cades-signature.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
     ServerFilesComponent,
     PadesSignatureSdkComponent,
     PadesSignatureRestComponent,
+    CadesSignatureSdkComponent,
+    CadesSignatureRestComponent,
     ServiceUnavailableComponent,
   ],
   imports: [
@@ -38,6 +43,8 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
           { path: 'server-files', component: ServerFilesComponent },
           { path: 'pades-signature-sdk', component: PadesSignatureSdkComponent },
           { path: 'pades-signature-rest', component: PadesSignatureRestComponent },
+          { path: 'cades-signature-sdk', component: CadesSignatureSdkComponent },
+          { path: 'cades-signature-rest', component: CadesSignatureRestComponent },
         ]
       },
       {
@@ -50,6 +57,7 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
   providers: [
     SampleFilesService,
     PadesSignatureService,
+    CadesSignatureService,
     StartupService,
     InitSuccessGuard,
     InitErrorGuard,

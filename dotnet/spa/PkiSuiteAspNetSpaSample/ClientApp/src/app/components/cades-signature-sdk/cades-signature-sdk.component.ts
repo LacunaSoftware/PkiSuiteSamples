@@ -1,23 +1,24 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
-import { PadesSignatureService } from '../../services/sdk/pades-signature.service';
+import { CompleteCadesSignatureRequest, StartCadesSignatureRequest } from '../../api/sdk/cades-signature';
+import { CadesSignatureService } from '../../services/sdk/cades-signature.service';
 import { Config } from '../../api/configuration';
 
 
 @Component({
-  selector: 'app-pades-signature-sdk',
-  templateUrl: './pades-signature-sdk.component.html',
-  styleUrls: ['./pades-signature-sdk.component.css']
+  selector: 'app-cades-signature-sdk',
+  templateUrl: './cades-signature-sdk.component.html',
+  styleUrls: ['./cades-signature-sdk.component.css']
 })
-export class PadesSignatureSdkComponent implements OnInit {
+export class CadesSignatureSdkComponent implements OnInit {
 
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
   error: boolean = false;
+  isCmsCosign: boolean = false;
   fileId: string = "";
   certificateList: CertificateModel[] = [];
   selectedCertificate: string;
@@ -25,14 +26,19 @@ export class PadesSignatureSdkComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private padesSignatureService: PadesSignatureService,
+    private cadesSignatureService: CadesSignatureService,
     private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.loading = true;
     this.route.params.subscribe(params => {
-      this.fileId = params['fileid'];
+      if (params['fileid'] != null) {
+        this.fileId = params['fileid'];
+      } else {
+        this.fileId = params['cmsfile'];
+        this.isCmsCosign = true;
+      }
     });
     this.pki.init({
       ready: this.onWebPkiReady,
@@ -71,28 +77,38 @@ export class PadesSignatureSdkComponent implements OnInit {
     });
   };
 
+  certContent: string;
+  toSignBytes: string;
+
   sign() {
     this.setLoading(true);
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startRequest: StartPadesSignatureRequest = {
+      this.certContent = certContent;
+      let startRequest: StartCadesSignatureRequest = {
         userFile: this.fileId,
-        certContent: certContent
+        isCosign: this.isCmsCosign,
+        certContent: this.certContent,
+        certThumb: this.selectedCertificate
       };
 
-      this.padesSignatureService.startPadesSignature(startRequest).subscribe(
+      this.cadesSignatureService.startCadesSignature(startRequest).subscribe(
         (startResponse => {
+          this.toSignBytes = startResponse.toSignBytes;
           this.pki.signHash({
             thumbprint: this.selectedCertificate,
             hash: startResponse.toSignHash,
             digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompletePadesSignatureRequest = {
-              transferDataFileId: startResponse.transferDataId,
-              signature: signature
+            let completeRequest: CompleteCadesSignatureRequest = {
+              signature: signature,
+              isCosign: this.isCmsCosign,
+              userFile: this.fileId,
+              toSignBytes: this.toSignBytes,
+              certContent: this.certContent
             };
 
-            this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
+            this.cadesSignatureService.completeCadesSignature(completeRequest).subscribe(
               (completeResponse => {
                 this.signedFileId = completeResponse.signedFileId;
                 this.result = true;
@@ -110,11 +126,12 @@ export class PadesSignatureSdkComponent implements OnInit {
           this.error = true;
           this.setLoading(false);
         }));
-     });
+    });
   }
 
   setLoading(value: boolean): void {
     this.loading = value;
     this.cd.detectChanges();
   }
+
 }
