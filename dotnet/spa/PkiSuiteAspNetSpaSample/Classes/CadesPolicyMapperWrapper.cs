@@ -11,12 +11,14 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		private ICadesPolicyMapper policyMapper;
 		private ITrustArbitrator trustArbitrator;
 
-		public CadesPolicyMapperWrapper(ICadesPolicyMapper policyMapper, ITrustArbitrator trustArbitrator) {
+		public CadesPolicyMapperWrapper(ICadesPolicyMapper policyMapper, ITrustArbitrator trustArbitrator)
+		{
 			this.policyMapper = policyMapper;
 			this.trustArbitrator = trustArbitrator;
 		}
 
-		public CadesPolicySpec GetPolicy(PKCertificate certificate) {
+		public CadesPolicySpec GetPolicy(PKCertificate certificate)
+		{
 			var policy = policyMapper.GetPolicy(certificate);
 			policy.ClearTrustArbitrator();
 			policy.AddTrustArbitrator(trustArbitrator);

@@ -42,12 +42,14 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* (the "to-sign-hash").
 		*/
 		[HttpPost]
-		public CadesSignatureStartResponse Start([FromBody] CadesSignatureStartRequest request) {
+		public CadesSignatureStartResponse Start([FromBody] CadesSignatureStartRequest request)
+		{
 
 			byte[] toSignBytes;
 			SignatureAlgorithm signatureAlg;
 
-			try {
+			try
+			{
 				// Verify if the userfile exists and get its absolute path.
 				if (!_storageMock.TryGetFile(request.UserFile, out byte[] userfileContent))
 				{
@@ -60,10 +62,11 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// Get an instance of the CadesSigner class.
 				var cadesSigner = new CadesSigner();
 
-				if(request.IsCosign)
+				if (request.IsCosign)
 				{
 					cadesSigner.SetSignatureToCoSign(userfileContent);
-				} else
+				}
+				else
 				{
 					cadesSigner.SetDataToSign(userfileContent);
 				}
@@ -78,7 +81,8 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// be used on the client-side, based on the signature policy.
 				toSignBytes = cadesSigner.GenerateToSignBytes(out signatureAlg);
 
-			} catch (ValidationException ex) {
+			} catch (ValidationException ex)
+			{
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				//ModelState.AddModelError("", ex.ValidationResults.ToString());
@@ -109,10 +113,12 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* After signature, it'll be redirected to SignatureInfo action to show the signature file.
 		*/
 		[HttpPost]
-		public CadesSignatureCompleteResponse Complete([FromBody] CadesSignatureCompleteRequest request) {
+		public CadesSignatureCompleteResponse Complete([FromBody] CadesSignatureCompleteRequest request)
+		{
 			byte[] signatureContent;
 
-			try {
+			try
+			{
 
 				// Recover the "transfer data" content stored in a temporary file.
 				if (!_storageMock.TryGetFile(request.UserFile, out byte[] userfileContent))
@@ -148,7 +154,8 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// Get the signature as an array of bytes
 				signatureContent = cadesSigner.GetSignature();
 
-			} catch (ValidationException ex) {
+			} catch (ValidationException ex)
+			{
 				// Return userfile to continue the signature with the same file.
 				return new CadesSignatureCompleteResponse()
 				{
