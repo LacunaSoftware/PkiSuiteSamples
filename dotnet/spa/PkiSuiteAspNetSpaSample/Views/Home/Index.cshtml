@@ -30,7 +30,10 @@
 			//signMultiCmsUser: { },
 			//signMultiPdfServer: { },
 			//signMultiPdfUser: { },
-			//signNfe: { },
+			signNfe: {
+				pki: '/RedirectToSPA?rc=xml-nfe-signature',
+				restpki: '/CheckRestPkiToken?rc=xml-nfe-signature'
+			},
 			signPdfServer: {
 				pki: '/RedirectToSPA?rc=server-files&fwd=pades-signature&op=SignPdf',
 				restpki: '/CheckRestPkiToken?rc=server-files&fwd=pades-signature&op=SignPdf'

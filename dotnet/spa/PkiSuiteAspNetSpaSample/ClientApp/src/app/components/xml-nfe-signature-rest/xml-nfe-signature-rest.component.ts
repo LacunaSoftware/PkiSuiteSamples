@@ -1,44 +1,31 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/rest/signature';
-import { SignatureRestService } from '../../services/signature-rest.service';
 import { Config } from '../../api/configuration';
+import { CompleteSignatureRequest } from '../../api/rest/signature';
+import { SignatureRestService } from '../../services/signature-rest.service';
 
 @Component({
-  selector: 'app-cades-signature-rest',
-  templateUrl: './cades-signature-rest.component.html',
-  styleUrls: ['./cades-signature-rest.component.css']
+  selector: 'app-xml-nfe-signature-rest',
+  templateUrl: './xml-nfe-signature-rest.component.html',
+  styleUrls: ['./xml-nfe-signature-rest.component.css']
 })
-export class CadesSignatureRestComponent implements OnInit {
-
+export class XmlNFeSignatureRestComponent implements OnInit {
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
   error: boolean = false;
-  isCmsCosign: boolean = false;
-  fileId: string = "";
   certificateList: CertificateModel[] = [];
   selectedCertificate: string;
   signedFileId: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private cadesSignatureService: SignatureRestService,
+    private nfeSignatureService: SignatureRestService,
     private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.loading = true;
-    this.route.params.subscribe(params => {
-      if (params['fileid'] != null) {
-        this.fileId = params['fileid'];
-      } else {
-        this.fileId = params['cmsfile'];
-        this.isCmsCosign = true;
-      }
-    });
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
@@ -76,22 +63,15 @@ export class CadesSignatureRestComponent implements OnInit {
     });
   };
 
-  sign(): void {
+  sign() {
     this.setLoading(true);
 
-    let startRequest: StartSignatureRequest = {
-      userFile: this.fileId,
-      isCmsCosign: this.isCmsCosign
-    };
-    this.cadesSignatureService.startCadesSignature(startRequest).subscribe((result => {
+    this.nfeSignatureService.startXmlNFeSignature().subscribe((completeRequest => {
       this.pki.signWithRestPki({
-        token: result.token,
+        token: completeRequest.token,
         thumbprint: this.selectedCertificate
       }).success(() => {
-        let completeRequest: CompleteSignatureRequest = {
-          token: result.token
-        }
-        this.cadesSignatureService.completeCadesSignature(completeRequest).subscribe(
+        this.nfeSignatureService.completeXmlNFeSignature(completeRequest).subscribe(
           (completeResponse => {
             this.signedFileId = completeResponse.signedFileId;
             this.result = true;

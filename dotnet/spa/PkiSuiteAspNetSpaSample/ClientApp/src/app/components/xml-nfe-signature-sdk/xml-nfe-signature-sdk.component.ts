@@ -1,18 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
-import { SignatureSdkService } from '../../services/signature-sdk.service';
 import { Config } from '../../api/configuration';
-
+import { StartXmlNFeSignatureRequest, CompleteXmlNFeSignatureRequest } from '../../api/sdk/xml-signature';
+import { SignatureSdkService } from '../../services/signature-sdk.service';
 
 @Component({
-  selector: 'app-pades-signature-sdk',
-  templateUrl: './pades-signature-sdk.component.html',
-  styleUrls: ['./pades-signature-sdk.component.css']
+  selector: 'app-xml-nfe-signature-sdk',
+  templateUrl: './xml-nfe-signature-sdk.component.html',
+  styleUrls: ['./xml-nfe-signature-sdk.component.css']
 })
-export class PadesSignatureSdkComponent implements OnInit {
-
+export class XmlNFeSignatureSdkComponent implements OnInit {
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
@@ -24,16 +21,12 @@ export class PadesSignatureSdkComponent implements OnInit {
   signedFileId: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private padesSignatureService: SignatureSdkService,
+    private nfeSignatureService: SignatureSdkService,
     private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.loading = true;
-    this.route.params.subscribe(params => {
-      this.fileId = params['fileid'];
-    });
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
@@ -74,43 +67,40 @@ export class PadesSignatureSdkComponent implements OnInit {
   sign() {
     this.setLoading(true);
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startRequest: StartPadesSignatureRequest = {
-        userFile: this.fileId,
-        certContent: certContent
-      };
-
-      this.padesSignatureService.startPadesSignature(startRequest).subscribe(
+      let startReques: StartXmlNFeSignatureRequest = {
+        certContent: certContent,
+      }
+      this.nfeSignatureService.startXmlNFeSignature(startReques).subscribe(
         (startResponse => {
           this.pki.signHash({
             thumbprint: this.selectedCertificate,
             hash: startResponse.toSignHash,
-            digestAlgorithm: startResponse.digestAlgorithm
+            digestAlgorithm: startResponse.digestAlgorithmOid
           }).success(signature => {
 
-            let completeRequest: CompletePadesSignatureRequest = {
-              transferDataFileId: startResponse.transferDataId,
-              signature: signature
+            let completeRequest: CompleteXmlNFeSignatureRequest = {
+              signature: signature,
+              transferDataFileId: startResponse.transferDataFileId
             };
 
-            this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
+            this.nfeSignatureService.completeXmlNFeSignature(completeRequest).subscribe(
               (completeResponse => {
                 this.signedFileId = completeResponse.signedFileId;
                 this.result = true;
                 this.setLoading(false);
-              }),
-              (err => {
+              }), (err => {
                 console.error('Error while completing signature: ' + err.message);
                 this.error = true;
                 this.setLoading(false);
               }));
           });
-        }),
-        (err => {
+        }), (err => {
           console.error('Error while starting signature: ' + err.message);
           this.error = true;
           this.setLoading(false);
-        }));
-     });
+        }))
+
+    });
   }
 
   setLoading(value: boolean): void {

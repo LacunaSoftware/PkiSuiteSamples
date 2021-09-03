@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { CompleteCadesSignatureRequest, StartCadesSignatureRequest } from '../../api/sdk/cades-signature';
-import { CadesSignatureService } from '../../services/sdk/cades-signature.service';
+import { SignatureSdkService } from '../../services/signature-sdk.service';
 import { Config } from '../../api/configuration';
 
 
@@ -26,7 +26,7 @@ export class CadesSignatureSdkComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private cadesSignatureService: CadesSignatureService,
+    private cadesSignatureService: SignatureSdkService,
     private cd: ChangeDetectorRef
   ) { }
 

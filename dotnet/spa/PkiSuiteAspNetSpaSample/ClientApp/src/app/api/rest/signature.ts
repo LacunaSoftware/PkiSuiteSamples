@@ -21,3 +21,11 @@ export interface CompleteSignatureResponse {
   success: boolean,
   validationResults: ValidationResults,
 }
+
+export interface XmlNFeStartSignatureResponse {
+  token: string,
+}
+
+export interface XmlNFeCompleteSignatureResponse {
+  signedFileId: string,
+}

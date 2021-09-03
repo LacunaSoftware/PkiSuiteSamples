@@ -76,7 +76,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			return File(fileContent, "application/pdf", string.Format("Doc{0:D2}.pdf", id));
 		}
 
-		// GET Download/Sample
+		// GET Download/SampleNFe
 		[HttpGet]
 		public ActionResult SampleNFe()
 		{

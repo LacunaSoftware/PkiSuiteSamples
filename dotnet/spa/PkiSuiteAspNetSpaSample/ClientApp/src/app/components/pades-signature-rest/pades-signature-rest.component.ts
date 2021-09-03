@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/rest/signature';
-import { PadesSignatureService } from '../../services/rest/pades-signature.service';
+import { SignatureRestService } from '../../services/signature-rest.service';
 import { Config } from '../../api/configuration';
 
 @Component({
@@ -24,7 +24,7 @@ export class PadesSignatureRestComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private padesSignatureService: PadesSignatureService,
+    private padesSignatureService: SignatureRestService,
     private cd: ChangeDetectorRef
   ) { }
 

@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { ServerFilesComponent } from './components/server-files/server-files.component';
 import { SampleFilesService } from './services/sample-files.service';
-import { PadesSignatureService } from './services/sdk/pades-signature.service';
 import { PadesSignatureSdkComponent } from './components/pades-signature-sdk/pades-signature-sdk.component';
 import { PadesSignatureRestComponent } from './components/pades-signature-rest/pades-signature-rest.component';
 import { StartupService } from './services/startup.service';
@@ -17,7 +16,10 @@ import { InitErrorGuard, InitSuccessGuard } from './guards/init.guard';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
 import { CadesSignatureSdkComponent } from './components/cades-signature-sdk/cades-signature-sdk.component';
 import { CadesSignatureRestComponent } from './components/cades-signature-rest/cades-signature-rest.component';
-import { CadesSignatureService } from './services/sdk/cades-signature.service';
+import { SignatureSdkService } from './services/signature-sdk.service';
+import { SignatureRestService } from './services/signature-rest.service';
+import { XmlNFeSignatureSdkComponent } from './components/xml-nfe-signature-sdk/xml-nfe-signature-sdk.component';
+import { XmlNFeSignatureRestComponent } from './components/xml-nfe-signature-rest/xml-nfe-signature-rest.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { CadesSignatureService } from './services/sdk/cades-signature.service';
     PadesSignatureRestComponent,
     CadesSignatureSdkComponent,
     CadesSignatureRestComponent,
+    XmlNFeSignatureSdkComponent,
+    XmlNFeSignatureRestComponent,
     ServiceUnavailableComponent,
   ],
   imports: [
@@ -45,6 +49,8 @@ import { CadesSignatureService } from './services/sdk/cades-signature.service';
           { path: 'pades-signature-rest', component: PadesSignatureRestComponent },
           { path: 'cades-signature-sdk', component: CadesSignatureSdkComponent },
           { path: 'cades-signature-rest', component: CadesSignatureRestComponent },
+          { path: 'xml-nfe-signature-sdk', component: XmlNFeSignatureSdkComponent },
+          { path: 'xml-nfe-signature-rest', component: XmlNFeSignatureRestComponent },
         ]
       },
       {
@@ -56,8 +62,8 @@ import { CadesSignatureService } from './services/sdk/cades-signature.service';
   ],
   providers: [
     SampleFilesService,
-    PadesSignatureService,
-    CadesSignatureService,
+    SignatureSdkService,
+    SignatureRestService,
     StartupService,
     InitSuccessGuard,
     InitErrorGuard,
