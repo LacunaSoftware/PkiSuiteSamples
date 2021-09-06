@@ -15,7 +15,8 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 
 		// GET: ServerFiles
 		[HttpGet("{id}")]
-		public string Upload(string id) {
+		public string Upload(string id)
+		{
 			// Copy file to the App_Data folder, where the upload files is stored.
 			return _storageMock.CopySampleToAppData(int.Parse(id).ToEnum<SampleDocs>());
 		}

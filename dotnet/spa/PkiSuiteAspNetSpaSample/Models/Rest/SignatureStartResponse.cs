@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PkiSuiteAspNetSpaSample.Models.Rest {
-	public class PadesSignatureStartResponse {
+	public class SignatureStartResponse {
 
 		public string Token { get; set; }
 

@@ -20,7 +20,7 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 
 			return model;
 		}
-		
+
 		public static ValidationItemModel ToModel(this RestPki.ValidationItem vi)
 		{
 			var model = new ValidationItemModel()

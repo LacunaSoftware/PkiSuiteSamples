@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Models\Sdk\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

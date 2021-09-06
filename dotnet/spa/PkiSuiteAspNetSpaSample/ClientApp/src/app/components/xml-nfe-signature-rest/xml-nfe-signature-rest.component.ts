@@ -1,38 +1,31 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/rest/signature';
-import { SignatureRestService } from '../../services/signature-rest.service';
 import { Config } from '../../api/configuration';
+import { CompleteSignatureRequest } from '../../api/rest/signature';
+import { SignatureRestService } from '../../services/signature-rest.service';
 
 @Component({
-  selector: 'app-pades-signature-rest',
-  templateUrl: './pades-signature-rest.component.html',
-  styleUrls: ['./pades-signature-rest.component.css']
+  selector: 'app-xml-nfe-signature-rest',
+  templateUrl: './xml-nfe-signature-rest.component.html',
+  styleUrls: ['./xml-nfe-signature-rest.component.css']
 })
-export class PadesSignatureRestComponent implements OnInit {
-
+export class XmlNFeSignatureRestComponent implements OnInit {
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
   error: boolean = false;
-  fileId: string = "";
   certificateList: CertificateModel[] = [];
   selectedCertificate: string;
   signedFileId: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private padesSignatureService: SignatureRestService,
+    private nfeSignatureService: SignatureRestService,
     private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.loading = true;
-    this.route.params.subscribe(params => {
-      this.fileId = params['fileid'];
-    });
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
@@ -73,19 +66,12 @@ export class PadesSignatureRestComponent implements OnInit {
   sign() {
     this.setLoading(true);
 
-    let startRequest: StartSignatureRequest = {
-      userFile: this.fileId,
-      isCmsCosign: false
-    };
-    this.padesSignatureService.startPadesSignature(startRequest).subscribe((result => {
+    this.nfeSignatureService.startXmlNFeSignature().subscribe((completeRequest => {
       this.pki.signWithRestPki({
-        token: result.token,
+        token: completeRequest.token,
         thumbprint: this.selectedCertificate
       }).success(() => {
-        let completeRequest: CompleteSignatureRequest = {
-          token: result.token
-        }
-        this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
+        this.nfeSignatureService.completeXmlNFeSignature(completeRequest).subscribe(
           (completeResponse => {
             this.signedFileId = completeResponse.signedFileId;
             this.result = true;
@@ -98,11 +84,11 @@ export class PadesSignatureRestComponent implements OnInit {
           }));
       });
     }),
-    (err => {
-      console.error('Error while starting signature: ' + err.message);
-      this.error = true;
-      this.setLoading(false);
-    }));
+      (err => {
+        console.error('Error while starting signature: ' + err.message);
+        this.error = true;
+        this.setLoading(false);
+      }));
   }
 
   setLoading(value: boolean): void {
