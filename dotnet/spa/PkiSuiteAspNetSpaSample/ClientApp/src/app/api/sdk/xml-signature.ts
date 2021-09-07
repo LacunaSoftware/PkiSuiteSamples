@@ -1,5 +1,4 @@
-import { ValidationResults } from "web-pki";
-
+import { ValidationResultsModel } from "../validation-results";
 
 export interface StartXmlNFeSignatureRequest {
   certContent: string,
@@ -7,7 +6,7 @@ export interface StartXmlNFeSignatureRequest {
 
 export interface StartXmlNFeSignatureResponse {
   success: boolean,
-  validationResults: ValidationResults,
+  validationResults: ValidationResultsModel,
   toSignHash: string,
   transferDataFileId: string,
   digestAlgorithmOid: string,
@@ -20,6 +19,6 @@ export interface CompleteXmlNFeSignatureRequest {
 
 export interface CompleteXmlNFeSignatureResponse {
   success: boolean,
-  validationResults: ValidationResults,
+  validationResults: ValidationResultsModel,
   signedFileId: string,
 }

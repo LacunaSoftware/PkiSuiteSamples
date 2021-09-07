@@ -20,6 +20,7 @@ import { SignatureSdkService } from './services/signature-sdk.service';
 import { SignatureRestService } from './services/signature-rest.service';
 import { XmlNFeSignatureSdkComponent } from './components/xml-nfe-signature-sdk/xml-nfe-signature-sdk.component';
 import { XmlNFeSignatureRestComponent } from './components/xml-nfe-signature-rest/xml-nfe-signature-rest.component';
+import { OpenPadesSdkComponent } from './components/open-pades-sdk/open-pades-sdk.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { XmlNFeSignatureRestComponent } from './components/xml-nfe-signature-res
     ServerFilesComponent,
     PadesSignatureSdkComponent,
     PadesSignatureRestComponent,
+    OpenPadesSdkComponent,
     CadesSignatureSdkComponent,
     CadesSignatureRestComponent,
     XmlNFeSignatureSdkComponent,
@@ -47,6 +49,7 @@ import { XmlNFeSignatureRestComponent } from './components/xml-nfe-signature-res
           { path: 'server-files', component: ServerFilesComponent },
           { path: 'pades-signature-sdk', component: PadesSignatureSdkComponent },
           { path: 'pades-signature-rest', component: PadesSignatureRestComponent },
+          { path: 'open-pades-sdk', component: OpenPadesSdkComponent },
           { path: 'cades-signature-sdk', component: CadesSignatureSdkComponent },
           { path: 'cades-signature-rest', component: CadesSignatureRestComponent },
           { path: 'xml-nfe-signature-sdk', component: XmlNFeSignatureSdkComponent },

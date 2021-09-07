@@ -5,19 +5,20 @@ import {
   CompleteCadesSignatureRequest,
   CompleteCadesSignatureResponse,
   StartCadesSignatureRequest,
-  StartCadesSignatureResponse
+  StartCadesSignatureResponse,
 } from '../api/sdk/cades-signature';
 import {
   CompleteXmlNFeSignatureRequest,
   CompleteXmlNFeSignatureResponse,
   StartXmlNFeSignatureRequest,
-  StartXmlNFeSignatureResponse
+  StartXmlNFeSignatureResponse,
 } from '../api/sdk/xml-signature';
 import {
   CompletePadesSignatureRequest,
   CompletePadesSignatureResponse,
   StartPadesSignatureRequest,
-  StartPadesSignatureResponse
+  StartPadesSignatureResponse,
+  OpenPadesSignatureResponse,
 } from '../api/sdk/pades-signature';
 
 @Injectable({
@@ -49,5 +50,9 @@ export class SignatureSdkService {
 
   completeXmlNFeSignature(request: CompleteXmlNFeSignatureRequest): Observable<CompleteXmlNFeSignatureResponse> {
     return this.http.post<CompleteXmlNFeSignatureResponse>(`/api/XmlNFeSignatureSdk/Complete`, request);
+  }
+
+  openPadesSignature(request: string): Observable<OpenPadesSignatureResponse> {
+    return this.http.get<OpenPadesSignatureResponse>(`/api/OpenPadesSdk/` + request);
   }
 }
