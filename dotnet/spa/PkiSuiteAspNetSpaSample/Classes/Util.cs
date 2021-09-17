@@ -2,6 +2,8 @@
 using Lacuna.Pki.BrazilTrustServices;
 using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
+using Microsoft.Extensions.Options;
+using PkiSuiteAspNetSpaSample.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,17 +13,25 @@ using System.Reflection;
 
 namespace PkiSuiteAspNetSpaSample.Classes {
 	public class Util {
+		private readonly IOptions<RestPkiConfig> _restPkiConfig;
+		private readonly IOptions<RestPkiCoreConfig> _restPkiCoreConfig;
+
+		public Util(IOptions<RestPkiConfig> restPkiConfig, IOptions<RestPkiCoreConfig> restPkiCoreConfig)
+		{
+			_restPkiConfig = restPkiConfig;
+			_restPkiCoreConfig = restPkiCoreConfig;
+		}
 
 		#region REST PKI
 
-		public static RestPkiClient GetRestPkiClient()
+		public RestPkiClient GetRestPkiClient()
 		{
-			var accessToken = ConfigurationManager.AppSettings["RestPkiAccessToken"];
+			var accessToken = _restPkiConfig.Value.AccessToken;
 			if (string.IsNullOrEmpty(accessToken) || accessToken.Contains(" API "))
 			{
 				throw new Exception("The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on the web.config file");
 			}
-			var endpoint = ConfigurationManager.AppSettings["RestPkiEndpoint"];
+			var endpoint = _restPkiConfig.Value.Endpoint;
 			if (string.IsNullOrEmpty(endpoint))
 			{
 				endpoint = "https://pki.rest/";
@@ -92,11 +102,6 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 #endif
 			return trustArbitrator;
 		}
-
-		//public static ITrustServicesManager GetTrustServicesManager()
-		//{
-		//	return TrustServicesManagerFactory.Create(GetTrustServicesOptions());
-		//}
 
 		public static TrustServicesOptions GetTrustServicesOptions()
 		{
@@ -181,27 +186,29 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 
 		#region REST PKI Core
 
-		public static IRestPkiService GetRestPkiService()
+		public IRestPkiService GetRestPkiService()
 		{
 			return RestPkiServiceFactory.GetService(GetRestPkiOptions());
 		}
 
-		public static RestPkiOptions GetRestPkiOptions()
+		public RestPkiOptions GetRestPkiOptions()
 		{
-			var apiKey = ConfigurationManager.AppSettings["RestPkiCoreApiKey"];
+			var apiKey = _restPkiCoreConfig.Value.ApiKey;
 			if (string.IsNullOrEmpty(apiKey) || apiKey.Contains(" API KEY "))
 			{
 				throw new Exception("The API key was not set! Hint: to run this sample you must generate an API key on the REST PKI Core website and paste it on the web.config file");
 			}
-			var endpoint = ConfigurationManager.AppSettings["RestPkiCoreEndpoint"];
+			var endpoint = _restPkiCoreConfig.Value.Endpoint;
 			if (string.IsNullOrEmpty(endpoint))
 			{
 				endpoint = "https://core.pki.rest/";
 			}
 
-			var options = new RestPkiOptions();
-			options.Endpoint = endpoint;
-			options.ApiKey = apiKey;
+			var options = new RestPkiOptions
+			{
+				Endpoint = endpoint,
+				ApiKey = apiKey
+			};
 			return options;
 		}
 
