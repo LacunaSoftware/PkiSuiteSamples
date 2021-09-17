@@ -36,7 +36,7 @@ public class SignatureSessionPreDefRestCoreController {
 
 		for (int i = 0; i < 10; i++) {
 			SignatureSessionDocumentToSign doc = new SignatureSessionDocumentToSign();
-			doc.setFile(FileReference.FromFile(StorageMock.getBatchDocPath(i), String.format("%02d.pdf", i), "application/pdf"));
+			doc.setFile(FileReference.fromFile(StorageMock.getBatchDocPath(i).toString(), String.format("%02d.pdf", i), "application/pdf"));
 			doc.setSignatureType(SignatureTypes.PDF);
 			docs.add(doc);
 		}
@@ -66,7 +66,7 @@ public class SignatureSessionPreDefRestCoreController {
 
 		for (int i = 0; i < 10; i++) {
 			SignatureSessionDocumentToSign doc = new SignatureSessionDocumentToSign();
-			doc.setFile(FileReference.FromFile(StorageMock.getBatchDocPath(i), String.format("%02d.pdf", i), "application/pdf"));
+			doc.setFile(FileReference.fromFile(StorageMock.getBatchDocPath(i).toString(), String.format("%02d.pdf", i), "application/pdf"));
 			doc.setSignatureType(SignatureTypes.PDF);
 			docs.add(doc);
 		}
