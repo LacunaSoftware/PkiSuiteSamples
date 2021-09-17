@@ -7,11 +7,13 @@ using System.Text;
 namespace PkiSuiteAspNetSpaSample.Classes {
 
 	public static class EnumHelper {
-		public static string GetValue(this Enum enumValue) {
+		public static string GetValue(this Enum enumValue)
+		{
 			var type = enumValue.GetType();
 			var member = type.GetMember(enumValue.ToString());
 			var attributes = member[0].GetCustomAttributes(typeof(ValueAttribute), false);
-			if (attributes == null || attributes.Length < 1) {
+			if (attributes == null || attributes.Length < 1)
+			{
 				return null;
 			}
 			var valueAttr = attributes[0] as ValueAttribute;
@@ -32,7 +34,8 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 	public class ValueAttribute : Attribute {
 		public string Value { get; }
 
-		public ValueAttribute(string value) {
+		public ValueAttribute(string value)
+		{
 			Value = value;
 		}
 	}

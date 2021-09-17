@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, CompletePadesSignatureResponse, StartPadesSignatureRequest } from '../../api/rest/pades-signature';
-import { PadesSignatureService } from '../../services/rest/pades-signature.service';
+import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/rest/signature';
+import { SignatureRestService } from '../../services/signature-rest.service';
 import { Config } from '../../api/configuration';
 
 @Component({
@@ -24,7 +24,7 @@ export class PadesSignatureRestComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private padesSignatureService: PadesSignatureService,
+    private padesSignatureService: SignatureRestService,
     private cd: ChangeDetectorRef
   ) { }
 
@@ -73,15 +73,16 @@ export class PadesSignatureRestComponent implements OnInit {
   sign() {
     this.setLoading(true);
 
-    let startRequest: StartPadesSignatureRequest = {
-      userFile: this.fileId
+    let startRequest: StartSignatureRequest = {
+      userFile: this.fileId,
+      isCmsCosign: false
     };
     this.padesSignatureService.startPadesSignature(startRequest).subscribe((result => {
       this.pki.signWithRestPki({
         token: result.token,
         thumbprint: this.selectedCertificate
       }).success(() => {
-        let completeRequest: CompletePadesSignatureRequest = {
+        let completeRequest: CompleteSignatureRequest = {
           token: result.token
         }
         this.padesSignatureService.completePadesSignature(completeRequest).subscribe(
