@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.controller;
 
+import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
 import com.lacunasoftware.restpki.*;
 import org.springframework.stereotype.Controller;
@@ -7,32 +8,44 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class SignatureSessionRestCoreController {
+public class SignatureSessionPreDefRestCoreController {
 
-	private final String RETURN_URL = "http://localhost:60695/signature-session-rest-core/complete";
+	private final String RETURN_URL = "http://localhost:60695/signature-session-predef-rest-core/complete";
 
 	/**
-	 * GET /signature-session-rest-core
+	 * GET /signature-session-predef-rest-core
 	 *
 	 * This action initiates a signature session with REST PKI Core.
 	 */
-	@GetMapping("/signature-session-rest-core")
+	@GetMapping("/signature-session-predef-rest-core")
 	public String get(Model model, HttpServletResponse response) throws Exception {
 
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CreateSignatureSessionRequest request = new CreateSignatureSessionRequest();
 		request.setReturnUrl(RETURN_URL);
+		request.disableDownloads(true);
 
-		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request);
+		List<SignatureSessionDocumentToSign> docs = new ArrayList<>();
+
+		for (int i = 0; i < 10; i++) {
+			SignatureSessionDocumentToSign doc = new SignatureSessionDocumentToSign();
+			doc.setFile(FileReference.FromFile(StorageMock.getBatchDocPath(i), String.format("%02d.pdf", i), "application/pdf"));
+			doc.setSignatureType(SignatureTypes.PDF);
+			docs.add(doc);
+		}
+
+		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request, null, null, docs);
 
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/index.html).
 		model.addAttribute("redirectUrl", sessionResponse.getRedirectUrl());
-		return "signature-session-rest-core/index";
+		return "signature-session-predef-rest-core/index";
 	}
 
 	/**
@@ -40,19 +53,29 @@ public class SignatureSessionRestCoreController {
 	 *
 	 * This action initiates a signature session with REST PKI Core using webhook.
 	 */
-	@GetMapping("/signature-session-rest-core/webhook")
+	@GetMapping("/signature-session-predef-rest-core/webhook")
 	public String usingWebhook(Model model, HttpServletResponse response) throws Exception {
 
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CreateSignatureSessionRequest request = new CreateSignatureSessionRequest();
 		request.setEnableBackgroundProcessing(true);
+		request.disableDownloads(true);
 
-		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request);
+		List<SignatureSessionDocumentToSign> docs = new ArrayList<>();
+
+		for (int i = 0; i < 10; i++) {
+			SignatureSessionDocumentToSign doc = new SignatureSessionDocumentToSign();
+			doc.setFile(FileReference.FromFile(StorageMock.getBatchDocPath(i), String.format("%02d.pdf", i), "application/pdf"));
+			doc.setSignatureType(SignatureTypes.PDF);
+			docs.add(doc);
+		}
+
+		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request, null, null, docs);
 
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/index.html).
 		model.addAttribute("redirectUrl", sessionResponse.getRedirectUrl());
-		return "signature-session-rest-core/index";
+		return "signature-session-predef-rest-core/index";
 	}
 
 	/**
@@ -61,7 +84,7 @@ public class SignatureSessionRestCoreController {
 	 * This action receives the form submission from the view. We'll call REST PKI to validate the
 	 * authentication.
 	 */
-	@GetMapping("/signature-session-rest-core/complete")
+	@GetMapping("/signature-session-predef-rest-core/complete")
 	public String complete(
 		Model model,
 		@RequestParam(value="signatureSessionId") String sessionId
@@ -74,14 +97,11 @@ public class SignatureSessionRestCoreController {
 		model.addAttribute("sessionStatus", session.getStatus());
 
 		if (session.getStatus() == SignatureSessionStatus.COMPLETED){
-			// If signature completed, get document information
-			UUID docId = session.getDocuments().get(0).getId();
-			Document doc = service.getDocument(docId);
-
-			model.addAttribute("originalFile", doc.getOriginalFile());
-			model.addAttribute("signedFile", doc.getSignedFile());
+			// If signature completed, get documents information
+			List<SignatureSessionDocument> docs = session.getDocuments();
+			model.addAttribute("documents", docs);
 		}
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/complete.html).
-		return "signature-session-rest-core/complete";
+		return "signature-session-predef-rest-core/complete";
 	}
 }
