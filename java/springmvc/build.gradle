@@ -27,8 +27,8 @@ repositories {
 dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.17.1'
-    implementation 'com.lacunasoftware.restpki:restpki-client:1.15.2'
-    implementation 'com.lacunasoftware.restpki:restpki-core-client:2.0.1'
+    implementation 'com.lacunasoftware.restpki:restpki-client:1.15.3'
+    implementation 'com.lacunasoftware.restpki:restpki-core-client:3.0.1'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

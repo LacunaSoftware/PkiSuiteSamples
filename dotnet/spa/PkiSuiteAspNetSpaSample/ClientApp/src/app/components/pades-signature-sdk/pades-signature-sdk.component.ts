@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, CompletePadesSignatureResponse, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
-import { PadesSignatureService } from '../../services/sdk/pades-signature.service';
+import { CompletePadesSignatureRequest, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
+import { SignatureSdkService } from '../../services/signature-sdk.service';
 import { Config } from '../../api/configuration';
 
 
@@ -13,7 +13,7 @@ import { Config } from '../../api/configuration';
 })
 export class PadesSignatureSdkComponent implements OnInit {
 
-  pki: any = new LacunaWebPKI(Config.value.webPkiLicense);
+  pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
@@ -25,7 +25,7 @@ export class PadesSignatureSdkComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private padesSignatureService: PadesSignatureService,
+    private padesSignatureService: SignatureSdkService,
     private cd: ChangeDetectorRef
   ) { }
 

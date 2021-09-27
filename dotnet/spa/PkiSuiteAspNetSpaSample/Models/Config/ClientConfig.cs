@@ -5,6 +5,6 @@ using System.Threading.Tasks;
 
 namespace PkiSuiteAspNetSpaSample.Models {
 	public class ClientConfig {
-		public string WebPkiLicense { get; set; }
+		public WebPkiConfig WebPki { get; set; }
 	}
 }

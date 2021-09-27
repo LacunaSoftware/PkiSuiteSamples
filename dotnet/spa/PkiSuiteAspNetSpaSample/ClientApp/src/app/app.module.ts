@@ -7,22 +7,31 @@ import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { HomeComponent } from './components/home/home.component';
 import { ServerFilesComponent } from './components/server-files/server-files.component';
 import { SampleFilesService } from './services/sample-files.service';
-import { PadesSignatureService } from './services/sdk/pades-signature.service';
 import { PadesSignatureSdkComponent } from './components/pades-signature-sdk/pades-signature-sdk.component';
+import { PadesSignatureRestComponent } from './components/pades-signature-rest/pades-signature-rest.component';
 import { StartupService } from './services/startup.service';
 import { InitErrorGuard, InitSuccessGuard } from './guards/init.guard';
 import { ServiceUnavailableComponent } from './components/service-unavailable/service-unavailable.component';
+import { CadesSignatureSdkComponent } from './components/cades-signature-sdk/cades-signature-sdk.component';
+import { CadesSignatureRestComponent } from './components/cades-signature-rest/cades-signature-rest.component';
+import { SignatureSdkService } from './services/signature-sdk.service';
+import { SignatureRestService } from './services/signature-rest.service';
+import { XmlNFeSignatureSdkComponent } from './components/xml-nfe-signature-sdk/xml-nfe-signature-sdk.component';
+import { XmlNFeSignatureRestComponent } from './components/xml-nfe-signature-rest/xml-nfe-signature-rest.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
     ServerFilesComponent,
     PadesSignatureSdkComponent,
+    PadesSignatureRestComponent,
+    CadesSignatureSdkComponent,
+    CadesSignatureRestComponent,
+    XmlNFeSignatureSdkComponent,
+    XmlNFeSignatureRestComponent,
     ServiceUnavailableComponent,
   ],
   imports: [
@@ -37,6 +46,11 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
         children: [
           { path: 'server-files', component: ServerFilesComponent },
           { path: 'pades-signature-sdk', component: PadesSignatureSdkComponent },
+          { path: 'pades-signature-rest', component: PadesSignatureRestComponent },
+          { path: 'cades-signature-sdk', component: CadesSignatureSdkComponent },
+          { path: 'cades-signature-rest', component: CadesSignatureRestComponent },
+          { path: 'xml-nfe-signature-sdk', component: XmlNFeSignatureSdkComponent },
+          { path: 'xml-nfe-signature-rest', component: XmlNFeSignatureRestComponent },
         ]
       },
       {
@@ -48,7 +62,8 @@ import { ServiceUnavailableComponent } from './components/service-unavailable/se
   ],
   providers: [
     SampleFilesService,
-    PadesSignatureService,
+    SignatureSdkService,
+    SignatureRestService,
     StartupService,
     InitSuccessGuard,
     InitErrorGuard,

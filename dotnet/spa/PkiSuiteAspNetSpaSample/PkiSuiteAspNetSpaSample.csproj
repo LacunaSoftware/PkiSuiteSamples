@@ -32,10 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="ClientApp\src\app\api\rest\" />
-    <Folder Include="ClientApp\src\app\classes\" />
-    <Folder Include="Models\Rest\" />
-    <Folder Include="Models\Sdk\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

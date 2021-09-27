@@ -11,13 +11,13 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 	[ApiController]
 	public class ConfigurationController : ControllerBase {
 
-		private readonly PkiSuiteConfig pkiSuiteConfig;
+		private readonly WebPkiConfig webPkiConfig;
 
 		public ConfigurationController(
-			IOptions<PkiSuiteConfig> pkiSuiteConfig
+			IOptions<WebPkiConfig> webPkiConfig
 		)
 		{
-			this.pkiSuiteConfig = pkiSuiteConfig.Value;
+			this.webPkiConfig = webPkiConfig.Value;
 		}
 
 		[HttpGet]
@@ -25,7 +25,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		{
 			var config = new ClientConfig()
 			{
-				WebPkiLicense = pkiSuiteConfig.WebPkiLicense
+				WebPki = webPkiConfig
 			};
 			return config;
 		}
