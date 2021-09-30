@@ -49,6 +49,9 @@ public class StorageMock {
 	public static Path getDataPath(String fileId) throws IOException {
 		return getDataPath(fileId, null);
 	}
+	public static Path getSampleDiplomaPath() throws IOException {
+		return getResourcePath("SampleDiploma.xml");
+	}
 
 	public static Path getDataPath(String fileId, String extension) throws IOException {
 		String filename = fileId.replace('_', '.');
