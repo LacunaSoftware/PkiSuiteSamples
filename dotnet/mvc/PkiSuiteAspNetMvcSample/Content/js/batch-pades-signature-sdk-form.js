@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------
 // This file contains logic for calling the Web PKI component to sign a batch of documents. It is only an
 // example, feel free to alter it to meet your application's needs.
 // ----------------------------------------------------------------------------------------------------------
@@ -75,7 +75,6 @@ var batchSignatureSdkForm = (function () {
 		formElements = fe;
 
 		// Wireup of button clicks.
-		formElements.signButton.click(sign);
 		formElements.refreshButton.click(refresh);
 
 		// Block the UI while we get things ready.
@@ -86,7 +85,8 @@ var batchSignatureSdkForm = (function () {
 			var docId = formElements.documentsIds[i];
 			formElements.docList.append(
 				$('<li />').append(
-					$('<a />').text('Document ' + docId).attr('href', '/Download/Doc/' + docId)
+					$('<input />').attr({'type': 'checkbox', 'id': 'checkbox_' + docId, 'checked': true, 'onclick': 'changeList(' + docId + ')' }),
+					$('<a />').text(' Document ' + docId).attr('href', '/Download/Doc/' + docId)
 				)
 			);
 		}
@@ -146,8 +146,7 @@ var batchSignatureSdkForm = (function () {
 	// ------------------------------------------------------------------------------------------------------
 	// Function called when the user clicks the "Sign Batch" button.
 	// ------------------------------------------------------------------------------------------------------
-	function sign() {
-
+	function sign(docLst) {
 		// Block the UI while we perform the signature.
 		$.blockUI({ message: 'Signing ...' });
 
@@ -160,10 +159,17 @@ var batchSignatureSdkForm = (function () {
 			// Store the certificate content
 			selectedCertContent = certEncoded;
 
+			// Create the queues.
+			startQueue = new Queue();
+			// Add all documents to the first ("start") queue.
+			for (var i = 0; i < docLst.length; i++) {
+				startQueue.add({ index: i, docId: lst[i] });
+			}
+
 			// Call Web PKI to preauthorize the signatures, so that the user only sees one confirmation dialog.
 			pki.preauthorizeSignatures({
 				certificateThumbprint: selectedCertThumbprint,
-				signatureCount: formElements.documentsIds.length // Number of signatures to be authorized by the user.
+				signatureCount: docLst.length // Number of signatures to be authorized by the user.
 			}).success(startBatch); // Callback to be called if the user authorizes the signatures.
 
 		});
@@ -188,14 +194,8 @@ var batchSignatureSdkForm = (function () {
 		*/
 
 		// Create the queues.
-		startQueue = new Queue();
 		performQueue = new Queue();
 		completeQueue = new Queue();
-
-		// Add all documents to the first ("start") queue.
-		for (var i = 0; i < formElements.documentsIds.length; i++) {
-			startQueue.add({ index: i, docId: formElements.documentsIds[i] });
-		}
 
 		/*
 			Process each queue placing the result on the next queue, forming a sort of "assembly line":
@@ -330,6 +330,7 @@ var batchSignatureSdkForm = (function () {
 	// ------------------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
 		var docLi = formElements.docList.find('li').eq(step.index);
+		docLi.find('input').prop('disabled', true);
 		docLi
 			.append(document.createTextNode(' '))
 			.append($('<i>')
@@ -346,6 +347,7 @@ var batchSignatureSdkForm = (function () {
 	function renderFail(step, error) {
 		addAlert('danger', 'An error has occurred while signing Document ' + step.docId + ': ' + error);
 		var docLi = formElements.docList.find('li').eq(step.index);
+		docLi.find('input').prop('disabled', true);
 		docLi
 			.append(document.createTextNode(' '))
 			.append($('<i>')
@@ -371,7 +373,8 @@ var batchSignatureSdkForm = (function () {
 	}
 
 	return {
-		init: init
+		init: init,
+		sign: sign
 	};
 
 })();
