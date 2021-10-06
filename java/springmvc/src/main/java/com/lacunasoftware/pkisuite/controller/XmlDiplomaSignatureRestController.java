@@ -29,11 +29,12 @@ public class XmlDiplomaSignatureRestController {
 		// elements and start the signature process.
 		XmlElementSignatureStarter signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
-		// Set the path of the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
+		// Set the path of the XML to be signed, a sample Brazilian diploma digital pre-generated.
 		signatureStarter.setXml(StorageMock.getSampleDiplomaPath());
 
 		// Set the ID of the element to be signed.
 		signatureStarter.setElementToSIgnId("Dip35141214314050000662550010001084271182362300");
+		signatureStarter.setSignatureElementLocation(".", new XmlNamespaceManager(), XmlInsertionOptions.AppendChild);
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PkiBrazilXadesAdrTempo);
@@ -95,30 +96,31 @@ public class XmlDiplomaSignatureRestController {
 	}
 
 	/**
-	 * GET /xml-diploma-signature-rest/init-dados-registro
+	 * GET /xml-diploma-signature-rest/dados-registro
 	 * This action initiates a Xml signature using REST PKI
 	 * that will signs the element DadosRegistro with e-CPF.
 	 */
-	@GetMapping("/init-dados-registro")
-	public String initDadosRegistro(
+	@GetMapping("/dados-registro")
+	public String getDadosRegistro(
 			@RequestParam(value = "fileId") String fileToSign,
 			Model model,
 			HttpServletResponse response
 	) throws IOException, RestException {
 		// Verify if the fileId exists and get the absolute path of the fileId with the help of our
 		// StorageMock class. This sample can only execute if the provided file exists.
-		if (!StorageMock.exists(fileToSign)) {
+		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
 		// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
 		// elements and start the signature process.
 		XmlElementSignatureStarter signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
-		// Set the path of the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
-		signatureStarter.setXml(fileToSign);
+		// Set the path of the XML to be signed, a sample Brazilian diploma digital pre-generated.
+		signatureStarter.setXml(StorageMock.getDataPath(fileToSign));
 
 		// Set the ID of the element to be signed.
 		signatureStarter.setElementToSIgnId("Reg35141214314050000662550010001084271182362300");
+		signatureStarter.setSignatureElementLocation(".", new XmlNamespaceManager(), XmlInsertionOptions.AppendChild);
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PkiBrazilXadesAdrTempo);
@@ -148,12 +150,12 @@ public class XmlDiplomaSignatureRestController {
 	}
 
 	/**
-	 * POST /xml-diploma-signature-rest/complete-dados-registro
+	 * POST /xml-diploma-signature-rest/dados-registro
 	 * This action complete a Xml signature using REST PKI
 	 * that signs the element DadosRegistro.
 	 */
-	@PostMapping("/complete-dados-registro")
-	public String completeDadosRegistro(
+	@PostMapping("/dados-registro")
+	public String postDadosRegistro(
 			@RequestParam(value = "token") String token,
 			Model model
 	) throws IOException, RestException {
@@ -180,20 +182,19 @@ public class XmlDiplomaSignatureRestController {
 	}
 
 	/**
-	 * GET /xml-diploma-signature-rest/init-full-diploma
+	 * GET /xml-diploma-signature-rest/diploma
 	 * This action initiates a Xml signature using REST PKI
 	 * that will sign the full Diploma XML with e-CNPJ (AD-RA).
 	 */
-	@GetMapping("/init-full-diploma")
-	public String initFullDiploma(
+	@GetMapping("/diploma")
+	public String getDiploma(
 			@RequestParam(value = "fileId") String fileToSign,
 			Model model,
 			HttpServletResponse response
 	) throws IOException, RestException {
-
 		// Verify if the fileId exists and get the absolute path of the fileId with the help of our
 		// StorageMock class. This sample can only execute if the provided file exists.
-		if (!StorageMock.exists(fileToSign)) {
+		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
 
@@ -202,7 +203,7 @@ public class XmlDiplomaSignatureRestController {
 		FullXmlSignatureStarter signatureStarter = new FullXmlSignatureStarter(Util.getRestPkiClient());
 
 		// Set path of the XML to be signed, a sample XML Document.
-		signatureStarter.setXml(fileToSign);
+		signatureStarter.setXml(StorageMock.getDataPath(fileToSign));
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PkiBrazilXadesAdrArquivamento);
@@ -210,13 +211,6 @@ public class XmlDiplomaSignatureRestController {
 		// Set the security context to be used to determine trust in the certificate chain. We have
 		// encapsulated the security context choice on Util.cs.
 		signatureStarter.setSecurityContext(Util.getSecurityContextId());
-
-		// Set the location on which to insert the signature node. If the location is not specified,
-		// the signature will appended to the root element (which is most usual with enveloped
-		// signatures).
-		XmlNamespaceManager nsm = new XmlNamespaceManager();
-		nsm.addNamespace("ls", "http://www.lacunasoftware.com/sample");
-		signatureStarter.setSignatureElementLocation("//ls:signaturePlaceholder", nsm, XmlInsertionOptions.AppendChild);
 
 		// Call the startWithWebPki() method, which initiates the signature. This yields the token,
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
@@ -239,12 +233,12 @@ public class XmlDiplomaSignatureRestController {
 	}
 
 	/**
-	 * POST /xml-diploma-signature-rest/complete-full-diploma
+	 * POST /xml-diploma-signature-rest/diploma
 	 * This action complete a Xml signature using REST PKI
 	 * that signs the full Diploma XML
 	 */
-	@PostMapping("/complete-full-diploma")
-	public String completeFullDiploma(
+	@PostMapping("/diploma")
+	public String postDiploma(
 			@RequestParam(value = "token") String token,
 			Model model
 	) throws IOException, RestException {
