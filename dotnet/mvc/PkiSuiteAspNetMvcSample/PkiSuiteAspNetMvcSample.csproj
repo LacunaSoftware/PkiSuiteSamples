@@ -57,8 +57,8 @@
     <Reference Include="Lacuna.DataAnnotations, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.DataAnnotations.1.2.0\lib\net45\Lacuna.DataAnnotations.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.Pki, Version=2.7.5.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.Pki.dll</HintPath>
+    <Reference Include="Lacuna.Pki, Version=2.8.12.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.8.12\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.Pki.BrazilTrustServices, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f9a343ef085a160f, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.BrazilTrustServices.1.0.1\lib\net461\Lacuna.Pki.BrazilTrustServices.dll</HintPath>
@@ -81,8 +81,8 @@
     <Reference Include="Lacuna.Spa.Api, Version=2.2.0.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Spa.Api.2.2.0\lib\net45\Lacuna.Spa.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.T8, Version=1.2.3.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.T8.dll</HintPath>
+    <Reference Include="Lacuna.T8, Version=1.2.7.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.8.12\lib\net46\Lacuna.T8.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
