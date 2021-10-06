@@ -1,10 +1,10 @@
-﻿using Lacuna.Pki;
+﻿using Lacuna.RestPki.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace PkiSuiteAspNetSpaSample.Models.Sdk {
+namespace PkiSuiteAspNetSpaSample.Models.Rest {
 
 	public enum SignatureAlgorithms {
 		MD5WithRSA,
@@ -19,22 +19,22 @@ namespace PkiSuiteAspNetSpaSample.Models.Sdk {
 		public byte[] Value { get; set; }
 		public string HexValue { get; set; }
 
-		public SignatureAlgorithmAndValueModel(SignatureAlgorithm sigAlgorithm, byte[] value) {
+		public SignatureAlgorithmAndValueModel(SignatureAlgorithmAndValue signature) {
 
-			Value = value;
-			if (value != null) {
-				HexValue = string.Join("", value.Select(b => b.ToString("X2")));
+			Value = signature.Value;
+			if (Value != null) {
+				HexValue = string.Join("", Value.Select(b => b.ToString("X2")));
 			}
 
-			if (sigAlgorithm == SignatureAlgorithm.MD5WithRSA) {
+			if (signature.Algorithm == SignatureAlgorithm.MD5WithRSA) {
 				AlgorithmIdentifier = SignatureAlgorithms.MD5WithRSA;
-			} else if (sigAlgorithm == SignatureAlgorithm.SHA1WithRSA) {
+			} else if (signature.Algorithm == SignatureAlgorithm.SHA1WithRSA) {
 				AlgorithmIdentifier = SignatureAlgorithms.SHA1WithRSA;
-			} else if (sigAlgorithm == SignatureAlgorithm.SHA256WithRSA) {
+			} else if (signature.Algorithm == SignatureAlgorithm.SHA256WithRSA) {
 				AlgorithmIdentifier = SignatureAlgorithms.SHA256WithRSA;
-			} else if (sigAlgorithm == SignatureAlgorithm.SHA384WithRSA) {
+			} else if (signature.Algorithm == SignatureAlgorithm.SHA384WithRSA) {
 				AlgorithmIdentifier = SignatureAlgorithms.SHA384WithRSA;
-			} else if (sigAlgorithm == SignatureAlgorithm.SHA512WithRSA) {
+			} else if (signature.Algorithm == SignatureAlgorithm.SHA512WithRSA) {
 				AlgorithmIdentifier = SignatureAlgorithms.SHA512WithRSA;
 			}
 		}

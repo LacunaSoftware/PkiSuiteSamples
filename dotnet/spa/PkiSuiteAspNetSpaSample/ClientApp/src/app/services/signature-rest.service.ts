@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   CompleteSignatureRequest,
   CompleteSignatureResponse,
+  OpenPadesSignatureResponse,
   StartSignatureRequest,
   StartSignatureResponse,
   XmlNFeCompleteSignatureResponse,
@@ -40,4 +41,7 @@ export class SignatureRestService {
     return this.http.post<XmlNFeCompleteSignatureResponse>(`/api/XmlNFeSignatureRest/Complete`, request);
   }
 
+  openPadesSignature(request: string): Observable<OpenPadesSignatureResponse> {
+    return this.http.get<OpenPadesSignatureResponse>(`/api/OpenPadesRest/` + request);
+  }
 }
