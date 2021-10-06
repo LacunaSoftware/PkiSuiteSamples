@@ -1,0 +1,49 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<h2 class="ls-title">Open existing PAdES Signature with REST PKI</h2>
+<div *ngIf="!loading">
+  <h5>The given file contains {{signature.signers.length}} signatures:</h5>
+  <div class="ls-content">
+    <div id="accordion">
+      <div class="card" *ngFor="let signer of signature.signers; let i = index">
+        <div *ngIf="{headingId: 'signer_' + i + '_heading', collapseId: 'signer_' + i + '_collapse'} as variable">
+          <div class="card-header open-header" id="{{variable.headingId}}">
+            <button (click)="toggleSigner(variable.collapseId)">
+              {{signer.certificate.subjectName.commonName}}
+              <span>&nbsp;</span>
+              <span *ngIf="signer.validationResults.isValid" class="badge badge-success">valid</span>
+              <span *ngIf="!signer.validationResults.isValid" class="badge badge-success">invalid</span>
+            </button>
+          </div>
+          <div id="{{variable.collapseId}}" class="collapse" role="tabpanel" attr.aria-labelledby={{variable.headingId}} data-parent="#accordion">
+            <div class="card-body">
+              <p *ngIf="signer.signingTime != null"><strong>Signing time</strong>: {{signer.signingTime}}</p>
+              <p><strong>Message digest</strong>: {{signer.messageDigest.algorithm.name}} {{signer.messageDigest.value}}</p>
+              <p *ngIf="signer.signaturePolicy != null"><strong>Signature policy</strong>: {{signer.signaturePolicy.oid}}</p>
+              <p><strong>Signer information</strong>:</p>
+              <ul>
+                <li><strong>Subject</strong>: {{signer.certificate.subjectName.commonName}}</li>
+                <li><strong>Email</strong>: {{signer.certificate.emailAddress}}</li>
+                <li>
+                  <strong>ICP-Brasil fields</strong>:
+                  <ul>
+                    <li><strong>Tipo de certificado</strong>: {{signer.certificate.pkiBrazil.certificateType}}</li>
+                    <li><strong>CPF</strong>: {{signer.certificate.pkiBrazil.cpf}}</li>
+                    <li><strong>Responsavel</strong>: {{signer.certificate.pkiBrazil.responsavel}}</li>
+                    <li><strong>Empresa</strong>: {{signer.certificate.pkiBrazil.companyName}}</li>
+                    <li><strong>CNPJ</strong>: {{signer.certificate.pkiBrazil.cnpjFormatted}}</li>
+                    <li><strong>RG</strong>: {{signer.certificate.pkiBrazil.rGNumero}} {{signer.certificate.pkiBrazil.rgEmissor}} {{signer.certificate.pkiBrazil.rgEmissorUF}}</li>
+                    <li><strong>OAB</strong>: {{signer.certificate.pkiBrazil.oabNumero}} {{signer.certificate.pkiBrazil.oabUF}}</li>
+                  </ul>
+                </li>
+              </ul>
+              <p *ngIf="signer.validationResults != null">
+                <label for="vrHtml">Validation Results</label>:
+                <textarea id="vrHtml" style="width: 100%" rows="20" inline="text">{{toString(signer.validationResults, 1)}}</textarea>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
