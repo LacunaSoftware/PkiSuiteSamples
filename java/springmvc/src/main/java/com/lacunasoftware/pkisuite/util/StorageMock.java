@@ -303,6 +303,10 @@ public class StorageMock {
 				return "CMSAttached2.p7s";
 			case CMS_DATA_FILE:
 				return "CMSDataFile.pdf";
+			case SAMPLE_NFE:
+				return "SampleNFe.xml";
+			case SAMPLE_XML:
+				return "SampleDocument.xml";
 			default:
 				throw new FileNotFoundException();
 		}

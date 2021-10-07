@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">NFe Signature with REST PKI</h2>
+	<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+
+	<div class="ls-content">
+
+		<p>
+			Signer information:
+			<ul>
+				<li><strong>Subject</strong>: <span th:text="${signerCert.getSubjectName().getCommonName()}"></span></li>
+				<li><strong>Email</strong>: <span th:text="${signerCert.getEmailAddress()}"></span></li>
+				<li>
+					<strong>ICP-Brasil fields</strong>
+					<ul>
+						<li><strong>Tipo de certificado</strong>: <span th:text="${signerCert.getPkiBrazil().getCertificateType()}"/></li>
+						<li><strong>CPF</strong>: <span th:text="${signerCert.getPkiBrazil().getCpfFormatted()}"/></li>
+						<li><strong>Responsavel</strong>: <span th:text="${signerCert.getPkiBrazil().getResponsavel()}"/></li>
+						<li><strong>Empresa</strong>: <span th:text="${signerCert.getPkiBrazil().getCompanyName()}"/></li>
+						<li><strong>CNPJ</strong>: <span th:text="${signerCert.getPkiBrazil().getCnpjFormatted()}"/></li>
+						<li><strong>RG</strong>: <span th:text="${signerCert.getPkiBrazil().getRGNumero()}"/> <span th:text="${signerCert.getPkiBrazil().getRGEmissor()}"/> <span th:text="${signerCert.getPkiBrazil().getRGEmissorUF()}"/></li>
+						<li><strong>OAB</strong>: <span th:text="${signerCert.getPkiBrazil().getOabNumero()}"/> <span th:text="${signerCert.getPkiBrazil().getOabUF()}"/></li>
+					</ul>
+				</li>
+			</ul>
+		</p>
+
+		<h3>Actions:</h3>
+		<ul>
+			<li><a th:href="@{'/download/' + ${filename}}">Download the signed file</a></li>
+		</ul>
+
+	</div>
+</div>
+
+</body>
+</html>
