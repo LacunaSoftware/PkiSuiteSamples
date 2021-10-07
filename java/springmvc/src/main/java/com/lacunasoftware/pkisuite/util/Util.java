@@ -4,12 +4,10 @@ import com.lacunasoftware.amplia.AmpliaClient;
 import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
 import com.lacunasoftware.restpki.RestPkiClient;
-import com.lacunasoftware.restpki.RestPkiCoreClient;
 import com.lacunasoftware.restpki.RestPkiOptions;
 import com.lacunasoftware.restpki.SecurityContext;
 import com.lacunasoftware.pkisuite.config.ApplicationProperties;
 import com.lacunasoftware.pkisuite.config.ProxyProperties;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
