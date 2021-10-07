@@ -30,7 +30,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return HttpNotFound();
 			}
 
-			return File(content, MimeMapping.GetMimeMapping(filename), filename);
+			return File(content, System.Web.MimeMapping.GetMimeMapping(filename), filename);
 		}
 
 		// GET Download/Sample/<file_id>
@@ -38,7 +38,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public ActionResult Sample(SampleDocs id) {
 			string filename;
 			var content = StorageMock.GetSampleDocContent(id, out filename);
-			return File(content, MimeMapping.GetMimeMapping(filename), filename);
+			return File(content, System.Web.MimeMapping.GetMimeMapping(filename), filename);
 		}
 
 		// GET Download/Doc/{id}
