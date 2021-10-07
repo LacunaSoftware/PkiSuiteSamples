@@ -1,7 +1,7 @@
 package com.lacunasoftware.pkisuite.controller;
 
 import com.lacunasoftware.pkisuite.util.Util;
-import com.lacunasoftware.restpki.*;
+import com.lacunasoftware.restpkicore.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
