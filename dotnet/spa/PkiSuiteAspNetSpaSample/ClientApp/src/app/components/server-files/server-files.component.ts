@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SampleDocs } from '../../api/SampleDocs';
+import { SampleDocs } from '../../api/sample-docs';
 import { SampleFilesService } from '../../services/sample-files.service';
 
 @Component({
