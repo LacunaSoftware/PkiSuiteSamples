@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">XML Diploma Signature with REST PKI</h2>
+	<h5 class="ls-subtitle">Element <i>DadosRegistro</i> signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+
+	<div class="ls-content">
+		<h3>Actions:</h3>
+		<ul>
+			<li><a th:href="@{'/download/' + ${filename}}">Download the signed file</a></li>
+			<li><a th:href="@{/xml-diploma-signature-rest/diploma(fileId=${filename})}">Last step of signature process</a></li>
+		</ul>
+
+	</div>
+</div>
+
+</body>
+</html>
