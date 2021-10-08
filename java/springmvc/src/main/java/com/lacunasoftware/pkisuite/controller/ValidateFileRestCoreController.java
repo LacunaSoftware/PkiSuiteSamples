@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.controller;
 
+import com.lacunasoftware.restpkicore.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-import com.lacunasoftware.restpki.*;
+
 
 @Controller
 public class ValidateFileRestCoreController {

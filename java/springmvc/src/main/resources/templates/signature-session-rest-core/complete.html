@@ -3,7 +3,7 @@
 <body>
 	<div th:fragment="content">
 		<h2 class="ls-title">Signature Session with REST PKI Core (Simple flow)</h2>
-		<th:block th:if="${sessionStatus == T(com.lacunasoftware.restpki.SignatureSessionStatus).COMPLETED}">
+		<th:block th:if="${sessionStatus == T(com.lacunasoftware.restpkicore.SignatureSessionStatus).COMPLETED}">
 			<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 		
 			<div class="ls-content">
@@ -14,7 +14,7 @@
 				</ul>
 			</div>
 		</th:block>
-		<th:block th:if="${sessionStatus == T(com.lacunasoftware.restpki.SignatureSessionStatus).USERCANCELLED}">
+		<th:block th:if="${sessionStatus == T(com.lacunasoftware.restpkicore.SignatureSessionStatus).USERCANCELLED}">
 			<h5 class="ls-subtitle">Signature Session Cancelled by the user! <i class="fas fa-check-circle text-danger"></i></h5>
 		</th:block>
 	</div>
