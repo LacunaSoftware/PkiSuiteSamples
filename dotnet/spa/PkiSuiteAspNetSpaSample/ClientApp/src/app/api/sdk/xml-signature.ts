@@ -22,3 +22,26 @@ export interface CompleteXmlNFeSignatureResponse {
   validationResults: ValidationResultsModel,
   signedFileId: string,
 }
+
+export interface StartXmlSignatureRequest {
+  certContent: string
+}
+
+export interface StartXmlSignatureResponse {
+  toSignHash: string,
+  transferDataId: string,
+  digestAlgorithm: string,
+  success: boolean,
+  validationResults: ValidationResultsModel,
+}
+
+export interface CompleteXmlSignatureRequest {
+  transferDataFileId: string,
+  signature: string
+}
+
+export interface CompleteXmlSignatureResponse {
+  signedFileId: string,
+  success: boolean,
+  validationResults: ValidationResultsModel,
+}

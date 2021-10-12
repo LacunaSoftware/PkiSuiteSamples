@@ -41,6 +41,14 @@ export class SignatureRestService {
     return this.http.post<XmlNFeCompleteSignatureResponse>(`/api/XmlNFeSignatureRest/Complete`, request);
   }
 
+  startXmlSignature(): Observable<CompleteSignatureRequest> {
+    return this.http.get<CompleteSignatureRequest>(`/api/XmlSignatureRest/Start`);
+  }
+
+  completeXmlSignature(request: CompleteSignatureRequest): Observable<CompleteSignatureResponse> {
+    return this.http.post<CompleteSignatureResponse>(`/api/XmlSignatureRest/Complete`, request);
+  }
+
   openPadesSignature(request: string): Observable<OpenPadesSignatureResponse> {
     return this.http.get<OpenPadesSignatureResponse>(`/api/OpenPadesRest/` + request);
   }

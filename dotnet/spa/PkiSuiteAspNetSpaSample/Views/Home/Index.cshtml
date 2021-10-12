@@ -42,7 +42,10 @@
 			//signPdfServerKey: { },
 			//signPdfCloudPwd: { },
 			//signPdfCloudOAuth: { },
-			//signXmlServer: { },
+			signXmlServer: {
+				pki: '/RedirectToSPA?rc=xml-signature',
+				restpki: '/CheckRestPkiToken?rc=xml-signature'
+			},
 			//signXmlServerKey: { },
 			//signaturePackage: { },
 			//validateCmsSig: { },

@@ -10,8 +10,12 @@ import {
 import {
   CompleteXmlNFeSignatureRequest,
   CompleteXmlNFeSignatureResponse,
+  CompleteXmlSignatureRequest,
+  CompleteXmlSignatureResponse,
   StartXmlNFeSignatureRequest,
   StartXmlNFeSignatureResponse,
+  StartXmlSignatureRequest,
+  StartXmlSignatureResponse,
 } from '../api/sdk/xml-signature';
 import {
   CompletePadesSignatureRequest,
@@ -42,6 +46,14 @@ export class SignatureSdkService {
 
   completePadesSignature(request: CompletePadesSignatureRequest): Observable<CompletePadesSignatureResponse> {
     return this.http.post<CompletePadesSignatureResponse>(`/api/PadesSignatureSdk/Complete`, request);
+  }
+
+  startXmlSignature(request: StartXmlSignatureRequest): Observable<StartXmlSignatureResponse> {
+    return this.http.post<StartXmlSignatureResponse>(`/api/XmlSignatureSdk/Start`, request);
+  }
+
+  completeXmlSignature(request: CompleteXmlSignatureRequest): Observable<CompleteXmlSignatureResponse> {
+    return this.http.post<CompleteXmlSignatureResponse>(`/api/XmlSignatureSdk/Complete`, request);
   }
 
   startXmlNFeSignature(request: StartXmlNFeSignatureRequest): Observable<StartXmlNFeSignatureResponse> {
