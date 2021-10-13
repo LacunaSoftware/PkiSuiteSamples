@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
+import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/sdk/signature';
 import { SignatureSdkService } from '../../services/signature-sdk.service';
 import { Config } from '../../api/configuration';
 
@@ -74,7 +74,7 @@ export class PadesSignatureSdkComponent implements OnInit {
   sign() {
     this.setLoading(true);
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startRequest: StartPadesSignatureRequest = {
+      let startRequest: StartSignatureRequest = {
         userFile: this.fileId,
         certContent: certContent
       };
@@ -87,8 +87,8 @@ export class PadesSignatureSdkComponent implements OnInit {
             digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompletePadesSignatureRequest = {
-              transferDataFileId: startResponse.transferDataId,
+            let completeRequest: CompleteSignatureRequest = {
+              transferDataId: startResponse.transferDataId,
               signature: signature
             };
 

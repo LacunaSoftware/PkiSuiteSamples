@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { Config } from '../../api/configuration';
-import { StartXmlNFeSignatureRequest, CompleteXmlNFeSignatureRequest } from '../../api/sdk/xml-signature';
+import { StartSignatureRequest, CompleteSignatureRequest } from '../../api/sdk/signature';
 import { SignatureSdkService } from '../../services/signature-sdk.service';
 
 @Component({
@@ -67,7 +67,7 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
   sign() {
     this.setLoading(true);
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startReques: StartXmlNFeSignatureRequest = {
+      let startReques: StartSignatureRequest = {
         certContent: certContent,
       }
       this.nfeSignatureService.startXmlNFeSignature(startReques).subscribe(
@@ -75,12 +75,12 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
           this.pki.signHash({
             thumbprint: this.selectedCertificate,
             hash: startResponse.toSignHash,
-            digestAlgorithm: startResponse.digestAlgorithmOid
+            digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompleteXmlNFeSignatureRequest = {
+            let completeRequest: CompleteSignatureRequest = {
               signature: signature,
-              transferDataFileId: startResponse.transferDataFileId
+              transferDataId: startResponse.transferDataId
             };
 
             this.nfeSignatureService.completeXmlNFeSignature(completeRequest).subscribe(

@@ -29,7 +29,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		 * (the "to-sign-hash").
 		 */
 		[HttpGet]
-		public async Task<XmlNFeSignatureStartResponse> StartAsync()
+		public async Task<Models.Rest.SignatureStartResponse> StartAsync()
 		{
 
 			// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
@@ -55,7 +55,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			// signature-form.js) and also to complete the signature on the POST action below (this should
 			// not be mistaken with the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
-			return new XmlNFeSignatureStartResponse()
+			return new Models.Rest.SignatureStartResponse()
 			{
 				Token = token
 			};
@@ -68,7 +68,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		 * certificate. After signature, it'll return the signature file.
 		 */
 		[HttpPost]
-		public async Task<XmlNFeSignatureCompleteResponse> CompleteAsync(SignatureCompleteRequest request)
+		public async Task<SignatureCompleteResponse> CompleteAsync(SignatureCompleteRequest request)
 		{
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
 			// process.
@@ -89,7 +89,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			// purposes, we'll store the PDF on our mock Storage class.
 			var fileId = _storageMock.Store(signedXml, ".xml");
 
-			return new XmlNFeSignatureCompleteResponse()
+			return new SignatureCompleteResponse()
 			{
 				SignedFileId = fileId,
 			};

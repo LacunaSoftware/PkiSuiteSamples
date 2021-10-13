@@ -7,7 +7,6 @@ import {
   OpenPadesSignatureResponse,
   StartSignatureRequest,
   StartSignatureResponse,
-  XmlNFeCompleteSignatureResponse,
 } from '../api/rest/signature';
 
 @Injectable({
@@ -37,8 +36,8 @@ export class SignatureRestService {
     return this.http.get<CompleteSignatureRequest>(`/api/XmlNFeSignatureRest/Start`);
   }
 
-  completeXmlNFeSignature(request: CompleteSignatureRequest): Observable<XmlNFeCompleteSignatureResponse> {
-    return this.http.post<XmlNFeCompleteSignatureResponse>(`/api/XmlNFeSignatureRest/Complete`, request);
+  completeXmlNFeSignature(request: CompleteSignatureRequest): Observable<CompleteSignatureResponse> {
+    return this.http.post<CompleteSignatureResponse>(`/api/XmlNFeSignatureRest/Complete`, request);
   }
 
   startXmlSignature(): Observable<CompleteSignatureRequest> {

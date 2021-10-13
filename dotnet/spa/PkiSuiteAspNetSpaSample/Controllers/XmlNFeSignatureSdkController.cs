@@ -89,9 +89,9 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			return new XmlNFeSignatureStartResponse()
 			{
 				Success = true,
-				TransferDataFileId = _storageMock.Store(transferData, ".bin"),
+				TransferDataId = _storageMock.Store(transferData, ".bin"),
 				ToSignHash = toSignHash,
-				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid
+				DigestAlgorithm = signatureAlg.DigestAlgorithm.Oid
 			};
 		}
 
@@ -112,7 +112,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 
 				// Recover the "transfer data" content stored in a temporary file.
 				byte[] transferDataContent;
-				if (!_storageMock.TryGetFile(request.TransferDataFileId, out transferDataContent))
+				if (!_storageMock.TryGetFile(request.TransferDataId, out transferDataContent))
 				{
 					throw new Exception("TransferData not found");
 				}

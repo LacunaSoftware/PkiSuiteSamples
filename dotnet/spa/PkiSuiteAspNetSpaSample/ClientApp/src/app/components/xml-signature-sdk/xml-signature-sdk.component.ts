@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CertificateModel, LacunaWebPKI } from 'web-pki';
 import { Config } from '../../api/configuration';
-import { CompleteXmlSignatureRequest, StartXmlSignatureRequest } from '../../api/sdk/xml-signature';
+import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/sdk/signature';
 import { SignatureSdkService } from '../../services/signature-sdk.service';
 
 @Component({
@@ -67,7 +67,7 @@ export class XmlSignatureSdkComponent implements OnInit {
   sign() {
     this.setLoading(true);
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startReques: StartXmlSignatureRequest = {
+      let startReques: StartSignatureRequest = {
         certContent: certContent,
       }
       this.xmlSignatureService.startXmlSignature(startReques).subscribe(
@@ -78,9 +78,9 @@ export class XmlSignatureSdkComponent implements OnInit {
             digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompleteXmlSignatureRequest = {
+            let completeRequest: CompleteSignatureRequest = {
               signature: signature,
-              transferDataFileId: startResponse.transferDataId
+              transferDataId: startResponse.transferDataId
             };
 
             this.xmlSignatureService.completeXmlSignature(completeRequest).subscribe(

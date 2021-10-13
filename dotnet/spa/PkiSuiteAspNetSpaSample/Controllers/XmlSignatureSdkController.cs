@@ -93,7 +93,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			try
 			{
 				// Recover the "transfer data" content stored in a temporary file.
-				if (!_storageMock.TryGetFile(request.TransferDataFileId, out byte[] transferDataContent))
+				if (!_storageMock.TryGetFile(request.TransferDataId, out byte[] transferDataContent))
 				{
 					throw new Exception("TransferData not found");
 				}

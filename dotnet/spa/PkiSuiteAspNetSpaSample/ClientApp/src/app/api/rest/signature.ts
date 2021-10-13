@@ -12,8 +12,6 @@ export interface StartSignatureRequest {
 export interface StartSignatureResponse {
   token: string,
   userFile: string,
-  success: boolean,
-  validationResults: ValidationResultsModel,
 }
 
 export interface CompleteSignatureRequest {
@@ -21,16 +19,6 @@ export interface CompleteSignatureRequest {
 }
 
 export interface CompleteSignatureResponse {
-  signedFileId: string,
-  success: boolean,
-  validationResults: ValidationResultsModel,
-}
-
-export interface XmlNFeStartSignatureResponse {
-  token: string,
-}
-
-export interface XmlNFeCompleteSignatureResponse {
   signedFileId: string,
 }
 
