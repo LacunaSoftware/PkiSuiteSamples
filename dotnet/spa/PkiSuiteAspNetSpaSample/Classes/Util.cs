@@ -1,5 +1,6 @@
 ﻿using Lacuna.Pki;
 using Lacuna.Pki.BrazilTrustServices;
+using Lacuna.Pki.Stores;
 using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
 using Microsoft.Extensions.Options;
@@ -15,11 +16,13 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 	public class Util {
 		private readonly IOptions<RestPkiConfig> _restPkiConfig;
 		private readonly IOptions<RestPkiCoreConfig> _restPkiCoreConfig;
+		private readonly StorageMock _storageMock;
 
-		public Util(IOptions<RestPkiConfig> restPkiConfig, IOptions<RestPkiCoreConfig> restPkiCoreConfig)
+		public Util(IOptions<RestPkiConfig> restPkiConfig, IOptions<RestPkiCoreConfig> restPkiCoreConfig, StorageMock storageMock)
 		{
 			_restPkiConfig = restPkiConfig;
 			_restPkiCoreConfig = restPkiCoreConfig;
+			_storageMock = storageMock;
 		}
 
 		#region REST PKI
@@ -81,6 +84,19 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 				return Path.Combine(Path.GetDirectoryName(assemblyPath), "LacunaPkiLicense.config");
 			}
 		}
+
+		internal INonceStore GetNonceStore()
+		{
+			/*
+				For simplification purposes, we're using the FileSystemNonceStore, which stores nonces as
+				0-byte files on a local filesystem folder. In a real application, the nonces would typically
+				be stored on the database. If you application uses Entity Framework, you can easily change this
+				code to store nonces on your database with the EntityFrameworkStore class (from the optional
+				Nuget package "Lacuna PKI Entity Framework Connector").
+			 */
+			return new FileSystemNonceStore(_storageMock.AppDataPath);
+		}
+
 
 		/*
 			This method returns the "trust arbitrator" to be used on signatures and authentications. A trust

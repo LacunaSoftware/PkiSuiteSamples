@@ -1,3 +1,4 @@
+import { CertificateModel } from "../certificate";
 import { ValidationResultsModel } from "../validation-results";
 
 export interface StartSignatureRequest {
@@ -49,4 +50,21 @@ export interface CompleteCadesSignatureRequest {
   signature: string,
   toSignBytes: string,
   certContent: string,
+}
+
+export interface StartAuthenticationResponse {
+  nonce: string,
+  digestAlgorithm: string,
+}
+
+export interface CompleteAuthenticationRequest {
+  nonce: string,
+  certificate: string,
+  signature: string,
+}
+
+export interface CompleteAuthenticationResponse {
+  isValid: boolean,
+  validationResults: ValidationResultsModel,
+  certificate: CertificateModel,
 }

@@ -50,3 +50,17 @@ export interface CadesTimestampModel {
   timestamps: CadesTimestampModel[],
   validationResults: ValidationResultsModel,
 }
+
+export interface StartAuthenticationResponse {
+  token: string,
+}
+
+export interface CompleteAuthenticationRequest {
+  token: string,
+}
+
+export interface CompleteAuthenticationResponse {
+  isValid: boolean,
+  validationResults: ValidationResultsModel,
+  certificate: CertificateModel,
+}

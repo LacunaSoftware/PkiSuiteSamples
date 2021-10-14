@@ -24,6 +24,8 @@ import { OpenPadesSdkComponent } from './components/open-pades-sdk/open-pades-sd
 import { OpenPadesRestComponent } from './components/open-pades-rest/open-pades-rest.component';
 import { XmlSignatureRestComponent } from './components/xml-signature-rest/xml-signature-rest.component';
 import { XmlSignatureSdkComponent } from './components/xml-signature-sdk/xml-signature-sdk.component';
+import { AuthenticationSdkComponent } from './components/authentication-sdk/authentication-sdk.component';
+import { AuthenticationRestComponent } from './components/authentication-rest/authentication-rest.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { XmlSignatureSdkComponent } from './components/xml-signature-sdk/xml-sig
     XmlSignatureSdkComponent,
     XmlSignatureRestComponent,
     ServiceUnavailableComponent,
+    AuthenticationSdkComponent,
+    AuthenticationRestComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -63,6 +67,8 @@ import { XmlSignatureSdkComponent } from './components/xml-signature-sdk/xml-sig
           { path: 'xml-nfe-signature-rest', component: XmlNFeSignatureRestComponent },
           { path: 'xml-signature-rest', component: XmlSignatureRestComponent },
           { path: 'xml-signature-sdk', component: XmlSignatureSdkComponent },
+          { path: 'authentication-sdk', component: AuthenticationSdkComponent },
+          { path: 'authentication-rest', component: AuthenticationRestComponent },
         ]
       },
       {

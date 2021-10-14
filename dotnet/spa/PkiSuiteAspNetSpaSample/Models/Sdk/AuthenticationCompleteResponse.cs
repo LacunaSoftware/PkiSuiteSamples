@@ -4,11 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PkiSuiteAspNetSpaSample.Models.Sdk {
-	public class XmlNFeSignatureStartResponse {
-		public bool Success { get; set; }
+	public class AuthenticationCompleteResponse {
+		public bool IsValid { get; set; }
 		public ValidationResultsModel ValidationResults { get; set; }
-		public byte[] ToSignHash { get; set; }
-		public string TransferDataId { get; set; }
-		public string DigestAlgorithm { get; set; }
+		public CertificateModel Certificate { get; set; }
 	}
 }

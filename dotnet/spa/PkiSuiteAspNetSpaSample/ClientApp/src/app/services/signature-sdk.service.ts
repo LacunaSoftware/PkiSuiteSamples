@@ -9,6 +9,9 @@ import {
   CompleteSignatureResponse,
   StartSignatureRequest,
   StartSignatureResponse,
+  StartAuthenticationResponse,
+  CompleteAuthenticationRequest,
+  CompleteAuthenticationResponse,
 } from '../api/sdk/signature';
 import {
   OpenPadesSignatureResponse,
@@ -55,5 +58,13 @@ export class SignatureSdkService {
 
   openPadesSignature(request: string): Observable<OpenPadesSignatureResponse> {
     return this.http.get<OpenPadesSignatureResponse>(`/api/OpenPadesSdk/` + request);
+  }
+
+  startAuthentication(): Observable<StartAuthenticationResponse> {
+    return this.http.get<StartAuthenticationResponse>(`/api/AuthenticationSdk/Start`);
+  }
+
+  completeAuthentication(request: CompleteAuthenticationRequest): Observable<CompleteAuthenticationResponse> {
+    return this.http.post<CompleteAuthenticationResponse>(`/api/AuthenticationSdk/Complete`, request);
   }
 }

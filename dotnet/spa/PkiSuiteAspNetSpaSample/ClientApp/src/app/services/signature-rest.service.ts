@@ -2,9 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  CompleteAuthenticationRequest,
+  CompleteAuthenticationResponse,
   CompleteSignatureRequest,
   CompleteSignatureResponse,
   OpenPadesSignatureResponse,
+  StartAuthenticationResponse,
   StartSignatureRequest,
   StartSignatureResponse,
 } from '../api/rest/signature';
@@ -50,5 +53,13 @@ export class SignatureRestService {
 
   openPadesSignature(request: string): Observable<OpenPadesSignatureResponse> {
     return this.http.get<OpenPadesSignatureResponse>(`/api/OpenPadesRest/` + request);
+  }
+
+  startAuthentication(): Observable<StartAuthenticationResponse> {
+    return this.http.get<StartAuthenticationResponse>(`/api/AuthenticationRest/Start`);
+  }
+
+  completeAuthentication(request: CompleteAuthenticationRequest): Observable<CompleteAuthenticationResponse> {
+    return this.http.post<CompleteAuthenticationResponse>(`/api/AuthenticationRest/Complete`, request);
   }
 }
