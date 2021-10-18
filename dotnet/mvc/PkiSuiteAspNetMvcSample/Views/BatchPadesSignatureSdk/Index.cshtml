@@ -1,4 +1,4 @@
-﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
+@using PkiSuiteAspNetMvcSample.Models.Sdk
 @model BatchSignatureModel
 
 <h2 class="ls-title">Batch of PAdES Signatures with PKI SDK</h2>
@@ -25,7 +25,7 @@
 		the process of signing the batch is started, the screen is blocked. Only after all documents has been already
 		processed, the screen is unblocked.
 	*@
-	<button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
+	<button id="signButton" type="button" class="btn btn-primary" onclick="batchSignatureSdkForm.sign(lst)">Sign Batch</button>
 	<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
 }
 
@@ -46,7 +46,18 @@
 	*@
 	<script src="@Url.Content("~/Content/js/batch-pades-signature-sdk-form.js")"></script>
 	<script>
+		function changeList(doc) {
+			var checkBox = document.getElementById("checkbox_" + doc);
+			if (checkBox.checked) {
+				lst.push(doc);
+			} else {
+				lst = lst.filter(a => a != doc);
+			}
+		}
+	</script>
+	<script>
 		$(document).ready(function () {
+			lst = [@string.Join(",", Model.DocumentIds)];
 			batchSignatureSdkForm.init({
 				documentsIds: [ @string.Join("," , Model.DocumentIds) ],
 				certificateSelect: $('#certificateSelect'),

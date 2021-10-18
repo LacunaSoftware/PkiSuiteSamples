@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Lacuna.Pki" Version="2.8.9" />
+    <PackageReference Include="Lacuna.Pki" Version="2.8.12" />
     <PackageReference Include="Lacuna.Pki.BrazilTrustServices" Version="1.2.1" />
     <PackageReference Include="Lacuna.RestPki.Api" Version="1.28.0" />
     <PackageReference Include="Lacuna.RestPki.Client" Version="1.24.0" />
@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Models\Sdk\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

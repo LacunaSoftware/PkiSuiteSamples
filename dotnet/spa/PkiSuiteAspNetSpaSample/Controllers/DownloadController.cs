@@ -20,17 +20,21 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 
 		// GET Download/File/{id}
 		[HttpGet("{id}")]
-		public ActionResult File(string id) {
+		public ActionResult File(string id)
+		{
 			byte[] content;
 
-			if (id == null) {
+			if (id == null)
+			{
 				return NotFound();
 			}
 
 			string filename;
-			try {
+			try
+			{
 				content = _storageMock.Read(id, out filename);
-			} catch (FileNotFoundException) {
+			} catch (FileNotFoundException)
+			{
 				return NotFound();
 			}
 
@@ -49,13 +53,15 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 
 		// GET Download/Sample/<file_id>
 		[HttpGet("{id}")]
-		public ActionResult Sample(SampleDocs id) {
+		public ActionResult Sample(SampleDocs id)
+		{
 			var content = _storageMock.GetSampleDocContent(id, out var filename);
 			string mimeType;
-			if(filename[^1..] == "p7s")
+			if (filename[^1..] == "p7s")
 			{
 				mimeType = "application/x-pkcs7-signature";
-			} else
+			}
+			else
 			{
 				mimeType = "application/pdf";
 			}
@@ -64,42 +70,48 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 
 		// GET Download/Doc/{id}
 		[HttpGet("{id}")]
-		public ActionResult Doc(int id) {
+		public ActionResult Doc(int id)
+		{
 			var fileContent = _storageMock.Read(_storageMock.GetBatchDocPath(id));
 			return File(fileContent, "application/pdf", string.Format("Doc{0:D2}.pdf", id));
 		}
 
-		// GET Download/Sample
+		// GET Download/SampleNFe
 		[HttpGet]
-		public ActionResult SampleNFe() {
+		public ActionResult SampleNFe()
+		{
 			var fileContent = _storageMock.Read(_storageMock.GetSampleNFePath());
 			return File(fileContent, "text/xml", "SampleNFe.xml");
 		}
 
 		// GET Download/SampleContract
 		[HttpGet]
-		public ActionResult SampleContract() {
+		public ActionResult SampleContract()
+		{
 			var fileContent = _storageMock.Read(_storageMock.GetSampleContractPath());
 			return File(fileContent, "text/xml", "SampleContract.xml");
 		}
 
 		// GET Download/SampleInvoice
 		[HttpGet]
-		public ActionResult SampleInvoice() {
+		public ActionResult SampleInvoice()
+		{
 			var fileContent = _storageMock.Read(_storageMock.GetXmlInvoiceWithSigsPath());
 			return File(fileContent, "text/xml", "InvoiceWithSigs.xml");
 		}
 
 		// GET Download/Manifesto
 		[HttpGet]
-		public ActionResult Manifesto() {
+		public ActionResult Manifesto()
+		{
 			var fileContent = _storageMock.Read(_storageMock.GetSampleManifestPath());
 			return File(fileContent, "text/xml", "EventoManifesto.xml");
 		}
 
 		// GET Download/SampleCodEnvelope
 		[HttpGet]
-		public ActionResult SampleCodEnvelope() {
+		public ActionResult SampleCodEnvelope()
+		{
 			var fileContent = _storageMock.GetSampleCodEnvelopeContent();
 			return File(fileContent, "text/xml", "SampleCodEnvelope.xml");
 		}

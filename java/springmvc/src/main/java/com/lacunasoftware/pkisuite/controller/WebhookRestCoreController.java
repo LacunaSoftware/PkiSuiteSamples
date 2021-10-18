@@ -2,6 +2,8 @@ package com.lacunasoftware.pkisuite.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.lacunasoftware.restpkicore.*;
 import org.apache.commons.io.IOUtils;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
-import com.lacunasoftware.restpki.*;
+
 
 @Controller
 public class WebhookRestCoreController {

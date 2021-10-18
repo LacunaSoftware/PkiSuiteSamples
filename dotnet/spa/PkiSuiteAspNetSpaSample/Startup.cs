@@ -65,7 +65,8 @@ namespace PkiSuiteAspNetSpaSample {
 
 			app.UseRouting();
 
-			app.UseEndpoints(endpoints => {
+			app.UseEndpoints(endpoints =>
+			{
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "/",

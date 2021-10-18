@@ -1,13 +1,10 @@
 ﻿using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Api.PadesSignature;
 using Lacuna.RestPki.Client;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PkiSuiteAspNetSpaSample.Classes;
 using PkiSuiteAspNetSpaSample.Models.Rest;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PkiSuiteAspNetSpaSample.Controllers {
@@ -29,11 +26,13 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* POST: PadesSignature/Start
 		*/
 		[HttpPost]
-		public async Task<PadesSignatureStartResponse> StartAsync([FromBody] PadesSignatureStartRequest request) {
+		public async Task<Models.Rest.SignatureStartResponse> StartAsync([FromBody] Models.Rest.SignatureStartRequest request)
+		{
 
 			string token;
 
-			try {
+			try
+			{
 				// Verify if the userfile exists and get its absolute path.
 				if (!_storageMock.TryGetFile(request.UserFile, out string userfilePath))
 				{
@@ -85,18 +84,19 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// not be mistaken with the API access token).
 				token = await signatureStarter.StartWithWebPkiAsync();
 
-			} catch (ValidationException ex) {
+			} catch (ValidationException ex)
+			{
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				//ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return new PadesSignatureStartResponse()
+				return new Models.Rest.SignatureStartResponse()
 				{
 					Success = false,
 					ValidationResults = ex.ValidationResults.ToModel()
 				};
 			}
 
-			return new PadesSignatureStartResponse()
+			return new Models.Rest.SignatureStartResponse()
 			{
 				Token = token,
 				UserFile = request.UserFile
@@ -107,10 +107,12 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* POST: PadesSignature/Complete
 		*/
 		[HttpPost]
-		public async Task<PadesSignatureCompleteResponse> CompleteAsync([FromBody] PadesSignatureCompleteRequest request) {
+		public async Task<SignatureCompleteResponse> CompleteAsync([FromBody] SignatureCompleteRequest request)
+		{
 			string fileId;
 
-			try {
+			try
+			{
 				// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
 				// signature process.
 				var signatureFinisher = new PadesSignatureFinisher2(_util.GetRestPkiClient())
@@ -136,16 +138,17 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 					fileId = _storageMock.Store(resultStream, ".pdf");
 				}
 
-			} catch (ValidationException ex) {
+			} catch (ValidationException ex)
+			{
 				// Return userfile to continue the signature with the same file.
-				return new PadesSignatureCompleteResponse()
+				return new SignatureCompleteResponse()
 				{
 					ValidationResults = ex.ValidationResults.ToModel(),
 					Success = false
 				};
 			}
 
-			return new PadesSignatureCompleteResponse()
+			return new SignatureCompleteResponse()
 			{
 				Success = true,
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
