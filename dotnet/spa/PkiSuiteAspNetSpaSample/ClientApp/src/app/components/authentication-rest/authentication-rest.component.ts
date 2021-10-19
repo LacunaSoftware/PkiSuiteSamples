@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { Config } from '../../api/configuration';
 import { CompleteAuthenticationRequest } from '../../api/rest/signature';
@@ -26,13 +26,14 @@ export class AuthenticationRestComponent implements OnInit {
 
   constructor(
     private authenticationService: SignatureRestService,
-    private cd: ChangeDetectorRef
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
+      ngZone: this.ngZone,
       defaultFail: this.onWebPkiError
     });
   }
@@ -49,11 +50,11 @@ export class AuthenticationRestComponent implements OnInit {
 
   private onWebPkiError: (ex) => void = ((ex) => {
     console.error('Web PKI error: ' + ex.message);
-    this.setLoading(false);
+    this.loading = false;
   });
 
   loadCertificates() {
-    this.setLoading(true);
+    this.loading = true;
     this.selectedCertificate = null;
     this.pki.listCertificates().success(response => {
       this.certificateList = response;
@@ -62,18 +63,18 @@ export class AuthenticationRestComponent implements OnInit {
       } else {
         this.selectedCertificate = this.certificateList[0].thumbprint;
       }
-      this.setLoading(false);
+      this.loading = false;
     });
   };
 
   reset() {
-    this.setLoading(true);
+    this.loading = true;
     this.result = false;
     this.loadCertificates();
   }
 
   sign() {
-    this.setLoading(true);
+    this.loading = true;
 
     this.authenticationService.startAuthentication().subscribe((result => {
       this.pki.signWithRestPki({
@@ -89,25 +90,20 @@ export class AuthenticationRestComponent implements OnInit {
             this.vr = completeResponse.validationResults;
             this.certificate = completeResponse.certificate;
             this.result = true;
-            this.setLoading(false);
+            this.loading = false;
           }),
           (err => {
             console.error('Error while completing authentication: ' + err.message);
             this.error = true;
-            this.setLoading(false);
+            this.loading = false;
           }));
       });
     }),
       (err => {
         console.error('Error while starting authentication: ' + err.message);
         this.error = true;
-        this.setLoading(false);
+        this.loading = false;
       }));
-  }
-
-  setLoading(value: boolean): void {
-    this.loading = value;
-    this.cd.detectChanges();
   }
 
   getSummary(vr) {

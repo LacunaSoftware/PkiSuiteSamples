@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { Config } from '../../api/configuration';
 import { StartSignatureRequest, CompleteSignatureRequest } from '../../api/sdk/signature';
@@ -22,7 +22,7 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
 
   constructor(
     private nfeSignatureService: SignatureSdkService,
-    private cd: ChangeDetectorRef
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -30,6 +30,7 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
+      ngZone: this.ngZone,
       defaultFail: this.onWebPkiError
     });
   }
@@ -47,11 +48,11 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
   private onWebPkiError: (ex) => void = ((ex) => {
     console.error('Web PKI error: ' + ex.message);
     this.error = true;
-    this.setLoading(false);
+    this.loading = false;
   });
 
   loadCertificates() {
-    this.setLoading(true);
+    this.loading = true;
     this.selectedCertificate = null;
     this.pki.listCertificates().success(response => {
       this.certificateList = response;
@@ -60,12 +61,12 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
       } else {
         this.selectedCertificate = this.certificateList[0].thumbprint;
       }
-      this.setLoading(false);
+      this.loading = false;
     });
   };
 
   sign() {
-    this.setLoading(true);
+    this.loading = true;
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
       let startReques: StartSignatureRequest = {
         certContent: certContent,
@@ -87,24 +88,19 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
               (completeResponse => {
                 this.signedFileId = completeResponse.signedFileId;
                 this.result = true;
-                this.setLoading(false);
+                this.loading = false;
               }), (err => {
                 console.error('Error while completing signature: ' + err.message);
                 this.error = true;
-                this.setLoading(false);
+                this.loading = false;
               }));
           });
         }), (err => {
           console.error('Error while starting signature: ' + err.message);
           this.error = true;
-          this.setLoading(false);
+          this.loading = false;
         }))
 
     });
-  }
-
-  setLoading(value: boolean): void {
-    this.loading = value;
-    this.cd.detectChanges();
   }
 }
