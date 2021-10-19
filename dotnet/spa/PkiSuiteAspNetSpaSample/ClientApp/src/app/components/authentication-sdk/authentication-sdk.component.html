@@ -1,0 +1,52 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<h2 class="ls-title">Authentication with PKI SDK</h2>
+
+<div *ngIf="!result && !loading && !error">
+  <select class="certificate-select" [(ngModel)]="selectedCertificate">
+    <option *ngFor="let certificate of certificateList" [value]="certificate.thumbprint">
+      <b *ngIf="certificate.validityEnd < now">(Expired) </b>
+      <span>{{ certificate.subjectName }}</span> |
+      <small>Issued by: {{certificate.issuerName}}</small>
+    </option>
+  </select>
+  <br />
+  <br />
+  <button id="signButton" type="button" (click)="sign()" class="btn btn-primary" [disabled]="!selectedCertificate">Sign In</button>
+  <button id="refreshButton" type="button" (click)="loadCertificates()" class="btn btn-outline-primary">Refresh Certificates</button>
+</div>
+
+<div *ngIf="result && !loading && !error">
+  <div *ngIf="success">
+    <h5>Authentication Succeeded <i class="fas fa-check-circle" style="color: green;"></i></h5>
+    <p>User certificate information:</p>
+    <ul>
+      <li><strong>Subject</strong>: {{certificate.subjectName.commonName}}</li>
+      <li><strong>Email</strong>: {{certificate.emailAddress}}</li>
+      <li>
+        <strong>ICP-Brasil fields</strong>:
+        <ul>
+          <li><strong>Tipo de certificado</strong>: {{certificate.pkiBrazil.certificateType}}</li>
+          <li><strong>CPF</strong>: {{certificate.pkiBrazil.cpf}}</li>
+          <li><strong>Responsavel</strong>: {{certificate.pkiBrazil.responsavel}}</li>
+          <li><strong>Empresa</strong>: {{certificate.pkiBrazil.companyName}}</li>
+          <li><strong>CNPJ</strong>: {{certificate.pkiBrazil.cnpjFormatted}}</li>
+          <li><strong>RG</strong>: {{certificate.pkiBrazil.rGNumero}} {{certificate.pkiBrazil.rgEmissor}} {{certificate.pkiBrazil.rgEmissorUF}}</li>
+          <li><strong>OAB</strong>: {{certificate.pkiBrazil.oabNumero}} {{certificate.pkiBrazil.oabUF}}</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!success">
+    <h5>Authentication Failed <i class="fas fa-times-circle" style="color: red;"></i></h5>
+  </div>
+  <p *ngIf="vr != null">
+    <label for="vrHtml">Validation Results</label>:
+    <textarea id="vrHtml" style="width: 100%" rows="20" inline="text">{{toString(vr, 1)}}</textarea>
+  </p>
+  <button id="resetButton" type="button" (click)="reset()" class="btn btn-primary">Try Again</button>
+</div>
+
+<div *ngIf="error">
+  <h5 class="ls-subtitle">Error while authenticating! <i class="far fa-times-circle text-danger"></i></h5>
+  <p>See the console log for more information.</p>
+</div>

@@ -1,45 +1,32 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompleteCadesSignatureRequest, StartCadesSignatureRequest } from '../../api/sdk/signature';
-import { SignatureSdkService } from '../../services/signature-sdk.service';
+import { CertificateModel, LacunaWebPKI } from 'web-pki';
 import { Config } from '../../api/configuration';
-
+import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/sdk/signature';
+import { SignatureSdkService } from '../../services/signature-sdk.service';
 
 @Component({
-  selector: 'app-cades-signature-sdk',
-  templateUrl: './cades-signature-sdk.component.html',
-  styleUrls: ['./cades-signature-sdk.component.css']
+  selector: 'app-xml-signature-sdk',
+  templateUrl: './xml-signature-sdk.component.html',
+  styleUrls: ['./xml-signature-sdk.component.css']
 })
-export class CadesSignatureSdkComponent implements OnInit {
-
+export class XmlSignatureSdkComponent implements OnInit {
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
   error: boolean = false;
-  isCmsCosign: boolean = false;
   fileId: string = "";
   certificateList: CertificateModel[] = [];
   selectedCertificate: string;
   signedFileId: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private cadesSignatureService: SignatureSdkService,
+    private xmlSignatureService: SignatureSdkService,
     private ngZone: NgZone
   ) { }
 
   ngOnInit() {
     this.loading = true;
-    this.route.params.subscribe(params => {
-      if (params['fileid'] != null) {
-        this.fileId = params['fileid'];
-      } else {
-        this.fileId = params['cmsfile'];
-        this.isCmsCosign = true;
-      }
-    });
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
@@ -78,56 +65,41 @@ export class CadesSignatureSdkComponent implements OnInit {
     });
   };
 
-  certContent: string;
-  toSignBytes: string;
-
   sign() {
     this.loading = true;
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      this.certContent = certContent;
-      let startRequest: StartCadesSignatureRequest = {
-        userFile: this.fileId,
-        isCosign: this.isCmsCosign,
-        certContent: this.certContent,
-        certThumb: this.selectedCertificate
-      };
-
-      this.cadesSignatureService.startCadesSignature(startRequest).subscribe(
+      let startReques: StartSignatureRequest = {
+        certContent: certContent,
+      }
+      this.xmlSignatureService.startXmlSignature(startReques).subscribe(
         (startResponse => {
-          this.toSignBytes = startResponse.toSignBytes;
           this.pki.signHash({
             thumbprint: this.selectedCertificate,
             hash: startResponse.toSignHash,
             digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompleteCadesSignatureRequest = {
+            let completeRequest: CompleteSignatureRequest = {
               signature: signature,
-              isCosign: this.isCmsCosign,
-              userFile: this.fileId,
-              toSignBytes: this.toSignBytes,
-              certContent: this.certContent
+              transferDataId: startResponse.transferDataId
             };
 
-            this.cadesSignatureService.completeCadesSignature(completeRequest).subscribe(
+            this.xmlSignatureService.completeXmlSignature(completeRequest).subscribe(
               (completeResponse => {
                 this.signedFileId = completeResponse.signedFileId;
                 this.result = true;
                 this.loading = false;
-              }),
-              (err => {
+              }), (err => {
                 console.error('Error while completing signature: ' + err.message);
                 this.error = true;
                 this.loading = false;
               }));
           });
-        }),
-        (err => {
+        }), (err => {
           console.error('Error while starting signature: ' + err.message);
           this.error = true;
           this.loading = false;
-        }));
+        }))
     });
   }
-
 }

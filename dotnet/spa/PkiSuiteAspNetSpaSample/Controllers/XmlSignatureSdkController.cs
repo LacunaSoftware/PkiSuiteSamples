@@ -11,42 +11,23 @@ using System.Threading.Tasks;
 namespace PkiSuiteAspNetSpaSample.Controllers {
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-	public class XmlNFeSignatureSdkController : ControllerBase {
+	public class XmlSignatureSdkController : ControllerBase {
 		private readonly StorageMock _storageMock;
 
-		public XmlNFeSignatureSdkController(StorageMock storageMock)
+		public XmlSignatureSdkController(StorageMock storageMock)
 		{
 			_storageMock = storageMock;
 		}
 
 		/**
-		 * This method defines the signature policy that will be used on the signature.
-		*/
-		private XmlPolicySpec GetSignaturePolicy()
-		{
-
-			var policy = BrazilXmlPolicySpec.GetNFePadraoNacional();
-
-#if DEBUG
-			// During debug only, we clear the policy's default trust arbitrator (which, in the case of
-			// the policy returned by BrazilXmlPolicySpec.GetNFePadraoNacional(), corresponds to the ICP-Brasil roots only),
-			// and use our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator())
-			policy.ClearTrustArbitrators();
-			policy.AddTrustArbitrator(Util.GetTrustArbitrator());
-#endif
-
-			return policy;
-		}
-
-		/**
-		 * POST: XmlNFeSignatureSdk
+		 * POST: XmlSignatureSdk
 		 * 
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the hash that needs to be actually signed with the user's private key
 		 * (the "to-sign-hash").
 		 */
 		[HttpPost]
-		public XmlNFeSignatureStartResponse Start(XmlNFeSignatureStartRequest request)
+		public SignatureStartResponse Start(XmlSignatureStartRequest request)
 		{
 
 			byte[] toSignHash, transferData;
@@ -54,21 +35,23 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 
 			try
 			{
-				// Instantiate a XmlElementSigner class
-				var signer = new XmlElementSigner();
+				// Instantiate a XmlSigner class
+				var signer = new FullXmlSigner();
 
 				// Set the data to sign, which in the case of this example is a fixed sample document
-				signer.SetXml(_storageMock.GetSampleNFeContent());
-
-				// static Id from node <infNFe> from SampleNFe.xml document
-				signer.SetToSignElementId("NFe35141214314050000662550010001084271182362300");
+				signer.SetXml(_storageMock.GetSampleXmlDocumentContent());
 
 				// Decode the user's certificate and set as the signer certificate
-				var cert = PKCertificate.Decode(request.CertContent);
-				signer.SetSigningCertificate(cert);
+				signer.SetSigningCertificate(PKCertificate.Decode(request.CertContent));
 
 				// Set the signature policy
-				signer.SetPolicy(GetSignaturePolicy());
+				signer.SetPolicy(XmlPolicySpec.GetXadesBasic(Util.GetTrustArbitrator()));
+
+				// Set the location on which to insert the signature node. If the location is not specified, the
+				// signature will appended to the root element (which is most usual with enveloped signatures).
+				var nsm = new NamespaceManager();
+				nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
+				signer.SetSignatureElementLocation("//ls:signaturePlaceholder", nsm, XmlInsertionOptions.AppendChild);
 
 				// Generate the "to-sign-hash". This method also yields the signature algorithm that must
 				// be used on the client-side, based on the signature policy.
@@ -79,14 +62,14 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				//ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return new XmlNFeSignatureStartResponse()
+				return new SignatureStartResponse()
 				{
 					Success = false,
 					ValidationResults = ex.ValidationResults.ToModel()
 				};
 			}
 
-			return new XmlNFeSignatureStartResponse()
+			return new SignatureStartResponse()
 			{
 				Success = true,
 				TransferDataId = _storageMock.Store(transferData, ".bin"),
@@ -96,40 +79,38 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		}
 
 		/**
-		 * POST: XmlNFeSignatureSdk/Complete
+		 * POST: XmlSignatureSdk/Complete
 		 * 
 		 * This action is called once the "to-sign-hash" are signed using the user's 
 		 * certificate. After signature, it'll return the signature file.
 		 */
 		[HttpPost]
-		public XmlNFeSignatureCompleteResponse Complete(XmlNFeSignatureCompleteRequest request)
+		public SignatureCompleteResponse Complete(SignatureCompleteRequest request)
 		{
 
 			byte[] signatureContent;
 
 			try
 			{
-
 				// Recover the "transfer data" content stored in a temporary file.
-				byte[] transferDataContent;
-				if (!_storageMock.TryGetFile(request.TransferDataId, out transferDataContent))
+				if (!_storageMock.TryGetFile(request.TransferDataId, out byte[] transferDataContent))
 				{
 					throw new Exception("TransferData not found");
 				}
 
-				// Instantiate a XmlElementSigner class
-				var signer = new XmlElementSigner();
+				// Instantiate a FullXmlSigner class
+				var signer = new FullXmlSigner();
 
 				// Set the document to be signed and the policy, exactly like in the Start method
-				signer.SetXml(_storageMock.GetSampleNFeContent());
-				signer.SetPolicy(GetSignaturePolicy());
+				signer.SetXml(_storageMock.GetSampleXmlDocumentContent());
+				signer.SetPolicy(XmlPolicySpec.GetXadesBasic(Util.GetTrustArbitrator()));
 
-				// Set the signature computed on the client-side, along with the "transfer data"
-				// (rendered in a hidden field, see the view)
+				// Set the signature computed on the client-side, along with the "transfer data" (rendered
+				// in a hidden field, see the view)
 				signer.SetPrecomputedSignature(request.Signature, transferDataContent);
 
-				// Call ComputeSignature(), which does all the work, including validation
-				// of the signer's certificate and of the resulting signature
+				// Call ComputeSignature(), which does all the work, including validation of the signer's
+				// certificate and of the resulting signature
 				signer.ComputeSignature();
 
 				// Get the signed XML as an array of bytes
@@ -140,13 +121,13 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// Some of the operations above may throw a ValidationException, for instance
 				// if the certificate encoding cannot be read or if the certificate is expired.
 				// ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return new XmlNFeSignatureCompleteResponse()
+				return new SignatureCompleteResponse()
 				{
 					Success = false,
 					ValidationResults = ex.ValidationResults.ToModel()
 				};
 			}
-			return new XmlNFeSignatureCompleteResponse()
+			return new SignatureCompleteResponse()
 			{
 				// Store the signature file on the folder "App_Data/" and redirects to the
 				// SignatureInfo action with the filename. With this filename, it can show

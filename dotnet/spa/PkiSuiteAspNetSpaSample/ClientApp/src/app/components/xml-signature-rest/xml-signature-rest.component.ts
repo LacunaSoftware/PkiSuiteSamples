@@ -1,26 +1,26 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { Config } from '../../api/configuration';
-import { CompleteSignatureRequest } from '../../api/rest/signature';
 import { SignatureRestService } from '../../services/signature-rest.service';
 
 @Component({
-  selector: 'app-xml-nfe-signature-rest',
-  templateUrl: './xml-nfe-signature-rest.component.html',
-  styleUrls: ['./xml-nfe-signature-rest.component.css']
+  selector: 'app-xml-signature-rest',
+  templateUrl: './xml-signature-rest.component.html',
+  styleUrls: ['./xml-signature-rest.component.css']
 })
-export class XmlNFeSignatureRestComponent implements OnInit {
+export class XmlSignatureRestComponent implements OnInit {
   pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
   error: boolean = false;
+  fileId: string = "";
   certificateList: CertificateModel[] = [];
   selectedCertificate: string;
   signedFileId: string;
 
   constructor(
-    private nfeSignatureService: SignatureRestService,
+    private xmlSignatureService: SignatureRestService,
     private ngZone: NgZone
   ) { }
 
@@ -33,6 +33,7 @@ export class XmlNFeSignatureRestComponent implements OnInit {
       defaultFail: this.onWebPkiError
     });
   }
+
 
   private onWebPkiReady: () => void = (() => {
     this.loadCertificates();
@@ -67,12 +68,12 @@ export class XmlNFeSignatureRestComponent implements OnInit {
   sign() {
     this.loading = true;
 
-    this.nfeSignatureService.startXmlNFeSignature().subscribe((completeRequest => {
+    this.xmlSignatureService.startXmlSignature().subscribe((completeRequest => {
       this.pki.signWithRestPki({
         token: completeRequest.token,
         thumbprint: this.selectedCertificate
       }).success(() => {
-        this.nfeSignatureService.completeXmlNFeSignature(completeRequest).subscribe(
+        this.xmlSignatureService.completeXmlSignature(completeRequest).subscribe(
           (completeResponse => {
             this.signedFileId = completeResponse.signedFileId;
             this.result = true;

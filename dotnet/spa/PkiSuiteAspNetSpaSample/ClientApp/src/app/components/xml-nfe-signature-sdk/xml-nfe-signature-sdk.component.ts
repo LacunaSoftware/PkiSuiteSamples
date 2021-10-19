@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
 import { Config } from '../../api/configuration';
-import { StartXmlNFeSignatureRequest, CompleteXmlNFeSignatureRequest } from '../../api/sdk/xml-signature';
+import { StartSignatureRequest, CompleteSignatureRequest } from '../../api/sdk/signature';
 import { SignatureSdkService } from '../../services/signature-sdk.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
 
   constructor(
     private nfeSignatureService: SignatureSdkService,
-    private cd: ChangeDetectorRef
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -30,6 +30,7 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
+      ngZone: this.ngZone,
       defaultFail: this.onWebPkiError
     });
   }
@@ -47,11 +48,11 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
   private onWebPkiError: (ex) => void = ((ex) => {
     console.error('Web PKI error: ' + ex.message);
     this.error = true;
-    this.setLoading(false);
+    this.loading = false;
   });
 
   loadCertificates() {
-    this.setLoading(true);
+    this.loading = true;
     this.selectedCertificate = null;
     this.pki.listCertificates().success(response => {
       this.certificateList = response;
@@ -60,14 +61,14 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
       } else {
         this.selectedCertificate = this.certificateList[0].thumbprint;
       }
-      this.setLoading(false);
+      this.loading = false;
     });
   };
 
   sign() {
-    this.setLoading(true);
+    this.loading = true;
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startReques: StartXmlNFeSignatureRequest = {
+      let startReques: StartSignatureRequest = {
         certContent: certContent,
       }
       this.nfeSignatureService.startXmlNFeSignature(startReques).subscribe(
@@ -75,36 +76,31 @@ export class XmlNFeSignatureSdkComponent implements OnInit {
           this.pki.signHash({
             thumbprint: this.selectedCertificate,
             hash: startResponse.toSignHash,
-            digestAlgorithm: startResponse.digestAlgorithmOid
+            digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompleteXmlNFeSignatureRequest = {
+            let completeRequest: CompleteSignatureRequest = {
               signature: signature,
-              transferDataFileId: startResponse.transferDataFileId
+              transferDataId: startResponse.transferDataId
             };
 
             this.nfeSignatureService.completeXmlNFeSignature(completeRequest).subscribe(
               (completeResponse => {
                 this.signedFileId = completeResponse.signedFileId;
                 this.result = true;
-                this.setLoading(false);
+                this.loading = false;
               }), (err => {
                 console.error('Error while completing signature: ' + err.message);
                 this.error = true;
-                this.setLoading(false);
+                this.loading = false;
               }));
           });
         }), (err => {
           console.error('Error while starting signature: ' + err.message);
           this.error = true;
-          this.setLoading(false);
+          this.loading = false;
         }))
 
     });
-  }
-
-  setLoading(value: boolean): void {
-    this.loading = value;
-    this.cd.detectChanges();
   }
 }

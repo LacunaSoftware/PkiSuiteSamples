@@ -1,4 +1,5 @@
 ﻿using Lacuna.RestPki.Api;
+using Lacuna.RestPki.Api.XmlSignature;
 using Lacuna.RestPki.Client;
 using Microsoft.AspNetCore.Mvc;
 using PkiSuiteAspNetSpaSample.Classes;
@@ -11,18 +12,18 @@ using System.Threading.Tasks;
 namespace PkiSuiteAspNetSpaSample.Controllers {
 	[Route("api/[controller]/[action]")]
 	[ApiController]
-	public class XmlNFeSignatureRestController : ControllerBase {
+	public class XmlSignatureRestController : ControllerBase {
 		private readonly StorageMock _storageMock;
 		private readonly Util _util;
 
-		public XmlNFeSignatureRestController(StorageMock storageMock, Util util)
+		public XmlSignatureRestController(StorageMock storageMock, Util util)
 		{
 			_storageMock = storageMock;
 			_util = util;
 		}
 
 		/**
-		 * GET: XmlNFeSignatureRest
+		 * GET: XmlSignatureRest
 		 * 
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the hash that needs to be actually signed with the user's private key
@@ -32,26 +33,28 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		public async Task<Models.Rest.SignatureStartResponse> StartAsync()
 		{
 
-			// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
-			// elements and start the signature process.
-			var signatureStarter = new XmlElementSignatureStarter(_util.GetRestPkiClient());
+			// Instantiate the FullXmlSignatureStarter class, responsible for starting the signature process.
+			var signatureStarter = new FullXmlSignatureStarter(_util.GetRestPkiClient());
 
-			// Set the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
-			signatureStarter.SetXml(_storageMock.GetSampleNFePath());
-
-			// Set the ID of the element to be signed.
-			signatureStarter.SetToSignElementId("NFe35141214314050000662550010001084271182362300");
+			// Set the XML to be signed, a sample XML Document.
+			signatureStarter.SetXml(_storageMock.GetSampleXmlDocumentPath());
 
 			// Set the signature policy.
-			signatureStarter.SetSignaturePolicy(StandardXmlSignaturePolicies.PkiBrazil.NFePadraoNacional);
+			signatureStarter.SetSignaturePolicy(StandardXmlSignaturePolicies.XadesBes);
 
 			// Set the security context to be used to determine trust in the certificate chain. We have
 			// encapsulated the security context choice on Util.cs.
 			signatureStarter.SetSecurityContext(Util.GetSecurityContextId());
 
+			// Set the location on which to insert the signature node. If the location is not specified, the
+			// signature will appended to the root element (which is most usual with enveloped signatures).
+			var nsm = new NamespaceManager();
+			nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
+			signatureStarter.SetSignatureElementLocation("//ls:signaturePlaceholder", XmlInsertionOptions.AppendChild, nsm);
+
 			// Call the StartWithWebPki() method, which initiates the signature. This yields the token,
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
-			// use this value to call the signWithRestPki() method on the Web PKI component (see
+			// use this value to call the signWithRestPki() method on the Web PKI component (see 
 			// signature-form.js) and also to complete the signature on the POST action below (this should
 			// not be mistaken with the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
@@ -62,13 +65,13 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		}
 
 		/**
-		 * POST: XmlNFeSignatureRest/Complete
+		 * POST: XmlSignatureRest/Complete
 		 * 
 		 * This action is called once the "to-sign-hash" are signed using the user's 
 		 * certificate. After signature, it'll return the signature file.
 		 */
 		[HttpPost]
-		public async Task<SignatureCompleteResponse> CompleteAsync(SignatureCompleteRequest request)
+		public async Task<Models.Rest.SignatureCompleteResponse> CompleteAsync(SignatureCompleteRequest request)
 		{
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
 			// process.
@@ -89,7 +92,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			// purposes, we'll store the PDF on our mock Storage class.
 			var fileId = _storageMock.Store(signedXml, ".xml");
 
-			return new SignatureCompleteResponse()
+			return new Models.Rest.SignatureCompleteResponse()
 			{
 				SignedFileId = fileId,
 			};

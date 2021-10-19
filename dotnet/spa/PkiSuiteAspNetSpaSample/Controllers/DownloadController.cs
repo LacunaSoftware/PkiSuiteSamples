@@ -80,8 +80,16 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		[HttpGet]
 		public ActionResult SampleNFe()
 		{
-			var fileContent = _storageMock.Read(_storageMock.GetSampleNFePath());
+			var fileContent = _storageMock.GetSampleNFeContent();
 			return File(fileContent, "text/xml", "SampleNFe.xml");
+		}
+
+		// GET Download/SampleXml
+		[HttpGet]
+		public ActionResult SampleXml()
+		{
+			var fileContent = _storageMock.GetSampleXmlDocumentContent();
+			return File(fileContent, "text/xml", "SampleDocument.xml");
 		}
 
 		// GET Download/SampleContract

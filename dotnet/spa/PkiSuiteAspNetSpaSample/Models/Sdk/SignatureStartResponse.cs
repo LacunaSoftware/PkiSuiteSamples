@@ -4,9 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PkiSuiteAspNetSpaSample.Models.Sdk {
-	public class PadesSignatureCompleteResponse {
-		public string SignedFileId { get; set; }
+	public class SignatureStartResponse {
+		public byte[] ToSignHash { get; set; }
+
+		public string TransferDataId { get; set; }
+
+		public string DigestAlgorithm { get; set; }
+
 		public bool Success { get; set; }
+
 		public ValidationResultsModel ValidationResults { get; set; }
+
 	}
 }
