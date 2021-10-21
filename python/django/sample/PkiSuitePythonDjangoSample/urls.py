@@ -17,6 +17,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('homepage.urls')),
+    path('upload/', include('upload.urls')),
     path('download/', include('download.urls')),
     path('server-files/', include('server_files.urls')),
     path('receita-simples-rest/', include('receita_simples_rest.urls')),
