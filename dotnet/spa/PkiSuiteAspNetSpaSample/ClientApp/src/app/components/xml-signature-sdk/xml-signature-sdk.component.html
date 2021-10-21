@@ -1,0 +1,36 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<h2 class="ls-title">XML Signature with PKI SDK</h2>
+
+<div *ngIf="!result && !loading && !error">
+  <div class="form-group">
+    <label>File to sign</label>
+    <p>You are signing this <b>entire</b><a href="api/Download/SampleXml"> sample XML</a>.</p>
+  </div>
+  <select class="certificate-select" [(ngModel)]="selectedCertificate">
+    <option *ngFor="let certificate of certificateList" [value]="certificate.thumbprint">
+      <b *ngIf="certificate.validityEnd < now">(Expired) </b>
+      <span>{{ certificate.subjectName }}</span> |
+      <small>Issued by: {{certificate.issuerName}}</small>
+    </option>
+  </select>
+  <br />
+  <br />
+  <button id="signButton" type="button" (click)="sign()" class="btn btn-primary" [disabled]="!selectedCertificate">Sign File</button>
+  <button id="refreshButton" type="button" (click)="loadCertificates()" class="btn btn-outline-primary">Refresh Certificates</button>
+</div>
+
+<div *ngIf="result">
+  <h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+  <div class="ls-content">
+
+    <h3>Actions:</h3>
+    <ul>
+      <li><a href="api/Download/File/{{signedFileId}}">Download the signed file</a></li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="error">
+  <h5 class="ls-subtitle">Error while signing file! <i class="far fa-times-circle text-danger"></i></h5>
+  <p>See the console log for more information.</p>
+</div>

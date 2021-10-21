@@ -1,7 +1,10 @@
 ﻿using Lacuna.Pki;
 using Lacuna.Pki.BrazilTrustServices;
+using Lacuna.Pki.Stores;
 using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
+using Microsoft.Extensions.Options;
+using PkiSuiteAspNetSpaSample.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,17 +14,27 @@ using System.Reflection;
 
 namespace PkiSuiteAspNetSpaSample.Classes {
 	public class Util {
+		private readonly IOptions<RestPkiConfig> _restPkiConfig;
+		private readonly IOptions<RestPkiCoreConfig> _restPkiCoreConfig;
+		private readonly StorageMock _storageMock;
+
+		public Util(IOptions<RestPkiConfig> restPkiConfig, IOptions<RestPkiCoreConfig> restPkiCoreConfig, StorageMock storageMock)
+		{
+			_restPkiConfig = restPkiConfig;
+			_restPkiCoreConfig = restPkiCoreConfig;
+			_storageMock = storageMock;
+		}
 
 		#region REST PKI
 
-		public static RestPkiClient GetRestPkiClient()
+		public RestPkiClient GetRestPkiClient()
 		{
-			var accessToken = ConfigurationManager.AppSettings["RestPkiAccessToken"];
+			var accessToken = _restPkiConfig.Value.AccessToken;
 			if (string.IsNullOrEmpty(accessToken) || accessToken.Contains(" API "))
 			{
 				throw new Exception("The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on the web.config file");
 			}
-			var endpoint = ConfigurationManager.AppSettings["RestPkiEndpoint"];
+			var endpoint = _restPkiConfig.Value.Endpoint;
 			if (string.IsNullOrEmpty(endpoint))
 			{
 				endpoint = "https://pki.rest/";
@@ -72,6 +85,19 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 			}
 		}
 
+		internal INonceStore GetNonceStore()
+		{
+			/*
+				For simplification purposes, we're using the FileSystemNonceStore, which stores nonces as
+				0-byte files on a local filesystem folder. In a real application, the nonces would typically
+				be stored on the database. If you application uses Entity Framework, you can easily change this
+				code to store nonces on your database with the EntityFrameworkStore class (from the optional
+				Nuget package "Lacuna PKI Entity Framework Connector").
+			 */
+			return new FileSystemNonceStore(_storageMock.AppDataPath);
+		}
+
+
 		/*
 			This method returns the "trust arbitrator" to be used on signatures and authentications. A trust
 			arbitrator determines which root certificates shall be trusted during certificate and signature
@@ -92,11 +118,6 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 #endif
 			return trustArbitrator;
 		}
-
-		//public static ITrustServicesManager GetTrustServicesManager()
-		//{
-		//	return TrustServicesManagerFactory.Create(GetTrustServicesOptions());
-		//}
 
 		public static TrustServicesOptions GetTrustServicesOptions()
 		{
@@ -181,27 +202,29 @@ namespace PkiSuiteAspNetSpaSample.Classes {
 
 		#region REST PKI Core
 
-		public static IRestPkiService GetRestPkiService()
+		public IRestPkiService GetRestPkiService()
 		{
 			return RestPkiServiceFactory.GetService(GetRestPkiOptions());
 		}
 
-		public static RestPkiOptions GetRestPkiOptions()
+		public RestPkiOptions GetRestPkiOptions()
 		{
-			var apiKey = ConfigurationManager.AppSettings["RestPkiCoreApiKey"];
+			var apiKey = _restPkiCoreConfig.Value.ApiKey;
 			if (string.IsNullOrEmpty(apiKey) || apiKey.Contains(" API KEY "))
 			{
 				throw new Exception("The API key was not set! Hint: to run this sample you must generate an API key on the REST PKI Core website and paste it on the web.config file");
 			}
-			var endpoint = ConfigurationManager.AppSettings["RestPkiCoreEndpoint"];
+			var endpoint = _restPkiCoreConfig.Value.Endpoint;
 			if (string.IsNullOrEmpty(endpoint))
 			{
 				endpoint = "https://core.pki.rest/";
 			}
 
-			var options = new RestPkiOptions();
-			options.Endpoint = endpoint;
-			options.ApiKey = apiKey;
+			var options = new RestPkiOptions
+			{
+				Endpoint = endpoint,
+				ApiKey = apiKey
+			};
 			return options;
 		}
 

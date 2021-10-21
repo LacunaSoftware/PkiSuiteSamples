@@ -31,11 +31,33 @@ Optionally you can create and activate a "virtualenv" to avoid mixing library ve
 	$ python manage.py runserver
 	$ deactivate
 
+Django
+----------------------
+A sample using **Django** to build a web application can be found on folder [django](django/).
+
+Steps to execute the sample:
+
+1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
+   clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
+   
+1. Install dependencies: `pip install -r requirements.txt`
+
+1. Run the web application: `python manage.py runserver`
+
+1. Access the URL http://localhost:8000
+
+Optionally you can create and activate a "virtualenv" to avoid mixing library versions:
+
+	$ virtualenv <venv>
+	$ source bin/activate (on Windows: ./<venv>/Scripts/activate)
+	$ pip install -r requirements.txt
+	$ python manage.py runserver
+	$ deactivate
+
 REST PKI's client lib
 ---------------------
 
-The sample projects depend on [Rest PKI client lib for PHP](https://github.com/LacunaSoftware/RestPkiPhpClient) library, which in
-turn requires **PHP 5.5** or greater.
+The sample projects depend on [Rest PKI client lib for Python](https://github.com/LacunaSoftware/RestPkiPythonClient) library.
 
 The recommended way to install **REST PKI's client lib for Python** is through [PyPi](https://pypi.org):
 
@@ -43,13 +65,12 @@ The recommended way to install **REST PKI's client lib for Python** is through [
 
 Or informing on your project's `requirements.txt` file:
 
-	restpki-client==1.0.0
+	restpki-client==1.2.1
 
 PKI Express's helper library
 ----------------------------
 
-The sample projects also depend on [PKI Express's library for PHP](https://github.com/LacunaSoftware/RestPkiPhpClient) library, which in
-turn requires **PHP 5.5** or greater.
+The sample projects also depend on [PKI Express's library for Python](https://github.com/LacunaSoftware/PkiExpressPython) library.
 
 The recommended way to install **PKI Express's lib for Python** is through [PyPi](https://pypi.org):
 
@@ -57,7 +78,7 @@ The recommended way to install **PKI Express's lib for Python** is through [PyPi
 
 Or informing on your project's `requirements.txt` file:
 
-	pkiexpress==1.3.2
+	pkiexpress==1.10.0
 
 Activating PKI Express
 ----------------------
@@ -77,5 +98,5 @@ See also
 * [Samples in other programming languages](https://github.com/LacunaSoftware/PkiSuiteSamples)
 * [REST PKI's Documentation](http://docs.lacunasoftware.com/en-us/articles/rest-pki/python/index.html)
 * [PKI Express's Documentation](http://docs.lacunasoftware.com/en-us/articles/pki-express/python/index.html)
-* [REST PKI's PHP client library on Packagist](https://pypi.org/project/restpki-client)
-* [PKI Express's PHP library on Packagist](https://pypi.org/project/pkiexpress)
+* [REST PKI's Python client library on PyPI](https://pypi.org/project/restpki-client)
+* [PKI Express's Python library on PyPI](https://pypi.org/project/pkiexpress)

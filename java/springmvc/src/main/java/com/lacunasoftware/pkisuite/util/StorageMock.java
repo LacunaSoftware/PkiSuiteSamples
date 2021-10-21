@@ -49,6 +49,9 @@ public class StorageMock {
 	public static Path getDataPath(String fileId) throws IOException {
 		return getDataPath(fileId, null);
 	}
+	public static Path getSampleDiplomaPath() throws IOException {
+		return getResourcePath("SampleDiploma.xml");
+	}
 
 	public static Path getDataPath(String fileId, String extension) throws IOException {
 		String filename = fileId.replace('_', '.');
@@ -300,6 +303,10 @@ public class StorageMock {
 				return "CMSAttached2.p7s";
 			case CMS_DATA_FILE:
 				return "CMSDataFile.pdf";
+			case SAMPLE_NFE:
+				return "SampleNFe.xml";
+			case SAMPLE_XML:
+				return "SampleDocument.xml";
 			default:
 				throw new FileNotFoundException();
 		}

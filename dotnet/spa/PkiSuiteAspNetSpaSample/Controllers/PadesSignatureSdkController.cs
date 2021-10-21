@@ -22,7 +22,8 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			_padesVisualElements = padesVisualElements;
 		}
 
-		private IPadesPolicyMapper GetSignaturePolicy() {
+		private IPadesPolicyMapper GetSignaturePolicy()
+		{
 
 			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
 			var arbitrator = Util.GetTrustArbitrator();
@@ -38,12 +39,14 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* (the "to-sign-hash").
 		*/
 		[HttpPost]
-		public PadesSignatureStartResponse Start([FromBody] PadesSignatureStartRequest request) {
+		public SignatureStartResponse Start([FromBody] PadesSignatureStartRequest request)
+		{
 
 			byte[] toSignBytes, transferData;
 			SignatureAlgorithm signatureAlg;
 
-			try {
+			try
+			{
 				// Verify if the userfile exists and get its absolute path.
 				if (!_storageMock.TryGetFile(request.UserFile, out string userfilePath))
 				{
@@ -73,18 +76,19 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// a byte-array that will be needed on the next step.
 				toSignBytes = padesSigner.GetToSignBytes(out signatureAlg, out transferData);
 
-			} catch (ValidationException ex) {
+			} catch (ValidationException ex)
+			{
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				//ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return new PadesSignatureStartResponse()
+				return new SignatureStartResponse()
 				{
 					Success = false,
 					ValidationResults = ex.ValidationResults.ToModel()
 				};
 			}
 
-			return new PadesSignatureStartResponse()
+			return new SignatureStartResponse()
 			{
 				Success = true,
 				TransferDataId = _storageMock.Store(transferData, ".bin"),
@@ -100,13 +104,15 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* it'll be redirect to SignatureInfo action to show the signature file.
 		*/
 		[HttpPost]
-		public PadesSignatureCompleteResponse Complete([FromBody] PadesSignatureCompleteRequest request) {
+		public SignatureCompleteResponse Complete([FromBody] SignatureCompleteRequest request)
+		{
 			byte[] signatureContent;
 
-			try {
+			try
+			{
 
 				// Recover the "transfer data" content stored in a temporary file.
-				if (!_storageMock.TryGetFile(request.TransferDataFileId, out byte[] transferDataContent))
+				if (!_storageMock.TryGetFile(request.TransferDataId, out byte[] transferDataContent))
 				{
 					throw new Exception("TransferData not found");
 				}
@@ -126,16 +132,17 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 				// Get the signed PDF as an array of bytes
 				signatureContent = padesSigner.GetPadesSignature();
 
-			} catch (ValidationException ex) {
+			} catch (ValidationException ex)
+			{
 				// Return userfile to continue the signature with the same file.
-				return new PadesSignatureCompleteResponse()
+				return new SignatureCompleteResponse()
 				{
 					ValidationResults = ex.ValidationResults.ToModel(),
 					Success = false
 				};
 			}
 
-			return new PadesSignatureCompleteResponse()
+			return new SignatureCompleteResponse()
 			{
 				Success = true,
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.

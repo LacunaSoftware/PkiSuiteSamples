@@ -1,7 +1,12 @@
 ////import { TrustServiceInfo } from "./trust-services";
 
+export interface WebPkiConfig {
+  license: string;
+  endpoint: string;
+}
+
 export interface ConfigurationModel {
-  webPkiLicense: string;
+  webPki: WebPkiConfig;
   //services: Array<TrustServiceInfo>;
 }
 

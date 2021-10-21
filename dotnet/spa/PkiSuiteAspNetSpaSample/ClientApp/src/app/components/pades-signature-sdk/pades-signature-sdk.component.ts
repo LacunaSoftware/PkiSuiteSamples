@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import LacunaWebPKI, { CertificateModel } from 'web-pki';
-import { CompletePadesSignatureRequest, CompletePadesSignatureResponse, StartPadesSignatureRequest } from '../../api/sdk/pades-signature';
-import { PadesSignatureService } from '../../services/sdk/pades-signature.service';
+import { CompleteSignatureRequest, StartSignatureRequest } from '../../api/sdk/signature';
+import { SignatureSdkService } from '../../services/signature-sdk.service';
 import { Config } from '../../api/configuration';
 
 
@@ -13,7 +13,7 @@ import { Config } from '../../api/configuration';
 })
 export class PadesSignatureSdkComponent implements OnInit {
 
-  pki: any = new LacunaWebPKI(Config.value.webPkiLicense);
+  pki: any = new LacunaWebPKI(Config.value.webPki.license);
 
   loading: boolean = false;
   result: boolean = false;
@@ -25,8 +25,8 @@ export class PadesSignatureSdkComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private padesSignatureService: PadesSignatureService,
-    private cd: ChangeDetectorRef
+    private padesSignatureService: SignatureSdkService,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -37,6 +37,7 @@ export class PadesSignatureSdkComponent implements OnInit {
     this.pki.init({
       ready: this.onWebPkiReady,
       notInstalled: this.onWebPkiNotInstalled,
+      ngZone: this.ngZone,
       defaultFail: this.onWebPkiError
     });
   }
@@ -54,11 +55,11 @@ export class PadesSignatureSdkComponent implements OnInit {
   private onWebPkiError: (ex) => void = ((ex) => {
     console.error('Web PKI error: ' + ex.message);
     this.error = true;
-    this.setLoading(false);
+    this.loading = false;
   });
 
   loadCertificates() {
-    this.setLoading(true);
+    this.loading = true;
     this.selectedCertificate = null;
     this.pki.listCertificates().success(response => {
       this.certificateList = response;
@@ -67,14 +68,14 @@ export class PadesSignatureSdkComponent implements OnInit {
       } else {
         this.selectedCertificate = this.certificateList[0].thumbprint;
       }
-      this.setLoading(false);
+      this.loading = false;
     });
   };
 
   sign() {
-    this.setLoading(true);
+    this.loading = true;
     this.pki.readCertificate({ thumbprint: this.selectedCertificate }).success(certContent => {
-      let startRequest: StartPadesSignatureRequest = {
+      let startRequest: StartSignatureRequest = {
         userFile: this.fileId,
         certContent: certContent
       };
@@ -87,8 +88,8 @@ export class PadesSignatureSdkComponent implements OnInit {
             digestAlgorithm: startResponse.digestAlgorithm
           }).success(signature => {
 
-            let completeRequest: CompletePadesSignatureRequest = {
-              transferDataFileId: startResponse.transferDataId,
+            let completeRequest: CompleteSignatureRequest = {
+              transferDataId: startResponse.transferDataId,
               signature: signature
             };
 
@@ -96,25 +97,20 @@ export class PadesSignatureSdkComponent implements OnInit {
               (completeResponse => {
                 this.signedFileId = completeResponse.signedFileId;
                 this.result = true;
-                this.setLoading(false);
+                this.loading = false;
               }),
               (err => {
                 console.error('Error while completing signature: ' + err.message);
                 this.error = true;
-                this.setLoading(false);
+                this.loading = false;
               }));
           });
         }),
         (err => {
           console.error('Error while starting signature: ' + err.message);
           this.error = true;
-          this.setLoading(false);
+          this.loading = false;
         }));
      });
-  }
-
-  setLoading(value: boolean): void {
-    this.loading = value;
-    this.cd.detectChanges();
   }
 }
