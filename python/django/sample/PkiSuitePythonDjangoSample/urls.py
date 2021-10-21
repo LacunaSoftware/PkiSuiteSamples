@@ -16,9 +16,12 @@ Including another URLconf
 from django.urls import include, path
 
 urlpatterns = [
+    path('', include('homepage.urls')),
     path('download/', include('download.urls')),
-    path('pades-signature-rest/', include('pades_signature_rest.urls')),
+    path('server-files/', include('server_files.urls')),
     path('receita-simples-rest/', include('receita_simples_rest.urls')),
+    path('pades-signature-rest/', include('pades_signature_rest.urls')),
+    path('open-pades-rest/', include('open_pades_rest.urls')),
     path('printer-version-pades-rest/', include('printer_version_pades_rest.urls')),
     path('check-pades-rest/', include('check_pades_rest.urls')),
 ]
