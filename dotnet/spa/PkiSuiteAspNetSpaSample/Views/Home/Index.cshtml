@@ -8,7 +8,10 @@
 	<script type="text/javascript">
 		IsCSharpSample = true;
 		SampleRoutes = {
-			//authCert: { },
+			authCert: {
+				pki: '/RedirectToSPA?rc=authentication',
+				restpki: '/CheckRestPkiToken?rc=authentication'
+			},
 			//cosignCms: { },
 			//cosignPdf: { },
 			//issueCertServer: { },
@@ -42,7 +45,10 @@
 			//signPdfServerKey: { },
 			//signPdfCloudPwd: { },
 			//signPdfCloudOAuth: { },
-			//signXmlServer: { },
+			signXmlServer: {
+				pki: '/RedirectToSPA?rc=xml-signature',
+				restpki: '/CheckRestPkiToken?rc=xml-signature'
+			},
 			//signXmlServerKey: { },
 			//signaturePackage: { },
 			//validateCmsSig: { },

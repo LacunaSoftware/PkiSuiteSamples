@@ -113,7 +113,7 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 		* After signature, it'll be redirected to SignatureInfo action to show the signature file.
 		*/
 		[HttpPost]
-		public CadesSignatureCompleteResponse Complete([FromBody] CadesSignatureCompleteRequest request)
+		public SignatureCompleteResponse Complete([FromBody] CadesSignatureCompleteRequest request)
 		{
 			byte[] signatureContent;
 
@@ -157,14 +157,14 @@ namespace PkiSuiteAspNetSpaSample.Controllers {
 			} catch (ValidationException ex)
 			{
 				// Return userfile to continue the signature with the same file.
-				return new CadesSignatureCompleteResponse()
+				return new SignatureCompleteResponse()
 				{
 					ValidationResults = ex.ValidationResults.ToModel(),
 					Success = false
 				};
 			}
 
-			return new CadesSignatureCompleteResponse()
+			return new SignatureCompleteResponse()
 			{
 				Success = true,
 				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.

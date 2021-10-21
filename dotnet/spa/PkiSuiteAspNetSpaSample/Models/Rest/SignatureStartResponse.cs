@@ -10,9 +10,5 @@ namespace PkiSuiteAspNetSpaSample.Models.Rest {
 
 		public string UserFile { get; set; }
 
-		public bool Success { get; set; }
-
-		public ValidationResultsModel ValidationResults { get; set; }
-
 	}
 }

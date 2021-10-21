@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class="ls-title">Upload a file</h2>
+
+	<p>You will be redirected to <b>/{{ rc }}</b></p>
+	<form method="post" enctype="multipart/form-data">
+		<label for="selectFile">
+			Select file:
+			<input id="selectFile" type="file" name="userfile" style="display: block;">
+		</label>
+
+		<input type="submit" value="Upload" name="submit" class="btn btn-primary" style="display: block;">
+	</form>
+
+{% endblock %}

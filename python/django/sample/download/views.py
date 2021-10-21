@@ -1,4 +1,4 @@
-import os
+from os.path import join, exists
 from django.http import Http404, FileResponse
 from storage_mock import get_sample_doc_name, STATIC_STORAGE_PATH, MEDIA_STORAGE_PATH
 
@@ -11,8 +11,8 @@ def get_file(_, filename):
     previously performed signature.
 
     """
-    file_path = os.path.join(MEDIA_STORAGE_PATH, filename)
-    if os.path.exists(file_path):
+    file_path = join(MEDIA_STORAGE_PATH, filename)
+    if exists(file_path):
         return FileResponse(open(file_path, 'rb'), as_attachment=True)
     raise Http404
 
@@ -27,8 +27,8 @@ def get_doc(_, file_id):
     """
 
     filename = "%02d.pdf" % (int(file_id) % 10)
-    file_path = os.path.join(STATIC_STORAGE_PATH, filename)
-    if os.path.exists(file_path):
+    file_path = join(STATIC_STORAGE_PATH, filename)
+    if exists(file_path):
         return FileResponse(open(file_path, 'rb'), as_attachment=True)
     raise Http404
 
@@ -40,7 +40,7 @@ def get_sample(_, file_id):
 
     """
     (filename, mimetype) = get_sample_doc_name(int(file_id))
-    file_path = os.path.join(STATIC_STORAGE_PATH, filename)
-    if os.path.exists(file_path):
+    file_path = join(STATIC_STORAGE_PATH, filename)
+    if exists(file_path):
         return FileResponse(open(file_path, 'rb'), as_attachment=True)
     raise Http404

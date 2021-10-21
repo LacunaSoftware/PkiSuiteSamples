@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 namespace PkiSuiteAspNetSpaSample.Models.Rest {
 	public class SignatureCompleteResponse {
 		public string SignedFileId { get; set; }
-		public bool Success { get; set; }
-		public ValidationResultsModel ValidationResults { get; set; }
 	}
 }

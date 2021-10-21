@@ -99,7 +99,7 @@ var batchSignatureExpressForm = (function () {
         // http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
         pki.init({
             ready: loadCertificates,    // As soon as the component is ready we'll load the certificates.
-            defaultError: onWebPkiError // Generic error callback (see function declaration below).
+            defaultFail: onWebPkiError  // Generic error callback (see function declaration below).
         });
     }
 
@@ -157,7 +157,7 @@ var batchSignatureExpressForm = (function () {
 
         pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
 
-            // Store the certificate scripts.
+            // Store the certificate content.
             selectedCertContent = certEncoded;
 
             // Call Web PKI to preauthorize the signatures, so that the user only sees one
@@ -179,12 +179,12 @@ var batchSignatureExpressForm = (function () {
 
         // For each document, we must perform 3 actions in sequence:
         //
-        //    1. Start the signature    : Call the action batch-pades-signature-express/start to start the
-        //                                signature and get the "to-sign-hash" scripts and the digest
+        //    1. Start the signature    : Call the action batch-signature-express/start to start the
+        //                                signature and get the "to-sign-hash" content and the digest
         //                                algorithm needed for the signature computation.
         //    2. Perform the signature  : Call Web PKI's method signHash with the information from
         //                                the start action.
-        //    3. Complete the signature : Call the action batch-pades-signature-express/complete to notify
+        //    3. Complete the signature : Call the action batch-signature-express/complete to notify
         //                                that the signature is complete.
         //
         // We'll use the Queue Javascript class defined above in order to perform these steps
@@ -220,7 +220,7 @@ var batchSignatureExpressForm = (function () {
 
     // --------------------------------------------------------------------------------------------
     // Function that performs the first step described above for each document, which is the call
-    // batch-pades-signature-express/start in order to start the signature and get the token associated
+    // batch-signature-express/start in order to start the signature and get the token associated
     // with the signature process.
     //
     // This function is called by the Queue.process function, taking documents from the "start"
@@ -230,7 +230,7 @@ var batchSignatureExpressForm = (function () {
     function startSignature(step, done) {
         // Call the server asynchronously to start the signature.
         $.ajax({
-            url: '/batch-pades-signature-express/start.php',
+            url: formElements.ctrlEndpoint + '/start.php',
             method: 'POST',
             data: {
                 id: step.docId,
@@ -296,7 +296,7 @@ var batchSignatureExpressForm = (function () {
     function completeSignature(step, done) {
         // Call the server asynchronously to notify that the signature has been performed.
         $.ajax({
-            url: 'batch-pades-signature-express/complete.php',
+            url: formElements.ctrlEndpoint + '/complete.php',
             method: 'POST',
             data: {
                 id: step.docId,
