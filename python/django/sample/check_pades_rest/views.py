@@ -1,7 +1,7 @@
-from os.path import basename, join
+from os.path import join
 from time import sleep
 
-from django.http import HttpResponseNotFound, HttpRequest
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
 from restpki_client import StandardSignaturePolicies

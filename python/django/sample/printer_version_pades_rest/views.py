@@ -1,7 +1,5 @@
-import os
 import uuid
 from datetime import datetime
-from io import BytesIO
 from os.path import join
 
 from django.shortcuts import render
@@ -15,11 +13,12 @@ from storage_mock import get_verification_code
 from storage_mock import get_icp_brasil_logo_content
 from storage_mock import get_validation_result_icon
 from storage_mock import set_verification_code
-from storage_mock import STATIC_STORAGE_PATH, MEDIA_STORAGE_PATH
+from storage_mock import MEDIA_STORAGE_PATH
 from utils import generate_verification_code, get_rest_pki_client
 from utils import get_security_context_id, get_description
 from utils import join_strings_pt, get_display_name
 from utils import format_verification_code
+
 
 ################################################################################
 # Configuration of the printer-friendly version
@@ -55,7 +54,7 @@ def index(request, file_id):
 
     """
     if request.method == 'GET':
-        file_path = os.path.join(MEDIA_STORAGE_PATH, file_id)
+        file_path = join(MEDIA_STORAGE_PATH, file_id)
 
         # Check if doc already has a verification code registered on storage.
         verification_code = get_verification_code(request.session, file_id)
@@ -66,7 +65,7 @@ def index(request, file_id):
 
         # Generate marks on printer-friendly version.
         pfv_file = generate_printer_friendly_version(file_path, verification_code)
-        pfv_path = os.path.join(MEDIA_STORAGE_PATH, pfv_file)
+        pfv_path = join(MEDIA_STORAGE_PATH, pfv_file)
         return FileResponse(open(pfv_path, 'rb'), as_attachment=True)
     else:
         return Http404()

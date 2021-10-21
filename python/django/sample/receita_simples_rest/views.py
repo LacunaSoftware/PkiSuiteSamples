@@ -1,11 +1,11 @@
+import uuid
+from os.path import join
+from datetime import datetime
 from django.shortcuts import render
-from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpRequest
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from storage_mock import create_app_data, MEDIA_STORAGE_PATH
 
 from PyPDF2 import PdfFileReader, PdfFileWriter
-
 from reportlab.platypus.tables import Table
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, A4
@@ -14,10 +14,6 @@ from restpki_client import PdfMarker, PdfHelper
 
 from utils import get_rest_pki_client
 
-import io
-import os
-import uuid
-from datetime import datetime
 
 def index(request):
     """
@@ -45,7 +41,7 @@ def generate(request):
     if request.method == 'POST':
         create_app_data()
         filename = '%s.pdf' % (str(uuid.uuid4()))
-        file_path = os.path.join(MEDIA_STORAGE_PATH, filename)
+        file_path = join(MEDIA_STORAGE_PATH, filename)
 
         # Dados receita
         nome_medico = request.POST['name']
@@ -158,6 +154,6 @@ def generate(request):
         result.write_to_file(file_path)
 
         # Redirect to PAdES Signature to start the signature processs
-        return HttpResponseRedirect(os.path.join('/pades-signature-rest/', filename))
+        return HttpResponseRedirect(join('/pades-signature-rest/', filename))
     else:
         return HttpResponseNotFound()
