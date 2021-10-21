@@ -80,3 +80,50 @@ def get_validation_result_icon(is_valid):
     with open(join(STATIC_STORAGE_PATH, filename), 'rb') as f:
         valid_icon = f.read()
     return valid_icon
+
+
+def get_icp_brasil_logo_content():
+    with open(join(STATIC_STORAGE_PATH, 'icp-brasil.png'), 'rb') as f:
+        icp_brasil_logo = f.read()
+    return icp_brasil_logo
+
+
+def get_verification_code(session, file_id):
+    """
+
+    Returns the verification code associated with the given document, or
+    null if no verification code has been associated with it.
+
+    """
+    # >>>>> NOTICE <<<<<
+    # This should be implemented on your application as a SELECT on your
+    # "document table" by the ID of the document, returning the value of the
+    # verification code column.
+    return session.get("Files/%s/Code" % file_id)
+
+
+def set_verification_code(session, file_id, code):
+    """
+
+    Registers the verification code for a given document.
+
+    """
+    # >>>>> NOTICE <<<<<
+    # This should be implemented on your application as a SELECT on your
+    # "document table" by the verification code column, which should be an
+    # indexed column.
+    session["Files/%s/Code" % file_id] = code
+    session["Codes/%s" % code] = file_id
+
+
+def lookup_verification_code(session, code):
+    """
+
+    Returns the ID of the document associated with a given verification
+    code, or null if no document matcher the given code.
+
+    """
+    if code is None or len(code) == 0:
+        return None
+
+    return session.get("Codes/%s" % code)

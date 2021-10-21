@@ -1,8 +1,8 @@
-import os
+from os.path import join
 import uuid
 
 from django.shortcuts import render
-from django.http import HttpResponseNotFound, HttpResponse, HttpRequest
+from django.http import HttpResponseNotFound, HttpResponse
 
 from restpki_client import PadesSignatureStarter
 from restpki_client import PadesSignatureFinisher
@@ -113,7 +113,7 @@ def complete(request):
             create_app_data()
             filename = '%s.pdf' % (str(uuid.uuid4()))
             result.write_to_file(
-                os.path.join(MEDIA_STORAGE_PATH, filename))
+                join(MEDIA_STORAGE_PATH, filename))
 
             return render(request, 'pades_signature_rest/complete.html',
             { 'signer_cert': signer_cert, 'signed_pdf': filename })

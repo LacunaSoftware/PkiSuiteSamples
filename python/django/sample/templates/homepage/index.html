@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class="ls-title">PDF Signature using REST PKI</h2>
+	<div class="ls-content">
+		<ul>
+			{% for url, msg in  pades_rest_urls%}
+				<li><a href="{{ url }}">{{ msg }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+
+{% endblock %}
