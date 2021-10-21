@@ -32,7 +32,7 @@ $documentsIds = array_map(function($id) {
     <?php // Messages about the signature process will be rendered in here. ?>
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">Batch of PAdES Signature with PKI Express</h2>
+    <h2 class="ls-title">Batch of CAdES Signature with PKI Express</h2>
 
     <div class="ls-content">
         <form id="signForm" method="POST">
@@ -102,14 +102,11 @@ $documentsIds = array_map(function($id) {
             certificateSelect: $('#certificateSelect'),        // The <select> element (combo box) to list the certificates.
             refreshButton: $('#refreshButton'),                // The "refresh" button.
             signButton: $('#signButton'),                      // The button that initiates the operation.
-            ctrlEndpoint: '/batch-pades-signature-express'     // The API controller endpoint to be called by Ajax.
+            ctrlEndpoint: '/batch-cades-signature-express'     // The API controller endpoint to be called by Ajax.
         });
     });
 
 </script>
-
-
-
 
 </body>
 </html>

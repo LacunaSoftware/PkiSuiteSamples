@@ -54,7 +54,9 @@
         signCod: { 
             express: '/check-express.php?rc=xml-cod-signature'
         },
-        // signMultiCmsServer: { },
+        signMultiCmsServer: { 
+            express: '/check-express.php?rc=batch-cades-signature'
+        },
         // signMultiCmsUser: { },
         signMultiPdfServer: {
             express: '/check-express.php?rc=batch-pades-signature',
