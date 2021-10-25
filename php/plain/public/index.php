@@ -98,7 +98,7 @@
             restpki: '/check-rest-token.php?rc=upload.php&fwd=open-pades'
         },
         validateXmlSig: {
-            // express: '',
+            express: '/check-express.php?rc=upload.php&fwd=open-xml',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=open-xml'
         }
     };
