@@ -38,8 +38,8 @@ rest-pki:
   # ======================================================
   #   >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
   # ======================================================
-  accessToken: 'pbmcD4VtHBhiVTSPf5V4wPJJFge8PBeGQhHD3rgt-iXCO-efjXA8_qs9BK55kW4U0hDqfohMcc3XlrC4WxVmb9WLc0FMSwlCMkrHypqO3ISuF5NaK8P93FpREnRLVqX_PEcUxcZCbzu5Z6cR9rzPcm_-zG-QTGcMJ_fLBIQGqm97bZnLiurMB9mI7CnRjHJB7fVH9pfr3YOS8JzQXjnzQb05Z2Trbx-CxYC79pEzrieHsiceRHNeSi9MeutkelGXzneO3YQGujsqcLa9SkT3afM63WBv0LVEbEd5HNA05j8-Yx-22p7fC0vD2srHHygdTXspqwMbCtFkjt4mEGdO2ZSKSO0WwDSPc4egoLmiMizhckAtvLvgGPCfW4bZ28k4Vd9gXZwUdIA-MFGir_lfo8oP9f10N6Wr74DSNu6MeKF-ZOShaTJCxiv2i_CEMN4nFy2OjilAeFz-PQdQPIGXvLioklptYPeJS9gKeU1fY1PtkciXX0cxmhxWRu0RtJKcXK7Wxw'
-  # This is a TRIAL token. It will expire at 30/11/2021.
+  accessToken: '53JHoj0eBexCQNoigRNFR0bFpRir1ArwSSWrX-nwEnL477Kvfp3OodmaJ-q0w5t1R8xPVTpNdKqOftqlaE6t7vsqtbGxA7pkHODO7Lna3_mAZKdhobvBtmroHjxYzG_JQn-9PEm1SIpYXBhk5oTfUag_De8rzxYWebwSwuG8_HcspN1MEUbZ8WrMNZZhEcCj3NWHFG7hw_vEBvN0fEVqyx7l5ifqFUrKk1I8s3SrlUSKJ1a1S4b7XplU7vFv8iMJiQ3B0Nq5mJS84UhVE-UtU8aRTq6UnVGAG3rh3UjfucanIimO_D0ZLFpQAhnIkq4_Y2WH9w7LxOGYONN-f4XPuNOutVtLPFwMkPUx5f-Yg6nOxisGa9rdBFpdOziyZoqsBaC-n7y9Xv3mI7FVXMpWnTLODSNz8jolDu8Rhk6AZWC0NXnPOa9JWhRa0l1pzw--PKoB9v9VPxXTpWaa6WvWV8sphRvWE1hjx93TBOIyYvv6k3DVgTsve2DFqOaZ7hpjcaWoaw'
+  # This is a TRIAL token. It will expire at 31/12/2021.
   # If the REST PKI's samples do not work, please contact our support by
   # email: suporte@lacunasoftware.com
 
@@ -52,8 +52,8 @@ rest-pki-core:
   # ======================================================
   #     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
   # ======================================================
-  apiKey: 'pki-suite-samples-01|63adb22d4cde03428093dc67a179363f55fc243f1c2e71c2f860af5737f43760'
-  # This is a TRIAL key. It will expire at 30/11/2021.
+  apiKey: 'pki-suite-samples-02|06b6279ec5eb26468cc98c20959197e4de91420466fa7f88e022c77d56989377'
+  # This is a TRIAL key. It will expire at 31/12/2021.
   # If the REST PKI's samples do not work, please contact our support by
   # email: suporte@lacunasoftware.com
 
@@ -71,8 +71,8 @@ amplia:
   # ======================================================
   #       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
   # ======================================================
-  apiKey: 'pki-suite-samples-01|547c90da4bbbfc4b99909e937ced4f50950b5d3a0ea78bad34466342a84a5d2d'
-  # This is a TRIAL API key to use Amplia. It will expire at 30/11/2021.
+  apiKey: 'pki-suite-samples-02|bbed7617a60ae14eb172df172352b3320659c2b3525c488e653362890cd50fd8'
+  # This is a TRIAL API key to use Amplia. It will expire at 31/12/2021.
   # If the Amplia's samples do not work please contact our support by email:
   # suporte@lacunasoftware.com
 
