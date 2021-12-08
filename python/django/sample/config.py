@@ -35,7 +35,7 @@ class Config(object):
     #     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
     # ========================================================
     AMPLIA_API_KEY = 'pki-suite-samples-01|768e7883e96cb54fbd41228e37da5bdab5763432e275dd778c18291fad14fcf2'
-    # This is a TRIAL API key to use Amplia. It will expire at 28/02/2021.
+    # This is a TRIAL API key to use Amplia. It will expire at 28/02/2022.
     # If the Amplia's samples do not work please contact our support by email:
     # suporte@lacunasoftware.com
 
