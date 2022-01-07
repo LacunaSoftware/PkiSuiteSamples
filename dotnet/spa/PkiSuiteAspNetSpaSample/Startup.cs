@@ -25,6 +25,10 @@ namespace PkiSuiteAspNetSpaSample {
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.Configure<RestPkiConfig>(Configuration.GetSection("RestPki"));
+			services.Configure<RestPkiCoreConfig>(Configuration.GetSection("RestPkiCore"));
+			services.Configure<WebPkiConfig>(Configuration.GetSection("WebPki"));
+
 			services.AddControllersWithViews();
 			// In production, the Angular files will be served from this directory
 			services.AddSpaStaticFiles(configuration =>
@@ -32,13 +36,9 @@ namespace PkiSuiteAspNetSpaSample {
 				configuration.RootPath = "ClientApp/dist";
 			});
 
-			services.AddSingleton(svcs => {
-				var options = svcs.GetRequiredService<IOptions<PkiSuiteConfig>>().Value;
-				return new RestPkiClient(options.RestPki.Endpoint ?? "https://pki.rest/", options.RestPki.AccessToken);
-			});
-
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddSingleton<StorageMock>();
+			services.AddSingleton<Util>();
 			services.AddSingleton<PadesVisualElements>();
 		}
 
@@ -65,7 +65,8 @@ namespace PkiSuiteAspNetSpaSample {
 
 			app.UseRouting();
 
-			app.UseEndpoints(endpoints => {
+			app.UseEndpoints(endpoints =>
+			{
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "/",

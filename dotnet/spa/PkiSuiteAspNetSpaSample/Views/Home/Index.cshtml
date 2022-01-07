@@ -8,7 +8,10 @@
 	<script type="text/javascript">
 		IsCSharpSample = true;
 		SampleRoutes = {
-			//authCert: { },
+			authCert: {
+				pki: '/RedirectToSPA?rc=authentication',
+				restpki: '/CheckRestPkiToken?rc=authentication'
+			},
 			//cosignCms: { },
 			//cosignPdf: { },
 			//issueCertServer: { },
@@ -19,7 +22,10 @@
 			//printerFriendlyPdf: { },
 			//readCert: { },
 			//rsa: { },
-			//signCmsServer: { },
+			signCmsServer: {
+				pki: '/RedirectToSPA?rc=server-files&fwd=cades-signature&op=SignCms',
+				restpki: '/CheckRestPkiToken?rc=server-files&fwd=cades-signature&op=SignCms'
+			},
 			//signCmsUser: { },
 			//signCmsServerKey: { },
 			//signCod: { },
@@ -27,16 +33,22 @@
 			//signMultiCmsUser: { },
 			//signMultiPdfServer: { },
 			//signMultiPdfUser: { },
-			//signNfe: { },
+			signNfe: {
+				pki: '/RedirectToSPA?rc=xml-nfe-signature',
+				restpki: '/CheckRestPkiToken?rc=xml-nfe-signature'
+			},
 			signPdfServer: {
 				pki: '/RedirectToSPA?rc=server-files&fwd=pades-signature&op=SignPdf',
-			//	restpki: '/CheckRestPkiToken?rc=server-files&fwd=pades-signature&op=SignPdf'
+				restpki: '/CheckRestPkiToken?rc=server-files&fwd=pades-signature&op=SignPdf'
 			},
 			//signPdfUser: { },
 			//signPdfServerKey: { },
 			//signPdfCloudPwd: { },
 			//signPdfCloudOAuth: { },
-			//signXmlServer: { },
+			signXmlServer: {
+				pki: '/RedirectToSPA?rc=xml-signature',
+				restpki: '/CheckRestPkiToken?rc=xml-signature'
+			},
 			//signXmlServerKey: { },
 			//signaturePackage: { },
 			//validateCmsSig: { },

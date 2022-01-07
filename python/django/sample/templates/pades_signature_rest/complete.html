@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class="ls-title">PAdES Signature with REST PKI</h2>
+
+	<p>File signed successfully!</p>
+
+	<p>
+		Signer information:
+		<ul>
+			<li>Subject: {% if signer_cert.subject_name.common_name %} {{ signer_cert.subject_name.common_name }} {% endif %}</li>
+			<li>Email: {% if signer_cert.email_address %} {{ signer_cert.email_address }} {% endif %}</li>
+			<li>
+				ICP-Brasil fields
+				<ul>
+						<li>Tipo de certificado: {% if signer_cert.pki_brazil.certificate_type %} {{ signer_cert.pki_brazil.certificate_type }} {% endif %}</li>
+						<li>CPF: {% if signer_cert.pki_brazil.cpf_formatted %} {{ signer_cert.pki_brazil.cpf_formatted }} {% endif %}</li>
+						<li>Responsavel: {% if signer_cert.pki_brazil.responsavel %} {{ signer_cert.pki_brazil.responsavel }} {% endif %}</li>
+						<li>Empresa: {% if signer_cert.pki_brazil.company_name %} {{ signer_cert.pki_brazil.company_name }} {% endif %}</li>
+						<li>CNPJ: {% if signer_cert.pki_brazil.cnpj_formatted %} {{ signer_cert.pki_brazil.cnpj_formatted }} {% endif %}</li>
+						<li>RG: {% if signer_cert.pki_brazil.rg_numero %} {{ signer_cert.pki_brazil.rg_numero }} {% endif %}
+								{% if signer_cert.pki_brazil.rg_emissor %} {{ signer_cert.pki_brazil.rg_emissor }} {% endif %}
+								{% if signer_cert.pki_brazil.rg_emissor_uf %} {{ signer_cert.pki_brazil.rg_emissor_uf }} {% endif %}</li>
+						<li>OAB: {% if signer_cert.pki_brazil.oab_numero %} {{ signer_cert.pki_brazil.oab_numero }} {% endif %}
+								 {% if signer_cert.pki_brazil.oab_uf %} {{ signer_cert.pki_brazil.oab_uf }} {% endif %}</li>
+
+				 </ul>
+			</li>
+	  </ul>
+	</p>
+
+	<h3>Actions:</h3>
+	<ul>
+		<li><a href="/download/{{ signed_pdf }}">Download the signed file</a></li>
+		<li><a href="/printer-version-pades-rest/{{ signed_pdf }}">Download a printer-friendly version of the signed file</a></li>
+		<li><a href="/open-pades-rest/{{ signed_pdf }}">Open/validate the signed file</a></li>
+		<li><a href="/pades-signature-rest/{{ signed_pdf }}">Co-sign with another certificate</a></li>
+	</ul>
+
+{% endblock %}

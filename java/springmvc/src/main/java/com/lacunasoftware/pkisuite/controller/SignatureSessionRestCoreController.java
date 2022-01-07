@@ -1,7 +1,7 @@
 package com.lacunasoftware.pkisuite.controller;
 
 import com.lacunasoftware.pkisuite.util.Util;
-import com.lacunasoftware.restpki.*;
+import com.lacunasoftware.restpkicore.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class SignatureSessionRestCoreController {
 	 * This action initiates a signature session with REST PKI Core.
 	 */
 	@GetMapping("/signature-session-rest-core")
-	public String get(Model model, HttpServletResponse response) throws RestException {
+	public String get(Model model, HttpServletResponse response) throws Exception {
 
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
@@ -41,7 +41,7 @@ public class SignatureSessionRestCoreController {
 	 * This action initiates a signature session with REST PKI Core using webhook.
 	 */
 	@GetMapping("/signature-session-rest-core/webhook")
-	public String usingWebhook(Model model, HttpServletResponse response) throws RestException {
+	public String usingWebhook(Model model, HttpServletResponse response) throws Exception {
 
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
@@ -65,7 +65,7 @@ public class SignatureSessionRestCoreController {
 	public String complete(
 		Model model,
 		@RequestParam(value="signatureSessionId") String sessionId
-	) throws RestException {
+	) throws Exception {
 		// Get service
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 		// Get session information

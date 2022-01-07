@@ -109,6 +109,25 @@ try {
         $pdf->Ln(8);
     }
 
+    // Add QR Code - optional
+    // To run this sample with QR Code, we recommend using ngrok to simulate public URL
+    $qrCode = '<YOUR PUBLIC URL>/receita-simples-rest/iti-validation';
+    if ($qrCode != null){
+        $style = array(
+            'border' => 2,
+            'vpadding' => 'auto',
+            'hpadding' => 'auto',
+            'fgcolor' => array(0,0,0),
+            'bgcolor' => false, //array(255,255,255)
+            'module_width' => 1, // width of a single module in points
+            'module_height' => 1 // height of a single module in points
+        );
+        $pdf->write2DBarcode($qrCode, 'QRCODE,H', 137, 210, 50, 50, $style, 'N');
+        $pdf->Text(135, 260, 'Use o QR Code acima para ');
+        $pdf->Text(135, 265, 'validar o documento em');
+        $pdf->Text(135, 270, 'https://assinaturadigital.iti.gov.br/');
+    }
+
     //Close and output PDF document
     $pdf->Output($filePath, 'F');
 

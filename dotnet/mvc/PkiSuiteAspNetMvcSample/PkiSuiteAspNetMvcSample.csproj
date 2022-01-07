@@ -57,34 +57,37 @@
     <Reference Include="Lacuna.DataAnnotations, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.DataAnnotations.1.2.0\lib\net45\Lacuna.DataAnnotations.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.Pki, Version=2.7.5.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.Pki.dll</HintPath>
+    <Reference Include="Lacuna.Pki, Version=2.8.12.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.8.12\lib\net46\Lacuna.Pki.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.Pki.BrazilTrustServices, Version=1.0.1.0, Culture=neutral, PublicKeyToken=f9a343ef085a160f, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.BrazilTrustServices.1.0.1\lib\net461\Lacuna.Pki.BrazilTrustServices.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestClient, Version=1.14.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestClient.1.14.0\lib\net45\Lacuna.RestClient.dll</HintPath>
+    <Reference Include="Lacuna.RestClient, Version=1.15.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestClient.1.15.0\lib\net45\Lacuna.RestClient.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.25.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.25.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=1.27.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Api.1.27.0\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.21.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.21.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=1.23.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPki.Client.1.23.1\lib\net45\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPkiCore.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPkiCore.Api.1.0.0\lib\net45\Lacuna.RestPkiCore.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPkiCore.Api, Version=1.5.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Api.1.5.0\lib\net45\Lacuna.RestPkiCore.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPkiCore.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPkiCore.Client.1.0.0\lib\net46\Lacuna.RestPkiCore.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPkiCore.Client, Version=1.5.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Client.1.5.0\lib\net46\Lacuna.RestPkiCore.Client.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.Spa.Api, Version=2.2.0.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Spa.Api.2.2.0\lib\net45\Lacuna.Spa.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.T8, Version=1.2.3.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Pki.2.7.5\lib\net46\Lacuna.T8.dll</HintPath>
+    <Reference Include="Lacuna.T8, Version=1.2.7.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Pki.2.8.12\lib\net46\Lacuna.T8.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MimeMapping, Version=1.0.1.37, Culture=neutral, PublicKeyToken=680e2d5f226b327b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeMapping.1.0.1.37\lib\netstandard2.0\MimeMapping.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -141,6 +144,9 @@
       <HintPath>..\packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -240,6 +246,7 @@
     <Compile Include="Controllers\CheckCadesRestController.cs" />
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
+    <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
     <Compile Include="Controllers\MergeCadesSdkController.cs" />
     <Compile Include="Controllers\MergeServerFilesController.cs" />
@@ -490,6 +497,8 @@
     <Content Include="Views\SignatureSessionRestCore\UsingWebhook.cshtml" />
     <Content Include="Views\SignatureSessionRestCore\Index.cshtml" />
     <Content Include="Views\SignatureSessionRestCore\Callback.cshtml" />
+    <Content Include="Views\SignatureSessionPreDefRestCore\Callback.cshtml" />
+    <Content Include="Views\SignatureSessionPreDefRestCore\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

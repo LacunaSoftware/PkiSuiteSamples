@@ -54,7 +54,9 @@
         signCod: { 
             express: '/check-express.php?rc=xml-cod-signature'
         },
-        // signMultiCmsServer: { },
+        signMultiCmsServer: { 
+            express: '/check-express.php?rc=batch-cades-signature'
+        },
         // signMultiCmsUser: { },
         signMultiPdfServer: {
             express: '/check-express.php?rc=batch-pades-signature',
@@ -96,7 +98,7 @@
             restpki: '/check-rest-token.php?rc=upload.php&fwd=open-pades'
         },
         validateXmlSig: {
-            // express: '',
+            express: '/check-express.php?rc=upload.php&fwd=open-xml',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=open-xml'
         }
     };
