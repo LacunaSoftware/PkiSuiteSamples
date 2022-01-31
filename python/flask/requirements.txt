@@ -10,3 +10,5 @@ docopt==0.6.1
 restpki-client==1.1.1
 pkiexpress==1.10.0
 amplia-client==1.0.0
+
+fpdf==1.7.2

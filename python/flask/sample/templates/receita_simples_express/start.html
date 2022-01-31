@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="ls-title">Receita Simples with PKI Express</h2>
+
+<!--
+	This form will be shown initially and when this page is rendered to perform the
+	signature using Web PKI component.
+-->
+<form id="signForm" action="/receita-simples-express/complete/{{ request.view_args.get('file_id') }}"  method="POST">
+
+	<!--
+		Hidden fields to be used to pass data from the action to the
+		"signature start form" javascript (see signature-complete-form.js) and
+		vice-versa.
+	-->
+	<input type="hidden" id="certThumb" name="certThumbField" value="{{ cert_thumb }}">
+	<input type="hidden" id="transferFileId" name="transferFileIdField" value="{{ transfer_file_id }}">
+	<input type="hidden" id="toSignHash" name="toSignHashField" value="{{ to_sign_hash }}">
+	<input type="hidden" id="digestAlgorithm" name="digestAlgorithmField" value="{{ digest_algorithm }}">
+	<input type="hidden" id="signature" name="signatureField">
+
+	<a id="tryAgainButton" class="btn btn-primary" href="/receita_simples_express">
+		<i class="fas fa-undo-alt"></i> Try Again
+	</a>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+
+	<!--
+		The file below contains the JS lib for accessing the Web PKI component.
+		For more information, see:
+		https://webpki.lacunasoftware.com/#/Documentation
+	-->
+	<script type="text/javascript"
+			  src="https://get.webpkiplugin.com/Scripts/LacunaWebPKI/lacuna-web-pki-2.12.0.min.js"
+			  integrity="sha256-jDF8LDaAvViVZ7JJAdzDVGgY2BhjOUQ9py+av84PVFA="
+			  crossorigin="anonymous"></script>
+
+	<!--
+	The file below contains the logic for calling the Web PKI component. It is
+	only an example, feel free to alter it to meet your application's needs. You
+	can also bring the code into the javascript block below if you prefer.
+	-->
+	<script src="{{ url_for('static', filename='js/signature-complete-form.js') }}"></script>
+	<script>
+		$(document).ready(function () {
+			// Once the page is ready, we call the init() function on the
+			// javascript code (see signature-complete-form.js)
+			signatureCompleteForm.init({
+				form: $('#signForm'),                         // The form that should be submitted when the operation is complete.
+				certThumbField: $('#certThumb'),              // The "certificate thumbprint" hidden field reference.
+				toSignHashField: $('#toSignHash'),            // The "to sign hash" hidden field reference.
+				digestAlgorithmField: $('#digestAlgorithm'),  // The "digest algorithm" hidden field reference.
+				signatureField: $('#signature'),              // The "signature" hidden field reference.
+				tryAgainButton: $('#tryAgainButton')          // The "Try Again" button reference.
+			});
+		});
+	</script>
+
+{% endblock %}

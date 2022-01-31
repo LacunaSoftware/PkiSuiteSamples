@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class="ls-title">Receita Simples</h2>
+
+    <div class="ls-content">
+        <form id="generateForm" method="Post" enctype="multipart/form-data" action="/receita-simples-express/sign">
+            <div class="form-group">
+				<label for="name">Doctor's Name:</label>
+				<input type="text" name="name" id="name" placeholder="João da Silva" class="form-control" required="true"/>
+			</div>
+			<div class="form-group">
+				<label for="crm">CRM:</label>
+				<input type="text" name="crm" id="crm" class="form-control" placeholder="00000000-0" required="true"/>
+			</div>
+			<div class="form-group">
+				<label for="crmUf">CRM UF:</label>
+				<select id="crmUf" name="crmUf" class="form-control" required="true">
+                    {% for option in ufs %}
+						<option {{option}}>{{option}}</option>
+                    {% endfor %}
+				</select>
+			</div>
+			<button id="signButton" type="submit" class="btn btn-primary">Generate File</button>
+        </form>   
+
+    </div>
+
+
+
+{% endblock %}
