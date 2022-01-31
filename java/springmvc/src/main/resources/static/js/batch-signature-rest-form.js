@@ -218,7 +218,7 @@ var batchSignatureRestForm = (function () {
 		// Call the server asynchronously to start the signature (the server will call REST PKI and
 		// will return the signature operation token).
 		$.ajax({
-			url: '/api/batch-signature-rest/start/' + step.docId,
+			url: formElements.ctrlEndpoint + '/start/' + step.docId,
 			method: 'POST',
 			dataType: 'json'
 		}).then(function (token) {
@@ -281,7 +281,7 @@ var batchSignatureRestForm = (function () {
 
 		// Call the server asynchronously to notify that the signature has been performed.
 		$.ajax({
-			url: '/api/batch-signature-rest/complete/' + step.token, // The signature process token is guaranteed to be URL-safe.
+			url: formElements.ctrlEndpoint + '/complete/' + step.token, // The signature process token is guaranteed to be URL-safe.
 			method: 'POST',
 			dataType: 'json'
 		}).then(function (fileId) {

@@ -32,6 +32,6 @@ public class BatchPadesSignatureRestController {
 
 		// Render the batch signature page (templates/batch-signature-rest/index.html.html).
 		model.addAttribute("documentIds", documentIds);
-		return "batch-signature-rest/index";
+		return "batch-pades-signature-rest/index";
 	}
 }

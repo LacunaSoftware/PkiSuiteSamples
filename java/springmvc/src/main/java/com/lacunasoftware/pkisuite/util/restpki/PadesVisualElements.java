@@ -109,7 +109,7 @@ public class PadesVisualElements {
 				} catch (IOException e) {
 					throw new RuntimeException("Error trying to recovery the PDF stamp");
 				}
-				// Opacity is an double from 0 to 255 (0 is completely transparent, 255 is
+				// Opacity is a double from 0 to 255 (0 is completely transparent, 255 is
 				// completely opaque).
 				elementImage.getImage().setAlpha(190);
 				mark.addElement(elementImage);
