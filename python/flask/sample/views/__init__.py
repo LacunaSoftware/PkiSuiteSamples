@@ -25,13 +25,15 @@ from .open_pades_rest import blueprint as open_pades_rest
 from .pades_server_key_express import blueprint as pades_server_key_express
 from .pades_cloud_pwd_express import blueprint as pades_cloud_pwd_express
 from .pades_cloud_oauth_express import blueprint as pades_cloud_oauth_express
-from .pades_signature_express import blueprint as pades_signature_express
+from .pades_signature_express import blueprint as pades_signature_express 
 from .pades_signature_rest import blueprint as pades_signature_restpki
 from .printer_version_pades_express import blueprint as \
     printer_version_pades_express
 from .printer_version_pades_rest import blueprint as printer_version_pades_rest
 from .read_cert_jquery import blueprint as read_cert_jquery
 from .read_cert_select2 import blueprint as read_cert_select2
+from .receita_simples_express import blueprint as receita_simples_express 
+from .receita_simples_rest import blueprint as receita_simples_rest
 from .rsa_web import blueprint as rsa_web
 from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .upload import blueprint as upload
@@ -71,6 +73,8 @@ blueprints = {
     printer_version_pades_rest,
     read_cert_jquery,
     read_cert_select2,
+    receita_simples_express,
+    receita_simples_rest,
     rsa_web,
     timestamp_pdf_express,
     upload,
