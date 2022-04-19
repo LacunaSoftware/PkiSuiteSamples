@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
-    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.17.1'
+    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.18.0'
     implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
     implementation 'com.lacunasoftware.restpki:restpkicore-client:1.0.0'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
