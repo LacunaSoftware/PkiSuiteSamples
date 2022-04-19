@@ -26,6 +26,7 @@ public class SignatureSessionRestCoreController {
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CreateSignatureSessionRequest request = new CreateSignatureSessionRequest();
+		request.setSecurityContextId(UUID.fromString(Util.getSecurityContextId().getId()));
 		request.setReturnUrl(RETURN_URL);
 
 		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request);
@@ -46,6 +47,7 @@ public class SignatureSessionRestCoreController {
 		RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CreateSignatureSessionRequest request = new CreateSignatureSessionRequest();
+		request.setSecurityContextId(UUID.fromString(Util.getSecurityContextId().getId()));
 		request.setEnableBackgroundProcessing(true);
 
 		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request);
