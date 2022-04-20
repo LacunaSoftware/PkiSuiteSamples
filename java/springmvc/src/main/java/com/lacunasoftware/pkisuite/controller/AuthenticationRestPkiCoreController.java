@@ -20,6 +20,7 @@ import com.lacunasoftware.restpkicore.RestPkiOptions;
 import com.lacunasoftware.restpkicore.RestPkiCoreClient;
 import com.lacunasoftware.restpkicore.RestPkiService;
 import com.lacunasoftware.restpkicore.RestPkiServiceFactory;
+import com.lacunasoftware.restpkicore.ValidationResults;
 import com.lacunasoftware.restpkicore.ValidationResultsModel;
 import com.lacunasoftware.restpki.*;
 
@@ -45,8 +46,7 @@ public class AuthenticationRestPkiCoreController {
         PrepareAuthenticationResponse prepareAuthResponse = service.prepareAuthentication(request);
         model.addAttribute("state", prepareAuthResponse.getState());
         model.addAttribute("toSignHashAlgorithm", prepareAuthResponse.getToSignHash().getAlgorithm().getValue());
-        model.addAttribute("toSignHashValue", prepareAuthResponse.getToSignHash().getValue());
-
+        model.addAttribute("toSignHashValue", Util.encodeBase64(prepareAuthResponse.getToSignHash().getValue()));
 
         return "authentication-restpki-core/index";
     }
@@ -55,20 +55,21 @@ public class AuthenticationRestPkiCoreController {
     public String post(
     Model model, 
     @RequestParam String state,
-    @RequestParam byte[] certificate,
-    @RequestParam byte[] signature) throws Exception {
-        // model.addAttribute("certContent", attributeValue)
-        // Get an instance of the Authentication class, responsible for contacting PKI Express to
-		// start and complete the authentication operation.
+    @RequestParam String certificate,
+    @RequestParam String signature) throws Exception {
         CompleteAuthenticationRequest request = new CompleteAuthenticationRequest();
-        request.setCertificate(certificate);
-        request.setSignature(signature);
+
+        request.setCertificate(Util.decodeBase64(certificate));
+        request.setSignature(Util.decodeBase64(signature));
         request.setState(state);
         RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
 		CompleteAuthenticationResponse response = service.completeAuthentication(request);
         ValidationResultsModel vr = response.getValidationResults();
         
+        if(vr.getErrors() != null) {
+            return "authentication-restpki-core/failed";
+        }
         
         return "authentication-restpki-core/success";
     }

@@ -58,7 +58,6 @@ var signHashForm = (function () {
 		// see:
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
 		pki.listCertificates({
-
 			// ID of the <select> element to be populated with the certificates:
 			selectId: formElements.certificateSelect.attr('id'),
 
@@ -89,11 +88,9 @@ var signHashForm = (function () {
 
 		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
-
 		// Get certificate content to be passed to "complete" action of the authentication on
 		// server-side after the signature is computed.
-		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
-
+		pki.readCertificate(selectedCertThumbprint).success(function (certificate) {
 			// Call signData() on the Web PKI component the "nonce", the digest algorithm and the
 			// certificate selected by the user.
 			pki.signHash({
@@ -105,7 +102,7 @@ var signHashForm = (function () {
 				// Fill fields needed to complete the authentication on server-side with the computed
 				// values.
 				formElements.signatureField.val(signature);
-				formElements.certificateField.val(certEncoded);
+				formElements.certificateField.val(certificate);
 
 				// Submit the form.
 				formElements.form.submit();

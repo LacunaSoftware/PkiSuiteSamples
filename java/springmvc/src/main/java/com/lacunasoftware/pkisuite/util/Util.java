@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lacunasoftware.amplia.AmpliaClient;
 import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
@@ -112,7 +113,7 @@ public class Util {
 
 	public static SecurityContext getSecurityContextId() {
 
-		if (getProperties().trustLacunaTestRoot()) {
+		if (true) {
 
 			// This security context trusts ICP-Brasil certificates as well as certificates on
 			// Lacuna Software's test PKI. Use it to accept the test certificates provided by Lacuna
@@ -233,5 +234,13 @@ public class Util {
 			++index;
 		}
 		return text.toString();
+	}
+
+    public static byte[] decodeBase64(String s) {
+		return new ObjectMapper().convertValue(s, byte[].class);
+	}
+
+	public static String encodeBase64(byte[] content) {
+		return new ObjectMapper().convertValue(content, String.class);
 	}
 }
