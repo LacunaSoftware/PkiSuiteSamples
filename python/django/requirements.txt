@@ -1,4 +1,4 @@
 django==3.2.6
 reportlab==3.6.1
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 restpki-client==1.2.1
