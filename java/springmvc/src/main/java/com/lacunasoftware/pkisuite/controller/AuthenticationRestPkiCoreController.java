@@ -1,28 +1,16 @@
 package com.lacunasoftware.pkisuite.controller;
 
-import java.io.IOException;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletResponse;
 
-import com.lacunasoftware.amplia.RestException;
-import com.lacunasoftware.pkiexpress.AuthCompleteResult;
-import com.lacunasoftware.pkiexpress.Authentication;
 import com.lacunasoftware.pkisuite.util.Util;
-import com.lacunasoftware.restpkicore.CompleteAuthenticationRequest;
-import com.lacunasoftware.restpkicore.CompleteAuthenticationResponse;
-import com.lacunasoftware.restpkicore.CreateSignatureSessionRequest;
-import com.lacunasoftware.restpkicore.CreateSignatureSessionResponse;
-import com.lacunasoftware.restpkicore.DigestAlgorithmAndValueModel;
-import com.lacunasoftware.restpkicore.PrepareAuthenticationRequest;
-import com.lacunasoftware.restpkicore.PrepareAuthenticationResponse;
-import com.lacunasoftware.restpkicore.RestPkiOptions;
-import com.lacunasoftware.restpkicore.RestPkiCoreClient;
+import com.lacunasoftware.restpkicore.AuthenticationFailures;
+import com.lacunasoftware.restpkicore.AuthenticationResult;
+import com.lacunasoftware.restpkicore.CompleteAuthenticationOptions;
+import com.lacunasoftware.restpkicore.PrepareAuthenticationResult;
+import com.lacunasoftware.restpkicore.PrepareAuthenticationOptions;
 import com.lacunasoftware.restpkicore.RestPkiService;
 import com.lacunasoftware.restpkicore.RestPkiServiceFactory;
 import com.lacunasoftware.restpkicore.ValidationResults;
-import com.lacunasoftware.restpkicore.ValidationResultsModel;
-import com.lacunasoftware.restpki.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,47 +19,66 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("authentication-restpki-core")
-public class AuthenticationRestPkiCoreController {    
+public class AuthenticationRestPkiCoreController {
 
     @GetMapping
     public String get(Model model, HttpServletResponse response) throws Exception {
+
+        // Get an instance of the RestPkiService class, responsible for contacting Rest
+        // PKI core to
+        // prepare and complete the authentication operation.
         RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
-        UUID securityContextId = UUID.fromString(Util.getSecurityContextId().getId());
 
-        PrepareAuthenticationRequest request = new PrepareAuthenticationRequest();
-        request.setSecurityContextId(securityContextId);
-        PrepareAuthenticationResponse prepareAuthResponse = service.prepareAuthentication(request);
-        model.addAttribute("state", prepareAuthResponse.getState());
-        model.addAttribute("toSignHashAlgorithm", prepareAuthResponse.getToSignHash().getAlgorithm().getValue());
-        model.addAttribute("toSignHashValue", Util.encodeBase64(prepareAuthResponse.getToSignHash().getValue()));
+        // Prepare the Authentication and set the Request options.
+        PrepareAuthenticationOptions options = new PrepareAuthenticationOptions();
+        options.setSecurityContext(Util.getSecurityContextIdCore());
+        PrepareAuthenticationResult prepareAuthResult = service.prepareAuthentication(options);
 
+        // Render the Authentication-restpki-core page
+        model.addAttribute("state", prepareAuthResult.getState());
+        model.addAttribute("toSignHashAlgorithm", prepareAuthResult.getToSignHash().getAlgorithm().getName());
+        model.addAttribute("toSignHashValue", prepareAuthResult.getToSignHash().getValueAsBase64());
         return "authentication-restpki-core/index";
     }
 
     @PostMapping
     public String post(
-    Model model, 
-    @RequestParam String state,
-    @RequestParam String certificate,
-    @RequestParam String signature) throws Exception {
-        CompleteAuthenticationRequest request = new CompleteAuthenticationRequest();
-
-        request.setCertificate(Util.decodeBase64(certificate));
-        request.setSignature(Util.decodeBase64(signature));
+            Model model,
+            @RequestParam String state,
+            @RequestParam String certificate,
+            @RequestParam String signature) throws Exception {
+        // Complete the Autentication with the Cetificate given by the user.
+        CompleteAuthenticationOptions request = new CompleteAuthenticationOptions();
+        request.setCertificateFromBase64(certificate);
+        request.setSignatureFromBase64(signature);
         request.setState(state);
-        RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
-		CompleteAuthenticationResponse response = service.completeAuthentication(request);
-        ValidationResultsModel vr = response.getValidationResults();
-        
-        if(vr.getErrors() != null) {
+        // Get another instance of the RestPkiService class, this step complete the
+        // authentication
+        // and Check the authentication result,
+        RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
+        AuthenticationResult authResult = service.completeAuthentication(request);
+
+        // If the authentication was successful show the user detail, otherwise show the
+        // failure page
+
+        if (authResult.isSuccess()) {
+            model.addAttribute("userCert", authResult.getCertificate());
+            return "authentication-restpki-core/success";
+
+        } else if (authResult.getFailure().equals(AuthenticationFailures.CERTIFICATEFAILEDVALIDATION)) {
+
+            ValidationResults vr = authResult.getValidationResults();
+            model.addAttribute("vrHtml", vr.toHtml());
+
             return "authentication-restpki-core/failed";
+
+        } else {
+            // Session has become stale, restart process
+            return "redirect:/authentication-restpki-core";
         }
-        
-        return "authentication-restpki-core/success";
+
     }
 }
-

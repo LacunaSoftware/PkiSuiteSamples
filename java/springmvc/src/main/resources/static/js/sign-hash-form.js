@@ -91,7 +91,7 @@ var signHashForm = (function () {
 		// Get certificate content to be passed to "complete" action of the authentication on
 		// server-side after the signature is computed.
 		pki.readCertificate(selectedCertThumbprint).success(function (certificate) {
-			// Call signData() on the Web PKI component the "nonce", the digest algorithm and the
+			// Call signHash() on the Web PKI component the "nonce", the digest algorithm and the
 			// certificate selected by the user.
 			pki.signHash({
 				thumbprint: formElements.certificateSelect.val(),

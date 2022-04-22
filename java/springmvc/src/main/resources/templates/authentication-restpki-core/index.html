@@ -3,14 +3,14 @@
 <body>
 
 <div th:fragment="content">
-	<h2 class="ls-title">Authentication with PKI Core</h2>
+	<h2 class="ls-title">Authentication with Rest PKI Core</h2>
 
 	<div class="ls-content">
 
 		<form id="signInForm" method="POST">
 			<!--
 				Hidden fields used to pass data from the server-side to the javascript
-				(see authentication-form.js) and vice-versa.
+				(see sign-hash-form.js) and vice-versa.
 			 -->
 			<input type="hidden" id="stateField" name="state" th:value="${state}" />
 			<input type="hidden" id="toSignHashValueField" th:value="${toSignHashValue}" />
@@ -20,7 +20,7 @@
 
 			<!--
 				Render a select (combo box) to list the user's certificates. For now it will be empty,
-				we'll populate it later on (see authentication-form.js).
+				we'll populate it later on (see sign-hash-form.js).
 			-->
 			<div class="form-group">
 				<label for="certificateSelect">Choose a certificate</label>
@@ -31,7 +31,7 @@
 				Action buttons. Notice that the "Sign In" button is NOT a submit button. When the user
 				clicks the button, we must first use the Web PKI component to perform the client-side
 				computation necessary and only when that computation is finished we'll submit the form
-				programmatically (see authentication-form.js).
+				programmatically (see sign-hash-form.js).
 			-->
 			<div class="form-group">
 				<button id="signInButton" type="button" class="btn btn-primary">
@@ -52,8 +52,8 @@
  -->
 <script th:fragment="scripts"
         type="text/javascript"
-        src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.13.0.min.js"
-        integrity="sha256-nVy9sLakeQ03Xl+jOjBdjdfnZ9UVwwqNgAYszhxi4VQ="
+        src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.8.min.js"
+        integrity="sha256-Q1U+M9pC+SnXcpLrKZj9tKXp8UG6dD7qrNsBgaXK9ZA="
         crossorigin="anonymous"></script>
 
 <!--
@@ -68,16 +68,16 @@
 
 	$(document).ready(function () {
 		// Once the page is ready, we call the init() function on the javascript code
-		// (see authentication-form.js).
+		// (see sign-hash-form.js).
 		signHashForm.init({
 			form: $('#signInForm'),                           // The form that should be submitted when the operation is complete.
 			certificateSelect: $('#certificateSelect'),       // The select element (combo box) to list the certificates.
 			refreshButton: $('#refreshButton'),               // The "refresh" button.
 			signButton: $('#signInButton'),                 // The button that initiates the operation.
-			toSignHashAlgorithmField: $('#toSignHashAlgorithmField'),
-			toSignHashValueField: $('#toSignHashValueField'),
-			certificateField: $('#certificateField'),         
-			signatureField: $('#signatureField')           
+			toSignHashAlgorithmField: $('#toSignHashAlgorithmField'), // Hidden field that holds the algorithm of the hash that needs to be signed.
+			toSignHashValueField: $('#toSignHashValueField'), // Hidden field that holds the Value of the hash that needs to be signed.
+			certificateField: $('#certificateField'),  // Hidden field that will be filled with the certificate selected by the user.     
+			signatureField: $('#signatureField')     // Hidden field that will be filled with the signature of the hash      
 		});
 	});
 
