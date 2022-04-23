@@ -17,7 +17,7 @@ public class BatchPadesSignatureExpressController {
 	 * This action renders the batch signature page. Notice that the only thing we'll do on the
 	 * server-side at this point is determine the IDs of the documents to be signed. The page will
 	 * handle each document one by one and will call the server asynchronously to start and complete
-	 * each signature. See BatchSignatureExpressApiController class to see API action, that will be
+	 * each signature. See BatchPadesSignatureExpressApiController class to see API action, that will be
 	 * called by Ajax on client-side.
 	 */
 	@GetMapping
@@ -32,6 +32,6 @@ public class BatchPadesSignatureExpressController {
 
 		// Render the batch signature page (templates/batch-signature-express/index.html.html).
 		model.addAttribute("documentIds", documentIds);
-		return "batch-signature-express/index";
+		return "batch-pades-signature-express/index";
 	}
 }

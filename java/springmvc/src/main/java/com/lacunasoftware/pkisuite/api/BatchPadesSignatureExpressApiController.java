@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/batch-signature-express")
+@RequestMapping("/api/batch-pades-signature-express")
 public class BatchPadesSignatureExpressApiController {
 
 	/**
-	 * POST /api/batch-signature-express/start
+	 * POST /api/batch-pades-signature-express/start
 	 *
 	 * This action is called asynchronously from the batch signature page in order to initiate the
 	 * signature of each document in the batch.

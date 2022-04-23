@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping("/api/batch-signature-rest")
+@RequestMapping("/api/batch-pades-signature-rest")
 public class BatchPadesSignatureRestApiController {
 
 	/**
-	 * POST /api/batch-signature-rest/start/{fileId}
+	 * POST /api/batch-pades-signature-rest/start/{fileId}
 	 *
 	 * This action is called asynchronously from the batch signature page in order to initiate the
 	 * signature of each document in the batch.

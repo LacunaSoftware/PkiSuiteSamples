@@ -62,7 +62,10 @@
 		},
 		// signCmsServerKey: { },
 		// signCod: { },
-		// signMultiCmsServer: { },
+		signMultiCmsServer: {
+			express: '/check-express?rc=batch-cades-signature',
+			restpki: '/check-rest-token?rc=batch-cades-signature'
+		},
 		// signMultiCmsUser: { },
 		signMultiPdfServer: {
 			express: '/check-express?rc=batch-signature',
