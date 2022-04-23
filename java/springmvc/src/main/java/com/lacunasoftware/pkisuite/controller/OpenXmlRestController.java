@@ -44,7 +44,7 @@ public class OpenXmlRestController {
 
 		// Specify the security context to be used to determine trust in the certificate chain. We
 		// have encapsulated the security context choice in Util.java.
-		sigExplorer.setSecurityContext(Util.getSecurityContextId());
+		sigExplorer.setSecurityContext(Util.getSecurityContext());
 
 		// Set the XML file.
 		sigExplorer.setSignatureFile(StorageMock.getDataPath(signatureFile));

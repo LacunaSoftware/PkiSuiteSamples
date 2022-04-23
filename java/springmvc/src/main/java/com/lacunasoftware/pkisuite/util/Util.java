@@ -111,7 +111,7 @@ public class Util {
 		return options;
 	}
 
-	public static SecurityContext getSecurityContextId() {
+	public static SecurityContext getSecurityContext() {
 
 		if (getProperties().trustLacunaTestRoot()) {
 
@@ -131,7 +131,7 @@ public class Util {
 		return SecurityContext.pkiBrazil;
 	}
 	
-	public static com.lacunasoftware.restpkicore.SecurityContext getSecurityContextIdCore() {
+	public static com.lacunasoftware.restpkicore.SecurityContext getSecurityContextCore() {
 
 		if (getProperties().trustLacunaTestRoot()) {
 

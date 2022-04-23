@@ -32,7 +32,7 @@ public class AuthenticationRestPkiCoreController {
 
         // Prepare the Authentication and set the Request options.
         PrepareAuthenticationOptions options = new PrepareAuthenticationOptions();
-        options.setSecurityContext(Util.getSecurityContextIdCore());
+        options.setSecurityContext(Util.getSecurityContextCore());
         PrepareAuthenticationResult prepareAuthResult = service.prepareAuthentication(options);
 
         // Render the authentication page
