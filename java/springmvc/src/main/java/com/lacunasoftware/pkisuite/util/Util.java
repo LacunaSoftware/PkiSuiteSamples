@@ -113,7 +113,7 @@ public class Util {
 
 	public static SecurityContext getSecurityContextId() {
 
-		if (true) {
+		if (getProperties().trustLacunaTestRoot()) {
 
 			// This security context trusts ICP-Brasil certificates as well as certificates on
 			// Lacuna Software's test PKI. Use it to accept the test certificates provided by Lacuna
@@ -133,7 +133,7 @@ public class Util {
 	
 	public static com.lacunasoftware.restpkicore.SecurityContext getSecurityContextIdCore() {
 
-		if (true) {
+		if (getProperties().trustLacunaTestRoot()) {
 
 			// This security context trusts ICP-Brasil certificates as well as certificates on
 			// Lacuna Software's test PKI. Use it to accept the test certificates provided by Lacuna
@@ -254,13 +254,5 @@ public class Util {
 			++index;
 		}
 		return text.toString();
-	}
-
-    public static byte[] decodeBase64(String s) {
-		return new ObjectMapper().convertValue(s, byte[].class);
-	}
-
-	public static String encodeBase64(byte[] content) {
-		return new ObjectMapper().convertValue(content, String.class);
 	}
 }
