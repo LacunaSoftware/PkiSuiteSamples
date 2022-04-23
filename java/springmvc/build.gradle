@@ -21,10 +21,13 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+    
     mavenCentral()
-    maven{
-        url "https://s01.oss.sonatype.org/content/groups/staging/"
-    }
+    
+    // Uncomment to use prerelease Lacuna packages
+    // maven {
+    //     url "https://s01.oss.sonatype.org/content/groups/staging/"
+    // }
 }
 
 dependencies {

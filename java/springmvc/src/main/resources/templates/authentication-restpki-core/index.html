@@ -70,14 +70,30 @@
 		// Once the page is ready, we call the init() function on the javascript code
 		// (see sign-hash-form.js).
 		signHashForm.init({
-			form: $('#signInForm'),                           // The form that should be submitted when the operation is complete.
-			certificateSelect: $('#certificateSelect'),       // The select element (combo box) to list the certificates.
-			refreshButton: $('#refreshButton'),               // The "refresh" button.
-			signButton: $('#signInButton'),                 // The button that initiates the operation.
-			toSignHashAlgorithmField: $('#toSignHashAlgorithmField'), // Hidden field that holds the algorithm of the hash that needs to be signed.
-			toSignHashValueField: $('#toSignHashValueField'), // Hidden field that holds the Value of the hash that needs to be signed.
-			certificateField: $('#certificateField'),  // Hidden field that will be filled with the certificate selected by the user.     
-			signatureField: $('#signatureField')     // Hidden field that will be filled with the signature of the hash      
+			
+			// The form that should be submitted when the operation is complete
+			form: $('#signInForm'),
+
+			// The select element (combo box) to list the certificates
+			certificateSelect: $('#certificateSelect'),
+			
+			// The "refresh" button
+			refreshButton: $('#refreshButton'),
+
+			// The button that initiates the operation
+			signButton: $('#signInButton'),
+
+			// Hidden field that holds the algorithm of the hash that needs to be signed
+			toSignHashAlgorithmField: $('#toSignHashAlgorithmField'),
+
+			// Hidden field that holds the value of the hash that needs to be signed
+			toSignHashValueField: $('#toSignHashValueField'),
+			
+			// Hidden field that will be filled with the certificate selected by the user
+			certificateField: $('#certificateField'),
+
+			// Hidden field that will be filled with the signature of the hash
+			signatureField: $('#signatureField')
 		});
 	});
 

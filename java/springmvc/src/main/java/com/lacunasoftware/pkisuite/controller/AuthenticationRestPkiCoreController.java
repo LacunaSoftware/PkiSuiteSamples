@@ -27,8 +27,7 @@ public class AuthenticationRestPkiCoreController {
     public String get(Model model, HttpServletResponse response) throws Exception {
 
         // Get an instance of the RestPkiService class, responsible for contacting Rest
-        // PKI core to
-        // prepare and complete the authentication operation.
+        // PKI core to prepare and complete the authentication operation.
         RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
         // Prepare the Authentication and set the Request options.
@@ -36,7 +35,7 @@ public class AuthenticationRestPkiCoreController {
         options.setSecurityContext(Util.getSecurityContextIdCore());
         PrepareAuthenticationResult prepareAuthResult = service.prepareAuthentication(options);
 
-        // Render the Authentication-restpki-core page
+        // Render the authentication page
         model.addAttribute("state", prepareAuthResult.getState());
         model.addAttribute("toSignHashAlgorithm", prepareAuthResult.getToSignHash().getAlgorithm().getName());
         model.addAttribute("toSignHashValue", prepareAuthResult.getToSignHash().getValueAsBase64());
@@ -49,20 +48,19 @@ public class AuthenticationRestPkiCoreController {
             @RequestParam String state,
             @RequestParam String certificate,
             @RequestParam String signature) throws Exception {
-        // Complete the Autentication with the Cetificate given by the user.
+
+        // Get another instance of the RestPkiService class
+        RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
+
+        // Complete the Autentication with the user's certificate and the hash's signature, plus the state
         CompleteAuthenticationOptions request = new CompleteAuthenticationOptions();
         request.setCertificateFromBase64(certificate);
         request.setSignatureFromBase64(signature);
         request.setState(state);
 
-        // Get another instance of the RestPkiService class, this step complete the
-        // authentication
-        // and Check the authentication result,
-        RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
         AuthenticationResult authResult = service.completeAuthentication(request);
 
-        // If the authentication was successful show the user detail, otherwise show the
-        // failure page
+        // If the authentication was successful show the user detail, otherwise show the failure page
 
         if (authResult.isSuccess()) {
             model.addAttribute("userCert", authResult.getCertificate());
@@ -72,13 +70,12 @@ public class AuthenticationRestPkiCoreController {
 
             ValidationResults vr = authResult.getValidationResults();
             model.addAttribute("vrHtml", vr.toHtml());
-
             return "authentication-restpki-core/failed";
 
         } else {
+
             // Session has become stale, restart process
             return "redirect:/authentication-restpki-core";
         }
-
     }
 }

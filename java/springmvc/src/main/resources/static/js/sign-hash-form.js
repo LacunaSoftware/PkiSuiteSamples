@@ -1,6 +1,8 @@
 // -------------------------------------------------------------------------------------------------
-// This file contains logic for calling the Web PKI component to perform an authentication. It is
-// only an example, feel free to alter is to meet your application's needs.
+// This file contains logic for calling the Web PKI component to sign a given hash, either as part of
+// a certificate authentication or a document signature or any other operation requiring a hash to be
+// signed with the user's certificate. It is only an example, feel free to alter is to meet your
+// application's needs.
 // -------------------------------------------------------------------------------------------------
 var signHashForm = (function () {
 
@@ -63,7 +65,7 @@ var signHashForm = (function () {
 
 			// Function that will be called to get the text that should be displayed for each option:
 			selectOptionFormatter: function (cert) {
-				var s = cert.subjectName + ' (issued by ' + cert.issuerName + ')';
+				var s = `${cert.subjectName} (${cert.issuerName})`;
 				if (new Date() > cert.validityEnd) {
 					s = '[EXPIRED] ' + s;
 				}
@@ -88,27 +90,24 @@ var signHashForm = (function () {
 
 		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
-		// Get certificate content to be passed to "complete" action of the authentication on
-		// server-side after the signature is computed.
+		
+		// Get certificate content to be passed to the server-side after the signature is computed.
 		pki.readCertificate(selectedCertThumbprint).success(function (certificate) {
-			// Call signHash() on the Web PKI component the "nonce", the digest algorithm and the
-			// certificate selected by the user.
+			
+			// Call signHash() with the hash algorithm and value
 			pki.signHash({
 				thumbprint: formElements.certificateSelect.val(),
 				hash: formElements.toSignHashValueField.val(),
 				digestAlgorithm: formElements.toSignHashAlgorithmField.val()
 			}).success(function (signature) {
 
-				// Fill fields needed to complete the authentication on server-side with the computed
-				// values.
+				// Fill the certificate and signature on the page's hidden fields
 				formElements.signatureField.val(signature);
 				formElements.certificateField.val(certificate);
 
 				// Submit the form.
 				formElements.form.submit();
-
 			});
-
 		});
 	}
 
