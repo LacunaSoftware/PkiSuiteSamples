@@ -47,7 +47,7 @@ public class XmlNFeSignatureRestController {
 
 		// Set the security context to be used to determine trust in the certificate chain. We have
 		// encapsulated the security context choice on Util.java.
-		signatureStarter.setSecurityContext(Util.getSecurityContextId());
+		signatureStarter.setSecurityContext(Util.getSecurityContext());
 
 		// Call the startWithWebPki() method, which initiates the signature. This yields the token,
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.

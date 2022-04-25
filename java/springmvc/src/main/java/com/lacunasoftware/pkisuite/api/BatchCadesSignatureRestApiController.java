@@ -36,7 +36,7 @@ public class BatchCadesSignatureRestApiController {
 
         // Set the security context to be used to determine trust in the certificate chain. We have
         // encapsulated the security context choice on Util.java.
-        signatureStarter.setSecurityContext(Util.getSecurityContextId());
+        signatureStarter.setSecurityContext(Util.getSecurityContext());
 
         // Optionally, set whether the content should be encapsulated in the resulting CMS. If this
         // parameter is omitted or set to null, the following rules apply:

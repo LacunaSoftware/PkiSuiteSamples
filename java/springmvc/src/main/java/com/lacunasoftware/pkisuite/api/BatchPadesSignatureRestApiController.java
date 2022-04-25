@@ -34,7 +34,7 @@ public class BatchPadesSignatureRestApiController {
 
 		// Set the security context to be used to determine trust in the certificate chain. We have
 		// encapsulated the security context choice on Util.java.
-		signatureStarter.setSecurityContext(Util.getSecurityContextId());
+		signatureStarter.setSecurityContext(Util.getSecurityContext());
 
 		// Create a visual representation for the signature.
 		signatureStarter.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());

@@ -41,7 +41,7 @@ public class XmlSignatureRestController {
 
 		// Set the security context to be used to determine trust in the certificate chain. We have
 		// encapsulated the security context choice on Util.cs.
-		signatureStarter.setSecurityContext(Util.getSecurityContextId());
+		signatureStarter.setSecurityContext(Util.getSecurityContext());
 
 		// Set the location on which to insert the signature node. If the location is not specified,
 		// the signature will appended to the root element (which is most usual with enveloped
