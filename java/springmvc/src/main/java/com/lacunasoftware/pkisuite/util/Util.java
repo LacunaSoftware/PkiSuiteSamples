@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lacunasoftware.amplia.AmpliaClient;
 import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
@@ -17,8 +18,8 @@ import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.util.*;
 
-public class Util {
 
+public class Util {
 	private static ApplicationProperties getProperties() {
 		return ApplicationProperties.getInstance();
 	}
@@ -110,7 +111,7 @@ public class Util {
 		return options;
 	}
 
-	public static SecurityContext getSecurityContextId() {
+	public static SecurityContext getSecurityContext() {
 
 		if (getProperties().trustLacunaTestRoot()) {
 
@@ -128,6 +129,26 @@ public class Util {
 
 		// In production, accept only certificates from ICP-Brasil.
 		return SecurityContext.pkiBrazil;
+	}
+	
+	public static com.lacunasoftware.restpkicore.SecurityContext getSecurityContextCore() {
+
+		if (getProperties().trustLacunaTestRoot()) {
+
+			// This security context trusts ICP-Brasil certificates as well as certificates on
+			// Lacuna Software's test PKI. Use it to accept the test certificates provided by Lacuna
+			// Software.
+
+			// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+			return com.lacunasoftware.restpkicore.SecurityContext.lacunaTest;
+			// For more information, see https://github.com/LacunaSoftware/RestPkiSamples/blob/master/TestCertificates.md
+
+			// Notice for "on premises" users: this security context might not exist on your
+			// installation, if you encounter an error please contact developer support.
+		}
+
+		// In production, accept only certificates from ICP-Brasil.
+		return com.lacunasoftware.restpkicore.SecurityContext.pkiBrazil;
 	}
 
 	//endregion
