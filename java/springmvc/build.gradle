@@ -18,17 +18,23 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.lacunasoftware'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
+    
     mavenCentral()
+    
+    // Uncomment to use prerelease Lacuna packages
+    // maven {
+    //     url "https://s01.oss.sonatype.org/content/groups/staging/"
+    // }
 }
 
 dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.18.0'
     implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
-    implementation 'com.lacunasoftware.restpki:restpkicore-client:1.0.0'
+    implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.1'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

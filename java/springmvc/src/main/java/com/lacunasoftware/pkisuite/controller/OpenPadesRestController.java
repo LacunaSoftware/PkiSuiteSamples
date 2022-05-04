@@ -50,7 +50,7 @@ public class OpenPadesRestController {
 
 		// Specify the security context to be used to determine trust in the certificate chain. We
 		// have encapsulated the security context on Util.java.
-		sigExplorer.setSecurityContext(Util.getSecurityContextId());
+		sigExplorer.setSecurityContext(Util.getSecurityContext());
 
 		// Call the open() method, which returns the signature file's information.
 		PadesSignature signature = sigExplorer.open();

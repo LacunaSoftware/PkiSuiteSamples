@@ -2,9 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
 <body>
 
-
 <div th:fragment="content">
-	<h2 class="ls-title">Batch Signature with PKI Express</h2>
+	<h2 class="ls-title">Batch PAdES Signature with REST PKI</h2>
 
 	<div class="ls-content">
 
@@ -15,26 +14,26 @@
 					You'll be signing the following files:
 					<!--
 						UL element to hold the batch's documents (we'll render these programmatically,
-						see batch-signature-express-form.js).
+						see batch-signature-rest-form.js).
 					-->
-					<ul id="docList" />
+					<ul id="docList"/>
 				</p>
 			</div>
 
 			<!--
 				Render a select (combo box) to list the user's certificates. For now it will be empty,
-				we'll populate it later on (see batch-signature-express-form.js).
+				we'll populate it  later on (see batch-signature-rest-form.js).
 			-->
 			<div class="form-group">
 				<label for="certificateSelect">Choose a certificate</label>
-				<select id="certificateSelect" class="custom-select"></select>
+				<select id="certificateSelect" class="form-control"></select>
 			</div>
 
 			<!--
 				Action buttons. Notice that the "Sign File" button is NOT a submit button. When the
 				user clicks the button, we must first use the Web PKI component to perform the
 				client-side computation necessary and only when that computation is finished we'll
-				submit the form programmatically (see batch-signature-express-form.js).
+				submit the form programmatically (see batch-signature-rest-form.js).
 			-->
 			<div class="form-group">
 				<button id="signButton" type="button" class="btn btn-primary">
@@ -65,19 +64,20 @@
  -->
 <script th:fragment="scripts"
         type="text/javascript"
-        th:src="@{/js/batch-signature-express-form.js}"></script>
+        th:src="@{/js/batch-signature-rest-form.js}"></script>
 
 <script th:fragment="scripts" type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
 	$(document).ready(function () {
 		// Once the page is ready, we call the init() function on the javascript code
-		// (batch-signature-express-form.js).
-		batchSignatureExpressForm.init({
+		// (see batch-signature-rest-form.js).
+		batchSignatureRestForm.init({
 			certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.
 			docList: $('#docList'),                      // The <ul> element that holds the batch's documents.
 			refreshButton: $('#refreshButton'),          // The "refresh" button.
 			signButton: $('#signButton'),                // The button that initiates the operation.
-			documentsIds: [[${documentIds}]]             // The IDs of documents.
+			documentsIds: [[${documentIds}]],            // The IDs of documents.
+			ctrlEndpoint: '/api/batch-pades-signature-rest'
 		});
 	});
 	/*]]>*/

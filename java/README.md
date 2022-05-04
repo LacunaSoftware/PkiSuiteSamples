@@ -80,6 +80,34 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
 [package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.restpki/restpki-client/1.15.7/jar).
 
+Rest PKI Core's client lib
+---------------------
+
+The samples use a client lib which encapsulates the API calls to Rest PKI Core. This library
+supports **Java 8 or greater**. The lib should be **referenced as a dependency**, as can
+be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
+
+	repositories {
+		mavenCentral()
+	} 
+
+	dependencies {
+		implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.1'
+	}
+
+If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
+
+	<dependencies>
+		...
+		<dependency>
+			<groupId>com.lacunasoftware.restpki</groupId>
+			<artifactId>restpkicore-client</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		...
+	</dependencies>
+	...
+
 Amplia's client lib
 ---------------------
 

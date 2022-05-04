@@ -29,7 +29,7 @@ public class AuthenticationRestController {
 		// Web PKI component (see file signature-form.js) and also to call the completeWithWebPki()
 		// method on the post() method below (this should not be mistaken with the API access
 		// token). We have encapsulated the security context choice on Util.java.
-		String token = auth.startWithWebPki(Util.getSecurityContextId());
+		String token = auth.startWithWebPki(Util.getSecurityContext());
 
 		// The token acquired above can only be used for a single authentication attempt. In order
 		// to retry the signature it is necessary to get a new token. This can be a problem if the
