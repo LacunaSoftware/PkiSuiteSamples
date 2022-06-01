@@ -12,8 +12,8 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='b28yTbTHPkqzCxEUqwZaO26D5FtpYB2YCSV6MmdSta06XRdstgq6UlGYr0A4btZRRl6uTGUAjtNVDXQshtcDw1vV9O_algS5-yImgsNIEp8omJ5_1iHeebEyOLNy2lMjOInGDJNWOaxni_YHS-xIy3dce1R_1WO-iyjhPzdofr-6FBUcN_i3588x-qN458veuy0dNSCbqk0NEaBtyqPqDrSveBEhp3B6CAGOu9dvFlESdKzaKW-C1tOq1bEZnqaaZgMTtdQdC2djdk_MhtKlwqnCMLDI6R-6rUQgeYtNPf--UDaeO5XLlh3AoxYgVOFHzJmEBKd-JbY3db0cdLzlKT8wfu2uR-f4CzZ-g3xUWQkewJqFRpAURzbVtLygWofk9eZEy2hFHGVhSqzYRmVP2DvQm2IcV49wMH3rG2CEBCYWroMWFkgkUgusftBYExsYz8Bf1r90c_ieQ8sjttPS7E_-mwZexxWL7cush7Yb0fRcyGetlSo2rdYszlD7ESgqBH0LZQ'
-    # This is a TRIAL token. It will be expired at 30/06/2021.
+    REST_PKI_ACCESS_TOKEN='50fIymBIX8rCUcCAdQ667jkW-hZNT9eelkl4L8dSv6RO38NR4hgD5f1yNcXxP3Tp8nLIBPO8qA4u-GKIc3KDa8BgeVW1oudTh-pYlILaTzVOf6TPAcujZas6jMl8ycYFEJC5d7eszuTuMCkYGHp1T1dnEyhnyn9S9F39phQcicOE0NyrKM-dGQlGfweCvmik4HhKqDrhBBohEg7jatWO48dNRbLmhBJ_z3gK-UruLFPODgaAk37oE1QN2qBJ5T0-MygGJIuKcFSc8CYgRN9_ux37lcNa3rifYYL17K0cZM6vrkQegM83uHvw0bWYcT3eSUYTjBJUgomgAYw8daUp8pSGVEpSggZoTnjJCXOQta2DuRlRd7bB4u_QxsFdnQGNDdyuyix4dpdOR-ElhMx0ScafBeYUjodakBqv_5YMDU885x2NakvhZ6k_PD3o3LY5H8iMPxdUCEVh03n8b7upIMXnIkiX4_hq5dPQKSZwdxbO6CdT07eyUPPaHOiZpP28XyOo0g'
+    # This is a TRIAL token. It will be expired at 31/07/2022.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
@@ -34,7 +34,7 @@ class Config(object):
     # ========================================================
     #     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
     # ========================================================
-    AMPLIA_API_KEY = 'pki-suite-samples-01|3ab03c6c5a99324a81b69132680800e08de58c0edd77aa8dcc073ade81d274e2'
+    AMPLIA_API_KEY = 'pki-suite-samples-02|33ef9018939d1b44bfdf0d1aa464982a6701cbfab82a66b26561a9f8a3c011d3'
     # This is a TRIAL API key to use Amplia. It will expire at 30/06/2022.
     # If the Amplia's samples do not work please contact our support by email:
     # suporte@lacunasoftware.com
