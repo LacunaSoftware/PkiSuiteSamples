@@ -36,6 +36,14 @@ module.exports = {
 		// installation (with the trailing '/' character).
 		endpoint: 'https://pki.rest/'
 	},
+	restPKIcore: {
+		// ========================================================
+		//     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
+		// ========================================================
+		apiKey: 'pki-suite-samples-01|4c951e182496a545be6f31b3c7c76f512f610588947999807fbcaa0d1f72fb9c',
+
+		endpoint: "https://core.pki.rest"
+	},
 
 	// --------------------------------------------------------------------------
 	// Amplia

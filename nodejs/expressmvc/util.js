@@ -69,6 +69,13 @@ class Util {
 		return StandardSecurityContexts.PKI_BRAZIL;
 	}
 
+	static getRestPKICoreClient() {
+
+
+
+		return ;
+	}
+
 	// endregion
 
 	// region Amplia Configuration
