@@ -37,8 +37,13 @@ router.get('/', (req, res, next) => {
 		ignoreRevocationStatusUnknown: true,
 		securityContextId: Util.getSecurityContextId()
 	}).then((response) => {
-		// console.log(response.data);
+		console.log(response.data);
 		var data = response.data;
+
+		var state = data.state;
+        var toSignHashAlgorithm = data.toSignHash.algorithm;
+		var toSignHashValue = data.toSignHash.value;
+        
 		// The token acquired can only be used for a single authentication.
 		// In order to retry authenticating it is necessary to get a new token.
 		// This can be a problem if the user uses the back button of the
@@ -50,7 +55,7 @@ router.get('/', (req, res, next) => {
 
 		// Render the authentication page.
 		res.render('authentication-restpkicore', {
-			data
+			state, toSignHashAlgorithm,  toSignHashValue
 		});
 	})
 		.catch((err) => next(err));
@@ -65,31 +70,35 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
 	// Get an instance of the Authentication class (util.js).
 	authApiCore = new client.AuthenticationApi(config, config.basePath, config.apiKey);
-	console.log(req.body.data.state);
+	console.log(req.body.state);
+	console.log(req.body.toSignHashAlgorithm);
+	console.log(req.body.toSignHashValue);
+	console.log(req.body.certificate);
+	console.log(req.body.signature);
 
 	authApiCore.apiV2AuthenticationCompletionPost({
-		state: req.body.data.state,
-		certificate: null,
-		signature: null
+		state: req.body.state,
+		certificate: req.body.certificate,
+		signature: req.body.signature
 
 	}).then((result) => {
 		console.log(result);
 		// Check the authentication result.
-		if (!result.validationResults.isValid()) {
+		if (result.status != 200) {
 			// The toString() method of the ValidationResults object can be used to
 			// obtain the checks performed, but the string contains tabs and new
 			// line characters for formatting, which we'll convert to <br>'s and
 			// &nbsp;'s.
-			const vrHtml = result.validationResults
-				.toString()
-				.replace(/\n/g, '<br>')
-				.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+			// const vrHtml = result.validationResults
+			// 	.toString()
+			// 	.replace(/\n/g, '<br>')
+			// 	.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
 
 			// If the authentication was not successful, we render a page showing
 			// what went wrong.
-			res.render('authentication-restpkicore/failed', {
-				vrHtml,
-			});
+			res.render('authentication-restpkicore/failed'
+			, { vrHtml }
+			);
 		} else {
 			// At this point, you have assurance tha the certificate is valid
 			// according to the TrustArbitrator you selected when starting the
@@ -99,11 +108,11 @@ router.post('/', (req, res, next) => {
 			// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
 			// your application's business logic) and set the user ID on the cookie
 			// as if it were the user ID.
-			const userCert = result.certificate;
+			const userCert = result.data.certificate;
 
 			// Redirect to the initial page with the user logged in.
 			res.render('authentication-restpkicore/success', {
-				userCert,
+				userCert
 			});
 		}
 	})

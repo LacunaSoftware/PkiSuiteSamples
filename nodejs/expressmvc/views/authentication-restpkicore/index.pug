@@ -7,7 +7,11 @@ block content
    form(id='signInForm', method='POST')
 
       //- Render the token in a hidden input field.
-      input(type='hidden', name='token', id='tokenField' value=token)
+      input(type="hidden" id="stateField" name="state" value=state)
+      input(type="hidden" id="toSignHashValueField" name="toSignHashValue" value=toSignHashValue)
+      input(type="hidden" id="toSignHashAlgorithmField" name="toSignHashAlgorithm" value=toSignHashAlgorithm)
+      input(type="hidden" id="certificateField" name="certificate")
+      input(type="hidden" id="signatureField" name="signature")
 
       //- Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate it
       //- later on (see signature-form.js).
@@ -29,16 +33,27 @@ block scripts
 
    //- The file below contains the logic for calling the Web PKI component. It is only an example, feel free to alter
    //- it to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
-   script(src="/javascripts/signature-form.js")
+   script(src="/javascripts/sign-hash-form.js")
 
    script.
       $(document).ready(function() {
          // Once the page is ready, we call the init() function on the javascript code (see signature-form.js).
-         signatureForm.init({
-            token: '#{token}',                          // The token acquired from REST PKI.
-            form: $('#signInForm'),                     // The form that should be submitted when the operation is completed.
-            certificateSelect: $('#certificateSelect'), // The <select> element (combo box) to list the certificates.
-            refreshButton: $('#refreshButton'),         // The "refresh" button.
-            signButton: $('#signInButton')              // The button that initiates the operation.
+         signHashForm.init({
+            // The form that should be submitted when the operation is complete
+            form: $('#signInForm'),
+            // The select element (combo box) to list the certificates
+            certificateSelect: $('#certificateSelect'),
+            // The "refresh" button
+            refreshButton: $('#refreshButton'),
+            // The button that initiates the operation
+            signButton: $('#signInButton'),
+            // Hidden field that holds the algorithm of the hash that needs to be signed
+            toSignHashAlgorithmField: $('#toSignHashAlgorithmField'),
+            // Hidden field that holds the value of the hash that needs to be signed
+            toSignHashValueField: $('#toSignHashValueField'),
+            // Hidden field that will be filled with the certificate selected by the user
+            certificateField: $('#certificateField'),
+            // Hidden field that will be filled with the signature of the hash
+            signatureField: $('#signatureField')
          });
       });
