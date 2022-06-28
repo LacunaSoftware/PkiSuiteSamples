@@ -12,7 +12,8 @@ block scripts
       SampleRoutes = {
          authCert: {
             express: '/check-pki-express?rc=authentication',
-            restpki: '/check-restpki-token?rc=authentication'
+            restpki: '/check-restpki-token?rc=authentication',
+            restpkicore: '/authentication-restpkicore'
          },
          cosignCms: { 
             express: '/check-pki-express?rc=server-files&fwd=cades-signature&op=cosignCms',
