@@ -11,9 +11,9 @@ const router = express.Router();
 
 var config = new client.Configuration();
 config.apiKey = axios.create({
-    headers: {
-        'x-api-key': restPKIcore.apiKey
-    }
+	headers: {
+		'x-api-key': restPKIcore.apiKey
+	}
 });
 config.basePath = restPKIcore.endpoint;
 
@@ -30,22 +30,29 @@ config.basePath = restPKIcore.endpoint;
 router.get('/', (req, res, next) => {
 	// Get an instance of the Authentication class.
 	const auth = new Authentication(Util.getRestPkiClient());
-	auth.startWithWebPki(Util.getSecurityContextId(res.locals.environment))
-		.then((token) => {
-			// The token acquired can only be used for a single authentication.
-			// In order to retry authenticating it is necessary to get a new token.
-			// This can be a problem if the user uses the back button of the
-			// browser, since the browser might show a cached page that we rendered
-			// previously, with a now stale token. To prevent this from happening,
-			// we call the function setExpiredPage(), located in util.js, which sets
-			// HTTP headers to prevent caching of the page.
-			Util.setExpiredPage(res);
 
-			// Render the authentication page.
-			res.render('authentication-restpkicore', {
-				token,
-			});
-		})
+
+	var authApi = new client.AuthenticationApi(config, config.basePath, config.apiKey);
+	authApi.apiV2AuthenticationPost({
+		ignoreRevocationStatusUnknown: true,
+		securityContextId: Util.getSecurityContextId()
+	}).then((response) => {
+		// console.log(response.data);
+		var data = response.data;
+		// The token acquired can only be used for a single authentication.
+		// In order to retry authenticating it is necessary to get a new token.
+		// This can be a problem if the user uses the back button of the
+		// browser, since the browser might show a cached page that we rendered
+		// previously, with a now stale token. To prevent this from happening,
+		// we call the function setExpiredPage(), located in util.js, which sets
+		// HTTP headers to prevent caching of the page.
+		Util.setExpiredPage(res);
+
+		// Render the authentication page.
+		res.render('authentication-restpkicore', {
+			data
+		});
+	})
 		.catch((err) => next(err));
 });
 
@@ -57,47 +64,49 @@ router.get('/', (req, res, next) => {
  */
 router.post('/', (req, res, next) => {
 	// Get an instance of the Authentication class (util.js).
-	const auth = new Authentication(Util.getRestPkiClient());
-	authApiCore = new client.AuthenticationApi(config, undefined, config.apiKey);
+	authApiCore = new client.AuthenticationApi(config, config.basePath, config.apiKey);
+	console.log(req.body.data.state);
 
-	authApiCore.apiV2AuthenticationPost({
-		    ignoreRevocationStatusUnknown: true,
-		    securityContextId: req.body.token
-		}).then((result) => {
-			console.log(result);
-			// Check the authentication result.
-			if (!result.validationResults.isValid()) {
-				// The toString() method of the ValidationResults object can be used to
-				// obtain the checks performed, but the string contains tabs and new
-				// line characters for formatting, which we'll convert to <br>'s and
-				// &nbsp;'s.
-				const vrHtml = result.validationResults
-					.toString()
-					.replace(/\n/g, '<br>')
-					.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+	authApiCore.apiV2AuthenticationCompletionPost({
+		state: req.body.data.state,
+		certificate: null,
+		signature: null
 
-				// If the authentication was not successful, we render a page showing
-				// what went wrong.
-				res.render('authentication-restpkicore/failed', {
-					vrHtml,
-				});
-			} else {
-				// At this point, you have assurance tha the certificate is valid
-				// according to the TrustArbitrator you selected when starting the
-				// authentication and that the user is indeed the certificate's subject.
-				// Now, you'd typically query your database for a user that matches one of
-				// the certificate's fields, such as userCert.emailAddress or
-				// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
-				// your application's business logic) and set the user ID on the cookie
-				// as if it were the user ID.
-				const userCert = result.certificate;
+	}).then((result) => {
+		console.log(result);
+		// Check the authentication result.
+		if (!result.validationResults.isValid()) {
+			// The toString() method of the ValidationResults object can be used to
+			// obtain the checks performed, but the string contains tabs and new
+			// line characters for formatting, which we'll convert to <br>'s and
+			// &nbsp;'s.
+			const vrHtml = result.validationResults
+				.toString()
+				.replace(/\n/g, '<br>')
+				.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
 
-				// Redirect to the initial page with the user logged in.
-				res.render('authentication-restpkicore/success', {
-					userCert,
-				});
-			}
-		})
+			// If the authentication was not successful, we render a page showing
+			// what went wrong.
+			res.render('authentication-restpkicore/failed', {
+				vrHtml,
+			});
+		} else {
+			// At this point, you have assurance tha the certificate is valid
+			// according to the TrustArbitrator you selected when starting the
+			// authentication and that the user is indeed the certificate's subject.
+			// Now, you'd typically query your database for a user that matches one of
+			// the certificate's fields, such as userCert.emailAddress or
+			// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
+			// your application's business logic) and set the user ID on the cookie
+			// as if it were the user ID.
+			const userCert = result.certificate;
+
+			// Redirect to the initial page with the user logged in.
+			res.render('authentication-restpkicore/success', {
+				userCert,
+			});
+		}
+	})
 		.catch((err) => next(err));
 });
 // Signature sessions:
