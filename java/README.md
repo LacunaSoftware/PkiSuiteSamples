@@ -152,7 +152,7 @@ file [build.gradle](springmvc/build.gradle)
 	} 
 
 	dependencies {
-		implementation 'com.lacunasoftware.pkiexpress:pki-express:1.18.0'
+		implementation 'com.lacunasoftware.pkiexpress:pki-express:1.19.0'
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -162,14 +162,14 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.18.0</version>
+			<version>1.19.0</version>
 		</dependency>
 		...
 	</dependencies>
 	...
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
-[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.pkiexpress/pki-express/1.18.0/jar).
+[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.pkiexpress/pki-express/1.19.0/jar).
 
 Activating PKI Express
 ----------------------
