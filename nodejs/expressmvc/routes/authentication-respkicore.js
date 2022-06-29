@@ -16,7 +16,7 @@ config.apiKey = axios.create({
 	}
 });
 config.basePath = restPKIcore.endpoint;
-
+var authApi = new client.AuthenticationApi(config, config.basePath, config.apiKey);
 
 // Authentication:
 // var authApi = new client.AuthenticationApi(config, undefined, config.apiKey);
@@ -32,12 +32,12 @@ router.get('/', (req, res, next) => {
 	const auth = new Authentication(Util.getRestPkiClient());
 
 
-	var authApi = new client.AuthenticationApi(config, config.basePath, config.apiKey);
+	
 	authApi.apiV2AuthenticationPost({
 		ignoreRevocationStatusUnknown: true,
 		securityContextId: Util.getSecurityContextId()
 	}).then((response) => {
-		console.log(response.data);
+		// console.log(response.data);
 		var data = response.data;
 
 		var state = data.state;
@@ -69,30 +69,31 @@ router.get('/', (req, res, next) => {
  */
 router.post('/', (req, res, next) => {
 	// Get an instance of the Authentication class (util.js).
-	authApiCore = new client.AuthenticationApi(config, config.basePath, config.apiKey);
-	console.log(req.body.state);
-	console.log(req.body.toSignHashAlgorithm);
-	console.log(req.body.toSignHashValue);
-	console.log(req.body.certificate);
-	console.log(req.body.signature);
+	authApi = new client.AuthenticationApi(config, config.basePath, config.apiKey);
+	// console.log(req.body.state);
+	// console.log(req.body.toSignHashAlgorithm);
+	// console.log(req.body.toSignHashValue);
+	// console.log(req.body.certificate);
+	// console.log(req.body.signature);
 
-	authApiCore.apiV2AuthenticationCompletionPost({
+	authApi.apiV2AuthenticationCompletionPost({
 		state: req.body.state,
 		certificate: req.body.certificate,
 		signature: req.body.signature
 
 	}).then((result) => {
-		console.log(result);
+		// console.log(result.data);
+		// console.log(result.data.certificate);
 		// Check the authentication result.
 		if (result.status != 200) {
 			// The toString() method of the ValidationResults object can be used to
 			// obtain the checks performed, but the string contains tabs and new
 			// line characters for formatting, which we'll convert to <br>'s and
 			// &nbsp;'s.
-			// const vrHtml = result.validationResults
-			// 	.toString()
-			// 	.replace(/\n/g, '<br>')
-			// 	.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+			const vrHtml = result.validationResults
+				.toString()
+				.replace(/\n/g, '<br>')
+				.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
 
 			// If the authentication was not successful, we render a page showing
 			// what went wrong.
@@ -100,15 +101,23 @@ router.post('/', (req, res, next) => {
 			, { vrHtml }
 			);
 		} else {
-			// At this point, you have assurance tha the certificate is valid
-			// according to the TrustArbitrator you selected when starting the
-			// authentication and that the user is indeed the certificate's subject.
-			// Now, you'd typically query your database for a user that matches one of
-			// the certificate's fields, such as userCert.emailAddress or
-			// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
-			// your application's business logic) and set the user ID on the cookie
-			// as if it were the user ID.
 			const userCert = result.data.certificate;
+			userCert.subjectName.commonName = result.data.certificate.subjectCommonName;
+			userCert.emailAddress = result.data.certificate.emailAddress;
+
+			// PKI Brazil
+			userCert.pkiBrazil.certificateType = result.data.certificate.pkiBrazil.certificateType;
+			userCert.pkiBrazil.cpfFormatted = result.data.certificate.pkiBrazil.cpf;
+			userCert.pkiBrazil.responsavel = result.data.certificate.pkiBrazil.responsavel;
+			userCert.pkiBrazil.companyName = result.data.certificate.pkiBrazil.companyName;
+			userCert.pkiBrazil.cnpjFormatted = result.data.certificate.pkiBrazil.cnpj;
+			
+			userCert.pkiBrazil.rgNumero = result.data.certificate.pkiBrazil.rgNumero;
+			userCert.pkiBrazil.rgEmissor = result.data.certificate.pkiBrazil.rgEmissor;
+			userCert.pkiBrazil.rgEmissorUF = result.data.certificate.pkiBrazil.rgEmissorUF;
+
+			userCert.pkiBrazil.oabNumero = result.data.certificate.pkiBrazil.oabNumero;
+			userCert.pkiBrazil.oabUF = result.data.certificate.pkiBrazil.oabUF;
 
 			// Redirect to the initial page with the user logged in.
 			res.render('authentication-restpkicore/success', {
