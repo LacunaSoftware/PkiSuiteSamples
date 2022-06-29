@@ -3,8 +3,6 @@ const express = require('express');
 const axios = require("axios");
 const { Util } = require('../util');
 const { restPKIcore } = require("../config/default");
-
-const { Authentication } = require('restpki-client');
 const router = express.Router();
 
 
@@ -29,9 +27,6 @@ var authApi = new client.AuthenticationApi(config, config.basePath, config.apiKe
 
 router.get('/', (req, res, next) => {
 	// Get an instance of the Authentication class.
-	const auth = new Authentication(Util.getRestPkiClient());
-
-
 	
 	authApi.apiV2AuthenticationPost({
 		ignoreRevocationStatusUnknown: true,
