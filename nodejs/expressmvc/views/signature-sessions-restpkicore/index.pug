@@ -2,6 +2,16 @@ extends ../layout
 
 block content
 
-   h2 Sample page
-  
+   h2.ls-title Signature Session with REST PKI Core 
+   div.ls-content
+      p We will redirect you to REST PKI
+      a.btn.btn-primary(href=returnUrl)
+         i.fas.fa-file-signature Go to REST PKI Core
+
 block scripts
+   script.
+      function redirectUser() {
+         // Redirect to REST PKI that will return to the $RETURN_URL once 
+         // the signature session is finished
+         window.open(returnUrl)
+      }
