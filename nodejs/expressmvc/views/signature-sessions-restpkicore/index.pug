@@ -8,10 +8,34 @@ block content
       a.btn.btn-primary(href=returnUrl)
          i.fas.fa-file-signature Go to REST PKI Core
 
+      button(id='checkInfo', type='button', class='btn btn-outline-primary', onclick="displaySignInfo()") Check session info 
+      #infoDiv(style="display: none")
+         p
+         | Sign session info:
+         ul
+            li id: #{signInfo.id}
+            li status: #{signInfo.status}
+            li processingErrorCode: #{signInfo.processingErrorCode}
+            li callbackArgument: #{signInfo.callbackArgument}
+            li signerCertificate: #{signInfo.signerCertificate}
+      
+
 block scripts
    script.
       function redirectUser() {
          // Redirect to REST PKI that will return to the $RETURN_URL once 
          // the signature session is finished
          window.open(returnUrl)
+      }
+
+      function displaySignInfo() {
+         var infoDiv = document.getElementById("infoDiv");
+         var checkInfo = document.getElementById("checkInfo");
+         if(infoDiv.style.display === "none"){
+            infoDiv.style.display = "block";
+            checkInfo.innerHTML = "Hide session info";
+         } else {
+            infoDiv.style.display = "none";
+            checkInfo.innerHTML = "Check session info";
+         }
       }

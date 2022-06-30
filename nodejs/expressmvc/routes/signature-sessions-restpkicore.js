@@ -16,20 +16,22 @@ config.basePath = restPKIcore.endpoint;
 signApi = new SignatureSessionsApi(config, config.basePath, config.apiKey);
 
 router.get('/', (req, res, next) => { 
-    var returnUrl = null;
-
-    // GET
-    // signApi.apiSignatureSessionsIdGet("3fa85f64-5717-4562-b3fc-2c963f66afa6").then((response) => {
-    //     console.log(response);
-    // }).catch((err) => next(err));
-
+    
     // POST
     signApi.apiSignatureSessionsPost().then((response) => {
-        // console.log(response.data.redirectUrl);
-        returnUrl = response.data.redirectUrl
-        res.render('signature-sessions-restpkicore', {
-            returnUrl
-        });
+        var signInfo = null;
+        var returnUrl = response.data.redirectUrl;
+        var signSessionId = response.data.sessionId;
+        
+        // GET
+        signApi.apiSignatureSessionsIdGet(signSessionId).then((response) => {
+            signInfo = response.data;
+
+            res.render('signature-sessions-restpkicore', {
+                returnUrl, signInfo
+            });
+
+        }).catch((err) => next(err));
     }).catch((err) => next(err))
 });
 
