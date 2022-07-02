@@ -9,8 +9,8 @@ development:
     # ======================================================
     #       >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ======================================================
-    access_token: '50fIymBIX8rCUcCAdQ667jkW-hZNT9eelkl4L8dSv6RO38NR4hgD5f1yNcXxP3Tp8nLIBPO8qA4u-GKIc3KDa8BgeVW1oudTh-pYlILaTzVOf6TPAcujZas6jMl8ycYFEJC5d7eszuTuMCkYGHp1T1dnEyhnyn9S9F39phQcicOE0NyrKM-dGQlGfweCvmik4HhKqDrhBBohEg7jatWO48dNRbLmhBJ_z3gK-UruLFPODgaAk37oE1QN2qBJ5T0-MygGJIuKcFSc8CYgRN9_ux37lcNa3rifYYL17K0cZM6vrkQegM83uHvw0bWYcT3eSUYTjBJUgomgAYw8daUp8pSGVEpSggZoTnjJCXOQta2DuRlRd7bB4u_QxsFdnQGNDdyuyix4dpdOR-ElhMx0ScafBeYUjodakBqv_5YMDU885x2NakvhZ6k_PD3o3LY5H8iMPxdUCEVh03n8b7upIMXnIkiX4_hq5dPQKSZwdxbO6CdT07eyUPPaHOiZpP28XyOo0g'
-    # This is a TRIAL token. It will be expired at 30/06/2022. If the REST PKI
+    access_token: 'mzKQaEvvA1ZLlFaUmXdqCIaitItEw2C9aJyHeqMvBxlqIvLiVRkDQGAtNGIWgURh9HXGq9psFI5tVJInA06JVa1IKDsbuOjAbTI2ndklHXpX-8O_QE6sx0ojpFFOveMkALgqR8yc0VRV6qH_chZ9STar1wRxUOae7vWkCLGpIwT25TzcpEMxAfx3E2VnqTh2h0Xmqjqc5xMyES7Cljtp3GnfEhsLzT0Ru1-IpO2uwTxm9oowb3dr7yJQ9TAkMafCdFe39JDKkWi99uJ-Lt9Ve3RZi33BIgoEHHgUvHzr_R9Ig_aT-DzP8TMXNyuLSp9m2dzcI9Wh8g0zUE8F1hzjBLo7hJi3UL3Jc24hmk7cOCvBPEoxvDoUePPU8MbkPHP4F0ZCwBqnSck-XTSk2yjfoPa-Gd9wKouTI6aQxnkiGRO6zeoefpRVXl9ihkbd_awBRaym2RwAp6al-G1ULXAWADXXtDLukjXOCKwmxxik-wsLPV2b0xxOQRhDa1S9iK7otqeqfg'
+    # This is a TRIAL token. It will be expired at 31/08/2022. If the REST PKI
     # sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
