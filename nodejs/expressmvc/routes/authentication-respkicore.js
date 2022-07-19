@@ -5,25 +5,9 @@ const { Util } = require('../util');
 const { restPKIcore } = require("../config/default");
 const router = express.Router();
 
+var client = Util.getRestPKICoreClient();
 
-
-var config = new client.Configuration();
-config.apiKey = axios.create({
-	headers: {
-		'x-api-key': restPKIcore.apiKey
-	}
-});
-config.basePath = restPKIcore.endpoint;
-var authApi = new client.AuthenticationApi(config, config.basePath, config.apiKey);
-
-// Authentication:
-// var authApi = new client.AuthenticationApi(config, undefined, config.apiKey);
-// authApi.apiV2AuthenticationPost({
-//     ignoreRevocationStatusUnknown: true,
-//     securityContextId: "201856ce-273c-4058-a872-8937bd547d36"
-// }).then((response) => {
-//     console.log(response.data);
-// });
+var authApi = new client.AuthenticationApi(client, client.basePath, client.apiKey);
 
 router.get('/', (req, res, next) => {
 	// Get an instance of the Authentication class.
