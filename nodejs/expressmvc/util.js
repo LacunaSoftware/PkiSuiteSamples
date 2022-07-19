@@ -1,10 +1,13 @@
 const { RestPkiClient, StandardSecurityContexts } = require('restpki-client');
+const { Configuration } = require("restpkicore-client-typescript");
+const axios = require("axios");
 const { TimestampAuthority } = require('pki-express');
 const fs = require('fs');
 const crypto = require('crypto');
 const { AmpliaClient } = require("amplia-client");
 const { Config } = require('./config');
 const { StorageMock } = require('./storage-mock');
+const { restPKIcore } = require("./config/default");
 
 class Util {
 	// region REST PKI Configuration
@@ -70,10 +73,18 @@ class Util {
 	}
 
 	static getRestPKICoreClient() {
-
-
-
-		return ;
+      
+    var apiKey = axios.create({
+		headers: {
+			'x-api-key': restPKIcore.apiKey
+		}
+	});
+	var basePath = restPKIcore.endpoint;
+		
+		return new Configuration({
+			basePath : basePath,
+			apiKey : apiKey
+		});
 	}
 
 	// endregion

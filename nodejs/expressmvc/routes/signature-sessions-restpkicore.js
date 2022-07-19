@@ -1,19 +1,12 @@
 const { SignatureSessionsApi, Configuration } = require("restpkicore-client-typescript");
-const express = require('express');
-const axios = require("axios");
+const express = require('express')
 const { Util } = require('../util');
-const { restPKIcore } = require("../config/default");
 const router = express.Router();
 
-var config = new Configuration();
-config.apiKey = axios.create({
-	headers: {
-		'x-api-key': restPKIcore.apiKey
-	}
-});
-config.basePath = restPKIcore.endpoint;
+var client = Util.getRestPKICoreClient();
 
-signApi = new SignatureSessionsApi(config, config.basePath, config.apiKey);
+
+signApi = new SignatureSessionsApi(client, client.basePath ,client.apiKey);
 
 router.get('/', (req, res, next) => { 
     
