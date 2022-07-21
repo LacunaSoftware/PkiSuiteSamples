@@ -50,9 +50,10 @@ try {
     // Set visual representation. We provide a PHP class that represents the visual
     // representation model. 
     $signatureStarter->setVisualRepresentation(PadesVisualElementsExpress::getVisualRepresentation());
-
-     //Uncomment to disable the default visual representation.
-     //$signatureStarter->suppressDefaultVisualRepresentation = true;
+    
+    
+    //Uncomment to disable the default visual representation.
+    //$signatureStarter->suppressDefaultVisualRepresentation = true;
 
     // Start the signature process. Receive as response the following fields:
     // - $toSignHash: The hash to be signed.
