@@ -17,6 +17,8 @@ Steps to execute the sample:
 
 1. Set the `FLASK_APP` environment variable to define the name of the application that should be run: `FLASK_APP=sample`
 
+1. In order to accept test certificates you need to set the environment: variable `FLASK_ENV="development`
+
 1. Run the web application: `flask run`
 
 1. Access the URL http://localhost:5000
