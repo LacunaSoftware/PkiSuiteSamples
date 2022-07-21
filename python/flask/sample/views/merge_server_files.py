@@ -9,6 +9,12 @@ from flask import request
 from werkzeug.utils import redirect
 from sample.storage_mock import get_sample_doc_name, SampleDocs, create_app_data
 
+# 21-07-2022
+# For some reason, Blueprint has stopped accepting names containing dots('.'),
+# so the exception would be thrown at the blueprint instantiation. In order to 
+# solve that we replaced all occurrences of dots with forward slash ('/'). This fix
+# made the PkiSuiteSamples Flask example run normally again
+__name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/merge-server-files')
 

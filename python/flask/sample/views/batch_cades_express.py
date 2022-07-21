@@ -16,6 +16,13 @@ from sample.storage_mock import create_app_data
 from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import set_pki_defaults
 
+# 21-07-2022
+# For some reason, Blueprint has stopped accepting names containing dots('.'),
+# so the exception would be thrown at the blueprint instantiation. In order to 
+# solve that we replaced all occurrences of dots with forward slash ('/'). This fix
+# made the PkiSuiteSamples Flask example run normally again
+__name__ = __name__.replace(".","/")
+
 blueprint = Blueprint(basename(__name__), __name__)
 
 
