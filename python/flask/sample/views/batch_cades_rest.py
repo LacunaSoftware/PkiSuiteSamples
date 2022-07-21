@@ -23,7 +23,6 @@ from sample.utils import get_security_context_id
 # solve that we replaced all occurrences of dots with forward slash ('/'). This fix
 # made the PkiSuiteSamples Flask example run normally again
 __name__ = __name__.replace(".","/")
-
 blueprint = Blueprint(basename(__name__), __name__)
 
 
