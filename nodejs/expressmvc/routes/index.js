@@ -35,7 +35,6 @@ router.use('/pades-signature-restpki', require('./pades-signature-restpki'));
 router.use('/pades-wo-communication-restpki', require('./pades-wo-communication-restpki'));
 router.use('/pades-cloud-oauth-express', require('./pades-cloud-oauth-express'));
 router.use('/pades-cloud-pwd-express', require('./pades-cloud-pwd-express'));
-router.use('/pades-cloud-pki-paraguay-express', require('./pades-cloud-pki-paraguay-express'));
 router.use('/printer-version-cades-express', require('./printer-version-cades-express'));
 router.use('/printer-version-pades-restpki', require('./printer-version-pades-restpki'));
 router.use('/printer-version-pades-express', require('./printer-version-pades-express'));
@@ -51,6 +50,6 @@ router.use('/xml-nfe-signature-express', require('./xml-nfe-signature-express'))
 router.use('/xml-server-key-express', require('./xml-server-key-express'));
 router.use('/xml-signature-restpki', require('./xml-signature-restpki'));
 router.use('/xml-signature-express', require('./xml-signature-express'));
-router.use('/xml-cloud-pki-paraguay-express', require('./xml-cloud-pki-paraguay-express'));
+router.use("/tsp-callback", require('./tsp-callback'));
 
 module.exports = router;

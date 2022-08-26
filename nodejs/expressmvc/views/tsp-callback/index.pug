@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+
+   h2(class='ls-title') Callback Page 
+   form(id="signForm", method="POST")
+      input(type='hidden', name='code', id='codeInput' value=code)
+      input(type='hidden', name='state', id='stateInput' value=state)
+      input(type='hidden', name='sessionId', id='sessionId' value=sessionId)
+
+   p="Your signature authorization was successfully finished and the signature will be finished soon"
+
+block scripts 
+   script.
+
+      $(document).ready(function () {
+         var code = $("#codeInput").val();
+         var state = $("#stateInput").val();
+         var sessionId = $("#sessionId").val();
+         sessionStorage.setItem(sessionId, JSON.stringify({ 
+            code: code,
+            state: state,
+         }));
+      });
+

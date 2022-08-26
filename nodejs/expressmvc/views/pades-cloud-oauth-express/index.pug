@@ -3,17 +3,111 @@ extends ../layout
 block content
    h2(class='ls-title') PAdES Signature using cloud certificate with PKI Express (OAuth Flow)
 
-   div(class='ls-content')
-      form(id='selectFlowForm' action=`/pades-cloud-oauth-express/discover?fileId=${fileId}` method='POST')
-         .form-group
+   if authParameters && authParameters != []
+      div(class='ls-content')
+         form(id='selectFlowForm' action=`/pades-cloud-oauth-express/complete` method='POST')
+            input(type='hidden', name='codeField', id='codeInput')
+            input(type='hidden', name='stateField', id='stateInput')
+            input(type='hidden', name='fileIdField', id='fileIdInput', value=fileId)
+            input(type='hidden', name='sessionIdField', id='sessionId', value=sessionId)
+
+            .form-group
             label File to sign
             p
                | You are signing&nbsp;
                a(href=`/download?fileId=${fileId}`, target='_blank') this document
                | .
-         div(class='px-0 col col-sm-2')
-            label(for='cpfField') Inform your CPF:
-            input(id='cpfField' class='form-control' type='text' name='cpf' placeholder='000.000.000-00' value=cpf)
 
-         button(id='searchButton' type='submit' class='btn btn-primary mt-2')
-            i(class='fas fa-search') Search
+            div(class='w-100')
+               div
+                  b Choose one of the available cloud providers:
+                  div(class="container px-0 pt-2")
+                     div(class="row")
+                        each val in authParameters
+                           div(class="col-md-3")
+                              div(class="card shadow rounded-0 min-vh-75", style="width: 18rem;")
+                                 if val.serviceInfo.badgeUrl
+                                    img(src=`${val.serviceInfo.badgeUrl}`, class="card-img-top", style="width: 100%; height: 150px")
+                                 else 
+                                    div(class="bg-light", style="width: 100%; height: 150px")
+                                       div(class="pt-5")
+                                          p(class="text-center")= "Empty BadgeUrl"
+                                 div(class="card-body")
+                                    button(type="button", class="provider-btn btn btn-dark", value=`${val.authUrl}`)= `Sign With ${val.serviceInfo.provider}`
+   else
+      h5(class='ls-subtitle') No trusted services were configured
+         div(class='ls-content')
+            p To configure the PKI Express you need to configure all providers by running the 
+               | following commands on the terminal: 
+               br
+               code pkie config --set trustServices:{provider}:clientId={value}
+               br
+               code pkie config --set trustServices:{provider}:clientSecret={value}
+            p The standard providers are:
+               ul
+                  li BirdID (Soluti)
+                  li ViDaaS (VALID)
+                  li NeoID (SERPRO)
+                  li RemoteID (Certisign)
+                  li SafeID (Safeweb)
+            p For customized providers you neet to also configure the endpoint:
+               br
+               code pkie config --set trustServices:{provider}:endpoint={value}
+            p Additional configuration:
+               br
+               code pkie config --set trustServices:{provider}:provider={value}        # provider's name
+               br
+               code pkie config --set trustServices:{provider}:badgeUrl={value}        # provider's badge image url
+               br
+               code pkie config --set trustServices:{provider}:protocolVariant={value} # provider's error handling pattern
+            button(onclick='window.history.back()' class='btn btn-primary') Try Again
+
+   div(id="providerModal", class="modal fade", data-backdrop="static", data-keyboard="false", tabindex="-1", aria-labelledby="providerModalLabel", aria-hidden="true")
+      div(class="modal-dialog modal-xl modal-dialog-centered")
+         div(class="modal-content")
+            div(class="modal-header")
+               h5(class="modal-title" id="providerModalLabel")="Authenticate with Your Cloud Provider"
+               button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                  span(aria-hidden="true") &times;
+            div(class="modal-body")
+                  iframe(id="providerOAuthIframe", class="w-100", style="min-height: 600px;", frameborder="0")
+
+block scripts
+   script.
+      function watchSessionStorage(sessionId) {
+         var sessionInfo = sessionStorage.getItem(sessionId);
+         if (sessionInfo) {
+            onSessionStorageFilled(sessionInfo);
+            return;
+         }
+
+         setTimeout(function () {
+            watchSessionStorage(sessionId);
+         }, 1000);
+      }
+
+      function onSessionStorageFilled(sessionInfoJson) {
+         var sessionInfo = JSON.parse(sessionInfoJson);
+         var code = sessionInfo.code;
+         var state = sessionInfo.state;
+
+         console.log('Hiding modal');
+         $('#providerModal').modal('dispose');
+         $('#codeInput').val(code);
+         $('#stateInput').val(state);
+         $('#selectFlowForm').submit();
+      }
+
+      $(document).ready(function() {
+         var sessionId = $("#sessionId").val();
+
+         var providerBtnPressed = false;
+         $(".provider-btn").click(function() {
+            if (providerBtnPressed) return;
+            watchSessionStorage(sessionId);
+
+            var authUrl = $(this).val();
+            $("#providerOAuthIframe").attr("src", authUrl);
+            $('#providerModal').modal();
+         });
+      });
