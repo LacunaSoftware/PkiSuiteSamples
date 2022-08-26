@@ -10,11 +10,10 @@ from restpki_client import StandardSignaturePolicies
 from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
-# 21-07-2022
-# For some reason, Blueprint has stopped accepting names containing dots('.'),
-# so the exception would be thrown at the blueprint instantiation. In order to 
-# solve that we replaced all occurrences of dots with forward slash ('/'). This fix
-# made the PkiSuiteSamples Flask example run normally again
+# 26-08-2022
+# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
+# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
+# allows dots in the name since it would break the URL entirely.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/open-pades-rest')
