@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-   h2(class='ls-title') PAdES Signature using cloud certificate with PKI Express (OAuth Flow)
+   h2(class='ls-title') XML Signature using cloud certificate with PKI Express (OAuth Flow)
 
    if !authParameters || authParameters == []
       //-----------------------------------------------------------------------
@@ -16,7 +16,7 @@ block content
    else
       div(class='ls-content')
          //- Form containing information shared between front-end and back-end
-         form(id='selectFlowForm' action=`/pades-cloud-oauth-express` method='POST')
+         form(id='selectFlowForm' action=`/xml-cloud-oauth-express` method='POST')
             input(type='hidden', name='codeField', id='codeInput')
             input(type='hidden', name='stateField', id='stateInput')
             input(type='hidden', name='fileIdField', id='fileIdInput', value=fileId)
@@ -25,8 +25,9 @@ block content
             .form-group
                label File to sign
                p
-                  | You are signing&nbsp;
-                  a(href=`/download?fileId=${fileId}`, target='_blank') this document
+                  | You are signing this 
+                  b entire &nbsp;
+                  a(href=`/download/sample?fileId=${sampleId}`) sample XML
                   | .
 
             //- Shows the list of configured providers

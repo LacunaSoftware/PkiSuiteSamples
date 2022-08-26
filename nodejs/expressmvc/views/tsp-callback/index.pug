@@ -1,18 +1,32 @@
-extends ../layout
+html
+   head
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      title Express.js MVC Samples
+      base(href='/')
 
-block content
+      link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css', integrity='sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N', crossorigin='anonymous')
+      link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.2.0/css/all.css', integrity='sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ', crossorigin='anonymous')
+      link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css', integrity='sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK', crossorigin='anonymous')
+      link(rel='stylesheet', href='https://cdn.lacunasoftware.com/pki-suite-samples/lacuna.9cfc0ba02542a303.css')
 
-   h2(class='ls-title') Callback Page 
+body
+
+   h2(class='ls-title') Finalizing Signature 
    form(id="signForm", method="POST")
       input(type='hidden', name='code', id='codeInput' value=code)
       input(type='hidden', name='state', id='stateInput' value=state)
       input(type='hidden', name='sessionId', id='sessionId' value=sessionId)
 
-   p="Your signature authorization was successfully finished and the signature will be finished soon"
+   p="Your signature authorization was successfully finished and this modal will be closed soon finalizing the signature process"
 
-block scripts 
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', integrity='sha384-bPV3mA2eo3edoq56VzcPBmG1N1QVUfjYMxVIJPPzyFJyFZ8GFfN7Npt06Zr23qts', crossorigin='anonymous')
+   script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT', crossorigin = 'anonymous')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js', integrity='sha384-Ct2s0NBxEbvJlnXHOZJheqOGKjX3Q4ewsYoJZYnLz/teMXnlGhim5o9305EkvlsN', crossorigin='anonymous')
+   script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js")
+   script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js', integrity='sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+', crossorigin='anonymous')
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js')
    script.
-
       $(document).ready(function () {
          var code = $("#codeInput").val();
          var state = $("#stateInput").val();
