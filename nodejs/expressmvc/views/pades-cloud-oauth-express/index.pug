@@ -97,6 +97,7 @@ block scripts
          var sessionInfo = JSON.parse(sessionInfoJson);
          var code = sessionInfo.code;
          var state = sessionInfo.state;
+         $('#providerModal').modal('dispose');
          $('#codeInput').val(code);
          $('#stateInput').val(state);
          $('#selectFlowForm').submit();

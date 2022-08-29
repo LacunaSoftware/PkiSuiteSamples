@@ -16,8 +16,8 @@ router.get("/", async (req, res) => {
 	// the user's rejects the operation.
 	if (req.query.error) {
 		res.render("tsp-callback", { error: req.query.error });
+		return;
 	}
-
 	const { code, state } = req.query;
 
 	// Get an instance of the TrustServiceManager class, responsible for
