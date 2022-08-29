@@ -4,3 +4,4 @@ app-data/
 .idea/
 sessions/
 package-lock.json
+resources/
