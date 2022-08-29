@@ -8,6 +8,11 @@ from sample.storage_mock import lookup_verification_code
 from sample.utils import parse_verification_code, get_rest_pki_client, \
     get_security_context_id
 
+# 26-08-2022
+# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
+# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
+# allows dots in the name since it would break the URL entirely.
+__name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/check-pades-rest')
 
