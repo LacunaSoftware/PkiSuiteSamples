@@ -36,7 +36,7 @@ Or informing on your project's `package.json` file:
 ```json
 {
   "dependencies": {
-    "restpki-client": "1.0.1"
+    "restpki-client": "2.3.1"
   }
 }
 ```
@@ -53,7 +53,7 @@ Or informing on your project's `package.json` file:
 ```json
 {
   "dependencies": {
-    "restpki-client": "1.0.0"
+    "amplia-client": "1.2.0"
   }
 }
 ```
@@ -71,7 +71,7 @@ Or informing on your project's `package.json` file:
 ```json
 {
   "dependencies": {
-    "pki-express": "1.5.0"
+    "pki-express": "1.12.0"
   }
 }
 ```
