@@ -11,6 +11,13 @@ const router = express.Router();
  * The route used for callback for cloud samples.
  */
 router.get("/", async (req, res) => {
+	// If some error ocurr, you have to handle it gracefully.
+	// The most common error is "user_denied", which happens when
+	// the user's rejects the operation.
+	if (req.query.error) {
+		res.render("tsp-callback", { error: req.query.error });
+	}
+
 	const { code, state } = req.query;
 
 	// Get an instance of the TrustServiceManager class, responsible for

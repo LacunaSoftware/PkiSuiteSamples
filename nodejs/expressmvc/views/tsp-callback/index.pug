@@ -11,14 +11,22 @@ html
       link(rel='stylesheet', href='https://cdn.lacunasoftware.com/pki-suite-samples/lacuna.9cfc0ba02542a303.css')
 
 body
+   if error
+      h2(class='ls-title') Authorization Failed
+      if error == 'user_denied'
+         h5(class='ls-subtitle') The user rejected the operation
+      else
+         h5(class='ls-subtitle')=`The error ${error} has occurred`
 
-   h2(class='ls-title') Finalizing Signature 
-   form(id="signForm", method="POST")
-      input(type='hidden', name='code', id='codeInput' value=code)
-      input(type='hidden', name='state', id='stateInput' value=state)
-      input(type='hidden', name='sessionId', id='sessionId' value=sessionId)
+      p="Refresh the page to start again."
+   else
+      h2(class='ls-title') Finalizing Signature 
+      form(id="signForm", method="POST")
+         input(type='hidden', name='code', id='codeInput' value=code)
+         input(type='hidden', name='state', id='stateInput' value=state)
+         input(type='hidden', name='sessionId', id='sessionId' value=sessionId)
 
-   p="Your signature authorization was successfully finished and this modal will be closed soon finalizing the signature process"
+      p="Your signature authorization was successfully finished and this modal will be closed soon finalizing the signature process"
 
    script(src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', integrity='sha384-bPV3mA2eo3edoq56VzcPBmG1N1QVUfjYMxVIJPPzyFJyFZ8GFfN7Npt06Zr23qts', crossorigin='anonymous')
    script(src='https://code.jquery.com/jquery-3.3.1.min.js', integrity='sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT', crossorigin = 'anonymous')

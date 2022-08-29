@@ -52,21 +52,19 @@ block content
          div(class="modal-dialog modal-xl modal-dialog-centered")
             div(class="modal-content")
                div(class="modal-header")
-                  h5(class="modal-title" id="providerModalLabel")="Authenticate with Your Cloud Provider"
-                  button(type="button" class="close" data-dismiss="modal" aria-label="Close")
-                     span(aria-hidden="true") &times;
+                  h5(class="modal-title" id="providerModalLabel")="Authorize Operation In Your Cloud Provider"
                div(class="modal-body")
                      iframe(id="providerOAuthIframe", class="w-100", style="min-height: 600px;", frameborder="0")
 
 block scripts
    script.
       $(document).ready(function() {
-         var sessionId = $("#sessionId").val();
+         // Register click listeners
+         $(".provider-btn").click(onProviderBtnClicked);
+      });
 
-         var providerBtnPressed = false; // To prevent double click
-         $(".provider-btn").click(function() {
-            if (providerBtnPressed) return;
-            providerBtnPressed = true;
+      function onProviderBtnClicked(e) {
+            var sessionId = $("#sessionId").val();
 
             // Start listen to changes in the session storage
             watchSessionStorage(sessionId);
@@ -75,11 +73,10 @@ block scripts
             // provider.
             var authUrl = $(this).val();
             showIframeModal(authUrl);
-         });
-      });
+      }
 
-      function showIframeModal(url) {
-         $("#providerOAuthIframe").attr("src", url);
+      function showIframeModal(authUrl) {
+         $("#providerOAuthIframe").attr("src", authUrl);
          $('#providerModal').modal();
       }
 
@@ -100,8 +97,6 @@ block scripts
          var sessionInfo = JSON.parse(sessionInfoJson);
          var code = sessionInfo.code;
          var state = sessionInfo.state;
-         console.log('Hiding modal');
-         $('#providerModal').modal('dispose');
          $('#codeInput').val(code);
          $('#stateInput').val(state);
          $('#selectFlowForm').submit();
