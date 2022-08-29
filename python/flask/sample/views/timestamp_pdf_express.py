@@ -13,6 +13,11 @@ from pkiexpress import PadesTimestamper
 from sample.storage_mock import create_app_data
 from sample.utils import set_pki_defaults
 
+# 26-08-2022
+# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
+# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
+# allows dots in the name since it would break the URL entirely.
+__name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/timestamp-pdf-express')
 

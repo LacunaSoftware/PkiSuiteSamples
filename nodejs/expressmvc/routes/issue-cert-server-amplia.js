@@ -5,6 +5,7 @@ const {PkiBrazilCertificateParameters, CreateOrderRequest, CertificateKinds} = r
 const {Config} = require('../config');
 const {StorageMock} = require('../storage-mock');
 const {Util} = require('../util.js');
+const {KeyMedia } = require('amplia-client/lib/enums');
 
 let router = express.Router();
 
@@ -85,7 +86,7 @@ router.post('/', async (req, res, next) => {
 
 		// Call Amplia in order to issue the certificate referred by the
 		// created order's id.
-		let cert = await client.issueCertificate(order.getId(), genKey.getCsr());
+		let cert = await client.issueCertificate(order.getId(), genKey.getCsr(), KeyMedia.PC);
 
 		// Get certificate's id, that will be used to identify the certificate
 		// on the "app-data" folder.

@@ -56,7 +56,7 @@ module.exports = {
 		// suporte@lacunasoftware.com
 		//
 		// In order to use this sample on a "on premises" installation of
-		// Amplia, fill the field below with the URL address of your REST PKI
+		// Amplia, fill the field below with the URL address of your Amplia
 		// installation (with the trailing '/' character).
 		endpoint: 'https://amplia.lacunasoftware.com/'
 	},

@@ -10,6 +10,6 @@ block content
    form(method='post', enctype='multipart/form-data')
       label(for='selectFile')
          | Select file:
-         input(id='selectFile', type='file', name='userfile', style='display: block;')
+         input(id='selectFile', type='file', name='userfile', style='display: block;', required=true)
 
       input(type='submit', value='Upload', name='submit' class='btn btn-primary', style='display: block;')

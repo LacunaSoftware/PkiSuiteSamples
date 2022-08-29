@@ -6,6 +6,11 @@ from flask import Blueprint, render_template, current_app, request
 
 from sample.utils import get_amplia_client, get_two_years_from_now_date
 
+# 26-08-2022
+# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
+# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
+# allows dots in the name since it would break the URL entirely.
+__name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/issue-cert-user-amplia')
 
