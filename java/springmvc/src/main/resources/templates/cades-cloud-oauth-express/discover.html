@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<body>
+
+<div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
+	<h2 class="ls-title">cades Signature using cloud certificate with PKI Express (OAuth Flow)</h2>
+
+	<div class="ls-content" th:with="condition=${model.getServices() != null and model.getServices().size() > 0}">
+
+		<div th:unless="${condition}">
+			<p>No trusted services was found with this CPF.</p>
+			<button onclick="window.history.back()" class="btn btn-primary">Try Again</button>
+		</div>
+		<form id="pwdFlowForm" th:if="${condition}" th:action="@{/cades-cloud-pwd-express/authorize(fileId=${fileId})}" method="POST">
+			<input id="cpfField" type="hidden" name="cpf" th:value="${model.getCpf()}" />
+
+			<div class="form-group">
+				<div class="px-0">
+					<label for="serviceField">Choose your trust provider:</label>
+					<select id="serviceField" name="service" class="form-control col col-sm-2" >
+						<option th:each="service : ${model.getServices()}" th:value="${service.getAuthUrl()}"><span th:text="${service.getServiceInfo().getService().toLowerCase()}"></span> (<span th:text="${service.getServiceInfo().getProvider()}"></span>)</option>
+					</select>
+				</div>
+			</div>
+
+			<button type="button" class="btn btn-primary" onclick="redirectUser()">
+				<i class="fas fa-file-signature"></i> Sign
+			</button>
+
+		</form>
+	</div>
+</div>
+
+<script th:fragment="scripts" type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	function redirectUser() {
+
+		// Get redirect URL of the chosen provide.
+		var redirectUrl = $('#serviceField').val();
+
+		// Redirect user.
+		window.location = redirectUrl;
+	}
+	/*]]>*/
+</script>
+
+</body>
+</html>

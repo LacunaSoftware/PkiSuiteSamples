@@ -59,7 +59,7 @@
 		},
 		signCmsUser: {
 			express: '/check-express?rc=upload&fwd=cades-signature',
-			restpki: '/check-rest-token?rc=upload&fwd=cades-signature'
+			restpki: '/check-rest-token?rc=upload&fwd=cades-signature',
 		},
 		// signCmsServerKey: { },
 		// signCod: { },
@@ -89,11 +89,16 @@
 		 },
 		 signPdfCloudOAuth: {
 			 express: '/check-express?rc=upload&fwd=pades-cloud-oauth'
+
+		 },
+		 signCmsCloudOAuth: {
+			 express: '/check-express?rc=upload&fwd=cades-cloud-oauth'
+
 		 },
 		signSessions: {
 
 		},
-		signXmlServer: { 
+		signXmlServer: {
 			restpki: '/check-rest-token?rc=xml-signature'
 		},
 		// signXmlServerKey: { },

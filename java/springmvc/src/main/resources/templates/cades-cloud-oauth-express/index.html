@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<body>
+
+<div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
+	<h2 class="ls-title">CAdES Signature using cloud certificate with PKI Express (OAuth Flow)</h2>
+
+	<div class="ls-content">
+		<form id="selectFlowForm" th:action="@{/cades-cloud-oauth-express/discover(fileId=${fileId})}" method="POST">
+			<div class="px-0 col col-sm-2">
+				<label for="cpfField">Inform your CPF:</label>
+				<input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00"/>
+			</div>
+
+			<button id="searchButton" type="submit" class="btn btn-primary mt-2">
+				<i class="fas fa-search"></i> Search
+			</button>
+
+		</form>
+	</div>
+</div>
+
+</body>
+</html>
