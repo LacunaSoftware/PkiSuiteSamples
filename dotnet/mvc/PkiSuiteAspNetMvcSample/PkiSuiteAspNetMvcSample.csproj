@@ -246,6 +246,7 @@
     <Compile Include="Controllers\CheckCadesRestController.cs" />
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
+	<Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
     <Compile Include="Controllers\MergeCadesSdkController.cs" />
@@ -499,6 +500,8 @@
     <Content Include="Views\SignatureSessionRestCore\Callback.cshtml" />
     <Content Include="Views\SignatureSessionPreDefRestCore\Callback.cshtml" />
     <Content Include="Views\SignatureSessionPreDefRestCore\Index.cshtml" />
+	<Content Include="Views\PadesServerKeyRestCore\Index.cshtml" />
+    <Content Include="Views\Home\RestPkiCoreApiKeyNotSet.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
