@@ -200,25 +200,11 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			var options = new RestPkiOptions();
 			options.Endpoint = endpoint;
 			options.ApiKey = apiKey;
+			options.CultureName = "pt-BR";
 			return options;
 		}
 
 		#endregion
-
-		public static HashAlgorithmName GetHashAlgorithmNameFromDigestAlgorithm(RestPki.DigestAlgorithm digestAlgorithm) {
-			if (digestAlgorithm == RestPki.DigestAlgorithm.MD5) {
-				return HashAlgorithmName.MD5;
-			} else if (digestAlgorithm == RestPki.DigestAlgorithm.SHA1) {
-				return HashAlgorithmName.SHA1;
-			} else if (digestAlgorithm == RestPki.DigestAlgorithm.SHA256) {
-				return HashAlgorithmName.SHA256;
-			} else if (digestAlgorithm == RestPki.DigestAlgorithm.SHA384) {
-				return HashAlgorithmName.SHA384;
-			} else if (digestAlgorithm == RestPki.DigestAlgorithm.SHA512) {
-				return HashAlgorithmName.SHA512;
-			}
-			throw new Exception("Not supported digest algorithm");
-		}
 
 		public static string JoinStringsPt(IEnumerable<string> strings) {
 			var text = new System.Text.StringBuilder();

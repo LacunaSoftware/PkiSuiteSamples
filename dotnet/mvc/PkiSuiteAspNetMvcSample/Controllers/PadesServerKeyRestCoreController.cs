@@ -23,11 +23,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Read certificate and upload content to REST PKI Core
 				var certificatePath = StorageMock.GetServerCertificatePath();
 				var certificate = new X509Certificate2(certificatePath, "1234");
-				var uploadCertResult = await restPkiService.UploadCertificateAsync(certificate.RawData);
-				if (!uploadCertResult.Success) {
-					throw new Exception("the certificated could not be uploaded");
-				}
-				var certificateReference = CertificateReference.FromCertificateId(uploadCertResult.CertificateId.Value);
+				var certificateReference = CertificateReference.FromX509Certificate2(certificate);
 
 				// Get reference for the file to be signed
 				if (!StorageMock.TryGetFile(userfile, out string userfilePath)) {
@@ -41,8 +37,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Perform RSA signature using signature parameters and certificate reference
 				var toSignHash = prepareSignatureResult.ToSignHash.Value;
-				var hashAlgorithmName = Util.GetHashAlgorithmNameFromDigestAlgorithm(prepareSignatureResult.ToSignHash.Algorithm);
-				var signature = certificate.GetRSAPrivateKey().SignHash(toSignHash, hashAlgorithmName, RSASignaturePadding.Pkcs1);
+				var signature = certificate.GetRSAPrivateKey().SignHash(toSignHash,prepareSignatureResult.ToSignHash.Algorithm.HashAlgorithmName, RSASignaturePadding.Pkcs1);
 
 				// Complete signature in REST PKI Core service
 				var signedDocument = await restPkiService.CompleteSignatureAsync(prepareSignatureResult.State, signature);
