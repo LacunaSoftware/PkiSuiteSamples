@@ -303,8 +303,11 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		}
 
 		public static byte[] GetServerCertificate() {
-			return File.ReadAllBytes(Path.Combine(ContentPath, "Pierre de Fermat.pfx"));
+			return File.ReadAllBytes(GetServerCertificatePath());
 		}
 
+		public static string GetServerCertificatePath() {
+			return Path.Combine(ContentPath, "Pierre de Fermat.pfx");
+		}
 	}
 }

@@ -36,7 +36,7 @@ function getConfig()
             // ====================================================
             //     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
             // ====================================================
-            'apiKey' => 'pki-suite-samples-01|f2258f370e0ec84eb7bde0ddcdc7e7ecb600101787590145b98a7b475fccedc5 ',
+            'apiKey' => 'pki-suite-samples-01|f2258f370e0ec84eb7bde0ddcdc7e7ecb600101787590145b98a7b475fccedc5',
             // This is a TRIAL API KEY. It will be expired at 30/09/2022.
             // If the REST PKI NG sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 

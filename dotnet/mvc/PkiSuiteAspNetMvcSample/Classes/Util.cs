@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web;
+using RestPki = Lacuna.RestPki.Client;
 
 namespace PkiSuiteAspNetMvcSample.Classes {
 	public class Util {
@@ -199,6 +200,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			var options = new RestPkiOptions();
 			options.Endpoint = endpoint;
 			options.ApiKey = apiKey;
+			options.CultureName = "pt-BR";
 			return options;
 		}
 
