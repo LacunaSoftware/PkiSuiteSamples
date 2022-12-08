@@ -57,6 +57,12 @@
     <Reference Include="iTextSharp.LGPLv2.Core, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.LGPLv2.Core.1.9.3\lib\net462\iTextSharp.LGPLv2.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Lacuna.Cloudhub.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ae51a64117bb8006, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Cloudhub.Api.1.0.0\lib\netstandard2.0\Lacuna.Cloudhub.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Lacuna.Cloudhub.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f3d9abf91ed9764b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Cloudhub.Client.1.0.0\lib\netstandard2.0\Lacuna.Cloudhub.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Lacuna.DataAnnotations, Version=1.3.0.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.DataAnnotations.1.3.0\lib\net45\Lacuna.DataAnnotations.dll</HintPath>
     </Reference>
@@ -111,10 +117,28 @@
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.8\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -259,6 +283,7 @@
     <Compile Include="Controllers\CheckCadesRestController.cs" />
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
+    <Compile Include="Controllers\PadesCloudHubOauthSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
@@ -415,6 +440,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\PadesCloudHubOauthSdk\Index.cshtml" />
+    <Content Include="Views\PadesCloudHubOauthSdk\Discover.cshtml" />
+    <Content Include="Views\PadesCloudHubOauthSdk\SignatureInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -520,7 +548,6 @@
     <Content Include="Views\PadesCloudPwdSdk\Index.cshtml" />
     <Content Include="Views\PadesCloudPwdSdk\Discover.cshtml" />
     <Content Include="Views\PadesCloudPwdSdk\SignatureInfo.cshtml" />
-    <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Index.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\SignatureInfo.cshtml" />
     <Content Include="Views\SignatureSessionRestCore\UsingWebhook.cshtml" />

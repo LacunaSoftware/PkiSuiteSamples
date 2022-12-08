@@ -51,10 +51,10 @@
         signCmsServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=cades-server-key'
         },
-        signCod: { 
+        signCod: {
             express: '/check-express.php?rc=xml-cod-signature'
         },
-        signMultiCmsServer: { 
+        signMultiCmsServer: {
             express: '/check-express.php?rc=batch-cades-signature'
         },
         // signMultiCmsUser: { },
@@ -66,6 +66,9 @@
         signNfe: {
             express: '/check-express.php?rc=xml-nfe-signature',
             restpki: '/check-rest-token.php?rc=xml-nfe-signature'
+        },
+        signXml: {
+            restpki: '/check-rest-token.php?rc=xml-doc-signature-rest'
         },
         signPdfServer: {
             express: '/check-express.php?rc=server-files&fwd=pades-signature&op=signPdf',

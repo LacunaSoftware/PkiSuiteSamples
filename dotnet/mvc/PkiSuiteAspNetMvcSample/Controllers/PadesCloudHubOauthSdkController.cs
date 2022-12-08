@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Lacuna.Cloudhub.Client;
+using Lacuna.Cloudhub.Api;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
@@ -36,10 +39,24 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	 *
 	 * This sample will only show the PSCs that are configured.
 	 */
-	public class PadesCloudOauthSdkController : Controller {
+		
+	public class PadesCloudHubOauthSdkController : Controller {
 
-		// Redirect URL where it's accessed after OAuth flow is finished.
 		private const string RedirectUrl = "http://localhost:54123/PadesCloudOauthSdk/Complete";
+
+	    static CloudhubClient cloudhubClient = new CloudhubClient("https://cloudhub.lacunasoftware.com", "3da2VICFIgr+tHOFa8Pe85b31kfAIYE6CdcQZNtj3Bg=");
+		static SessionCreateRequest sessionRequest = new SessionCreateRequest
+		{
+			Identifier = "123213123123",
+			RedirectUri = RedirectUrl,
+			Type = Lacuna.Cloudhub.Api.TrustServiceSessionTypes.SignatureSession,
+
+		};
+
+
+
+	    
+
 
 		private IPadesPolicyMapper GetSignaturePolicy() {
 
@@ -57,6 +74,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		[HttpGet]
 		public ActionResult Index() {
+
+        
+			
+
 			return View();
 		}
 
@@ -70,23 +91,18 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * After this action the user will be redirected, and to store the local data (fileId) to be user
 		 * after the user returns to your application. We use the parameter "customState", the last
 		 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
-		 * next action.
+		 * next action.																																																			
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Discover(string userfile, string cpf) {
+		public async Task<ActionResult> CloudLogin(string userfile, string cpf) {
 
-			// Process CPF, removing all formatting.
+			SessionModel session =  await cloudhubClient.CreateSessionAsync(sessionRequest);
+
+			cloudhubClient.GetCertificateAsync(session);
+
 			var plainCpf = Regex.Replace(cpf, "/[.-]/", "");
 
-			// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
-			// and handling the OAuth flow.
-			var manager = Util.GetTrustServicesManager();
 
-			// Discover available PSCs.The following method has three sessionTypes:
-			// - SingleSignature: The returned token can only be used for one single signature request.
-			// - MultiSignature: The returned token can only be used for one multi signature request.
-			// - SignatureSession: The return token can only be used for one or more signature requests.
-			var services = await manager.DiscoverByCpfAndStartAuthAsync(plainCpf, RedirectUrl, TrustServiceSessionTypes.SignatureSession, userfile);
 
 			// Render complete page.
 			return View(new PadesCloudOauthModel() {
