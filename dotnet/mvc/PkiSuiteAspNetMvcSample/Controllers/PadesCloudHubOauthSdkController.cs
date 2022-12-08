@@ -42,23 +42,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		
 	public class PadesCloudHubOauthSdkController : Controller {
 
-		private const string RedirectUrl = "http://localhost:54123/PadesCloudOauthSdk/Complete";
+		private const string RedirectUrl = "http://localhost:54123/PadesCloudHubOauthSdk/Complete";
 
-	    static CloudhubClient cloudhubClient = new CloudhubClient("https://cloudhub.lacunasoftware.com", "3da2VICFIgr+tHOFa8Pe85b31kfAIYE6CdcQZNtj3Bg=");
-		static SessionCreateRequest sessionRequest = new SessionCreateRequest
-		{
-			Identifier = "123213123123",
-			RedirectUri = RedirectUrl,
-			Type = Lacuna.Cloudhub.Api.TrustServiceSessionTypes.SignatureSession,
+		CloudhubClient cloudhubClient;
 
-		};
-
-
-
-	    
-
-
-		private IPadesPolicyMapper GetSignaturePolicy() {
+        private IPadesPolicyMapper GetSignaturePolicy() {
 
 			// Get our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator()).
 			var arbitrator = Util.GetTrustArbitrator();
@@ -74,11 +62,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		[HttpGet]
 		public ActionResult Index() {
-
-        
-			
-
-			return View();
+            
+            return View();
 		}
 
 		/**
@@ -95,18 +80,20 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		[HttpPost]
 		public async Task<ActionResult> CloudLogin(string userfile, string cpf) {
+            cloudhubClient = new CloudhubClient("https://cloudhub.lacunasoftware.com", "3da2VICFIgr+tHOFa8Pe85b31kfAIYE6CdcQZNtj3Bg=");
+            var plainCpf = Regex.Replace(cpf, "/[.-]/", "");
+            var sessionRequest = new SessionCreateRequest
+            {
+                Identifier = plainCpf,
+                RedirectUri = RedirectUrl,
+                Type = Lacuna.Cloudhub.Api.TrustServiceSessionTypes.SingleSignature,
+            };
 
-			SessionModel session =  await cloudhubClient.CreateSessionAsync(sessionRequest);
-
-			cloudhubClient.GetCertificateAsync(session);
-
-			var plainCpf = Regex.Replace(cpf, "/[.-]/", "");
-
-
+            SessionModel session =  await cloudhubClient.CreateSessionAsync(sessionRequest);
 
 			// Render complete page.
-			return View(new PadesCloudOauthModel() {
-				Services = services,
+			return View(new PadesCloudOauthAltModel() {
+				Services = session.Services,
 				Cpf = cpf,
 			});
 		}

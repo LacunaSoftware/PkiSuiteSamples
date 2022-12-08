@@ -1,11 +1,11 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
-@model PadesCloudOauthModel
+@model PadesCloudOauthAltModel
 
 <h2 class="ls-title">PAdES Signature Using Cloud Certificate with PKI Express (OAuth Flow)</h2>
 
 <div class="ls-content">
 	@if (Model.Services != null && Model.Services.Count > 0) {
-		using (Html.BeginForm("Authorize", "PadesCloudOauthSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "pwdFlowForm", role = "form" })) {
+		using (Html.BeginForm("Authorize", "PadesCloudHubOauthSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "pwdFlowForm", role = "form" })) {
 			<input id="cpfField" type="hidden" name="cpf" value="@Model.Cpf" />
 
 			<div class="form-group">
