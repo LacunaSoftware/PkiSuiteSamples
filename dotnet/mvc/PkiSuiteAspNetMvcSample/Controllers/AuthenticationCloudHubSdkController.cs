@@ -13,9 +13,6 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using Lacuna.Cloudhub.Client;
 using Lacuna.Cloudhub.Api;
-using Microsoft.AspNetCore.Mvc;
-using System.Text;
-using Lacuna.Pki.Cades;
 
 namespace PkiSuiteAspNetMvcSample.Controllers
 {
@@ -53,7 +50,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             SessionModel session = await cloudhubClient.CreateSessionAsync(sessionRequest);
 
-            return View(new PadesCloudOauthAltModel()
+            return View(new AuthenticationCloudHubSdkModel()
             {
                 Services = session.Services,
                 Cpf = plainCpf,

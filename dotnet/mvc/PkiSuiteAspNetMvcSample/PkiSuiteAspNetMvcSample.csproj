@@ -303,6 +303,7 @@
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\MergeServerFilesModel.cs" />
+    <Compile Include="Models\Sdk\AuthenticationCloudHubSdkModel.cs" />
     <Compile Include="Models\Sdk\PadesCloudOauthModel.cs" />
     <Compile Include="Models\Sdk\PadesCloudPwdModel.cs" />
     <Compile Include="Models\Sdk\PrescricaoDataModel.cs" />
@@ -440,9 +441,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\PadesCloudHubOauthSdk\Index.cshtml" />
-    <Content Include="Views\PadesCloudHubOauthSdk\Discover.cshtml" />
-    <Content Include="Views\PadesCloudHubOauthSdk\SignatureInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
