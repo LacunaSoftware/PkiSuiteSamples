@@ -283,7 +283,7 @@
     <Compile Include="Controllers\CheckCadesRestController.cs" />
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
-    <Compile Include="Controllers\PadesCloudHubOauthSdkController.cs" />
+    <Compile Include="Controllers\AuthenticationCloudHubSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
@@ -467,6 +467,9 @@
     <Content Include="Views\AuthenticationSdk\Index.cshtml" />
     <Content Include="Views\AuthenticationRest\Index.cshtml" />
     <Content Include="Views\AuthenticationRest\Failed.cshtml" />
+    <Content Include="Views\AuthenticationCloudHubSdk\Index.cshtml" />
+    <Content Include="Views\AuthenticationCloudHubSdk\CloudLogin.cshtml" />
+    <Content Include="Views\AuthenticationCloudHubSdk\AuthenticationInfo.cshtml" />
     <Content Include="Views\Home\PkiLicenseNotFound.cshtml" />
     <Content Include="Views\Home\RestPkiTokenNotSet.cshtml" />
     <Content Include="Views\AuthenticationSdk\Success.cshtml" />

@@ -1,11 +1,11 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
 @model PadesCloudOauthAltModel
 
-<h2 class="ls-title">PAdES Signature Using Cloud Certificate with PKI Express (OAuth Flow)</h2>
+<h2 class="ls-title">Authentication Using Cloud Certificate with CloudHub</h2>
 
 <div class="ls-content">
 	@if (Model.Services != null && Model.Services.Count > 0) {
-		using (Html.BeginForm("Authorize", "PadesCloudHubOauthSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "pwdFlowForm", role = "form" })) {
+		using (Html.BeginForm("Authorize", "AuthenticationCloudHubSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "pwdFlowForm", role = "form" })) {
 			<input id="cpfField" type="hidden" name="cpf" value="@Model.Cpf" />
 
 			<div class="form-group">
@@ -13,7 +13,7 @@
 					<label for="serviceField">Choose your trust provider:</label>
 					<select id="serviceField" name="service" class="form-control col col-sm-2">
 						@foreach (var service in Model.Services) {
-							<option value="@service.AuthUrl">@service.ServiceInfo.Service.ToString().ToLower() (@service.ServiceInfo.Service.ToString())</option>
+							<option value="@service.AuthUrl">@service.ServiceInfo.ServiceName.ToLower() (@service.ServiceInfo.ServiceName</option>
 						}
 					</select>
 				</div>

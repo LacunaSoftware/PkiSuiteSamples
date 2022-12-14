@@ -1,7 +1,7 @@
-﻿<h2 class="ls-title">PAdES Signature Using Cloud Certificate with PKI Express (OAuth Flow)</h2>
+﻿<h2 class="ls-title">Authentication Using Cloud Certificate with CloudHub</h2>
 
 <div class="ls-content">
-	@using (Html.BeginForm("CloudLogin", "PadesCloudHubOauthSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "selectFlowForm", role = "form" })) {
+	@using (Html.BeginForm("CloudLogin", "AuthenticationCloudHubSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "selectFlowForm", role = "form" })) {
 		<div class="px-0 col col-sm-2">
 			<label for="cpfField">Inform your CPF:</label>
 			<input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00" />
