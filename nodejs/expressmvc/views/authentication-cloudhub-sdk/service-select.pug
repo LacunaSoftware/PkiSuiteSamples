@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+
+    h4(class='ls-title') Authentication with CloudHub
+
+        div(class="ls-content")
+        div(class='w-100')
+            div
+                b Choose one of the available cloud providers:
+                div(class="container px-0 pt-2")
+                    div(class="row")
+                        each val in sessionRes.services
+                            div(class="col-md-3")
+                                div(class="card shadow rounded-0 min-vh-75" style="width: 18rem;")
+                                    if val.serviceInfo.badgeUrl
+                                        img(src=`${val.serviceInfo.badgeUrl}`, class="card-img-top" style="width: 100%; height: 150px")
+                                    else 
+                                        div(class="bg-light" style="width: 100%; height: 150px")
+                                        div(class="pt-5")
+                                            p(class="text-center")= "Empty BadgeUrl"
+                                    div(class="card-body")
+                                        button(type="button" class="provider-btn btn btn-dark", value=`${val.authUrl}`)= `Sign With ${val.serviceInfo.provider}`
