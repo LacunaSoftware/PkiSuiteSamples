@@ -279,6 +279,7 @@
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\MergeServerFilesModel.cs" />
+    <Compile Include="Models\Rest\SignatureXmlModel.cs" />
     <Compile Include="Models\Sdk\PadesCloudOauthModel.cs" />
     <Compile Include="Models\Sdk\PadesCloudPwdModel.cs" />
     <Compile Include="Models\Sdk\PrescricaoDataModel.cs" />
@@ -418,6 +419,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\XmlDiplomaSignatureRest\Index.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\DadosDiploma.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\FullDiploma.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\Registro.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\DadosRegistro.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\Diploma.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
