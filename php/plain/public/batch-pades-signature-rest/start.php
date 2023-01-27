@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 // Get the document id for this signature (received from the POST call, see
 // batch-signature-form.js).
 $id = $_POST['id'];
+$cert = $_POST['certContent'];
 
 $client = Util::getRestPkiClient();
 
@@ -48,6 +49,8 @@ $signatureStarter->visualRepresentation = PadesVisualElementsRest::getVisualRepr
 // Set the document to be signed based on its ID.
 $signatureStarter->setPdfToSignFromPath(StorageMock::getBatchDocPath($id));
 
+$signatureStarter->setSignerCertificateBase64($cert);
+
 // Optionally, add marks to the PDF before signing. These differ from the
 // signature visual they are actually changes done to the document prior to
 // signing, not binded to any signature. Therefore, any number of marks can be
@@ -70,8 +73,10 @@ $signatureStarter->setPdfToSignFromPath(StorageMock::getBatchDocPath($id));
 // method on the Web PKI component (see batch-pades-signature-rest-form.js)
 // and also to complete the signature on the POST action below (this should not
 // be mistaken with the API access token).
-$token = $signatureStarter->startWithWebPki();
+
+$toSign = $signatureStarter->start();
+
 
 // Return a JSON with the token obtained from REST PKI (the page will use jQuery
 // to decode this value).
-echo json_encode($token);
+echo json_encode($toSign);

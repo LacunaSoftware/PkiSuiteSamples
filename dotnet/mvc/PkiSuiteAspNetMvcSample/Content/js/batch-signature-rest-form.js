@@ -253,7 +253,8 @@ var batchSignatureRestForm = (function () {
 		pki.signWithRestPki({
 			token: step.token,
 			thumbprint: formElements.certificateSelect.val()
-		}).success(function () {
+		}).success(function (signature) {
+			console.log(signature)
 			// Call the "done" callback signalling we're done with the document.
 			done(step);
 		}).error(function (error) {

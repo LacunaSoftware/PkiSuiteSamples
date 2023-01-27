@@ -113,6 +113,10 @@ public class PadesSignatureRestController {
 		// SignatureResult object.
 		SignatureResult signatureResult = signatureFinisher.finish();
 
+		String Danilo = signatureResult.toString();
+
+		System.out.println(Danilo);
+
 		// The "certificate" field of the SignatureResult object contains information about the
 		// certificate used by the user to sign the file.
 		PKCertificate signerCert = signatureResult.getCertificate();

@@ -38,14 +38,14 @@ rest-pki:
   # ======================================================
   #   >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
   # ======================================================
-  accessToken: 'Inn0QjJ4VF9ApkadmyLRghNYXhrymoeA6NrXCI9g26JDxFOrj1riOLlB_OmQNcuooWLFgm4oW_QtZfV2oX7xAbg4az3pSn_VhXi-kbvdVxUUupR3q9sAe4B0pOxwow5BSpQefmWlnOyOuF6fmu9lOelHUMCXgv_aQMzsgmwbnN7b9bQNwEz_JcjxxVOtoQrU-0TpFXBSHvRR04Bq4JWyc4R_KxUf7OEMFgkENcIy76twVjAG1DrNQWs9dK7TmvP0xW1z-TyEqKKogzJb4uto1oLelOi75mg_BfOwzL25l4skxc7ybF3IKGkkT6-yj7d3p-XBYXllmM5VQTZN8LEJjMIHBu93xe7zLrcTWRMR29j5TI7ZIYlOxCchgzZvV57_ZJur3jrZOx3CrZ2Puthx2TZ5oEQFjQ2-telcdz6peDz387iPb5YtWI7QaFDZi_LC2AHCKpnCWXD4gn1lYyZ-78lxWHI_i2YnJ-My7IL9uztj9CervviiuIXysZQOnSCJXrOPUA'
+  accessToken: 'dev-support|c40706850488334bbdbc2741df0202088ba66e5224af49f9852777230b211345'
   # This is a TRIAL token. It will expire at 31/01/2023.
   # If the REST PKI's samples do not work, please contact our support by
   # email: suporte@lacunasoftware.com
 
   # In order to use this sample on a "on premises" installation of REST PKI, fill the field below
   # with the URL address of your REST PKI installation (with the trailing '/' character)
-  endpoint: null
+  endpoint: https://homolog.core.pki.rest/
 
 # REST PKI Core parameters
 rest-pki-core:

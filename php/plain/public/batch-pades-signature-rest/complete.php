@@ -19,14 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
 // Get the token for this signature (received from the post call, see
 // batch-signature-rest-form.js).
-$token = $_POST['token'];
+$toSign = $_POST['toSign'];
+$signature = $_POST['signature '];
 
 // Instantiate the PadesSignatureFinisher2 class, responsible for completing the
 // signature process.
 $signatureFinisher = new PadesSignatureFinisher2(Util::getRestPkiClient());
 
 // Set the token.
-$signatureFinisher->token = $token;
+$signatureFinisher->token = $toSign->token;
+
+$signatureFinisher->signatureBase64 = $signature;
+
 
 // Call the finish() method, which finalizes the signature process and returns a
 // SignatureResult object.

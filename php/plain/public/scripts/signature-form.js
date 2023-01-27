@@ -32,8 +32,13 @@ var signatureForm = (function () {
         // http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
         pki.init({
             ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
+<<<<<<< Updated upstream
             defaultFail: onWebPkiError, // Generic error callback defined below.
             restPkiUrl: _restPkiEndpoint // REST PKI endpoint to communication between Web PKI.
+=======
+            defaultError: onWebPkiError, // Generic error callback defined below.
+            restPkiUrl: "https://homolog.core.pki.rest/" // REST PKI endpoint to communication between Web PKI.
+>>>>>>> Stashed changes
         });
     }
 

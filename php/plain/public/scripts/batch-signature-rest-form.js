@@ -58,6 +58,7 @@ var batchSignatureRestForm = (function () {
 
     // Auxiliary global variables.
     var startQueue = null;
+    var readCertificateQueue = null;
     var performQueue = null;
     var completeQueue = null;
     var formElements = {};
@@ -182,13 +183,14 @@ var batchSignatureRestForm = (function () {
         // simultaneously.
 
         // Create the queues.
+        readCertificateQueue = new Queue();
         startQueue = new Queue();
         performQueue = new Queue();
         completeQueue = new Queue();
 
         // Add all documents to the first ("start") queue.
         for (var i = 0; i < formElements.documentsIds.length; i++) {
-            startQueue.add({index: i, docId: formElements.documentsIds[i]});
+            readCertificateQueue.add({index: i, docId: formElements.documentsIds[i]});
         }
 
         // Process each queue placing the result on the next queue, forming a sort of "assembly line":
@@ -198,6 +200,7 @@ var batchSignatureRestForm = (function () {
         //       XXXXXXX ->  (startSignature)  ->              XX ->  (performSignature)  ->             XXX ->  (completeSignature)
         // -------------        2 threads           -------------         2 threads            -------------          2 threads
 
+        readCertificateQueue.process(readCertificate, {threads: 2, output: startQueue});
         startQueue.process(startSignature, {threads: 2, output: performQueue});
         performQueue.process(performSignature, {threads: 2, output: completeQueue});
         completeQueue.process(completeSignature, {threads: 2, completed: onBatchCompleted});
@@ -207,6 +210,13 @@ var batchSignatureRestForm = (function () {
         // of threads will not enhance the performance significantly.
     }
 
+    function readCertificate(step, done){
+        var selectedCertThumbprint = formElements.certificateSelect.val();
+        pki.readCertificate(selectedCertThumbprint).success(function (certEncoding) {
+            step.certContent = certEncoding;
+            done(step)
+        });
+    }
     // ---------------------------------------------------------------------------------------------
     // Function that performs the first step described above for each document, which is the call
     // batch-pades-signature-rest/complete in order to start the signature and get the token associated
@@ -223,12 +233,13 @@ var batchSignatureRestForm = (function () {
             url: '/batch-pades-signature-rest/start.php',
             method: 'POST',
             data: {
-                id: step.docId
+                id: step.docId,
+                certContent:step.certContent
             },
             dataType: 'json',
-            success: function (token) {
+            success: function (toSign) {
                 // Add the token to the document information (we'll need it in the second step).
-                step.token = token;
+                step.toSign = toSign;
                 // Call the "done" callback signalling we're done with the document.
                 done(step);
             },
@@ -253,11 +264,14 @@ var batchSignatureRestForm = (function () {
     function performSignature(step, done) {
         // Call signWithRestPki() on the Web PKI component passing the token received from REST PKI
         // and the certificate selected by the user.
-        pki.signWithRestPki({
-            token: step.token,
-            thumbprint: formElements.certificateSelect.val()
-        }).success(function () {
-            // Call the "done" callback signalling we're done with the document.
+        pki.signHash({
+            hash: step.toSign.toSignHash,
+            thumbprint: formElements.certificateSelect.val(),
+            digestAlgorithm: 'SHA-256'
+       }).success(function (signature) {
+            // Call the "done" callback signalling we're done with the document.´
+            step.signature = signature;
+            console.log(signature);
             done(step);
         }).error(function (error) {
             // Render error
@@ -283,7 +297,8 @@ var batchSignatureRestForm = (function () {
             url: '/batch-pades-signature-rest/complete.php',
             method: 'POST',
             data: {
-                token: step.token // The signature process is guaranteed to be URL safe.
+                toSign: step.toSign, // The signature process is guaranteed to be URL safe.
+                signature: step.signature
             },
             dataType: 'json',
             success: function (fileId) {
