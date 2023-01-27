@@ -1,16 +1,16 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Rest
 @model SignatureModel
 
-<h2 class="ls-title">XML Signature with REST PKI</h2>
+<h2 class="ls-title">Assinatura de Diploma com REST PKI</h2>
 
-<form id="signForm" action= "XmlDiplomaSignatureRest/Diploma" method="POST">
+<form id="signForm" action="XmlDiplomaSignatureRest/Diploma" method="POST">
 
     @* Render the token in a hidden input field. *@
     @Html.HiddenFor(m => m.Token)
 
     <div class="form-group">
         <label>File to sign</label>
-        <p>You are signing this <b>entire</b> <a href='~/Content/SampleDocument.xml'>sample XML</a>.</p>
+        <p>Você está assinando esse Diploma <b>inteiro:</b> <a href='~/Content/SampleDocument.xml'>sample XML</a>.</p>
     </div>
 
     @*

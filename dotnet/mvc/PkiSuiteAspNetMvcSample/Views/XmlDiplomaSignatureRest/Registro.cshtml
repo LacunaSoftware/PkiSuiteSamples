@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Rest
 @model SignatureModel
 
-<h2 class="ls-title">XML Signature with REST PKI</h2>
+<h2 class="ls-title">Assinatura de Diploma com REST PKI</h2>
 
 <form id="signForm" action="XmlDiplomaSignatureRest/DadosRegistro" method="POST">
 
@@ -9,8 +9,7 @@
     @Html.HiddenFor(m => m.Token)
 
     <div class="form-group">
-        <label>File to sign</label>
-        <p>You are signing this <b>entire</b> <a href='~/Content/SampleDocument.xml'>sample XML</a>.</p>
+        <p>Você está assinando os Dados de Registro do Seguinte Diploma: <a href='~/Content/SampleDocument.xml'>sample XML</a>.</p>
     </div>
 
     @*

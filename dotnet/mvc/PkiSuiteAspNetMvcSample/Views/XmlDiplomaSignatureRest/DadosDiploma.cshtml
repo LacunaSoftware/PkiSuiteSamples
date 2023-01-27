@@ -5,11 +5,11 @@
 <body>
 
     <div th:fragment="content">
-        <h2 class="ls-title">XML Diploma Signature with REST PKI</h2>
-        <h5 class="ls-subtitle">Element <i>DadosDiploma</i> signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+        <h2 class="ls-title">Assinatura de Diploma com REST PKI</h2>
+        <h5 class="ls-subtitle">Elemento <i>DadosDiploma</i> Assinado com sucesso! <i class="fas fa-check-circle text-success"></i></h5>
 
         <div class="ls-content">
-            <h3>Actions:</h3>
+            <h3>Ações:</h3>
             <ul>
                 <li><a href="/Download/File/@Model.UserFile">Download the signed file</a></li>
                 <li><a href="XmlDiplomaSignatureRest/Registro?file=@Model.UserFile">Continue signature process</a></li>
