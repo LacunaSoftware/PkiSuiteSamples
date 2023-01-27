@@ -2,13 +2,10 @@
 using Lacuna.RestPki.Client;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.Rest;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
+using Lacuna.RestPki.Api.XmlSignature;
 using System.Web.Mvc;
+using static Lacuna.RestPki.Api.StandardXmlSignaturePolicies;
 
 namespace PkiSuiteAspNetMvcSample.Controllers
 {
@@ -25,9 +22,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             signatureStarter.SetToSignElementId("Dip35141214314050000662550010001084271182362300");
 
-            signatureStarter.SetSignaturePolicy(new Guid("826b3a00-3400-4236-90d9-40917b0cc83b"));
+            var nsm = new NamespaceManager();
+            nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
+            signatureStarter.SetSignatureElementLocation("//ls:DadosRegistro", XmlInsertionOptions.AppendChild, nsm);
+
+            signatureStarter.SetSignaturePolicy(PkiBrazil.XadesAdrCompleta);
 
             signatureStarter.SetSecurityContext(Util.GetSecurityContextId());
+
 
             var token = signatureStarter.StartWithWebPki();
 
@@ -74,7 +76,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             signatureStarter.SetToSignElementId("Dip35141214314050000662550010001084271182362300");
 
-            signatureStarter.SetSignaturePolicy(new Guid("826b3a00-3400-4236-90d9-40917b0cc83b"));
+            var nsm = new NamespaceManager();
+            nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
+            signatureStarter.SetSignatureElementLocation("//ls:DadosRegistro", XmlInsertionOptions.AppendChild, nsm);
+
+            signatureStarter.SetSignaturePolicy(PkiBrazil.XadesAdrCompleta);
 
             signatureStarter.SetSecurityContext(Util.GetSecurityContextId());
 
@@ -119,7 +125,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             signatureStarter.SetXml(userfilePath);
 
 
-            signatureStarter.SetSignaturePolicy(new Guid("5b8c0710-006d-434d-bf35-12292b56b90a"));
+            signatureStarter.SetSignaturePolicy(PkiBrazil.XadesAdrArquivamento);
 
             signatureStarter.SetSecurityContext(Util.GetSecurityContextId());
 
