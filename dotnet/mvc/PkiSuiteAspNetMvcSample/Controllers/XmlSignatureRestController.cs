@@ -42,7 +42,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// signature will appended to the root element (which is most usual with enveloped signatures).
 			var nsm = new NamespaceManager();
 			nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
-			signatureStarter.SetSignatureElementLocation("//ls:signaturePlaceholder", XmlInsertionOptions.AppendChild, nsm);
+			signatureStarter.SetSignatureElementLocation(".", XmlInsertionOptions.AppendChild, nsm);
 
 			// Call the StartWithWebPki() method, which initiates the signature. This yields the token,
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll

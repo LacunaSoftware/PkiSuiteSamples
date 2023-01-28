@@ -22,9 +22,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             signatureStarter.SetToSignElementId("Dip35141214314050000662550010001084271182362300");
 
-            var nsm = new NamespaceManager();
-            nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
-            signatureStarter.SetSignatureElementLocation("//ls:DadosRegistro", XmlInsertionOptions.AppendChild, nsm);
+            signatureStarter.SetSignatureElementLocation(".", XmlInsertionOptions.AppendChild, new NamespaceManager());
 
             signatureStarter.SetSignaturePolicy(PkiBrazil.XadesAdrCompleta);
 
@@ -74,11 +72,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             signatureStarter.SetXml(userfilePath);
 
-            signatureStarter.SetToSignElementId("Dip35141214314050000662550010001084271182362300");
+            signatureStarter.SetToSignElementId("Reg35141214314050000662550010001084271182362300");
 
-            var nsm = new NamespaceManager();
-            nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
-            signatureStarter.SetSignatureElementLocation("//ls:DadosRegistro", XmlInsertionOptions.AppendChild, nsm);
+            signatureStarter.SetSignatureElementLocation(".", XmlInsertionOptions.AppendChild, new NamespaceManager());
 
             signatureStarter.SetSignaturePolicy(PkiBrazil.XadesAdrCompleta);
 
