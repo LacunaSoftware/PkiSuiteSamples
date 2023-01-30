@@ -34,7 +34,7 @@ try {
     // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
     // and handling the password flow.
     $manager = new CloudHubClient("https://cloudhub.lacunasoftware.com/", "mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=");
-    $redirectUri = "http://localhost:3000/authentication-cloudhub-sdk/complete.php";
+    $redirectUri = "http://localhost:8000/authentication-cloudhub-sdk/complete.php";
 
     // Discover available PSCs.
     $createSessionRequest = new SessionCreateRequest($plainCpf, $redirectUri, CloudHubTrustServiceSessionTypes::SingleSignature);
