@@ -12,7 +12,7 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='pki-suite-samples-02|80a04495bc96c240b1753e98b294d7167f1149f6da25428875c76693591f5395'
+    REST_PKI_ACCESS_TOKEN='pPRfszRrwB0_ZUmISeuKRPXnX1Epe2CdNyeNUgNWaf2qpgxhGfGSxJhbhAXXadMyysY-DE5dv2w2EfeM1aKz4q8xBP4m504Ie6gTFElvzwTqyUPMl1vwooPsqR3zugn7jCxFq64lI7Yh00uTYDs9rao-q6CgdsZrBOnpfKujRzAtbXdryFgv9xz56pBcQAGeDDWGgnHLcW8DCq1JF7rab7dD6veyFv8hoY1bo1yVQXuSUEo1dfGhQJ754ditmHjYo85OvPYBLKntBb2x1-QydPq2dJXq94tXT4LAjO5wKGKj4Ny_OjN8cJBRbsfyxDtpNHCbIUscjtKzGqXeTtZVA9nrHuM03jCOzoXa7RFUPEsRlznCH502QzeADQzTsDUtEatJ6rZyqc6QzLDxJw-TDvAiGKfX4Nd_yMc5yl1U5mq_qGTpb-vy3t9es1Ype1R_z7FcPawW2a5NH5rjCdCI7ohp3VhnKhBNmZIDSJU0aviqmdOTXQPP5lth6T8gFlHfT2TkSg'
     # This is a TRIAL token. It will be expired at 31/03/2023.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
