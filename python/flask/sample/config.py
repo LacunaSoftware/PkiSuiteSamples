@@ -12,8 +12,8 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='pki-suite-samples-01|9297219315056d46a8221087579051090127eb1e4874f8b8eacc38f6ecf4f29b'
-    # This is a TRIAL token. It will be expired at 31/01/2023.
+    REST_PKI_ACCESS_TOKEN='pki-suite-samples-02|80a04495bc96c240b1753e98b294d7167f1149f6da25428875c76693591f5395'
+    # This is a TRIAL token. It will be expired at 31/03/2023.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
@@ -34,8 +34,8 @@ class Config(object):
     # ========================================================
     #     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
     # ========================================================
-    AMPLIA_API_KEY = 'pki-suite-samples-01|9297219315056d46a8221087579051090127eb1e4874f8b8eacc38f6ecf4f29b'
-    # This is a TRIAL API key to use Amplia. It will expire at 31/01/2023.
+    AMPLIA_API_KEY = 'pki-suite-samples-02|80a04495bc96c240b1753e98b294d7167f1149f6da25428875c76693591f5395'
+    # This is a TRIAL API key to use Amplia. It will expire at 31/03/2023.
     # If the Amplia's samples do not work please contact our support by email:
     # suporte@lacunasoftware.com
 
