@@ -85,7 +85,7 @@ block scripts
             if (sessionInfo) {
                 // Once the session storage is filled, fill code and
                 // state fields and submit form.
-                onSessionStorageFilled(sessionInfo);
+                onSessionStorageFilled();
                 return;
             }
             setTimeout(function () {
@@ -93,12 +93,6 @@ block scripts
             }, 1000);
         }
 
-        function onSessionStorageFilled(sessionInfoJson) {
-            var sessionInfo = JSON.parse(sessionInfoJson);
-            var code = sessionInfo.code;
-            var state = sessionInfo.state;
+        function onSessionStorageFilled() {
             $('#providerModal').modal('dispose');
-            $('#codeInput').val(code);
-            $('#stateInput').val(state);
-            $('#authForm').submit();
         }
