@@ -85,7 +85,7 @@ router.use(
 router.use("/xml-server-key-express", require("./xml-server-key-express"));
 router.use("/xml-signature-restpki", require("./xml-signature-restpki"));
 router.use("/xml-signature-express", require("./xml-signature-express"));
-router.use("/signature-cloudhub-sdk", require("./signature-cloudhub-sdk"));
+router.use("/pades-signature-cloudhub-rest", require("./pades-signature-cloudhub-rest"));
 
 
 module.exports = router;
