@@ -7,30 +7,62 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
+use Lacuna\CloudHub\CloudHubClient;
+use Lacuna\CloudHub\SignHashRequest;
+use Lacuna\CloudHub\Util as CloudHubUtil;
+use Lacuna\RestPki\DigestAlgorithm;
+use Lacuna\RestPki\DigestAlgorithmAndValue;
+use Lacuna\RestPki\PadesSignatureStarter;
+use Lacuna\RestPki\StandardSignaturePolicies;
+use Lacuna\RestPki\PadesMeasurementUnits;
+use Lacuna\RestPki\SignatureAlgorithmParameters;
 use Lacuna\RestPki\PadesSignatureFinisher2;
 
 try {
 	// Get the token for this signature (rendered in a hidden input field, see
 	// pades-signature-restpki/index.php).
-	$token = $_POST['token'];
+	$fileId = $_GET['fileId'];
+	$session = $_GET['session'];
+	$client = new CloudHubClient("https://cloudhub.lacunasoftware.com/", "mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=");
+	$cert = $client->getCertificateAsync($session);
 
 	// Instantiate the PadesSignatureFinisher2 class, responsible for completing the signature process.
-	$signatureFinisher = new PadesSignatureFinisher2(Util::getRestPkiClient());
+	$signatureStarter = new PadesSignatureStarter(Util::getRestPkiClient());
+	$signatureStarter->setSignerCertificateBase64($cert);
+    // Set the PDF to be signed.
+    $signatureStarter->setPdfToSignFromPath(StorageMock::getDataPath($fileId));
+    $signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC;
 
+    // Set the security context. We have encapsulated the security context choice on util.php.
+    $signatureStarter->securityContext = Util::getSecurityContextId();
+
+    // Set the unit of measurement used to edit the pdf marks and visual representations.
+    $signatureStarter->measurementUnits = PadesMeasurementUnits::CENTIMETERS;
+
+    // Set the visual representation to the signature. We have encapsulated this code (on util-pades.php) to be used on
+    // various PAdES examples.
+    $signatureStarter->visualRepresentation = PadesVisualElementsRest::getVisualRepresentation();
+
+	$res = $signatureStarter->start();
+	$signHashRequest = new SignHashRequest($session, CloudHubUtil::base64Convert($res->toSignHash), null, $res->digestAlgorithmOid, null);
+	$signHashResponse = $client->signHashAsync($signHashRequest);
+
+	$signatureFinisher = new PadesSignatureFinisher2(Util::getRestPkiClient());
 	// Set the token.
-	$signatureFinisher->token = $token;
+	$signatureFinisher->token = $res->token;
+	$signatureFinisher->signatureBase64 = $signHashResponse;
 
 	// Call the finish() method, which finalizes the signature process and returns a SignatureResult
 	// object.
 	$signatureResult = $signatureFinisher->finish();
 
-	// The "certificate" property of the SignatureResult object contains information about the
-	// certificate used by the user
-	// to sign the file.
+	// // The "certificate" property of the SignatureResult object contains information about the
+	// // certificate used by the user
+	// // to sign the file.
 	$signerCert = $signatureResult->certificate;
 
-	// At this point, you'd typically store the signed PDF on your database. For demonstration purposes,
-	// we'll store the PDF on a temporary folder publicly accessible and render a link to it.
+	// // At this point, you'd typically store the signed PDF on your database. For demonstration purposes,
+	// // we'll store the PDF on a temporary folder publicly accessible and render a link to it.
 
 	$filename = StorageMock::generateFileId('pdf');
 

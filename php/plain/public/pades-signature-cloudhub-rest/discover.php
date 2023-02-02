@@ -34,7 +34,7 @@ try {
     // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
     // and handling the password flow.
     $manager = new CloudHubClient("https://cloudhub.lacunasoftware.com/", "mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=");
-    $redirectUri = "http://localhost:8000/authentication-cloudhub-sdk/complete.php";
+    $redirectUri = "http://localhost:8000/pades-signature-cloudhub-rest/complete.php?fileId=". $fileId;
 
     // Discover available PSCs.
     $createSessionRequest = new SessionCreateRequest($plainCpf, $redirectUri, CloudHubTrustServiceSessionTypes::SingleSignature);
@@ -53,7 +53,7 @@ try {
 
         <?php include '../shared/menu.php' ?>
         <div class="container content">
-            <h2 class="ls-title">PAdES Signature using cloud certificate with PKI Express (Password Flow)</h2>
+            <h2 class="ls-title">PAdES Signature using cloud certificate with CloudHub API</h2>
             <?php if (sizeof($services) > 0) { ?>
                 <div class='w-100'>
                     <div>
