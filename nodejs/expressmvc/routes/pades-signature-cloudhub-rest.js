@@ -45,6 +45,12 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
+
+/*
+ * POST /pades-signature-cloudhub-rest
+ * This is the POST request from the index page which 
+ * sends the cpf and the file to be signed
+*/
 router.post("/", async (req, res, next) => {
 	try {
 		const cpf = req.body.cpf;
@@ -52,7 +58,6 @@ router.post("/", async (req, res, next) => {
 
 		// remove all dots and hyphens
 		const new_cpf = cpf.replace(/[.-]/g, "");
-		// console.log("cpf sent: ", new_cpf);
 
 		const sessionRes = await this.client.createSessionAsync({
 			identifier: new_cpf,
@@ -69,6 +74,12 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
+/*
+ * GET /pades-signature-cloudhub-rest/session-result
+ * This page performs the signature process using CloudHub API session
+ * and obtains the user certificate, which is used in Pades signature
+ * process 
+ */
 router.get("/session-result", async (req, res, next) => {
 	try {
 		const session = req.query.session;
@@ -81,6 +92,8 @@ router.get("/session-result", async (req, res, next) => {
 	
 		// Set PDF to be signed.
 		signatureStarter.setPdfToSignFromPath(StorageMock.getDataPath(file));
+		
+		// Set the certificate
 		signatureStarter._signerCertificate = cert;
 	
 		// Set the signature policy.
@@ -102,30 +115,34 @@ router.get("/session-result", async (req, res, next) => {
 				// Set the visual representation to signatureStarter.
 				signatureStarter.visualRepresentation = visualRepresentation;
 	
-				// Call the startWithWebPki() method, which initiates the signature.
-				// This yields the token, a 43-character case-sensitive URL-safe
-				// string, which identifies this signature process. We'll use this
-				// value to call the signWithRestPki() method on the WebPKI component
-				// (see public/js/signature-form.js) and also to complete the signature
-				// after the form is submitted (see post method). This should not be
-				// mistaken with the API access token.
+				// Call the start() method, which initiates the signature.
+				// This yields the hash of the document, the digestAlgorithm used 
+				// for the hash creation function and the token, a 43-character 
+				// case-sensitive URL-safe string, which identifies this signature 
+				// process. We'll use this value to call the signatureFinisher.finish()
+				// method to complete the signature. The token should not be mistaken with 
+				// the API access token.
 				return signatureStarter.start();
 			})
 			.then(async (result) => {
-				console.log("result:", result);
-	
 				var hashRes = await this.client.signHashAsync({
 					hash: result.toSignHash,
 					digestAlgorithmOid: result.digestAlgorithmOid,
 					session: session,
 				});
+				// Get an instance of the PadesSignatureFinisher class, responsible for
+				// completing the signature process.
 				var finisher = new PadesSignatureFinisher(
 					Util.getRestPkiClient()
 				);
+				// set the hash received from signature
 				finisher._signature = hashRes;
+				// set the token
 				finisher.token = result.token;
+				// finish the signature process
 				const finishRes = await finisher.finish();
-	
+				
+				// Get the certificate from the response
 				const signerCert = finishRes.certificate;
 	
 				// The SignatureResult object has functions for writing the signature
