@@ -29,7 +29,7 @@ this.client = new CloudHubClient(
 );
 
 /*
- * GET /authentication-cloudhub-sdk
+ * GET /signature-cloudhub-sdk
  *
  * This page will ask for the user identifier, so it is able to perform a request to
  * the next page, where it will ask which cloud signature service the user wants
@@ -37,7 +37,7 @@ this.client = new CloudHubClient(
 router.get("/", async (req, res, next) => {
 	try {
 		// Render the authentication page.
-		res.render("authentication-cloudhub-sdk", {
+		res.render("signature-cloudhub-sdk", {
 			fileId: req.query.fileId,
 		});
 	} catch (err) {
@@ -56,13 +56,13 @@ router.post("/", async (req, res, next) => {
 
 		const sessionRes = await this.client.createSessionAsync({
 			identifier: new_cpf,
-			redirectUri: `http://localhost:3000/authentication-cloudhub-sdk/session-result?fileId=${fileId}`,
+			redirectUri: `http://localhost:3000/signature-cloudhub-sdk/session-result?fileId=${fileId}`,
 			type: TrustServiceSessionTypes.SingleSignature,
 		});
 
-		res.render("authentication-cloudhub-sdk/service-select", {
-			sessionRes: sessionRes,
-			fileId: fileId,
+		res.render("signature-cloudhub-sdk/service-select", {
+			sessionRes,
+			fileId: fileId
 		});
 	} catch (err) {
 		next(err);
@@ -74,38 +74,34 @@ router.get("/session-result", async (req, res, next) => {
 		const session = req.query.session;
 		const file = req.query.fileId;
 
-		console.log(file);
-
-		const cert = await this.client.getCertificateAsync(session);
-		console.log("cert:", cert);
-
+		cert = await this.client.getCertificateAsync(session);
 		const signatureStarter = new PadesSignatureStarter(
 			Util.getRestPkiClient()
 		);
-
+	
 		// Set PDF to be signed.
 		signatureStarter.setPdfToSignFromPath(StorageMock.getDataPath(file));
 		signatureStarter._signerCertificate = cert;
-
+	
 		// Set the signature policy.
 		signatureStarter.signaturePolicy =
 			StandardSignaturePolicies.PADES_BASIC;
-
+	
 		// Set the security context to be used to determine trust in the certificate
 		// chain. We have encapsulated the security context choice on util.js.
 		signatureStarter.securityContext = Util.getSecurityContextId();
-
+	
 		// Set the unit of measurements used to edit the PDF marks and visual
 		// representations.
 		signatureStarter.measurementUnits = PadesMeasurementUnits.CENTIMETERS;
-
+	
 		// Set the visual representation to the signature. We have encapsulated this
 		// code (on pades-visual-elements.js) to be used on various PAdES examples.
 		PadesVisualElementsRestPki.getVisualRepresentation()
 			.then((visualRepresentation) => {
 				// Set the visual representation to signatureStarter.
 				signatureStarter.visualRepresentation = visualRepresentation;
-
+	
 				// Call the startWithWebPki() method, which initiates the signature.
 				// This yields the token, a 43-character case-sensitive URL-safe
 				// string, which identifies this signature process. We'll use this
@@ -117,7 +113,7 @@ router.get("/session-result", async (req, res, next) => {
 			})
 			.then(async (result) => {
 				console.log("result:", result);
-
+	
 				var hashRes = await this.client.signHashAsync({
 					hash: result.toSignHash,
 					digestAlgorithmOid: result.digestAlgorithmOid,
@@ -129,26 +125,24 @@ router.get("/session-result", async (req, res, next) => {
 				finisher._signature = hashRes;
 				finisher.token = result.token;
 				const finishRes = await finisher.finish();
-
+	
 				const signerCert = finishRes.certificate;
-
+	
 				// The SignatureResult object has functions for writing the signature
 				// file to a local life (writeToFile()) and to get its raw contents
 				// (getContent()). For large files, use writeToFile() in order to avoid
 				// memory allocation issues.
-
+	
 				// Render the result page, showing the signed file and the signer
 				// certification info.
 				StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 				const filename = `${uuidv4()}.pdf`;
-
+	
 				// The SignatureResult object has functions for writing the signature
 				// file to a local life (writeToFile()) and to get its raw contents
 				// (getContent()). For large files, use writeToFile() in order to avoid
 				// memory allocation issues.
-				finishRes
-					.writeToFile(path.join(APP_ROOT, "app-data", filename))
-					.then(() => {
+				finishRes.writeToFile(path.join(APP_ROOT, "app-data", filename)).then(() => {
 						// Render the result page, showing the signed file and the signer
 						// certification info.
 						res.render("pades-signature-restpki/complete", {
@@ -160,6 +154,11 @@ router.get("/session-result", async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
+});
+
+router.get("/complete", async(req, res, next) => {
+
+	
 });
 
 module.exports = router;
