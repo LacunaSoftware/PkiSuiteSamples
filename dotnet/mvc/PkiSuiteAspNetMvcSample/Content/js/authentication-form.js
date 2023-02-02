@@ -27,7 +27,7 @@
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates, // as soon as the component is ready we'll load the certificates
-			defaultError: onWebPkiError // generic error callback on Content/js/app/site.js
+			defaultFail: onWebPkiError // generic error callback on Content/js/app/site.js
 		});
 	}
 
@@ -96,20 +96,23 @@
 		});
 	}
 
-	// -------------------------------------------------------------------------------------------------
-	// Function called if an error occurs on the Web PKI component
-	// -------------------------------------------------------------------------------------------------
-	function onWebPkiError(message, error, origin) {
-		// Unblock the UI
-		$.unblockUI();
-		// Log the error to the browser console (for debugging purposes)
-		if (console) {
-			console.log('An error has occurred on the signature browser component: ' + message, error);
-		}
-		// Show the message to the user. You might want to substitute the alert below with a more user-friendly UI
-		// component to show the error.
-		addAlert('danger', 'An error has occured on the signature browser component: ' + message);
-	}
+	// ---------------------------------------------------------------------------------------------
+    // Function called if an error occurs on the Web PKI component.
+    // ---------------------------------------------------------------------------------------------
+    function onWebPkiError(ex) {
+
+        // Unblock the UI.
+        $.unblockUI();
+
+        // Log the error to the browser console (for debugging purposes).
+        if (console) {
+            console.log('Web PKI error originated at ' + ex.origin + ': (' + ex.code + ') ' + ex.error);
+        }
+
+        // Show the message to the user. You might want to substitute the alert below with a more
+        // user-friendly UI component to show the error.
+        addAlert('danger', ex.userMessage);
+    }
 
 	return {
 		init: init

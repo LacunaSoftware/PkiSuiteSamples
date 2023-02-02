@@ -31,10 +31,9 @@ var signatureStartForm = (function () {
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// https://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
-			// As soon as the component is ready we'll load the certificates.
-			ready: loadCertificates,
-			// Generic error callback (see function (declaration below).
-			defaultError: onWebPkiError
+
+			ready: loadCertificates,// As soon as the component is ready we'll load the certificates.
+			defaultFail: onWebPkiError // Generic error callback (see function (declaration below).
 		});
 
 	}
