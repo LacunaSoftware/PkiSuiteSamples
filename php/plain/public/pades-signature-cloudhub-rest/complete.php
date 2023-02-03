@@ -23,7 +23,7 @@ try {
 	// pades-signature-restpki/index.php).
 	$fileId = $_GET['fileId'];
 	$session = $_GET['session'];
-	$client = new CloudHubClient("https://cloudhub.lacunasoftware.com/", "mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=");
+	$client = Util::getCloudHubClient();
 	$cert = $client->getCertificateAsync($session);
 
 	// Instantiate the PadesSignatureFinisher2 class, responsible for completing the signature process.

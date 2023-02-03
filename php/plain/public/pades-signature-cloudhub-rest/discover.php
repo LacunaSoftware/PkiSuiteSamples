@@ -33,7 +33,7 @@ try {
 
     // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
     // and handling the password flow.
-    $manager = new CloudHubClient("https://cloudhub.lacunasoftware.com/", "mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=");
+    $manager = Util::getCloudHubClient();
     $redirectUri = "http://localhost:8000/pades-signature-cloudhub-rest/complete.php?fileId=". $fileId;
 
     // Discover available PSCs.
@@ -89,16 +89,7 @@ try {
                     <p>Possible reasons include:
                     <ul>
                         <li>The given CPF does not exist on trusted services</li>
-                        <li>The PKI Express was not correctly configured</li>
                     </ul>
-                    </p>
-                    <p>To configure the PKI Express you need to configure all providers by running the
-                        following commands on the terminal: <br />
-                        <code>pkie config --set trustServices:{provider}:clientId={value}</code><br />
-                        <code>pkie config --set trustServices:{provider}:clientSecret={value}</code>
-                    </p>
-                    <p>For customized providers you neet to also configure the endpoint:<br />
-                        <code>pkie config --set trustServices:{provider}:endpoint={value}</code>
                     </p>
                     <p>The standard providers are:
                     <ul>
