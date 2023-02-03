@@ -29,7 +29,7 @@ this.client = new CloudHubClient(
 );
 
 /*
- * GET /pades-signature-cloudhub-rest
+ * GET /pades-signature-cloudhub-restpki
  *
  * This page will ask for the user identifier, so it is able to perform a request to
  * the next page, where it will ask which cloud signature service the user wants
@@ -37,7 +37,7 @@ this.client = new CloudHubClient(
 router.get("/", async (req, res, next) => {
 	try {
 		// Render the authentication page.
-		res.render("pades-signature-cloudhub-rest", {
+		res.render("pades-signature-cloudhub-restpki", {
 			fileId: req.query.fileId,
 		});
 	} catch (err) {
@@ -47,7 +47,7 @@ router.get("/", async (req, res, next) => {
 
 
 /*
- * POST /pades-signature-cloudhub-rest
+ * POST /pades-signature-cloudhub-restpki
  * This is the POST request from the index page which 
  * sends the cpf and the file to be signed
 */
@@ -61,11 +61,11 @@ router.post("/", async (req, res, next) => {
 
 		const sessionRes = await this.client.createSessionAsync({
 			identifier: new_cpf,
-			redirectUri: `http://localhost:3000/pades-signature-cloudhub-rest/session-result?fileId=${fileId}`,
+			redirectUri: `http://localhost:3000/pades-signature-cloudhub-restpki/session-result?fileId=${fileId}`,
 			type: TrustServiceSessionTypes.SingleSignature,
 		});
 
-		res.render("pades-signature-cloudhub-rest/service-select", {
+		res.render("pades-signature-cloudhub-restpki/service-select", {
 			sessionRes,
 			fileId: fileId
 		});
@@ -75,7 +75,7 @@ router.post("/", async (req, res, next) => {
 });
 
 /*
- * GET /pades-signature-cloudhub-rest/session-result
+ * GET /pades-signature-cloudhub-restpki/session-result
  * This page performs the signature process using CloudHub API session
  * and obtains the user certificate, which is used in Pades signature
  * process 
