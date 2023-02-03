@@ -102,22 +102,22 @@ var signatureForm = (function () {
 	}
 
 	// ---------------------------------------------------------------------------------------------
-	// Function called if an error occurs on the Web PKI component.
-	// ---------------------------------------------------------------------------------------------
-	function onWebPkiError(message, error, origin) {
+    // Function called if an error occurs on the Web PKI component.
+    // ---------------------------------------------------------------------------------------------
+    function onWebPkiError(ex) {
 
-		// Unblock the UI.
-		$.unblockUI();
+        // Unblock the UI.
+        $.unblockUI();
 
-		// Log the error to the browser console (for debugging purposes).
-		if (console) {
-			console.log('An error has occurred on the signature browser component: ' + message, error);
-		}
+        // Log the error to the browser console (for debugging purposes).
+        if (console) {
+            console.log('Web PKI error originated at ' + ex.origin + ': (' + ex.code + ') ' + ex.error);
+        }
 
-		// Show the message to the user. You might want to substitute the alert below with a more
-		// user-friendly UI component to show the error.
-		addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
-	}
+        // Show the message to the user. You might want to substitute the alert below with a more
+        // user-friendly UI component to show the error.
+        addAlert('danger', ex.userMessage);
+    }
 
 	return {
 		init: init
