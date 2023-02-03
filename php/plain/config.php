@@ -90,13 +90,13 @@ function getConfig()
         'cloudHub' => [
 
             // ====================================================
-            //     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
+            //     >>>> PASTE YOUR CLOUDHUB ACCESS TOKEN BELOW <<<<
             // ====================================================
             'apiKey' => 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=',
             // This is a TRIAL token. It will be expired at 31/03/2023.
-            // If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
+            // If the CLOUDHUB sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
-            // Address of your Rest PKI installation (with the trailing '/' character)
+            // Address of your CLOUDHUB installation (with the trailing '/' character)
             "endpoint" => 'https://cloudhub.lacunasoftware.com/',
         ],
 
