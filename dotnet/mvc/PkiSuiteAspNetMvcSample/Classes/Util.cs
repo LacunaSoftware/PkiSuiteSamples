@@ -1,4 +1,5 @@
-﻿using Lacuna.Pki;
+﻿using Lacuna.Cloudhub.Client;
+using Lacuna.Pki;
 using Lacuna.Pki.BrazilTrustServices;
 using Lacuna.Pki.Stores;
 using Lacuna.RestPki.Api;
@@ -205,6 +206,29 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		}
 
 		#endregion
+
+		#region CloudHub
+
+
+		public static CloudhubClient GetCloudhubClient()
+		{
+			var apiKey = ConfigurationManager.AppSettings["CloudHubApiKey"];
+			if (string.IsNullOrEmpty(apiKey) || apiKey.Contains(" API KEY "))
+			{
+				throw new Exception("The API key was not set!");
+			}
+			var endpoint = ConfigurationManager.AppSettings["CloudHubEndpoint"];
+			if (string.IsNullOrEmpty(endpoint))
+			{
+				endpoint = "https://cloudhub.lacunasoftware.com/";
+			}
+
+			var client = new CloudhubClient(endpoint, apiKey);
+			return client;
+		}
+
+		#endregion
+
 
 		public static string JoinStringsPt(IEnumerable<string> strings) {
 			var text = new System.Text.StringBuilder();

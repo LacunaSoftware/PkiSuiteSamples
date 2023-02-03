@@ -88,12 +88,10 @@ function getConfig()
         // CloudHub
         // -----------------------------------------------------------------------------------------
         'cloudHub' => [
-
             // ====================================================
-            //     >>>> PASTE YOUR CLOUDHUB ACCESS TOKEN BELOW <<<<
+            //     >>>> PASTE YOUR CLOUDHUB API KEY BELOW <<<<
             // ====================================================
             'apiKey' => 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=',
-            // This is a TRIAL token. It will be expired at 31/03/2023.
             // If the CLOUDHUB sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
             // Address of your CLOUDHUB installation (with the trailing '/' character)

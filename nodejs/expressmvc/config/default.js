@@ -74,7 +74,16 @@ module.exports = {
 		// This mode is useful when there is no network available.
 		offline: false
 	},
+	cloudhub: {
+            // ====================================================
+            //     >>>> PASTE YOUR CLOUDHUB API KEY BELOW <<<<
+            // ====================================================
+            apiKey: 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=',
+            // If the CLOUDHUB sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
+            // Address of your CLOUDHUB installation (with the trailing '/' character)
+            endpoint: 'https://cloudhub.lacunasoftware.com/'
+	},
 	// --------------------------------------------------------------------------
 	// Web PKI
 	// --------------------------------------------------------------------------

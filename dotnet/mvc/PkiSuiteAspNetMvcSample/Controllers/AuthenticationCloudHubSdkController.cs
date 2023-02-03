@@ -21,7 +21,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
     {
 
         private const string RedirectUrl = "http://localhost:54123/AuthenticationCloudHubSdk/CloudHubCallBack";
-        CloudhubClient cloudhubClient = new CloudhubClient("https://cloudhub.lacunasoftware.com", "ftulJuCci2cUjkdecTu/fAsUePv8ahga+CRvgKPFmCc=");
+        CloudhubClient cloudhubClient = Util.GetCloudhubClient();
 
         [HttpGet]
         public ActionResult Index()
