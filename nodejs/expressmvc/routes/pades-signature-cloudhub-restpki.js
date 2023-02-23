@@ -23,10 +23,7 @@ const app = express();
 const router = express.Router();
 const APP_ROOT = process.cwd();
 
-this.client = new CloudHubClient(
-	"https://cloudhub.lacunasoftware.com",
-	"mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo="
-);
+this.client = Util.getCloudhubClient();
 
 /*
  * GET /pades-signature-cloudhub-restpki
