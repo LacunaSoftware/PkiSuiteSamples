@@ -12,6 +12,7 @@ public class ApplicationProperties {
 	private PkiExpressProperties pkiExpress;
 	private AmpliaProperties amplia;
 	private ProxyProperties proxy;
+	private CloudhubProperties cloudhub;
 
 	@Value("${trustLacunaTestRoot}")
 	private boolean trustLacunaTestRoot;
@@ -86,6 +87,15 @@ public class ApplicationProperties {
 
 	public boolean trustLacunaTestRoot() {
 		return trustLacunaTestRoot;
+	}
+
+	public CloudhubProperties getCloudhub() {
+		return cloudhub;
+	}
+
+	@Autowired
+	public void setCloudhub(CloudhubProperties cloudhub) {
+		this.cloudhub = cloudhub;
 	}
 
 	public void setTrustLacunaTestRoot(boolean trustLacunaTestRoot) {

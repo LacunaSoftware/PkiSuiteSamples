@@ -93,6 +93,20 @@ pki-express:
   # Default password to be used on generating a PKCS #12 file.
   pkcs12Password: 'AdF7Hf3XQTEjtFbeQxPQ8j2SudAzFf9cDfY4gLne8UTvLKp7sqT7mMaVEyme2PymsqUWtyTYQsy7AMjRjvghejqcA4CbSZTRuf4ZZSNKXrusDUtuWaJAWGeB8m8Tqmak'
 
+cloudhub:
+  # ======================================================
+  #     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
+  # ======================================================
+  apiKey: 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo='
+  # This is a TRIAL key. It will expire at 31/03/2023
+  # If the REST PKI's samples do not work, please contact our support by
+  # email: suporte@lacunasoftware.com
+
+  # In order to use this sample on a "on premises" installation of REST PKI, fill the field below
+  # with the URL address of your REST PKI Core installation (with the trailing '/' character)
+  endpoint: null
+
+
 # Web PKI parameters
 web-pki:
   # Base64-encoded binary license for the Web PKI. This value is passed to Web PKI component's
