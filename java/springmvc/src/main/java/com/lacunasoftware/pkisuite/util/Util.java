@@ -1,7 +1,6 @@
 package com.lacunasoftware.pkisuite.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 import com.lacunasoftware.amplia.AmpliaClient;
 import com.lacunasoftware.pkiexpress.PkiExpressOperator;
 import com.lacunasoftware.pkiexpress.TimestampAuthority;
@@ -65,7 +64,7 @@ public class Util {
 
 		String endpoint = getProperties().getRestPki().getEndpoint();
 		if (endpoint == null || endpoint.length() == 0) {
-			endpoint = "https://pki.rest/";
+			endpoint = "https://pkiee.rest/";
 		}
 
 		return new RestPkiClient(endpoint, accessToken, proxy);
