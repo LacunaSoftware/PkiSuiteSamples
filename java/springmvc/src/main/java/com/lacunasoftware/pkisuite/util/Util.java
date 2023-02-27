@@ -64,7 +64,7 @@ public class Util {
 
 		String endpoint = getProperties().getRestPki().getEndpoint();
 		if (endpoint == null || endpoint.length() == 0) {
-			endpoint = "https://pkiee.rest/";
+			endpoint = "https://pki.rest/";
 		}
 
 		return new RestPkiClient(endpoint, accessToken, proxy);
