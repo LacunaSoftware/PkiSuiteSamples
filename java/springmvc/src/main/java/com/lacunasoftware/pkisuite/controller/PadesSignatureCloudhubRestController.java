@@ -25,18 +25,18 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 @Controller
 public class PadesSignatureCloudhubRestController {
 	// Redirect URL where it's accessed after OAuth flow is finished.
-	private final String REDIRECT_URL = "http://localhost:60695/pades-signature-cloudhub-rest/complete";
 	private SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
-	
 
-		
+
+
 
 	// Configure API key authorization: ApiKey
-    
+
     /**
 	 * GET /pades-signature-cloudhub-rest
 	 *
@@ -48,12 +48,13 @@ public class PadesSignatureCloudhubRestController {
 	public ModelAndView get(
 		@RequestParam(value = "fileId") String fileToSign
 	) throws IOException, RestException {
-        // Verify if the fileId exists and get the absolute path of the fileId with the help of our
+
+
+		// Verify if the fileId exists and get the absolute path of the fileId with the help of our
 		// StorageMock class. This sample can only execute if the provided file exists.
 		if (!StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
-
 		/**
 	 	* This action will render a page that request a CPF to the user. This CPF is used to discover
 	 	* which PSCs have a certificate containing that CPF.
@@ -81,15 +82,17 @@ public class PadesSignatureCloudhubRestController {
 		// Process cpf, removing all formatting.
 		String plainCpf = cpf.replaceAll("[.-]", "");
 
+		String REDIRECT_URL = "http://localhost:60695/pades-signature-cloudhub-rest/complete?fileId=" + fileToSign ;
+
 	    SessionCreateRequest sessionCreateRequest = new SessionCreateRequest();
 		sessionCreateRequest.setIdentifier(plainCpf);
     	sessionCreateRequest.setRedirectUri(REDIRECT_URL);
     	sessionCreateRequest.setType(TrustServiceSessionTypes.NUMBER_1);
-		
+
 		// Discover PSCs and receive a URL to redirect the user to perform the OAuth authentication
 		// page. As mentioned before, we pass the id of the file to be signed as the last parameter
 		// of the following method. The next action will recover this information.
-		
+
 		SessionModel result = sessionsApi.apiSessionsPost(sessionCreateRequest);
 
 		// Render complete page.
@@ -105,14 +108,14 @@ public class PadesSignatureCloudhubRestController {
 	 */
 	@GetMapping("/pades-signature-cloudhub-rest/complete")
 	public ModelAndView complete(
-		@RequestParam(value="session", required = false) String session,
 		@RequestParam(value="fileId") String fileToSign,
+		@RequestParam(value="session", required = false) String session,
 		Model model
 	) throws IOException, ApiException, RestException {
 
 		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
 		// and handling the OAuth flow.
-		byte[] certificate = sessionsApi.apiSessionsCertificateGet(session);
+		byte[] certificate =  sessionsApi.apiSessionsCertificateGet(session);
 
 		// Verify if the provided fileToSign exists.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
@@ -125,6 +128,10 @@ public class PadesSignatureCloudhubRestController {
 
 		// Set the unit of measurement used to edit the pdf marks and visual representations.
 		signatureStarter.setMeasurementUnits(PadesMeasurementUnits.Centimeters);
+
+		String cert = Base64.getEncoder().encodeToString(certificate);
+
+		signatureStarter.setSignerCertificateBase64(cert);
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PadesBasic);
@@ -139,28 +146,7 @@ public class PadesSignatureCloudhubRestController {
 		// Set the PDF to be signed.
 		signatureStarter.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
-		// Optionally, add marks to the PDF before signing. These differ from the signature visual
-		// representation in that they are actually changes done to the document prior to signing,
-		// not binded to any signature. Therefore, any number of marks can be added, for instance one
-		// per page, whereas there can only be one visual representation per signature. However,
-		// since the marks are in reality changes to the PDF, they can only be added to documents
-		// which have no previous signatures, otherwise such signatures would be made invalid by the
-		// changes to the document (see field bypassMarksIfSigned of PadesSignatureStarter2). This
-		// problem does not occur with signature visual representations.
-		//
-		// We have encapsulated this code in a method to include several possibilities depending on
-		// the argument passed. Experiment changing the argument to see different examples of PDF
-		// marks (valid values are 1-4). Once you decide which is best for your case, you can place
-		// the code directly here.
-		//signatureStarter.addPdfMark(PadesVisualElements.getPdfMark(1));
 
-		// Call the startWithWebPki() method, which initiates the signature. This yields a
-		// SignatureStartWithWebPkiResult object containing the signer certificate and the token,
-		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
-		// We'll use this value to call the signWithRestPki() method on the Web PKI component
-		// (see file static/js/signature-form.js) and also to complete the signature after the form
-		// is submitted (see method complete() below). This should not be mistaken with the API
-		// access token.
 		SignatureStartResult signStartResult = signatureStarter.start();
 		SignHashRequest signHashRequest = new SignHashRequest();
 		signHashRequest.setSession(session);
@@ -172,7 +158,7 @@ public class PadesSignatureCloudhubRestController {
 		// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
 		// signature process.
 		PadesSignatureFinisher2 signatureFinisher = new PadesSignatureFinisher2(Util.getRestPkiClient());
-		
+
 		// Set the token for this signature (rendered in a hidden input field, see file
 		// templates/pades-signature.html).
 		signatureFinisher.setToken(signStartResult.getToken());
