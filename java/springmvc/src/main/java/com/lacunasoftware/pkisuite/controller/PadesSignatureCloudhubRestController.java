@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Base64;
+
 
 @Controller
 public class PadesSignatureCloudhubRestController {
@@ -87,7 +89,7 @@ public class PadesSignatureCloudhubRestController {
 	    SessionCreateRequest sessionCreateRequest = new SessionCreateRequest();
 		sessionCreateRequest.setIdentifier(plainCpf);
     	sessionCreateRequest.setRedirectUri(REDIRECT_URL);
-    	sessionCreateRequest.setType(TrustServiceSessionTypes.NUMBER_1);
+    	sessionCreateRequest.setType(TrustServiceSessionTypes.SINGLE_SIGNATURE);
 
 		// Discover PSCs and receive a URL to redirect the user to perform the OAuth authentication
 		// page. As mentioned before, we pass the id of the file to be signed as the last parameter
@@ -107,7 +109,7 @@ public class PadesSignatureCloudhubRestController {
 	 * @throws RestException
 	 */
 	@GetMapping("/pades-signature-cloudhub-rest/complete")
-	public ModelAndView complete(
+	public String complete(
 		@RequestParam(value="fileId") String fileToSign,
 		@RequestParam(value="session", required = false) String session,
 		Model model
@@ -117,11 +119,11 @@ public class PadesSignatureCloudhubRestController {
 		// and handling the OAuth flow.
 		byte[] certificate =  sessionsApi.apiSessionsCertificateGet(session);
 
+
 		// Verify if the provided fileToSign exists.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
-
 		// Get an instance of the PadesSignatureStarter2 class, responsible for receiving the
 		// signature elements and start the signature process.
 		PadesSignatureStarter2 signatureStarter = new PadesSignatureStarter2(Util.getRestPkiClient());
@@ -129,9 +131,8 @@ public class PadesSignatureCloudhubRestController {
 		// Set the unit of measurement used to edit the pdf marks and visual representations.
 		signatureStarter.setMeasurementUnits(PadesMeasurementUnits.Centimeters);
 
-		String cert = Base64.getEncoder().encodeToString(certificate);
-
-		signatureStarter.setSignerCertificateBase64(cert);
+		// Set certificate obtained from the cloud provider
+		signatureStarter.setSignerCertificateBase64(new String(certificate).replaceAll("\"", ""));
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PadesBasic);
@@ -146,7 +147,6 @@ public class PadesSignatureCloudhubRestController {
 		// Set the PDF to be signed.
 		signatureStarter.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
-
 		SignatureStartResult signStartResult = signatureStarter.start();
 		SignHashRequest signHashRequest = new SignHashRequest();
 		signHashRequest.setSession(session);
@@ -160,11 +160,11 @@ public class PadesSignatureCloudhubRestController {
 		PadesSignatureFinisher2 signatureFinisher = new PadesSignatureFinisher2(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see file
-		// templates/pades-signature.html).
+	// templates/pades-signature.html).
 		signatureFinisher.setToken(signStartResult.getToken());
 
 		// Set the signature
-		signatureFinisher.setSignature(signHashResponse);
+		signatureFinisher.setSignature(SessionsApi.convertToSignHashToByteArray64(signHashResponse));
 
 		// Call the finish() method, which finalizes the signature process and returns a
 		// SignatureResult object.
@@ -189,7 +189,7 @@ public class PadesSignatureCloudhubRestController {
 		// Render the signature page (templates/pades-signature-rest/signature-info.html).
 		model.addAttribute("signerCert", signerCert);
 		model.addAttribute("signedPdf", signedPdf);
-		return new ModelAndView("pades-signature-cloudhub-rest/signature-info");
+		return "pades-signature-cloudhub-rest/signature-info";
 	}
 
 }
