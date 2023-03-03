@@ -1,7 +1,7 @@
 const {
 	CloudHubClient,
 	TrustServiceSessionTypes,
-} = require("cloudhubnodeclient");
+} = require("cloudhub-client");
 const express = require("express");
 const { Util } = require("../util");
 const {

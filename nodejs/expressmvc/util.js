@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const { AmpliaClient } = require("amplia-client");
 const { Config } = require('./config');
 const { StorageMock } = require('./storage-mock');
-const { CloudHubClient } = require('cloudhubnodeclient');
+const { CloudHubClient } = require('cloudhub-client');
 
 class Util {
 	// region REST PKI Configuration

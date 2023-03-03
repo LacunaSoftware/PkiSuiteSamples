@@ -8,7 +8,7 @@
   "dependencies": {
     "amplia-client": "^1.2.0",
     "body-parser": "~1.18.3",
-    "cloudhubnodeclient": "^1.0.4-rc1",
+    "cloudhub-client": "^1.0.0",
     "debug": "~2.6.9",
     "express": "^4.16.4",
     "express-session": "~1.15.6",
