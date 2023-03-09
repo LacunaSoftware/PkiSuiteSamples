@@ -232,6 +232,74 @@ class StorageMock
         return null;
     }
 
+    static function generateVerificationCode()
+    {
+        /*
+     * Configuration of the code generation
+     * ------------------------------------
+     *
+     * - CodeSize   : size of the code in characters.
+     *
+     * Entropy
+     * -------
+     *
+     * The resulting entropy of the code in bits is the size of the code times 4. Here are some suggestions:
+     *
+     * - 12 characters = 48 bits
+     * - 16 characters = 64 bits
+     * - 20 characters = 80 bits
+     * - 24 characters = 92 bits
+     */
+        $codeSize = 16;
+
+        // Generate the entropy with PHP's pseudo-random bytes generator function.
+        $numBytes = floor($codeSize / 2);
+        $randInt = openssl_random_pseudo_bytes($numBytes);
+
+        return strtoupper(bin2hex($randInt));
+    }
+
+    static function formatVerificationCode($code)
+    {
+        /*
+     * Examples
+     * --------
+     *
+     * - CodeSize = 12, CodeGroups = 3 : XXXX-XXXX-XXXX
+     * - CodeSize = 12, CodeGroups = 4 : XXX-XXX-XXX-XXX
+     * - CodeSize = 16, CodeGroups = 4 : XXXX-XXXX-XXXX-XXXX
+     * - CodeSize = 20, CodeGroups = 4 : XXXXX-XXXXX-XXXXX-XXXXX
+     * - CodeSize = 20, CodeGroups = 5 : XXXX-XXXX-XXXX-XXXX-XXXX
+     * - CodeSize = 25, CodeGroups = 5 : XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+     */
+        $codeGroups = 4;
+
+        // Return the code separated in groups.
+        $charsPerGroup = (strlen($code) - (strlen($code) % $codeGroups)) / $codeGroups;
+        $text = '';
+        for ($ind = 0; $ind < strlen($code); $ind++) {
+            if ($ind != 0 && $ind % $charsPerGroup == 0) {
+                $text .= '-';
+            }
+            $text .= $code[$ind];
+        }
+
+        return $text;
+    }
+
+    static function parseVerificationCode($code)
+    {
+        $text = '';
+        for ($ind = 0; $ind < strlen($code); $ind++) {
+            if ($code[$ind] != '-') {
+                $text .= $code[$ind];
+            }
+        }
+
+        return $text;
+    }
+
+
     static function createAppData()
     {
         if (!file_exists(StorageMock::APP_DATA_PATH)) {
@@ -314,4 +382,16 @@ class StorageMock
         // Log
         file_put_contents($filePath, $data, FILE_APPEND);
     }
+
+    public static function getValidationResultIcon($isValid)
+    {
+        $filename = $isValid ? 'ok.png' : 'not-ok.png';
+        return file_get_contents('../../resources/' . $filename);
+    }
+
+    public static function getIcpBrasilLogoContent()
+    {
+        return file_get_contents('../../resources/icp-brasil.png');
+    }
+    
 }

@@ -164,5 +164,24 @@ class Util {
     {
         return date('Y-m-d', strtotime("+{$years} years"));
     }
+
+    public static function joinStringsPt($strings)
+    {
+        $text = '';
+        $count = count($strings);
+        $index = 0;
+        foreach ($strings as $s) {
+            if ($index > 0) {
+                if ($index < $count - 1) {
+                    $text .= ', ';
+                } else {
+                    $text .= ' e ';
+                }
+            }
+            $text .= $s;
+            ++$index;
+        }
+        return $text;
+    }
 }
 
