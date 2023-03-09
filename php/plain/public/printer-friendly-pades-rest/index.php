@@ -30,7 +30,7 @@ $verificationSite = 'http://localhost:8000';
 
 // Format of the verification link, without the verification code, that is added on generatePrinterFriendlyVersion()
 // method.
-$verificationLinkFormat = 'http://localhost:8000/check.php?c=';
+$verificationLinkFormat = 'http://localhost:8000/open-pades-rest.php?fileId=';
 
 // "Normal" font size. Sizes of header fonts are defined based on this size.
 $normalFontSize = 12;
@@ -414,8 +414,6 @@ function _getSignerDescription($signer)
         <h3>Actions:</h3>
         <ul>
             <li><a href="/download?fileId=<?= $filename ?>">Download the signed file</a></li>
-            <li><a href="/open-pades-rest?fileId=<?= $filename ?>">Open/validate the signed file</a></li>
-            <li><a href="/pades-signature-rest?fileId=<?= $filename ?>">Co-sign with another certificate</a></li>
         </ul>
     </div>
 
