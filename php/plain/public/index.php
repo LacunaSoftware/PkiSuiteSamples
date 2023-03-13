@@ -37,9 +37,11 @@
         // listCert: { },
         // mergeCmsSigs: { },
         // printerFriendlyCms: { },
-        // printerFriendlyPdf: { },
         // readCert: { },
         // rsa: { },
+        printerFriendlyPdf: {
+            restpki: '/check-rest-token.php?rc=server-files&fwd=printer-friendly-pades&op=printerFriendly' 
+        },
         signCmsServer: {
             express: '/check-express.php?rc=server-files&fwd=cades-signature&op=signCms',
             restpki: '/check-rest-token.php?rc=server-files&fwd=cades-signature&op=signCms'
