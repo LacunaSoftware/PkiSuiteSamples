@@ -84,6 +84,19 @@ function getConfig()
             # Default password to be used on generating a PKCS #12 file.
             "pkcs12Password" => "FZQkTVLy2MErFCu2H0e8Lq9QPW2cqEgMrp/PES9m5JZ9xej6mCheNtuK8bj/qLhMsV4PvPg2w964A8E/N2WaYA",
         ),
+        // -----------------------------------------------------------------------------------------
+        // CloudHub
+        // -----------------------------------------------------------------------------------------
+        'cloudHub' => [
+            // ====================================================
+            //     >>>> PASTE YOUR CLOUDHUB API KEY BELOW <<<<
+            // ====================================================
+            'apiKey' => 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=',
+            // If the CLOUDHUB sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
+
+            // Address of your CLOUDHUB installation (with the trailing '/' character)
+            "endpoint" => 'https://cloudhub.lacunasoftware.com/',
+        ],
 
         // -----------------------------------------------------------------------------------------
         // Web PKI

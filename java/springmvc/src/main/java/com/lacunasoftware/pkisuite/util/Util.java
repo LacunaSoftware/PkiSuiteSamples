@@ -10,6 +10,10 @@ import com.lacunasoftware.pkisuite.config.ApplicationProperties;
 import com.lacunasoftware.pkisuite.config.ProxyProperties;
 import com.lacunasoftware.restpkicore.RestPkiOptions;
 
+import cloudhub.SessionsApi;
+import cloudhub.client.CloudhubClient;
+import cloudhub.client.Configuration;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.Authenticator;
@@ -60,7 +64,7 @@ public class Util {
 
 		String endpoint = getProperties().getRestPki().getEndpoint();
 		if (endpoint == null || endpoint.length() == 0) {
-			endpoint = "https://pki.rest/";
+			endpoint = "http://pki.rest/";
 		}
 
 		return new RestPkiClient(endpoint, accessToken, proxy);
@@ -217,6 +221,32 @@ public class Util {
 		// accept the test certificate provide by Lacuna Software.
 		operator.setTrustLacunaTestRoot(getProperties().trustLacunaTestRoot());
 		// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+	}
+
+	//endregion
+
+	//region Cloubhub
+
+	public static CloudhubClient getCloudhubClient() {
+		String apiKey = getProperties().getCloudhub().getApiKey();
+
+		// Throw exception if api key is not set (this check is here just for the sake of newcomers,
+		// you can remove it).
+		if (isNullOrEmpty(apiKey) || apiKey.contains(" API KEY ")) {
+			throw new RuntimeException("The API key was not set! Hint: to run this sample " +
+					"you must generate an API key by contacting this e-mail (suporte@lacunasoftware.com) and paste it on the " +
+					"file src/main/resources/application.yml");
+		}
+
+		String endpoint = getProperties().getAmplia().getEndpoint();
+		if (endpoint == null || endpoint.length() == 0) {
+			endpoint = "https://cloudhub.lacunasoftware.com/";
+		}
+
+		CloudhubClient CloudhubClient = new CloudhubClient(endpoint, apiKey);
+
+		// Return an instance of AmpliaClient class, passing the endpoint and the API key.
+		return CloudhubClient;
 	}
 
 	//endregion

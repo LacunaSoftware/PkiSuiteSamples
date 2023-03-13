@@ -27,6 +27,7 @@ module.exports = {
 		// ========================================================
 		//     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
 		// ========================================================
+
 		accessToken: 'wAYhZlI6FC52gTNLTbgb2XK8Ff9UohswNXvg_m7xXsm0zqL3gznc1YDARA5SJK9T3EJ0cRW-JOF2_fkj-tUdN684kHhDqLrdzkpq0KFnWC5UUnYZ3m2mrHw2ubRRKr8vyLpWzZNJlq-ljJzIBYH2B6msPS8pO0vXz8J_ee_tu2z6-oYm6ZapKgW8QgkhPDXnTEoWOp7pc6BQls_bUorELaexWJ2rLWVbC4zJ4RNsLjvXR4A9bafESgKBflV2ffrxjjj5PPdOnL3g7ASeGnyGE2Ne1H0ynKrrgZg8W7FHdmMw3nWli4ineGE86RYVMOYA-4zzmDCZ9PV0GJbpao_0SuYycYt21xVV3HPkQU8ToagZ2x98hVZCitbskorky4pR02xWO4NWHtNt3k7dYXcwg6tIgDM1LHFiuo0ucc3Xt3UQxOEsoFTz-8v6PcYZeXKjlQ25lqfuZsACHUVrlvClc_uxhmaLCWVkuYm7pOK0JW_hmjaipXYwO_NX525oi8Rb4MYYow',
 		// This is a TRIAL token. It will be expired at 31/03/2023.
 		// If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
@@ -73,7 +74,16 @@ module.exports = {
 		// This mode is useful when there is no network available.
 		offline: false
 	},
+	cloudhub: {
+            // ====================================================
+            //     >>>> PASTE YOUR CLOUDHUB API KEY BELOW <<<<
+            // ====================================================
+            apiKey: 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo=',
+            // If the CLOUDHUB sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
+            // Address of your CLOUDHUB installation (with the trailing '/' character)
+            endpoint: 'https://cloudhub.lacunasoftware.com/'
+	},
 	// --------------------------------------------------------------------------
 	// Web PKI
 	// --------------------------------------------------------------------------

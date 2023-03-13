@@ -57,7 +57,24 @@ Or informing on your project's `package.json` file:
   }
 }
 ```
-    
+
+Cloudhub's client lib
+---------------------
+This library contains classes that encapsulate the calls to the Cloudhub API.
+
+The recommend way to install **Cloudhub client library** is through [npm](https://www.npmjs.com/):
+
+    $ npm install cloudhub-client
+
+Or informing on your project's `package.json` file:
+
+    {
+      ...
+      "dependencies": {
+        "cloudhub-client": "1.0.0"
+      }
+    }
+
 
 PKI Express's helper library
 ----------------------------

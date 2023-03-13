@@ -98,7 +98,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		/**
 		 * GET /PadesCloudOauthSdk/Complete
 		 * 
-		 * This action will complete the authentication process and create a signature using a session
+		 * This action will complete the authentication process and create a signature using a sessionRequest
 		 * token returned by user. Also, we recover the parameter "customState" containing the id of the
 		 * file that will be signed.
 		 */
@@ -112,7 +112,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// and handling the OAuth flow.
 				var manager = Util.GetTrustServicesManager();
 
-				// Complete the authentication process, recovering the session info to be used on the
+				// Complete the authentication process, recovering the sessionRequest info to be used on the
 				// signature and the custom state (fileId).
 				var completeAuthResult = await manager.CompleteAuthAsync(code, state);
 

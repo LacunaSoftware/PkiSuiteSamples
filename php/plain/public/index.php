@@ -53,10 +53,10 @@
         signCmsServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=cades-server-key'
         },
-        signCod: { 
+        signCod: {
             express: '/check-express.php?rc=xml-cod-signature'
         },
-        signMultiCmsServer: { 
+        signMultiCmsServer: {
             express: '/check-express.php?rc=batch-cades-signature'
         },
         // signMultiCmsUser: { },
@@ -69,6 +69,9 @@
             express: '/check-express.php?rc=xml-nfe-signature',
             restpki: '/check-rest-token.php?rc=xml-nfe-signature'
         },
+        signXml: {
+            restpki: '/check-rest-token.php?rc=xml-doc-signature-rest'
+        },
         signPdfServer: {
             express: '/check-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
             restpki: '/check-rest-token.php?rc=server-files&fwd=pades-signature&op=signPdf'
@@ -76,6 +79,12 @@
         signPdfUser: {
             express: '/check-express.php?rc=upload.php&fwd=pades-signature',
             restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-signature'
+        },
+        signPdfCloudhubUser: {
+            restpki: "/check-rest-token.php?rc=upload.php&fwd=pades-signature-cloudhub&op=signPdf"
+        },
+         signPdfCloudhubServer: {
+            restpki: "/check-rest-token.php?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
         },
         signPdfServerKey: {
             express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
@@ -107,7 +116,7 @@
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.68fb853868236af9.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.d0ed0ad9989987d2.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.5a253d735bf0e472.js"></script>
 
 </body>
 </html>

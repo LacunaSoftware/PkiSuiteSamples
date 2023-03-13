@@ -7,9 +7,8 @@
   },
   "dependencies": {
     "amplia-client": "^1.2.0",
-    "pki-express": "^1.12.0",
-    "restpki-client": "^2.3.1",
     "body-parser": "~1.18.3",
+    "cloudhub-client": "^1.0.0",
     "debug": "~2.6.9",
     "express": "^4.16.4",
     "express-session": "~1.15.6",
@@ -19,7 +18,9 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.1",
     "pdfkit": "^0.11.0",
+    "pki-express": "^1.12.0",
     "pug": "~2.0.3",
+    "restpki-client": "^2.3.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

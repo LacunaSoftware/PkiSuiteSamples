@@ -81,6 +81,12 @@
 			express: '/check-express?rc=upload&fwd=pades-signature',
 			restpki: '/check-rest-token?rc=upload&fwd=pades-signature'
 		},
+		signPdfCloudhubUser: {
+            restpki: "/check-rest-token?rc=upload&fwd=pades-signature-cloudhub&op=signPdf"
+        },
+         signPdfCloudhubServer: {
+            restpki: "/check-rest-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
+        },
 		signPdfServerKey: {
 			express: '/check-express?rc=upload&fwd=pades-server-key'
 		},
@@ -118,7 +124,7 @@
 </script>
 <script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 <script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.68fb853868236af9.js"></script>
-<script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.d0ed0ad9989987d2.js"></script>
+<script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.5a253d735bf0e472.js"></script>
 <!-- endregion -->
 
 </body>

@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const { AmpliaClient } = require("amplia-client");
 const { Config } = require('./config');
 const { StorageMock } = require('./storage-mock');
+const { CloudHubClient } = require('cloudhub-client');
 
 class Util {
 	// region REST PKI Configuration
@@ -158,6 +159,36 @@ class Util {
 		//
 		// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
 		operator.trustLacunaTestRoot = Config.getInstance().get('trustLacunaTestRoot');
+	}
+
+	// endregion
+
+
+	// region Cloudhub Configuration
+
+	/**
+	 * Creates an instance of the Cloudhub class, use to connect to Cloudhub
+	 * on every sample using the Cloudhub client library.
+	 */
+	 static getCloudhubClient() {
+		// Get configuration from config/{env}.js file. It will choose the
+		// desirable configuration according to the environment of the
+		// application.
+		const CONFIG = Config.getInstance().get('cloudhub');
+
+		// Get your API key and endpoint values from used configuration file.
+		const apiKey = CONFIG['apiKey'];
+		const endpoint = CONFIG['endpoint'];
+
+		// Throw exception if API key is not set (this check is here just for the
+		// sake of newcomers, you can remove it).
+		if (!apiKey || apiKey.indexOf(' API KEY ') >= 0) {
+			throw new Error('The Cloudhub API key was not set! Hint: to '
+				+ 'run this sample you must generate an API key on the '
+				+ 'config/default.js.');
+		}
+
+		return new CloudHubClient(endpoint, apiKey);
 	}
 
 	// endregion
