@@ -56,6 +56,7 @@ Or informing on your project's `package.json` file:
     "amplia-client": "1.2.0"
   }
 }
+
 ```
 
 Cloudhub's client lib
