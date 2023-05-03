@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Issue a Attribute certificate storing the key on the server with Amplia</h2>
+
+	<div class="ls-content">
+
+		<form id="issueForm" method="POST">
+			<h4>ICP-Brasil Certificate</h4>
+
+			<div class="form-group">
+				<label>Name</label>
+				<div class="row">
+					<div class="col col-sm-4">
+						<input id="NameField" name="Name" class="form-control" type="text" placeholder="Name" th:required="required" />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Degree</label>
+				<div class="row">
+					<div class="col col-sm-2">
+						<input id="DegreeField" name="Degree" class="form-control" type="text" placeholder="Degree" th:required="required" />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Registration Number</label>
+				<div class="row">
+					<div class="col col-sm-2">
+						<input id="registrationNumberField" name="registrationNumber" class="form-control" type="text" placeholder="Number" th:required="required" />
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>Course</label>
+				<div class="row">
+					<div class="col col-sm-2">
+						<input id="CourseField" name="Course" class="form-control" type="text" placeholder="Course" th:required="required" />
+					</div>
+				</div>
+			</div>
+
+			<button id="issueButton" class="btn btn-primary">Issue Certificate</button>
+		</form>
+
+	</div>
+</div>
+</body>
+</html>

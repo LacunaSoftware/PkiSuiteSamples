@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Issue a certificate storing the key on the user's machine with Amplia</h2>
+	<h5 class="ls-subtitle">The certificate was successful issued <i class="fas fa-check-circle text-success"></i></h5>
+
+	<div class="ls-content">
+
+		<p>
+			Certificate Information:
+			<ul>
+				<li><strong>Subject</strong>: <span th:text="${model.getCertificate().getSubjectName().getCommonName()}"/></li>
+				<li><strong>CPF</strong>: <span th:text="${model.getCertificate().getParameters().getCpfFormatted()}"/></li>
+			</ul>
+		</p>
+
+		<h3>Actions:</h3>
+		<ul>
+			<li><a th:href="@{'/download/cert/' + ${model.getCertificate().getId()}}">Download the .CER file</a></li>
+			<li><a th:href="@{upload(rc='pades-server-key-express', certId=${model.getCertificate().getId()})}">Use the certificate to sign a PDF using PKI Express</a></li>
+		</ul>
+	</div>
+</div>
+
+</body>
+</html>
