@@ -6,14 +6,12 @@ import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.threeten.bp.Instant;
 
 
 @Controller
@@ -50,27 +48,23 @@ public class IssueCertAttributeAmpliaController{
 		// - The phone number, used to confirm the user identity.
 		CieCertificateParameters parameters = new CieCertificateParameters();
 		parameters.setName(request.getName());
-		parameters.setCpf("949494838383");
-		parameters.setEEA("kkkk to maluco");
 		parameters.setDegree(request.getDegree());
 		parameters.setRegistrationNumber(request.getRegistrationNumber());
 		parameters.setCourse(request.getCourse());
-		CieInstitutionModel institutionModel = new CieInstitutionModel();
-		institutionModel.setName("AAA");
-		institutionModel.setCity("Brasilia");
-		institutionModel.setState("DF");
-		parameters.setInstitution(new CieInstitution(institutionModel));
 		
 		createOrderRequest.setParameters(parameters);
 
 		Order<CieCertificateParameters> order = client.createOrder(createOrderRequest);
 
-		Certificate cert = client.issueCertificate(order.getId(), null);
+		Certificate cert = client.getCertificate(order.getId(), true);
 		
         byte[] result = cert.getContent();
 
 		
 	    String certResult = StorageMock.store(result, "ca");
-		return new ModelAndView("issue-cert-attribute-amplia/complete", "model", cert);
+	
+
+
+		return new ModelAndView("issue-cert-attribute-amplia/complete");
 	}
 }
