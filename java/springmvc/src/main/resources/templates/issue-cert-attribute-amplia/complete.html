@@ -11,15 +11,13 @@
 		<p>
 			Certificate Information:
 			<ul>
-				<li><strong>Subject</strong>: <span th:text="${model.getCertificate().getSubjectName().getCommonName()}"/></li>
-				<li><strong>CPF</strong>: <span th:text="${model.getCertificate().getParameters().getCpfFormatted()}"/></li>
+				<li><strong>Subject</strong>: <span th:text="${response.getCertificate().getSubjectName().getCommonName()}"/></li>
 			</ul>
 		</p>
 
 		<h3>Actions:</h3>
 		<ul>
-			<li><a th:href="@{'/download/cert/' + ${model.getCertificate().getId()}}">Download the .CER file</a></li>
-			<li><a th:href="@{upload(rc='pades-server-key-express', certId=${model.getCertificate().getId()})}">Use the certificate to sign a PDF using PKI Express</a></li>
+			<li><a th:href="@{'/download/' + ${response.getFileId()}}">Download the .CA file</a></li>
 		</ul>
 	</div>
 </div>

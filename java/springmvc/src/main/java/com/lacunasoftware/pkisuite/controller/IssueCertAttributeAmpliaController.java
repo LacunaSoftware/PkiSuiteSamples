@@ -2,6 +2,7 @@ package com.lacunasoftware.pkisuite.controller;
 
 import com.lacunasoftware.amplia.*;
 import com.lacunasoftware.pkisuite.model.amplia.IssueAttributeCertServerModel;
+import com.lacunasoftware.pkisuite.model.amplia.IssueAttributeCertServerCompleteModel;
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
 
@@ -51,20 +52,30 @@ public class IssueCertAttributeAmpliaController{
 		parameters.setDegree(request.getDegree());
 		parameters.setRegistrationNumber(request.getRegistrationNumber());
 		parameters.setCourse(request.getCourse());
+		parameters.setCpf(request.getCpf());
+		parameters.setEEA(request.getEea());
+		
+		CieInstitutionModel institutionModel = new CieInstitutionModel();
+		institutionModel.setName(request.getInstitutionName());
+		institutionModel.setCity(request.getInstitutionCity());
+		institutionModel.setState(request.getInstitutionState());
+		parameters.setInstitution(new CieInstitution(institutionModel));
+		parameters.setRegistrationNumber(request.getRegistrationNumber());
+		
 		
 		createOrderRequest.setParameters(parameters);
 
 		Order<CieCertificateParameters> order = client.createOrder(createOrderRequest);
 
-		Certificate cert = client.getCertificate(order.getId(), true);
+		Certificate cert = client.issueCertificate(order.getId(), null);
 		
         byte[] result = cert.getContent();
+	    String certResult = StorageMock.store(result, ".ac");
 
-		
-	    String certResult = StorageMock.store(result, "ca");
-	
+		IssueAttributeCertServerCompleteModel response = new IssueAttributeCertServerCompleteModel();
+		response.setCertificate(cert);
+		response.setFileId(certResult);
 
-
-		return new ModelAndView("issue-cert-attribute-amplia/complete");
+		return new ModelAndView("issue-cert-attribute-amplia/complete", "response", response);
 	}
 }
