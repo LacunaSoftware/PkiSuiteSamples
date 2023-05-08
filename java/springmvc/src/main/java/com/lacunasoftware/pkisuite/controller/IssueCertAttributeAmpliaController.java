@@ -42,7 +42,7 @@ public class IssueCertAttributeAmpliaController{
 		createOrderRequest.setValidityEnd(Util.getDateYearsFromNow(2));
 
 		// Set the kind of certificate.
-		createOrderRequest.setKind(CertificateKinds .ATTRIBUTE);
+		createOrderRequest.setKind(CertificateKinds.ATTRIBUTE);
 
 		// Set the certificate parameters class with the desired parameters to your certificate. In
 		// this sample, we use the CieCertificate, and informed the following fields:
@@ -68,14 +68,14 @@ public class IssueCertAttributeAmpliaController{
 		Order<CieCertificateParameters> order = client.createOrder(createOrderRequest);
 
 		// Call Amplia in order to issue the certificate referred by the created order's id
-		Certificate cert = client.getCertificate(order.getId(), true);
+		Certificate cert = client.issueCertificate(order.getId(), null);
 		
         //Get the certificate content bytes array
         byte[] result = cert.getContent();
 
 		//Save it to a file.
 		//A Attribute certificate has no extension. we save it into a .ac file;
-	    String certResult = StorageMock.store(result, "ac");
+	    String certResult = StorageMock.store(result, ".ac");
 	
 
 		IssueAttributeCertServerCompleteModel response = new IssueAttributeCertServerCompleteModel();
