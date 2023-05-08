@@ -31,22 +31,21 @@ public class IssueCertAttributeAmpliaController{
 
 		// Create an instance of the CreateOrderRequest class, which is a generic class, which is
 		// typed with a class that inherits the CertificateParameters class. In this sample, we used
-		// a PkiBrazilCertificateParameters class.
+		// a CieCertificateParameters class.
 		CreateOrderRequest<CieCertificateParameters> createOrderRequest = new CreateOrderRequest<>();
+		
 		// Set the certificate authority's id. This authority will generate your certificate. You can
 		// have a default CAId per application, in that case, there is no need to set this parameter.
- 
-        
 		createOrderRequest.setCAId("d41bfd0b-2326-4917-992e-01879a24e719");
+
 		// Set the certificate validity. We've encapsulated to set 2 years from the now.
 		createOrderRequest.setValidityEnd(Util.getDateYearsFromNow(2));
+
 		// Set the kind of certificate.
 		createOrderRequest.setKind(CertificateKinds .ATTRIBUTE);
+
 		// Set the certificate parameters class with the desired parameters to your certificate. In
-		// this sample, we use the ICP-Brasil model, and informed the following fields:
-		// - The subject name of the certificate;
-		// - The CPF number;
-		// - The phone number, used to confirm the user identity.
+		// this sample, we use the CieCertificate, and informed the following fields:
 		CieCertificateParameters parameters = new CieCertificateParameters();
 		parameters.setName(request.getName());
 		parameters.setDegree(request.getDegree());
@@ -65,12 +64,19 @@ public class IssueCertAttributeAmpliaController{
 		
 		createOrderRequest.setParameters(parameters);
 
+		// Call Amplia to create an order.
 		Order<CieCertificateParameters> order = client.createOrder(createOrderRequest);
 
-		Certificate cert = client.issueCertificate(order.getId(), null);
+		// Call Amplia in order to issue the certificate referred by the created order's id
+		Certificate cert = client.getCertificate(order.getId(), true);
 		
+        //Get the certificate content bytes array
         byte[] result = cert.getContent();
-	    String certResult = StorageMock.store(result, ".ac");
+
+		//Save it to a file.
+		//A Attribute certificate has no extension. we save it into a .ac file;
+	    String certResult = StorageMock.store(result, "ac");
+	
 
 		IssueAttributeCertServerCompleteModel response = new IssueAttributeCertServerCompleteModel();
 		response.setCertificate(cert);
