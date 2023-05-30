@@ -18,7 +18,7 @@
     "lacuna/restpkicore-client": "^1.0.0",
     "lacuna/pki-express": "^1.15.0",
     "lacuna/amplia-client": "^1.1.0",
-    "lacuna/cloudhub-client": "1.0.0"
+    "lacuna/cloudhub-client": "^1.0.3"
   },
   "config": {
     "process-timeout": 0

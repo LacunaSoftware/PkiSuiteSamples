@@ -7,9 +7,9 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-use Lacuna\CloudHub\CloudHubClient;
-use Lacuna\CloudHub\SignHashRequest;
-use Lacuna\CloudHub\Util as CloudHubUtil;
+use Lacuna\Cloudhub\CloudhubClient;
+use Lacuna\Cloudhub\SignHashRequest;
+use Lacuna\Cloudhub\Util as CloudhubUtil;
 use Lacuna\RestPki\DigestAlgorithm;
 use Lacuna\RestPki\DigestAlgorithmAndValue;
 use Lacuna\RestPki\PadesSignatureStarter;
@@ -23,7 +23,7 @@ try {
 	// pades-signature-restpki/index.php).
 	$fileId = $_GET['fileId'];
 	$session = $_GET['session'];
-	$client = Util::getCloudHubClient();
+	$client = Util::getCloudhubClient();
 	$cert = $client->getCertificateAsync($session);
 
 	// Instantiate the PadesSignatureFinisher2 class, responsible for completing the signature process.
@@ -44,7 +44,7 @@ try {
     $signatureStarter->visualRepresentation = PadesVisualElementsRest::getVisualRepresentation();
 
 	$res = $signatureStarter->start();
-	$signHashRequest = new SignHashRequest($session, CloudHubUtil::base64Convert($res->toSignHash), null, $res->digestAlgorithmOid, null);
+	$signHashRequest = new SignHashRequest($session, CloudhubUtil::base64Convert($res->toSignHash), null, $res->digestAlgorithmOid, null);
 	$signHashResponse = $client->signHashAsync($signHashRequest);
 
 	$signatureFinisher = new PadesSignatureFinisher2(Util::getRestPkiClient());

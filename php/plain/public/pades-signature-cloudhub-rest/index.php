@@ -55,7 +55,7 @@ try {
 <div class="container content">
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">PAdES Signature using cloud certificate with CloudHub API</h2>
+    <h2 class="ls-title">PAdES Signature using cloud certificate with Cloudhub API</h2>
 
     <div class="ls-content">
         <form id="selectFlowForm" action="/pades-signature-cloudhub-rest/discover.php?fileId=<?= $fileId ?>" method="POST">

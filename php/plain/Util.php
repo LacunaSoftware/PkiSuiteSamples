@@ -3,7 +3,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use Lacuna\Amplia\AmpliaClient;
-use Lacuna\CloudHub\CloudHubClient;
+use Lacuna\Cloudhub\CloudhubClient;
 use Lacuna\RestPki\RestPkiOptions;
 use Lacuna\RestPki\RestPkiCoreClient;
 use Lacuna\RestPki\RestPkiClient;
@@ -59,17 +59,17 @@ class Util {
         return new RestPkiCoreClient($options);
     }
 
-    public static function getCloudHubClient() 
+    public static function getCloudhubClient() 
     {
         $config = getConfig();
         $apiKey = $config['cloudHub']['apiKey'];
 
         if (empty($apiKey) || strpos($apiKey, ' API KEY ') !== false) {
-            throw new \Exception('The CloudHub API Key was not set!');
+            throw new \Exception('The Cloudhub API Key was not set!');
         }
 
         $endpoint = $config['cloudHub']['endpoint'];
-        return new CloudHubClient($endpoint, $apiKey);
+        return new CloudhubClient($endpoint, $apiKey);
     }
 
     /**

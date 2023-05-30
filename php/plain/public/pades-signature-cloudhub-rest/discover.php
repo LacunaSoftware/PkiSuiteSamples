@@ -9,9 +9,9 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-use Lacuna\CloudHub\CloudHubClient;
-use Lacuna\CloudHub\SessionCreateRequest;
-use Lacuna\CloudHub\TrustServiceSessionTypes as CloudHubTrustServiceSessionTypes;
+use Lacuna\Cloudhub\CloudhubClient;
+use Lacuna\Cloudhub\SessionCreateRequest;
+use Lacuna\Cloudhub\TrustServiceSessionTypes as CloudhubTrustServiceSessionTypes;
 
 
 try {
@@ -33,11 +33,11 @@ try {
 
     // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
     // and handling the password flow.
-    $manager = Util::getCloudHubClient();
+    $manager = Util::getCloudhubClient();
     $redirectUri = "http://localhost:8000/pades-signature-cloudhub-rest/complete.php?fileId=". $fileId;
 
     // Discover available PSCs.
-    $createSessionRequest = new SessionCreateRequest($plainCpf, $redirectUri, CloudHubTrustServiceSessionTypes::SingleSignature);
+    $createSessionRequest = new SessionCreateRequest($plainCpf, $redirectUri, CloudhubTrustServiceSessionTypes::SingleSignature);
     $res = $manager->createSessionAsync($createSessionRequest);
     $services = $res->services;
 
@@ -53,7 +53,7 @@ try {
 
         <?php include '../shared/menu.php' ?>
         <div class="container content">
-            <h2 class="ls-title">PAdES Signature using cloud certificate with CloudHub API</h2>
+            <h2 class="ls-title">PAdES Signature using cloud certificate with Cloudhub API</h2>
             <?php if (sizeof($services) > 0) { ?>
                 <div class='w-100'>
                     <div>
