@@ -22,13 +22,6 @@ try {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
         die();
     }
-
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
-    $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
-    if (!StorageMock::exists($fileId)) {
-        header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
-        die();
-    }
     
 ?>
 <!DOCTYPE html>
@@ -43,13 +36,13 @@ try {
 <div class="container content">
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">PAdES Signature using cloud certificate with Cloudhub API</h2>
+    <h2 class="ls-title">XML Signature using cloud certificate with Cloudhub API</h2>
 
     <div class="ls-content">
-        <form id="selectFlowForm" action="/pades-signature-cloudhub-rest/discover.php?fileId=<?= $fileId ?>" method="POST">
+        <form id="selectFlowForm" action="/xml-signature-cloudhub-rest/discover.php" method="POST">
             <div class="form-group">
                 <label>File to sign</label>
-                <p>You are signing <a href='/download?fileId=<?= $fileId ?>'>this document</a>.</p>
+                <p>You are signing this entire <a href='/download/sample.php?docId=SAMPLE_XML'> sample XML</a>.</p>
             </div>
             <div class="px-0 col col-sm-2">
                 <label for="cpfField">Inform your CPF:</label>
