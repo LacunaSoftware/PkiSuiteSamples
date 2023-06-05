@@ -39,7 +39,7 @@ try {
     <h2 class="ls-title">XML Signature using cloud certificate with Cloudhub API</h2>
 
     <div class="ls-content">
-        <form id="selectFlowForm" action="/xml-signature-cloudhub-rest/discover.php" method="POST">
+        <form id="selectFlowForm" action="/sign-xml-cloudhub-rest/discover.php" method="POST">
             <div class="form-group">
                 <label>File to sign</label>
                 <p>You are signing this entire <a href='/download/sample.php?docId=SAMPLE_XML'> sample XML</a>.</p>

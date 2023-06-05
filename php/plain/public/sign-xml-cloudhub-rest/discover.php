@@ -31,7 +31,7 @@ try {
     // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
     // and handling the password flow.
     $manager = Util::getCloudhubClient();
-    $redirectUri = "http://localhost:8000/xml-signature-cloudhub-rest/complete.php";
+    $redirectUri = "http://localhost:8000/sign-xml-cloudhub-rest/complete.php";
 
     // Discover available PSCs.
     $createSessionRequest = new SessionCreateRequest($plainCpf, $redirectUri, CloudhubTrustServiceSessionTypes::SingleSignature);
