@@ -41,6 +41,22 @@ var issueCertForm = (function () {
         formElements.cpfField.val('673.644.483-73');
     }
 
+    function initCertAttr(fe) {
+
+        // Receive from parameters received as arguments.
+        formElements = fe;
+
+        // Add mask for CPF field.
+        formElements.cpfField.mask('000.000.000-00', { reserve: true });
+
+        // Add click handler for issueButton to submit form and perform
+        // validations.
+        formElements.issueButton.click(issueCertAttr);
+
+        // Generate random value for SubjectName and CPF fields.
+        formElements.cpfField.val('673.644.483-73');
+    }
+
     function issue() {
 
         var subjectName = formElements.subjectNameField.val();
@@ -74,8 +90,24 @@ var issueCertForm = (function () {
         }
     }
 
+    function issueCertAttr() {
+
+        var name = formElements.name.val();
+        if (!name || name.length === 0) {
+            alert('The subject name should be informed');
+            return;
+        }
+
+        var cpf = formElements.cpfField.val();
+        if (!cpf || cpf.length === 0) {
+            alert('The CPF field should be provided');
+            return;
+        }
+    }
+
     return {
-        init: init
+        init: init,
+        initCertAttr: initCertAttr
     };
 
 })();

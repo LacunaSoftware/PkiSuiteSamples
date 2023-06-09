@@ -1,0 +1,94 @@
+extends ../layout
+
+block content
+
+   h2 Issue an attribute certificate storing the private key on the server
+
+   form(id='issueForm' method='POST')
+
+      h4 ICP-Brazil Certificate
+
+      div(class="form-group")
+         label
+         b Name
+         div(class="row")
+            div(class="col col-sm-4")
+               input(id="nameField" name="name" class="form-control" type="text" placeholder="Name" th:required="required")
+
+      div(class="form-group")
+         label
+            b Degree
+            div(class="row")
+               div(class="col col-sm-8")
+                  input(id="DegreeField" name="degree" class="form-control" type="text" placeholder="Degree" th:required="required")
+
+      div(class="form-group")
+         label
+            b Registration Number
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="registrationNumberField" name="registrationNumber" class="form-control" type="text" placeholder="Number" th:required="required")
+      div(class="form-group")
+         label
+            b Course
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="CourseField" name="course" class="form-control" type="text" placeholder="Course" th:required="required")
+      div(class="form-group")
+         label
+            b Institution name
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="InstitutionNameField" name="institutionName" class="form-control" type="text" placeholder="Institution name" th:required="required")
+      div(class="form-group")
+         label
+            b Institution city
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="InstitutionCityField" name="institutionCity" class="form-control" type="text" placeholder="Institution city" th:required="required")
+      div(class="form-group")
+         label
+            b Institution state
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="InstitutionStateField" name="institutionState" class="form-control" type="text" placeholder="Institution state" th:required="required")
+
+      div(class="form-group")
+         label
+            b CPF
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="cpfField" name="cpf" class="form-control" type="text" placeholder="CPF" th:required="required")
+
+      div(class="form-group")
+         label
+            b EEA
+         div(class="row")
+            div(class="col col-sm-2")
+               input(id="EEAField" name="eea" class="form-control" type="text" placeholder="EEA" th:required="required")
+      button(id='issueButton' class='btn btn-primary') Issue Certificate
+
+block scripts
+
+   //- The file below contains the logic for filling and validating form. It is only an example, feel free to alter
+   //- it to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
+   script(src='/javascripts/issue-cert-form.js')
+
+   script.
+      $(document).ready(function () {
+         // Once the page is ready, we call the init() function on the javascript code (see issue-cert-form.js).
+         issueCertForm.initCertAttr({
+            issueForm: $('#issueForm'),               // The form that should be submitted when the button "issueButton" is clicked.
+            name: $('#nameField'),              // The "name" field reference.
+            degree: $('#DegreeField'),           // The "DegreeField" field reference.
+            registrationNumber: $('#registrationNumberField'),                 // The "registrationNumber" field reference.
+            course: $('#CourseField'),                 // The "course" field reference.
+            institutionName: $('#InstitutionNameField'),                 // The "institutionName" field reference.
+            institutionCity: $('#InstitutionCityField'),                 // The "institutionCity" field reference.
+            institutionstate: $('#InstitutionStateField'),                 // The "institutionstate" field reference.
+            cpfField: $('#cpfField'),                 // The "cpf" field reference.
+            EEA: $('#EEAField'),                 // The "EEA" field reference.
+
+            issueButton: $('#issueButton')            // The button that initiates the issuing operation on server-side.
+         });
+      });

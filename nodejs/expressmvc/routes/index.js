@@ -31,6 +31,7 @@ router.use("/check-pades-restpki", require("./check-pades-restpki"));
 router.use("/check-pades-express", require("./check-pades-express"));
 router.use("/download", require("./download"));
 router.use("/", require("./home"));
+router.use("/issue-cert-attr-amplia", require("./issue-cert-attr-amplia"));
 router.use("/issue-cert-server-amplia", require("./issue-cert-server-amplia"));
 router.use("/issue-cert-user-amplia", require("./issue-cert-user-amplia"));
 router.use("/list-cert-select2", require("./list-cert-select2"));
