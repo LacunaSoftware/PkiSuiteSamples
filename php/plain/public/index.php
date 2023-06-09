@@ -98,6 +98,9 @@
         signXmlServer: {
             restpki: '/check-rest-token.php?rc=xml-signature'
         },
+        signXmlCloudhub: {
+            restpki: '/check-rest-token.php?rc=sign-xml-cloudhub'
+        },
         // signXmlServerKey: { },
         // signaturePackage: { },
         validateCmsSig: {
@@ -115,8 +118,8 @@
     };
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.68fb853868236af9.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.5a253d735bf0e472.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.3c1234946d8e0bef.js"></script>
 
 </body>
 </html>
