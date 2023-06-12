@@ -59,8 +59,6 @@ public class IssueCertAttributeAmpliaController{
 		institutionModel.setCity(request.getInstitutionCity());
 		institutionModel.setState(request.getInstitutionState());
 		parameters.setInstitution(new CieInstitution(institutionModel));
-		parameters.setRegistrationNumber(request.getRegistrationNumber());
-		
 		
 		createOrderRequest.setParameters(parameters);
 
@@ -76,7 +74,6 @@ public class IssueCertAttributeAmpliaController{
 		//Save it to a file.
 		//A Attribute certificate has no extension. we save it into a .ac file;
 	    String certResult = StorageMock.store(result, ".ac");
-	
 
 		IssueAttributeCertServerCompleteModel response = new IssueAttributeCertServerCompleteModel();
 		response.setCertificate(cert);
