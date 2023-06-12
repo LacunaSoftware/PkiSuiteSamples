@@ -99,7 +99,7 @@
             restpki: '/check-rest-token.php?rc=xml-signature'
         },
         signXmlCloudhub: {
-            restpki: '/check-rest-token.php?rc=sign-xml-cloudhub'
+            restpki: '/check-rest-token.php?rc=xml-signature-cloudhub'
         },
         // signXmlServerKey: { },
         // signaturePackage: { },
