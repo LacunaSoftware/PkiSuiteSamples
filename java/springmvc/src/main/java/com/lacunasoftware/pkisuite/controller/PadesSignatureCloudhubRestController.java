@@ -90,6 +90,8 @@ public class PadesSignatureCloudhubRestController {
 		sessionCreateRequest.setIdentifier(plainCpf);
     	sessionCreateRequest.setRedirectUri(REDIRECT_URL);
     	sessionCreateRequest.setType(TrustServiceSessionTypes.SINGLE_SIGNATURE);
+		// Use lifetimeInSeconds if you want to define an expiration time for your token
+		sessionCreateRequest.setLifetimeInSeconds(6000);
 
 		// Discover PSCs and receive a URL to redirect the user to perform the OAuth authentication
 		// page. As mentioned before, we pass the id of the file to be signed as the last parameter
