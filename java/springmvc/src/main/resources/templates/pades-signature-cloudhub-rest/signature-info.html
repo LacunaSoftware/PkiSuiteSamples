@@ -30,7 +30,7 @@
 
 		<h3>Actions:</h3>
 		<ul>
-			<li><a th:href="@{/pades-signature-cloudhub-rest/complete(session=${sessionId}, fileId=${signedPdf})}">
+			<li><a th:href="@{/pades-signature-cloudhub-rest/recomplete(session=${sessionId}, fileId=${signedPdf}, cert=${cert})}">
 				Sign again with same session
 			</a></li>
 			<li><a th:href="@{'/download/' + ${signedPdf}}">Download the signed file</a></li>

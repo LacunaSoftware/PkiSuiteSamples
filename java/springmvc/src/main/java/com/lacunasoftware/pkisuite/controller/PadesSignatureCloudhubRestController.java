@@ -118,6 +118,8 @@ public class PadesSignatureCloudhubRestController {
 		// and handling the OAuth flow.
 		byte[] certificate =  sessionsApi.apiSessionsCertificateGet(session);
 
+		// Convert to Base64 string so it is possible to send the data in a GET request
+		String cert = new String(certificate);
 
 		// Verify if the provided fileToSign exists.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
@@ -132,6 +134,94 @@ public class PadesSignatureCloudhubRestController {
 
 		// Set certificate obtained from the cloud provider
 		signatureStarter.setSignerCertificateBase64(new String(certificate).replaceAll("\"", ""));
+
+		// Set the signature policy.
+		signatureStarter.setSignaturePolicy(SignaturePolicy.PadesBasic);
+
+		// Set the security context to be used to determine trust in the certificate chain. We have
+		// encapsulated the security context choice on Util.java.
+		signatureStarter.setSecurityContext(Util.getSecurityContext());
+
+		// Create a visual representation for the signature.
+		signatureStarter.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());
+
+		// Set the PDF to be signed.
+		signatureStarter.setPdfToSign(StorageMock.getDataPath(fileToSign));
+
+		SignatureStartResult signStartResult = signatureStarter.start();
+		SignHashRequest signHashRequest = new SignHashRequest();
+		signHashRequest.setSession(session);
+		signHashRequest.setHash(signStartResult.getToSignHashRaw());
+		signHashRequest.setDigestAlgorithmOid(signStartResult.getDigestAlgorithmOid());
+
+		byte[] signHashResponse = sessionsApi.apiSessionsSignHashPost(signHashRequest);
+
+		// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the
+		// signature process.
+		PadesSignatureFinisher2 signatureFinisher = new PadesSignatureFinisher2(Util.getRestPkiClient());
+
+		// Set the token for this signature (rendered in a hidden input field, see file
+	// templates/pades-signature.html).
+		signatureFinisher.setToken(signStartResult.getToken());
+
+		// Set the signature
+		signatureFinisher.setSignature(SessionsApi.convertToSignHashToByteArray64(signHashResponse));
+
+		// Call the finish() method, which finalizes the signature process and returns a
+		// SignatureResult object.
+		SignatureResult signatureResult = signatureFinisher.finish();
+
+		// The "certificate" field of the SignatureResult object contains information about the
+		// certificate used by the user to sign the file.
+		PKCertificate signerCert = signatureResult.getCertificate();
+
+		// The SignatureResult object has various methods for writing the signature file to a
+		// (writeTo()), local file (writeToFile()), open a stream to read the content (openRead())
+		// and get its contents (getContent()). For large files, avoid the method getContent() to
+		// avoid memory allocation issues.
+		String signedPdf;
+		try (InputStream resultStream = signatureResult.openRead()) {
+			signedPdf = StorageMock.store(resultStream, "pdf");
+		}
+
+		// Render the signature page (templates/pades-signature-rest/signature-info.html).
+		model.addAttribute("signerCert", signerCert);
+		model.addAttribute("signedPdf", signedPdf);
+		model.addAttribute("cert", cert);
+		model.addAttribute("sessionId", session);
+		return "pades-signature-cloudhub-rest/signature-info";
+	}
+
+
+	/**
+	 * This action will complete the authentication process and create a signature using a session
+	 * token returned by user. Also, we recover the parameter "customState" containing the id of the
+	 * file that will be signed.
+	 * @throws ApiException
+	 * @throws RestException
+	 */
+	@GetMapping("/pades-signature-cloudhub-rest/recomplete")
+	public String recomplete(
+		@RequestParam(value="fileId") String fileToSign,
+		@RequestParam(value="cert", required = false) String cert,
+		@RequestParam(value="session", required = false) String session,
+		Model model
+	) throws IOException, ApiException, RestException {
+		String certificate = cert.replaceAll("\"", "");
+
+		// Verify if the provided fileToSign exists.
+		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
+			throw new FileNotFoundException();
+		}
+		// Get an instance of the PadesSignatureStarter2 class, responsible for receiving the
+		// signature elements and start the signature process.
+		PadesSignatureStarter2 signatureStarter = new PadesSignatureStarter2(Util.getRestPkiClient());
+
+		// Set the unit of measurement used to edit the pdf marks and visual representations.
+		signatureStarter.setMeasurementUnits(PadesMeasurementUnits.Centimeters);
+
+		// Set certificate obtained from the cloud provider
+		signatureStarter.setSignerCertificateBase64(certificate);
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PadesBasic);
@@ -188,6 +278,7 @@ public class PadesSignatureCloudhubRestController {
 		// Render the signature page (templates/pades-signature-rest/signature-info.html).
 		model.addAttribute("signerCert", signerCert);
 		model.addAttribute("signedPdf", signedPdf);
+		model.addAttribute("cert", cert);
 		model.addAttribute("sessionId", session);
 		return "pades-signature-cloudhub-rest/signature-info";
 	}
