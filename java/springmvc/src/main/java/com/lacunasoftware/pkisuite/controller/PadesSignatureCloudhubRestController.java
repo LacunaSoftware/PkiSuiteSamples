@@ -13,6 +13,7 @@ import com.lacunasoftware.restpki.SignatureStartResult;
 
 import cloudhub.SessionsApi;
 import cloudhub.client.*;
+import cloudhub.client.model.CertificateModel;
 import cloudhub.client.model.SessionCreateRequest;
 import cloudhub.client.model.SessionModel;
 import cloudhub.client.model.SignHashRequest;
@@ -86,7 +87,7 @@ public class PadesSignatureCloudhubRestController {
 	    SessionCreateRequest sessionCreateRequest = new SessionCreateRequest();
 		sessionCreateRequest.setIdentifier(plainCpf);
     	sessionCreateRequest.setRedirectUri(REDIRECT_URL);
-    	sessionCreateRequest.setType(TrustServiceSessionTypes.SINGLE_SIGNATURE);
+    	sessionCreateRequest.setType(TrustServiceSessionTypes.SIGNATURE_SESSION);
 		// Use lifetimeInSeconds if you want to define an expiration time for your token
 		sessionCreateRequest.setLifetimeInSeconds(6000);
 
@@ -113,10 +114,10 @@ public class PadesSignatureCloudhubRestController {
 		@RequestParam(value="session", required = false) String session,
 		Model model
 	) throws IOException, ApiException, RestException {
-
-		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
-		// and handling the OAuth flow.
-		byte[] certificate =  sessionsApi.apiSessionsCertificateGet(session);
+		CertificateModel certificateModel =  sessionsApi.apiV2SessionsCertificateGet(session);
+		
+		byte[] certificate = certificateModel.getContent();
+		String alias = certificateModel.getAlias();
 
 		// Convert to Base64 string so it is possible to send the data in a GET request
 		String cert = new String(certificate);
@@ -133,7 +134,7 @@ public class PadesSignatureCloudhubRestController {
 		signatureStarter.setMeasurementUnits(PadesMeasurementUnits.Centimeters);
 
 		// Set certificate obtained from the cloud provider
-		signatureStarter.setSignerCertificateBase64(new String(certificate).replaceAll("\"", ""));
+		signatureStarter.setSignerCertificateBase64(cert.replaceAll("\"", ""));
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PadesBasic);
@@ -189,6 +190,7 @@ public class PadesSignatureCloudhubRestController {
 		model.addAttribute("signedPdf", signedPdf);
 		model.addAttribute("cert", cert);
 		model.addAttribute("sessionId", session);
+		model.addAttribute("alias", alias);
 		return "pades-signature-cloudhub-rest/signature-info";
 	}
 
@@ -203,8 +205,9 @@ public class PadesSignatureCloudhubRestController {
 	@GetMapping("/pades-signature-cloudhub-rest/recomplete")
 	public String recomplete(
 		@RequestParam(value="fileId") String fileToSign,
-		@RequestParam(value="cert", required = false) String cert,
-		@RequestParam(value="session", required = false) String session,
+		@RequestParam(value="session") String session,
+		@RequestParam(value="cert") String cert,
+		@RequestParam(value="alias") String alias,
 		Model model
 	) throws IOException, ApiException, RestException {
 		String certificate = cert.replaceAll("\"", "");
@@ -236,9 +239,13 @@ public class PadesSignatureCloudhubRestController {
 		// Set the PDF to be signed.
 		signatureStarter.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
+		// Start the signature process
 		SignatureStartResult signStartResult = signatureStarter.start();
+
+		// Here we will sign a hash of the file we intend to sign afterwards
 		SignHashRequest signHashRequest = new SignHashRequest();
 		signHashRequest.setSession(session);
+		signHashRequest.setCertificateAlias(alias);
 		signHashRequest.setHash(signStartResult.getToSignHashRaw());
 		signHashRequest.setDigestAlgorithmOid(signStartResult.getDigestAlgorithmOid());
 
