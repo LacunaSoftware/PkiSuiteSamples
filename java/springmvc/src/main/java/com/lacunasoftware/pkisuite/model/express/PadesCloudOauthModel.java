@@ -1,8 +1,6 @@
 package com.lacunasoftware.pkisuite.model.express;
 
 import com.lacunasoftware.pkiexpress.TrustServiceAuthParameters;
-import com.lacunasoftware.pkiexpress.TrustServiceInfo;
-
 import java.util.List;
 
 public class PadesCloudOauthModel {
