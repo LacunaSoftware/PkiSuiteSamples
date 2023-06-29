@@ -25,9 +25,9 @@ repositories {
     mavenCentral()
     
     // Uncomment to use prerelease Lacuna packages
-    maven {
-        url "https://s01.oss.sonatype.org/content/groups/staging/"
-    }
+    // maven {
+    //     url "https://s01.oss.sonatype.org/content/groups/staging/"
+    // }
 }
 
 dependencies {
@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.19.0'
     implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
     implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.1'
-    implementation 'com.lacunasoftware.amplia:amplia-client:1.2.0-rc8'
+    implementation 'com.lacunasoftware.amplia:amplia-client:1.2.1'
     implementation 'com.lacunasoftware.cloudhub:cloudhub-client:1.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
