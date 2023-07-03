@@ -441,6 +441,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -558,7 +559,6 @@
     <Content Include="Views\SignatureSessionPreDefRestCore\Index.cshtml" />
     <Content Include="Views\PadesServerKeyRestCore\Index.cshtml" />
     <Content Include="Views\Home\RestPkiCoreApiKeyNotSet.cshtml" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

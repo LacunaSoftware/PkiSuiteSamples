@@ -76,7 +76,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public async Task<ActionResult> Discover(string userfile, string cpf) {
 
 			// Process CPF, removing all formatting.
-			var plainCpf = Regex.Replace(cpf, "/[.-]/", "");
+			var plainCpf = Regex.Replace(cpf, @"[.-]+", "");
 
 			// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
 			// and handling the OAuth flow.
