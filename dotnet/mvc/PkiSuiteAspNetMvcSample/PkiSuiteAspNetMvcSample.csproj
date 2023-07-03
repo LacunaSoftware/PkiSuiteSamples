@@ -299,6 +299,7 @@
     <Compile Include="Controllers\PrinterFriendlyPadesSdkController.cs" />
     <Compile Include="Controllers\SignatureSessionRestCoreController.cs" />
     <Compile Include="Controllers\WebhookRestCoreController.cs" />
+    <Compile Include="Controllers\XmlCloudOauthSdkController.cs" />
     <Compile Include="Controllers\XmlCodSignatureRestController.cs" />
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
@@ -442,6 +443,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
+    <Content Include="Views\XmlCloudOauthSdk\Index.cshtml" />
+    <Content Include="Views\XmlCloudOauthSdk\Discover.cshtml" />
+    <Content Include="Views\XmlCloudOauthSdk\SignatureInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -559,6 +563,7 @@
     <Content Include="Views\SignatureSessionPreDefRestCore\Index.cshtml" />
     <Content Include="Views\PadesServerKeyRestCore\Index.cshtml" />
     <Content Include="Views\Home\RestPkiCoreApiKeyNotSet.cshtml" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
