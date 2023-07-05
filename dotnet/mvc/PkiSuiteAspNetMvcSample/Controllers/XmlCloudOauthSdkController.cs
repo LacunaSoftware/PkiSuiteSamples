@@ -138,7 +138,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
         [HttpGet]
         public ActionResult SignatureInfo()
         {
-            // Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+            // Recovery data from Complete action, if returns null, it'll be redirected to Index 
             // action again.
             if (!(TempData["SignatureInfoModel"] is SignatureInfoModel model))
             {
