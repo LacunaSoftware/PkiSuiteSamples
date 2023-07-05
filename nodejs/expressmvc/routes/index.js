@@ -5,6 +5,7 @@ const router = express.Router();
 /**
  * Define routes.
  */
+router.use('/authentication-cloudhub', require("./authentication-cloudhub"));
 router.use("/authentication-express", require("./authentication-express"));
 router.use("/authentication-restpki", require("./authentication-restpki"));
 router.use(
