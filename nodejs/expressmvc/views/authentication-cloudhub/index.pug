@@ -12,7 +12,8 @@ block content
 
                //- Render the token in a hidden input field.
                input(type='hidden', name='token', id='tokenField' value=token)
-
+               input(type='hidden', name='digestAlgorithmOid', id='digestAlgorithmField' value=digestAlgorithmOid)
+               input(type='hidden', name='toSignHash', id='toSignHashField' value=toSignHash)
                
                button(id="searchButton" type="submit" class="btn btn-primary mt-2")
                   i(class="fas fa-search") Search   
