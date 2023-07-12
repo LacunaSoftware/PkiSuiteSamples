@@ -12,6 +12,9 @@ const {
 const {
 	PaginatedSearchParams,
 	SignHashRequest,
+	PaginatedSearchResponse,
+	CertificateSummary,
+	PaginationOrders,
 } = require("../node_modules/amplia-client");
 const { Config } = require("../config");
 const { Util } = require("../util");
@@ -57,18 +60,17 @@ router.post('/start', async (req, res, next) => {
 	const client = Util.getAmpliaClient();
 
 	let params = new PaginatedSearchParams();
-
-	params.q = cpf.replace(/[.-]/g,"")
+	params.setOrder(PaginationOrders.DESC);
+	params.setLimit(1);
+	params.setQ(cpf.replace(/[.-]/g,""))
 	
 	//Using the list certificate we colect the certificates
-	let listCert =  await client.listCertificates(params);
+	let listCert =  await client.listCertificates(params, true);
 
-	let filterByKey = listCert._items.filter(
-		(element) => element._keyId != null
-	);
+	let certificateResult = listCert.getItems()[0];
 
 	//Here we call the getCertificate function in order to get the certificate content
-	const cert =  await client.getCertificate(filterByKey[filterByKey.length - 1]._id, true);
+	const cert =  await client.getCertificate(certificateResult.getId(), true);
 
 	// Set signature policy.
 	signer.signaturePolicy = StandardSignaturePolicies.PADES_BASIC_WITH_LTV;
@@ -107,7 +109,7 @@ router.post('/start', async (req, res, next) => {
 
 	//Now select the certificate to sign by passing his key and the request.
 	const signature =  await client.signHashWithKey(
-		filterByKey[filterByKey.length-1]._keyId,
+		certificateResult.getKeyId(),
 		request
 	);
 
