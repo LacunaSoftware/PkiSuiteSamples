@@ -208,6 +208,10 @@ class Util {
 		return array;
 	}
 
+	static formatDigestAlgorithm(digestAlgorithm) {
+		return digestAlgorithm.replace('-', '');
+	}
+
 	static formatDate(date) {
 		let day = date.getDate().toString();
 		let month = (date.getMonth() + 1).toString();
