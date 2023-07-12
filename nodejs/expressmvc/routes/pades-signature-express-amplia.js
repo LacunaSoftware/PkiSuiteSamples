@@ -28,7 +28,7 @@ const APP_ROOT = process.cwd();
  */
 router.get("/", async (req, res, next) => {
 	// Get parameters from url
-	const { fileId, cpf } = req.query;
+	const { fileId } = req.query;
 
 	// Verify if the provided fileId exists.
 	if (!StorageMock.existsSync({ fileId: fileId })) {
@@ -36,7 +36,14 @@ router.get("/", async (req, res, next) => {
 		notFound.status = 404;
 		next(notFound);
 		return;
-	}
+	}	
+	res.render('pades-signature-express-amplia', { fileId })
+});
+
+router.post('/start', async (req, res, next) => {
+
+	const { fileId } = req.query;
+	const cpf = req.body.cpf;
 
 	// Get an instantiate of the PadesSignatureStarter class, responsible for
 	// receiving the signature elements and start the signature process.
@@ -51,17 +58,17 @@ router.get("/", async (req, res, next) => {
 
 	let params = new PaginatedSearchParams();
 
-	params.q = "70380599473";
-
+	params.q = cpf.replace(/[.-]/g,"")
+	
 	//Using the list certificate we colect the certificates
-	let listCert = await client.listCertificates(params);
+	let listCert =  await client.listCertificates(params);
 
 	let filterByKey = listCert._items.filter(
 		(element) => element._keyId != null
 	);
 
 	//Here we call the getCertificate function in order to get the certificate content
-	cert = await client.getCertificate(filterByKey[1]._id, true);
+	const cert =  await client.getCertificate(filterByKey[filterByKey.length - 1]._id, true);
 
 	// Set signature policy.
 	signer.signaturePolicy = StandardSignaturePolicies.PADES_BASIC_WITH_LTV;
@@ -85,7 +92,7 @@ router.get("/", async (req, res, next) => {
 	signer.setCertificateFromBase64Sync(cert._contentBase64);
 
 	// Start the signature process.
-	let startResult = await signer.start();
+	let startResult =  await signer.start()
 
 	const digestAlgorithm = Util.formatDigestAlgorithm(
 		startResult.digestAlgorithm
@@ -99,7 +106,7 @@ router.get("/", async (req, res, next) => {
 	});
 
 	//Now select the certificate to sign by passing his key and the request.
-	const signature = await client.signHashWithKey(
+	const signature =  await client.signHashWithKey(
 		filterByKey[1]._keyId,
 		request
 	);
@@ -136,12 +143,13 @@ router.get("/", async (req, res, next) => {
 			// outputFile containing the signed file.
 			const certificate = result;
 			// Render the result page.
-			res.render("pades-signature-express-amplia", {
+			res.render("pades-signature-express-amplia/complete", {
 				signedPdf: outputFile,
 				signer: certificate,
 			});
 		})
 		.catch((err) => next(err));
+
 });
 
 module.exports = router;

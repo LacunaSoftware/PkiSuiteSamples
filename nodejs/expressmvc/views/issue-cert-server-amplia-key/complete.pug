@@ -4,12 +4,12 @@ block content
 
    h2 Issue a certificate storing the private key on the server
 
-   p The certificate #{certId} was successfully issued!
+   p The certificate was successfully issued!
 
    h3 Actions:
 
    label
-      | Get certificate file:
+      | Get public certificate file:
       br
       a(href=`/download/cert?fileId=${certId}`, target='_blank', class='btn btn-primary') Download
 
@@ -18,4 +18,4 @@ block content
    label
       | Use the certificate to sign a PDF using:
       br
-      a(href=`/upload?rc=pades-server-key-express&certId=${certId}`, class='btn btn-primary') PKI Express
+      a(href=`/upload?rc=pades-signature-express-amplia`, class='btn btn-primary') PKI Express

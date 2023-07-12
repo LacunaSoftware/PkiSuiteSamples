@@ -3,7 +3,7 @@
 // pass the certificate information to server to communicate with Amplia. It is
 // only an example, feel free to alter it to meet your application's needs.
 // -----------------------------------------------------------------------------
-var authCloudHubForm = (function () {
+var cpfForm = (function () {
 
     // Auxiliary global variable.
     var formElements = null;

@@ -87,6 +87,7 @@ router.post('/', async (req, res, next) => {
 		// on the "app-data" folder.
 		let certId = cert.getId();
 
+
 		// Store the key encrypted using a local key.
 		// WARNING: It is highly RECOMMENDED to ENCRYPT the key before storing
 		// in your database.
