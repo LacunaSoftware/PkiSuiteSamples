@@ -107,7 +107,7 @@ router.post('/start', async (req, res, next) => {
 
 	//Now select the certificate to sign by passing his key and the request.
 	const signature =  await client.signHashWithKey(
-		filterByKey[1]._keyId,
+		filterByKey[filterByKey.length-1]._keyId,
 		request
 	);
 
