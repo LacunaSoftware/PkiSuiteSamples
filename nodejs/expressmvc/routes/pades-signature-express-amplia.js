@@ -1,11 +1,7 @@
 const express = require('express');
 const path = require('path');
-const uuidv4 = require('uuid/v4');
-const { PadesSignatureStarter} = require("pki-express");
-const {
-	StandardSignaturePolicies,
-	PadesSigner,
-} = require('pki-express');
+const uuidv4 = require('uuid/v4')
+const { PadesSignatureStarter, StandardSignaturePolicies} = require("pki-express");
 const { PadesVisualElementsExpress, } = require('../pades-visual-elements-express');
 const {PaginatedSearchParams, SignHashRequest} = require('../node_modules/amplia-client')
 const { Config } = require('../config');
@@ -33,91 +29,83 @@ router.get('/', async (req, res, next) => {
 		return;
 	}
 
-	// Get an instance of the PadesSigner class, responsible for receiving
-	// the signature elements and performing the local signature.
+	// Get an instantiate of the PadesSignatureStarter class, responsible for
+	// receiving the signature elements and start the signature process.
 	const signer = new PadesSignatureStarter();
 
-
-
-	// Set PKI default options (see util.js).
+    // Set PKI default options (see util.js).
 	Util.setPkiDefaults(signer);
-
-	// Set signature policy.
 	
-
+	// Get an instance of the AmpliaClient, responsible to connect with Amplia
+	// and perform the requests.
     const client = Util.getAmpliaClient();
     
     let params = new PaginatedSearchParams()
 
     params.q = "70380599473";
 
+
+    //Using the list certificate we colect the certificates 
     let listCert = await client.listCertificates(params);
 
     let filterByKey = listCert._items.filter(element => element._keyId != null);
 
-//     const date = new Date();
-//     const latestDate = filterByKey.reduce((latest, element) => {
-//     const elementDate = Date.parse(element._dateIssued);
-//     console.log("elementDate = " , elementDate);
-//     let elementTime = new Date(elementDate);
-//     return elementTime > latest ? elementTime : latest;
-// }, new Date(0));
-
-    // console.log("LatestDate = " , latestDate);
-    // // Filter the elements based on the latest date
-    
-    // console.log("HEHE ",
-    //     filterByKey.forEach(element => {
-
-    //         let generic = new Date(Date.parse(element._dateIssued))
-    //         console.log("Hopeless " , generic)
-    //         return generic == latestDate
-            
-    //     })
-    //     )
-
-    // const elementsWithLatestDate = filterByKey.find(element => new Date(Date.parse(element._dateIssued)) == latestDate);
-
-    // console.log("elementsWithLatestDate = " , elementsWithLatestDate)
-    
-	
+	//Here we call the getCertificate function in order to get the certificate content
 	cert = await client.getCertificate(filterByKey[1]._id, true)
 	
-
+	// Set signature policy.
 	signer.signaturePolicy = StandardSignaturePolicies.PADES_BASIC_WITH_LTV;
 	
+    // Set PDF to be signed.
 	signer.setPdfToSignFromPathSync(StorageMock.getDataPath(fileId));
-	
-	signer.setVisualRepresentationSync(PadesVisualElementsExpress.getVisualRepresentation());
-	
+
+	// Set a file reference for the stamp file. Note that this file can be
+	// referenced later by "fref://{alias}" at the "url" field on the
+	// visual representation (see public/vr.json or
+	// getVisualRepresentation() method).	
 	signer.addFileReferenceSync('stamp', StorageMock.getPdfStampPath());
 
+	// Set the visual representation. We provided a dictionary that
+	// represents the visual representation JSON model.
+	signer.setVisualRepresentationSync(PadesVisualElementsExpress.getVisualRepresentation());
+	
+    // Set Base64-encoded certificate's content to signature starter.
 	signer.setCertificateFromBase64Sync(cert._contentBase64);
 	
+	// Start the signature process.
 	let startResult = await signer.start()
 
-	
+	//Set the request using the response from the signer.start wich which has the
+	// hash to be signed and the digestAlgorithm.
 	let request = new SignHashRequest({
 		hash: startResult.toSignHash,
 		digestAlgorithm: startResult.digestAlgorithm,
 	});
 	
-	console.log(filterByKey[1]._keyId);
-	console.log(request);
-	
-    let signature = await client.signHashWithKey(filterByKey[1]._keyId, request);
+	//Now select the certificate to sign by passing his key and the request. 
+    const signature = await client.signHashWithKey(filterByKey[1]._keyId, request);
+    console.log(signature);
 
-	const outputFile = `${uuidv4()}.pdf`;
+	// Get an instance of the PadesSignatureFinisher class, responsible for
+	// completing the signature process.
+	const signatureFinisher = new SignatureFinisher();
 
-	StorageMock.createAppDataSync(); 
+	// Set PKI default options (see util.js).
+	Util.setPkiDefaults(signatureFinisher);
 
-	signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
+	// Set PDF to be signed. It's the same file we used on "start" step.
+	signatureFinisher.setFileToSignFromPathSync(StorageMock.getDataPath(fileId));
 
-	// Perform the signature.
-	let signerCert = await signer.sign(true);
+	// Set transfer file.
+	signatureFinisher.setTransferFileFromPathSync(transferFile);
+
+	// Set signature.
+	signatureFinisher.signature = signature;
+
+
 
 	// Render the result page.
-	res.render('pades-server-key-express', {
+	res.render('pades-signature-express-amplia', {
 		signedPdf: outputFile,
 		signer: signerCert,
 	});
