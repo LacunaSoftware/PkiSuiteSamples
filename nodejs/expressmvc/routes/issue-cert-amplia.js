@@ -5,7 +5,6 @@ const {Config} = require('../config');
 const {StorageMock} = require('../storage-mock');
 const {Util} = require('../util.js');
 const {KeyMedia, KeyTypes } = require('amplia-client/lib/enums');
-const { y } = require('pdfkit');
 
 let router = express.Router();
 
@@ -16,7 +15,7 @@ let router = express.Router();
  * information to be used on certificate generation.
  */
 router.get('/', (req, res, _next) => {
-	res.render('issue-cert-server-amplia-key');
+	res.render('issue-cert-amplia');
 });
 
 
@@ -98,7 +97,7 @@ router.post('/', async (req, res, next) => {
 
 		// Render complete page. We pass the certId responsible for locate the
 		// key and certificate files.
-		res.render('issue-cert-server-amplia-key/complete', {
+		res.render('issue-cert-amplia/complete', {
 			certId: certId
 		});
 
