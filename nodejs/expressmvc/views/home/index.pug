@@ -28,8 +28,8 @@ block scripts
          issueCertUser: {
             amplia: '/check-amplia-api-key?rc=issue-cert-user'
          },
-         issueCert: {
-            amplia: '/check-amplia-api-key?rc=issue-cert'
+         issueCertHosted: {
+            amplia: '/check-amplia-api-key?rc=issue-cert-hosted'
          },
          listCert: {
             select2: '/list-cert-select2',
@@ -38,6 +38,9 @@ block scripts
          mergeCmsSigs: {
             express: '/check-pki-express?rc=merge-server-files&fwd=merge-cades'
             // restpki: ''
+         },
+         padesHostedKey: {
+            express: '/check-pki-express?rc=upload&fwd=pades-hosted-key'
          },
          printerFriendlyCms: {
             express: '/check-pki-express?rc=upload&fwd=printer-version-cades'
@@ -127,4 +130,4 @@ block scripts
 
    script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js')
    script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js')
-   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/main.93510893d62e026e.js') 
+   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/main.43928010b5333845.js') 

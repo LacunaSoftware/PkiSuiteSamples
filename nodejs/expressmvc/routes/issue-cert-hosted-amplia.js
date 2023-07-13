@@ -9,18 +9,18 @@ const {KeyMedia, KeyTypes } = require('amplia-client/lib/enums');
 let router = express.Router();
 
 /**
- * GET /issue-cert-server-amplia
+ * GET /issue-cert-hosted-amplia
  *
  * Renders issue certificate page, containing the form to be filled with the
  * information to be used on certificate generation.
  */
 router.get('/', (req, res, _next) => {
-	res.render('issue-cert-amplia');
+	res.render('issue-cert-hosted-amplia');
 });
 
 
 /**
- * POST /issue-cert-server-amplia
+ * POST /issue-cert-hosted-amplia
  *
  * Receives issueForm POST request, containing two parameters:
  * - The subject name;
@@ -97,7 +97,7 @@ router.post('/', async (req, res, next) => {
 
 		// Render complete page. We pass the certId responsible for locate the
 		// key and certificate files.
-		res.render('issue-cert-amplia/complete', {
+		res.render('issue-cert-hosted-amplia/complete', {
 			certId: certId
 		});
 

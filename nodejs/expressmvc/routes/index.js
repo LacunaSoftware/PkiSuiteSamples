@@ -33,7 +33,7 @@ router.use("/download", require("./download"));
 router.use("/", require("./home"));
 router.use("/issue-cert-server-amplia", require("./issue-cert-server-amplia"));
 router.use("/issue-cert-user-amplia", require("./issue-cert-user-amplia"));
-router.use("/issue-cert-amplia", require("./issue-cert-amplia"));
+router.use("/issue-cert-hosted-amplia", require("./issue-cert-hosted-amplia"));
 router.use("/list-cert-select2", require("./list-cert-select2"));
 router.use("/list-cert-jquery", require("./list-cert-jquery"));
 router.use("/merge-cades-express", require("./merge-cades-express"));
@@ -44,7 +44,7 @@ router.use("/open-pades-express", require("./open-pades-express"));
 router.use("/open-pades-restpki", require("./open-pades-restpki"));
 router.use("/pades-server-key-express", require("./pades-server-key-express"));
 router.use("/pades-signature-express", require("./pades-signature-express"));
-router.use("/pades-signature-express-amplia", require("./pades-signature-express-amplia"));
+router.use("/pades-hosted-key-express", require("./pades-hosted-key-express"));
 router.use("/pades-signature-restpki", require("./pades-signature-restpki"));
 router.use(
 	"/pades-wo-communication-restpki",

@@ -15,7 +15,7 @@ const {
 	PaginatedSearchResponse,
 	CertificateSummary,
 	PaginationOrders,
-} = require("../node_modules/amplia-client");
+} = require("amplia-client");
 const { Config } = require("../config");
 const { Util } = require("../util");
 const { StorageMock } = require("../storage-mock");
@@ -40,7 +40,7 @@ router.get("/", async (req, res, next) => {
 		next(notFound);
 		return;
 	}	
-	res.render('pades-signature-express-amplia', { fileId })
+	res.render('pades-hosted-key-express', { fileId })
 });
 
 router.post('/start', async (req, res, next) => {
@@ -145,7 +145,7 @@ router.post('/start', async (req, res, next) => {
 			// outputFile containing the signed file.
 			const certificate = result;
 			// Render the result page.
-			res.render("pades-signature-express-amplia/complete", {
+			res.render("pades-hosted-key-express/complete", {
 				signedPdf: outputFile,
 				signer: certificate,
 			});
