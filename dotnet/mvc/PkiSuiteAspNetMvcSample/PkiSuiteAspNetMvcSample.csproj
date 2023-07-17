@@ -278,6 +278,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Enums.cs" />
+    <Compile Include="Controllers\AuthenticationCloudSdkController.cs" />
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
     <Compile Include="Controllers\CheckCadesRestController.cs" />
@@ -442,6 +443,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
+    <Content Include="Views\AuthenticationCloudSdk\Success.cshtml" />
+    <Content Include="Views\AuthenticationCloudSdk\Index.cshtml" />
+    <Content Include="Views\AuthenticationCloudSdk\Discover.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

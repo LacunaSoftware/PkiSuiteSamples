@@ -1,0 +1,16 @@
+﻿<h2 class="ls-title">Authentication Using Cloud Certificate from TSP</h2>
+
+<div class="ls-content">
+    @using (Html.BeginForm("Discover", "AuthenticationCloudSdk", new { }, FormMethod.Post, new { id = "selectFlowForm", role = "form" }))
+    {
+        <div class="px-0 col col-sm-2">
+            <label for="cpfField">Inform your CPF:</label>
+            <input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00" />
+        </div>
+
+        <button id="searchButton" type="submit" class="btn btn-primary mt-2">
+            <i class="fas fa-search"></i> Search
+        </button>
+    }
+</div>
+
