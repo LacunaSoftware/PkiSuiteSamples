@@ -52,7 +52,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             // - SingleSignature: The returned token can only be used for one single signature request.
             // - MultiSignature: The returned token can only be used for one multi signature request.
             // - SignatureSession: The return token can only be used for one or more signature requests.
-            var services = await manager.DiscoverByCpfAndStartAuthAsync(plainCpf, RedirectUrl, TrustServiceSessionTypes.AuthenticationSession);
+            var services = await manager.DiscoverByCpfAndStartAuthAsync(plainCpf, RedirectUrl, TrustServiceSessionTypes.SignatureSession);
 
             // Render complete page.
             return View(new PadesCloudOauthModel()
@@ -71,9 +71,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		 */
         public async Task<ActionResult> Complete(string code, string state)
         {
-            byte[] signatureContent;
-            PKCertificateWithKey signingCertificate;
-
             // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
             // and handling the OAuth flow.
             var manager = Util.GetTrustServicesManager();
@@ -102,7 +99,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             var completeAuthResult = await manager.CompleteAuthAsync(code, state);
             var certList = await completeAuthResult.GetCertificatesWithKeyAsync();
             var certificateResult = certList.First();
-            var signature = certificateResult.SignHash(PKCertificateAuthentication.DigestAlgorithm, nonce);
+            //var signature = await completeAuthResult.SignHashAsync(certificateResult, nonce, PKCertificateAuthentication.DigestAlgorithm);
+            var signature = certificateResult.SignData(PKCertificateAuthentication.DigestAlgorithm, nonce);
 
             // Call the Complete() method, which is the last of the two server-side steps. It receives:
             // - The nonce which was signed using the user's certificate.
@@ -113,7 +111,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             // - A ValidationResults which denotes whether the authentication was successful or not.
             // - The user's decoded certificate.
             PKCertificate certificate;
-            var vr = certAuth.Complete(nonce, certificateResult.Certificate.EncodedValue, signature, Util.GetTrustArbitrator(), out certificate) ;
+            var vr = certAuth.Complete(nonce, certificateResult.Certificate.EncodedValue, signature, Util.GetTrustArbitrator(), out certificate);
 
             // Check the authentication result
             if (!vr.IsValid)
@@ -132,7 +130,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             // cookie as if it were the user ID.
             return View("Success", new AuthenticationInfoModel()
             {
-                UserCert = PKCertificate.Decode(model.Certificate)
+                UserCert = PKCertificate.Decode(certificate.EncodedValue)
             });
         }
     }
