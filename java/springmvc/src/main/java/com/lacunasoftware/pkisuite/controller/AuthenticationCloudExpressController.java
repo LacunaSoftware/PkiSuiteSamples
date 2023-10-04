@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,6 +40,8 @@ import java.util.List;
  * - protocolVariant (error handling, normally it depends on the used provider)
  *
  * This sample will only show the PSCs that are configured.
+ * In order to add a TSP (PSC), use the REDIRECT_URL of the following example as redirect URL for your
+ * preferred TSP in https://demos.lacunasoftware.com/pt/tsp-app-registration. 
  */
 @Controller
 public class AuthenticationCloudExpressController {
