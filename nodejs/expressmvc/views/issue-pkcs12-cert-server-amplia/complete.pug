@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+
+   h2 Issue a PKCS#12 certificate storing the private key on the user's machine
+
+   p The certificate #{certId} was successfully issued!
+
+   h3 Actions:
+
+   label
+      | Get certificate file:
+      br
+      a(href=`/download/pfx?fileId=${certId}`, target='_blank', class='btn btn-primary') Download
+
+   br
+   br
+   //- TODO: Add certificate signature example
+   //- label
+   //-    | Use the certificate to sign a PDF using:
+   //-    br
+   //-    a(href=`/upload?rc=pades-server-key-express&certId=${certId}`, class='btn btn-primary') PKI Express

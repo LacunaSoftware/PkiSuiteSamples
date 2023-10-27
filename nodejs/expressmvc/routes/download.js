@@ -57,6 +57,33 @@ router.get('/cert', (req, res, next) => {
 });
 
 /**
+ * GET /download/pfx
+ *
+ * Route to return the certificate file identified by the "fileId" query
+ * parameter.
+ */
+ router.get('/pfx', (req, res, next) => {
+	const { fileId } = req.query;
+	const extension = '.pfx';
+
+	// Verify if the provided file exists. And output the filename to be used
+	// to download the file.
+	const { exists, filename } = StorageMock.existsSync({ fileId, extension, outputFilename: true });
+	if (!exists) {
+		const err = new Error('The fileId was not found');
+		err.status = 404;
+		next(err);
+		return;
+	}
+	const content = StorageMock.readSync(fileId, extension);
+
+	res.setHeader('Content-Length', content.length);
+	res.setHeader('Content-Disposition', `attachment;filename=${filename}`);
+	res.write(content, 'binary');
+	res.end();
+});
+
+/**
  * GET /download/doc
  *
  */
