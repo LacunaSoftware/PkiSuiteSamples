@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "amplia-client": "^1.2.0",
+    "amplia-client": "^1.3.2",
     "body-parser": "~1.18.3",
     "cloudhub-client": "^1.0.0",
     "debug": "~2.6.9",
