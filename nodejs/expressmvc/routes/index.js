@@ -33,6 +33,7 @@ router.use("/download", require("./download"));
 router.use("/", require("./home"));
 router.use("/issue-cert-server-amplia", require("./issue-cert-server-amplia"));
 router.use("/issue-cert-user-amplia", require("./issue-cert-user-amplia"));
+router.use("/issue-software-certificate-server-amplia", require("./issue-software-certificate-server-amplia"));
 router.use("/issue-pkcs12-cert-server-amplia", require("./issue-pkcs12-cert-server-amplia"));
 router.use("/list-cert-select2", require("./list-cert-select2"));
 router.use("/list-cert-jquery", require("./list-cert-jquery"));
