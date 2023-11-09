@@ -28,7 +28,7 @@ module.exports = {
 		//     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
 		// ========================================================
 
-		accessToken: '5KP92YmlwXjSdKtKYaAw4BlBpfFdt3dZw6R0omkuAX24ygyQMqscDu3RpEC4Db85FhoB1y-IV9ltx2NidpG1ScW0Hpt5YD4NKzod_zZw5uzdgybGZASR2bgC-lNseHVZUo5EcthdKjqp3Jon0KnA1xffNHZWp5OO3dfsHKVDWNwPFcsiLwlc94YS_-23t60vzywWI1Ph1LFb8HgH0SCVAyljNQGuWWL1HwbZbSsD4Z6vEyrp1NRXepMeBDIVuZwZhgi69bltBJ17CEWlVwIRpdjvsu3tY9eDY9mEFU5Gss4NmNA2xKhxNCTq2QWOvaqDoUQxJWmcmNMJBGUOO-vzXILJfzVaarKMNh--thKiCthDPpvatALdTAKNyNMH_ZGNNCiYqnZAqwzmDaoC6dgIxQNQ0k97NQiGeNpFJBMm97xoiwJsutVwcY8aiwtakTsujqfvfFQDKbk7W9ZeHHH_xjR3FFHOPIqX-sFNMgHVVNy1OYqOexsf0eqyfOnBTpro4kek9g',
+		accessToken: 'smgv1rEQCMlV6Ry9OpScHVp1YKVzRUxWYshBOxrPPK-8uwJEqyjawjMv5IGfAPWYE5899J7_hH7HKX7EKJKmJFAebo7v0Z3X1f7l_8I0oZJQTBBD_XCTTDPMv4jlrTehXXC5yTs7a7j3RM04iZicEHmicvzz6iEkMIT4tfWn2i_xnasm83v8p2w3VYACk7EIo7lAA2v8_iLQ2HWfV3yw_H5_NDET3_0YAExDxNRN0fanj2I3-YS6EJrZOKxJRF_UTE5io54qVarbgb22UVpF_ZC0aiqvdHIc4sl1glDaWZibNNTOmE8D-h1mY0yqdVKoKzFULXspjZTUkiZim_Lhq6PlnKPgErtdpB3fCy72vY9hoowxokQGEiab_UP1X5ViMUu3CejRMQHeb4x4e3vC14xF8k5VAv-H8FYRz6zSHkWZeTfLuoQfrH1qkDEO6dIl3vL5Ze0pIMgI8BVaiY1uhAGExP5XFvJZ-3_pkaaCEZbLlGXGpJTQokl1TD_DlyOzSlha8A',
 		// This is a TRIAL token. It will be expired at 30/11/2023.
 		// If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
@@ -51,7 +51,7 @@ module.exports = {
 		// ========================================================
 		//     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
 		// ========================================================
-		apiKey: 'pki-suite-samples-02|9a3883362fae234eb571191061f608b78877a870912ca36810cf2fbc72d1e1aa',
+		apiKey: 'pki-suite-samples-01|62d077b7ea184c48af425b4a9484f7b8c2046ed7a47f802df01ae7dea7d157be',
 	// This is a TRIAL API key to use Amplia. It will expire at 30/11/2023.
 		// If the Amplia's samples do not work please contact our support by email:
 		// suporte@lacunasoftware.com
