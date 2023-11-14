@@ -37,8 +37,6 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
 	try {
 		const cpf = req.body.cpf;
-		console.log(restpki.VERSION);
-
 		// remove all dots and hyphens
 		const new_cpf = cpf.replace(/[.-]/g, "");
 
