@@ -92,45 +92,41 @@ router.get("/session-result", async (req, res, next) => {
 			certificate: cert,
 		});
 
-		auth.complete(token, payload)
-			.then((result) => {
-				// TODO: analyse this object
-				// console.log(result.validationResults);
+		result = await auth.complete(token, payload);
 
-				// Check the authentication result.
-				if (!result.validationResults.isValid()) {
-					// The toString() method of the ValidationResults object can be used to
-					// obtain the checks performed, but the string contains tabs and new
-					// line characters for formatting, which we'll convert to <br>'s and
-					// &nbsp;'s.
-					const vrHtml = result.validationResults
-						.toString()
-						.replace(/\n/g, "<br>")
-						.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+		// Check the authentication result.
+		if (!result.validationResults.isValid()) {
+			// The toString() method of the ValidationResults object can be used to
+			// obtain the checks performed, but the string contains tabs and new
+			// line characters for formatting, which we'll convert to <br>'s and
+			// &nbsp;'s.
+			const vrHtml = result.validationResults
+				.toString()
+				.replace(/\n/g, "<br>")
+				.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
 
-					// If the authentication was not successful, we render a page showing
-					// what went wrong.
-					res.render("authentication-cloudhub/failed", {
-						vrHtml,
-					});
-				} else {
-					// At this point, you have assurance tha the certificate is valid
-					// according to the TrustArbitrator you selected when starting the
-					// authentication and that the user is indeed the certificate's subject.
-					// Now, you'd typically query your database for a user that matches one of
-					// the certificate's fields, such as userCert.emailAddress or
-					// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
-					// your application's business logic) and set the user ID on the cookie
-					// as if it were the user ID.
-					const userCert = result.certificate;
+			// If the authentication was not successful, we render a page showing
+			// what went wrong.
+			res.render("authentication-cloudhub/failed", {
+				vrHtml,
+			});
+		} else {
+			// At this point, you have assurance tha the certificate is valid
+			// according to the TrustArbitrator you selected when starting the
+			// authentication and that the user is indeed the certificate's subject.
+			// Now, you'd typically query your database for a user that matches one of
+			// the certificate's fields, such as userCert.emailAddress or
+			// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
+			// your application's business logic) and set the user ID on the cookie
+			// as if it were the user ID.
+			const userCert = result.certificate;
 
-					// Redirect to the initial page with the user logged in.
-					res.render("authentication-cloudhub/success", {
-						userCert,
-					});
-				}
-			})
-			.catch((err) => next(err));
+			// Redirect to the initial page with the user logged in.
+			res.render("authentication-cloudhub/success", {
+				userCert,
+			});
+		}
+
 	} catch (err) {
 		next(err);
 	}
