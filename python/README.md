@@ -11,6 +11,7 @@ A sample using **Flask** to build a web application can be found on folder [flas
 
 Steps to execute the sample:
 
+### Local
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
 1. Install dependencies: `pip install -r requirements.txt`
@@ -23,6 +24,7 @@ Steps to execute the sample:
 
 1. Access the URL http://localhost:5000
 
+### Local (virtualenv)
 Optionally you can create and activate a "virtualenv" to avoid mixing library versions:
 
     $ virtualenv <venv>
@@ -30,6 +32,14 @@ Optionally you can create and activate a "virtualenv" to avoid mixing library ve
     $ pip install -r requirements.txt
     $ python manage.py runserver
     $ deactivate
+
+### Docker container
+You may also build the dockerfile present in the [flask folder](flask) and run it a separate container.
+
+Steps to build and run the container
+1. Navigate to the [flask folder](flask)
+1. Run `docker build -t pki-suite-samples-python-flask .`
+1. Run `docker run -p 5000:5000 pki-suite-samples-python-flask`
 
 ## Django
 
