@@ -8,6 +8,8 @@ from sample.storage_mock import lookup_verification_code
 from sample.utils import parse_verification_code, get_rest_pki_client, \
     get_security_context_id
 
+from restpki_ng_python_client import *
+
 # 26-08-2022
 # By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
 # when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
@@ -38,28 +40,45 @@ def index(code):
     # Locate document from storage.
     file_path = join(current_app.config['APPDATA_FOLDER'], file_id)
 
+    rest_pki_ng_client = RestPkiClient(api_key="dev-support|c40706850488334bbdbc2741df0202088ba66e5224af49f9852777230b211345",
+        endpoint="https://homolog.core.pki.rest")
+
     # Get an instance of PadesSignatureExplorer class, used to open/validate PDF
     # signatures.
-    sig_explorer = PadesSignatureExplorer(get_rest_pki_client())
+    # sig_explorer = PadesSignatureExplorer(get_rest_pki_client())
+    blob_token = rest_pki_ng_client._perform_plain_uploads(file_path, open(file_path, 'rb'))
 
-    # Specify that we want to validate the signatures in the file, not only
-    # inspect them.
-    sig_explorer.validate = True
+    # Open Signature
+    signature = rest_pki_ng_client.open_pades_signature(
+        OpenSignatureRequestModel(
+            file=FileModel(
+                blobToken=blob_token.blob_token,
+                mimeType="application/pdf"
+            ),
+            validate=True,
+            defaultSignaturePolicyId=StandardSignaturePolicies.PADES_BASIC, # Pades Basic
+            securityContextId=get_security_context_id(), 
+        )
+    )
 
-    # Set the PDF file.
-    sig_explorer.signature_file_path = file_path
+    # # Specify that we want to validate the signatures in the file, not only
+    # # inspect them.
+    # sig_explorer.validate = True
 
-    # Specify the parameters for the signature validation:
-    # Accept any PAdES signature as long as the signer has an ICP-Brasil
-    # certificate.
-    sig_explorer.default_signature_policy_id = \
-        StandardSignaturePolicies.PADES_BASIC
-    # Specify the security context to be used to determine trust in the
-    # certificate chain. We have encapsulated the security context on utils.py.
-    sig_explorer.security_context_id = get_security_context_id()
+    # # Set the PDF file.
+    # sig_explorer.signature_file_path = file_path
 
-    # Call the open() method, which returns the signature file's information.
-    signature = sig_explorer.open()
+    # # Specify the parameters for the signature validation:
+    # # Accept any PAdES signature as long as the signer has an ICP-Brasil
+    # # certificate.
+    # sig_explorer.default_signature_policy_id = \
+    #     StandardSignaturePolicies.PADES_BASIC
+    # # Specify the security context to be used to determine trust in the
+    # # certificate chain. We have encapsulated the security context on utils.py.
+    # sig_explorer.security_context_id = get_security_context_id()
+
+    # # Call the open() method, which returns the signature file's information.
+    # signature = sig_explorer.open()
 
     # Render the signature opening page.
     return render_template('check_pades_rest/index.html',

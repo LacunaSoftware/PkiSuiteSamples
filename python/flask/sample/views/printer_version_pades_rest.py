@@ -1,3 +1,5 @@
+import base64
+import hashlib
 import os
 from datetime import datetime
 from io import BytesIO
@@ -8,10 +10,11 @@ from flask import Blueprint
 from flask import current_app
 from flask import current_app
 from flask import send_from_directory
-from restpki_client import Color, StandardSignaturePolicies
-from restpki_client import PadesSignatureExplorer
-from restpki_client import PdfHelper
-from restpki_client import PdfMarker
+import requests
+# from restpki_client import Color, StandardSignaturePolicies
+# from restpki_client import PadesSignatureExplorer
+# from restpki_client import PdfHelper
+# from restpki_client import PdfMarker
 
 from sample.storage_mock import get_verification_code
 from sample.storage_mock import get_icp_brasil_logo_content
@@ -24,6 +27,7 @@ from sample.utils import join_strings_pt
 from sample.utils import get_display_name
 from sample.utils import format_verification_code
 
+from restpki_ng_python_client import *
 
 # 26-08-2022
 # By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
@@ -61,7 +65,7 @@ TIME_ZONE_DISPLAY_NAME = 'Brasilia timezone'
 # generate_printer_version below.
 ################################################################################
 
-def get_signer_description(signer):
+def get_signer_description(signer: SignerModel):
     text = get_description(signer.certificate)
     if signer.signing_time is not None:
         text += " on %s" % datetime.strftime(signer.signing_time,
@@ -70,8 +74,10 @@ def get_signer_description(signer):
 
 
 def generate_printer_friendly_version(pdf_path, verification_code):
-    client = get_rest_pki_client()
-
+    # client = get_rest_pki_client()
+    rest_pki_ng_client = RestPkiClient(api_key="dev-support|c40706850488334bbdbc2741df0202088ba66e5224af49f9852777230b211345",
+        endpoint="https://homolog.core.pki.rest")
+    
     # The verification code is generated without hyphens to save storage space
     # and avoid copy-and-paste problems. On the PDF generation, we use the
     # "formatted" version, with hyphens (which will later be discarded on the
@@ -84,35 +90,30 @@ def generate_printer_friendly_version(pdf_path, verification_code):
 
     # 1. Upload the PDF.
 
-    blob_token = client.upload_file_from_path(pdf_path)
+    blob_token = rest_pki_ng_client._perform_plain_uploads(pdf_path,open(pdf_path, 'rb'))
 
     # 2. Inspect signatures on the uploaded PDF
 
-    # Get and instance of the PadesSignatureExplorer class, used to
-    # open/validate PDF signatures.
-    sig_explorer = PadesSignatureExplorer(client)
-    # Specify that we want to validate the signatures in the file, not only
-    # inspect them.
-    sig_explorer.validate = True
-    # Set the PDF file to be inspected.
-    sig_explorer.signature_file_blob_token = blob_token
-    # Specify the parameters for the signature validation:
-    # Accept any PAdES signature as long as the signer has an ICP-Brasil
-    # certificate.
-    sig_explorer.default_signature_policy_id = \
-        StandardSignaturePolicies.PADES_BASIC
-    # Specify the security context to be used to determine trust in the
-    # certificate chain. We have encapsulated the security context on utils.py.
-    sig_explorer.security_context_id = get_security_context_id()
-    # Call the open() method, which returns the signature file's information.
-    signature = sig_explorer.open()
+    # Open Signature
+    signature = rest_pki_ng_client.open_pades_signature(
+        OpenSignatureRequestModel(
+            file=FileModel(
+                blobToken=blob_token.blob_token,
+                mimeType="application/pdf"
+            ),
+            validate=True,
+            defaultSignaturePolicyId=StandardSignaturePolicies.PADES_BASIC, # Pades Basic
+            securityContextId=get_security_context_id(), 
+        )
+    )
 
     # 3. Create PDF with the verification information from uploaded PDF.
 
     # Get an instance of the PdfMarker class, used to apply marks on the PDF.
-    pdf_marker = PdfMarker(client)
-    # Specify the file to be marked.
-    pdf_marker.file_blob_token = blob_token
+    add_marks_request = PdfAddMarksRequest(
+        file=FileModel(blobToken=blob_token.blob_token),
+        marks=list()
+    )
 
     # Build string with joined names of signers (see method get_display_name
     # below)
@@ -129,7 +130,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
 
     # ICP-Brasil logo on bottom-right corner of every page (except on the page
     # which will be created at the end of the document)
-    pdf_marker.marks.append(
+    add_marks_request.marks.append(
         pdf.mark()
         .on_all_pages()
         .on_container(
@@ -141,11 +142,11 @@ def generate_printer_friendly_version(pdf_path, verification_code):
         .add_element(
             pdf.image_element()
             .with_opacity(75)
-            .with_image_content(get_icp_brasil_logo_content(), "image/png")))
+            .with_image_content(base64.b64encode(get_icp_brasil_logo_content()).decode('utf-8'), "image/png")))
 
     # Summary on bottom margin of every page (except on the page which will be
     # created at the end of the document)
-    pdf_marker.marks.append(
+    add_marks_request.marks.append(
         pdf.mark()
         .on_all_pages()
         .on_container(
@@ -162,7 +163,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
     # Summary on right margin of every page (except on the page which will be
     # created at the end of the document), rotated 90 degrees counterclockwise
     # (text goes up).
-    pdf_marker.marks.append(
+    add_marks_request.marks.append(
         pdf.mark()
         .on_all_pages()
         .on_container(
@@ -200,7 +201,8 @@ def generate_printer_friendly_version(pdf_path, verification_code):
             .anchor_top(vertical_offset)
             .width(element_height)
             .anchor_left())
-        .with_image_content(get_icp_brasil_logo_content(), "image/png"))
+            .with_image_content(base64.b64encode(get_icp_brasil_logo_content()).decode('utf-8'), "image/png"))
+            
 
     # QR Code with the verification link on the upper-right corner. Using
     # elementHeight as width because the image is a square.
@@ -266,7 +268,6 @@ def generate_printer_friendly_version(pdf_path, verification_code):
 
     # Iterate signers.
     for signer in signature.signers:
-
         element_height = 1.5
         # Green "check" or red "X" icon depending on result of validation for
         # this signer.
@@ -277,7 +278,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
                 .height(0.5)
                 .anchor_top(vertical_offset + 0.2)
                 .width(0.5).anchor_left())
-            .with_image_content(get_validation_result_icon(signer.validation_results.is_valid), 'image/png'))
+            .with_image_content(base64.b64encode(get_validation_result_icon(len(signer.validation_results.errors) > 0)).decode('utf-8'), 'image/png'))
 
         # Description of signer (see method  get_signer_description() below).
         manifest_mark.add_element(
@@ -315,7 +316,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
         .add_section(
             pdf.text_section()
             .with_font_size(NORMAL_FONT_SIZE)
-            .with_color(Color.BLUE)
+            .with_color(ColorModel(blue=255, red=0, green=0))
             .with_text(VERIFICATION_SITE))
         .add_section(
             pdf.text_section()
@@ -335,19 +336,21 @@ def generate_printer_friendly_version(pdf_path, verification_code):
         .add_section(
             pdf.text_section()
             .with_font_size(NORMAL_FONT_SIZE)
-            .with_color(Color.BLUE)
+            .with_color(ColorModel(blue=255, red=0, green=0))
             .with_text(verification_link))
         .align_text_center())
 
     # Add marks.
-    pdf_marker.marks.append(manifest_mark)
+    add_marks_request.marks.append(manifest_mark)
 
     # Generate path for output file and add the marker.
     pfv_filename = "%s.pdf" % str(uuid.uuid4())
 
     # Apply marks.
-    result = pdf_marker.apply()
-    result.write_to_file(join(current_app.config['APPDATA_FOLDER'], pfv_filename))
+    result = rest_pki_ng_client.pdf_add_marks(add_marks_request)
+    print(result.file)
+    file_utils = FileUtils(rest_pki_ng_client, result.file)
+    file_utils.write_to_file(join(current_app.config['APPDATA_FOLDER'], pfv_filename))
 
     # Return content of the printer-friendly version.
     return pfv_filename
@@ -368,3 +371,6 @@ def index(file_id):
     pfv_file = generate_printer_friendly_version(file_path, verification_code)
 
     return send_from_directory(current_app.config['APPDATA_FOLDER'], pfv_file)
+
+
+
