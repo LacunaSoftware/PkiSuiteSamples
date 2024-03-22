@@ -20,7 +20,7 @@ class Config(object):
     # In order to use this sample on a "on premises' installation of REST PKI,
     # fill the field below with the URL address of your REST PKI installation
     # (with the trailing '/' character).
-    REST_PKI_ENDPOINT = 'https://pki.rest/'
+    REST_PKI_ENDPOINT = 'https://homolog.core.pki.rest/'
 
     # --------------------------------------------------------------------------
     # Amplia

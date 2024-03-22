@@ -181,9 +181,9 @@ def join_strings_pt(strings):
 def get_description(c):
     text = get_display_name(c)
     if c.pki_brazil.cpf is not None:
-        text += " (CPF %s)" % c.pki_brazil.cpf_formatted
+        text += " (CPF %s)" % c.pki_brazil.cpf
     if c.pki_brazil.cnpj is not None:
-        text += ", company %s (CNPJ %s)" % (c.pki_brazil.company_name, c.pki_brazil.cnpj_formatted)
+        text += ", company %s (CNPJ %s)" % (c.pki_brazil.company_name, c.pki_brazil.cnpj)
     return text
 
 

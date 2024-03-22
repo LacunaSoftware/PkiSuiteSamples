@@ -14,8 +14,8 @@
 			<li>
 				ICP-Brasil fields
 				<ul>
-						<li>Tipo de certificado: {{ signer_cert.pki_brazil.certificate_type or '' }} </li>
-						<li>CPF:  {{ signer_cert.pki_brazil.cpf_formatted or '' }}</li>
+						<li>Tipo de certificado: {{ signer_cert.pki_brazil.certificate_type.name or '' }} </li>
+						<li>CPF:  {{ signer_cert.pki_brazil.cpf or '' }}</li>
 						<li>Responsavel: {{ signer_cert.pki_brazil.responsavel or '' }} </li>
 						<li>Empresa: {{ signer_cert.pki_brazil.company_name or '' }} </li>
 						<li>CNPJ: {{ signer_cert.pki_brazil.cnpj_formatted or '' }} </li>
