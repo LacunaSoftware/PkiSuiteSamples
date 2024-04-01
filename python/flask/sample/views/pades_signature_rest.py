@@ -104,7 +104,7 @@ def index(file_to_sign=None):
                     text = PadesVisualTextModel(
                         font_size = 13.0, 
                         include_signing_time = True, 
-                        text="restpkicore",
+                        text="Signed by {{name}} ({{national_id}})",
                         horizontal_align = 'Left', 
                         container = PadesVisualRectangleModel(
                             left = 0.2, 
@@ -138,80 +138,7 @@ def index(file_to_sign=None):
                 )
             )
         res = client.start_pades_signature_v2(pades_sig_v2)
-        # client.pdf_add_marks(
-        #     PdfAddMarksRequest(
-        #         file=FileModel(
-        #             file = FileModel(
-        #             mime_type = 'application/pdf', 
-        #             content = file_processed
-        #             ),
-        #         marks = [
-        #             PdfMarkModel(
-        #                 container = PadesVisualRectangleModel(
-        #                     left = 0.2, 
-        #                     top = 0.2, 
-        #                     right = 0.2, 
-        #                     bottom = 0.2), 
-        #                 border_width = 0.5, 
-        #                 border_color = ColorModel(
-        #                     red = 56, 
-        #                     green = 56, 
-        #                     blue = 56, 
-        #                     alpha = 1), 
-        #                 background_color = ColorModel(
-        #                     red = 56, 
-        #                     green = 56, 
-        #                     blue = 56, 
-        #                     alpha = 1), 
-        #                 elements = [
-        #                     PdfMarkElementModel(
-        #                         element_type = 'Text', 
-        #                         relative_container = PadesVisualRectangleModel(
-        #                             left = 0.2, 
-        #                             top = 0.2, 
-        #                             right = 0.2, 
-        #                             bottom = 0.2, 
-        #                             width = 2, 
-        #                             height = 1), 
-        #                         rotation = 56, 
-        #                         text_sections = [
-        #                             PdfTextSectionModel(
-        #                                 text = '0', 
-        #                                 style = 'Normal', 
-        #                                 color = ColorModel(red=255, green=0, blue=0, alpha=0), 
-        #                                 font_size = 13)
-        #                             ], 
-        #                         image = PdfMarkImageModel(
-        #                             opacity = 1.337, 
-        #                             resource = ResourceContentOrReference(
-        #                                 url = '', 
-        #                                 content = get_icp_brasil_logo_content(), 
-        #                                 mime_type = '')), 
-        #                         qr_code_data = '', 
-        #                         qr_code_draw_quiet_zones = True, 
-        #                         align = 'Left', 
-        #                         vertical_align = 'Top', 
-        #                         opacity = 1.337)
-        #                     ], 
-        #                 page_option = 'AllPages', 
-        #                 page_option_number = 56)
-        #             ],
-        #         abort_if_signed = True,
-        #         measurement_units = 'Centimeters',
-        #         page_optimization = PadesPageOptimizationModel(
-        #             paper_size = 'Custom', 
-        #             custom_paper_size = PadesSizeModel(
-        #                 height = 1.337, 
-        #                 width = 1.337), 
-        #             page_orientation = 'Auto'),
-        #         force_blob_result = True,
-        #         preserve_signatures_visual_representation = True
-        #         )
-        #     )
-        # )   
-        print("token: ", res.token)
         
-
         # The token acquired above can only be used for a single signature
         # attempt. In order to retry the signature it is necessary to get a new
         # token. This can be a problem if the user uses the back button of the
