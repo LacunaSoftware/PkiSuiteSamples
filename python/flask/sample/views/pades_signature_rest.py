@@ -270,9 +270,9 @@ def action():
 
         create_app_data()  # Guarantees that "app data" folder exists.
         filename = '%s.pdf' % (str(uuid.uuid4()))
-        print(pades_sig_finisher_res.signed_pdf)
-        file_util = FileUtils(client, pades_sig_finisher_res.signed_pdf)
-        FileUtils.write_to_file(pades_sig_finisher_res.signed_pdf, path=os.path.join(current_app.config['APPDATA_FOLDER'], filename))
+        file = FileModel(content=pades_sig_finisher_res.signed_pdf, mimeType="application/pdf")
+        file_util = FileUtils(client, file)
+        file_util.write_to_file(os.path.join(current_app.config['APPDATA_FOLDER'], filename))
 
         return render_template('pades_signature_rest/complete.html',
                                signer_cert=signer_cert,
