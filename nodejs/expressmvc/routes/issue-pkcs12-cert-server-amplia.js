@@ -73,14 +73,10 @@ router.post('/', async (req, res, next) => {
 		// Call Amplia in order to issue the certificate referred by the
 		// created order's id.
 		let cert = await client.issuePkcs12Certificate(order.getId(), "1234", 2048);
-
-		// console.log(cert);
 		
 		// Get certificate's id, that will be used to identify the certificate
 		// on the "app-data" folder.
 		let certId = cert.getModel().id;
-		// console.log(certId);
-		// console.log(cert.getPfxContent()); 
 		
 		// Store certificate.
 		StorageMock.storeSync(cert.getPfxContent(), certId, '.pfx');
