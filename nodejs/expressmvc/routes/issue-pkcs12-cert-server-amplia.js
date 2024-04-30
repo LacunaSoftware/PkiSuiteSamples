@@ -72,7 +72,7 @@ router.post('/', async (req, res, next) => {
 
 		// Call Amplia in order to issue the certificate referred by the
 		// created order's id.
-		let cert = await client.issuePkcs12Certificate(order.getId(), "1234", 2048);
+		let cert = await client.issuePkcs12Certificate(order.getId(), req.body.senha, 2048);
 		
 		// Get certificate's id, that will be used to identify the certificate
 		// on the "app-data" folder.

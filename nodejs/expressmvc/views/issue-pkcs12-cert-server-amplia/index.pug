@@ -4,7 +4,7 @@ block content
 
    h2 Issue a PKCS#12 certificate storing the private key on the user's machine
 
-   form(id='issueForm', method='POST')
+   form(id='issueForm' method='POST')
 
       h4 ICP-Brazil Certificate
 
@@ -13,16 +13,23 @@ block content
             b Subject Name
          div(class='row')
             div(class='col col-sm-4')
-               input(id='subjectNameField', name='subjectName', class="form-control", type="text", placeholder='Name', required=true)
+               input(id='subjectNameField' name='subjectName' class="form-control" type="text" placeholder='Name', required=true)
 
       div(class='form-group')
          label
             b CPF
          div(class='row')
             div(class='col col-sm-2')
-               input(id='cpfField', name='cpf', class="form-control", type="text", placeholder='Nº CPF', required=true)
+               input(id='cpfField' name='cpf' class="form-control" type="text" placeholder='Nº CPF', required=true)
 
-      button(id='issueButton', class='btn btn-primary') Issue Certificate
+      div(class='form-group')
+         label
+            b Senha
+         div(class='row')
+            div(class='col col-sm-2')
+               input(id='senhaField' name='senha' class="form-control" type="text" placeholder='Senha', required=true)         
+
+      button(id='issueButton' class='btn btn-primary') Issue Certificate
 
 block scripts
 
@@ -38,5 +45,6 @@ block scripts
             subjectNameField: $('#subjectNameField'), // The "subjectName" field reference.
             cpfField: $('#cpfField'),                 // The "cpf" field reference.
             issueButton: $('#issueButton')            // The button that initiates the issuing operation on server-side.
+            senhaField: $('#senhaField')
          });
       });
