@@ -78,7 +78,7 @@
         },
         signPdfUser: {
             express: '/check-express.php?rc=upload.php&fwd=pades-signature',
-            restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-signature'
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-server-key'
         },
         signPdfCloudhubUser: {
             restpki: "/check-rest-token.php?rc=upload.php&fwd=pades-signature-cloudhub&op=signPdf"
@@ -87,7 +87,8 @@
             restpki: "/check-rest-token.php?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
         },
         signPdfServerKey: {
-            express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
+            express: '/check-express.php?rc=upload.php&fwd=pades-server-key',
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-signature-server-key'
         },
         signPdfCloudPwd: {
             express: '/check-express.php?rc=upload.php&fwd=pades-cloud-pwd'
