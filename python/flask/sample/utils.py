@@ -11,6 +11,7 @@ from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
 from restpki_client import StandardSecurityContexts
+from cloudhub_client import Configuration
 
 
 # region REST PKI
@@ -69,6 +70,12 @@ def get_security_context_id():
     else:
         # In production, accepting only certificates from ICP-Brasil
         return StandardSecurityContexts.PKI_BRAZIL
+    
+def get_cloudhub_client():
+    configuration = Configuration()
+    configuration.api_key['X-Api-Key'] = 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo='
+    return configuration
+
 
 # endregion
 
@@ -140,7 +147,6 @@ def set_pki_defaults(operator):
     # THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
 
 # endregion
-
 
 def format_date(date):
     return date.strftime("%m-%d-%Y")
