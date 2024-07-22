@@ -13,18 +13,20 @@ from flask import make_response
 from flask import render_template
 from flask import redirect
 
-import cloudhub_client as client
+
 
 from sample.pades_visual_elements_express import PadesVisualElementsExpress
 from sample.storage_mock import create_app_data
 from sample.storage_mock import get_pdf_stamp_path
 from sample.utils import get_expired_page_headers, get_security_context_id
-from sample.utils import get_cloudhub_client
+from sample.utils import get_cloudhub_client_api
 
 from sample.pades_visual_elements_rest import PadesVisualElementsRest
 from restpki_client import PadesSignatureStarter
 from restpki_client import PadesSignatureFinisher
 from restpki_client import StandardSignaturePolicies
+
+from cloudhub_client import SessionCreateRequest, TrustServiceSessionTypes, SignHashRequest
 
 from sample.utils import get_rest_pki_client
 
@@ -60,9 +62,6 @@ blueprint = Blueprint(basename(__name__), __name__,
 #
 # This sample will only show the PSCs that are configured.
 
-# Call cloudhub client library and start a session to retrieve the user's certificate
-configuration = get_cloudhub_client()
-sessions_api = client.SessionsApi(client.ApiClient(configuration))
 
 
 @blueprint.route('/<file_id>')
@@ -96,6 +95,8 @@ def discover(file_id):
 
     """
     try:
+        # Call cloudhub client library and start a session to retrieve the user's certificate
+        sessions_api = get_cloudhub_client_api()
         # Recover CPF from the POST argument.
         cpf = request.form['cpf']
 
@@ -103,14 +104,13 @@ def discover(file_id):
         plainCpf = cpf.replace(".", "").replace("-", "")
 
         # create an instance of the API class
-        create_session_request = client.SessionCreateRequest(
+        create_session_request = SessionCreateRequest(
             identifier=plainCpf,
-            type=client.TrustServiceSessionTypes.SingleSignature,
+            type=TrustServiceSessionTypes.SingleSignature,
             redirect_uri=f"http://localhost:5000/pades-signature-cloudhub-rest/complete/fileId={file_id}"
         )
         api_response = sessions_api.api_sessions_post(
             body=create_session_request)
-        print(api_response)
 
         # Render complete page.
         return render_template('pades_signature_cloudhub_rest/discover.html', cpf=cpf, services=api_response)
@@ -129,6 +129,8 @@ def complete(file_id):
 
     """
     try:
+        # Call cloudhub client library
+        sessions_api = get_cloudhub_client_api()
         # Extract fileId and session from query parameters
         session = request.args.get('session')
 
@@ -182,7 +184,7 @@ def complete(file_id):
         result = signature_starter.start()
 
         # Perform the hash signature
-        sign_hash_request = client.SignHashRequest(
+        sign_hash_request = SignHashRequest(
             session=session,
             hash=result.to_sign_hash,
             digest_algorithm_oid=result.digest_algorithm_oid
@@ -203,8 +205,6 @@ def complete(file_id):
         signature_finisher.signature = signed_hash_bytes
 
         signature_finisher.force_blob_result = False
-        
-
         # Call the finish() method, which finalizes the signature process. The
         # return value is the signed PDF content.
         sig_result = signature_finisher.finish()
