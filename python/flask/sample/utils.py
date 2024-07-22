@@ -73,7 +73,7 @@ def get_security_context_id():
     
 def get_cloudhub_client_api():
     configuration = Configuration()
-    configuration.api_key['X-Api-Key'] = 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo='
+    configuration.api_key['X-Api-Key'] = current_app.config['CLOUDHUB_API_KEY']
     return SessionsApi(ApiClient(configuration))
 # endregion
 
