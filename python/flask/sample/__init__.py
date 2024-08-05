@@ -27,6 +27,7 @@ if sys.version_info[0] < 3:
 def create_app():
     app = Flask(__name__)
 
+    app.env = os.environ["FLASK_ENV"]
     # Select configuration based on the application environment.
     if app.env not in config:
         raise Exception('The "%s" environment is not supported' % app.env)
