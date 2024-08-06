@@ -27,6 +27,7 @@ from .pades_cloud_pwd_express import blueprint as pades_cloud_pwd_express
 from .pades_cloud_oauth_express import blueprint as pades_cloud_oauth_express
 from .pades_signature_express import blueprint as pades_signature_express
 from .pades_signature_rest import blueprint as pades_signature_restpki
+from .pades_signature_without_client import blueprint as pades_signature_without_client
 from .printer_version_pades_express import blueprint as \
     printer_version_pades_express
 from .printer_version_pades_rest import blueprint as printer_version_pades_rest
@@ -67,6 +68,7 @@ blueprints = {
     pades_signature_restpki,
     pades_cloud_pwd_express,
     pades_cloud_oauth_express,
+    pades_signature_without_client,
     printer_version_pades_express,
     printer_version_pades_rest,
     read_cert_jquery,
