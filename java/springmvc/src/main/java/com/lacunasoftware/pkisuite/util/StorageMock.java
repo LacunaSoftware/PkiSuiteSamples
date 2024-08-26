@@ -2,8 +2,12 @@ package com.lacunasoftware.pkisuite.util;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
+import com.lacunasoftware.pkisuite.controller.DownloadController;
+
 import org.apache.commons.io.IOUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.file.Files;
@@ -335,6 +339,10 @@ public class StorageMock {
 		return getResourcePath(String.format("%02d.pdf", id % 10));
 	}
 
+	public static Path getBatchXmlPath(int id) throws IOException {
+		return getResourcePath(String.format("%02d.xml", id % 10));
+	}	
+	
 	public static Path getSamplePkcs12Path() throws IOException {
 		return getResourcePath("Pierre de Fermat.pfx");
 	}

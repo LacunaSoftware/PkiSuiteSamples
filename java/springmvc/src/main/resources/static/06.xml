@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Diploma xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#">
+  <infDiploma versao="1.01" id="iDip35141214314050000662550010001084271182362300">
+    <DadosDiploma id="Dip35141214314050000662550010001084271182362300">
+      <Diplomado>
+        <ID>00002</ID>
+        <Nome>GRACE HOPPER</Nome>
+        <Sexo>F</Sexo>
+        <Nacionalidade>americana</Nacionalidade>
+        <Naturalidade>
+          <CodigoMunicipio>2345678</CodigoMunicipio>
+          <NomeMunicipio>Nova Iorque</NomeMunicipio>
+          <UF>NY</UF>
+        </Naturalidade>
+        <CPF>22222222222</CPF>
+        <RG>
+          <Numero>23456789</Numero>
+          <UF>NY</UF>
+        </RG>
+        <DataNascimento>1906-12-09</DataNascimento>
+      </Diplomado>
+      <DadosCurso>
+        <NomeCurso>Ciência da Computação</NomeCurso>
+        <CodigoCursoEMEC>23456</CodigoCursoEMEC>
+        <NomeHabilitacao>Bacharel</NomeHabilitacao>
+        <Modalidade>Presencial</Modalidade>
+        <TituloConferido>
+          <Titulo>Bacharel</Titulo>
+        </TituloConferido>
+        <GrauConferido>Bacharelado</GrauConferido>
+        <EnderecoCurso>
+          <Logradouro>LINCOLN, S/N</Logradouro>
+          <Complemento>S/N</Complemento>
+          <Bairro>MANHATTAN</Bairro>
+          <CodigoMunicipio>8765432</CodigoMunicipio>
+          <NomeMunicipio>Nova Iorque</NomeMunicipio>
+          <UF>NY</UF>
+          <CEP>23456789</CEP>
+        </EnderecoCurso>
+        <Autorizacao>
+          <Tipo>Lei Federal</Tipo>
+          <Numero>002</Numero>
+          <Data>1940-01-01</Data>
+        </Autorizacao>
+        <Reconhecimento>
+          <Tipo>Decreto</Tipo>
+          <Numero>003</Numero>
+          <Data>1945-01-01</Data>
+          <DataPublicacao>1945-01-02</DataPublicacao>
+        </Reconhecimento>
+      </DadosCurso>
+      <IesEmissora>
+        <Nome>HARVARD UNIVERSITY</Nome>
+        <CodigoMEC>456</CodigoMEC>
+        <CNPJ>22222222000199</CNPJ>
+        <Endereco>
+          <Logradouro>HARVARD YARD</Logradouro>
+          <Numero>002</Numero>
+          <Bairro>CAMBRIDGE</Bairro>
+          <CodigoMunicipio>8765432</CodigoMunicipio>
+          <NomeMunicipio>Cambridge</NomeMunicipio>
+          <UF>MA</UF>
+          <CEP>23456789</CEP>
+        </Endereco>
+        <Credenciamento>
+          <Tipo>Parecer</Tipo>
+          <Numero>0002</Numero>
+          <Data>1930-01-01</Data>
+          <DataPublicacao>1930-01-02</DataPublicacao>
+          <SecaoPublicacao>1</SecaoPublicacao>
+          <PaginaPublicacao>12345</PaginaPublicacao>
+        </Credenciamento>
+        <Recredenciamento>
+          <Tipo>Portaria</Tipo>
+          <Numero>003</Numero>
+          <Data>1950-01-01</Data>
+          <DataPublicacao>1950-01-02</DataPublicacao>
+          <SecaoPublicacao>2</SecaoPublicacao>
+          <PaginaPublicacao>67890</PaginaPublicacao>
+        </Recredenciamento>
+        <Mantenedora>
+          <RazaoSocial>HARVARD UNIVERSITY</RazaoSocial>
+          <CNPJ>22222222000199</CNPJ>
+          <Endereco>
+            <Logradouro>HARVARD YARD</Logradouro>
+            <Numero>002</Numero>
+            <Bairro>CAMBRIDGE</Bairro>
+            <CodigoMunicipio>8765432</CodigoMunicipio>
+            <NomeMunicipio>Cambridge</NomeMunicipio>
+            <UF>MA</UF>
+            <CEP>23456789</CEP>
+          </Endereco>
+        </Mantenedora>
+      </IesEmissora>
+    </DadosDiploma>
+    <DadosRegistro id="Reg35141214314050000662550010001084271182362300">
+      <IesRegistradora>
+        <Nome>MASSACHUSETTS INSTITUTE OF TECHNOLOGY</Nome>
+        <CodigoMEC>789</CodigoMEC>
+        <CNPJ>33333333000199</CNPJ>
+        <Endereco>
+          <Logradouro>MASS AVENUE</Logradouro>
+          <Numero>003</Numero>
+          <Bairro>CAMBRIDGE</Bairro>
+          <CodigoMunicipio>2345678</CodigoMunicipio>
+          <NomeMunicipio>Cambridge</NomeMunicipio>
+          <UF>MA</UF>
+          <CEP>34567890</CEP>
+        </Endereco>
+        <Credenciamento>
+          <Tipo>Parecer</Tipo>
+          <Numero>0003</Numero>
+          <Data>1945-01-01</Data>
+          <DataPublicacao>1945-01-02</DataPublicacao>
+          <SecaoPublicacao>3</SecaoPublicacao>
+          <PaginaPublicacao>23456</PaginaPublicacao>
+        </Credenciamento>
+        <Recredenciamento>
+          <Tipo>Portaria</Tipo>
+          <Numero>004</Numero>
+          <Data>1955-01-01</Data>
+          <DataPublicacao>1955-01-02</DataPublicacao>
+          <SecaoPublicacao>4</SecaoPublicacao>
+          <PaginaPublicacao>78901</PaginaPublicacao>
+        </Recredenciamento>
+        <Mantenedora>
+          <RazaoSocial>MASSACHUSETTS INSTITUTE OF TECHNOLOGY</RazaoSocial>
+          <CNPJ>33333333000199</CNPJ>
+          <Endereco>
+            <Logradouro>MASS AVENUE</Logradouro>
+            <Numero>003</Numero>
+            <Bairro>CAMBRIDGE</Bairro>
+            <CodigoMunicipio>2345678</CodigoMunicipio>
+            <NomeMunicipio>Cambridge</NomeMunicipio>
+            <UF>MA</UF>
+            <CEP>34567890</CEP>
+          </Endereco>
+        </Mantenedora>
+      </IesRegistradora>
+      <LivroRegistro>
+        <LivroRegistro>CTC/2</LivroRegistro>
+        <NumeroFolhaDoDiploma>002</NumeroFolhaDoDiploma>
+        <NumeroSequenciaDoDiploma>20002</NumeroSequenciaDoDiploma>
+        <ProcessoDoDiploma>20002</ProcessoDoDiploma>
+        <DataColacaoGrau>1950-01-01</DataColacaoGrau>
+        <DataExpedicaoDiploma>1950-01-02</DataExpedicaoDiploma>
+        <DataRegistroDiploma>1950-01-03</DataRegistroDiploma>
+        <ResponsavelRegistro>
+          <Nome>ISAAC NEWTON</Nome>
+          <CPF>33333333333</CPF>
+          <IDouNumeroMatricula>2345</IDouNumeroMatricula>
+        </ResponsavelRegistro>
+      </LivroRegistro>
+      <IdDocumentacaoAcademica>DocAca35141214314050000662550010001084271182362300</IdDocumentacaoAcademica>
+      <Seguranca>
+        <CodigoValidacao>234.567.890112131415</CodigoValidacao>
+      </Seguranca>
+    </DadosRegistro>
+  </infDiploma>
+</Diploma>

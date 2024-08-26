@@ -80,6 +80,23 @@ public class DownloadController {
 	}
 
 	/**
+	 * GET /download/xml/{id}
+	 *
+	 * This function will return one of the available documents used in one of the batch signature
+	 * samples.
+	 */
+	@GetMapping("/xml/{id:.+}")
+	public void xml(
+		HttpServletResponse httpResponse,
+		@PathVariable int id
+	) throws IOException {
+		httpResponse.setHeader("Content-Disposition", String.format("attachment; filename=%02d.xml", id));
+		try (OutputStream outStream = httpResponse.getOutputStream()) {
+			Files.copy(StorageMock.getBatchXmlPath(id), outStream);
+		}
+	}
+
+	/**
 	 * GET /download/cert/{certId}
 	 *
 	 * This function will return a certificate file from the temporary folder.

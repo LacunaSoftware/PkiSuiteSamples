@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Diploma xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#">
+  <infDiploma versao="1.01" id="iDip35141214314050000662550010001084271182362300">
+    <DadosDiploma id="Dip35141214314050000662550010001084271182362300">
+      <Diplomado>
+        <ID>00001</ID>
+        <Nome>ALAN TURING</Nome>
+        <Sexo>M</Sexo>
+        <Nacionalidade>britânica</Nacionalidade>
+        <Naturalidade>
+          <CodigoMunicipio>1234567</CodigoMunicipio>
+          <NomeMunicipio>Londres</NomeMunicipio>
+          <UF>LDN</UF>
+        </Naturalidade>
+        <CPF>11111111111</CPF>
+        <RG>
+          <Numero>12345678</Numero>
+          <UF>LDN</UF>
+        </RG>
+        <DataNascimento>1912-06-23</DataNascimento>
+      </Diplomado>
+      <DadosCurso>
+        <NomeCurso>Matemática</NomeCurso>
+        <CodigoCursoEMEC>12345</CodigoCursoEMEC>
+        <NomeHabilitacao>Bacharel</NomeHabilitacao>
+        <Modalidade>Presencial</Modalidade>
+        <TituloConferido>
+          <Titulo>Bacharel</Titulo>
+        </TituloConferido>
+        <GrauConferido>Bacharelado</GrauConferido>
+        <EnderecoCurso>
+          <Logradouro>CHURCHILL, S/N</Logradouro>
+          <Complemento>S/N</Complemento>
+          <Bairro>CAMBRIDGE</Bairro>
+          <CodigoMunicipio>7654321</CodigoMunicipio>
+          <NomeMunicipio>Cambridge</NomeMunicipio>
+          <UF>CB</UF>
+          <CEP>12345678</CEP>
+        </EnderecoCurso>
+        <Autorizacao>
+          <Tipo>Lei Federal</Tipo>
+          <Numero>001</Numero>
+          <Data>1940-01-01</Data>
+        </Autorizacao>
+        <Reconhecimento>
+          <Tipo>Decreto</Tipo>
+          <Numero>002</Numero>
+          <Data>1945-01-01</Data>
+          <DataPublicacao>1945-01-02</DataPublicacao>
+        </Reconhecimento>
+      </DadosCurso>
+      <IesEmissora>
+        <Nome>UNIVERSIDADE DE CAMBRIDGE</Nome>
+        <CodigoMEC>123</CodigoMEC>
+        <CNPJ>12345678000100</CNPJ>
+        <Endereco>
+          <Logradouro>KINGS COLLEGE</Logradouro>
+          <Numero>001</Numero>
+          <Bairro>CAMBRIDGE</Bairro>
+          <CodigoMunicipio>7654321</CodigoMunicipio>
+          <NomeMunicipio>Cambridge</NomeMunicipio>
+          <UF>CB</UF>
+          <CEP>12345678</CEP>
+        </Endereco>
+        <Credenciamento>
+          <Tipo>Parecer</Tipo>
+          <Numero>0001</Numero>
+          <Data>1930-01-01</Data>
+          <DataPublicacao>1930-01-02</DataPublicacao>
+          <SecaoPublicacao>1</SecaoPublicacao>
+          <PaginaPublicacao>12345</PaginaPublicacao>
+        </Credenciamento>
+        <Recredenciamento>
+          <Tipo>Portaria</Tipo>
+          <Numero>003</Numero>
+          <Data>1950-01-01</Data>
+          <DataPublicacao>1950-01-02</DataPublicacao>
+          <SecaoPublicacao>2</SecaoPublicacao>
+          <PaginaPublicacao>67890</PaginaPublicacao>
+        </Recredenciamento>
+        <Mantenedora>
+          <RazaoSocial>UNIVERSIDADE DE CAMBRIDGE</RazaoSocial>
+          <CNPJ>12345678000100</CNPJ>
+          <Endereco>
+            <Logradouro>KINGS COLLEGE</Logradouro>
+            <Numero>001</Numero>
+            <Bairro>CAMBRIDGE</Bairro>
+            <CodigoMunicipio>7654321</CodigoMunicipio>
+            <NomeMunicipio>Cambridge</NomeMunicipio>
+            <UF>CB</UF>
+            <CEP>12345678</CEP>
+          </Endereco>
+        </Mantenedora>
+      </IesEmissora>
+    </DadosDiploma>
+    <DadosRegistro id="Reg35141214314050000662550010001084271182362300">
+      <IesRegistradora>
+        <Nome>UNIVERSIDADE DE OXFORD</Nome>
+        <CodigoMEC>456</CodigoMEC>
+        <CNPJ>87654321000199</CNPJ>
+        <Endereco>
+          <Logradouro>OXFORD STREET</Logradouro>
+          <Numero>002</Numero>
+          <Bairro>OXFORD</Bairro>
+          <CodigoMunicipio>1234567</CodigoMunicipio>
+          <NomeMunicipio>Oxford</NomeMunicipio>
+          <UF>OX</UF>
+          <CEP>87654321</CEP>
+        </Endereco>
+        <Credenciamento>
+          <Tipo>Parecer</Tipo>
+          <Numero>0002</Numero>
+          <Data>1945-01-01</Data>
+          <DataPublicacao>1945-01-02</DataPublicacao>
+          <SecaoPublicacao>3</SecaoPublicacao>
+          <PaginaPublicacao>23456</PaginaPublicacao>
+        </Credenciamento>
+        <Recredenciamento>
+          <Tipo>Portaria</Tipo>
+          <Numero>004</Numero>
+          <Data>1955-01-01</Data>
+          <DataPublicacao>1955-01-02</DataPublicacao>
+          <SecaoPublicacao>4</SecaoPublicacao>
+          <PaginaPublicacao>78901</PaginaPublicacao>
+        </Recredenciamento>
+        <Mantenedora>
+          <RazaoSocial>UNIVERSIDADE DE OXFORD</RazaoSocial>
+          <CNPJ>87654321000199</CNPJ>
+          <Endereco>
+            <Logradouro>OXFORD STREET</Logradouro>
+            <Numero>002</Numero>
+            <Bairro>OXFORD</Bairro>
+            <CodigoMunicipio>1234567</CodigoMunicipio>
+            <NomeMunicipio>Oxford</NomeMunicipio>
+            <UF>OX</UF>
+            <CEP>87654321</CEP>
+          </Endereco>
+        </Mantenedora>
+      </IesRegistradora>
+      <LivroRegistro>
+        <LivroRegistro>CTC/1</LivroRegistro>
+        <NumeroFolhaDoDiploma>001</NumeroFolhaDoDiploma>
+        <NumeroSequenciaDoDiploma>10001</NumeroSequenciaDoDiploma>
+        <ProcessoDoDiploma>10001</ProcessoDoDiploma>
+        <DataColacaoGrau>1950-01-01</DataColacaoGrau>
+        <DataExpedicaoDiploma>1950-01-02</DataExpedicaoDiploma>
+        <DataRegistroDiploma>1950-01-03</DataRegistroDiploma>
+        <ResponsavelRegistro>
+          <Nome>ALBERT EINSTEIN</Nome>
+          <CPF>22222222222</CPF>
+          <IDouNumeroMatricula>1234</IDouNumeroMatricula>
+        </ResponsavelRegistro>
+      </LivroRegistro>
+      <IdDocumentacaoAcademica>DocAca35141214314050000662550010001084271182362300</IdDocumentacaoAcademica>
+      <Seguranca>
+        <CodigoValidacao>123.456.7891011121314</CodigoValidacao>
+      </Seguranca>
+    </DadosRegistro>
+  </infDiploma>
+</Diploma>

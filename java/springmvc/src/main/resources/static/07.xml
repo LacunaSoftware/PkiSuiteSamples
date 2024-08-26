@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Diploma xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#">
+  <infDiploma versao="1.01" id="iDip35141214314050000662550010001084271182362300">
+    <DadosDiploma id="Dip35141214314050000662550010001084271182362300">
+      <Diplomado>
+        <ID>00003</ID>
+        <Nome>NIKOLA TESLA</Nome>
+        <Sexo>M</Sexo>
+        <Nacionalidade>croata</Nacionalidade>
+        <Naturalidade>
+          <CodigoMunicipio>3456789</CodigoMunicipio>
+          <NomeMunicipio>Smiljan</NomeMunicipio>
+          <UF>LIKA</UF>
+        </Naturalidade>
+        <CPF>33333333333</CPF>
+        <RG>
+          <Numero>34567890</Numero>
+          <UF>LIKA</UF>
+        </RG>
+        <DataNascimento>1856-07-10</DataNascimento>
+      </Diplomado>
+      <DadosCurso>
+        <NomeCurso>Engenharia Elétrica</NomeCurso>
+        <CodigoCursoEMEC>34567</CodigoCursoEMEC>
+        <NomeHabilitacao>Bacharel</NomeHabilitacao>
+        <Modalidade>Presencial</Modalidade>
+        <TituloConferido>
+          <Titulo>Bacharel</Titulo>
+        </TituloConferido>
+        <GrauConferido>Bacharelado</GrauConferido>
+        <EnderecoCurso>
+          <Logradouro>NIKOLA TESLA, S/N</Logradouro>
+          <Complemento>S/N</Complemento>
+          <Bairro>TESLA</Bairro>
+          <CodigoMunicipio>7654321</CodigoMunicipio>
+          <NomeMunicipio>Zagreb</NomeMunicipio>
+          <UF>ZAG</UF>
+          <CEP>45678901</CEP>
+        </EnderecoCurso>
+        <Autorizacao>
+          <Tipo>Lei Federal</Tipo>
+          <Numero>003</Numero>
+          <Data>1940-01-01</Data>
+        </Autorizacao>
+        <Reconhecimento>
+          <Tipo>Decreto</Tipo>
+          <Numero>004</Numero>
+          <Data>1945-01-01</Data>
+          <DataPublicacao>1945-01-02</DataPublicacao>
+        </Reconhecimento>
+      </DadosCurso>
+      <IesEmissora>
+        <Nome>UNIVERSIDADE DE ZAGREB</Nome>
+        <CodigoMEC>678</CodigoMEC>
+        <CNPJ>44444444000199</CNPJ>
+        <Endereco>
+          <Logradouro>TESLA AVENUE</Logradouro>
+          <Numero>004</Numero>
+          <Bairro>ZAGREB</Bairro>
+          <CodigoMunicipio>8765432</CodigoMunicipio>
+          <NomeMunicipio>Zagreb</NomeMunicipio>
+          <UF>ZAG</UF>
+          <CEP>56789012</CEP>
+        </Endereco>
+        <Credenciamento>
+          <Tipo>Parecer</Tipo>
+          <Numero>0004</Numero>
+          <Data>1930-01-01</Data>
+          <DataPublicacao>1930-01-02</DataPublicacao>
+          <SecaoPublicacao>1</SecaoPublicacao>
+          <PaginaPublicacao>12345</PaginaPublicacao>
+        </Credenciamento>
+        <Recredenciamento>
+          <Tipo>Portaria</Tipo>
+          <Numero>005</Numero>
+          <Data>1950-01-01</Data>
+          <DataPublicacao>1950-01-02</DataPublicacao>
+          <SecaoPublicacao>2</SecaoPublicacao>
+          <PaginaPublicacao>67890</PaginaPublicacao>
+        </Recredenciamento>
+        <Mantenedora>
+          <RazaoSocial>UNIVERSIDADE DE ZAGREB</RazaoSocial>
+          <CNPJ>44444444000199</CNPJ>
+          <Endereco>
+            <Logradouro>TESLA AVENUE</Logradouro>
+            <Numero>004</Numero>
+            <Bairro>ZAGREB</Bairro>
+            <CodigoMunicipio>8765432</CodigoMunicipio>
+            <NomeMunicipio>Zagreb</NomeMunicipio>
+            <UF>ZAG</UF>
+            <CEP>56789012</CEP>
+          </Endereco>
+        </Mantenedora>
+      </IesEmissora>
+    </DadosDiploma>
+    <DadosRegistro id="Reg35141214314050000662550010001084271182362300">
+      <IesRegistradora>
+        <Nome>UNIVERSIDADE DE BELGRADO</Nome>
+        <CodigoMEC>890</CodigoMEC>
+        <CNPJ>55555555000199</CNPJ>
+        <Endereco>
+          <Logradouro>BELGRADE STREET</Logradouro>
+          <Numero>005</Numero>
+          <Bairro>BELGRADO</Bairro>
+          <CodigoMunicipio>3456789</CodigoMunicipio>
+          <NomeMunicipio>Belgrado</NomeMunicipio>
+          <UF>SRB</UF>
+          <CEP>67890123</CEP>
+        </Endereco>
+        <Credenciamento>
+          <Tipo>Parecer</Tipo>
+          <Numero>0005</Numero>
+          <Data>1945-01-01</Data>
+          <DataPublicacao>1945-01-02</DataPublicacao>
+          <SecaoPublicacao>3</SecaoPublicacao>
+          <PaginaPublicacao>23456</PaginaPublicacao>
+        </Credenciamento>
+        <Recredenciamento>
+          <Tipo>Portaria</Tipo>
+          <Numero>006</Numero>
+          <Data>1955-01-01</Data>
+          <DataPublicacao>1955-01-02</DataPublicacao>
+          <SecaoPublicacao>4</SecaoPublicacao>
+          <PaginaPublicacao>78901</PaginaPublicacao>
+        </Recredenciamento>
+        <Mantenedora>
+          <RazaoSocial>UNIVERSIDADE DE BELGRADO</RazaoSocial>
+          <CNPJ>55555555000199</CNPJ>
+          <Endereco>
+            <Logradouro>BELGRADE STREET</Logradouro>
+            <Numero>005</Numero>
+            <Bairro>BELGRADO</Bairro>
+            <CodigoMunicipio>3456789</CodigoMunicipio>
+            <NomeMunicipio>Belgrado</NomeMunicipio>
+            <UF>SRB</UF>
+            <CEP>67890123</CEP>
+          </Endereco>
+        </Mantenedora>
+      </IesRegistradora>
+      <LivroRegistro>
+        <LivroRegistro>CTC/3</LivroRegistro>
+        <NumeroFolhaDoDiploma>003</NumeroFolhaDoDiploma>
+        <NumeroSequenciaDoDiploma>30003</NumeroSequenciaDoDiploma>
+        <ProcessoDoDiploma>30003</ProcessoDoDiploma>
+        <DataColacaoGrau>1950-01-01</DataColacaoGrau>
+        <DataExpedicaoDiploma>1950-01-02</DataExpedicaoDiploma>
+        <DataRegistroDiploma>1950-01-03</DataRegistroDiploma>
+        <ResponsavelRegistro>
+          <Nome>GALILEO GALILEI</Nome>
+          <CPF>44444444444</CPF>
+          <IDouNumeroMatricula>3456</IDouNumeroMatricula>
+        </ResponsavelRegistro>
+      </LivroRegistro>
+      <IdDocumentacaoAcademica>DocAca35141214314050000662550010001084271182362300</IdDocumentacaoAcademica>
+      <Seguranca>
+        <CodigoValidacao>345.678.901223344556</CodigoValidacao>
+      </Seguranca>
+    </DadosRegistro>
+  </infDiploma>
+</Diploma>
