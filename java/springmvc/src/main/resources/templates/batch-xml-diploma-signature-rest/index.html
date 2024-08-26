@@ -11,7 +11,7 @@
 			<div class="form-group">
 				<label>Files to sign</label>
 				<p>
-					You'll be signing the following files:
+					You'll be signing the <i>DadosDiploma</i> element of the following files:
 					<!--
 						UL element to hold the batch's documents (we'll render these programmatically,
 						see batch-xml-diploma-signature-rest-form.js).
@@ -49,8 +49,8 @@
 		
 		<form id="dataForm" th:action="@{/batch-xml-diploma-signature-rest/dados-registro}" method="post">
 			<input type="hidden" name="signedXmls" id="signedXmls"/>
-			<button type="submit" id="nextStepButton" disabled="true" class="btn btn-outline-primary">
-				<i class="fas fa-retweet"></i> Proceed to next signature
+			<button type="submit" id="nextStepButton" disabled="true" class="btn btn-primary">
+				<i class="fa fa-arrow-right"></i> Proceed to next signature
 			</button>
 		</form>
 		

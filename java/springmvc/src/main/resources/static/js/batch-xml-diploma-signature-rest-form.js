@@ -84,10 +84,6 @@ var batchSignatureRestForm = (function () {
 		// Block the UI while we get things ready.
 		$.blockUI({ message: 'Initializing ...' });
 
-		//debug
-		console.log("documentsIds: ", formElements.documentsIds);
-		
-
 		// Render documents to be signed.
 		for (var i = 0; i < formElements.documentsIds.length; i++) {
 			var docId = formElements.documentsIds[i];
