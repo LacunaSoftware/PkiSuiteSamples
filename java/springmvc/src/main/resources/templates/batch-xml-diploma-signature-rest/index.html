@@ -21,15 +21,6 @@
 			</div>
 
 			<!--
-				Render a select (combo box) to list the user's certificates. For now it will be empty,
-				we'll populate it  later on (see batch-xml-diploma-signature-rest-form.js).
-			-->
-			<div class="form-group">
-				<label for="certificateSelect">Choose a certificate</label>
-				<select id="certificateSelect" class="form-control"></select>
-			</div>
-
-			<!--
 				Action buttons. Notice that the "Sign File" button is NOT a submit button. When the
 				user clicks the button, we must first use the Web PKI component to perform the
 				client-side computation necessary and only when that computation is finished we'll
@@ -39,12 +30,7 @@
 				<button id="signButton" type="button" class="btn btn-primary">
 					<i class="fas fa-list"></i> Sign Batch
 				</button>
-				<button id="refreshButton" type="button" class="btn btn-outline-primary">
-					<i class="fas fa-retweet"></i> Refresh Certificates
-				</button>
 			</div>
-
-			
 		</form>
 		
 		<form id="dataForm" th:action="@{/batch-xml-diploma-signature-rest/dados-registro}" method="post">
@@ -63,8 +49,7 @@
 -->
 <script th:fragment="scripts"
         type="text/javascript"
-        src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.13.0.min.js"
-        integrity="sha256-nVy9sLakeQ03Xl+jOjBdjdfnZ9UVwwqNgAYszhxi4VQ="
+        src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.9.1.js"
         crossorigin="anonymous"></script>
 
 <!--
@@ -73,23 +58,25 @@
  -->
 <script th:fragment="scripts"
         type="text/javascript"
-        th:src="@{/js/batch-xml-diploma-signature-rest-form.js}"></script>
+        th:src="@{/js/batch-xml-without-api-call-form.js}"></script>
 
 <script th:fragment="scripts" type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
 	$(document).ready(function () {
 		// Once the page is ready, we call the init() function on the javascript code
 		// (see batch-xml-diploma-signature-rest-form.js).
-		batchSignatureRestForm.init({
-			certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.
+		signatureForm.init({
+			certificateSelect: [[${certThumb}]],  // The <select> element (combo box) to list the certificates.
 			docList: $('#docList'),                      // The <ul> element that holds the batch's documents.
-			refreshButton: $('#refreshButton'),          // The "refresh" button.
 			signButton: $('#signButton'),                // The button that initiates the operation.
 			documentsIds: [[${documentIds}]],            // The IDs of documents.
+			tokens: [[${tokens}]],
+			hashes: [[${toSignHashes}]],
+			digestAlgorithms: [[${digestAlgorithms}]],
 			ctrlEndpoint: '/api/batch-xml-diploma-signature-rest',
 			apiRoute: '/start/',
 			nextStepButton: $("#nextStepButton"),
-			signedXmls: $("#signedXmls"),
+			signedXmls: $("#signedXmls")
 		});
 	});
 	/*]]>*/
