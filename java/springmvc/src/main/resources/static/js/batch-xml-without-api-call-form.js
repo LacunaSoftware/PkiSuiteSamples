@@ -105,7 +105,7 @@ var signatureForm = (function () {
 		}
 
 		for (let i = 0; i < signatures.signatures.length; i++) {
-			console.log(`Adding pair: { signature: ${signatures.signatures[i]}, token: ${formElements.tokens[i]} }`);
+			// console.log(`Adding pair: { signature: ${signatures.signatures[i]}, token: ${formElements.tokens[i]} }`);
 			signatureTokenPairs.push({
 				signature: signatures.signatures[i],
 				token: formElements.tokens[i]
@@ -119,7 +119,6 @@ var signatureForm = (function () {
 			data: JSON.stringify({ signatureTokenPairs: signatureTokenPairs }),
 			contentType: 'application/json',
 			success: function (fileId) {
-				console.log("File IDs: ", fileId)
 				renderSuccess(fileId)
 				$.unblockUI();
 			}
