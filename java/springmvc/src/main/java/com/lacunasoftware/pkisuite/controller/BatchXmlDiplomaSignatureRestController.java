@@ -96,7 +96,7 @@ public class BatchXmlDiplomaSignatureRestController {
 			// Add newly added token to tokens
 			tokens.add(signatureInstructions.getToken());
 			toSignHashes.add(signatureInstructions.getToSignHashBase64());
-			digestAlgorithmList.add(signatureInstructions.getSignatureAlgorithm());
+			digestAlgorithmList.add(signatureInstructions.getDigestAlgorithmOid());
 			documentIds.add(i);
 		}
 		model.addAttribute("documentIds", documentIds);

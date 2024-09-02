@@ -8,15 +8,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lacunasoftware.pkisuite.api.model.SignatureTokenPair;
+import com.lacunasoftware.pkisuite.api.model.SignatureTokenRequest;
 import com.lacunasoftware.pkisuite.controller.DownloadController;
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
@@ -157,6 +163,7 @@ public class BatchXmlDiplomaSignatureRestApiController {
 		// component
 		// (see file signature-form.js) and also to complete the signature after the
 		// form is
+
 		// submitted (see method complete() below). This should not be mistaken with the
 		// API access
 		// token.
@@ -171,24 +178,31 @@ public class BatchXmlDiplomaSignatureRestApiController {
 	 * This action receives the form submission from the view. We'll call REST PKI
 	 * to complete the
 	 * signature.
+	 * 
+	 * @throws RestException
+	 * @throws IOException
 	 */
-	@PostMapping("/complete/{token:.+}")
-	public String complete(@PathVariable String token) throws IOException, RestException {
-
+	@PostMapping("/complete/")
+	public List<String> completeSignature(@RequestBody SignatureTokenRequest request) throws RestException, IOException {
 		XmlSignatureFinisher signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
+		List<String> filenameList = new ArrayList<String>();
+
+		 // Extract the pairs and process them
+        List<SignatureTokenPair> signatureTokenPairs = request.getSignatureTokenPairs();
 
 		// Set the token for this signature (rendered in a hidden input field, see
 		// file templates/xml-full-signature.html).
-		signatureFinisher.setToken(token);
-
-		// Call the finish() method, which finalizes the signature process and returns
-		// the signed
-		// XML's bytes.
-		byte[] signedXml = signatureFinisher.finish();
-
-		String filename = StorageMock.store(signedXml, "xml");
-
-		return filename;
+		for (SignatureTokenPair signatureTokenPair : signatureTokenPairs) {
+			signatureFinisher.setToken(signatureTokenPair.getToken());
+			signatureFinisher.setSignature(signatureTokenPair.getSignature());
+			
+			// Call the finish() method, which finalizes the signature process and returns
+			// the signed XML's bytes.
+			byte[] signedXml = signatureFinisher.finish();
+			String filename = StorageMock.store(signedXml, "xml");
+			filenameList.add(filename);
+		}
+		return filenameList;
 	}
 
 	public static byte[] downloadFile(String id) throws IOException {
@@ -196,16 +210,16 @@ public class BatchXmlDiplomaSignatureRestApiController {
 		URL url = new URL(fileUrl);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
-	
+
 		try (InputStream in = connection.getInputStream();
-			 ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-	
+				ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
 			byte[] buffer = new byte[1024];
 			int bytesRead;
 			while ((bytesRead = in.read(buffer)) != -1) {
 				out.write(buffer, 0, bytesRead);
 			}
-	
+
 			return out.toByteArray();
 		}
 	}

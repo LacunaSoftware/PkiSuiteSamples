@@ -11,7 +11,7 @@ var signatureForm = (function () {
 	// layout.html master view will have placed it on the global variable _webPkiLicense, which we
 	// pass to the class constructor.
 	var pki = new LacunaWebPKI(_webPkiLicense);
-    
+
 
 	// ----------------------------------------------------------------------------------------------
 	// Initializes the signature form.
@@ -25,9 +25,9 @@ var signatureForm = (function () {
 		formElements.signButton.click(sign);
 
 		// Block the UI while we get things ready.
-		$.blockUI({message: 'Initializing ...'});
+		$.blockUI({ message: 'Initializing ...' });
 
-        // Render documents to be signed.
+		// Render documents to be signed.
 		for (var i = 0; i < formElements.documentsIds.length; i++) {
 			var docId = formElements.documentsIds[i];
 			if (endsWithXml(docId)) {
@@ -58,10 +58,10 @@ var signatureForm = (function () {
 		});
 	}
 
-    
-	function endsWithXml(str){
+
+	function endsWithXml(str) {
 		const regex = /_xml$/;
-    	return regex.test(str);
+		return regex.test(str);
 	}
 
 
@@ -71,59 +71,95 @@ var signatureForm = (function () {
 	function sign() {
 
 		// Block the UI while we perform the signature.
-		$.blockUI({message: 'Signing ...'});
+		$.blockUI({ message: 'Signing ...' });
 
 		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect
-        var digestAlgorithm = formElements.digestAlgorithms[0]; // get the first one since the algorithm will always be the same
-        
-        console.log("digestAlgorithm: ", digestAlgorithm);
-        // Get the hashes to be signed
-        var hashes = formElements.hashes;
+		var digestAlgorithm = formElements.digestAlgorithms[0]; // get the first one since the algorithm will always be the same
+		// Get the hashes to be signed
+		var hashes = formElements.hashes;
 
 		// Call signWithRestPki() on the Web PKI component passing the token received from REST PKI
 		// and the certificate selected by the user.
 		pki.signHashBatch({
 			batch: hashes,
 			certificateThumbprint: selectedCertThumbprint,
-            digestAlgorithm: digestAlgorithm
+			digestAlgorithm: digestAlgorithm
 		}).success(function (signatures) {
 			// Once the operation is completed, we submit the form.
 			// formElements.form.submit();
-            completeSignature(signatures);
-
+			completeSignature(signatures);
 		});
 	}
 
-    function completeSignature(signatures) {
-        // Call the server asynchronously to notify that the signature has been performed.
-		$.post({
+	function completeSignature(signatures) {
+		const signatureTokenPairs = [];
+		if (!Array.isArray(signatures.signatures) || !Array.isArray(formElements.tokens)) {
+			console.error("Either signatures or formElements.tokens is not an array.");
+			return;
+		}
+
+		if (signatures.signatures.length !== formElements.tokens.length) {
+			console.error("Mismatch in length of signatures and tokens arrays.");
+			return;
+		}
+
+		for (let i = 0; i < signatures.signatures.length; i++) {
+			console.log(`Adding pair: { signature: ${signatures.signatures[i]}, token: ${formElements.tokens[i]} }`);
+			signatureTokenPairs.push({
+				signature: signatures.signatures[i],
+				token: formElements.tokens[i]
+			});
+		}
+
+		// Call the server asynchronously to notify that the signature has been performed.
+		$.ajax({
 			url: formElements.ctrlEndpoint + '/complete/', // The signature process token is guaranteed to be URL-safe.
-			method: 'POST',
-            data: signatures,
-			dataType: 'json',
-		}).success(function (fileId) {
-			console.log("File IDs: ", fileId)
+			type: 'POST',
+			data: JSON.stringify({ signatureTokenPairs: signatureTokenPairs }),
+			contentType: 'application/json',
+			success: function (fileId) {
+				console.log("File IDs: ", fileId)
+				renderSuccess(fileId)
+				$.unblockUI();
+			}
 		});
-    }
+	}
+
+	// ----------------------------------------------------------------------------------------------
+	// Function that renders a document as completed successfully.
+	// ----------------------------------------------------------------------------------------------
+	function renderSuccess(signatures) {
+		signatures.forEach((signature, i) => {
+			var docLi = $('#docList li').eq(i);
+			docLi
+				.append(document.createTextNode(' '))
+				.append($('<span />')
+					.addClass('fas fa-arrow-right'))
+				.append(document.createTextNode(' '))
+				.append($('<a />')
+					.text(signature.replace('_', '.'))
+					.attr('href', '/download/' + signature));
+		});
+	}
 
 	// ---------------------------------------------------------------------------------------------
-    // Function called if an error occurs on the Web PKI component.
-    // ---------------------------------------------------------------------------------------------
-    function onWebPkiError(ex) {
+	// Function called if an error occurs on the Web PKI component.
+	// ---------------------------------------------------------------------------------------------
+	function onWebPkiError(ex) {
 
-        // Unblock the UI.
-        $.unblockUI();
+		// Unblock the UI.
+		$.unblockUI();
 
-        // Log the error to the browser console (for debugging purposes).
-        if (console) {
-            console.log('Web PKI error originated at ' + ex.origin + ': (' + ex.code + ') ' + ex.error);
-        }
+		// Log the error to the browser console (for debugging purposes).
+		if (console) {
+			console.log('Web PKI error originated at ' + ex.origin + ': (' + ex.code + ') ' + ex.error);
+		}
 
-        // Show the message to the user. You might want to substitute the alert below with a more
-        // user-friendly UI component to show the error.
-        addAlert('danger', ex.userMessage);
-    }
+		// Show the message to the user. You might want to substitute the alert below with a more
+		// user-friendly UI component to show the error.
+		addAlert('danger', ex.userMessage);
+	}
 
 	return {
 		init: init
