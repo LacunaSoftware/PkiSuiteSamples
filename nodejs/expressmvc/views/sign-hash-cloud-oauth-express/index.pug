@@ -1,0 +1,104 @@
+extends ../layout
+
+block content
+   h2(class='ls-title') PAdES Signature using cloud certificate with PKI Express (OAuth Flow)
+
+   if !authParameters || authParameters == []
+      //-----------------------------------------------------------------------
+      //- This block of code is not required in your application. It's just 
+      //- for helping the developer to configure the trust service providers
+      //-----------------------------------------------------------------------
+      h5(class='ls-subtitle') No trusted services were configured
+         div(class='ls-content')
+            p 
+               | For information more about the configuration, follow this 
+               a(href="https://docs.lacunasoftware.com/articles/pki-express/config/trust-services.html")="link"
+   else
+      div(class='ls-content')
+         //- Form containing information shared between front-end and back-end
+         form(id='selectFlowForm' action=`/pades-cloud-oauth-express` method='POST')
+            input(type='hidden', name='codeField', id='codeInput')
+            input(type='hidden', name='stateField', id='stateInput')
+            input(type='hidden', name='fileIdField', id='fileIdInput', value=fileId)
+            input(type='hidden', name='sessionIdField', id='sessionId', value=sessionId)
+
+            .form-group
+               label File to sign
+               p
+                  | You are signing&nbsp;
+                  a(href=`/download?fileId=${fileId}`, target='_blank') this document
+                  | .
+
+            //- Shows the list of configured providers
+            div(class='w-100')
+               div
+                  b Choose one of the available cloud providers:
+                  div(class="container px-0 pt-2")
+                     div(class="row")
+                        each val in authParameters
+                           div(class="col-md-3")
+                              div(class="card shadow rounded-0 min-vh-75", style="width: 18rem;")
+                                 if val.serviceInfo.badgeUrl
+                                    img(src=`${val.serviceInfo.badgeUrl}`, class="card-img-top", style="width: 100%; height: 150px")
+                                 else 
+                                    div(class="bg-light", style="width: 100%; height: 150px")
+                                       div(class="pt-5")
+                                          p(class="text-center")= "Empty BadgeUrl"
+                                 div(class="card-body")
+                                    button(type="button", class="provider-btn btn btn-dark", value=`${val.authUrl}`)= `Sign With ${val.serviceInfo.provider}`
+      
+      //- Shows modal with the iframe to perform authorization in providers website
+      div(id="providerModal", class="modal fade", data-backdrop="static", data-keyboard="false", tabindex="-1", aria-labelledby="providerModalLabel", aria-hidden="true")
+         div(class="modal-dialog modal-xl modal-dialog-centered")
+            div(class="modal-content")
+               div(class="modal-header")
+                  h5(class="modal-title" id="providerModalLabel")="Authorize Operation In Your Cloud Provider"
+               div(class="modal-body")
+                     iframe(id="providerOAuthIframe", class="w-100", style="min-height: 600px;", frameborder="0")
+
+block scripts
+   script.
+      $(document).ready(function() {
+         // Register click listeners
+         $(".provider-btn").click(onProviderBtnClicked);
+      });
+
+      function onProviderBtnClicked(e) {
+            var sessionId = $("#sessionId").val();
+
+            // Start listen to changes in the session storage
+            watchSessionStorage(sessionId);
+
+            // Show modal with iframe with the URL of the desired trust service
+            // provider.
+            var authUrl = $(this).val();
+            showIframeModal(authUrl);
+      }
+
+      function showIframeModal(authUrl) {
+         $("#providerOAuthIframe").attr("src", authUrl);
+         $('#providerModal').modal();
+      }
+
+      function watchSessionStorage(sessionId) {
+         var sessionInfo = sessionStorage.getItem(sessionId);
+         if (sessionInfo) {
+            // Once the session storage is filled, fill code and
+            // state fields and submit form.
+            onSessionStorageFilled(sessionInfo);
+            return;
+         }
+         setTimeout(function () {
+            watchSessionStorage(sessionId);
+         }, 1000);
+      }
+
+      function onSessionStorageFilled(sessionInfoJson) {
+         var sessionInfo = JSON.parse(sessionInfoJson);
+         var code = sessionInfo.code;
+         var state = sessionInfo.state;
+         $('#providerModal').modal('dispose');
+         $('#codeInput').val(code);
+         $('#stateInput').val(state);
+         $('#selectFlowForm').submit();
+      }
