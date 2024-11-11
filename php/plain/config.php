@@ -20,7 +20,7 @@ function getConfig()
             // ====================================================
             //     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
             // ====================================================
-            'accessToken' => '-iGGkCsWf-YUBtVA9IemMmg-hUmLO1Saph96SbiJEpyeU5n4G-ocrDwLHeMXYZ5ETNlqIYRpOMhaVkYsU2MR4P--1O39JF1ghZxLUlH8_iGNA4mBzHs41hSHdaZ4zF-pML-eVxa3oe3beSO-L9JO3qUwrW-DkERW3KY0f2ay22DXi2b4AXEd8NCJpyN0kzgOooksoUCpuVipVjrB98rkV69kkC0pwtBQoGUjevoZ_GyEIpKK1FpkafKi2jk-dprS7zRlRGB2x9ZislVyT1ZFpySWt0a-hY6H03rzVfgzQjumTGoXX33HWJZ5ZnyRMCrJfCVJRm69E6Lwmmabjo4dwB-uU1UuI0FI0AHdi7NVJl-V610axh3927Db__VRxrE_0kJAOLqmL7ZXxP2k2JQbTZe5qHQYzleo72zbAzhSbWvEc1ftVpb6zEbkARz4VR_xetjCWplHTNlMhTl9LRHQjlE-z5kv84WZ3HqYGhUmQ2tC6CuxeV2aE23Rf8XQlVTY3Q2cP_MY8PnGJmmAtW__Eu7Oa04M9WweZgYC4udxJkPJJxUKcJkycELWV-',
+            'accessToken' => 'uU1UuI0FI0AHdi7NVJl-V610axh3927Db__VRxrE_0kJAOLqmL7ZXxP2k2JQbTZe5qHQYzleo72zbAzhSbWvEc1ftVpb6zEbkARz4VR_xetjCWplHTNlMhTl9LRHQjlE-z5kv84WZ3HqYGhUmQ2tC6CuxeV2aE23Rf8XQlVTY3Q2cP_MY8PnGJmmAtW__Eu7Oa04M9WweZgYC4udxJkPJJxUKcJkycELWV-ntJYnk8BbjSVvUdH7Ods5khAc2vwSkwLzMWlWensk0HTcx5bXxusGEpV2DYrwYuU4uJWKgTqY6lHG7Nmi43wXeB3JEwkrf-L6KApiqteBuBeQlabh4jXJQV39KnbgRvAU5TwghmOPeTn2cqnQfqDjkY5GZS0Hca98pXLgBvkFjzG6XR7k5XhIqo1CsFkMWu2tQSxnEBSKnUu_POQx7p2jaYFZCi0trH1rKj7vjBTTJu006LlzhHUepfk56t_fk_q9bcPVIJydgbwwJRcSrM0SSIcjQsBk9fs0Yg',
             // This is a TRIAL token. It will be expired at 31/12/2024.
             // If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
