@@ -1,26 +1,26 @@
 package com.lacunasoftware.pkisuite.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lacunasoftware.amplia.AmpliaClient;
-import com.lacunasoftware.pkiexpress.PkiExpressOperator;
-import com.lacunasoftware.pkiexpress.TimestampAuthority;
-import com.lacunasoftware.restpki.RestPkiClient;
-import com.lacunasoftware.restpki.SecurityContext;
-import com.lacunasoftware.pkisuite.config.ApplicationProperties;
-import com.lacunasoftware.pkisuite.config.ProxyProperties;
-import com.lacunasoftware.restpkicore.RestPkiOptions;
-
-import cloudhub.SessionsApi;
-import cloudhub.client.CloudhubClient;
-import cloudhub.client.Configuration;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.lacunasoftware.amplia.AmpliaClient;
+import com.lacunasoftware.pkiexpress.PkiExpressOperator;
+import com.lacunasoftware.pkiexpress.TimestampAuthority;
+import com.lacunasoftware.pkisuite.config.ApplicationProperties;
+import com.lacunasoftware.pkisuite.config.ProxyProperties;
+import com.lacunasoftware.restpki.RestPkiClient;
+import com.lacunasoftware.restpki.SecurityContext;
+import com.lacunasoftware.restpkicore.RestPkiOptions;
+
+import cloudhub.client.CloudhubClient;
 
 
 public class Util {
@@ -238,7 +238,7 @@ public class Util {
 					"file src/main/resources/application.yml");
 		}
 
-		String endpoint = getProperties().getAmplia().getEndpoint();
+		String endpoint = getProperties().getCloudhub().getEndpoint();
 		if (endpoint == null || endpoint.length() == 0) {
 			endpoint = "https://cloudhub.lacunasoftware.com/";
 		}
