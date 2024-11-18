@@ -1,11 +1,15 @@
 ﻿using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Api.PadesSignature;
 using Lacuna.RestPki.Client;
+using Org.BouncyCastle.Utilities.Encoders;
+using PkiSuiteAspNetMvcSample.Api.Models.Sdk;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.Rest;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -44,11 +48,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * signature of each document in the batch.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Start(int id) {
+		public async Task<ActionResult> Start(BatchSignatureStartRequest request) {
 
-			// Get an instance of the PadesSignatureStarter class, responsible for receiving the signature
-			// elements and start the signature process.
-			var signatureStarter = new PadesSignatureStarter(Util.GetRestPkiClient()) {
+            // Get an instance of the PadesSignatureStarter class, responsible for receiving the signature
+            // elements and start the signature process.
+            var signatureStarter = new PadesSignatureStarter(Util.GetRestPkiClient()) {
 
 				// Set the unit of measurement used to edit the pdf marks and visual representations.
 				MeasurementUnits = PadesMeasurementUnits.Centimeters,
@@ -61,11 +65,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId(),
 
 				// Set a visual representation for the signature.
-				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki()
+				VisualRepresentation = PadesVisualElements.GetVisualRepresentationForRestPki(),
+
+				// Set certificate
+				SignerCertificate = request.CertContent
 			};
 
 			// Set the document to be signed based on its ID (passed to us from the page).
-			signatureStarter.SetPdfToSign(StorageMock.GetBatchDocPath(id));
+			signatureStarter.SetPdfToSign(StorageMock.GetBatchDocPath(request.Id));
 
 			/*
 				Optionally, add marks to the PDF before signing. These differ from the signature visual
@@ -88,11 +95,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
 			// batch-signature-form.js) and also to complete the signature on the POST action below (this
 			// should not be mistaken with the API access token).
-			var token = await signatureStarter.StartWithWebPkiAsync();
+			var clientSideSignatureInstructions = await signatureStarter.StartAsync();
 
-			// Return a JSON with the token obtained from REST PKI. (the page will use jQuery to decode this 
-			// value)
-			return Json(token);
+            // Return a JSON with the token obtained from REST PKI. (the page will use jQuery to decode this 
+            // value)
+            JsonResult jsonResult = Json(clientSideSignatureInstructions);
+            return jsonResult;
 		}
 
 		/**
@@ -105,14 +113,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * action can be called as /BatchPadesSignature/Complete/{token}
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Complete(string id) {
+		public async Task<ActionResult> Complete(BatchPadesSignatureRestCompleteRequest request) {
 
 			// Get an instance of the PadesSignatureFinisher2 class, responsible for completing the signature
 			// process.
 			var signatureFinisher = new PadesSignatureFinisher2(Util.GetRestPkiClient()) {
 
 				// Set the token for this signature. (rendered in a hidden input field, see the view)
-				Token = id
+				Signature = request.Signature,
+				Token = request.Id
 			};
 
 			// Call the Finish() method, which finalizes the signature process and returns a

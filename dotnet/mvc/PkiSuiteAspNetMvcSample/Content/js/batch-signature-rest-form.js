@@ -57,6 +57,7 @@ var batchSignatureRestForm = (function () {
 	})();
 
 	// Auxiliary global variables.
+	var selectedCertContent = null;
 	var startQueue = null;
 	var performQueue = null;
 	var completeQueue = null;
@@ -154,11 +155,27 @@ var batchSignatureRestForm = (function () {
 		// later)
 		var selectedCertThumbprint = formElements.certificateSelect.val();
 
-		// Call Web PKI to preauthorize the signatures, so that the user only sees one confirmation dialog.
-		pki.preauthorizeSignatures({
-			certificateThumbprint: selectedCertThumbprint,
-			signatureCount: formElements.documentsIds.length // Number of signatures to be authorized by the user.
-		}).success(startBatch); // Callback to be called if the user authorizes the signatures.
+		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
+
+			// Store the certificate content
+			selectedCertContent = certEncoded;
+
+			// Create the queues.
+			startQueue = new Queue();
+			// Add all documents to the first ("start") queue.
+			for (var i = 0; i < formElements.documentsIds.length; i++) {
+				startQueue.add({ index: i, docId: formElements.documentsIds[i] });
+			}
+
+			console.log('thumb:', selectedCertThumbprint, 'signatureCount: ', formElements.documentsIds.length);
+
+			// Call Web PKI to preauthorize the signatures, so that the user only sees one confirmation dialog.
+			pki.preauthorizeSignatures({
+				certificateThumbprint: selectedCertThumbprint,
+				signatureCount: formElements.documentsIds.length // Number of signatures to be authorized by the user.
+			}).success(startBatch); // Callback to be called if the user authorizes the signatures.
+
+		});
 	}
 
 	// ------------------------------------------------------------------------------------------------------
@@ -219,13 +236,20 @@ var batchSignatureRestForm = (function () {
 		// Call the server asynchronously to start the signature. (the server will call REST PKI and will
 		// return the signature operation token).
 		$.ajax({
-			url: formElements.controllerEndpoint + '/Start/' + step.docId,
+			url: formElements.controllerEndpoint + '/Start',
 			method: 'POST',
-			contentType: 'application/json; charset=utf-8',
+			data: {
+				id: step.docId,
+				certContentBase64: selectedCertContent
+			},
 			dataType: 'json',
-			success: function (token) {
+			success: function (response) {
+				console.log(response);
 				// Add the token to the document information. (we'll need it in the second step).
-				step.token = token;
+				step.token = response.Token;
+				step.toSignHash = response.ToSignHash;
+				step.digestAlgorithmOid = response.DigestAlgorithmOid;
+				
 				// Call the "done" callback signalling we're done with the document.
 				done(step);
 			},
@@ -250,13 +274,17 @@ var batchSignatureRestForm = (function () {
 	function performSignature(step, done) {
 		// Call signWithRestPki() on the Web PKI component passing the token received from REST PKI and the
 		// certificate selected by the user.
-		pki.signWithRestPki({
-			token: step.token,
-			thumbprint: formElements.certificateSelect.val()
-		}).success(function () {
+		console.log('signing hash with info: \n', step, '\n');
+		pki.signHash({
+			thumbprint: formElements.certificateSelect.val(),
+			hash: step.toSignHash,
+			digestAlgorithm: step.digestAlgorithmOid
+		}).success(function (signature) {
+			step.signature = signature;
 			// Call the "done" callback signalling we're done with the document.
 			done(step);
 		}).error(function (error) {
+			console.log('error in performSignature: ', error)
 			// Render error.
 			renderFail(step, error);
 			// Call the "done" callback with no argument, signalling the document should not go to the next
@@ -274,14 +302,18 @@ var batchSignatureRestForm = (function () {
 	// processed, the Queue.process will call the "onBatchCompleted" function.
 	// ------------------------------------------------------------------------------------------------------
 	function completeSignature(step, done) {
+		console.log('completing signature with info: \n', step, '\n');
 		// Call the server asynchronously to notify that the signature has been performed.
 		$.ajax({
-			url: formElements.controllerEndpoint + '/Complete/' + step.token, // The signature process token is guaranteed to be URL-safe.
+			url: formElements.controllerEndpoint + '/Complete',
 			method: 'POST',
-			contentType: 'application/json; charset=utf-8',
+			data: {
+				signatureBase64: step.signature,
+				id: step.token
+			},
 			dataType: 'json',
-			success: function (signedFileId) {
-				step.signedFileId = signedFileId;
+			success: function (response) {
+				step.signedFileId = response;
 				// Render success.
 				renderSuccess(step);
 				// Call the "done" callback signalling we're done with the document.
@@ -314,6 +346,7 @@ var batchSignatureRestForm = (function () {
 	// ------------------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
 		var docLi = formElements.docList.find('li').eq(step.index);
+		docLi.find('input').prop('disabled', true);
 		docLi
 			.append(document.createTextNode(' '))
 			.append($('<i>')
@@ -330,6 +363,7 @@ var batchSignatureRestForm = (function () {
 	function renderFail(step, error) {
 		addAlert('danger', 'An error has occurred while signing Document ' + step.docId + ': ' + error);
 		var docLi = formElements.docList.find('li').eq(step.index);
+		docLi.find('input').prop('disabled', true);
 		docLi
 			.append(document.createTextNode(' '))
 			.append($('<i>')
