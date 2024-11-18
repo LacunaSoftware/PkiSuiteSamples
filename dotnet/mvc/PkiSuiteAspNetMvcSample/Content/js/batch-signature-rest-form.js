@@ -167,8 +167,6 @@ var batchSignatureRestForm = (function () {
 				startQueue.add({ index: i, docId: formElements.documentsIds[i] });
 			}
 
-			console.log('thumb:', selectedCertThumbprint, 'signatureCount: ', formElements.documentsIds.length);
-
 			// Call Web PKI to preauthorize the signatures, so that the user only sees one confirmation dialog.
 			pki.preauthorizeSignatures({
 				certificateThumbprint: selectedCertThumbprint,
@@ -244,7 +242,6 @@ var batchSignatureRestForm = (function () {
 			},
 			dataType: 'json',
 			success: function (response) {
-				console.log(response);
 				// Add the token to the document information. (we'll need it in the second step).
 				step.token = response.Token;
 				step.toSignHash = response.ToSignHash;
@@ -274,7 +271,6 @@ var batchSignatureRestForm = (function () {
 	function performSignature(step, done) {
 		// Call signWithRestPki() on the Web PKI component passing the token received from REST PKI and the
 		// certificate selected by the user.
-		console.log('signing hash with info: \n', step, '\n');
 		pki.signHash({
 			thumbprint: formElements.certificateSelect.val(),
 			hash: step.toSignHash,
@@ -284,7 +280,6 @@ var batchSignatureRestForm = (function () {
 			// Call the "done" callback signalling we're done with the document.
 			done(step);
 		}).error(function (error) {
-			console.log('error in performSignature: ', error)
 			// Render error.
 			renderFail(step, error);
 			// Call the "done" callback with no argument, signalling the document should not go to the next
@@ -302,7 +297,6 @@ var batchSignatureRestForm = (function () {
 	// processed, the Queue.process will call the "onBatchCompleted" function.
 	// ------------------------------------------------------------------------------------------------------
 	function completeSignature(step, done) {
-		console.log('completing signature with info: \n', step, '\n');
 		// Call the server asynchronously to notify that the signature has been performed.
 		$.ajax({
 			url: formElements.controllerEndpoint + '/Complete',
