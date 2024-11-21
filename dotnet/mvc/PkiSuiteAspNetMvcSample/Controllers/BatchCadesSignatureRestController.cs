@@ -1,5 +1,6 @@
 ﻿using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
+using PkiSuiteAspNetMvcSample.Api.Models.Sdk;
 using PkiSuiteAspNetMvcSample.Classes;
 using PkiSuiteAspNetMvcSample.Models.Rest;
 using System;
@@ -43,7 +44,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * signature of each document in the batch.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Start(int id) {
+		public async Task<ActionResult> Start(BatchSignatureStartRequest request) {
 
 			// Get an instance of the CadesSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
@@ -57,22 +58,23 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId(),
 
 				// Optionally, set whether the content should be encapsulated in the resulting CMS.
-				EncapsulateContent = true
+				EncapsulateContent = true,
+				SignerCertificate = request.CertContent
 			};
 
 			// Set the document to be signed based on its ID (passed to us from the page).
-			signatureStarter.SetFileToSign(StorageMock.GetBatchDocPath(id));
+			signatureStarter.SetFileToSign(StorageMock.GetBatchDocPath(request.Id));
 
 			// Call the StartWithWebPki() method, which initiates the signature. This yields the token, a
 			// 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
 			// batch-signature-form.js) and also to complete the signature on the POST action below (this
 			// should not be mistaken with the API access token).
-			var token = await signatureStarter.StartWithWebPkiAsync();
+			var clientSideSignatureInstructions = await signatureStarter.StartAsync();
 
 			// Return a JSON with the token obtained from REST PKI. (the page will use jQuery to decode this 
 			// value)
-			return Json(token);
+			return Json(clientSideSignatureInstructions);
 		}
 
 		/**
@@ -85,14 +87,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * action can be called as /BatchCadesSignature/Complete/{token}
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Complete(string id) {
+		public async Task<ActionResult> Complete(BatchPadesSignatureRestCompleteRequest request) {
 
 			// Get an instance of the CadesSignatureFinisher2 class, responsible for completing the signature
 			// process.
 			var signatureFinisher = new CadesSignatureFinisher2(Util.GetRestPkiClient()) {
 
 				// Set the token for this signature. (rendered in a hidden input field, see the view)
-				Token = id
+				Token = request.Id,
+				Signature = request.Signature,
 			};
 
 			// Call the Finish() method, which finalizes the signature process and returns a
