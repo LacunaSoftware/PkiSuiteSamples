@@ -279,6 +279,7 @@
   <ItemGroup>
     <Compile Include="Classes\Enums.cs" />
     <Compile Include="Controllers\BatchCadesSignatureSdkController.cs" />
+    <Compile Include="Models\Rest\BatchPadesSignatureRestCompleteRequest.cs" />
     <Compile Include="Controllers\CadesServerKeySdkController.cs" />
     <Compile Include="Controllers\CheckCadesRestController.cs" />
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
@@ -391,6 +392,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\EventoManifesto.xml" />
+    <Content Include="Content\evtMovOpFin.xml" />
     <Content Include="Content\icp-brasil.png" />
     <Content Include="Content\InvoiceWithSigs.xml" />
     <Content Include="Content\js\authentication-form.js" />
