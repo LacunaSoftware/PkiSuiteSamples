@@ -16,7 +16,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		private XmlPolicySpec getSignaturePolicy() {
 
-			var policy = BrazilXmlPolicySpec.GetNFePadraoNacional();
+			var policy = XmlPolicySpec.GetXadesBasic(Util.GetTrustArbitrator());
 
 #if DEBUG
 			// During debug only, we clear the policy's default trust arbitrator (which, in the case of
