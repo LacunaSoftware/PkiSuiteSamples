@@ -64,7 +64,7 @@
  -->
 <script th:fragment="scripts"
         type="text/javascript"
-        th:src="@{/js/batch-signature-rest-wo-webpki-form.js}"></script>
+        th:src="@{/js/batch-pades-signature-rest-without-direct-communication-form.js}"></script>
 
 <script th:fragment="scripts" type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
@@ -77,7 +77,7 @@
 			refreshButton: $('#refreshButton'),          // The "refresh" button.
 			signButton: $('#signButton'),                // The button that initiates the operation.
 			documentsIds: [[${documentIds}]],            // The IDs of documents.
-			ctrlEndpoint: '/api/batch-pades-signature-rest-wo-webpki'
+			ctrlEndpoint: '/api/batch-pades-signature-rest-without-direct-communication'
 		});
 	});
 	/*]]>*/

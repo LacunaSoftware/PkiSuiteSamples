@@ -24,8 +24,8 @@ import com.lacunasoftware.restpki.SignatureResult;
 import com.lacunasoftware.restpki.SignatureStartResult;
 
 @RestController
-@RequestMapping("/api/batch-pades-signature-rest-wo-webpki")
-public class BatchPadesSignatureRestWithoutWebpkiApiController {
+@RequestMapping("/api/batch-pades-signature-rest-without-direct-communication")
+public class BatchPadesSignatureRestWithoutDirectCommunicationApiController {
 
 	/**
 	 * POST /api/batch-pades-signature-rest/start/{fileId}

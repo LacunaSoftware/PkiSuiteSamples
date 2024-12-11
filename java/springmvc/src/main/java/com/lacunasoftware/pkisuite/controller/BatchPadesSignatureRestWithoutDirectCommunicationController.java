@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/batch-signature-rest-wo-webpki")
-public class BatchPadesSignatureRestWithoutWebPKIController {
+@RequestMapping("/batch-pades-signature-rest-without-direct-communication")
+public class BatchPadesSignatureRestWithoutDirectCommunicationController {
 
     /**
 	 * GET /batch-signature-rest
@@ -31,9 +31,9 @@ public class BatchPadesSignatureRestWithoutWebPKIController {
 			documentIds.add(i);
 		}
 
-		// Render the batch signature page (batch-pades-signature-rest-wo-webpki/index.html).
+		// Render the batch signature page (batch-pades-signature-rest-without-direct-communication/index.html).
 		model.addAttribute("documentIds", documentIds);
-		return "batch-pades-signature-rest-wo-webpki/index";
+		return "batch-pades-signature-rest-without-direct-communication/index";
 	}
     
 }
