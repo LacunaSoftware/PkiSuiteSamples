@@ -5,7 +5,7 @@
 
 <div class="ls-content">
 	@if (Model.Services != null && Model.Services.Count > 0) {
-		using (Html.BeginForm("Authorize", "AuthenticationCloudHubSdk", new { userfile = Request.Params["userfile"] }, FormMethod.Post, new { id = "pwdFlowForm", role = "form" })) {
+	
 			<input id="cpfField" type="hidden" name="cpf" value="@Model.Cpf" />
 
 			<div class="form-group">
@@ -22,7 +22,6 @@
 			<button type="button" class="btn btn-primary" onclick="redirectUser()">
 				<i class="fas fa-file-signature"></i> Sign
 			</button>
-		}
 	} else {
 		<div>
 			<p>No trusted services was found with this CPF.</p>

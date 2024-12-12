@@ -20,7 +20,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
     public class AuthenticationCloudHubSdkController : Controller
     {
 
-        private const string RedirectUrl = "http://localhost:54123/AuthenticationCloudHubSdk/CloudHubCallBack";
+        private const string RedirectUrl = "http://localhost:54123/AuthenticationCloudHubSdk/Complete";
         CloudhubClient cloudhubClient = Util.GetCloudhubClient();
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CloudLogin(string cpf)
+        public async Task<ActionResult> Discover(string cpf)
         {
 
             var plainCpf = Regex.Replace(cpf, @"[.-]+", "");
@@ -58,7 +58,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             });
         }
 
-        public async Task<ActionResult> CloudHubCallBack(string session)
+        public async Task<ActionResult> Complete(string session)
         {
 
             // The PKCertificateAuthentication class requires an implementation of INonceStore. We'll use the
@@ -109,7 +109,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             // field to be used as key depends on your application's business logic) and set the user ID on
             // the auth cookie. For demonstration purposes, we'll set the email address directly on the
             // cookie as if it were the user ID.
-            return View("AuthenticationInfo", new AuthenticationInfoModel()
+            return View(new AuthenticationInfoModel()
             {
                 UserCert = certificate
 

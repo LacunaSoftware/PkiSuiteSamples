@@ -5,7 +5,7 @@
 <app-root></app-root>
 
 @section Scripts {
-	<script type="text/javascript">
+    <script type="text/javascript">
 		IsCSharpSample = true;
 		SampleRoutes = {
 			authCert: {
@@ -90,8 +90,11 @@
 			signPdfCloudPwd: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesCloudPwdSdk" }))'
 			},
+            signPdfCloudhubServer: {
+	        pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesCloudPwdSdk" }))'
+            },
 			signPdfCloudOAuth: {
-				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesCloudOauthSdk" }))'
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesCloudHubSdk" }))'
 			},
 			signXmlServer: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "XmlSignatureSdk" }))',
@@ -116,7 +119,7 @@
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "OpenXmlSignatureRest" }))'
 			}
 		};
-	</script>
+    </script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.3c1234946d8e0bef.js"></script>
