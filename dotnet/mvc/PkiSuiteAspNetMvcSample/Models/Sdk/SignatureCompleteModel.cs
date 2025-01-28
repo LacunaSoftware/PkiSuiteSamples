@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 
 namespace PkiSuiteAspNetMvcSample.Models.Sdk {
-	public class SignatureCompleteModel {
+    
+    public class SignatureCompleteModel {
 
 		public string UserFile { get; set; }
 		public string CmsFile { get; set; }
@@ -62,4 +63,8 @@ namespace PkiSuiteAspNetMvcSample.Models.Sdk {
 			}
 		}
 	}
+
+    public class ExtendedSignatureCompleteModel : SignatureCompleteModel {
+        public string RedirectAction { get; set; }
+    }
 }

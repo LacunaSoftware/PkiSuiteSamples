@@ -327,7 +327,10 @@ namespace PkiSuiteAspNetMvcSample.Classes
         {
             return Path.Combine(ContentPath, "SampleDiploma.xml");
         }
-            public static string GetBatchDocPath(int id)
+        public static byte[] GetSampleXmlDiplomaDocument() {
+            return File.ReadAllBytes(Path.Combine(ContentPath, "SampleDiploma.xml"));
+        }
+        public static string GetBatchDocPath(int id)
         {
             return Path.Combine(ContentPath, string.Format("{0:D2}.pdf", id % 10));
         }

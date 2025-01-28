@@ -276,6 +276,7 @@
     <Compile Include="Controllers\WebhookRestCoreController.cs" />
     <Compile Include="Controllers\XmlCodSignatureRestController.cs" />
     <Compile Include="Controllers\XmlDiplomaSignatureRestController.cs" />
+    <Compile Include="Controllers\XmlDiplomaSignatureSdkController.cs" />
     <Compile Include="Controllers\XmlServerKeySdkController.cs" />
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\MergeServerFilesModel.cs" />
@@ -424,6 +425,13 @@
     <Content Include="Views\XmlDiplomaSignatureRest\Registro.cshtml" />
     <Content Include="Views\XmlDiplomaSignatureRest\DadosRegistro.cshtml" />
     <Content Include="Views\XmlDiplomaSignatureRest\Diploma.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\Complete.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\Index.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\IndexRegistro.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\SignatureInfoFull.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\SignatureInfoRegistro.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureSdk\IndexFull.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
