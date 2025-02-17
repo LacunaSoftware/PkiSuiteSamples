@@ -29,10 +29,10 @@ import com.lacunasoftware.restpki.SignatureStartResult;
 
 
 @Controller
-@RequestMapping("/pades-signature-using-start-rest")
-public class PadesSignatureUsingStartRestController {
+@RequestMapping("/pades-signature-wo-communication-rest")
+public class PadesSignatureWithoutCommunicationRestController {
     /**
-	 * GET /pades-signature-using-start-rest
+	 * GET /pades-signature-wo-communication-rest
 	 *
 	 * This action initiates a PAdES signature using REST PKI and renders the signature page.
 	 */
@@ -48,7 +48,7 @@ public class PadesSignatureUsingStartRestController {
 		if (!StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
-		return "pades-signature-using-start-rest/index";
+		return "pades-signature-wo-communication-rest/index";
     }
 
 	@PostMapping("/start")
@@ -118,7 +118,7 @@ public class PadesSignatureUsingStartRestController {
 		model.addAttribute("certContent", certContent);
 		model.addAttribute("toSignHash", result.getToSignHashBase64());
 		model.addAttribute("digestAlgorithm", result.getDigestAlgorithm());
-		return "pades-signature-using-start-rest/start";
+		return "pades-signature-wo-communication-rest/start";
     }
 
 	@PostMapping("/complete")
@@ -160,7 +160,7 @@ public class PadesSignatureUsingStartRestController {
 		// Render the signature page (templates/pades-signature-rest/signature-info.html).
 		model.addAttribute("signerCert", signerCert);
 		model.addAttribute("signedPdf", signedPdf);
-		return "pades-signature-using-start-rest/signature-info";
+		return "pades-signature-wo-communication-rest/signature-info";
 
 	}
 

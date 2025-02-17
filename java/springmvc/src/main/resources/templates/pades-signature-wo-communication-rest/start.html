@@ -11,7 +11,7 @@
 			This form will be shown initially and when this page is rendered to perform the
 			signature using Web PKI component.
 		-->
-		<form id="signForm" method="POST" action="#" th:action="@{/pades-signature-using-start-rest/complete(fileId=${fileId})}">
+		<form id="signForm" method="POST" action="#" th:action="@{/pades-signature-wo-communication-rest/complete(fileId=${fileId})}">
 
 			<!--
 				Hidden fields used to pass data from the server-side to the javascript
@@ -24,7 +24,7 @@
 			<input type="hidden" id="tokenField" name="token" th:value="${token}" />
 			<input type="hidden" id="signatureField" name="signature" />
 
-			<a id="tryAgainButton" class="btn btn-primary" th:href="@{/pades-signature-using-start-rest(fileId=${fileId})}">
+			<a id="tryAgainButton" class="btn btn-primary" th:href="@{/pades-signature-wo-communication-rest(fileId=${fileId})}">
 				<i class="fas fa-undo-alt"></i> Try Again
 			</a>
 		</form>
