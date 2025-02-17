@@ -59,7 +59,7 @@ class Util {
 			 *
 			 * THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
 			 */
-			return StandardSecurityContexts.LACUNA_TEST;
+			return "f76d369a-c1c1-4af4-af8e-0f5a5bc38182";
 			// Notice for On Premises users: this security context might not exist
 			// on your installation, if you encounter an error please contact
 			// developer support.
