@@ -124,7 +124,7 @@ public class Util {
 			// Software.
 
 			// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
-			return SecurityContext.lacunaTest;
+			return new SecurityContext("f76d369a-c1c1-4af4-af8e-0f5a5bc38182");
 			// For more information, see https://github.com/LacunaSoftware/RestPkiSamples/blob/master/TestCertificates.md
 
 			// Notice for "on premises" users: this security context might not exist on your
