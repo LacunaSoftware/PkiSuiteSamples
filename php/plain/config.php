@@ -20,8 +20,8 @@ function getConfig()
             // ====================================================
             //     >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
             // ====================================================
-            'accessToken' => 'aUYuxBVZrZp2irpH8EIB_SscnuALrXWaoogOdQNaOccu50N5x1tIh8k3lNvYgJlV84bitmAONOsyOlnKfMGGuHCWDxONI7Kwys_XltmwTe3KoegZMaDJc6XMI1aoPVlM1yKtXHvWpvPLkDjtu3oiGnBJYYHghAgDuON4xNmll0pFdzf4D90P1XDAaKln3ZGd34l96YJLlRdppKNhD3a0ecWwvlSG8B10S9uPC0X8b7zLlwS9ECJAcg3QldCrBnvAybgydlRFkbINmW_bP0AHRT3NvN13F8bJLCfZDxGq30etJRaYCmIUEI6a9O3Tb8peDoGFh69Hg7L7xznNK1N_8tZ5Qv-WS4-5E0SEBVrh4JS5OQjkZquBlc1IkmGROYRNbNLd-msG0EunFnNO-Ex_JNGp06f5LSh2KtqpvBbhQdJuOCAd1ZxDTPsLZ0YY3P9JuqSO9TN1qWIu6r1TYYenXEv6Vj1Gp-zQg_D2UOqafyHXGoxz-LwVPUH5E74CcLeWx-zjAg',
-            // This is a TRIAL token. It will be expired at 31/03/2025.
+            'accessToken' => 'UHf7q3bpm9MUk6kAK4jmDg6XCyYB0Z4eQSQnE607UUhyBALTxPLC5nyIIhIXyHXAGamWhjrBv6EAhVxhEEZqG7pRWU8tY6uag8lRX7oU47o8zsMCBPwdF2BmRl6pgXom-6JIqEDMZZZkxTqVY1-zJ4afL2aIVUDIWOgkdnSEaPBVPnti1V_frxSoLRjYKAow1dUzUlcZuJIWWxAgrQACGEy5UBwPIfF0BR3Im4MRijwW80sfxPgNCfgiqXlYOnqR-Jom6aZ93_pbcBezPUI0x5h194zx7zzfvyCoTFVYKLpso2gWUlz2jbAryA8Y-W1AFXrlTKHMCqoMtR3FuBr42-4NCAQrNAuWZynm6xc6GH76B1s9SlzrJ8drr44lA-p0AN9BqkaOGhR33auxcctDfzUikRLXcPqE6fMJD3tYRKQ1q48F-AR2bv5u6kVSgYULZS6qMaS6B8u_K3hMuw1BY92fXCnj7c3SWeGX0_y0qSsDzfssn0P2DbAAMEvt1oTfkAAgLw',
+            // This is a TRIAL token. It will be expired at 30/04/2025.
             // If the REST PKI sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
             // Address of your Rest PKI installation (with the trailing '/' character)
@@ -36,8 +36,8 @@ function getConfig()
             // ====================================================
             //     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
             // ====================================================
-            'apiKey' => 'pki-suite-samples-02|8f0dabeb1efe2b45a750a067199645e42f7ec49705389c6734bd78f78af7888f',
-            // This is a TRIAL API KEY. It will be expired at 31/03/2025.
+            'apiKey' => 'pki-suite-samples-01|8783b405bc656e4081ef524f1b948de7ed108a6896cb9c9515e8e179c5ccddbe',
+            // This is a TRIAL API KEY. It will be expired at 30/04/2025.
             // If the REST PKI NG sample doesn't work, please contact our support by email: suporte@lacunasoftware.com
 
             // Address of your Rest PKI NG installation (with the trailing '/' character)
@@ -56,8 +56,8 @@ function getConfig()
             // ======================================================
             //       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
             // ======================================================
-            'apiKey' => 'pki-suite-samples-02|a36dd461198e5f47aafa47b121ed2ecd6bcc9bb8ae9a3486038959a191b13791',
-            // This is a TRIAL API key to use Amplia. It will expire at 31/03/2025.
+            'apiKey' => 'pki-suite-samples-01|ac92ab94db9a84499c34aec3e884e598e653d886611c6599adff08997d21ccc4',
+            // This is a TRIAL API key to use Amplia. It will expire at 30/04/2025.
             // If the Amplia's samples do not work please contact our support by email:
             // suporte@lacunasoftware.com
 
