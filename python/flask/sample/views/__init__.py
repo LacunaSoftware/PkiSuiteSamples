@@ -1,3 +1,4 @@
+from sample.views import pades_signature_wo_comm_rest
 from .authentication_express import blueprint as authentication_express
 from .authentication_rest import blueprint as authentication_restpki
 from .batch_cades_express import blueprint as batch_cades_express
@@ -27,6 +28,7 @@ from .pades_cloud_pwd_express import blueprint as pades_cloud_pwd_express
 from .pades_cloud_oauth_express import blueprint as pades_cloud_oauth_express
 from .pades_signature_express import blueprint as pades_signature_express
 from .pades_signature_rest import blueprint as pades_signature_restpki
+from .pades_signature_wo_comm_rest import blueprint as pades_signature_wo_comm_rest
 from .printer_version_pades_express import blueprint as \
     printer_version_pades_express
 from .printer_version_pades_rest import blueprint as printer_version_pades_rest
@@ -65,6 +67,7 @@ blueprints = {
     pades_server_key_express,
     pades_signature_express,
     pades_signature_restpki,
+    pades_signature_wo_comm_rest,
     pades_cloud_pwd_express,
     pades_cloud_oauth_express,
     printer_version_pades_express,
