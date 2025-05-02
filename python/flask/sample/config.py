@@ -12,8 +12,8 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='BhAehKDdXcSH-pQtoiX5KSFg4hiQOdOpSCCKbZf2IsZPlK4s_BX2jxp4gudxoJs_mAvUcVIHM3jHoK6l3ZcQvVD3SQuqB_DjY8U9LITFkuowzoTyRyvI_864pdh-ECypTiaHwmwwzzJCbryiKQZ2BXieqUYWr7oi-yEdkYh_JWZli9vkyGJbaG_yNGZmNOMNCpSHrSX0au-_2_KKRwd4j6hRkVB1bVWLf1fwwO3SrZFEa0_92iwD54pBItIy6DXBNBmVvUxdEh_8M33Nv26TeiyxwzGeks2QLk48a9eefR1MYmAgee6NsFprHWi5BTdc9uHlKooeWmHAqFktB1o2SsYBc1ireuNZHW2e_kyMt8q_TxwwWmSjdCuyAobRSm2tbpkNgvYIe_fk-E_hbwujC1TN0j6831Ea5hNgtDKfOug-PPKWEjfP9SEaHmkk-Gakng5z7pwdNdy-DR1T4Cr4-76WFdAoPobPX8_nAavkg1ksNVnArTQxb8Ji2p7cTEErwfidng'
-    # This is a TRIAL token. It will be expired at 31/05/2025.
+    REST_PKI_ACCESS_TOKEN='gE_5kzruE8mFH2JAZwuudl1j07a3KfNk1EhPv8SQ0fljtqsyNxROCeU9kLgJjdYEClZIv8nbNXnGj2Q4gWSDqLmPF0tctbwxYq_hTV8jwVPiTkEQcf8nu2UI6qVQ37cMkR3Ti-eYgmUkjsJCDy92DzlAoBXZi5_qDbd7hsYHmIw_bRpSU7nPtbfW5zM3gYwHcDK4XXCY3vowtiu9Knq6ZMOUk5s_aVPHOvsYkvrKYyZYyDEdpcDrbcvR9k-WygtqMGSb_mmE955zjivf-Nnk2y2Kx_56vBwmvTyl3gSOXcUAtntDA9M8NRgRfKqQUWfDjIYBj0hD7BFNLWYW9cN5J4zuGl5Jx_M9MHWPP8XF6pih_UdFyt9zIwhunthcKCku2X-TIO1eL1vShat0jO4mBkr_H7pHtA81y8ftGPVDGrg0QUUgo_-y8LEvIvrOenaa2VIJbadtQhT59-PLL_AOVsSWETpXp3Lpy9nw4PzPevKCEYQY87aj-kZKL9x6Vo0G5vBQEg'
+    # This is a TRIAL token. It will be expired at 30/06/2025.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
@@ -34,8 +34,8 @@ class Config(object):
     # ========================================================
     #     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
     # ========================================================
-    AMPLIA_API_KEY = 'pki-suite-samples-02|51b83be56cd4464e969fc1ef8f15960521555545ddcdd3b5bcef240f28f2aa19'
-    # This is a TRIAL API key to use Amplia. It will expire at 31/05/2025.
+    AMPLIA_API_KEY = 'pki-suite-samples-01|bcde1b050e8fce4e95166eec602254ed85ac10c27134df64f63128649f9b9d9d'
+    # This is a TRIAL API key to use Amplia. It will expire at 30/06/2025.
     # If the Amplia's samples do not work please contact our support by email:
     # suporte@lacunasoftware.com
 
