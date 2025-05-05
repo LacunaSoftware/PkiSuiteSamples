@@ -1,5 +1,6 @@
-django>=3.2.6
-reportlab>=3.6.1
-PyPDF2>=1.26.0
-restpki-client>=1.2.1
-Werkzeug>=2.2.2
+wheel==0.41.2
+django==4.1.1
+reportlab==3.6.11
+PyPDF2==2.10.8
+restpki-client==1.2.1
+Werkzeug==2.2.2
