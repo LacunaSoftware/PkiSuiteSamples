@@ -51,6 +51,25 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return true;
 		}
 
+		public static bool TryGetFileUrlSafe(string fileId, out byte[] content)
+		{
+			content = null;
+
+			if (string.IsNullOrEmpty(fileId))
+			{
+				return false;
+			}
+			
+			var path = Path.Combine(AppDataPath, fileId);
+			var fileInfo = new FileInfo(path);
+			if (!fileInfo.Exists)
+			{
+				return false;
+			}
+			content = File.ReadAllBytes(path);
+			return true;
+		}
+
 		public static bool TryGetFile(string fileId, out string absolutePath) {
 			absolutePath = null;
 
