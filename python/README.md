@@ -31,6 +31,8 @@ Optionally you can create and activate a "virtualenv" to avoid mixing library ve
     $ python manage.py runserver
     $ deactivate
 
+### Running with devcontainer
+The flask sample also has a devcontainer. To run it, just open the folder in [flask](flask/) and install the [Devcontainer for VSCode](https://code.visualstudio.com/docs/devcontainers/containers#_getting-started) to run it, next, use the launch.json configuration in the Run and Debug (`Ctrl+Shift+D`) to run the project.
 ## Django
 
 A sample using **Django** to build a web application can be found on folder [django](django/).
