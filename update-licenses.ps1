@@ -154,7 +154,7 @@ rest-pki-core:
   # ======================================================
   #     >>>> PASTE YOUR REST PKI API KEY BELOW <<<<
   # ======================================================
-  apiKey: $RestPkiCoreApiKey
+  apiKey: '$RestPkiCoreApiKey'
   # This is a TRIAL key. It will expire at $ExpiryDate
   # If the REST PKI's samples do not work, please contact our support by
   # email: suporte@lacunasoftware.com
@@ -173,7 +173,7 @@ amplia:
   # ======================================================
   #       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
   # ======================================================
-  apiKey: $AmpliaApiKey
+  apiKey: '$AmpliaApiKey'
   # This is a TRIAL API key to use Amplia. It will expire at $ExpiryDate.
   # If the Amplia's samples do not work please contact our support by email:
   # suporte@lacunasoftware.com
@@ -398,6 +398,16 @@ $licenseFilesCount = 0
 # Find and update all LacunaPkiLicense.config files
 $licenseFiles = Get-ChildItem -Path . -Filter "LacunaPkiLicense.config" -Recurse
 foreach ($file in $licenseFiles) {
+    # Define the specific file to exclude
+    $excludedFilePath = "dotnet/mvc/PkiSuiteAspNetMvcSample/bin/LacunaPkiLicense.config"
+    $normalizedExcludedFilePath = (Resolve-Path $excludedFilePath -ErrorAction SilentlyContinue).Path
+    $normalizedCurrentFilePath = (Resolve-Path $file.FullName).Path
+
+    if ($normalizedCurrentFilePath -eq $normalizedExcludedFilePath) {
+        Write-Host "Skipping license update for specific file: $($file.FullName)" -ForegroundColor Yellow
+        continue # Skip to the next file
+    }
+
     # Process the license content to ensure no empty lines at the end
     $xmlContent = $licenseContent.TrimEnd()
     
