@@ -23,6 +23,23 @@ class Config(object):
     REST_PKI_ENDPOINT = 'https://pki.rest/'
 
     # --------------------------------------------------------------------------
+    # REST PKI CORE
+    # --------------------------------------------------------------------------
+
+    # ========================================================
+    #    >>>> PASTE YOUR REST PKI CORE ACCESS TOKEN BELOW <<<<
+    # ========================================================
+    REST_PKI_CORE_ACCESS_TOKEN='pki-suite-samples-01|826efdd17323014ab3625e3da7296c0123df60c2e1e56e776c20fd1f784cd5e5'
+    # This is a TRIAL token. It will be expired at 30/06/2025.
+    # If the REST PKI CORE sample doesn't work, please contact our support by email:
+    # suporte@lacunasoftware.com
+
+    # In order to use this sample on a "on premises' installation of REST PKI CORE,
+    # fill the field below with the URL address of your REST PKI CORE installation
+    # (with the trailing '/' character).
+    REST_PKI_CORE_ENDPOINT = 'https://core.pki.rest/'
+
+    # --------------------------------------------------------------------------
     # Amplia
     # --------------------------------------------------------------------------
 

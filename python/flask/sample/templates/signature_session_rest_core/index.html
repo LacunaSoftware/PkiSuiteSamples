@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2 class="ls-title">Signature Session with REST PKI Core (Simple flow)</h2>
+
+<div class="ls-content">
+	<p>
+		We will redirect you to REST PKI. </br>
+		After you finish the signature, REST PKI will redirect you back.
+	</p>
+	<button type="button" class="btn btn-primary" onclick="redirectUser()">
+		<i class="fas fa-file-signature"></i> Go to REST PKI
+	</button>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript">
+		function redirectUser() {
+			// Redirect user.
+			var redirectUrl = {{ redirect_url|tojson }};
+
+			window.location = redirectUrl;
+		}
+	</script>
+{% endblock %} 

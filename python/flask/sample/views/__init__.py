@@ -33,6 +33,7 @@ from .printer_version_pades_rest import blueprint as printer_version_pades_rest
 from .read_cert_jquery import blueprint as read_cert_jquery
 from .read_cert_select2 import blueprint as read_cert_select2
 from .rsa_web import blueprint as rsa_web
+from .signature_session_rest_core import blueprint as signature_session_rest_core
 from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .upload import blueprint as upload
 from .xml_nfe_signature_rest import blueprint as xml_nfe_signature_rest
@@ -72,6 +73,7 @@ blueprints = {
     read_cert_jquery,
     read_cert_select2,
     rsa_web,
+    signature_session_rest_core,
     timestamp_pdf_express,
     upload,
     xml_nfe_signature_rest,

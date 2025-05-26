@@ -10,7 +10,9 @@ from amplia_client import AmpliaClient
 from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
+from restpki_ng_python_client import RestPkiClient as RestPkiClientNG
 from restpki_client import StandardSecurityContexts
+import restpki_ng_python_client
 
 
 # region REST PKI
@@ -31,12 +33,38 @@ def get_rest_pki_client():
     # Throw exception if token is not set (this check is here just for the sake
     # of newcomers, you can remove it)
     if access_token is None:
-        raise Exception('The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on sample/config.py file.')
+        raise Exception(
+            'The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on sample/config.py file.')
 
     if endpoint is None or len(endpoint) == 0:
         endpoint = 'https://pki.rest/'
 
     return RestPkiClient(endpoint, access_token)
+
+
+def get_rest_pki_core_client():
+    """
+
+    Creates an instance of the RestPkiClient class, use to connect to REST PKI Core
+    on every sample using the REST PKI client library.
+
+    """
+
+    # Get your token and endpoint values from the "config.py" configuration
+    # file.
+    access_token = current_app.config['REST_PKI_CORE_ACCESS_TOKEN']
+    endpoint = current_app.config['REST_PKI_CORE_ENDPOINT']
+
+    # Throw exception if token is not set (this check is here just for the sake
+    # of newcomers, you can remove it)
+    if access_token is None:
+        raise Exception(
+            'The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on sample/config.py file.')
+
+    if endpoint is None or len(endpoint) == 0:
+        endpoint = 'https://core.pki.rest/'
+
+    return RestPkiClientNG(endpoint, access_token)
 
 
 def get_security_context_id():
@@ -125,11 +153,13 @@ def set_pki_defaults(operator):
         # Get an instance of the TimestampAuthority class, responsible to inform
         # the URL and authentication parameters to be used when contacting the
         # timestamp authority.
-        authority = TimestampAuthority('https://pki.rest/tsp/a402df41-8559-47b2-a05c-be555bf66310')
+        authority = TimestampAuthority(
+            'https://pki.rest/tsp/a402df41-8559-47b2-a05c-be555bf66310')
 
         # Set authentication strategy. In the case of REST PKI, is using a
         # bearer token.
-        authority.set_oauth_token_authentication(current_app.config['REST_PKI_ACCESS_TOKEN'])
+        authority.set_oauth_token_authentication(
+            current_app.config['REST_PKI_ACCESS_TOKEN'])
 
         # Add authority to be used on operator.
         operator.timestamp_authority = authority
@@ -183,7 +213,8 @@ def get_description(c):
     if c.pki_brazil.cpf is not None:
         text += " (CPF %s)" % c.pki_brazil.cpf_formatted
     if c.pki_brazil.cnpj is not None:
-        text += ", company %s (CNPJ %s)" % (c.pki_brazil.company_name, c.pki_brazil.cnpj_formatted)
+        text += ", company %s (CNPJ %s)" % (c.pki_brazil.company_name,
+                                            c.pki_brazil.cnpj_formatted)
     return text
 
 
@@ -242,7 +273,7 @@ def format_verification_code(code):
     chars_per_group = VERIFICATION_CODE_SIZE / VERIFICATION_CODE_GROUPS
     groups = []
     for i in range(VERIFICATION_CODE_GROUPS):
-        groups.append(code[int(i * chars_per_group):int((i + 1) * chars_per_group)])
+        groups.append(code[int(i * chars_per_group)                      :int((i + 1) * chars_per_group)])
     return '-'.join(groups)
 
 

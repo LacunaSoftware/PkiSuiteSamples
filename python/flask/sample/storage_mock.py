@@ -1,3 +1,4 @@
+import base64
 import os
 import uuid
 
@@ -8,8 +9,8 @@ from flask import current_app
 from flask import session
 
 
-class SampleDocs (): 
-    SAMPLE_PDF =  0
+class SampleDocs ():
+    SAMPLE_PDF = 0
     PDF_SIGNED_ONCE = 1
     PDF_SIGNED_TWICE = 2
     CMS_SIGNED_ONCE = 3
@@ -38,6 +39,20 @@ def get_sample_batch_doc_path(file_id):
 
 def get_sample_doc_path():
     return join(current_app.static_folder, 'SampleDocument.pdf')
+
+
+def get_sample_doc_content_b64():
+    """gets sample_doc_path pdf content and converts to base64"""
+    with open(get_sample_doc_path(), 'rb') as f:
+        pdf_content = f.read()
+    return base64.b64encode(pdf_content).decode('utf-8')
+
+
+def get_sample_doc_content():
+    """gets sample_doc_path pdf content and converts to string"""
+    with open(get_sample_doc_path(), 'rb') as f:
+        pdf_content = f.read()
+    return pdf_content
 
 
 def get_pdf_stamp_content():
