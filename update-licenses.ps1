@@ -348,17 +348,11 @@ web-pki:
     if (Test-Path $lacunaYmlPath) {
         $content = Get-Content $lacunaYmlPath -Raw
         
-        # Per commit diff: update the YAML keys
-        $content = $content -replace '(rest_pki:[^\n]*\n[^\n]*api_key:)\s*[^\n]*', "`${1} $RestPkiApiKey"
-        $content = $content -replace '(rest_pki_core:[^\n]*\n[^\n]*api_key:)\s*[^\n]*', "`${1} $RestPkiCoreApiKey"
-        $content = $content -replace '(amplia:[^\n]*\n[^\n]*api_key:)\s*[^\n]*', "`${1} $AmpliaApiKey"
+        # Update the access token for REST PKI
+        $content = $content -replace "(rest_pki:[^}]*access_token:\s*')[^']*'", "`${1}$RestPkiApiKey'"
         
-        # Skip updating CloudHub API key
-        # $content = $content -replace '(cloudhub:[^\n]*\n[^\n]*api_key:)\s*[^\n]*', "`${1} $CloudHubApiKey"
-        
-        # Update expiry date comments
-        $content = $content -replace '<!-- This is a TRIAL API KEY\. It will be expired at \d{2}/\d{2}/\d{4}\. -->', "<!-- This is a TRIAL API KEY. It will be expired at $ExpiryDate. -->"
-        $content = $content -replace '<!-- This is a TRIAL key\. It will expire at \d{2}/\d{2}/\d{4} -->', "<!-- This is a TRIAL key. It will expire at $ExpiryDate -->"
+        # Update expiry date comments for REST PKI
+        $content = $content -replace "(# This is a TRIAL token\. It will) (be expired|expire) at \d{2}/\d{2}/\d{4}\.", "`${1} expire at $ExpiryDate."
         
         Update-FileContent -FilePath $lacunaYmlPath -Content $content -FileType "lacuna.yml"
     }
