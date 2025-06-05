@@ -39,19 +39,14 @@ To update API keys and license files across the repository, follow these steps:
 The `update-licenses.ps1` script performs the following changes:
 
 *   **`dotnet/mvc/PkiSuiteAspNetMvcSample/Web.config`**:
-    *   Updates `RestPkiApiKey` (value for key "RestPkiApiKey")
     *   Updates `RestPkiAccessToken` (value for key "RestPkiAccessToken" with the RestPkiApiKey)
     *   Updates `RestPkiCoreApiKey` (value for key "RestPkiCoreApiKey")
-    *   Updates `AmpliaApiKey` (value for key "AmpliaApiKey")
+    *   The `CloudHubApiKey` is intentionally skipped.
     *   Updates expiry date comments.
 *   **`dotnet/spa/PkiSuiteAspNetSpaSample/appsettings.json`**:
     *   Updates `RestPki.AccessToken` (with the RestPkiApiKey)
-    *   Updates `RestPki.apiKey` (with the RestPkiApiKey)
-    *   Updates `RestPkiCore.apiKey` (with the RestPkiCoreApiKey)
-    *   Updates `Amplia.apiKey` (with the AmpliaApiKey)
     *   Updates expiry date comments.
 *   **`java/springmvc/src/main/resources/application.yml`**:
-    *   Replaces the entire file content.
     *   Sets `rest-pki.accessToken` (with the RestPkiApiKey)
     *   Sets `rest-pki-core.apiKey` (with the RestPkiCoreApiKey)
     *   Sets `amplia.apiKey` (with the AmpliaApiKey)
@@ -59,7 +54,6 @@ The `update-licenses.ps1` script performs the following changes:
     *   The `cloudhub.apiKey` is intentionally preserved with its existing value from the template.
 *   **`nodejs/expressmvc/config/default.js`**:
     *   Updates `restPki.accessToken` (with the RestPkiApiKey)
-    *   Updates `restPkiCore.apiKey` (with the RestPkiCoreApiKey)
     *   Updates `amplia.apiKey` (with the AmpliaApiKey)
     *   Updates expiry date comments.
     *   The `cloudhub.apiKey` is intentionally skipped.
@@ -79,10 +73,7 @@ The `update-licenses.ps1` script performs the following changes:
     *   Updates expiry date comments.
 *   **`ruby/rails/config/lacuna.yml`**:
     *   Updates `rest_pki.api_key` (with the RestPkiApiKey)
-    *   Updates `rest_pki_core.api_key` (with the RestPkiCoreApiKey)
-    *   Updates `amplia.api_key` (with the AmpliaApiKey)
     *   Updates expiry date comments.
-    *   The `cloudhub.api_key` is intentionally skipped.
 *   **`LacunaPkiLicense.config`** (all instances found in the repository, except `dotnet/mvc/PkiSuiteAspNetMvcSample/bin/LacunaPkiLicense.config`):
     *   The entire XML content is replaced with the new license content provided by the user.
 
