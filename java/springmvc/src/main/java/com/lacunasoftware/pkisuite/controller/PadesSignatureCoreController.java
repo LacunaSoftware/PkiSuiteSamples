@@ -29,7 +29,7 @@ import com.lacunasoftware.restpkicore.RestPkiServiceFactory;
 @RequestMapping("/pades-signature-core")
 public class PadesSignatureCoreController {
 	/**
-	 * GET /pades-signature-express?fileId={fileToSign}
+	 * GET /pades-signature-core?fileId={fileToSign}
 	 *
 	 * This action simply renders the page.
 	 */
@@ -41,15 +41,15 @@ public class PadesSignatureCoreController {
 			throw new FileNotFoundException();
 		}
 
-		// Render the signature page (templates/pades-signature-express/index.html)
+		// Render the signature page (templates/pades-signature-core/index.html)
 		return "pades-signature-core/index";
 	}
 
 	/**
-	 * POST /pades-signature-express/start?fileId={fileToSign}
+	 * POST /pades-signature-core/start?fileId={fileToSign}
 	 *
 	 * This action receives the form submission from the signature page. It will perform a PAdES
-	 * signature in three steps using PKI Express and Web PKI.
+	 * signature in three steps using Rest PKI Core and Web PKI.
 	 * @throws Exception 
 	 */
 	@PostMapping("/start")
@@ -137,7 +137,7 @@ public class PadesSignatureCoreController {
 		// Call the completeSignature() method, which finalizes the signature process and returns a
 		// DocumentModel object.
 		DocumentModel signatureResult = service.completeSignature(request);
-		System.out.println(signatureResult);
+		// System.out.println(signatureResult);
 
 		// At this point, you'd typically store the signed PDF on your database. For demonstration
 		// purposes, we'll store the PDF on our StorageMock class.
