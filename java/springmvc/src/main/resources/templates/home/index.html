@@ -75,11 +75,13 @@
 		 },
 		signPdfServer: {
 			express: '/check-express?rc=server-files&fwd=pades-signature&op=signPdf',
-			restpki: '/check-rest-token?rc=server-files&fwd=pades-signature&op=signPdf'
+			restpki: '/check-rest-token?rc=server-files&fwd=pades-signature&op=signPdf',
+			restpkicore: '/check-rest-pki-core-api-key?rc=server-files&fwd=pades-signature&op=signPdf'
 		},
 		signPdfUser: {
 			express: '/check-express?rc=upload&fwd=pades-signature',
-			restpki: '/check-rest-token?rc=upload&fwd=pades-signature'
+			restpki: '/check-rest-token?rc=upload&fwd=pades-signature',
+			restpkicore: '/check-rest-pki-core-api-key?rc=server-files&fwd=pades-signature'
 		},
 		signPdfCloudhubUser: {
             restpki: "/check-rest-token?rc=upload&fwd=pades-signature-cloudhub&op=signPdf"
