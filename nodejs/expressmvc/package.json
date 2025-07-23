@@ -21,6 +21,7 @@
     "pki-express": "^1.13.1",
     "pug": "~2.0.3",
     "restpki-client": "^2.3.5",
+    "restpki-core-client": "^1.0.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

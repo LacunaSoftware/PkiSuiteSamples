@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+
+   h2(class='ls-title') PAdES Signature with REST PKI Core
+   h5(class='ls-subtitle') File signed successfully! 
+      i(class='fas fa-check-circle text-success')
+
+   h3 Actions:
+   ul
+      if downloadUrl
+         li
+            a(href=downloadUrl) Download the signed file
+      else if signedPdf
+         li
+            a(href=`/download?fileId=${signedPdf}`) Download the signed file
+      li
+         a(href='/') Back to home 

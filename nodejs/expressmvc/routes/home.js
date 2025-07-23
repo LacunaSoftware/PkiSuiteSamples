@@ -61,6 +61,31 @@ router.get('/check-restpki-token', (req, res) => {
 });
 
 /**
+ * GET /check-rest-pki-core-api-key
+ *
+ * Checks if the API key is set on the configuration file. If not, it renders an
+ * informative page to show how to fix that. Otherwise, it will continue to the
+ * sample identified by "fwd" and "op" parameters.
+ */
+router.get('/check-rest-pki-core-api-key', (req, res) => {
+	const { apiKey } = Config.getInstance().get('restPkiCore');
+	if (!apiKey || apiKey.indexOf(' API KEY ') >= 0) {
+		res.render('home/rest-core-api-key-not-set');
+	} else {
+		const { rc, fwd, op } = req.query;
+		if (fwd) {
+			if (op) {
+				res.redirect(`/${rc}?rc=${fwd}-core&op=${op}`);
+			} else {
+				res.redirect(`/${rc}?rc=${fwd}-core`);
+			}
+		} else {
+			res.redirect(`/${rc}-core`);
+		}
+	}
+});
+
+/**
  * GET /check-amplia-api-key
  *
  * ...

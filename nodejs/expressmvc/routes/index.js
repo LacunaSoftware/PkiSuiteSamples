@@ -46,6 +46,7 @@ router.use("/open-pades-restpki", require("./open-pades-restpki"));
 router.use("/pades-server-key-express", require("./pades-server-key-express"));
 router.use("/pades-signature-express", require("./pades-signature-express"));
 router.use("/pades-signature-restpki", require("./pades-signature-restpki"));
+router.use("/pades-signature-core", require("./pades-signature-core"));
 router.use(
 	"/pades-wo-communication-restpki",
 	require("./pades-wo-communication-restpki")
