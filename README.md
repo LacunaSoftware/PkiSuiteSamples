@@ -55,6 +55,7 @@ The `update-licenses.ps1` script performs the following changes:
 *   **`nodejs/expressmvc/config/default.js`**:
     *   Updates `restPki.accessToken` (with the RestPkiApiKey)
     *   Updates `amplia.apiKey` (with the AmpliaApiKey)
+    *   Sets `rest-pki-core.apiKey` (with the RestPkiCoreApiKey)
     *   Updates expiry date comments.
     *   The `cloudhub.apiKey` is intentionally skipped.
 *   **`php/plain/config.php`**:
