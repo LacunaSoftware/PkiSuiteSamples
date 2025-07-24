@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">PAdES Signature with REST PKI Core</h2>
+	<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+
+	<div class="ls-content">
+
+		<h3>Actions:</h3>
+		<ul>
+			<li><a th:href="@{${url}}">Download the signed file</a></li>		
+			<li><a th:href="@{/}">Back to home</a></li>		
+		</ul>
+
+	</div>
+</div>
+
+</body>
+</html>

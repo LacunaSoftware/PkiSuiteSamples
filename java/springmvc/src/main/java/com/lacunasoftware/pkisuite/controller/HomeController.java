@@ -1,22 +1,27 @@
 package com.lacunasoftware.pkisuite.controller;
 
-import com.lacunasoftware.pkiexpress.Authentication;
-import com.lacunasoftware.pkiexpress.InstallationNotFoundException;
-import com.lacunasoftware.pkisuite.config.AmpliaProperties;
-import com.lacunasoftware.pkisuite.util.Util;
-import com.lacunasoftware.pkisuite.config.RestPkiProperties;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
+import com.lacunasoftware.pkiexpress.Authentication;
+import com.lacunasoftware.pkiexpress.InstallationNotFoundException;
+import com.lacunasoftware.pkisuite.config.AmpliaProperties;
+import com.lacunasoftware.pkisuite.config.RestPkiCoreProperties;
+import com.lacunasoftware.pkisuite.config.RestPkiProperties;
+import com.lacunasoftware.pkisuite.util.Util;
 
 @Controller
 public class HomeController {
 
 	@Autowired
 	private RestPkiProperties restPkiConfig;
+
+	@Autowired
+	private RestPkiCoreProperties restPkiCoreConfig;
 
 	@Autowired
 	private AmpliaProperties ampliaConfig;
@@ -86,6 +91,33 @@ public class HomeController {
 			return String.format("redirect:/%s?rc=%s-rest", rc, fwd);
 		}
 		return String.format("redirect:/%s-rest", rc);
+	}
+
+	/**
+	 * GET /check-rest-pki-core-api-key
+	 *
+	 * Checks if the token is set on the application.yml file. If not, it renders a informative page
+	 * to show how to fix that. Otherwise, it will continue to the sample identified by "fwd" and
+	 * "op" parameters.
+	 */
+	@GetMapping("/check-rest-pki-core-api-key")
+	public String checkRestPkiCoreApiKey(
+		@RequestParam String rc,
+		@RequestParam(required = false) String fwd,
+		@RequestParam(required = false) String op
+	) {
+		String apiKey = restPkiCoreConfig.getApiKey();
+		if (apiKey == null || apiKey.equals("") || apiKey.contains(" API KEY ")) {
+			return "home/rest-core-api-key-not-set";
+		}
+
+		if (!Util.isNullOrEmpty(fwd)) {
+			if (!Util.isNullOrEmpty(op)) {
+				return String.format("redirect:/%s?rc=%s-core&op=%s", rc, fwd, op);
+			}
+			return String.format("redirect:/%s?rc=%s-core", rc, fwd);
+		}
+		return String.format("redirect:/%s-core", rc);
 	}
 
 	/**

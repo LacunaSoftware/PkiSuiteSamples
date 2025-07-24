@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+   h2(class='ls-title') REST PKI Core's API key was not set
+   h5(class='ls-subtitle') Please configure your API key in the application configuration
+
+   .ls-content
+      p In order to use REST PKI Core, you need to configure your API key. Please:
+      
+      ol
+         li Open the configuration file: 
+            code config/default.js
+         li Find the 
+            code restPkiCore
+            |  section
+         li Replace the placeholder 
+            code ' API KEY HERE '
+            |  with your actual API key
+         li Restart the application
+
+      p
+         | If you need help obtaining an API key, please contact&nbsp;
+         a(href='mailto:suporte@lacunasoftware.com') our support team
+         | . 

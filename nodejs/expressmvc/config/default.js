@@ -39,6 +39,21 @@ module.exports = {
 	},
 
 	// --------------------------------------------------------------------------
+	// REST PKI Core
+	// --------------------------------------------------------------------------
+	restPkiCore: {
+		// ========================================================
+		//     >>>> PASTE YOUR REST PKI CORE API KEY BELOW <<<<
+		// ========================================================
+		apiKey: 'pki-suite-samples-01|28599b060e5f164bb5d253cd899b47e91c911baf7aa0c07fd56d618b15300d05',
+
+		// In order to use this sample on a "on premises" installation of
+		// REST PKI Core, fill the field below with the URL address of your REST PKI Core
+		// installation (with the trailing '/' character).
+		endpoint: 'https://core.pki.rest/'
+	},
+
+	// --------------------------------------------------------------------------
 	// Amplia
 	// --------------------------------------------------------------------------
 	amplia: {

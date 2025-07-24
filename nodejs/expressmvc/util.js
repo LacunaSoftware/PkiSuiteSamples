@@ -6,6 +6,7 @@ const { AmpliaClient } = require("amplia-client");
 const { Config } = require('./config');
 const { StorageMock } = require('./storage-mock');
 const { CloudHubClient } = require('cloudhub-client');
+const { RestPkiCoreClient } = require('restpki-core-client');
 
 class Util {
 	// region REST PKI Configuration
@@ -33,6 +34,29 @@ class Util {
 		}
 
 		return new RestPkiClient(endpoint, token);
+	}
+
+	static getRestPkiCoreClient() {
+
+		const CONFIG = Config.getInstance().get('restPkiCore');
+		const apiKey = CONFIG['apiKey'];
+		if (!apiKey || apiKey.indexOf(' API KEY ') >= 0) {
+			throw new Error('The REST PKI Core API key was not set! Hint: to '
+				+ 'run this sample you must generate an API key on the '
+				+ 'REST PKI Core website and paste it on the file config/default.js.');
+		}
+		const endpoint = CONFIG['endpoint'];
+		if (!endpoint || endpoint.indexOf(' ENDPOINT ') >= 0) {
+			endpoint = 'https://core.pki.rest'; // default endpoint
+		}
+		// Set API key and endpoint to config object
+		const config = {
+			baseUrl: endpoint,
+			apiKey: apiKey,
+		}
+		// Return an instance of RestPkiCoreClient class, passing the config object.
+		return new RestPkiCoreClient(config);
+
 	}
 
 	/**
