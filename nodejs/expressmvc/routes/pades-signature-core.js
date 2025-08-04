@@ -1,15 +1,17 @@
-const express = require('express');
-const path = require('path');
-const uuidv4 = require('uuid/v4');
+const express = require("express");
+const path = require("path");
+const uuidv4 = require("uuid/v4");
 // NOTE: REST PKI Core Node.js client library is not yet available in npm
 // You will need to implement the REST PKI Core API calls directly or wait for the library to be published
 // For reference, the Java version uses: com.lacunasoftware.restpki:restpkicore-client:1.1.4
 
-const { Config } = require('../config');
-const { StorageMock } = require('../storage-mock');
-const { RestPkiCoreClient, PrepareSignatureRequest} = require('restpki-core-client');
-const { Util } = require('../util');
-
+const { Config } = require("../config");
+const { StorageMock } = require("../storage-mock");
+const {
+	RestPkiCoreClient,
+	PrepareSignatureRequest,
+} = require("restpki-core-client");
+const { Util } = require("../util");
 
 const router = express.Router();
 const APP_ROOT = process.cwd();
@@ -19,19 +21,19 @@ const APP_ROOT = process.cwd();
  *
  * This route only renders the signature page.
  */
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
 	// Get parameters from url
 	const { fileId } = req.query;
 
 	// Verify if the provided fileId exists.
 	if (!StorageMock.existsSync({ fileId })) {
-		const notFound = new Error('The fileId was not found');
+		const notFound = new Error("The fileId was not found");
 		notFound.status = 404;
 		next(notFound);
 		return;
 	}
 
-	res.render('pades-signature-core', { fileId });
+	res.render("pades-signature-core", { fileId });
 });
 
 /**
@@ -41,7 +43,7 @@ router.get('/', (req, res, next) => {
  * programmatically after the user press the "Sign File" button (see method
  * readCertificate() on public/javascripts/signature-start-form.js).
  */
-router.post('/start', async(req, res, next) => {
+router.post("/start", async (req, res, next) => {
 	const { fileId } = req.query;
 
 	// Recover variables from the POST arguments to be used on this step.
@@ -50,28 +52,78 @@ router.post('/start', async(req, res, next) => {
 
 	// Read file content and convert to base64
 	const fileContent = StorageMock.readSync(fileId);
-	const fileContentBase64 = fileContent.toString('base64');
+	const fileContentBase64 = fileContent.toString("base64");
 
 	try {
-        const client = Util.getRestPkiCoreClient();
-        const request = {
-            file: {
-                // set file content in base64
-                content: fileContentBase64,
-                contentType: 'application/pdf',
-                name: `${fileId}.pdf`,
-            },
-            certificate: {
-                // set certificate content in base64
-                content: certContent,
-            },
-            // set security context id
-            securityContextId: 'd480958c-59b0-4178-bd11-0198188bfd3c',    
-        }
+		const client = Util.getRestPkiCoreClient();
+		const request = {
+			file: {
+				// set file content in base64
+				content: fileContentBase64,
+				contentType: "application/pdf",
+				name: `${fileId}.pdf`,
+			},
+			certificate: {
+				// set certificate content in base64
+				content: certContent,
+			},
+			// set security context id
+			securityContextId: "d480958c-59b0-4178-bd11-0198188bfd3c",
+			pdfSignatureOptions: {
+				visualRepresentation: {
+					text: {
+						// For a full list of the supported tags, see:
+						// https://docs.lacunasoftware.com/articles/rest-pki/pades-tags.html
+						text: "Signed by {{name}} ({{national_id}})",
+						fontSize: 13.0,
+						// Specify that the signing time should also be rendered.
+						includeSigningTime: true,
+						// Optionally set the horizontal alignment of the text ('Left' or
+						// 'Right'), if not set the default is 'Left'.
+						horizontalAlign: "Left",
+						// Optionally set the container within the signature rectangle on
+						// which to place the text. By default, the text can occupy the
+						// entire rectangle (how much of the rectangle the text will actually
+						// fill depends on the length and font size). Below, we specify that
+						// the text should respect a right margin of 1.5 cm.
+						container: {
+							left: 0.2,
+							top: 0.2,
+							right: 0.2,
+							bottom: 0.2,
+						}
+					},
+					resource: {
+						content:
+							StorageMock.getPdfStampContent().toString("base64"),
+						mimeType: "image/png",
+					},
+					// Align the image to the right horizontally.
+					horizontalAlign: "Right",
+					// Align the image to the center vertically.
+					verticalAlign: "Center",
+					position: {
+						pageNumber: 0,
+						auto: {
+							container: {
+								left: 0.2,
+								top: 0.2,
+								right: 0.2,
+								bottom: 0.2,
+							},
+							signatureRectangleSize: {
+								height: 20,
+								width: 30,
+							},
+						},
+					},
+				},
+			},
+		};
 
-        const response = await client.prepareSignature(request);
+		const response = await client.prepareSignature(request);
 		// render the start page with the response data
-		res.render('pades-signature-core/start', {
+		res.render("pades-signature-core/start", {
 			certThumb,
 			certContent,
 			state: response.data.state,
@@ -87,11 +139,11 @@ router.post('/start', async(req, res, next) => {
 /**
  * POST /pades-signature-core/complete
  *
- * This route completes the signature using REST PKI Core, it will be called programmatically 
+ * This route completes the signature using REST PKI Core, it will be called programmatically
  * after the Web PKI component perform the signature and submit the form (see method
  * sign() on public/javascripts/signature-complete-form.js).
  */
-router.post('/complete', async (req, res, next) => {
+router.post("/complete", async (req, res, next) => {
 	const { fileId } = req.query;
 
 	// Recover variables from the POST arguments to be used on this step.
@@ -103,18 +155,20 @@ router.post('/complete', async (req, res, next) => {
 	const completeSignatureRequest = {
 		state: state,
 		signature: signature,
-	}
+	};
 
 	try {
-		const response = await client.completeSignature(completeSignatureRequest);
-		
-		res.render('pades-signature-core/complete', {
+		const response = await client.completeSignature(
+			completeSignatureRequest
+		);
+
+		res.render("pades-signature-core/complete", {
 			signedPdf: response.data.signedFile.name,
-			downloadUrl: response.data.signedFile.location, 
+			downloadUrl: response.data.signedFile.location,
 		});
 	} catch (err) {
 		next(err);
 	}
 });
 
-module.exports = router; 
+module.exports = router;
