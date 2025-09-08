@@ -1,0 +1,43 @@
+@model PkiSuiteAspNetMvcSample.Models.Rest.PadesCloudhubSignatureRestModel
+
+@{ 
+    ViewBag.Title = "PAdES Signature Using Cloud Certificate (CloudHub / REST PKI)";
+}
+
+<h2 class="ls-title">PAdES Signature Using Cloud Certificate with CloudHub and REST PKI</h2>
+
+<div class="ls-content">
+    @using (Html.BeginForm("CloudHubCallback", "PadesCloudhubSignatureRest", null, FormMethod.Get, new { id = "selectFlowForm", role = "form" })) {
+        <input type="hidden" name="fileId" value="@Model.FileId" />
+        <input type="hidden" name="session" value="@Model.CloudHubSession" />
+
+        <div class="px-0">
+            <label for="serviceField">Choose your trust provider:</label>
+            <select id="serviceField" name="service" class="form-control col col-sm-2">
+                @foreach (var service in Model.Services) {
+                    <option value="@service.AuthUrl">@service.ServiceInfo.ServiceName.ToLower() (@service.ServiceInfo.ServiceName)</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="px-0">
+                <button id="proceedButton" type="submit" class="btn btn-primary">Proceed</button>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var selectFlowForm = $('#selectFlowForm');
+            var serviceField = $('#serviceField');
+
+            selectFlowForm.submit(function (e) {
+                e.preventDefault();
+                var selectedServiceUrl = serviceField.val();
+                window.location.href = selectedServiceUrl;
+            });
+        });
+    </script>
+}

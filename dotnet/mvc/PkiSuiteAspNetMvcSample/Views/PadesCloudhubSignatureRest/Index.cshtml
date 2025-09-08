@@ -1,0 +1,27 @@
+@model PkiSuiteAspNetMvcSample.Models.Rest.PadesCloudhubSignatureRestModel
+
+<h2 class="ls-title">PAdES Signature Using Cloud Certificate with CloudHub and REST PKI</h2>
+
+<div class="ls-content">
+    @using (Html.BeginForm("CloudLogin", "PadesCloudhubSignatureRest", null, FormMethod.Post, new { id = "selectFlowForm", role = "form" })) {
+    <div class="px-0 col col-sm-2">
+        <label for="cpfField">Inform your CPF:</label>
+        <input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00" />
+        <input type="hidden" name="fileId" value="@Model.FileId" />
+    </div>
+    <div class="form-group">
+        <div class="px-0">
+            <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var cpfField = $('#cpfField');
+            cpfField.mask('000.000.000-00');
+        });
+    </script>
+}

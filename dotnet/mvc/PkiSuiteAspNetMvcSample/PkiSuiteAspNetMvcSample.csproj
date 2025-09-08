@@ -284,6 +284,7 @@
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
     <Compile Include="Controllers\AuthenticationCloudHubSdkController.cs" />
+    <Compile Include="Controllers\PadesCloudhubSignatureRestController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
@@ -314,6 +315,7 @@
     <Compile Include="Models\Sdk\BatchSignatureStartRequest.cs" />
     <Compile Include="Models\Sdk\BatchCadesSignatureStartResponse.cs" />
     <Compile Include="Models\Sdk\BatchPadesSignatureStartResponse.cs" />
+    <Compile Include="Models\Rest\PadesCloudhubSignatureRestModel.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\CadesPolicyMapperWrapper.cs" />
     <Compile Include="Classes\PadesVisualElements.cs" />
@@ -442,6 +444,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
+    <Content Include="Views\PadesCloudhubSignatureRest\Index.cshtml" />
+    <Content Include="Views\PadesCloudhubSignatureRest\CloudLogin.cshtml" />
+    <Content Include="Views\PadesCloudhubSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\PadesCloudhubSignatureRest\Signature.cshtml" />
+    <Content Include="Views\PadesCloudhubSignatureRest\SignatureComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
