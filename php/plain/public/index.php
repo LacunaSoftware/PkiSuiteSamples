@@ -119,7 +119,7 @@
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.98ac92e8c7a299d3.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.12a01eb4d180d755.js"></script>
 
 </body>
 </html>
