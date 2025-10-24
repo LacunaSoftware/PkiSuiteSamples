@@ -17,6 +17,10 @@ router.use(
 	require("./batch-pades-signature-restpki")
 );
 router.use(
+	"/batch-pades-signature-core",
+	require("./batch-pades-signature-core")
+);
+router.use(
 	"/batch-cades-signature-express",
 	require("./batch-cades-signature-express")
 );
