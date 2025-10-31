@@ -2,7 +2,6 @@ package com.lacunasoftware.pkisuite.model.express;
 import java.util.List;
 
 import com.lacunasoftware.pkiexpress.TrustServiceAuthParameters;
-import com.lacunasoftware.pkiexpress.TrustServiceInfo;
 
 public class AuthenticationCloudExpressModel {
     private List<TrustServiceAuthParameters> services;
