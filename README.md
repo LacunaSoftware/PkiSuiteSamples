@@ -78,4 +78,4 @@ The `update-licenses.ps1` script performs the following changes:
 *   **`LacunaPkiLicense.config`** (all instances found in the repository, except `dotnet/mvc/PkiSuiteAspNetMvcSample/bin/LacunaPkiLicense.config`):
     *   The entire XML content is replaced with the new license content provided by the user.
 
-If you have inserted a new key which requires updating in any of the documents listed above, please make the appropriate changes in the script.
+If you have inserted a new key which requires updating in any of the documents listed above, please make the appropriate changes in the script and also add the changes to this section of this README.
