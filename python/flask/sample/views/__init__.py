@@ -6,6 +6,8 @@ from .batch_pades_express import blueprint as \
     batch_pades_signature_express
 from .batch_pades_rest import blueprint as \
     batch_pades_signature_restpki
+from .batch_pades_rest_start import blueprint as \
+    batch_pades_signature_restpki_start
 from .cades_server_key_express import blueprint as cades_server_key_express
 from .cades_signature_express import blueprint as cades_signature_express
 from .cades_signature_rest import blueprint as cades_signature_restpki
@@ -46,6 +48,7 @@ blueprints = {
     batch_cades_rest,
     batch_pades_signature_express,
     batch_pades_signature_restpki,
+    batch_pades_signature_restpki_start,
     cades_server_key_express,
     cades_signature_express,
     cades_signature_restpki,
