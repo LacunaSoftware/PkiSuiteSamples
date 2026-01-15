@@ -1,0 +1,20 @@
+{
+  "name": "PKI Suite Samples Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=maven-repo,target=/home/vscode/.m2,type=volume"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-gradle",
+        "redhat.java"
+      ]
+    }
+  },
+  "postCreateCommand": "bash -lc 'set -e && cd java/springmvc && wget -q https://cdn.lacunasoftware.com/pki-express/linux/pkie-1.36.0.tar.gz && sudo mkdir -p /usr/share/pkie && sudo tar xzf pkie-1.36.0.tar.gz -C /usr/share/pkie && sudo chmod +x /usr/share/pkie/pkie && sudo ln -sf /usr/share/pkie/pkie /usr/local/bin/pkie && sudo mkdir -p /var/log/pkie && sudo chmod 777 /var/log/pkie && sudo pkie config --set logDir=/var/log/pkie && sudo pkie activate LacunaPkiLicense.config'"
+}
