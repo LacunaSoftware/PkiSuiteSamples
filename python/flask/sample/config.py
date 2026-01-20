@@ -60,6 +60,10 @@ class Config(object):
     # Web PKI
     # --------------------------------------------------------------------------
     WEB_PKI_LICENSE = None
+    # --------------------------------------------------------------------------
+    # Cloudhub
+    # --------------------------------------------------------------------------
+    CLOUDHUB_API_KEY = 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo='
 
 
 class ProductionConfig(Config):
