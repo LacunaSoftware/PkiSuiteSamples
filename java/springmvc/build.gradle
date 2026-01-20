@@ -43,3 +43,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.11'
     implementation 'com.google.code.gson:gson:2.8.5'
 }
+
+bootRun {
+    sourceResources sourceSets.main
+}
