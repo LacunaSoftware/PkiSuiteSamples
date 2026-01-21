@@ -16,6 +16,7 @@
 		      method="POST"
 		      th:with="quantFiles = ${model.getAvailableFiles().size()}">
 			<input type="hidden" th:field="*{isCmsCoSign}" />
+			<input type="hidden" th:field="*{isXmlToSign}" />
 			<input type="hidden" id="chosenFileIdField" th:field="*{chosenFileId}" />
 
 			<!--
