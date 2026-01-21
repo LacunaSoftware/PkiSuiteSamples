@@ -25,12 +25,10 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Base64;
 
 
 @Controller
-public class PadesSignatureCloudhubRestController {
+public class PadesSignatureCloudHubRestController {
 	// Redirect URL where it's accessed after OAuth flow is finished.
 	private SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
 
@@ -132,7 +130,7 @@ public class PadesSignatureCloudhubRestController {
 		signatureStarter.setMeasurementUnits(PadesMeasurementUnits.Centimeters);
 
 		// Set certificate obtained from the cloud provider
-		signatureStarter.setSignerCertificateBase64(new String(certificate).replaceAll("\"", ""));
+		signatureStarter.setSignerCertificateBase64(new String(certificate));
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PadesBasic);

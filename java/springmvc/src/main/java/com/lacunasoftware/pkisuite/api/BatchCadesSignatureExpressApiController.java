@@ -9,7 +9,6 @@ import com.lacunasoftware.pkisuite.api.model.express.BatchSignatureStartRequest;
 import com.lacunasoftware.pkisuite.api.model.express.BatchSignatureStartResponse;
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
