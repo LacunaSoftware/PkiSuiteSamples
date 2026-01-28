@@ -9,7 +9,9 @@ use Lacuna\RestPki\RestPkiCoreClient;
 use Lacuna\RestPki\RestPkiClient;
 use Lacuna\RestPki\StandardSecurityContexts;
 use Lacuna\PkiExpress\TimestampAuthority;
-class Util {
+
+class Util
+{
 
     //region REST PKI
 
@@ -30,7 +32,8 @@ class Util {
         }
 
         $endpoint = $config['restPki']['endpoint'];
-        if ($endpoint == null || count($endpoint) === 0) {
+
+        if (empty($endpoint)) {
             $endpoint = 'https://pki.rest/';
         }
 
@@ -59,7 +62,7 @@ class Util {
         return new RestPkiCoreClient($options);
     }
 
-    public static function getCloudhubClient() 
+    public static function getCloudhubClient()
     {
         $config = getConfig();
         $apiKey = $config['cloudHub']['apiKey'];
@@ -152,7 +155,7 @@ class Util {
         $ampliaApiKey = $config['amplia']['apiKey'];
         if (empty($ampliaApiKey) || strpos($ampliaApiKey, ' API KEY ') !== false) {
             throw new \Exception('The API key was not set! Hint: to run this sample ' .
-            'you must generate an API key on the Amplia website and paste it on the file config.php');
+                'you must generate an API key on the Amplia website and paste it on the file config.php');
         }
 
         $ampliaEndpoint = $config['amplia']['endpoint'];
@@ -198,4 +201,3 @@ class Util {
         return $text;
     }
 }
-

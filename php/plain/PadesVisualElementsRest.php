@@ -53,7 +53,7 @@ class PadesVisualElementsRest {
                 'verticalAlign' => 'Center',
             ],
             // Position of the visual representation. We get the footnote position preset.
-            'position' => PadesVisualPositioningPresets::getFootnote(Util::getRestPkiClient())
+            'position' => PadesVisualPositioningPresets::getFootnote(Util::getRestPkiClient(),0)
         ];
 
         // It's possible to customize the position presets. For this sample, we will customize the

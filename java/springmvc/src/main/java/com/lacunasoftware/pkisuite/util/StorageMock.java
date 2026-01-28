@@ -223,6 +223,7 @@ public class StorageMock {
 		while ((line = bufferedReader.readLine()) != null) {
 			sb.append(line);
 		}
+		bufferedReader.close();
 
 		return sb.toString();
 	}
