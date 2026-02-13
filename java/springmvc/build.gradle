@@ -21,7 +21,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-    
+    mavenLocal()
     mavenCentral()
     
     // Uncomment to use prerelease Lacuna packages
@@ -32,7 +32,7 @@ repositories {
 
 dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
-    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.20.0'
+    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.23.2'
     implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
     implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.4'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
@@ -42,4 +42,8 @@ dependencies {
     implementation 'commons-io:commons-io:2.4'
     implementation 'commons-codec:commons-codec:1.11'
     implementation 'com.google.code.gson:gson:2.8.5'
+}
+
+bootRun {
+    sourceResources sourceSets.main
 }
