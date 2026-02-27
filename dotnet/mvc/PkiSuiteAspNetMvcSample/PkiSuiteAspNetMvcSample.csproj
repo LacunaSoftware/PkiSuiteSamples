@@ -284,6 +284,7 @@
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
     <Compile Include="Controllers\AuthenticationCloudHubSdkController.cs" />
+    <Compile Include="Controllers\PadesServerKeyRestController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
@@ -442,6 +443,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
+    <Content Include="Views\PadesServerKeyRest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
