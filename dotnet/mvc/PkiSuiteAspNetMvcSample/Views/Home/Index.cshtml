@@ -87,6 +87,9 @@
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesServerKeySdk" }))',
 				restpkicore: '@Html.Raw(Url.Action("CheckRestPkiCoreApiKey", "Home", new { @rc = "Upload", @ctrl = "PadesServerKeyRestCore" }))'
 			},
+			signPdfCloudhubServer: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "AuthenticationCloudHubSdk", @op = "signPdf" }))',
+			},
 			signPdfCloudPwd: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesCloudPwdSdk" }))'
 			},
