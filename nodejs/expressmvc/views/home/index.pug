@@ -92,7 +92,8 @@ block scripts
             restpki: "/check-restpki-token?rc=upload&fwd=pades-signature-cloudhub&op=signPdf"
          },
          signPdfCloudhubServer: {
-            restpki: "/check-restpki-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
+            restpki: "/check-restpki-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf",
+            express: "/check-pki-express?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
          },
          signPdfServerKey: {
             restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=pades-server-key',
