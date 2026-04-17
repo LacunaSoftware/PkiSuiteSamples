@@ -100,7 +100,8 @@ block scripts
             express: '/check-pki-express?rc=upload&fwd=pades-server-key'
          },
          signPdfCloudOAuth: {
-            express: '/check-pki-express?rc=upload&fwd=pades-cloud-oauth'
+            express: '/check-pki-express?rc=upload&fwd=pades-cloud-oauth',
+            restpki: '/check-restpki-token?rc=upload&fwd=pades-cloud-oauth'
          },
          signPdfCloudPwd: {
             express: '/check-pki-express?rc=upload&fwd=pades-cloud-pwd'

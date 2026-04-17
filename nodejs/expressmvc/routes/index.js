@@ -60,6 +60,10 @@ router.use(
 	"/pades-cloud-oauth-express",
 	require("./pades-cloud-oauth-express")
 );
+router.use(
+	"/pades-cloud-oauth-restpki",
+	require("./pades-cloud-oauth-restpki")
+);
 router.use("/pades-cloud-pwd-express", require("./pades-cloud-pwd-express"));
 router.use(
 	"/printer-version-cades-express",
