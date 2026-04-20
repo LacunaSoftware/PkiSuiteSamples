@@ -65,6 +65,7 @@ router.use(
 	require("./pades-cloud-oauth-restpki")
 );
 router.use("/pades-cloud-pwd-express", require("./pades-cloud-pwd-express"));
+router.use("/pades-cloud-pwd-restpki", require("./pades-cloud-pwd-restpki"));
 router.use(
 	"/printer-version-cades-express",
 	require("./printer-version-cades-express")
