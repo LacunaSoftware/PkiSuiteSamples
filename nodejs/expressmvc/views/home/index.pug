@@ -89,7 +89,8 @@ block scripts
             restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=pades-signature'
          },
          signPdfCloudhubUser: {
-            restpki: "/check-restpki-token?rc=upload&fwd=pades-signature-cloudhub&op=signPdf"
+            restpki: "/check-restpki-token?rc=upload&fwd=pades-signature-cloudhub&op=signPdf",
+            restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=pades-signature-cloudhub'
          },
          signPdfCloudhubServer: {
             restpki: "/check-restpki-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf",
@@ -102,11 +103,13 @@ block scripts
          },
          signPdfCloudOAuth: {
             express: '/check-pki-express?rc=upload&fwd=pades-cloud-oauth',
-            restpki: '/check-restpki-token?rc=upload&fwd=pades-cloud-oauth'
+            restpki: '/check-restpki-token?rc=upload&fwd=pades-cloud-oauth',
+            restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=pades-cloud-oauth'
          },
          signPdfCloudPwd: {
             express: '/check-pki-express?rc=upload&fwd=pades-cloud-pwd',
-            restpki: '/check-restpki-token?rc=upload&fwd=pades-cloud-pwd'
+            restpki: '/check-restpki-token?rc=upload&fwd=pades-cloud-pwd',
+            restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=pades-cloud-pwd'
          },
          signXmlCloudOAuth: {
             express: '/check-pki-express?rc=xml-cloud-oauth'
@@ -123,9 +126,10 @@ block scripts
             express: '/check-pki-express?rc=upload&fwd=open-cades',
             restpki: '/check-restpki-token?rc=upload&fwd=open-cades'
          },
-         validatePdfSig: { 
+         validatePdfSig: {
             express: '/check-pki-express?rc=upload&fwd=open-pades',
-            restpki: '/check-restpki-token?rc=upload&fwd=open-pades'
+            restpki: '/check-restpki-token?rc=upload&fwd=open-pades',
+            restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=open-pades'
          }
          // validateXmlSig: { }
       };
