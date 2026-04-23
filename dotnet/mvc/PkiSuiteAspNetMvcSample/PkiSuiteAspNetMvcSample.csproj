@@ -284,6 +284,7 @@
     <Compile Include="Controllers\CheckCadesSdkController.cs" />
     <Compile Include="Controllers\CheckPadesSdkController.cs" />
     <Compile Include="Controllers\AuthenticationCloudHubSdkController.cs" />
+    <Compile Include="Controllers\PadesCloudHubSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="Controllers\XmlSignatureSdkController.cs" />
     <Compile Include="Models\MergeServerFilesModel.cs" />
     <Compile Include="Models\Sdk\AuthenticationCloudHubSdkModel.cs" />
+    <Compile Include="Models\Sdk\PadesCloudHubModel.cs" />
     <Compile Include="Models\Sdk\PadesCloudOauthModel.cs" />
     <Compile Include="Models\Sdk\PadesCloudPwdModel.cs" />
     <Compile Include="Models\Sdk\PrescricaoDataModel.cs" />
@@ -442,6 +444,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
+    <Content Include="Views\PadesCloudHubSdk\Index.cshtml" />
+    <Content Include="Views\PadesCloudHubSdk\Discover.cshtml" />
+    <Content Include="Views\PadesCloudHubSdk\SignatureInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
