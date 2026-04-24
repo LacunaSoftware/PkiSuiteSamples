@@ -68,21 +68,18 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * to the PSC's authentication page.
 		 */
 		[HttpPost]
-		public async Task<ActionResult> Discover(string cpf) {
-
-			// Remove formatting characters (dots and dashes) from the CPF.
+		public async Task<ActionResult> Discover(string cpf, string userfile) {
 			var plainCpf = Regex.Replace(cpf, @"[.-]+", "");
 
-			// Create a CloudHub session to discover available trust services for this CPF.
 			var sessionRequest = new SessionCreateRequest {
 				Identifier = plainCpf,
-				RedirectUri = RedirectUrl,
+				// Append fileId to the redirect URL so it survives the PSC round-trip.
+				RedirectUri = RedirectUrl + "?fileId=" + userfile,
 				Type = Lacuna.Cloudhub.Api.TrustServiceSessionTypes.SingleSignature,
 			};
 
 			SessionModel session = await cloudhubClient.CreateSessionAsync(sessionRequest);
 
-			// Return the view with the list of available services so the user can pick a provider.
 			return View(new AuthenticationCloudHubSdkModel() {
 				Services = session.Services,
 				Cpf = plainCpf,
@@ -99,9 +96,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public async Task<ActionResult> Complete(string session, string fileId) {
 			byte[] signatureContent;
 			PKCertificate pkCertificate;
-
 			try {
-
 				// Retrieve the user's certificate from CloudHub using the session token
 				// returned by the PSC after authentication.
 				var cert = await cloudhubClient.GetCertificateAsync(session);
@@ -114,30 +109,31 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				// Create a PadesSigner instance to perform the signature.
 				var signer = new PadesSigner();
-
 				// Set the signature policy.
 				signer.SetPolicy(GetSignaturePolicy());
-
 				// Set the PDF file to be signed.
 				signer.SetPdfToSign(userfilePath);
-
 				// Decode the certificate returned by CloudHub and set it as the signing certificate.
 				pkCertificate = PKCertificate.Decode(cert);
 				signer.SetSigningCertificate(pkCertificate);
-
 				// Set a visual representation for the signature.
 				signer.SetVisualRepresentation(PadesVisualElements.GetVisualRepresentationForPkiSdk(pkCertificate));
 
-				// Compute the signature, which includes validation of the certificate and the
-				// resulting signature.
-				signer.ComputeSignature();
+				// Compute the to-sign bytes and get the signature algorithm and transfer data.
+				var toSignBytes = signer.GetToSignBytes(out SignatureAlgorithm signatureAlg, out byte[] transferData);
 
-				// Get the signed PDF as a byte array.
+				// Hash the bytes using the digest algorithm, then send to CloudHub for signing.
+				var toSignHash = signatureAlg.DigestAlgorithm.ComputeHash(toSignBytes);
+				var signature = await cloudhubClient.SignHashAsync(new SignHashRequest() {
+					DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
+					Hash = toSignHash,
+					Session = session
+				});
+
+				signer.SetPreComputedSignature(signature, transferData);
 				signatureContent = signer.GetPadesSignature();
 			}
 			catch (ValidationException ex) {
-				// A ValidationException may be thrown if, for example, the certificate encoding
-				// cannot be read or the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
 				return View();
 			}
