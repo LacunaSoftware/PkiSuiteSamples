@@ -34,6 +34,7 @@ router.use("/cades-signature-express", require("./cades-signature-express"));
 router.use("/check-cades-express", require("./check-cades-express"));
 router.use("/check-pades-restpki", require("./check-pades-restpki"));
 router.use("/check-pades-express", require("./check-pades-express"));
+router.use("/check-pades-core", require("./check-pades-core"));
 router.use("/download", require("./download"));
 router.use("/", require("./home"));
 router.use("/issue-cert-server-amplia", require("./issue-cert-server-amplia"));

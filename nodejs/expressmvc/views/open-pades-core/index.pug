@@ -12,7 +12,7 @@ block content
 
             div(class="card")
                div(class="card-header open-header" id=headingId)
-                  a(class="collapsed" role="button" data-toggle="collapse" href="##{collapseId}" aria-expanded="true" aria-controls=collapseId)
+                  a(class="collapsed" role="button" data-toggle="collapse" href=`#${collapseId}` aria-expanded="true" aria-controls=`${collapseId}`)
                      | #{signer.certificate ? signer.certificate.subjectName.commonName : 'Unknown signer'}
 
                   if signer.validationResults
@@ -43,4 +43,4 @@ block content
                                        li CNPJ: #{signer.certificate.pkiBrazil.cnpjFormatted}
                      if signer.validationResults
                         label(for="validations") Validation results
-                        textarea(id="validations" style="width: 100%;" rows="10") #{JSON.stringify(signer.validationResults, null, 2)}
+                        textarea(id="validations" style="width: 100%;" rows="20") #{signer.validationResults}
