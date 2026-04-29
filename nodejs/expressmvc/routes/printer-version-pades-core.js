@@ -1,18 +1,7 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
-const {
-	PdfMarker,
-	PdfMark,
-	PdfMarkPageOptions,
-	PdfMarkImageElement,
-	PdfMarkImage,
-	PdfMarkTextElement,
-	PdfTextSection,
-	PdfMarkQRCodeElement,
-	Color,
-} = require('restpki-client');
-
 const { StorageMock } = require('../storage-mock');
 const { Util } = require('../util');
 
@@ -21,16 +10,16 @@ const APP_ROOT = process.cwd();
 
 const verificationSiteNameWithArticle = 'my Verification Center';
 const verificationSite = 'http://localhost:3000';
-const verificationLinkFormat = 'http://localhost:3000/check-pades-restpki?code=';
+const verificationLinkFormat = 'http://localhost:3000/check-pades-core?code=';
 const normalFontSize = 12;
 const dateFormat = 'DD/MM/YYYY HH:mm';
 const timeZoneDisplayName = 'Brasilia timezone';
 
-/**
+/*
  * GET /printer-version-pades-core
  *
  * Generates a printer-friendly version of a signed PDF using REST PKI Core
- * for signature inspection and REST PKI for PDF marking.
+ * for both signature inspection and PDF mark application.
  */
 router.get('/', (req, res, next) => {
 	const { fileId } = req.query;
@@ -49,10 +38,10 @@ router.get('/', (req, res, next) => {
 	}
 
 	generatePrinterFriendlyVersion(filePath, verificationCode)
-		.then((pfvContent) => {
+		.then((pdfBuffer) => {
 			res.type('pdf');
 			res.setHeader('Content-Disposition', 'filename=printer-friendly.pdf');
-			res.send(pfvContent);
+			res.send(pdfBuffer);
 		})
 		.catch((err) => next(err));
 });
@@ -61,174 +50,183 @@ async function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 	const formattedVerificationCode = Util.formatVerificationCode(verificationCode);
 	const verificationLink = verificationLinkFormat + formattedVerificationCode;
 
-	// Inspect signature using REST PKI Core
 	const client = Util.getRestPkiCoreClient();
-	const fs = require('fs');
 	const fileContent = fs.readFileSync(pdfPath);
+	const fileContentBase64 = fileContent.toString('base64');
+	const fileName = path.basename(pdfPath);
 
+	// 1. Inspect the signatures using REST PKI Core.
 	const inspectResponse = await client.inspectSignature({
 		file: {
-			content: fileContent.toString('base64'),
+			content: fileContentBase64,
 			contentType: 'application/pdf',
-			name: path.basename(pdfPath),
+			name: fileName,
 		},
 		validate: true,
 		securityContextId: Util.getSecurityContextId(),
 	});
-
 	const signature = inspectResponse.data;
 
-	// Apply PDF marks using REST PKI (PdfMarker)
-	const pdfMarker = new PdfMarker(Util.getRestPkiClient());
-	pdfMarker.setFileFromPath(pdfPath);
-
-	const certDisplayNames = [];
-	signature.signers.forEach((signer) => {
-		certDisplayNames.push(_getDisplayName(signer.certificate));
-	});
-	const signerNames = Util.joinStringPt(certDisplayNames);
+	// Build the "all pages" message with signer names.
+	const signerNames = Util.joinStringPt(signature.signers.map(s => _getDisplayName(s.certificate)));
 	const allPagesMessage = `This document was digitally signed by ${signerNames}.\n`
 		+ `To check the signatures, visit ${verificationSiteNameWithArticle}`
 		+ ` at ${verificationSite} and inform this code ${formattedVerificationCode}.`;
 
-	let pdfMark;
-	let manifestMark;
-	let element;
-	let textSection;
+	const icpBrasilBase64 = Util.getIcpBrasilLogoContent().toString('base64');
 
-	pdfMark = new PdfMark();
-	pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
-	pdfMark.container = { width: 1, right: 1, height: 1, bottom: 1 };
-	element = new PdfMarkImageElement();
-	element.opacity = 75;
-	element.image = new PdfMarkImage(Util.getIcpBrasilLogoContent(), 'image/png');
-	pdfMark.elements.push(element);
-	pdfMark.backgroundColor = new Color(0, 0, 0, 1);
-	pdfMarker.marks.push(pdfMark);
+	const marks = [];
 
-	pdfMark = new PdfMark();
-	pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
-	pdfMark.container = { left: 1.5, right: 3.5, height: 2, bottom: 0 };
-	element = new PdfMarkTextElement();
-	element.opacity = 75;
-	element.textSections.push(new PdfTextSection(allPagesMessage));
-	pdfMark.elements.push(element);
-	pdfMark.backgroundColor = new Color(0, 0, 0, 1);
-	pdfMarker.marks.push(pdfMark);
-
-	pdfMark = new PdfMark();
-	pdfMark.pageOption = PdfMarkPageOptions.ALL_PAGES;
-	pdfMark.container = { width: 2, right: 0, top: 1.5, bottom: 3.5 };
-	element = new PdfMarkTextElement();
-	element.rotation = 90;
-	element.opacity = 75;
-	element.textSections.push(new PdfTextSection(allPagesMessage));
-	pdfMark.elements.push(element);
-	pdfMark.backgroundColor = new Color(0, 0, 0, 1);
-	pdfMarker.marks.push(pdfMark);
-
-	manifestMark = new PdfMark();
-	manifestMark.pageOption = PdfMarkPageOptions.NEW_PAGE;
-	manifestMark.container = { top: 1.5, bottom: 1.5, left: 1.5, right: 1.5 };
-
-	let verticalOffset = 0;
-	let elementHeight;
-
-	elementHeight = 3;
-	element = new PdfMarkImageElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset, width: elementHeight, left: 0 };
-	element.image = new PdfMarkImage(Util.getIcpBrasilLogoContent(), 'image/png');
-	manifestMark.elements.push(element);
-
-	element = new PdfMarkQRCodeElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset, width: elementHeight, right: 0 };
-	element.qrCodeData = verificationLink;
-	manifestMark.elements.push(element);
-
-	element = new PdfMarkTextElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset + 0.2, left: 0, right: 0 };
-	element.align = 'Center';
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize * 1.6;
-	textSection.text = 'SIGNATURE\nCHECK';
-	element.textSections.push(textSection);
-	manifestMark.elements.push(element);
-	verticalOffset += elementHeight;
-	verticalOffset += 1.7;
-
-	elementHeight = 2;
-	element = new PdfMarkTextElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset, left: 0, right: 0 };
-	element.align = 'Center';
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize * 1.2;
-	textSection.text = `Verification code: ${formattedVerificationCode}`;
-	element.textSections.push(textSection);
-	manifestMark.elements.push(element);
-	verticalOffset += elementHeight;
-
-	elementHeight = 2.5;
-	element = new PdfMarkTextElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset, left: 0, right: 0 };
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize;
-	textSection.text = `This document was digitally signed by the following signers on the indicated dates (${timeZoneDisplayName}):`;
-	element.textSections.push(textSection);
-	manifestMark.elements.push(element);
-	verticalOffset += elementHeight;
-
-	signature.signers.forEach((signer) => {
-		elementHeight = 1.5;
-		element = new PdfMarkImageElement();
-		element.relativeContainer = { height: 0.5, top: verticalOffset + 0.2, width: 0.5, left: 0 };
-		element.image = new PdfMarkImage(Util.getValidationResultIcon(signer.validationResults && signer.validationResults.isValid ? signer.validationResults.isValid() : true), 'image/png');
-		manifestMark.elements.push(element);
-
-		element = new PdfMarkTextElement();
-		element.relativeContainer = { height: elementHeight, top: verticalOffset, left: 0.8, right: 0 };
-		textSection = new PdfTextSection();
-		textSection.fontSize = normalFontSize;
-		textSection.text = _getSignerDescription(signer);
-		element.textSections.push(textSection);
-		manifestMark.elements.push(element);
-		verticalOffset += elementHeight;
+	// Mark on every page: ICP-Brasil logo on the bottom-right corner.
+	marks.push({
+		pageOption: 'AllPages',
+		container: { width: 1, right: 1, height: 1, bottom: 1 },
+		backgroundColor: { red: 0, green: 0, blue: 0, alpha: 1 },
+		elements: [{
+			elementType: 'Image',
+			opacity: 75,
+			image: { resource: { content: icpBrasilBase64, mimeType: 'image/png' } },
+		}],
 	});
+
+	// Mark on every page: summary text on the bottom margin.
+	marks.push({
+		pageOption: 'AllPages',
+		container: { left: 1.5, right: 3.5, height: 2, bottom: 0 },
+		backgroundColor: { red: 0, green: 0, blue: 0, alpha: 1 },
+		elements: [{
+			elementType: 'Text',
+			opacity: 75,
+			textSections: [{ text: allPagesMessage }],
+		}],
+	});
+
+	// Mark on every page: summary text on the right margin, rotated 90°.
+	marks.push({
+		pageOption: 'AllPages',
+		container: { width: 2, right: 0, top: 1.5, bottom: 3.5 },
+		backgroundColor: { red: 0, green: 0, blue: 0, alpha: 1 },
+		elements: [{
+			elementType: 'Text',
+			rotation: 90,
+			opacity: 75,
+			textSections: [{ text: allPagesMessage }],
+		}],
+	});
+
+	// 2. Build the manifest mark on a new page.
+	let verticalOffset = 0;
+	const manifestElements = [];
+
+	// ICP-Brasil logo top-left.
+	manifestElements.push({
+		elementType: 'Image',
+		relativeContainer: { height: 3, top: verticalOffset, width: 3, left: 0 },
+		image: { resource: { content: icpBrasilBase64, mimeType: 'image/png' } },
+	});
+
+	// QR code with verification link top-right.
+	manifestElements.push({
+		elementType: 'QRCode',
+		relativeContainer: { height: 3, top: verticalOffset, width: 3, right: 0 },
+		qrCodeData: verificationLink,
+	});
+
+	// "SIGNATURE CHECK" header centered between logo and QR code.
+	manifestElements.push({
+		elementType: 'Text',
+		relativeContainer: { height: 3, top: verticalOffset + 0.2, left: 0, right: 0 },
+		align: 'Center',
+		textSections: [{ text: 'SIGNATURE\nCHECK', fontSize: normalFontSize * 1.6 }],
+	});
+	verticalOffset += 3 + 1.7;
+
+	// Verification code.
+	manifestElements.push({
+		elementType: 'Text',
+		relativeContainer: { height: 2, top: verticalOffset, left: 0, right: 0 },
+		align: 'Center',
+		textSections: [{ text: `Verification code: ${formattedVerificationCode}`, fontSize: normalFontSize * 1.2 }],
+	});
+	verticalOffset += 2;
+
+	// Introductory paragraph.
+	manifestElements.push({
+		elementType: 'Text',
+		relativeContainer: { height: 2.5, top: verticalOffset, left: 0, right: 0 },
+		textSections: [{
+			text: `This document was digitally signed by the following signers on the indicated dates (${timeZoneDisplayName}):`,
+			fontSize: normalFontSize,
+		}],
+	});
+	verticalOffset += 2.5;
+
+	// One row per signer with validity icon and description.
+	for (const signer of signature.signers) {
+		const isValid = !signer.validationResults
+			|| !(signer.validationResults.errors && signer.validationResults.errors.length > 0);
+		const iconBase64 = Util.getValidationResultIcon(isValid).toString('base64');
+
+		manifestElements.push({
+			elementType: 'Image',
+			relativeContainer: { height: 0.5, top: verticalOffset + 0.2, width: 0.5, left: 0 },
+			image: { resource: { content: iconBase64, mimeType: 'image/png' } },
+		});
+		manifestElements.push({
+			elementType: 'Text',
+			relativeContainer: { height: 1.5, top: verticalOffset, left: 0.8, right: 0 },
+			textSections: [{ text: _getSignerDescription(signer), fontSize: normalFontSize }],
+		});
+		verticalOffset += 1.5;
+	}
 
 	verticalOffset += 1.0;
 
-	elementHeight = 2.5;
-	element = new PdfMarkTextElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset, left: 0, right: 0 };
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize;
-	textSection.text = `In order to check the signatures, visit ${verificationSiteNameWithArticle} at `;
-	element.textSections.push(textSection);
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize;
-	textSection.color = Color.fromRGBString('#0000FF', 100);
-	textSection.text = verificationSite;
-	element.textSections.push(textSection);
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize;
-	textSection.text = ' and inform the code above or access the link below:';
-	element.textSections.push(textSection);
-	manifestMark.elements.push(element);
-	verticalOffset += elementHeight;
+	// Paragraph with link to verification site.
+	const blue = { red: 0, green: 0, blue: 255, alpha: 100 };
+	manifestElements.push({
+		elementType: 'Text',
+		relativeContainer: { height: 2.5, top: verticalOffset, left: 0, right: 0 },
+		textSections: [
+			{ text: `In order to check the signatures, visit ${verificationSiteNameWithArticle} at `, fontSize: normalFontSize },
+			{ text: verificationSite, fontSize: normalFontSize, color: blue },
+			{ text: ' and inform the code above or access the link below:', fontSize: normalFontSize },
+		],
+	});
+	verticalOffset += 2.5;
 
-	elementHeight = 1.5;
-	element = new PdfMarkTextElement();
-	element.relativeContainer = { height: elementHeight, top: verticalOffset, left: 0, right: 0 };
-	element.align = 'Center';
-	textSection = new PdfTextSection();
-	textSection.fontSize = normalFontSize;
-	textSection.color = Color.fromRGBString('#0000FF', 100);
-	textSection.text = verificationLink;
-	element.textSections.push(textSection);
-	manifestMark.elements.push(element);
+	// Verification link.
+	manifestElements.push({
+		elementType: 'Text',
+		relativeContainer: { height: 1.5, top: verticalOffset, left: 0, right: 0 },
+		align: 'Center',
+		textSections: [{ text: verificationLink, fontSize: normalFontSize, color: blue }],
+	});
 
-	pdfMarker.marks.push(manifestMark);
-	const result = await pdfMarker.apply();
-	return await result.getContent();
+	marks.push({
+		pageOption: 'NewPage',
+		container: { top: 1.5, bottom: 1.5, left: 1.5, right: 1.5 },
+		elements: manifestElements,
+	});
+
+	// 3. Apply all marks using REST PKI Core.
+	const addMarksResponse = await client.addPdfMarks({
+		file: {
+			content: fileContentBase64,
+			contentType: 'application/pdf',
+			name: fileName,
+		},
+		marks,
+		measurementUnits: 'Centimeters',
+	});
+
+	// The response file can be returned as inline base64 content or as a URL to download.
+	const fileModel = addMarksResponse.data.file;
+	if (fileModel.content) {
+		return Buffer.from(fileModel.content, 'base64');
+	}
+	const download = await fetch(fileModel.url);
+	return Buffer.from(await download.arrayBuffer());
 }
 
 function _getDisplayName(cert) {
