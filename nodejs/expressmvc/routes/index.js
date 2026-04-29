@@ -34,6 +34,7 @@ router.use("/cades-signature-express", require("./cades-signature-express"));
 router.use("/check-cades-express", require("./check-cades-express"));
 router.use("/check-pades-restpki", require("./check-pades-restpki"));
 router.use("/check-pades-express", require("./check-pades-express"));
+router.use("/check-pades-core", require("./check-pades-core"));
 router.use("/download", require("./download"));
 router.use("/", require("./home"));
 router.use("/issue-cert-server-amplia", require("./issue-cert-server-amplia"));
@@ -47,7 +48,10 @@ router.use("/open-cades-express", require("./open-cades-express"));
 router.use("/open-cades-restpki", require("./open-cades-restpki"));
 router.use("/open-pades-express", require("./open-pades-express"));
 router.use("/open-pades-restpki", require("./open-pades-restpki"));
+router.use("/open-pades-core", require("./open-pades-core"));
 router.use("/pades-server-key-express", require("./pades-server-key-express"));
+router.use("/pades-server-key-core", require("./pades-server-key-core"));
+router.use("/pades-server-key-restpki", require("./pades-server-key-restpki"));
 router.use("/pades-signature-express", require("./pades-signature-express"));
 router.use("/pades-signature-restpki", require("./pades-signature-restpki"));
 router.use("/pades-signature-core", require("./pades-signature-core"));
@@ -59,7 +63,14 @@ router.use(
 	"/pades-cloud-oauth-express",
 	require("./pades-cloud-oauth-express")
 );
+router.use(
+	"/pades-cloud-oauth-restpki",
+	require("./pades-cloud-oauth-restpki")
+);
+router.use("/pades-cloud-oauth-core", require("./pades-cloud-oauth-core"));
 router.use("/pades-cloud-pwd-express", require("./pades-cloud-pwd-express"));
+router.use("/pades-cloud-pwd-restpki", require("./pades-cloud-pwd-restpki"));
+router.use("/pades-cloud-pwd-core", require("./pades-cloud-pwd-core"));
 router.use(
 	"/printer-version-cades-express",
 	require("./printer-version-cades-express")
@@ -71,6 +82,10 @@ router.use(
 router.use(
 	"/printer-version-pades-express",
 	require("./printer-version-pades-express")
+);
+router.use(
+	"/printer-version-pades-core",
+	require("./printer-version-pades-core")
 );
 router.use("/read-cert-select2", require("./read-cert-select2"));
 router.use("/read-cert-jquery", require("./read-cert-jquery"));
@@ -93,6 +108,8 @@ router.use("/xml-server-key-express", require("./xml-server-key-express"));
 router.use("/xml-signature-restpki", require("./xml-signature-restpki"));
 router.use("/xml-signature-express", require("./xml-signature-express"));
 router.use("/pades-signature-cloudhub-restpki", require("./pades-signature-cloudhub-restpki"));
+router.use("/pades-signature-cloudhub-express", require("./pades-signature-cloudhub-express"));
+router.use("/pades-signature-cloudhub-core", require("./pades-signature-cloudhub-core"));
 
 
 module.exports = router;
