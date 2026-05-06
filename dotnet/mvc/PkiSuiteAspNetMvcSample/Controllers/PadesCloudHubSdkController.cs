@@ -22,16 +22,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	 *    - NeoId
 	 *    - RemoteId
 	 *    - SafeId
+	 *    - DSCloud
+	 *    - Syngular
 	 * It's also possible to configure a custom provider if necessary.
-	 *
-	 * Available configuration keys:
-	 *    - clientId
-	 *    - clientSecret
-	 *    - endpoint
-	 *    - provider
-	 *    - badgeUrl
-	 *    - protocolVariant (error handling, normally depends on the provider)
-	 *
 	 * Only the PSCs that are configured will be displayed to the user.
 	 */
 	public class PadesCloudHubSdkController : Controller {
