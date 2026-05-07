@@ -22,8 +22,8 @@ const APP_ROOT = process.cwd();
 const TENANT_ID     = 'TENANT_ID'; // Replace with your Azure AD tenant ID
 const CLIENT_ID     = 'CLIENT_ID'; // Replace with your Azure AD app credentials
 const CLIENT_SECRET = 'CLIENT_SECRET'; // Replace with your Azure AD app credentials
-const KEY_VAULT_URL = 'https://lacuna-vaultdev.vault.azure.net/'; // Replace with your Key Vault URL
-const KEY_NAME      = 'AlanTuring';
+const KEY_VAULT_URL = 'KEY_VAULT_URL'; // Replace with your Key Vault URL
+const KEY_NAME      = 'AlanTuring'; // Replace with the name of the key in Azure Key Vault (must be an RSA key for this example)
 
 // Path to the PFX/P12 file containing the certificate that corresponds to the
 // Azure Key Vault key above. The private key inside this file is NOT used —
