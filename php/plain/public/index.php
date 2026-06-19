@@ -54,7 +54,8 @@
             express: '/check-express.php?rc=upload.php&fwd=cades-server-key'
         },
         signCod: {
-            express: '/check-express.php?rc=xml-cod-signature'
+            express: '/check-express.php?rc=xml-cod-signature',
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=xml-cod-signature'
         },
         signMultiCmsServer: {
             express: '/check-express.php?rc=batch-cades-signature'

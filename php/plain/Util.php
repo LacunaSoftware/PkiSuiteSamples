@@ -30,7 +30,7 @@ class Util {
         }
 
         $endpoint = $config['restPki']['endpoint'];
-        if ($endpoint == null || count($endpoint) === 0) {
+        if (empty($endpoint)) {
             $endpoint = 'https://pki.rest/';
         }
 
