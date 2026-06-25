@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+
+   h2(class='ls-title') PAdES Signature using cloud certificate with REST PKI (Password Flow)
+
+   p File signed successfully!
+
+   h3 Actions:
+   ul
+      li
+         a(href=`/download?fileId=${signedPdf}`, target='_blank') Download the signed file
+      li
+         a(href=`printer-version-pades-restpki?fileId=${signedPdf}`, target='_blank') Download a printer-friendly version of the signed file
+      li
+         a(href=`/open-pades-restpki?fileId=${signedPdf}`) Open/validate the signed file
+      li
+         a(href=`/pades-cloud-pwd-restpki?fileId=${signedPdf}`) Co-sign with another certificate

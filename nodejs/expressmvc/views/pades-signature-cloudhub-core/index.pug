@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+
+   h2(class='ls-title') PAdES Signature using CloudHub with REST PKI Core
+
+   form(id='cpfForm', method='POST')
+
+      div(class='form-group')
+         label
+            b CPF
+         div(class='row')
+            div(class='col col-sm-2')
+               input(id='cpfField', name='cpf', class="form-control", type="text", placeholder='Nº CPF', required=true)
+
+      button(id='loginButton', class='btn btn-primary') Login
