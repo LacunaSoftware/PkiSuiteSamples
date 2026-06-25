@@ -57,6 +57,22 @@ class Config(object):
     PKI_EXPRESS_OFFLINE = False
 
     # --------------------------------------------------------------------------
+    # Cloudhub
+    # --------------------------------------------------------------------------
+
+    # ========================================================
+    #     >>>> PASTE YOUR CLOUDHUB API KEY BELOW <<<<
+    # ========================================================
+    CLOUDHUB_API_KEY = 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo='
+    # If the Cloudhub sample doesn't work, please contact our support by email:
+    # suporte@lacunasoftware.com
+
+    # In order to use this sample on a \"on premises\" installation of
+    # Cloudhub, fill the field below with the URL address of your Cloudhub
+    # installation (with the trailing '/' character).
+    CLOUDHUB_ENDPOINT = 'https://cloudhub.lacunasoftware.com/'
+
+    # --------------------------------------------------------------------------
     # Web PKI
     # --------------------------------------------------------------------------
     WEB_PKI_LICENSE = None
