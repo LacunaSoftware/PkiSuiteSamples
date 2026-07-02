@@ -32,7 +32,7 @@ try {
     // certificate. Attribute certificates require a CA configured to issue this
     // kind of certificate, which is different from the CA used to issue regular
     // (public key) certificates.
-    $createOrderRequest->caId = "c5882160-08d0-4c66-be63-019f13c60683";
+    $createOrderRequest->caId = getConfig()['amplia']['attributeCaId'];
     // Set the certificate validity. We've encapsulated to set 2 years from now.
     $createOrderRequest->validityEnd = Util::getDateYearsFromNow(2);
     // Set the kind of the certificate.

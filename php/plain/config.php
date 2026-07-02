@@ -53,6 +53,11 @@ function getConfig()
             // to the sample CA from sample subscription for these samples.
             'caId' => 'eaffa754-1fb5-474a-b9ef-efe43101e89f',
 
+            // The CA's id that will be used to issue an attribute certificate using Amplia. Attribute
+            // certificates require a CA configured to issue this kind of certificate, which is
+            // different from the CA used above for regular (public key) certificates.
+            'attributeCaId' => 'c5882160-08d0-4c66-be63-019f13c60683',
+
             // ======================================================
             //       >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
             // ======================================================
