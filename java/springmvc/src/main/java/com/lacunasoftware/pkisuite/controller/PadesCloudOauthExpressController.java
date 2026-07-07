@@ -3,7 +3,6 @@ package com.lacunasoftware.pkisuite.controller;
 import com.lacunasoftware.pkiexpress.*;
 import com.lacunasoftware.pkisuite.model.express.PadesCloudOauthModel;
 import com.lacunasoftware.pkisuite.model.express.PadesServerKeyCompleteModel;
-import com.lacunasoftware.pkisuite.model.express.PadesCloudPwdModel;
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
 import com.lacunasoftware.pkisuite.util.express.PadesVisualElements;
