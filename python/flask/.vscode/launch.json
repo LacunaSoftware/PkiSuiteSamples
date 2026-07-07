@@ -9,6 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "module": "flask",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
             "env": {
                 "FLASK_APP": "sample",
                 "FLASK_DEBUG": "1",

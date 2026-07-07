@@ -11,6 +11,7 @@ from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
 from restpki_client import StandardSecurityContexts
+from cloudhub_client import SessionsApi, ApiClient, Configuration
 
 
 # region REST PKI
@@ -93,6 +94,44 @@ def get_amplia_client():
     # Return an instance of AmpliaClient class, passing the endpoint and
     # the API key.
     return AmpliaClient(endpoint, api_key)
+
+# endregion
+
+
+# region Cloudhub
+
+
+def get_cloudhub_client():
+    """
+
+    Creates an instance of the Cloudhub Sessions API, used to communicate
+    with the Cloudhub API on the Cloudhub samples.
+
+    """
+
+    # Get Cloudhub API key to be used on the requests authentication.
+    api_key = current_app.config.get('CLOUDHUB_API_KEY')
+
+    # Throw exception if API key is not set (this check is here just for the
+    # sake of newcomers, you can remove it).
+    if api_key is None:
+        raise Exception(
+            'The Cloudhub API key was not set! Hint: to run this sample '
+            'you must generate an API key and paste it on sample/config.py '
+            'file.')
+
+    # Get Cloudhub endpoint.
+    endpoint = current_app.config.get('CLOUDHUB_ENDPOINT') or \
+        'https://cloudhub.lacunasoftware.com/'
+
+    # Configure API client with endpoint and API key.
+    configuration = Configuration()
+    configuration.host = endpoint
+    configuration.api_key['X-Api-Key'] = api_key
+
+    api_client = ApiClient(configuration=configuration)
+    return SessionsApi(api_client)
+
 
 # endregion
 
