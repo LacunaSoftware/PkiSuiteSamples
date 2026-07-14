@@ -1,13 +1,4 @@
 package com.lacunasoftware.pkisuite.controller;
-
-import com.lacunasoftware.pkisuite.model.ServerFile;
-import com.lacunasoftware.pkisuite.model.ServerFilesModel;
-import com.lacunasoftware.pkisuite.util.SampleDocs;
-import com.lacunasoftware.pkisuite.util.StorageMock;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +6,19 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.lacunasoftware.pkisuite.model.ServerFile;
+import com.lacunasoftware.pkisuite.model.ServerFilesModel;
+import com.lacunasoftware.pkisuite.util.SampleDocs;
+import com.lacunasoftware.pkisuite.util.StorageMock;
 
 @Controller
 @RequestMapping("/server-files")
@@ -35,6 +39,7 @@ public class ServerFilesController {
 
 		List<ServerFile> availableFiles = new ArrayList<ServerFile>();
 		boolean isCmsCoSign = false;
+		boolean isXmlToSign = false;
 
 		switch (op) {
 			case "cosignCms":
@@ -51,14 +56,19 @@ public class ServerFilesController {
 			case "signPdf":
 				availableFiles.add(new ServerFile(SampleDocs.SAMPLE_PDF, "A sample PDF document (size: 25kb) with no signatures."));
 				break;
+			case "signXml":
+				isXmlToSign = true;
+				availableFiles.add(new ServerFile(SampleDocs.SAMPLE_XML, "A sample XML document (size: 3kb) with no signatures."));
+				break;
 			default:
-				throw new FileNotFoundException();
+				throw new FileNotFoundException ();
 		}
 
 		// It is up to your application's business logic to determine which server documents
 		// to be available for the signature.
 		ServerFilesModel serverFilesModel = new ServerFilesModel();
 		serverFilesModel.setIsCmsCoSign(isCmsCoSign);
+		serverFilesModel.setIsXmlToSign(isXmlToSign);
 		serverFilesModel.setAvailableFiles(availableFiles);
 
 		model.addAttribute("model", serverFilesModel);
@@ -82,8 +92,11 @@ public class ServerFilesController {
 
 		// Copy file to the temporary folder, where the upload files are stored.
 		String fileId;
+		
 		try (InputStream fileStream = new FileInputStream(path.toFile())) {
-			fileId = StorageMock.store(fileStream, "pdf", filename);
+			//if it is a XML, change the fileID to another extension
+			fileId = model.getIsXmlToSign() ? StorageMock.store(fileStream, "xml", filename) :
+				StorageMock.store(fileStream, "pdf", filename);
 		}
 
 		// Only the REST PKI sample needs to pass this file as "cosign" variable when cosigning a
@@ -91,6 +104,7 @@ public class ServerFilesController {
 		if (rc.equals("cades-signature-rest") && model.getIsCmsCoSign()) {
 			return String.format("redirect:/%s?cosign=%s", rc, fileId);
 		}
+
 
 		return String.format("redirect:/%s?fileId=%s", rc, fileId);
 	}
