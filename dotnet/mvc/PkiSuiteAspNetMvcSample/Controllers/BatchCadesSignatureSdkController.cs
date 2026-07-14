@@ -51,7 +51,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var cadesSigner = new CadesSigner();
 
 			// Get the file's content.
-			if (!StorageMock.TryGetFile(StorageMock.GetBatchDocPath(request.Id), out byte[] fileContent)) {
+			if (!StorageMock.TryGetFileUrlSafe(StorageMock.GetBatchDocPath(request.Id), out byte[] fileContent)) {
 				return HttpNotFound();
 			}
 
@@ -92,7 +92,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Instantiate a CadesSigner class
 			var cadesSigner = new CadesSigner();
 
-			StorageMock.TryGetFile(StorageMock.GetBatchDocPath(request.Id), out byte[] fileContent);
+			StorageMock.TryGetFileUrlSafe(StorageMock.GetBatchDocPath(request.Id), out byte[] fileContent);
 
 			cadesSigner.SetDataToSign(fileContent);
 
