@@ -281,6 +281,61 @@ public class StorageMock {
 
 	// endregion
 
+	// region Signer Ticket
+
+	/**
+	 * Registers the public-signature "ticket" associated with a given Signer document key. This
+	 * ticket is returned on the action URL and is needed to start the public signature.
+	 *
+	 * @param session
+	 * @param key
+	 * @param ticket
+	 */
+	public static void setSignerTicket(HttpSession session, String key, String ticket) {
+		// >>>>> NOTICE <<<<<
+		// This should be implemented on your application wherever fits your business logic (e.g. a
+		// "document table"). We use the HTTP session here just for the sake of the sample.
+		session.setAttribute(String.format("SignerTickets/%s", key), ticket);
+	}
+
+	/**
+	 * Returns the public-signature "ticket" associated with a given Signer document key, or null if
+	 * no ticket has been associated with it.
+	 *
+	 * @param session
+	 * @param key
+	 * @return
+	 */
+	public static String getSignerTicket(HttpSession session, String key) {
+		return (String) session.getAttribute(String.format("SignerTickets/%s", key));
+	}
+
+	/**
+	 * Registers the Signer document id (UUID) associated with a given public-signature key, so it
+	 * can be shown to the user once the signature is completed.
+	 *
+	 * @param session
+	 * @param key
+	 * @param documentId
+	 */
+	public static void setSignerDocumentId(HttpSession session, String key, String documentId) {
+		session.setAttribute(String.format("SignerDocumentIds/%s", key), documentId);
+	}
+
+	/**
+	 * Returns the Signer document id (UUID) associated with a given public-signature key, or null if
+	 * none has been associated with it.
+	 *
+	 * @param session
+	 * @param key
+	 * @return
+	 */
+	public static String getSignerDocumentId(HttpSession session, String key) {
+		return (String) session.getAttribute(String.format("SignerDocumentIds/%s", key));
+	}
+
+	// endregion
+
 	public static String getSampleDocName(SampleDocs sampleId) throws IOException {
 		switch (sampleId) {
 			case SAMPLE_PDF:

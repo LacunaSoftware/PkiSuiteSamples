@@ -20,6 +20,13 @@ group = 'com.lacunasoftware'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+// The Signer client (signer-client) requires Jackson >= 2.9 (it uses
+// MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS). Spring Boot 1.5's dependency management pins
+// Jackson to 2.8.x, which causes a "NoSuchFieldError: ACCEPT_CASE_INSENSITIVE_ENUMS" at runtime.
+// Overriding the managed Jackson version fixes it. Note this project uses gson as its JSON mapper
+// (see application.yml), so bumping Jackson mostly affects the Signer client's internal usage.
+ext['jackson.version'] = '2.12.1'
+
 repositories {
     
     mavenCentral()
@@ -37,6 +44,7 @@ dependencies {
     implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.4'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
     implementation 'com.lacunasoftware.cloudhub:cloudhub-client:1.0.0'
+    implementation 'com.lacunasoftware.signer:signer-client:2.13.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'commons-io:commons-io:2.4'

@@ -19,8 +19,11 @@ import com.lacunasoftware.pkisuite.config.ProxyProperties;
 import com.lacunasoftware.restpki.RestPkiClient;
 import com.lacunasoftware.restpki.SecurityContext;
 import com.lacunasoftware.restpkicore.RestPkiOptions;
+import com.lacunasoftware.signer.javaclient.SignerClient;
 
 import cloudhub.client.CloudhubClient;
+
+import java.net.URISyntaxException;
 
 
 public class Util {
@@ -247,6 +250,34 @@ public class Util {
 
 		// Return an instance of AmpliaClient class, passing the endpoint and the API key.
 		return CloudhubClient;
+	}
+
+	//endregion
+
+	//region Signer
+
+	public static SignerClient getSignerClient() {
+		String apiKey = getProperties().getSigner().getApiKey();
+
+		// Throw exception if api key is not set (this check is here just for the sake of newcomers,
+		// you can remove it).
+		if (isNullOrEmpty(apiKey) || apiKey.contains(" API KEY ")) {
+			throw new RuntimeException("The API key was not set! Hint: to run this sample " +
+					"you must generate an API key on your Signer organization and paste it on the " +
+					"file src/main/resources/application.yml");
+		}
+
+		String endpoint = getProperties().getSigner().getEndpoint();
+		if (isNullOrEmpty(endpoint)) {
+			endpoint = "https://signer-lac.azurewebsites.net";
+		}
+
+		// Return an instance of SignerClient class, passing the endpoint and the API key.
+		try {
+			return new SignerClient(endpoint, apiKey);
+		} catch (URISyntaxException ex) {
+			throw new RuntimeException("Invalid Signer endpoint: " + endpoint, ex);
+		}
 	}
 
 	//endregion

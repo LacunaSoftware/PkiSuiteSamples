@@ -106,6 +106,21 @@ cloudhub:
   endpoint: null
 
 
+# Signer parameters
+signer:
+  # ======================================================
+  #       >>>> PASTE YOUR SIGNER API KEY BELOW <<<<
+  # ======================================================
+  apiKey: 'API Sample App|43fc0da834e48b4b840fd6e8c37196cf29f919e5daedba0f1a5ec17406c13a99'
+  # If the Signer samples do not work, please contact our support by email:
+  # suporte@lacunasoftware.com
+
+  # Endpoint of the Signer organization to be used by this sample (with no trailing '/' character).
+  # By default we point to Lacuna's Signer demo/sandbox environment. In order to use this sample on
+  # your own Signer organization, replace the URL below.
+  endpoint: 'https://signer-lac.azurewebsites.net'
+
+
 # Web PKI parameters
 web-pki:
   # Base64-encoded binary license for the Web PKI. This value is passed to Web PKI component's

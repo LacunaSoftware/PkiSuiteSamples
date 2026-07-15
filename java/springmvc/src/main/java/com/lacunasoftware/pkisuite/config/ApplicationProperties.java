@@ -13,6 +13,7 @@ public class ApplicationProperties {
 	private AmpliaProperties amplia;
 	private ProxyProperties proxy;
 	private CloudhubProperties cloudhub;
+	private SignerProperties signer;
 
 	@Value("${trustLacunaTestRoot}")
 	private boolean trustLacunaTestRoot;
@@ -100,5 +101,14 @@ public class ApplicationProperties {
 
 	public void setTrustLacunaTestRoot(boolean trustLacunaTestRoot) {
 		this.trustLacunaTestRoot = trustLacunaTestRoot;
+	}
+
+	public SignerProperties getSigner() {
+		return signer;
+	}
+
+	@Autowired
+	public void setSigner(SignerProperties signer) {
+		this.signer = signer;
 	}
 }
