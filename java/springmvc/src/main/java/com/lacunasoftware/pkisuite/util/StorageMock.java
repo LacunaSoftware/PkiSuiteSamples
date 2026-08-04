@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.util;
 
+import com.lacunasoftware.signer.javaclient.models.UploadModel;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.apache.commons.io.IOUtils;
@@ -277,6 +278,52 @@ public class StorageMock {
 		// This should be implemented on your application as a SELECT on your "document table" by the
 		// verification code column, which should be an indexed column
 		return (String) session.getAttribute(String.format("Codes/%s", code));
+	}
+
+	// endregion
+
+	// region Signer Upload
+
+	/**
+	 * Registers a file uploaded to Signer (the UploadModel returned by SignerClient.uploadFile),
+	 * associated with an opaque reference that we hand to the page. The page sends these references
+	 * back when it asks us to create the documents, so the upload ids never need to be trusted from
+	 * the client.
+	 *
+	 * @param session
+	 * @param fileRef
+	 * @param upload
+	 */
+	public static void setSignerUpload(HttpSession session, String fileRef, UploadModel upload) {
+		// >>>>> NOTICE <<<<<
+		// This should be implemented on your application wherever fits your business logic (e.g. a
+		// "pending uploads table"). We use the HTTP session here just for the sake of the sample.
+		session.setAttribute(String.format("SignerUploads/%s", fileRef), upload);
+	}
+
+	/**
+	 * Returns the file uploaded to Signer associated with a given reference, or null if there's none.
+	 *
+	 * @param session
+	 * @param fileRef
+	 * @return
+	 */
+	public static UploadModel getSignerUpload(HttpSession session, String fileRef) {
+		if (fileRef == null || fileRef.length() == 0) {
+			return null;
+		}
+		return (UploadModel) session.getAttribute(String.format("SignerUploads/%s", fileRef));
+	}
+
+	/**
+	 * Discards the reference of a file uploaded to Signer, once the document has been created from
+	 * it (so the same upload can't be used twice).
+	 *
+	 * @param session
+	 * @param fileRef
+	 */
+	public static void removeSignerUpload(HttpSession session, String fileRef) {
+		session.removeAttribute(String.format("SignerUploads/%s", fileRef));
 	}
 
 	// endregion

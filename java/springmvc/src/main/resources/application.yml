@@ -16,6 +16,12 @@ multipart:
 spring:
   profiles.active: 'dev'
   http.converters.preferred-json-mapper: gson
+  # Maximum upload sizes. Notice that these (and not the legacy "multipart" block above) are the
+  # properties honored by Spring Boot 1.5. The request size must fit a whole batch of files, since
+  # the batch samples upload all the chosen files on a single request.
+  http.multipart:
+    max-file-size: '20Mb'
+    max-request-size: '250Mb'
 
 # Proxy parameters (With you want there is problem to connect to REST PKI, cased by a proxy)
 proxy:

@@ -9,23 +9,44 @@
     <div class="ls-content">
 
         <p>
-            Select a certificate and click "Sign Batch". The documents will then be created on
-            Lacuna Signer as public signatures for the selected certificate's holder and signed in
-            batch: for each document the browser starts the signature (getting the hash from
-            Signer), signs the hash with Web PKI and notifies Signer that the signature is complete.
+            Choose the PDFs you want to sign (you can add as many as you want, in as many rounds as
+            you want) and select a certificate. When you click "Sign Batch", the files are created as
+            documents on Lacuna Signer as public signatures for the selected certificate's holder and
+            signed in batch: for each document the browser starts the signature (getting the hash
+            from Signer), signs the hash with Web PKI and notifies Signer that the signature is
+            complete. The certificate stays selected, so you can add more files and sign again.
         </p>
 
-        <form id="batchSignForm" method="POST">
+        <form id="batchSignForm" method="POST" enctype="multipart/form-data">
+
+            <!--
+                Multiple file input. The files are uploaded to Signer (via Ajax) as soon as the user
+                chooses them; the documents themselves are only created when the batch starts, since
+                only then we know who the signer is (see batch-signature-signer-form.js).
+            -->
             <div class="form-group">
-                <label>Files to sign</label>
-                <p>
-                    The documents to be signed will appear here once you start the batch:
-                    <!--
-                        UL element to hold the batch's documents (we'll render these programmatically,
-                        see batch-signature-signer-form.js).
-                    -->
+                <label for="fileInput">Files to sign</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file"
+                               id="fileInput"
+                               name="userfiles"
+                               accept="application/pdf"
+                               multiple="multiple"
+                               class="custom-file-input ls-upload" />
+                        <label id="fileInputLabel" for="fileInput" class="custom-file-label border">
+                            <span class="filename">Choose files</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+                UL element to hold the batch's documents (we'll render these programmatically, see
+                batch-signature-signer-form.js).
+            -->
+            <div class="form-group">
                 <ul id="docList" />
-                </p>
             </div>
 
             <!--
@@ -43,7 +64,7 @@
                 client-side computation necessary (see batch-signature-signer-form.js).
             -->
             <div class="form-group">
-                <button id="signButton" type="button" class="btn btn-primary">
+                <button id="signButton" type="button" class="btn btn-primary" disabled="disabled">
                     <i class="fas fa-list"></i> Sign Batch
                 </button>
                 <button id="refreshButton" type="button" class="btn btn-outline-primary">
@@ -79,6 +100,7 @@
         // Once the page is ready, we call the init() function on the javascript code
         // (batch-signature-signer-form.js).
         batchSignatureSignerForm.init({
+            fileInput: $('#fileInput'),                  // The multiple file input.
             certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.
             docList: $('#docList'),                      // The <ul> element that holds the batch's documents.
             refreshButton: $('#refreshButton'),          // The "refresh" button.

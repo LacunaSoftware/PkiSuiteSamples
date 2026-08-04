@@ -1,11 +1,18 @@
 // -------------------------------------------------------------------------------------------------
 // This file is a copy of batch-signature-express-form.js adapted to sign a batch of documents
-// hosted on Lacuna Signer (public signature flow). The queue/threads logic is exactly the same as
-// the express batch sample; only the "start" and "complete" server calls were adapted:
+// hosted on Lacuna Signer (public signature flow), using the files uploaded by the user. The
+// queue/threads logic is exactly the same as the express batch sample; what changes is:
+//   - the documents are not known when the page loads: the user chooses PDFs on a multiple file
+//     input and each one is uploaded to Signer right away (see uploadFiles). The user may add as
+//     many files as wanted, in as many rounds as wanted;
+//   - when the batch starts, ONE call to "create" turns all the pending uploads into documents on
+//     Signer (for the holder of the selected certificate) and returns the key of each one;
 //   - the "start" step returns a "token" (instead of a "transferFile") that identifies the Signer
 //     signature process;
 //   - the "complete" step notifies Signer that the signature was performed and the document is no
-//     longer stored locally (it lives on Signer), so we just render it as completed.
+//     longer stored locally (it lives on Signer), so we render a link to download it from Signer.
+// The selected certificate is kept, so after a batch finishes the user can add more files and sign
+// again without selecting the certificate (and typing the PIN) all over again.
 // It is only an example, feel free to alter it to meet your application's needs.
 // -------------------------------------------------------------------------------------------------
 var batchSignatureSignerForm = (function () {
@@ -72,6 +79,10 @@ var batchSignatureSignerForm = (function () {
 	// Map of thumbprint -> certificate (as returned by Web PKI), so we can read the CPF of the
 	// selected certificate when creating the batch.
 	var certsByThumbprint = {};
+	// Every file the user added, in the order they were added. Each item is
+	// { index, name, fileRef, key, status }, where "status" is 'pending' (uploaded, not signed yet),
+	// 'signed' or 'failed'. Only the 'pending' ones take part on the next batch.
+	var docs = [];
 
 	// Create an instance of the LacunaWebPKI object.
 	var pki = new LacunaWebPKI(_webPkiLicense);
@@ -84,14 +95,10 @@ var batchSignatureSignerForm = (function () {
 		// Receive from parameters received as arguments.
 		formElements = fe;
 
-		// Wireup of button clicks.
+		// Wireup of the events.
+		formElements.fileInput.change(onFilesChosen);
 		formElements.signButton.click(sign);
 		formElements.refreshButton.click(refresh);
-
-		// The documents don't exist yet: they'll be created on Signer only after the user selects a
-		// certificate and clicks "Sign Batch" (see the sign() function), so at this point there's
-		// nothing to render on the documents list.
-		formElements.documentsIds = [];
 
 		// Instead of blocking the whole screen, we simply disable the buttons while Web PKI gets
 		// ready. They'll be re-enabled once the certificates are loaded (see loadCertificates).
@@ -109,6 +116,64 @@ var batchSignatureSignerForm = (function () {
 	}
 
 	// ----------------------------------------------------------------------------------------------
+	// Function called when the user chooses files on the file input. We upload them to Signer right
+	// away, so that when the user clicks "Sign Batch" all that's left is creating the documents.
+	// Notice that choosing files again ADDS to the batch instead of replacing it.
+	// ----------------------------------------------------------------------------------------------
+	function onFilesChosen() {
+
+		var files = formElements.fileInput[0].files;
+		if (!files || files.length === 0) {
+			return;
+		}
+
+		// Build the multipart body. The field name must match the @RequestParam on the controller.
+		var formData = new FormData();
+		for (var i = 0; i < files.length; i++) {
+			formData.append('userfiles', files[i]);
+		}
+
+		// Allow the same file to be chosen again later (the input keeps its value otherwise).
+		formElements.fileInput.val('');
+		setFileInputLabel('Uploading ' + files.length + ' file(s) ...');
+		setButtonsEnabled(false);
+
+		$.ajax({
+			url: formElements.ctrlEndpoint + '/upload',
+			method: 'POST',
+			data: formData,
+			processData: false, // Let the browser build the multipart body.
+			contentType: false, // Ditto (so the boundary is set correctly).
+			dataType: 'json'
+		}).then(function (uploaded) {
+
+			// Append the uploaded files to the batch and render them on the documents list.
+			for (var i = 0; i < uploaded.length; i++) {
+				var doc = {
+					index: docs.length,
+					name: uploaded[i].name,
+					fileRef: uploaded[i].fileRef,
+					key: null,
+					status: 'pending'
+				};
+				docs.push(doc);
+				renderDocRow(doc);
+			}
+
+			setFileInputLabel('Choose files');
+			setButtonsEnabled(true);
+
+		}, function (jqXHR, textStatus, errorThrown) {
+
+			setFileInputLabel('Choose files');
+			setButtonsEnabled(true);
+			addAlert('danger', '<strong>An error has occurred while uploading the files</strong>: '
+				+ getErrorMessage(jqXHR, textStatus, errorThrown));
+
+		});
+	}
+
+	// ----------------------------------------------------------------------------------------------
 	// Function called when the user clicks the "Refresh" button.
 	// ----------------------------------------------------------------------------------------------
 	function refresh() {
@@ -120,11 +185,34 @@ var batchSignatureSignerForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Helper that enables/disables the action buttons. We use this instead of blocking the whole
-	// screen, so the user stays free to interact with the page while the batch is processed.
+	// screen, so the user stays free to interact with the page while the batch is processed. The
+	// "Sign Batch" button is only enabled when there is something to sign.
 	// ----------------------------------------------------------------------------------------------
 	function setButtonsEnabled(enabled) {
-		formElements.signButton.prop('disabled', !enabled);
+		formElements.signButton.prop('disabled', !enabled || getPendingDocs().length === 0);
 		formElements.refreshButton.prop('disabled', !enabled);
+		formElements.fileInput.prop('disabled', !enabled);
+	}
+
+	// ----------------------------------------------------------------------------------------------
+	// Helper that updates the text of the file input's label.
+	// ----------------------------------------------------------------------------------------------
+	function setFileInputLabel(text) {
+		formElements.fileInput.closest('.custom-file').find('.filename').text(text);
+	}
+
+	// ----------------------------------------------------------------------------------------------
+	// Returns the documents that were uploaded but not signed yet, which are the ones that will
+	// compose the next batch.
+	// ----------------------------------------------------------------------------------------------
+	function getPendingDocs() {
+		var pending = [];
+		for (var i = 0; i < docs.length; i++) {
+			if (docs[i].status === 'pending') {
+				pending.push(docs[i]);
+			}
+		}
+		return pending;
 	}
 
 	// ----------------------------------------------------------------------------------------------
@@ -170,6 +258,13 @@ var batchSignatureSignerForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function sign() {
 
+		// The batch is made of the files uploaded so far that haven't been signed yet.
+		var pending = getPendingDocs();
+		if (pending.length === 0) {
+			addAlert('danger', 'Please choose the files to be signed.');
+			return;
+		}
+
 		// Get the thumbprint of the selected certificate and its CPF (from the certificate listed
 		// by Web PKI). The CPF is needed to create the documents on Signer for the right signer.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
@@ -184,47 +279,60 @@ var batchSignatureSignerForm = (function () {
 		// Instead of blocking the whole screen, we disable the buttons and turn the sign button into
 		// a "Signing..." indicator, so the user stays free to interact with the page.
 		setButtonsEnabled(false);
+		formElements.signButton.prop('disabled', true);
 		formElements.signButton.html('<i class="fas fa-spinner fa-spin"></i> Signing ...');
 
-		// Create the batch of documents on Signer for this signer (using the CPF of the selected
-		// certificate). The server returns the keys of the documents that will be signed.
-		$.ajax({
-			url: formElements.ctrlEndpoint + '/create',
-			method: 'POST',
-			data: {
-				cpf: cpf,
-				name: selectedCert.subjectName
-			},
-			dataType: 'json'
-		}).then(function (documentKeys) {
+		// Read the certificate's encoding, which Signer needs in order to compute the to-sign hash
+		// of each document.
+		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
 
-			// Store the document keys and render them on the documents list.
-			formElements.documentsIds = documentKeys;
-			renderDocList(documentKeys);
+			// Store the certificate content.
+			selectedCertContent = certEncoded;
 
-			pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
+			// Create the documents on Signer from the files already uploaded, for this signer (using
+			// the CPF of the selected certificate). The server returns the key of each document.
+			$.ajax({
+				url: formElements.ctrlEndpoint + '/create',
+				method: 'POST',
+				// Serialize the array of file references as "fileRefs=a&fileRefs=b". Without this,
+				// jQuery would send "fileRefs[]=a&fileRefs[]=b" and Spring would try to read the
+				// (empty) index inside the brackets, failing with 'For input string: ""'.
+				traditional: true,
+				data: {
+					cpf: cpf,
+					name: selectedCert.subjectName,
+					fileRefs: pending.map(function (doc) { return doc.fileRef; })
+				},
+				dataType: 'json'
+			}).then(function (documents) {
 
-				// Store the certificate content.
-				selectedCertContent = certEncoded;
+				// Store the key of each document (the "create" action returns them in the same order
+				// we sent the file references).
+				for (var i = 0; i < pending.length; i++) {
+					pending[i].key = documents[i].key;
+				}
 
 				// Call Web PKI to preauthorize the signatures, so that the user only sees one
-				// confirmation dialog.
+				// confirmation dialog for the whole batch.
 				pki.preauthorizeSignatures({
 					certificateThumbprint: selectedCertThumbprint,
 					// Number of signatures to be authorized by the user.
-					signatureCount: formElements.documentsIds.length
-				}).success(startBatch); // Callback to be called if the user authorizes the signatures.
+					signatureCount: pending.length
+
+					// Callback to be called if the user authorizes the signatures.
+				}).success(function () {
+					startBatch(pending);
+				});
+
+			}, function (jqXHR, textStatus, errorThrown) {
+
+				// Render error and re-enable the buttons so the user can try again.
+				resetSignButton();
+				setButtonsEnabled(true);
+				addAlert('danger', '<strong>An error has occurred while creating the documents</strong>: '
+					+ getErrorMessage(jqXHR, textStatus, errorThrown));
+
 			});
-
-		}, function (jqXHR, textStatus, errorThrown) {
-
-			// Render error and re-enable the buttons so the user can try again.
-			resetSignButton();
-			setButtonsEnabled(true);
-			var response = jqXHR.responseJSON;
-			var errorMsg = response ? (response.status + ' (' + response.error + ') ' + response.message) : (textStatus + ' (' + errorThrown + ')');
-			addAlert('danger', '<strong>An error has occurred while creating the documents</strong>: ' + errorMsg);
-
 		});
 	}
 
@@ -236,21 +344,19 @@ var batchSignatureSignerForm = (function () {
 	}
 
 	// ----------------------------------------------------------------------------------------------
-	// Function that renders the documents to be signed on the documents list.
+	// Function that appends one document to the documents list. Each document gets a "status"
+	// element that we update in real time as it moves through the pipeline (hash generated ->
+	// signed).
 	// ----------------------------------------------------------------------------------------------
-	function renderDocList(documentKeys) {
-		formElements.docList.empty();
-		for (var i = 0; i < documentKeys.length; i++) {
-			// Each document gets a "status" element that we update in real time as it moves through
-			// the pipeline (hash generated -> signed).
-			formElements.docList
-				.append($('<li />')
-					.append(document.createTextNode('Document ' + (i + 1) + ' '))
-					.append($('<span />')
-						.addClass('doc-status text-muted')
-						.append($('<span />').addClass('fas fa-clock'))
-						.append(document.createTextNode(' waiting ...'))));
-		}
+	function renderDocRow(doc) {
+		formElements.docList
+			.append($('<li />')
+				.append($('<span />').text(doc.name))
+				.append(document.createTextNode(' '))
+				.append($('<span />')
+					.addClass('doc-status text-muted')
+					.append($('<span />').addClass('fas fa-clock'))
+					.append(document.createTextNode(' waiting ...'))));
 	}
 
 	// ----------------------------------------------------------------------------------------------
@@ -258,13 +364,15 @@ var batchSignatureSignerForm = (function () {
 	// document index and a jQuery element (or array of nodes) to be shown as the new status.
 	// ----------------------------------------------------------------------------------------------
 	function setDocStatus(index, content) {
-		$('#docList li').eq(index).find('.doc-status').empty().removeClass('text-muted').append(content);
+		formElements.docList.find('li').eq(index).find('.doc-status')
+			.empty().removeClass('text-muted').append(content);
 	}
 
 	// --------------------------------------------------------------------------------------------
-	// Function called when the user authorizes the signatures.
+	// Function called when the user authorizes the signatures, receiving the documents that compose
+	// this batch.
 	// --------------------------------------------------------------------------------------------
-	function startBatch() {
+	function startBatch(batch) {
 
 		// For each document, we must perform 3 actions in sequence:
 		//
@@ -285,10 +393,8 @@ var batchSignatureSignerForm = (function () {
 		performQueue = new Queue();
 		completeQueue = new Queue();
 
-		// Add all documents to the first ("start") queue.
-		for (var i = 0; i < formElements.documentsIds.length; i++) {
-			startQueue.add({index: i, docId: formElements.documentsIds[i]});
-		}
+		// Add all documents of this batch to the first ("start") queue.
+		startQueue.addRange(batch);
 
 
 		// Process each queue placing the result on the next queue, forming a sort of "assembly line":
@@ -321,7 +427,7 @@ var batchSignatureSignerForm = (function () {
 			url: formElements.ctrlEndpoint + '/start',
 			method: 'POST',
 			data: {
-				id: step.docId,
+				id: step.key,
 				certContent: selectedCertContent
 			},
 			dataType: 'json'
@@ -341,7 +447,7 @@ var batchSignatureSignerForm = (function () {
 		}, function (jqXHR, textStatus, errorThrown) {
 
 			// Render error.
-			renderFail(step, textStatus, errorThrown, jqXHR.responseJSON);
+			renderFail(step, getErrorMessage(jqXHR, textStatus, errorThrown));
 			// Call the "done" callback with no argument, signalling the document should not go to the
 			// next queue.
 			done();
@@ -398,7 +504,7 @@ var batchSignatureSignerForm = (function () {
 			url: formElements.ctrlEndpoint + '/complete',
 			method: 'POST',
 			data: {
-				id: step.docId,
+				id: step.key,
 				signature: step.signature,
 				token: step.token
 			},
@@ -415,7 +521,7 @@ var batchSignatureSignerForm = (function () {
 		}, function (jqXHR, textStatus, errorThrown) {
 
 			// Render error.
-			renderFail(step, textStatus, errorThrown, jqXHR.responseJSON);
+			renderFail(step, getErrorMessage(jqXHR, textStatus, errorThrown));
 			// Call the "done" callback with no argument, signalling the document should not go to the
 			// next queue.
 			done();
@@ -429,11 +535,10 @@ var batchSignatureSignerForm = (function () {
 	function onBatchCompleted() {
 		// Notify the user.
 		addAlert('primary', '<strong>Batch processing completed</strong>');
-		// Keep "Sign Batch" disabled (our logic isn't prepared to run the batch twice), but restore
-		// its label and re-enable the "Refresh" button.
+		// Restore the button's label and re-enable the controls. Notice that the certificate stays
+		// selected: the user may now add more files and sign them with the same certificate.
 		resetSignButton();
-		formElements.signButton.prop('disabled', true);
-		formElements.refreshButton.prop('disabled', false);
+		setButtonsEnabled(true);
 	}
 
 	// ----------------------------------------------------------------------------------------------
@@ -451,10 +556,11 @@ var batchSignatureSignerForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that renders a document as completed successfully. Unlike the express sample, the
-	// signed document is stored on Signer (not locally), so we only render a "signed" mark (with the
-	// Signer document ID) instead of a download link.
+	// signed document is stored on Signer (not locally), so we render a link that downloads it from
+	// Signer (proxied by our server, see the controller).
 	// ----------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
+		step.status = 'signed';
 		setDocStatus(step.index, [
 			$('<span />').addClass('fas fa-check text-success')[0],
 			document.createTextNode(' hash generated '),
@@ -476,20 +582,28 @@ var batchSignatureSignerForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	// Function that renders a document as failed.
 	// ----------------------------------------------------------------------------------------------
-	function renderFail(step, status, error, response) {
+	function renderFail(step, errorMsg) {
 
-		var errorMsg = null;
-		if (response) {
-			errorMsg = response.status +  ' (' + response.error + ') ' + response.message;
-		} else {
-			errorMsg = status + ' (' + error + ')';
-		}
+		// The document didn't get signed, but its upload was already consumed by the "create" call,
+		// so it can't take part on another batch: mark it as failed.
+		step.status = 'failed';
 
-		addAlert('danger', '<strong>An error has occurred while signing Document ' + (step.index + 1) + '</strong>: ' + errorMsg);
+		addAlert('danger', '<strong>An error has occurred while signing ' + step.name + '</strong>: ' + errorMsg);
 		setDocStatus(step.index, [
 			$('<span />').addClass('fas fa-times text-danger')[0],
 			document.createTextNode(' failed')
 		]);
+	}
+
+	// ----------------------------------------------------------------------------------------------
+	// Helper that extracts a readable message from a failed jQuery Ajax call.
+	// ----------------------------------------------------------------------------------------------
+	function getErrorMessage(jqXHR, textStatus, errorThrown) {
+		var response = jqXHR.responseJSON;
+		if (response) {
+			return response.status + ' (' + response.error + ') ' + response.message;
+		}
+		return textStatus + ' (' + errorThrown + ')';
 	}
 
 	// ---------------------------------------------------------------------------------------------

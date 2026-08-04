@@ -37,6 +37,14 @@ repositories {
     // }
 }
 
+// TEMPORARY: XmlDiplomaArchivalExtensionCoreSelfTestController calls
+// RestPkiService.extendArchivalSignature(), which is not published yet (neither restpkicore-client
+// 1.1.4 nor 1.4.0 has it; 1.4.0 has only the request/response models). Remove this exclusion once a
+// client version with the method is available (see the commented staging repository above).
+compileJava {
+    exclude '**/XmlDiplomaArchivalExtensionCoreSelfTestController.java'
+}
+
 dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.20.0'
