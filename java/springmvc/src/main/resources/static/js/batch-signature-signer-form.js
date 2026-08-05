@@ -1,16 +1,22 @@
 // -------------------------------------------------------------------------------------------------
 // This file is a copy of batch-signature-express-form.js adapted to sign a batch of documents
-// hosted on Lacuna Signer (public signature flow), using the files uploaded by the user. The
-// queue/threads logic is exactly the same as the express batch sample; what changes is:
+// hosted on Lacuna Signer (public signature flow), using the files uploaded by the user, where EACH
+// document gets its OWN flow with a SECOND signer. The queue/threads logic is exactly the same as
+// the express batch sample; what changes is:
 //   - the documents are not known when the page loads: the user chooses PDFs on a multiple file
-//     input and each one is uploaded to Signer right away (see uploadFiles). The user may add as
+//     input and each one is uploaded to Signer right away (see onFilesChosen). The user may add as
 //     many files as wanted, in as many rounds as wanted;
-//   - when the batch starts, ONE call to "create" turns all the pending uploads into documents on
-//     Signer (for the holder of the selected certificate) and returns the key of each one;
+//   - each row of the table carries the SECOND participant of that document's flow, typed by the
+//     user. That's what makes each document have its own flow;
+//   - when the batch starts, "create" turns each upload into a document on Signer with a two-step
+//     flow (the certificate holder at step 1, the informed participant at step 2) and returns the
+//     key of each one;
 //   - the "start" step returns a "token" (instead of a "transferFile") that identifies the Signer
 //     signature process;
-//   - the "complete" step notifies Signer that the signature was performed and the document is no
-//     longer stored locally (it lives on Signer), so we render a link to download it from Signer.
+//   - the "complete" step notifies Signer that OUR signature was performed. The document is NOT
+//     finished at this point: it stays pending until the second participant signs, so we render
+//     "signed by you - waiting for <name>" instead of a plain "signed", with a link to that
+//     participant's action URL and another to download the (partially signed) file from Signer.
 // The selected certificate is kept, so after a batch finishes the user can add more files and sign
 // again without selecting the certificate (and typing the PIN) all over again.
 // It is only an example, feel free to alter it to meet your application's needs.
@@ -276,6 +282,23 @@ var batchSignatureSignerForm = (function () {
 			return;
 		}
 
+		// Read the second participant of each document from the table. Every document must have one:
+		// it is what gives each document its own flow on Signer.
+		var flows = [];
+		for (var i = 0; i < pending.length; i++) {
+			var participant = readParticipant(pending[i]);
+			if (!participant.participantName || !participant.participantEmail || !participant.participantCpf) {
+				addAlert('danger', 'Inform the name, the e-mail and the CPF of the second signer of <strong>'
+					+ pending[i].name + '</strong>.');
+				return;
+			}
+			participant.fileRef = pending[i].fileRef;
+			flows.push(participant);
+			// Keep the participant on the document as well: the "complete" step uses their e-mail and
+			// CPF to fetch their action URL (once our signature makes it their turn).
+			pending[i].participant = participant;
+		}
+
 		// Instead of blocking the whole screen, we disable the buttons and turn the sign button into
 		// a "Signing..." indicator, so the user stays free to interact with the page.
 		setButtonsEnabled(false);
@@ -289,27 +312,31 @@ var batchSignatureSignerForm = (function () {
 			// Store the certificate content.
 			selectedCertContent = certEncoded;
 
-			// Create the documents on Signer from the files already uploaded, for this signer (using
-			// the CPF of the selected certificate). The server returns the key of each document.
+			// Create the documents on Signer from the files already uploaded: one document per file,
+			// each with its own two-step flow (this certificate's holder at step 1, the participant
+			// informed on the row at step 2). The server returns the key of each document.
+			//
+			// Notice that we send JSON, not form fields: the payload is a nested list, and jQuery would
+			// serialize it in a format Spring doesn't bind ("flows[0][fileRef]").
 			$.ajax({
 				url: formElements.ctrlEndpoint + '/create',
 				method: 'POST',
-				// Serialize the array of file references as "fileRefs=a&fileRefs=b". Without this,
-				// jQuery would send "fileRefs[]=a&fileRefs[]=b" and Spring would try to read the
-				// (empty) index inside the brackets, failing with 'For input string: ""'.
-				traditional: true,
-				data: {
+				contentType: 'application/json',
+				data: JSON.stringify({
 					cpf: cpf,
 					name: selectedCert.subjectName,
-					fileRefs: pending.map(function (doc) { return doc.fileRef; })
-				},
+					flows: flows
+				}),
 				dataType: 'json'
 			}).then(function (documents) {
 
-				// Store the key of each document (the "create" action returns them in the same order
-				// we sent the file references).
+				// Store what the server returned for each document (the "create" action answers in the
+				// same order we sent the items).
 				for (var i = 0; i < pending.length; i++) {
 					pending[i].key = documents[i].key;
+					pending[i].participantName = documents[i].participantName;
+					// The row's inputs are now read-only: the flow is created on Signer.
+					lockParticipantInputs(pending[i]);
 				}
 
 				// Call Web PKI to preauthorize the signatures, so that the user only sees one
@@ -344,28 +371,59 @@ var batchSignatureSignerForm = (function () {
 	}
 
 	// ----------------------------------------------------------------------------------------------
-	// Function that appends one document to the documents list. Each document gets a "status"
-	// element that we update in real time as it moves through the pipeline (hash generated ->
-	// signed).
+	// Function that appends one document to the table: the filename, the inputs of the second
+	// participant of its flow and a "status" cell that we update in real time as the document moves
+	// through the pipeline (hash generated -> signed).
 	// ----------------------------------------------------------------------------------------------
 	function renderDocRow(doc) {
 		formElements.docList
-			.append($('<li />')
-				.append($('<span />').text(doc.name))
-				.append(document.createTextNode(' '))
-				.append($('<span />')
+			.append($('<tr />')
+				.attr('data-index', doc.index)
+				.append($('<td />').append($('<span />').addClass('text-monospace small').text(doc.name)))
+				.append($('<td />').append($('<input />')
+					.addClass('form-control form-control-sm participant-name')
+					.attr('type', 'text')
+					.attr('placeholder', 'Full name')))
+				.append($('<td />').append($('<input />')
+					.addClass('form-control form-control-sm participant-email')
+					.attr('type', 'email')
+					.attr('placeholder', 'email@example.com')))
+				.append($('<td />').append($('<input />')
+					.addClass('form-control form-control-sm participant-cpf')
+					.attr('type', 'text')
+					.attr('placeholder', '000.000.000-00')))
+				.append($('<td />').append($('<span />')
 					.addClass('doc-status text-muted')
 					.append($('<span />').addClass('fas fa-clock'))
-					.append(document.createTextNode(' waiting ...'))));
+					.append(document.createTextNode(' waiting ...')))));
 	}
 
 	// ----------------------------------------------------------------------------------------------
-	// Helper that replaces the "status" element of a given document on the list. Receives the
-	// document index and a jQuery element (or array of nodes) to be shown as the new status.
+	// Helpers that read/lock the second participant's inputs of a document's row.
 	// ----------------------------------------------------------------------------------------------
-	function setDocStatus(index, content) {
-		formElements.docList.find('li').eq(index).find('.doc-status')
-			.empty().removeClass('text-muted').append(content);
+	function getDocRow(doc) {
+		return formElements.docList.find('tr[data-index="' + doc.index + '"]');
+	}
+
+	function readParticipant(doc) {
+		var row = getDocRow(doc);
+		return {
+			participantName: $.trim(row.find('.participant-name').val()),
+			participantEmail: $.trim(row.find('.participant-email').val()),
+			participantCpf: $.trim(row.find('.participant-cpf').val())
+		};
+	}
+
+	function lockParticipantInputs(doc) {
+		getDocRow(doc).find('input').prop('readonly', true);
+	}
+
+	// ----------------------------------------------------------------------------------------------
+	// Helper that replaces the "status" cell of a given document. Receives the document and a jQuery
+	// element (or array of nodes) to be shown as the new status.
+	// ----------------------------------------------------------------------------------------------
+	function setDocStatus(doc, content) {
+		getDocRow(doc).find('.doc-status').empty().removeClass('text-muted').append(content);
 	}
 
 	// --------------------------------------------------------------------------------------------
@@ -506,13 +564,19 @@ var batchSignatureSignerForm = (function () {
 			data: {
 				id: step.key,
 				signature: step.signature,
-				token: step.token
+				token: step.token,
+				// Sent so the server can fetch this participant's action URL, which Signer only
+				// releases now that our signature (step 1) is done and the turn is theirs.
+				participantEmail: step.participant ? step.participant.participantEmail : null,
+				participantCpf: step.participant ? step.participant.participantCpf : null
 			},
 			dataType: 'json'
-		}).then(function (documentId) {
+		}).then(function (response) {
 
-			// Store the Signer document id (returned by the server) to render a reference to it.
-			step.documentId = documentId;
+			// Store what the server returned: the Signer document id and, when available, the action
+			// URL of the participant we're now waiting for.
+			step.documentId = response.documentId;
+			step.participantActionUrl = response.participantActionUrl;
 			// Render success.
 			renderSuccess(step);
 			// Call the "done" callback signalling we're done with the document.
@@ -533,8 +597,10 @@ var batchSignatureSignerForm = (function () {
 	// Function called once the batch is completed.
 	// ----------------------------------------------------------------------------------------------
 	function onBatchCompleted() {
-		// Notify the user.
-		addAlert('primary', '<strong>Batch processing completed</strong>');
+		// Notify the user. Notice that the documents are NOT finished: each one still waits for its
+		// second signer, who Signer notified by e-mail.
+		addAlert('primary', '<strong>Batch processing completed</strong>. Each document now waits for '
+			+ 'its second signer on Signer.');
 		// Restore the button's label and re-enable the controls. Notice that the certificate stays
 		// selected: the user may now add more files and sign them with the same certificate.
 		resetSignButton();
@@ -546,37 +612,52 @@ var batchSignatureSignerForm = (function () {
 	// "start" step finished). The document is now being signed by Web PKI.
 	// ----------------------------------------------------------------------------------------------
 	function renderHashGenerated(step) {
-		setDocStatus(step.index, [
+		setDocStatus(step, [
 			$('<span />').addClass('fas fa-check text-success')[0],
-			document.createTextNode(' hash generated '),
-			$('<span />').addClass('fas fa-arrow-right text-muted')[0],
-			$('<span />').addClass('text-muted').append($('<span />').addClass('fas fa-spinner fa-spin')).append(document.createTextNode(' signing ...'))[0]
+			document.createTextNode(' hash '),
+			$('<span />').addClass('text-muted')
+				.append($('<span />').addClass('fas fa-spinner fa-spin'))
+				.append(document.createTextNode(' signing ...'))[0]
 		]);
 	}
 
 	// ----------------------------------------------------------------------------------------------
-	// Function that renders a document as completed successfully. Unlike the express sample, the
-	// signed document is stored on Signer (not locally), so we render a link that downloads it from
-	// Signer (proxied by our server, see the controller).
+	// Function that renders a document as signed BY US. The document is not finished: it lives on
+	// Signer and stays pending until the second participant of its flow signs, so we say so -- and,
+	// when the server managed to read it, we offer that participant's action URL so the flow can be
+	// tested without the notification e-mail. We also link the download of the (partially signed)
+	// file, proxied by our server (see the controller).
 	// ----------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
+
 		step.status = 'signed';
-		setDocStatus(step.index, [
+
+		var content = [
 			$('<span />').addClass('fas fa-check text-success')[0],
-			document.createTextNode(' hash generated '),
-			$('<span />').addClass('fas fa-arrow-right text-muted')[0],
-			document.createTextNode(' '),
-			$('<span />').addClass('fas fa-check text-success')[0],
-			document.createTextNode(' signed on Signer (document ID: '),
-			$('<code />').text(step.documentId)[0],
-			document.createTextNode(') '),
-			// Link to download the signed document (proxied by our server, see the controller).
-			$('<a />')
-				.attr('href', '/batch-signer-signature/download/' + encodeURIComponent(step.documentId))
+			document.createTextNode(' signed by you '),
+			$('<span />').addClass('badge badge-warning')
+				.text('waiting ' + (step.participantName || 'signer 2'))[0],
+			document.createTextNode(' ')
+		];
+
+		if (step.participantActionUrl) {
+			content.push($('<a />')
+				.addClass('small')
+				.attr('href', step.participantActionUrl)
 				.attr('target', '_blank')
-				.append($('<span />').addClass('fas fa-download'))
-				.append(document.createTextNode(' download'))[0]
-		]);
+				.append($('<span />').addClass('fas fa-external-link-alt'))
+				.append(document.createTextNode(' sign as them'))[0]);
+			content.push(document.createTextNode(' '));
+		}
+
+		content.push($('<a />')
+			.addClass('small')
+			.attr('href', formElements.downloadEndpoint + '/' + encodeURIComponent(step.documentId))
+			.attr('target', '_blank')
+			.append($('<span />').addClass('fas fa-download'))
+			.append(document.createTextNode(' download'))[0]);
+
+		setDocStatus(step, content);
 	}
 
 	// ----------------------------------------------------------------------------------------------
@@ -585,11 +666,12 @@ var batchSignatureSignerForm = (function () {
 	function renderFail(step, errorMsg) {
 
 		// The document didn't get signed, but its upload was already consumed by the "create" call,
-		// so it can't take part on another batch: mark it as failed.
+		// so it can't take part on another batch: mark it as failed. Notice that the document DOES
+		// exist on Signer -- it just wasn't signed by us, so its flow is still on step 1.
 		step.status = 'failed';
 
 		addAlert('danger', '<strong>An error has occurred while signing ' + step.name + '</strong>: ' + errorMsg);
-		setDocStatus(step.index, [
+		setDocStatus(step, [
 			$('<span />').addClass('fas fa-times text-danger')[0],
 			document.createTextNode(' failed')
 		]);

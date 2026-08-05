@@ -1,8 +1,10 @@
 package com.lacunasoftware.pkisuite.api;
 
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchCompleteRequest;
+import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchCompleteResponse;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchCreateRequest;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchDocument;
+import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchFlowItem;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchStartRequest;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchStartResponse;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchUploadedFile;
@@ -24,20 +26,18 @@ import com.lacunasoftware.signer.javaclient.requests.CompleteSignatureRequest;
 import com.lacunasoftware.signer.javaclient.responses.StartSignatureResponse;
 import com.lacunasoftware.signer.users.ParticipantUserModel;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -53,12 +53,13 @@ import java.util.regex.Pattern;
  *
  *   - POST /upload   : receives the files chosen by the user and forwards each one to Signer's
  *                      upload API, returning one reference per file. Nothing is created yet.
- *   - POST /create   : creates the documents on Signer from those uploads (for the selected
- *                      certificate's CPF) and returns their public-signature keys.
+ *   - POST /create   : creates ONE document per file on Signer, each with its OWN two-step flow (the
+ *                      batch signer at step 1, that document's second participant at step 2), and
+ *                      returns the public-signature key of each one.
  *   - POST /start    : starts the public signature of one document and returns its to-sign hash,
  *                      digest algorithm and a token.
  *   - POST /complete : completes the public signature after Web PKI has signed the hash, returning
- *                      the Signer document id.
+ *                      the Signer document id and the action URL of the participant we now wait for.
  */
 @RestController
 @RequestMapping("/api/batch-signer-signature")
@@ -69,14 +70,18 @@ public class BatchSignerSignatureApiController {
     private static final int MAX_FILES = 50;
     private static final long MAX_FILE_SIZE = 20L * 1024 * 1024; // 20 MB
 
-    // Maximum number of concurrent calls to Signer. Uploading the files (and later reading the
-    // action URLs) in parallel is much faster than sequentially, since most of the time is spent
-    // waiting on Signer's HTTP responses; tune this value according to your Signer plan / rate
-    // limits.
+    // Maximum number of concurrent calls to Signer. Each document of the batch needs its own "create
+    // document" call (because each one has its own flow), so without concurrency a batch of 50
+    // documents would be 50 sequential round trips. Tune according to your Signer plan / rate limits.
     private static final int MAX_CONCURRENT_CALLS = 10;
 
-    // The signer's email. On this sample it is a fixed placeholder; the CPF and the name come from
-    // the certificate selected by the user on Web PKI (see the create() action).
+    // Whether Signer should notify the second participants by e-mail as soon as the documents are
+    // created. Set to false while testing, so you don't mail real people on every run.
+    private static final boolean NOTIFY_PARTICIPANTS = true;
+
+    // The batch signer's email (the FIRST participant of every flow). On this sample it is a fixed
+    // placeholder; the CPF and the name come from the certificate selected by the user on Web PKI
+    // (see the create() action). On a real application this would be the logged-in user's e-mail.
     private static final String SIGNER_EMAIL = "signer.sample@mailinator.com";
 
     // Patterns used to extract the document "key" and the "ticket" from the embed URL returned by
@@ -99,7 +104,7 @@ public class BatchSignerSignatureApiController {
     public List<SignerBatchUploadedFile> upload(
             @RequestParam("userfiles") MultipartFile[] userfiles,
             HttpSession session
-    ) throws IOException, RestException {
+    ) throws RestException {
 
         if (userfiles == null || userfiles.length == 0) {
             throw new IllegalArgumentException("No file was uploaded");
@@ -161,111 +166,178 @@ public class BatchSignerSignatureApiController {
     /**
      * POST /api/batch-signer-signature/create
      *
-     * This action is called by the batch signature page once the user selects a certificate on Web
-     * PKI and clicks "Sign Batch". It creates, on Signer, one document per uploaded file for a
-     * signer whose CPF is the one of the selected certificate (so the public signature won't fail
-     * with "CpfMismatch") and returns the key of each created document, which will compose the batch.
+     * This action is called by the batch signature page once the user has uploaded the files, told us
+     * who signs each document second and selected a certificate on Web PKI.
+     *
+     * Each document gets its OWN flow with TWO signers, in order: the holder of the selected
+     * certificate at step 1 (the one this batch signs for) and that document's own second participant
+     * at step 2 (who Signer notifies and who signs later). This mirrors SignerSamples'
+     * CreateDocumentWithTwoOrMoreSignersWithOrderScenario, with the participants coming from the
+     * certificate and from the page instead of being hardcoded.
+     *
+     * Since the flow is defined PER creation request, we cannot create every document on a single
+     * call as we would if they all shared the same flow: it is one call per document, and we run them
+     * concurrently.
+     *
+     * Received as JSON (and not as form fields) because of the nested list of items.
      */
     @PostMapping("/create")
-    public List<SignerBatchDocument> create(SignerBatchCreateRequest request, HttpSession session)
+    public List<SignerBatchDocument> create(@RequestBody SignerBatchCreateRequest request, HttpSession session)
             throws RestException {
 
-        List<String> fileRefs = request.getFileRefs();
-        if (fileRefs == null || fileRefs.isEmpty()) {
-            throw new IllegalArgumentException("No file was uploaded for the batch");
+        List<SignerBatchFlowItem> flows = request.getFlows();
+        if (flows == null || flows.isEmpty()) {
+            throw new IllegalArgumentException("No document was informed for the batch");
+        }
+
+        // The first participant of every flow: the holder of the certificate selected on Web PKI.
+        // Keep only the digits of the CPF, as that's what Signer expects.
+        final String cpf = onlyDigits(request.getCpf());
+        final String name = Util.isNullOrEmpty(request.getName()) ? "Signer Sample" : request.getName();
+        if (cpf == null || cpf.length() != 11) {
+            throw new IllegalArgumentException(
+                    "The selected certificate does not have a valid CPF (ICP-Brasil certificate required)");
+        }
+
+        // Validate the whole batch BEFORE creating anything on Signer, so a typo on the last row
+        // doesn't leave half of the documents created.
+        for (SignerBatchFlowItem flow : flows) {
+            if (StorageMock.getSignerUpload(session, flow.getFileRef()) == null) {
+                throw new IllegalArgumentException("Unknown or already used file: " + flow.getFileRef());
+            }
+            if (Util.isNullOrEmpty(flow.getParticipantName())) {
+                throw new IllegalArgumentException("Inform the name of the second signer of every document");
+            }
+            if (Util.isNullOrEmpty(flow.getParticipantEmail()) || !flow.getParticipantEmail().contains("@")) {
+                throw new IllegalArgumentException(
+                        "Inform a valid e-mail for the second signer of " + flow.getParticipantName());
+            }
+            String participantCpf = onlyDigits(flow.getParticipantCpf());
+            if (participantCpf == null || participantCpf.length() != 11) {
+                throw new IllegalArgumentException(
+                        "Inform a valid CPF (11 digits) for " + flow.getParticipantName());
+            }
+            if (participantCpf.equals(cpf)) {
+                throw new IllegalArgumentException(String.format(
+                        "%s has the same CPF as the selected certificate: the second signer must be "
+                                + "someone else", flow.getParticipantName()));
+            }
         }
 
         // Get an instance of the SignerClient class, responsible for communicating with Signer.
         SignerClient signerClient = Util.getSignerClient();
 
-        // Keep only the digits of the CPF, as that's what Signer expects.
-        String cpf = request.getCpf() == null ? null : request.getCpf().replaceAll("\\D", "");
-        String name = Util.isNullOrEmpty(request.getName()) ? "Signer Sample" : request.getName();
-
-        // 1. Recover the uploads made by the "upload" action and build the list of files of the
-        // creation request. The display name of each document is the original filename.
-        List<FileUploadModel> files = new ArrayList<>();
-        Map<String, String> namesByUploadId = new HashMap<>();
-        for (String fileRef : fileRefs) {
-
-            UploadModel upload = StorageMock.getSignerUpload(session, fileRef);
-            if (upload == null) {
-                throw new IllegalArgumentException("Unknown or already used file: " + fileRef);
-            }
-
-            FileUploadModelBuilder fileBuilder = new FileUploadModelBuilder(upload);
-            fileBuilder.setDisplayName(upload.getName());
-            files.add(fileBuilder.toModel());
-            namesByUploadId.put(upload.getId(), upload.getName());
-        }
-
-        // 2. Define the participant (signer) and the flow action. The CPF is the one of the
-        // certificate selected by the user, so the public signature will match.
-        ParticipantUserModel user = new ParticipantUserModel();
-        user.setName(name);
-        user.setEmail(SIGNER_EMAIL);
-        user.setIdentifier(cpf);
-
-        FlowActionCreateModel flowAction = new FlowActionCreateModel();
-        flowAction.setType(FlowActionType.SIGNER);
-        flowAction.setUser(user);
-
-        // 3. Create ALL the documents on a SINGLE call. Signer creates one document per file of the
-        // request, all of them sharing the same flow (the signer defined above), and returns one
-        // result per file with the upload id it came from, so we know which document is which. If
-        // instead you wanted the files merged into ONE document, you would set isEnvelope(true) and
-        // an envelopeName (PDF only) -- but then there would be a single document to sign, not a
-        // batch.
-        CreateDocumentRequest documentRequest = new CreateDocumentRequest();
-        documentRequest.setFiles(files);
-        documentRequest.setFlowActions(Collections.singletonList(flowAction));
-
-        List<CreateDocumentResult> results = signerClient.createDocument(documentRequest);
-
-        // The uploads became documents, so they can't be used again. We only discard them here (and
-        // not while building the list above) so that a failure before this point leaves the uploads
-        // intact and the user can simply click "Sign Batch" again.
-        for (String fileRef : fileRefs) {
-            StorageMock.removeSignerUpload(session, fileRef);
-        }
-
-        // 4. For each created document, get the action URL of the participant and extract, from the
-        // embed URL, the two values needed to sign publicly (without an authenticated Signer
-        // session):
-        // - the "key", which identifies the signature and goes on the start/complete calls;
-        // - the "ticket", which authorizes the signature and must be sent on the "start" request.
-        // These are independent calls, so we do them concurrently as well.
+        // One task per document: create it with its own two-step flow and read the action URL of the
+        // first participant. These are independent, so they run concurrently.
         List<Callable<SignerBatchDocument>> tasks = new ArrayList<>();
-        for (CreateDocumentResult result : results) {
-            final UUID documentId = result.getDocumentId();
-            final String documentName = namesByUploadId.get(result.getUploadId());
+        for (SignerBatchFlowItem flow : flows) {
+            final SignerBatchFlowItem item = flow;
             tasks.add(new Callable<SignerBatchDocument>() {
                 @Override
                 public SignerBatchDocument call() throws Exception {
-
-                    ActionUrlRequest actionUrlRequest = new ActionUrlRequest();
-                    actionUrlRequest.setEmailAddress(SIGNER_EMAIL);
-                    actionUrlRequest.setIdentifier(cpf);
-                    ActionUrlResponse actionUrlResponse = signerClient.getActionUrl(documentId, actionUrlRequest);
-
-                    String embedUrl = actionUrlResponse.getEmbedUrl();
-                    String key = extractGroup(KEY_PATTERN, embedUrl, "key");
-                    String ticket = extractGroup(TICKET_PATTERN, embedUrl, "ticket");
-
-                    // Store the ticket (needed by the "start" action) and the document id (shown to
-                    // the user on "complete"), both associated with the key. We use the HTTP session
-                    // here just for the sake of the sample; on a real application you would keep this
-                    // association wherever fits your business logic. This is the same approach used
-                    // by StorageMock for the verification codes.
-                    StorageMock.setSignerTicket(session, key, ticket);
-                    StorageMock.setSignerDocumentId(session, key, documentId.toString());
-
-                    return new SignerBatchDocument(key, documentName);
+                    return createFlowDocument(signerClient, session, item, name, cpf);
                 }
             });
         }
 
-        return runConcurrently(tasks);
+        List<SignerBatchDocument> documents = runConcurrently(tasks);
+
+        // The uploads became documents, so they can't be used again. We only discard them here (and
+        // not while validating above) so that a failure before this point leaves the uploads intact
+        // and the user can simply click "Sign Batch" again.
+        for (SignerBatchFlowItem flow : flows) {
+            StorageMock.removeSignerUpload(session, flow.getFileRef());
+        }
+
+        return documents;
+    }
+
+    /**
+     * Creates ONE document on Signer with a two-step flow -- the batch signer at step 1 and this
+     * document's second participant at step 2 -- and returns the public-signature "key" that allows
+     * the batch signer to sign it without an authenticated Signer session.
+     */
+    private SignerBatchDocument createFlowDocument(
+            SignerClient signerClient,
+            HttpSession session,
+            SignerBatchFlowItem item,
+            String signerName,
+            String signerCpf
+    ) throws RestException {
+
+        // 1. Recover the file this document is made of (uploaded by the "upload" action above). The
+        // display name of the document is the original filename.
+        UploadModel upload = StorageMock.getSignerUpload(session, item.getFileRef());
+        if (upload == null) {
+            throw new IllegalArgumentException("Unknown or already used file: " + item.getFileRef());
+        }
+
+        FileUploadModelBuilder fileBuilder = new FileUploadModelBuilder(upload);
+        fileBuilder.setDisplayName(upload.getName());
+
+        // 2. Define the two participants of THIS document's flow.
+        //
+        // Step 1: the holder of the certificate selected on Web PKI. Being step 1 is what makes it
+        // possible for the batch to sign right now: were this participant on step 2, every "start"
+        // call would fail because it wouldn't be their turn yet.
+        ParticipantUserModel batchSigner = new ParticipantUserModel();
+        batchSigner.setName(signerName);
+        batchSigner.setEmail(SIGNER_EMAIL);
+        batchSigner.setIdentifier(signerCpf);
+
+        FlowActionCreateModel batchSignerAction = new FlowActionCreateModel();
+        batchSignerAction.setType(FlowActionType.SIGNER);
+        batchSignerAction.setUser(batchSigner);
+        batchSignerAction.setStep(1);
+
+        // Step 2: this document's own second participant, who Signer notifies and who signs later.
+        ParticipantUserModel secondSigner = new ParticipantUserModel();
+        secondSigner.setName(item.getParticipantName());
+        secondSigner.setEmail(item.getParticipantEmail());
+        secondSigner.setIdentifier(onlyDigits(item.getParticipantCpf()));
+
+        FlowActionCreateModel secondSignerAction = new FlowActionCreateModel();
+        secondSignerAction.setType(FlowActionType.SIGNER);
+        secondSignerAction.setUser(secondSigner);
+        secondSignerAction.setStep(2);
+
+        // 3. Create the document. Notice that this call carries a SINGLE file: the flow is specific to
+        // this document, so it can't be shared with the other files of the batch. (Were the flow the
+        // same for every file, all of them could go on a single call -- and if you wanted them merged
+        // into ONE document, you would set isEnvelope(true) and an envelopeName, PDF only.)
+        CreateDocumentRequest documentRequest = new CreateDocumentRequest();
+        documentRequest.setFiles(new ArrayList<>(Arrays.asList(fileBuilder.toModel())));
+        documentRequest.setFlowActions(new ArrayList<>(Arrays.asList(batchSignerAction, secondSignerAction)));
+        documentRequest.setDisablePendingActionNotifications(!NOTIFY_PARTICIPANTS);
+
+        List<CreateDocumentResult> results = signerClient.createDocument(documentRequest);
+        UUID documentId = results.get(0).getDocumentId();
+
+        // 4. Get the action URL of the FIRST participant (the batch signer) and extract, from the
+        // embed URL, the two values needed to sign publicly (without an authenticated Signer
+        // session):
+        // - the "key", which identifies the signature and goes on the start/complete calls;
+        // - the "ticket", which authorizes the signature and must be sent on the "start" request.
+        ActionUrlRequest actionUrlRequest = new ActionUrlRequest();
+        actionUrlRequest.setEmailAddress(SIGNER_EMAIL);
+        actionUrlRequest.setIdentifier(signerCpf);
+        ActionUrlResponse actionUrlResponse = signerClient.getActionUrl(documentId, actionUrlRequest);
+
+        String embedUrl = actionUrlResponse.getEmbedUrl();
+        String key = extractGroup(KEY_PATTERN, embedUrl, "key");
+        String ticket = extractGroup(TICKET_PATTERN, embedUrl, "ticket");
+
+        // Store the ticket (needed by the "start" action) and the document id (shown to the user on
+        // "complete"), both associated with the key. We use the HTTP session here just for the sake
+        // of the sample; on a real application you would keep this association wherever fits your
+        // business logic. This is the same approach used by StorageMock for the verification codes.
+        StorageMock.setSignerTicket(session, key, ticket);
+        StorageMock.setSignerDocumentId(session, key, documentId.toString());
+
+        // Notice that we do NOT read the action URL of the second participant here: on an ordered
+        // flow, Signer only hands out a participant's action URL when the turn is theirs, so at this
+        // point it would fail. We do it on the complete() action, right after our signature.
+        return new SignerBatchDocument(key, upload.getName(), item.getParticipantName());
     }
 
     /**
@@ -317,9 +389,13 @@ public class BatchSignerSignatureApiController {
      *
      * This action is called asynchronously from the batch signature page, once Web PKI has signed
      * the "to-sign hash", in order to complete the public signature on Signer.
+     *
+     * After it, the document holds the FIRST of its two signatures and remains pending until the
+     * second participant signs.
      */
     @PostMapping("/complete")
-    public String complete(SignerBatchCompleteRequest request, HttpSession session) throws RestException {
+    public SignerBatchCompleteResponse complete(SignerBatchCompleteRequest request, HttpSession session)
+            throws RestException {
 
         // Get an instance of the SignerClient class, responsible for communicating with Signer.
         SignerClient signerClient = Util.getSignerClient();
@@ -331,10 +407,33 @@ public class BatchSignerSignatureApiController {
         completeRequest.setToken(request.getToken());
         signerClient.completePublicSignature(request.getId(), completeRequest);
 
-        // Return the Signer document id (UUID) so the page can show which document was signed. If
+        // Recover the Signer document id (UUID) so the page can show which document was signed. If
         // for some reason it isn't available, fall back to the public-signature key.
         String documentId = StorageMock.getSignerDocumentId(session, request.getId());
-        return documentId != null ? documentId : request.getId();
+        if (documentId == null) {
+            return new SignerBatchCompleteResponse(request.getId(), null);
+        }
+
+        // Our signature (step 1) is done, so it is now the second participant's turn -- which means
+        // Signer will hand us THEIR action URL. We return it so the page can offer a link and you can
+        // watch the flow finish without waiting for the notification e-mail.
+        //
+        // This is a convenience of the sample, not part of the signature flow: if Signer refuses it
+        // for any reason, we simply don't show the link.
+        String participantActionUrl = null;
+        if (!Util.isNullOrEmpty(request.getParticipantEmail())) {
+            try {
+                ActionUrlRequest actionUrlRequest = new ActionUrlRequest();
+                actionUrlRequest.setEmailAddress(request.getParticipantEmail());
+                actionUrlRequest.setIdentifier(onlyDigits(request.getParticipantCpf()));
+                participantActionUrl = signerClient
+                        .getActionUrl(UUID.fromString(documentId), actionUrlRequest).getUrl();
+            } catch (RestException ex) {
+                // Ignored on purpose (see above).
+            }
+        }
+
+        return new SignerBatchCompleteResponse(documentId, participantActionUrl);
     }
 
     /**
@@ -370,6 +469,10 @@ public class BatchSignerSignatureApiController {
         } finally {
             pool.shutdown();
         }
+    }
+
+    private static String onlyDigits(String value) {
+        return value == null ? null : value.replaceAll("\\D", "");
     }
 
     private static String extractGroup(Pattern pattern, String embedUrl, String what) {
