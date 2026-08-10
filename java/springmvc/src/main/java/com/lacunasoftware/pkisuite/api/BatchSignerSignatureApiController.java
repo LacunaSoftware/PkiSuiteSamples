@@ -113,10 +113,21 @@ public class BatchSignerSignatureApiController {
     // is what leaves a broken flow behind when the batch is abandoned.
     private static final boolean DEFER_SECOND_PARTICIPANT = true;
 
-    // Whether Signer should notify the second participant by e-mail. With the deferred flow above,
-    // this notification is sent by the "complete" action -- that is, only once the document really is
-    // theirs to sign. Set to false while testing, so you don't mail real people on every run.
+    // Whether Signer should notify the participants by e-mail as soon as the documents are created.
+    // Only meaningful when DEFER_SECOND_PARTICIPANT is off: with the deferred flow, notifications are
+    // always disabled at creation time (there is nothing to tell anyone about yet). Set to false
+    // while testing, so you don't mail real people on every run.
     private static final boolean NOTIFY_PARTICIPANTS = true;
+
+    // Whether to ALSO send an explicit reminder to the second participant once their flow action is
+    // added.
+    //
+    // Keep it off. Adding a flow action through the flow-edit endpoint already notifies that
+    // participant when the turn becomes theirs -- the "disablePendingActionNotifications" flag set at
+    // creation time does NOT carry over to actions added later. Turning this on sends them a second,
+    // identical e-mail. It is here only to make that explicit, and for the case where your Signer
+    // organization has notifications globally disabled and you want the reminder anyway.
+    private static final boolean SEND_SECOND_PARTICIPANT_REMINDER = false;
 
     // Whether the "start" action must refuse a certificate other than the one selected when the
     // documents were created. Keep it on: the flow action created for step 1 is bound to that
@@ -587,10 +598,10 @@ public class BatchSignerSignatureApiController {
             return new SignerBatchCompleteResponse(request.getId(), null);
         }
 
-        // Only now the second participant is told about the document: the notification is a
-        // consequence of a signature that already exists (pending-action notifications have been off
-        // since creation, see createFlowDocument).
-        if (DEFER_SECOND_PARTICIPANT && NOTIFY_PARTICIPANTS) {
+        // The second participant is notified by Signer itself, now that the flow reached their step:
+        // the notification is a consequence of a signature that already exists. We do NOT send a
+        // reminder on top of it -- that would be a second, identical e-mail (see the constant).
+        if (DEFER_SECOND_PARTICIPANT && SEND_SECOND_PARTICIPANT_REMINDER) {
             notifySecondParticipant(signerClient, id, pending.getParticipantEmail());
         }
 
