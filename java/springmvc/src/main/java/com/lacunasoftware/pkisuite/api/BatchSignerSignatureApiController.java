@@ -67,9 +67,9 @@ import java.util.regex.Pattern;
  *   - POST /start    : starts the public signature of one document and returns its to-sign hash,
  *                      digest algorithm and a token. Refuses a certificate other than the one the
  *                      documents were created for.
- *   - POST /complete : completes the public signature after Web PKI has signed the hash, THEN adds
- *                      the second participant to the flow and notifies them, returning the Signer
- *                      document id and that participant's action URL.
+ *   - POST /complete : adds the second participant to the flow, completes the public signature that
+ *                      Web PKI computed and only then notifies that participant, returning the
+ *                      Signer document id and their action URL.
  *   - POST /abort    : deletes the documents of a batch that was abandoned before being signed.
  *
  * The split between "create" and "complete" is deliberate. Signer can only produce a to-sign hash
@@ -103,10 +103,11 @@ public class BatchSignerSignatureApiController {
     //
     // With DEFER_SECOND_PARTICIPANT = true the document is created with a SINGLE flow action (ours,
     // step 1) and no notifications. The second participant's flow action is only added by the
-    // "complete" action, after our signature went through. If the user reloads the page, closes the
-    // tab or picks another certificate in the middle of the batch, what is left behind is a document
-    // with one pending action that nobody was told about -- not a document "waiting for two
-    // signatures" that the second participant was already invited to sign.
+    // "complete" action -- right before completing the signature, which is what keeps Signer from
+    // concluding a document that still needs a second signer (see complete()). If the user reloads
+    // the page, closes the tab or picks another certificate in the middle of the batch, what is left
+    // behind is a document with one pending action that nobody was told about -- not a document
+    // "waiting for two signatures" that the second participant was already invited to sign.
     //
     // Set it to false to reproduce the original behaviour (both flow actions created upfront), which
     // is what leaves a broken flow behind when the batch is abandoned.
@@ -525,35 +526,31 @@ public class BatchSignerSignatureApiController {
                             + "batch again.");
         }
 
-        // Complete the public signature. We pass the signature computed by Web PKI (sent Base64
-        // encoded) together with the token returned on the "start" step.
-        CompleteSignatureRequest completeRequest = new CompleteSignatureRequest();
-        completeRequest.setSignature(Base64.getDecoder().decode(request.getSignature()));
-        completeRequest.setToken(request.getToken());
-        signerClient.completePublicSignature(request.getId(), completeRequest);
-
-        // From here on the document is safe: it holds our signature, so it is no longer a candidate
-        // for the cleanup performed by abort().
-        removePending(session, request.getId());
-
-        // Recover the Signer document id (UUID) so the page can show which document was signed. If
-        // for some reason it isn't available, fall back to the public-signature key.
+        // Recover the Signer document id (UUID), needed both to complete the flow and to show the
+        // user which document was signed.
         String documentId = pending.getDocumentId();
         if (documentId == null) {
             documentId = StorageMock.getSignerDocumentId(session, request.getId());
         }
-        if (documentId == null) {
-            return new SignerBatchCompleteResponse(request.getId(), null);
-        }
-        UUID id = UUID.fromString(documentId);
+        UUID id = documentId == null ? null : UUID.fromString(documentId);
 
         // >>>>> HERE IS WHERE THE SECOND PARTICIPANT JOINS THE FLOW <<<<<
         //
-        // Our signature went through, so this document is now worth someone else's attention. We add
-        // the step-2 flow action (POST /api/documents/{id}/flow) and, only then, ask Signer to notify
-        // that participant. Everything that happens to them from now on is a consequence of a
-        // signature that actually exists.
-        if (DEFER_SECOND_PARTICIPANT) {
+        // Notice that this happens BEFORE the signature is completed, and that the order matters.
+        //
+        // Up to this point the document has a single flow action -- ours. If we completed it now, the
+        // document would have nothing left pending, so Signer would CONCLUDE it and notify everyone
+        // that the flow is over. Adding the second participant afterwards would then reopen the
+        // document and send a second e-mail. That is why the step-2 action goes in first: the flow
+        // must already know that there is someone after us when our signature lands.
+        //
+        // The window this opens is not the one that broke the customer's flow: at this point the user
+        // has ALREADY signed the hash with the certificate this batch is bound to, so there is no
+        // reload or certificate change to worry about -- only the "complete" call below, which either
+        // succeeds or leaves a document that abort() deletes and that nobody was notified about
+        // (notifications are off since creation; the second participant is only told once our
+        // signature is in, right after this).
+        if (DEFER_SECOND_PARTICIPANT && id != null) {
             SignerBatchFlowItem item = new SignerBatchFlowItem();
             item.setParticipantName(pending.getParticipantName());
             item.setParticipantEmail(pending.getParticipantEmail());
@@ -566,13 +563,35 @@ public class BatchSignerSignatureApiController {
                 signerClient.updateDocumentFlow(id, flowEdit);
             } catch (java.io.IOException ex) {
                 throw new RuntimeException(
-                        "The signature was completed, but the second participant could not be added to "
-                                + "the flow of document " + documentId, ex);
+                        "The second participant could not be added to the flow of document "
+                                + documentId + ", so the signature was not completed", ex);
             }
+            // If the call above failed, the RestException propagates and we do NOT complete the
+            // signature: completing it would conclude a document that should have had a second
+            // signer. The document stays pending and unsigned, which abort() cleans up.
+        }
 
-            if (NOTIFY_PARTICIPANTS) {
-                notifySecondParticipant(signerClient, id, pending.getParticipantEmail());
-            }
+        // Complete the public signature. We pass the signature computed by Web PKI (sent Base64
+        // encoded) together with the token returned on the "start" step. The flow now continues to
+        // the second participant instead of being concluded.
+        CompleteSignatureRequest completeRequest = new CompleteSignatureRequest();
+        completeRequest.setSignature(Base64.getDecoder().decode(request.getSignature()));
+        completeRequest.setToken(request.getToken());
+        signerClient.completePublicSignature(request.getId(), completeRequest);
+
+        // From here on the document is safe: it holds our signature, so it is no longer a candidate
+        // for the cleanup performed by abort().
+        removePending(session, request.getId());
+
+        if (id == null) {
+            return new SignerBatchCompleteResponse(request.getId(), null);
+        }
+
+        // Only now the second participant is told about the document: the notification is a
+        // consequence of a signature that already exists (pending-action notifications have been off
+        // since creation, see createFlowDocument).
+        if (DEFER_SECOND_PARTICIPANT && NOTIFY_PARTICIPANTS) {
+            notifySecondParticipant(signerClient, id, pending.getParticipantEmail());
         }
 
         // Our signature (step 1) is done, so it is now the second participant's turn -- which means
