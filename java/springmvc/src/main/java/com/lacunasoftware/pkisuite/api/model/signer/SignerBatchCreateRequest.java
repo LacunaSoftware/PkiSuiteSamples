@@ -19,6 +19,11 @@ public class SignerBatchCreateRequest {
     public String cpf;
     // The subject name of the certificate, used as the first participant's display name.
     public String name;
+    // The Base64-encoded content of the certificate selected on Web PKI (the same that will be sent
+    // on every "start" call of this batch). We don't send it to Signer here: we fingerprint it and
+    // remember the fingerprint, so that the "start" action can refuse a certificate swapped in the
+    // middle of the batch -- which would otherwise leave documents nobody can sign.
+    public String certContent;
     // The batch: one item per document, each carrying the file and the SECOND participant of that
     // document's flow.
     public List<SignerBatchFlowItem> flows;
@@ -35,6 +40,13 @@ public class SignerBatchCreateRequest {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCertContent() {
+        return certContent;
+    }
+    public void setCertContent(String certContent) {
+        this.certContent = certContent;
     }
 
     public List<SignerBatchFlowItem> getFlows() {

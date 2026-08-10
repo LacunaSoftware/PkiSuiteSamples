@@ -5,6 +5,7 @@ import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchCompleteResponse;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchCreateRequest;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchDocument;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchFlowItem;
+import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchPendingDocument;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchStartRequest;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchStartResponse;
 import com.lacunasoftware.pkisuite.api.model.signer.SignerBatchUploadedFile;
@@ -16,7 +17,10 @@ import com.lacunasoftware.signer.documents.ActionUrlRequest;
 import com.lacunasoftware.signer.documents.ActionUrlResponse;
 import com.lacunasoftware.signer.documents.CreateDocumentRequest;
 import com.lacunasoftware.signer.documents.CreateDocumentResult;
+import com.lacunasoftware.signer.documents.DocumentFlowEditRequest;
+import com.lacunasoftware.signer.documents.DocumentModel;
 import com.lacunasoftware.signer.flowactions.FlowActionCreateModel;
+import com.lacunasoftware.signer.flowactions.FlowActionModel;
 import com.lacunasoftware.signer.javaclient.PublicStartSignatureRequest;
 import com.lacunasoftware.signer.javaclient.SignerClient;
 import com.lacunasoftware.signer.javaclient.builders.FileUploadModelBuilder;
@@ -34,10 +38,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -53,13 +61,25 @@ import java.util.regex.Pattern;
  *
  *   - POST /upload   : receives the files chosen by the user and forwards each one to Signer's
  *                      upload API, returning one reference per file. Nothing is created yet.
- *   - POST /create   : creates ONE document per file on Signer, each with its OWN two-step flow (the
- *                      batch signer at step 1, that document's second participant at step 2), and
- *                      returns the public-signature key of each one.
+ *   - POST /create   : creates ONE document per file on Signer, each with its OWN flow, and returns
+ *                      the public-signature key of each one. Only the batch signer's flow action
+ *                      (step 1) is created here, with notifications off.
  *   - POST /start    : starts the public signature of one document and returns its to-sign hash,
- *                      digest algorithm and a token.
- *   - POST /complete : completes the public signature after Web PKI has signed the hash, returning
- *                      the Signer document id and the action URL of the participant we now wait for.
+ *                      digest algorithm and a token. Refuses a certificate other than the one the
+ *                      documents were created for.
+ *   - POST /complete : completes the public signature after Web PKI has signed the hash, THEN adds
+ *                      the second participant to the flow and notifies them, returning the Signer
+ *                      document id and that participant's action URL.
+ *   - POST /abort    : deletes the documents of a batch that was abandoned before being signed.
+ *
+ * The split between "create" and "complete" is deliberate. Signer can only produce a to-sign hash
+ * for a document that already exists, so the document is necessarily created before we sign it. If
+ * the whole flow were created upfront, anything that interrupts the batch in between -- a page
+ * reload, a change of certificate, a closed tab -- would leave on Signer a document pending TWO
+ * actions, bound to a certificate the user may no longer be using, with the second participant
+ * already invited to sign something that was never signed. Creating the second participant only
+ * after our signature, keeping the certificate fixed for the whole batch and deleting what was
+ * abandoned turns that window into a harmless one.
  */
 @RestController
 @RequestMapping("/api/batch-signer-signature")
@@ -75,9 +95,38 @@ public class BatchSignerSignatureApiController {
     // documents would be 50 sequential round trips. Tune according to your Signer plan / rate limits.
     private static final int MAX_CONCURRENT_CALLS = 10;
 
-    // Whether Signer should notify the second participants by e-mail as soon as the documents are
-    // created. Set to false while testing, so you don't mail real people on every run.
+    // >>>>> THE POINT OF THIS SAMPLE'S FLOW <<<<<
+    //
+    // Signer can only produce the "to-sign hash" of a document that already exists, so between
+    // "create" and "complete" there is inevitably a window in which the document is on Signer and
+    // our signature is not. What we CAN choose is what sits inside that window.
+    //
+    // With DEFER_SECOND_PARTICIPANT = true the document is created with a SINGLE flow action (ours,
+    // step 1) and no notifications. The second participant's flow action is only added by the
+    // "complete" action, after our signature went through. If the user reloads the page, closes the
+    // tab or picks another certificate in the middle of the batch, what is left behind is a document
+    // with one pending action that nobody was told about -- not a document "waiting for two
+    // signatures" that the second participant was already invited to sign.
+    //
+    // Set it to false to reproduce the original behaviour (both flow actions created upfront), which
+    // is what leaves a broken flow behind when the batch is abandoned.
+    private static final boolean DEFER_SECOND_PARTICIPANT = true;
+
+    // Whether Signer should notify the second participant by e-mail. With the deferred flow above,
+    // this notification is sent by the "complete" action -- that is, only once the document really is
+    // theirs to sign. Set to false while testing, so you don't mail real people on every run.
     private static final boolean NOTIFY_PARTICIPANTS = true;
+
+    // Whether the "start" action must refuse a certificate other than the one selected when the
+    // documents were created. Keep it on: the flow action created for step 1 is bound to that
+    // certificate's CPF, so signing the rest of the batch with another certificate cannot work --
+    // failing here, with a clear message, is much better than half a batch of documents that their
+    // own creator is not allowed to sign.
+    private static final boolean ENFORCE_SAME_CERTIFICATE = true;
+
+    // Session attribute prefixes for the state described on SignerBatchPendingDocument.
+    private static final String PENDING_PREFIX = "SignerBatchPending/";
+    private static final String PENDING_KEYS = "SignerBatchPendingKeys";
 
     // The batch signer's email (the FIRST participant of every flow). On this sample it is a fixed
     // placeholder; the CPF and the name come from the certificate selected by the user on Web PKI
@@ -199,6 +248,13 @@ public class BatchSignerSignatureApiController {
                     "The selected certificate does not have a valid CPF (ICP-Brasil certificate required)");
         }
 
+        // Fingerprint of the certificate that is starting this batch. Every "start" call of these
+        // documents will have to present the same certificate (see start()).
+        if (ENFORCE_SAME_CERTIFICATE && Util.isNullOrEmpty(request.getCertContent())) {
+            throw new IllegalArgumentException("The certificate content was not informed");
+        }
+        final String certThumbprint = thumbprint(request.getCertContent());
+
         // Validate the whole batch BEFORE creating anything on Signer, so a typo on the last row
         // doesn't leave half of the documents created.
         for (SignerBatchFlowItem flow : flows) {
@@ -224,6 +280,11 @@ public class BatchSignerSignatureApiController {
             }
         }
 
+        // A previous attempt of this session may have left documents created but never signed (the
+        // user reloaded the page, changed the certificate, closed the tab). Discard them before
+        // creating a new batch, so a retry doesn't pile up documents on Signer.
+        abort(session);
+
         // Get an instance of the SignerClient class, responsible for communicating with Signer.
         SignerClient signerClient = Util.getSignerClient();
 
@@ -235,7 +296,7 @@ public class BatchSignerSignatureApiController {
             tasks.add(new Callable<SignerBatchDocument>() {
                 @Override
                 public SignerBatchDocument call() throws Exception {
-                    return createFlowDocument(signerClient, session, item, name, cpf);
+                    return createFlowDocument(signerClient, session, item, name, cpf, certThumbprint);
                 }
             });
         }
@@ -262,7 +323,8 @@ public class BatchSignerSignatureApiController {
             HttpSession session,
             SignerBatchFlowItem item,
             String signerName,
-            String signerCpf
+            String signerCpf,
+            String certThumbprint
     ) throws RestException {
 
         // 1. Recover the file this document is made of (uploaded by the "upload" action above). The
@@ -290,25 +352,30 @@ public class BatchSignerSignatureApiController {
         batchSignerAction.setUser(batchSigner);
         batchSignerAction.setStep(1);
 
-        // Step 2: this document's own second participant, who Signer notifies and who signs later.
-        ParticipantUserModel secondSigner = new ParticipantUserModel();
-        secondSigner.setName(item.getParticipantName());
-        secondSigner.setEmail(item.getParticipantEmail());
-        secondSigner.setIdentifier(onlyDigits(item.getParticipantCpf()));
-
-        FlowActionCreateModel secondSignerAction = new FlowActionCreateModel();
-        secondSignerAction.setType(FlowActionType.SIGNER);
-        secondSignerAction.setUser(secondSigner);
-        secondSignerAction.setStep(2);
+        // Step 2: this document's own second participant, who signs later.
+        //
+        // This is the flow action we do NOT create now (unless DEFER_SECOND_PARTICIPANT is off): it
+        // is added by the complete() action, after our signature. Until then the document has a
+        // single pending action, so an abandoned batch cannot leave a document waiting for two
+        // signatures -- and nobody is invited to a document whose first signature never happened.
+        FlowActionCreateModel secondSignerAction = buildSecondSignerAction(item);
 
         // 3. Create the document. Notice that this call carries a SINGLE file: the flow is specific to
         // this document, so it can't be shared with the other files of the batch. (Were the flow the
         // same for every file, all of them could go on a single call -- and if you wanted them merged
         // into ONE document, you would set isEnvelope(true) and an envelopeName, PDF only.)
+        List<FlowActionCreateModel> flowActions = DEFER_SECOND_PARTICIPANT
+                ? new ArrayList<>(Arrays.asList(batchSignerAction))
+                : new ArrayList<>(Arrays.asList(batchSignerAction, secondSignerAction));
+
         CreateDocumentRequest documentRequest = new CreateDocumentRequest();
         documentRequest.setFiles(new ArrayList<>(Arrays.asList(fileBuilder.toModel())));
-        documentRequest.setFlowActions(new ArrayList<>(Arrays.asList(batchSignerAction, secondSignerAction)));
-        documentRequest.setDisablePendingActionNotifications(!NOTIFY_PARTICIPANTS);
+        documentRequest.setFlowActions(flowActions);
+        // While the batch is running, nobody should hear about this document: it is a document that
+        // may still be thrown away. The second participant's notification is sent by complete(),
+        // when there really is something for them to sign.
+        documentRequest.setDisablePendingActionNotifications(
+                DEFER_SECOND_PARTICIPANT || !NOTIFY_PARTICIPANTS);
 
         List<CreateDocumentResult> results = signerClient.createDocument(documentRequest);
         UUID documentId = results.get(0).getDocumentId();
@@ -334,10 +401,38 @@ public class BatchSignerSignatureApiController {
         StorageMock.setSignerTicket(session, key, ticket);
         StorageMock.setSignerDocumentId(session, key, documentId.toString());
 
+        // Remember the certificate this document was created for and the second participant that
+        // complete() will add to the flow. Registering the key as "pending" is also what allows the
+        // abort() action below to delete the documents of a batch that never got signed.
+        setPending(session, key, new SignerBatchPendingDocument(
+                documentId.toString(),
+                certThumbprint,
+                item.getParticipantName(),
+                item.getParticipantEmail(),
+                onlyDigits(item.getParticipantCpf())));
+
         // Notice that we do NOT read the action URL of the second participant here: on an ordered
         // flow, Signer only hands out a participant's action URL when the turn is theirs, so at this
         // point it would fail. We do it on the complete() action, right after our signature.
         return new SignerBatchDocument(key, upload.getName(), item.getParticipantName());
+    }
+
+    /**
+     * Builds the flow action of the SECOND participant of a document (step 2). Used either at
+     * creation time or, when DEFER_SECOND_PARTICIPANT is on, by the complete() action.
+     */
+    private static FlowActionCreateModel buildSecondSignerAction(SignerBatchFlowItem item) {
+
+        ParticipantUserModel secondSigner = new ParticipantUserModel();
+        secondSigner.setName(item.getParticipantName());
+        secondSigner.setEmail(item.getParticipantEmail());
+        secondSigner.setIdentifier(onlyDigits(item.getParticipantCpf()));
+
+        FlowActionCreateModel action = new FlowActionCreateModel();
+        action.setType(FlowActionType.SIGNER);
+        action.setUser(secondSigner);
+        action.setStep(2);
+        return action;
     }
 
     /**
@@ -353,6 +448,27 @@ public class BatchSignerSignatureApiController {
 
         // Get an instance of the SignerClient class, responsible for communicating with Signer.
         SignerClient signerClient = Util.getSignerClient();
+
+        // Refuse to go on if this document is not one of the batch we created on this session, or if
+        // the certificate is not the one it was created for. The second case is the one that used to
+        // break the flow: the step-1 flow action carries the CPF of the certificate selected at
+        // creation time, so a certificate swapped in the middle of the batch (by reloading the page
+        // and picking another one, typically) can never sign these documents. Better to say so here
+        // than to leave documents pending forever.
+        SignerBatchPendingDocument pending = getPending(session, request.getId());
+        if (pending == null) {
+            throw new IllegalArgumentException(
+                    "This document is not part of a batch in progress. Reload the page and start the "
+                            + "batch again.");
+        }
+        if (ENFORCE_SAME_CERTIFICATE
+                && !thumbprint(request.getCertContent()).equals(pending.getCertThumbprint())) {
+            throw new IllegalArgumentException(
+                    "The certificate changed after this batch was created. The documents were created "
+                            + "for the certificate you had selected, so they can only be signed by it. "
+                            + "Reload the page and start the batch again with the certificate you want "
+                            + "to use.");
+        }
 
         // Recover the ticket associated with this document key. It was stored when the documents
         // were created (see create()) and authorizes the public signature.
@@ -400,6 +516,15 @@ public class BatchSignerSignatureApiController {
         // Get an instance of the SignerClient class, responsible for communicating with Signer.
         SignerClient signerClient = Util.getSignerClient();
 
+        // The second participant we are about to add to the flow comes from what WE stored when the
+        // document was created, not from the request: the browser has no say on who signs next.
+        SignerBatchPendingDocument pending = getPending(session, request.getId());
+        if (pending == null) {
+            throw new IllegalArgumentException(
+                    "This document is not part of a batch in progress. Reload the page and start the "
+                            + "batch again.");
+        }
+
         // Complete the public signature. We pass the signature computed by Web PKI (sent Base64
         // encoded) together with the token returned on the "start" step.
         CompleteSignatureRequest completeRequest = new CompleteSignatureRequest();
@@ -407,11 +532,47 @@ public class BatchSignerSignatureApiController {
         completeRequest.setToken(request.getToken());
         signerClient.completePublicSignature(request.getId(), completeRequest);
 
+        // From here on the document is safe: it holds our signature, so it is no longer a candidate
+        // for the cleanup performed by abort().
+        removePending(session, request.getId());
+
         // Recover the Signer document id (UUID) so the page can show which document was signed. If
         // for some reason it isn't available, fall back to the public-signature key.
-        String documentId = StorageMock.getSignerDocumentId(session, request.getId());
+        String documentId = pending.getDocumentId();
+        if (documentId == null) {
+            documentId = StorageMock.getSignerDocumentId(session, request.getId());
+        }
         if (documentId == null) {
             return new SignerBatchCompleteResponse(request.getId(), null);
+        }
+        UUID id = UUID.fromString(documentId);
+
+        // >>>>> HERE IS WHERE THE SECOND PARTICIPANT JOINS THE FLOW <<<<<
+        //
+        // Our signature went through, so this document is now worth someone else's attention. We add
+        // the step-2 flow action (POST /api/documents/{id}/flow) and, only then, ask Signer to notify
+        // that participant. Everything that happens to them from now on is a consequence of a
+        // signature that actually exists.
+        if (DEFER_SECOND_PARTICIPANT) {
+            SignerBatchFlowItem item = new SignerBatchFlowItem();
+            item.setParticipantName(pending.getParticipantName());
+            item.setParticipantEmail(pending.getParticipantEmail());
+            item.setParticipantCpf(pending.getParticipantCpf());
+
+            DocumentFlowEditRequest flowEdit = new DocumentFlowEditRequest();
+            flowEdit.setAddedFlowActions(
+                    new ArrayList<>(Arrays.asList(buildSecondSignerAction(item))));
+            try {
+                signerClient.updateDocumentFlow(id, flowEdit);
+            } catch (java.io.IOException ex) {
+                throw new RuntimeException(
+                        "The signature was completed, but the second participant could not be added to "
+                                + "the flow of document " + documentId, ex);
+            }
+
+            if (NOTIFY_PARTICIPANTS) {
+                notifySecondParticipant(signerClient, id, pending.getParticipantEmail());
+            }
         }
 
         // Our signature (step 1) is done, so it is now the second participant's turn -- which means
@@ -421,13 +582,12 @@ public class BatchSignerSignatureApiController {
         // This is a convenience of the sample, not part of the signature flow: if Signer refuses it
         // for any reason, we simply don't show the link.
         String participantActionUrl = null;
-        if (!Util.isNullOrEmpty(request.getParticipantEmail())) {
+        if (!Util.isNullOrEmpty(pending.getParticipantEmail())) {
             try {
                 ActionUrlRequest actionUrlRequest = new ActionUrlRequest();
-                actionUrlRequest.setEmailAddress(request.getParticipantEmail());
-                actionUrlRequest.setIdentifier(onlyDigits(request.getParticipantCpf()));
-                participantActionUrl = signerClient
-                        .getActionUrl(UUID.fromString(documentId), actionUrlRequest).getUrl();
+                actionUrlRequest.setEmailAddress(pending.getParticipantEmail());
+                actionUrlRequest.setIdentifier(pending.getParticipantCpf());
+                participantActionUrl = signerClient.getActionUrl(id, actionUrlRequest).getUrl();
             } catch (RestException ex) {
                 // Ignored on purpose (see above).
             }
@@ -435,6 +595,132 @@ public class BatchSignerSignatureApiController {
 
         return new SignerBatchCompleteResponse(documentId, participantActionUrl);
     }
+
+    /**
+     * POST /api/batch-signer-signature/abort
+     *
+     * Called by the page (via navigator.sendBeacon) when the user leaves it with a batch in
+     * progress, and also at the beginning of every batch, to discard documents left over by a
+     * previous attempt of the same session.
+     *
+     * These are documents that were created on Signer but never signed by us. Deleting them is what
+     * keeps the "reload the page in the middle of the batch" case from accumulating garbage that
+     * their own creator can no longer sign.
+     *
+     * >>>>> NOTICE <<<<<
+     * The session only covers users who come back. On a real application, keep the pending documents
+     * on your database and have a scheduled job delete the ones left behind for too long.
+     */
+    @PostMapping("/abort")
+    public int abort(HttpSession session) {
+
+        SignerClient signerClient = Util.getSignerClient();
+        int deleted = 0;
+
+        for (String key : takePendingKeys(session)) {
+            SignerBatchPendingDocument pending = getPending(session, key);
+            removePending(session, key);
+            if (pending == null || pending.getDocumentId() == null) {
+                continue;
+            }
+            try {
+                // Only documents that hold no signature at all are deleted. A document that was
+                // signed while we weren't looking is left alone -- deleting it would destroy a real
+                // signature. (Use cancelDocument if your business logic prefers keeping the record.)
+                DocumentModel document = signerClient.getDocumentDetails(
+                        UUID.fromString(pending.getDocumentId()));
+                if (document.isHasSignature() != null && document.isHasSignature()) {
+                    continue;
+                }
+                signerClient.deleteDocument(UUID.fromString(pending.getDocumentId()));
+                deleted++;
+            } catch (RestException ex) {
+                // The document may already be gone, or belong to a session that is no longer valid.
+                // Nothing to do about it here: this is a best-effort cleanup.
+            }
+        }
+
+        return deleted;
+    }
+
+    /**
+     * Asks Signer to notify the second participant of a document, now that our signature made it
+     * their turn. The reminder is sent per flow action, so we look the document up to find the one
+     * we just added.
+     *
+     * Notifying is a convenience, not a step of the signature: a failure here must not fail the
+     * signature that already succeeded.
+     */
+    private static void notifySecondParticipant(SignerClient signerClient, UUID documentId, String email) {
+        if (Util.isNullOrEmpty(email)) {
+            return;
+        }
+        try {
+            DocumentModel document = signerClient.getDocumentDetails(documentId);
+            if (document.getFlowActions() == null) {
+                return;
+            }
+            for (FlowActionModel action : document.getFlowActions()) {
+                if (action.getUser() != null && email.equalsIgnoreCase(action.getUser().getEmail())) {
+                    signerClient.sendFlowActionReminder(documentId, action.getId());
+                    return;
+                }
+            }
+        } catch (RestException ex) {
+            // Ignored on purpose (see above). The participant can still be reached by the action URL
+            // and by Signer's own pending-action reminders.
+        }
+    }
+
+    // region Pending documents (the state that makes the workaround above possible)
+
+    @SuppressWarnings("unchecked")
+    private static Set<String> pendingKeys(HttpSession session) {
+        Set<String> keys = (Set<String>) session.getAttribute(PENDING_KEYS);
+        if (keys == null) {
+            keys = new LinkedHashSet<>();
+            session.setAttribute(PENDING_KEYS, keys);
+        }
+        return keys;
+    }
+
+    private static void setPending(HttpSession session, String key, SignerBatchPendingDocument pending) {
+        // The documents of a batch are created concurrently (see runConcurrently), so the bookkeeping
+        // of the batch is synchronized on the session.
+        synchronized (session.getId().intern()) {
+            session.setAttribute(PENDING_PREFIX + key, pending);
+            pendingKeys(session).add(key);
+        }
+    }
+
+    private static SignerBatchPendingDocument getPending(HttpSession session, String key) {
+        if (Util.isNullOrEmpty(key)) {
+            return null;
+        }
+        return (SignerBatchPendingDocument) session.getAttribute(PENDING_PREFIX + key);
+    }
+
+    private static void removePending(HttpSession session, String key) {
+        synchronized (session.getId().intern()) {
+            session.removeAttribute(PENDING_PREFIX + key);
+            pendingKeys(session).remove(key);
+        }
+    }
+
+    /**
+     * Returns the keys of the documents still pending on this session and clears the list, so two
+     * concurrent cleanups don't try to delete the same documents.
+     */
+    private static List<String> takePendingKeys(HttpSession session) {
+        synchronized (session.getId().intern()) {
+            Set<String> keys = pendingKeys(session);
+            List<String> taken = new ArrayList<>(keys);
+            keys.clear();
+            return taken;
+        }
+    }
+
+    // endregion
 
     /**
      * Runs the given tasks on a small thread pool and returns their results, in the same order as
@@ -468,6 +754,24 @@ public class BatchSignerSignatureApiController {
             throw new RuntimeException(cause);
         } finally {
             pool.shutdown();
+        }
+    }
+
+    /**
+     * Fingerprint (SHA-256, Base64) of a Base64-encoded certificate. Used only to tell whether the
+     * certificate presented on "start" is the same one the documents were created for -- we never
+     * need to parse the certificate for that.
+     */
+    private static String thumbprint(String base64Certificate) {
+        if (Util.isNullOrEmpty(base64Certificate)) {
+            return "";
+        }
+        try {
+            byte[] digest = MessageDigest.getInstance("SHA-256")
+                    .digest(Base64.getDecoder().decode(base64Certificate));
+            return Base64.getEncoder().encodeToString(digest);
+        } catch (NoSuchAlgorithmException ex) {
+            throw new RuntimeException(ex);
         }
     }
 

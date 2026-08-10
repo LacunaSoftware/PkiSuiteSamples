@@ -89,6 +89,11 @@ var batchSignatureSignerForm = (function () {
 	// { index, name, fileRef, key, status }, where "status" is 'pending' (uploaded, not signed yet),
 	// 'signed' or 'failed'. Only the 'pending' ones take part on the next batch.
 	var docs = [];
+	// True from the moment the documents are created on Signer until the last signature of the batch
+	// is completed. During this window the documents exist on Signer but are not signed yet, so we
+	// don't let the user change the certificate (the flow of every document is bound to the one
+	// selected when the batch started) and we warn them before they leave the page.
+	var batchInProgress = false;
 
 	// Create an instance of the LacunaWebPKI object.
 	var pki = new LacunaWebPKI(_webPkiLicense);
@@ -118,6 +123,23 @@ var batchSignatureSignerForm = (function () {
 		pki.init({
 			ready: loadCertificates,    // As soon as the component is ready we'll load the certificates.
 			defaultFail: onWebPkiError // Generic error callback (see function declaration below).
+		});
+
+		// If the user leaves the page while the batch is running, the documents already created on
+		// Signer would stay there unsigned -- and, since each flow is bound to the certificate chosen
+		// at that moment, they could not even be signed later. So we warn the user first and, if they
+		// leave anyway, tell the server to discard those documents.
+		$(window).on('beforeunload', function () {
+			if (batchInProgress) {
+				return 'The batch is still being signed. If you leave now, the documents created on '
+					+ 'Signer will be discarded and you will have to start over.';
+			}
+		});
+		$(window).on('pagehide unload', function () {
+			if (batchInProgress && navigator.sendBeacon) {
+				// sendBeacon survives the page being torn down, which a regular Ajax call does not.
+				navigator.sendBeacon(formElements.ctrlEndpoint + '/abort');
+			}
 		});
 	}
 
@@ -198,6 +220,11 @@ var batchSignatureSignerForm = (function () {
 		formElements.signButton.prop('disabled', !enabled || getPendingDocs().length === 0);
 		formElements.refreshButton.prop('disabled', !enabled);
 		formElements.fileInput.prop('disabled', !enabled);
+		// The certificate select is only unlocked when no batch is in progress: changing it midway
+		// would make the remaining documents unsignable (their flow already carries the CPF of the
+		// certificate the batch started with). Notice that a disabled select still answers .val(),
+		// which is what signHash uses.
+		formElements.certificateSelect.prop('disabled', !enabled || batchInProgress);
 	}
 
 	// ----------------------------------------------------------------------------------------------
@@ -299,6 +326,10 @@ var batchSignatureSignerForm = (function () {
 			pending[i].participant = participant;
 		}
 
+		// From here until the batch is finished, the certificate must not change: the documents are
+		// about to be created on Signer bound to this one.
+		batchInProgress = true;
+
 		// Instead of blocking the whole screen, we disable the buttons and turn the sign button into
 		// a "Signing..." indicator, so the user stays free to interact with the page.
 		setButtonsEnabled(false);
@@ -325,6 +356,9 @@ var batchSignatureSignerForm = (function () {
 				data: JSON.stringify({
 					cpf: cpf,
 					name: selectedCert.subjectName,
+					// Sent so the server can pin this batch to this certificate: every "start" call
+					// must present the same one, otherwise it is refused (see the API controller).
+					certContent: certEncoded,
 					flows: flows
 				}),
 				dataType: 'json'
@@ -353,7 +387,9 @@ var batchSignatureSignerForm = (function () {
 
 			}, function (jqXHR, textStatus, errorThrown) {
 
-				// Render error and re-enable the buttons so the user can try again.
+				// Nothing was created (the server validates the whole batch before creating anything),
+				// so the certificate is free again and the user can simply try once more.
+				batchInProgress = false;
 				resetSignButton();
 				setButtonsEnabled(true);
 				addAlert('danger', '<strong>An error has occurred while creating the documents</strong>: '
@@ -597,8 +633,12 @@ var batchSignatureSignerForm = (function () {
 	// Function called once the batch is completed.
 	// ----------------------------------------------------------------------------------------------
 	function onBatchCompleted() {
+		// Every document of the batch reached a final state, so there is nothing left on Signer that
+		// depends on this certificate: it can be changed again, and leaving the page is now harmless.
+		batchInProgress = false;
 		// Notify the user. Notice that the documents are NOT finished: each one still waits for its
-		// second signer, who Signer notified by e-mail.
+		// second signer, who Signer notified by e-mail -- a notification sent only now, by the
+		// "complete" step, together with the creation of their flow action.
 		addAlert('primary', '<strong>Batch processing completed</strong>. Each document now waits for '
 			+ 'its second signer on Signer.');
 		// Restore the button's label and re-enable the controls. Notice that the certificate stays

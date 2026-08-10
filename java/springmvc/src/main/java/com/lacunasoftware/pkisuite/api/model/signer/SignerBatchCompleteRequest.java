@@ -8,9 +8,13 @@ public class SignerBatchCompleteRequest {
     public String signature;
     // The token returned by the "start" step.
     public String token;
-    // The second participant of this document's flow. Not needed to complete the signature: it is
-    // used only to read that participant's action URL once our signature makes it their turn (a
-    // convenience of the sample, see the complete() action).
+    // The second participant of this document's flow.
+    //
+    // >>>>> NOTICE <<<<<
+    // These are IGNORED by the complete() action, which reads the participant from what the server
+    // stored when the document was created. Who joins the flow after our signature is a decision of
+    // the server, not of the page. They are kept here only so the request stays compatible with
+    // pages that still send them.
     public String participantEmail;
     public String participantCpf;
 
