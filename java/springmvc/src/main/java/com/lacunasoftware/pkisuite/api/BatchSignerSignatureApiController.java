@@ -20,7 +20,6 @@ import com.lacunasoftware.signer.documents.CreateDocumentResult;
 import com.lacunasoftware.signer.documents.DocumentFlowEditRequest;
 import com.lacunasoftware.signer.documents.DocumentModel;
 import com.lacunasoftware.signer.flowactions.FlowActionCreateModel;
-import com.lacunasoftware.signer.flowactions.FlowActionModel;
 import com.lacunasoftware.signer.javaclient.PublicStartSignatureRequest;
 import com.lacunasoftware.signer.javaclient.SignerClient;
 import com.lacunasoftware.signer.javaclient.builders.FileUploadModelBuilder;
@@ -119,15 +118,18 @@ public class BatchSignerSignatureApiController {
     // while testing, so you don't mail real people on every run.
     private static final boolean NOTIFY_PARTICIPANTS = true;
 
-    // Whether to ALSO send an explicit reminder to the second participant once their flow action is
-    // added.
+    // >>>>> THE SECOND PARTICIPANT'S SINGLE E-MAIL <<<<<
     //
-    // Keep it off. Adding a flow action through the flow-edit endpoint already notifies that
-    // participant when the turn becomes theirs -- the "disablePendingActionNotifications" flag set at
-    // creation time does NOT carry over to actions added later. Turning this on sends them a second,
-    // identical e-mail. It is here only to make that explicit, and for the case where your Signer
-    // organization has notifications globally disabled and you want the reminder anyway.
-    private static final boolean SEND_SECOND_PARTICIPANT_REMINDER = false;
+    // There is deliberately no "notify the second participant" switch here, and no notification call
+    // anywhere in this controller. Signer notifies them by itself when the flow reaches their step,
+    // and their step only becomes the current one because our signature was completed -- so the
+    // e-mail already lands at the right moment, once. Expect it to take a few minutes: Signer queues
+    // the delivery, it is not synchronous with the API call.
+    //
+    // The reason this is worth a comment: "disablePendingActionNotifications", set when the document
+    // is created, does NOT reach a flow action added later through the flow-edit endpoint -- which is
+    // how the second participant joins the flow here (see complete()). Adding sendFlowActionReminder
+    // on top of that is what produced two identical e-mails seconds apart during the tests.
 
     // Whether the "start" action must refuse a certificate other than the one selected when the
     // documents were created. Keep it on: the flow action created for step 1 is bound to that
@@ -598,12 +600,12 @@ public class BatchSignerSignatureApiController {
             return new SignerBatchCompleteResponse(request.getId(), null);
         }
 
-        // The second participant is notified by Signer itself, now that the flow reached their step:
-        // the notification is a consequence of a signature that already exists. We do NOT send a
-        // reminder on top of it -- that would be a second, identical e-mail (see the constant).
-        if (DEFER_SECOND_PARTICIPANT && SEND_SECOND_PARTICIPANT_REMINDER) {
-            notifySecondParticipant(signerClient, id, pending.getParticipantEmail());
-        }
+        // >>>>> ONE E-MAIL, AND ONLY ONE <<<<<
+        //
+        // Nothing is sent from here. The second participant's step became the current one because of
+        // the signature completed just above, and Signer notifies them for that -- once. Any call
+        // added here (sendFlowActionReminder, in particular) becomes a second, identical e-mail
+        // landing in their inbox seconds after the first. See the constants at the top.
 
         // Our signature (step 1) is done, so it is now the second participant's turn -- which means
         // Signer will hand us THEIR action URL. We return it so the page can offer a link and you can
@@ -671,35 +673,6 @@ public class BatchSignerSignatureApiController {
         }
 
         return deleted;
-    }
-
-    /**
-     * Asks Signer to notify the second participant of a document, now that our signature made it
-     * their turn. The reminder is sent per flow action, so we look the document up to find the one
-     * we just added.
-     *
-     * Notifying is a convenience, not a step of the signature: a failure here must not fail the
-     * signature that already succeeded.
-     */
-    private static void notifySecondParticipant(SignerClient signerClient, UUID documentId, String email) {
-        if (Util.isNullOrEmpty(email)) {
-            return;
-        }
-        try {
-            DocumentModel document = signerClient.getDocumentDetails(documentId);
-            if (document.getFlowActions() == null) {
-                return;
-            }
-            for (FlowActionModel action : document.getFlowActions()) {
-                if (action.getUser() != null && email.equalsIgnoreCase(action.getUser().getEmail())) {
-                    signerClient.sendFlowActionReminder(documentId, action.getId());
-                    return;
-                }
-            }
-        } catch (RestException ex) {
-            // Ignored on purpose (see above). The participant can still be reached by the action URL
-            // and by Signer's own pending-action reminders.
-        }
     }
 
     // region Pending documents (the state that makes the workaround above possible)
