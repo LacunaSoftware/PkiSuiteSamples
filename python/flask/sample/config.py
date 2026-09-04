@@ -12,7 +12,7 @@ class Config(object):
     # ========================================================
     #    >>>> PASTE YOUR REST PKI ACCESS TOKEN BELOW <<<<
     # ========================================================
-    REST_PKI_ACCESS_TOKEN='tLPpp5bbW9BQcKhm5uHi4GeMWS2iFIfv-X5nDAcraGd3_1zrskuZ7oa2VA5YqypADkMHSKFtxEUT6_0PTNwa6Ur6Y--8OwXO9EQI_qj3d3jNYE5mpdAvt5zNEN61QJsQqvJRoNic41mzAILXm3qnGDyQzB5-FL5LGhpYWzwOWfvpUbddDZFOLNmn620JVURmEIi_VR-62rSoQGT9MTZGJoZ_KC9dsUutL_AU8uJDM3XBQO0r2nKWZ1FveNK9nbowUEDiSjC41VlUSs90eceqLd71NBzbZ6QrruI3zX-W6pjn9I0sRRadDLOFqNQS2LuS2vbrbTf1B0GXEuADGr4BQCY7oo7bPvdlmLzJ1POcGOtQJ-R75pz4gR9tDMdD3Y6yG2HOdY01eaMb6ooIDKuAZB65ohftluhbixpcti07trRajhvcwER7E1hPdn9xYlTmnfoXrSS6ivR4dWd2_zB3IrTlTO8ycfCKd2fI-5od01MtsK6YbJdV3ntGQP72xurP8KVcbQ'
+    REST_PKI_ACCESS_TOKEN='i5sHjjspESuhjXrpWy3H2De1GT3aQ0LpZN8JDeAa8yNDXwO4lcOOoOsLIxeEhgSTOI7Q_tp1P-5yK0vy8fnRuP-I6R7kvQQO04xveGeEjEEgwpFKZ7xQdGfX0ZxsKXEPcDLYtzd7skqtWg9Z1SB8v6-m2YzdWzV_S4eEx2IjI-LjfEJalXVvkcKC03lpR9AqC6DnPOE88yH4RB-vw9Fn2pp3DdCH1Zvxw4cTWAsI87uxfNRK4wS1vcrbHihrWGoZCu8DCla1diZhzqlfe9pT5z8yIMswt7D7YXU4GHYEcjlJYCmZY6ITzhapTJ11OPgkSMHkjcmcsyOMFxXqFnvwrr69vhD6Rz5GrwCSzYTW_W1F77OkspORdH1lsf3qIqhSz4NH-5zZdmhHWSqRQ__Aj4cP_Yn6IZr5MGQkB70XnTpZ6tBVE1a3D1zMYgLZ-TnYC_Xdlp6hVuzwveBhVsDd3CF3ySl2IgRVpdK1sdyaonWHkzGkbq6VsQ42UBMvKVQCC2bfOQ'
     # This is a TRIAL token. It will be expired at 30/09/2026.
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
@@ -34,7 +34,7 @@ class Config(object):
     # ========================================================
     #     >>>> PASTE YOUR AMPLIA API KEY BELOW <<<<
     # ========================================================
-    AMPLIA_API_KEY = 'pki-suite-samples-02|7084ea12b971234e83bc139c835f7c03a5ee0484259e010bddb900fee518611c'
+    AMPLIA_API_KEY = 'pkisuitesamples01|3c64fc6788f5ab479fd00914f8a512c9c9c9d31f9b81d13de97c559f0123c44a'
     # This is a TRIAL API key to use Amplia. It will expire at 30/09/2026.
     # If the Amplia's samples do not work please contact our support by email:
     # suporte@lacunasoftware.com
