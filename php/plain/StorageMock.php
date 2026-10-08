@@ -368,6 +368,14 @@ class StorageMock
         return StorageMock::RESOURCES_PATH . 'Pierre de Fermat.pfx';
     }
 
+    static function getSampleCertificateAesPath()
+    {
+        // Same certificate as getSampleCertificatePath(), but encrypted with AES-256 instead of the
+        // legacy RC2-40 algorithm, which is not supported by default on OpenSSL 3 (used by PHP's
+        // openssl_pkcs12_read() function).
+        return StorageMock::RESOURCES_PATH . 'Pierre de Fermat (AES).pfx';
+    }
+
     static function getWebhookHandlerLogPath(){
         // Guarantees tha the 'app-data' folder exists.
         self::createAppData();

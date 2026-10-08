@@ -88,7 +88,8 @@
             restpki: "/check-rest-token.php?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
         },
         signPdfServerKey: {
-            express: '/check-express.php?rc=upload.php&fwd=pades-server-key'
+            express: '/check-express.php?rc=upload.php&fwd=pades-server-key',
+            restpki: '/check-rest-token.php?rc=upload.php&fwd=pades-server-key'
         },
         signPdfCloudPwd: {
             express: '/check-express.php?rc=upload.php&fwd=pades-cloud-pwd'
