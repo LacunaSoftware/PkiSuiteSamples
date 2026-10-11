@@ -10,7 +10,6 @@ def index(request):
     pades_rest_urls = [
         ('server-files?rc=pades-signature-rest&op=signPdf', 'Sign a PDF stored on the server'),
         ('upload?rc=pades-signature-rest', 'Sign a PDF stored on the user\'s machine'),
-        ('pades-signature-rest', 'Sign a PDF stored on the server'),
         ('receita-simples-rest', 'Receita Simples'),
         ('server-files?rc=pades-signature-rest&op=cosignPdf', 'Co-sign a PDF'),
         ('upload?rc=open-pades-rest', 'Validate PDF signature'),
