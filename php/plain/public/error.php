@@ -26,24 +26,24 @@ $error = !empty($_SESSION['error']) ? $_SESSION['error'] : null;
     <div class="ls-content">
 
         <label>Status Code</label>
-        <p><?= $status ?> <? if ($error) { ?>( <?= $error ?> )<? } ?></p>
+        <p><?= $status ?> <?php if ($error) { ?>( <?= $error ?> )<?php } ?></p>
 
         <label>Message</label>
         <p><?= $message ?></p>
 
-        <? if ($script) { ?>
+        <?php if ($script) { ?>
             <label>Location</label>
             <p>On script <?= $script ?></p>
-        <? } ?>
+        <?php } ?>
 
-        <? if ($trace) { ?>
+        <?php if ($trace) { ?>
             <label for="stackTrace">Stack Trace</label>
             <textarea id="stackTrace"
                       rows="30"
                       style="width: 100%; border: 1px solid #ced4da; border-radius: 0.25rem; margin-bottom: 15px; word-break: break-all; resize: none;">
                 <?= $trace ?>
             </textarea>
-        <? } ?>
+        <?php } ?>
     </div>
 </div>
 

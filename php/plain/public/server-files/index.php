@@ -60,7 +60,7 @@ switch ($op) {
             <input type="hidden" id="isCmsCoSignField" name="isCmsCoSign" value="<?= $isCmsCoSign ? 'true' : 'false' ?>" />
             <input type="hidden" id="chosenFileIdField" name="chosenFileId" />
 
-            <?
+            <?php
             // Group of cards containing the server file's information. On each card its possible to choose it to be
             // used on the next operation or to download the server file. This is only an example of choosing a server
             // file, you can change this file or use your own logic. The operation only requires the content of this
@@ -78,7 +78,7 @@ switch ($op) {
                                 </div>
 
                                 <div class="buttons">
-                                    <?
+                                    <?php
                                     // Button used to choose a sample file. It will execute the function chooseFile() on
                                     // the javascript below. The field "id" from the Thymeleaf's variable "file" has the
                                     // task of identifying the document on server side after submitting this form.
@@ -90,7 +90,7 @@ switch ($op) {
                                         <i class="fas fa-check"></i> Use this
                                     </button>
 
-                                    <?
+                                    <?php
                                     // Link to download the server file.
                                     ?>
                                     <a id="<?= $availableFiles[$index]->id ?>-download-btn"
@@ -110,7 +110,7 @@ switch ($op) {
 
 <?php include '../shared/scripts.php' ?>
 
-<?
+<?php
 // This javascript is only an optional feature for this upload page. It will use jQuery to improve the UX of the page.
 // Feel free to alter it however you want.
 ?>

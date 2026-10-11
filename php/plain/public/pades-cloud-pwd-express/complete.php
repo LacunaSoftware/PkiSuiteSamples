@@ -105,7 +105,7 @@ try{
         </div>
     </div>
 
-    <? include '../shared/scripts.php' ?>
+    <?php include '../shared/scripts.php' ?>
 
     </body>
     </html>
