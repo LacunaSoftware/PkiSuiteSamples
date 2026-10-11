@@ -1,0 +1,60 @@
+# Documentation only. This file is NOT loaded: sample/__init__.py loads sample/config.py and picks
+# the class named by the FLASK_ENV environment variable (production, development or testing).
+# It lists every key the app reads, with placeholder values. The committed config.py holds TRIAL
+# credentials that update-licenses.ps1 rotates; do not replace them in this repository.
+#
+# Environment variables (required by the `flask run` command):
+#   FLASK_APP=sample        # the package the Flask CLI loads
+#   FLASK_ENV=development   # selects DevelopmentConfig; sample/__init__.py fails if it is unset
+#
+# Set in code by sample/__init__.py, not in this file: SECRET_KEY (random per process),
+# SESSION_TYPE (Flask-Session store) and APPDATA_FOLDER (where uploads and outputs go).
+#
+# The PKI Express license, LacunaPkiLicense.config, is not read by the app: activate PKI Express
+# with it once per machine (`sudo pkie activate LacunaPkiLicense.config`).
+
+
+class Config(object):
+    # Flask debug mode.
+    DEBUG = False
+    # Flask testing mode.
+    TESTING = False
+
+    # Accept certificates from Lacuna's test PKI (development only; DevelopmentConfig sets True).
+    TRUST_LACUNA_TEST_ROOT = False
+
+    # Rest PKI (v1) API access token; also authenticates the PKI Express timestamp authority.
+    REST_PKI_ACCESS_TOKEN = 'YOUR_REST_PKI_ACCESS_TOKEN'
+    # Rest PKI URL, with trailing '/'.
+    REST_PKI_ENDPOINT = 'https://pki.rest/'
+
+    # Id of the Amplia CA that issues certificates in the Amplia samples.
+    AMPLIA_CA_ID = 'YOUR_AMPLIA_CA_ID'
+    # Amplia API key.
+    AMPLIA_API_KEY = 'YOUR_AMPLIA_API_KEY'
+    # Amplia URL, with trailing '/'.
+    AMPLIA_ENDPOINT = 'https://amplia.lacunasoftware.com/'
+
+    # Optional list of extra trusted root certificate files (paths relative to static/).
+    PKI_EXPRESS_TRUSTED_ROOTS = []
+    # Run PKI Express in offline mode (no network access).
+    PKI_EXPRESS_OFFLINE = False
+
+    # Optional. Base64 Web PKI license, rendered by templates/layout.html. Not needed on localhost.
+    WEB_PKI_LICENSE = None
+
+
+class ProductionConfig(Config):
+    pass
+
+
+class DevelopmentConfig(Config):
+    # Flask debug mode.
+    DEBUG = True
+    # Accept Lacuna test certificates. Never in production.
+    TRUST_LACUNA_TEST_ROOT = True
+
+
+class TestingConfig(Config):
+    # Flask testing mode.
+    TESTING = True

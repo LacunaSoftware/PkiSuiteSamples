@@ -1,0 +1,21 @@
+name: Validate catalog
+
+# Checks samples.json against its schema and the files on disk, and that
+# SAMPLES.md and the generated block in each project README are up to date.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+      - run: python scripts/validate-catalog.py

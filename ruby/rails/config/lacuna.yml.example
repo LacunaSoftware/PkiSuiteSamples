@@ -1,0 +1,34 @@
+# Documentation only. This file is NOT loaded: config/application.rb loads config/lacuna.yml with
+# config_for(:lacuna), using the section for the current Rails environment. It lists every key the
+# app reads, with placeholder values. The committed lacuna.yml holds a TRIAL token that
+# update-licenses.ps1 rotates; do not replace it in this repository.
+# The layout reads web_pki and rest_pki on every page (app/helpers/application_helper.rb) and the
+# samples read the rest (app/controllers/concerns/util.rb), so define all of them in each
+# environment section you run.
+# The PKI Express license, LacunaPkiLicense.config, is not read by the app: activate PKI Express
+# with it once per machine (`sudo pkie activate LacunaPkiLicense.config`).
+
+development:
+  # Accept certificates from Lacuna's test PKI (development only).
+  trust_lacuna_test_root: true
+
+  rest_pki:
+    # Rest PKI (v1) API access token; also authenticates the PKI Express timestamp authority.
+    access_token: 'YOUR_REST_PKI_ACCESS_TOKEN'
+    # Optional. Rest PKI URL for on-premises installs, with trailing '/'. Default: https://pki.rest/
+    endpoint:
+
+  pki_express:
+    # Optional list of extra trusted root certificate files (private/ folder).
+    trusted_roots: []
+    # Run PKI Express in offline mode (no network access).
+    offline: false
+
+  web_pki:
+    # Optional. Base64 Web PKI license, rendered by the layout. Not needed on localhost.
+    license:
+
+production:
+  # Never accept Lacuna test certificates in production.
+  trust_lacuna_test_root: false
+  # ... plus the same rest_pki, pki_express and web_pki keys as development.

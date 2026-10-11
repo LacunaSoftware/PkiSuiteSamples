@@ -12,9 +12,34 @@ This repository contains sample projects demonstrating the usage of Lacuna Softw
 * [Node.js](nodejs/)
 * [Ruby](ruby/)
 
+## Find a sample by task
+
+**[SAMPLES.md](SAMPLES.md)** lists every sample grouped by task (sign a PDF, validate a signature,
+authenticate with a certificate, issue a certificate, and so on), with one column per language and
+links straight to the code. The same data is in [samples.json](samples.json) for tools and scripts.
+Each project folder also has a README that lists its own samples.
+
+Every sample has a status:
+
+| Status | Meaning |
+|---|---|
+| `current` | Recommended for new integrations. |
+| `legacy` | Works and is still supported, but prefer the `current` alternative for new code. |
+| `deprecated` | Kept for reference only. Do not copy into new code. |
+
+## Using this repo with an AI coding agent
+
+If you work with Claude Code, Cursor, GitHub Copilot, Codex or a similar agent, point it at this
+repository. **[AGENTS.md](AGENTS.md)** (which [CLAUDE.md](CLAUDE.md) imports) tells the agent:
+
+* how the repository is organized, and to look the task up in [samples.json](samples.json) first
+* which product to prefer for a task
+* the integration patterns that matter, for example that the private key never leaves the user's
+  machine because Web PKI signs only the hash
+
 ## See also
 
-* [PKI Suite demos](https://demos.lacunasoftware.com/)
+* [PKI Suite demos](https://try.lacunasoftware.com/en)
 * [Documentation](https://docs.lacunasoftware.com/)
 * [Test certificates](https://docs.lacunasoftware.com/articles/pki-guide/test-certs)
 * [Lacuna Software website](https://www.lacunasoftware.com/)

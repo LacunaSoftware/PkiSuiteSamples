@@ -1,0 +1,64 @@
+<?php
+/*
+ * Documentation only. This file is NOT loaded: Composer autoloads config.php, next to this file,
+ * and Util.php reads it through getConfig(). It lists every key the app reads, with placeholder
+ * values. The committed config.php holds TRIAL credentials that update-licenses.ps1 rotates;
+ * do not replace them in this repository.
+ * The PKI Express license, LacunaPkiLicense.config, is not read by the app: activate PKI Express
+ * with it once per machine (`sudo pkie activate LacunaPkiLicense.config`).
+ */
+
+function getConfig()
+{
+    return array(
+        // Accept certificates from Lacuna's test PKI (development only).
+        "trustLacunaTestRoot" => true,
+
+        'restPki' => [
+            // Rest PKI (v1) API access token; also authenticates the PKI Express timestamp authority.
+            'accessToken' => 'YOUR_REST_PKI_ACCESS_TOKEN',
+            // Rest PKI URL, with trailing '/'.
+            "endpoint" => 'https://pki.rest/',
+        ],
+
+        // Rest PKI Core (called "NG" in this project).
+        'restPkiNg' => [
+            // Rest PKI Core API key (Util::getRestPkiCoreClient).
+            'apiKey' => 'YOUR_REST_PKI_CORE_API_KEY',
+            // Rest PKI Core URL, with trailing '/'.
+            "endpoint" => 'https://core.pki.rest/',
+        ],
+
+        'amplia' => [
+            // Id of the Amplia CA that issues public-key certificates.
+            'caId' => 'YOUR_AMPLIA_CA_ID',
+            // Id of the Amplia CA that issues attribute certificates (issue-cert-attribute-amplia).
+            'attributeCaId' => 'YOUR_AMPLIA_ATTRIBUTE_CA_ID',
+            // Amplia API key (Util::getAmpliaClient).
+            'apiKey' => 'YOUR_AMPLIA_API_KEY',
+            // Optional. Amplia URL, with trailing '/'. Default: https://amplia.lacunasoftware.com/
+            'endpoint' => null,
+        ],
+
+        "pkiExpress" => array(
+            // Optional list of extra trusted root certificate files (resources/ folder).
+            "trustedRoots" => [],
+            // Run PKI Express in offline mode (no network access).
+            "offline" => false,
+            // Password for the PKCS #12 file built from an Amplia-issued key (pades-server-key-express).
+            "pkcs12Password" => "YOUR_PKCS12_PASSWORD",
+        ),
+
+        'cloudHub' => [
+            // CloudHub API key (Util::getCloudhubClient).
+            'apiKey' => 'YOUR_CLOUDHUB_API_KEY',
+            // CloudHub URL, with trailing '/'.
+            "endpoint" => 'https://cloudhub.lacunasoftware.com/',
+        ],
+
+        "webPki" => array(
+            // Optional. Base64 Web PKI license, rendered by public/shared/scripts.php. Not needed on localhost.
+            "license" => null
+        )
+    );
+}

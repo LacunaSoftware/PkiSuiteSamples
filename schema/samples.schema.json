@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/LacunaSoftware/PkiSuiteSamples/schema/samples.schema.json",
+  "title": "PKI Suite samples catalog",
+  "description": "One entry per (task, language, framework). The task slug is `id` minus its trailing `-<product>`.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "id", "title", "description", "product", "language", "framework",
+      "path", "related_files", "status", "docs_url", "demo_url", "run"
+    ],
+    "properties": {
+      "id": {
+        "description": "Kebab-case slug, identical in every language. Must end with `-<product>`.",
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "title": {
+        "description": "Short human-readable name of the task.",
+        "type": "string",
+        "minLength": 3
+      },
+      "description": {
+        "description": "One or two sentences on what the sample does, taken from the code where possible.",
+        "type": "string",
+        "minLength": 10
+      },
+      "product": {
+        "description": "The PKI Suite product that does the server-side work.",
+        "type": "string",
+        "enum": ["web-pki", "rest-pki", "rest-pki-core", "pki-express", "pki-sdk", "amplia", "cloudhub", "signer"]
+      },
+      "language": {
+        "type": "string",
+        "enum": ["dotnet", "java", "nodejs", "php", "python", "ruby"]
+      },
+      "framework": {
+        "type": "string",
+        "enum": ["aspnet-mvc", "aspnet-core-angular", "spring-boot", "express", "php", "flask", "django", "rails"]
+      },
+      "path": {
+        "description": "Repo-relative path, with forward slashes, to the main entry file (controller, route module or page).",
+        "type": "string",
+        "pattern": "^[^/\\\\.][^\\\\]*$"
+      },
+      "related_files": {
+        "description": "Repo-relative paths of the other files needed to understand the sample (views, page scripts, models, helpers).",
+        "type": "array",
+        "uniqueItems": true,
+        "items": { "type": "string", "pattern": "^[^/\\\\.][^\\\\]*$" }
+      },
+      "status": {
+        "description": "current: recommended for new work. legacy: works, but prefer the current alternative. deprecated: do not copy.",
+        "type": "string",
+        "enum": ["current", "legacy", "deprecated"]
+      },
+      "docs_url": {
+        "type": "string",
+        "pattern": "^https://docs\\.lacunasoftware\\.com/en-us/"
+      },
+      "demo_url": {
+        "description": "Matching task on the demo site, or null when there is none.",
+        "type": ["string", "null"],
+        "pattern": "^https://try\\.lacunasoftware\\.com/en/"
+      },
+      "run": {
+        "description": "How to start the project that contains this sample and where to open it.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cwd", "command", "url"],
+        "properties": {
+          "cwd": {
+            "description": "Repo-relative project folder to run `command` from.",
+            "type": "string",
+            "pattern": "^[^/\\\\.][^\\\\]*$"
+          },
+          "command": {
+            "description": "The one command that starts the project.",
+            "type": "string",
+            "minLength": 3
+          },
+          "url": {
+            "description": "URL to open once the project is running.",
+            "type": "string",
+            "pattern": "^https?://localhost:[0-9]+/"
+          }
+        }
+      }
+    }
+  }
+}
