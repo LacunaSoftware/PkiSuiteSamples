@@ -199,6 +199,9 @@ operation. Timestamping with PKI Express needs that token.
   python scripts/validate-catalog.py
   ```
 
+  CI runs the same check on every pull request and push to `master`
+  (`.github/workflows/validate-catalog.yml`).
+
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
   key.
 - Never commit real credentials. If a new config key holds a trial credential, add it to
