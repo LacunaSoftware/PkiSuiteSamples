@@ -1,12 +1,10 @@
 import os
-import sys
 from datetime import timedelta
 
 from os.path import abspath
 from os.path import exists
 from os.path import join
 
-from imp import reload
 from flask import Flask
 from flask_session import Session
 
@@ -18,11 +16,6 @@ config = {
     'testing': 'sample.config.TestingConfig',
     'default': 'sample.config.Config'
 }
-
-if sys.version_info[0] < 3:
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-
 
 def create_app():
     app = Flask(__name__)
