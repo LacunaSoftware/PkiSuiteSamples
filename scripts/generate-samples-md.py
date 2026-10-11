@@ -193,7 +193,10 @@ def project_readmes():
     """README.md files that contain a generated samples list, as {path: project cwd}."""
     found = {}
     for folder, dirs, files in os.walk(ROOT):
-        dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
+        # Skip hidden folders and nested checkouts (git worktrees, submodules): their
+        # READMEs belong to another copy of the repository.
+        dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")
+                   and not (Path(folder) / d / ".git").exists()]
         if "README.md" in files:
             path = Path(folder) / "README.md"
             match = README_BEGIN.search(path.read_text(encoding="utf-8"))
