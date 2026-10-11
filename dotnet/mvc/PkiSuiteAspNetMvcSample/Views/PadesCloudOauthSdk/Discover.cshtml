@@ -16,7 +16,7 @@
                     <select id="serviceField" name="service" class="form-control col col-sm-2">
                         @foreach (var service in Model.Services)
                         {
-                            <option value="@service.AuthUrl">@service.ServiceInfo.ServiceName.ToLower() (@service.ServiceInfo.ServiceName)</option>
+                            <option value="@service.AuthUrl">@service.ServiceInfo.Service.ToString().ToLower() (@service.ServiceInfo.Service.ToString())</option>
                         }
                     </select>
                 </div>

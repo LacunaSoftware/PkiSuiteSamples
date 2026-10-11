@@ -1,9 +1,6 @@
 const express = require("express");
 const path = require("path");
 const uuidv4 = require("uuid/v4");
-// NOTE: REST PKI Core Node.js client library is not yet available in npm
-// You will need to implement the REST PKI Core API calls directly or wait for the library to be published
-// For reference, the Java version uses: com.lacunasoftware.restpki:restpkicore-client:1.1.4
 
 const { Config } = require("../config");
 const { StorageMock } = require("../storage-mock");

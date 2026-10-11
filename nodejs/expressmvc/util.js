@@ -45,7 +45,7 @@ class Util {
 				+ 'run this sample you must generate an API key on the '
 				+ 'REST PKI Core website and paste it on the file config/default.js.');
 		}
-		const endpoint = CONFIG['endpoint'];
+		let endpoint = CONFIG['endpoint'];
 		if (!endpoint || endpoint.indexOf(' ENDPOINT ') >= 0) {
 			endpoint = 'https://core.pki.rest'; // default endpoint
 		}

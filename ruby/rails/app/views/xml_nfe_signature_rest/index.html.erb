@@ -2,7 +2,7 @@
 
 <div class="ls-content">
 
-  <%= form_tag(:xml_signature_rest, {:id => 'signForm'}) do %>
+  <%= form_tag(:xml_nfe_signature_rest, {:id => 'signForm'}) do %>
 
     <% # Render the @token in a hidden input field %>
     <%= hidden_field_tag(:token, @token) %>

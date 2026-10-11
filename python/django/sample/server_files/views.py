@@ -17,7 +17,7 @@ def index(request):
         elif op == "signCms" or op == "signPdf":
             available_files = [ServerFileModel(SampleDocs.SAMPLE_PDF, "A sample PDF file to be signed.")]
         else:
-            return render(request, 'error.html', msg='Invalid Operation')
+            return render(request, 'error.html', {'msg': 'Invalid Operation'})
 
         return render(request, 'server_files/index.html', { 'rc':rc, 'available_files': available_files })
     else:

@@ -49,4 +49,4 @@ def get_sample(file_id):
     """
     filename = get_sample_doc_name(int(file_id))
     return send_from_directory(current_app.static_folder,
-                               filename, as_attachment=True, attachment_filename=filename)
+                               filename, as_attachment=True, download_name=filename)
