@@ -39,6 +39,12 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 Requires Ruby 2.5.3 (see `.ruby-version`), Bundler, and Node.js with Yarn (for Webpacker).
 
+`bundle install` also needs the freedesktop.org MIME database, because Rails depends on the
+`mimemagic` gem, which reads it when it installs. On Linux, install the `shared-mime-info` package
+(`sudo apt-get install shared-mime-info`); on macOS, `brew install shared-mime-info`. On Windows,
+download `freedesktop.org.xml` from the shared-mime-info project and set the
+`FREEDESKTOP_MIME_TYPES_PATH` environment variable to its full path.
+
 ```bash
 bundle install
 yarn install

@@ -11,7 +11,9 @@ class HomeController < ApplicationController
     begin
       auth = PkiExpress::Authentication.new
       auth.start
-    rescue PkiExpress::InstallationNotFoundError
+    # On Linux, the pki_express gem raises a plain CommandError (not InstallationNotFoundError)
+    # when the pkie command is not found.
+    rescue PkiExpress::InstallationNotFoundError, PkiExpress::CommandError
       render 'home/express-installation-not-found'
       return
     end

@@ -27,6 +27,18 @@ sourceCompatibility = 1.8
 // (see application.yml), so bumping Jackson mostly affects the Signer client's internal usage.
 ext['jackson.version'] = '2.12.1'
 
+// XmlDiplomaArchivalExtensionCoreSelfTestController calls RestPkiService.extendArchivalSignature(),
+// which no released restpkicore-client has yet (it is only on the client's feature/extendachive
+// branch, commit 93e460c). Re-enable it once restpkicore-client ships that method. The same
+// exclusion is in pom.xml.
+sourceSets {
+    main {
+        java {
+            exclude '**/XmlDiplomaArchivalExtensionCoreSelfTestController.java'
+        }
+    }
+}
+
 repositories {
     
     mavenCentral()
@@ -41,7 +53,7 @@ dependencies {
     compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.20.0'
     implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
-    implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.4'
+    implementation 'com.lacunasoftware.restpki:restpkicore-client:1.4.0'
     implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
     implementation 'com.lacunasoftware.cloudhub:cloudhub-client:1.0.0'
     implementation 'com.lacunasoftware.signer:signer-client:2.13.0'

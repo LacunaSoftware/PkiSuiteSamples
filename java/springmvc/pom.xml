@@ -22,27 +22,53 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
+		<!-- The Signer client needs Jackson >= 2.9, newer than Spring Boot 1.5 manages (see build.gradle). -->
+		<jackson.version>2.12.1</jackson.version>
 	</properties>
 
 	<dependencies>
 
 		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.11.0</version>
+			<version>1.20.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.lacunasoftware.restpki</groupId>
 			<artifactId>restpki-client</artifactId>
-			<version>1.12.1</version>
+			<version>1.15.6</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.lacunasoftware.restpki</groupId>
+			<artifactId>restpkicore-client</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.lacunasoftware.amplia</groupId>
 			<artifactId>amplia-client</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lacunasoftware.cloudhub</groupId>
+			<artifactId>cloudhub-client</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.lacunasoftware.signer</groupId>
+			<artifactId>signer-client</artifactId>
+			<version>2.13.0</version>
 		</dependency>
 
 		<dependency>
@@ -81,16 +107,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<!-- This self-test calls RestPkiService.extendArchivalSignature(), which no
+						     released restpkicore-client has yet (it is only on the client's
+						     feature/extendachive branch, commit 93e460c). Re-enable it once
+						     restpkicore-client ships that method. The same exclusion is in build.gradle. -->
+						<exclude>**/XmlDiplomaArchivalExtensionCoreSelfTestController.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>lacuna.repository</id>
-			<name>lacuna repository</name>
-			<url>http://dl.bintray.com/lacunasoftware/maven</url>
-		</repository>
-	</repositories>
-
 
 </project>
