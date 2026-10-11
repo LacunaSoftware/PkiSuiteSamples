@@ -30,7 +30,7 @@ $verificationSite = 'http://localhost:8000';
 
 // Format of the verification link, without the verification code, that is added on generatePrinterFriendlyVersion()
 // method.
-$verificationLinkFormat = 'http://localhost:8000/open-pades-rest.php?fileId=';
+$verificationLinkFormat = 'http://localhost:8000/check.php?c=';
 
 // "Normal" font size. Sizes of header fonts are defined based on this size.
 $normalFontSize = 12;
@@ -70,7 +70,7 @@ $pdfPath = StorageMock::APP_DATA_PATH . StorageMock::formatVerificationCode($ver
 StorageMock::createAppData();
 $putContents = file_put_contents($pdfPath, $pfvContent);
 if(!$putContents){
-    throw new Exception($e);
+    throw new \Exception("Could not write the printer-friendly version to $pdfPath");
 }
 $filename = StorageMock::formatVerificationCode($verificationCode) . '.pdf';
 

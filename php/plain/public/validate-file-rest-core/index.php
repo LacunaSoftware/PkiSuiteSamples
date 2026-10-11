@@ -4,7 +4,7 @@
  * This file validate the file uploaded to REST PKI Core.
  */
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Lacuna\RestPki\ValidateFileRequest;
 use Lacuna\RestPki\ValidateFileResponse;

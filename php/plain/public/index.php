@@ -70,9 +70,6 @@
             express: '/check-express.php?rc=xml-nfe-signature',
             restpki: '/check-rest-token.php?rc=xml-nfe-signature'
         },
-        signXml: {
-            restpki: '/check-rest-token.php?rc=xml-doc-signature-rest'
-        },
         signPdfServer: {
             express: '/check-express.php?rc=server-files&fwd=pades-signature&op=signPdf',
             restpki: '/check-rest-token.php?rc=server-files&fwd=pades-signature&op=signPdf'

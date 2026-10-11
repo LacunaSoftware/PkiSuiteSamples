@@ -16,7 +16,7 @@
         <h3>Actions:</h3>
         <ul>
             <li><a href="/upload.php?rc=pades-signature-express">Use your certificate to sign a PDF using PKI Express</a></li>
-            <li><a href="/upload.php?rc=pades-signature-restpki">Use your certificate to sign a PDF using REST PKI</a></li>
+            <li><a href="/upload.php?rc=pades-signature-rest">Use your certificate to sign a PDF using REST PKI</a></li>
         </ul>
     </div>
 </div>
