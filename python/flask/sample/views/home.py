@@ -67,6 +67,26 @@ def check_rest_token(rc, fwd=None, op=None):
     return redirect('/%s-rest' % rc)
 
 
+@blueprint.route('/check-rest-pki-core-api-key/<rc>')
+@blueprint.route('/check-rest-pki-core-api-key/<rc>/<fwd>')
+@blueprint.route('/check-rest-pki-core-api-key/<rc>/<fwd>/<op>')
+def check_rest_pki_core_api_key(rc, fwd=None, op=None):
+    """
+
+    This function will check if the REST PKI Core API key is set.
+
+    """
+    api_key = current_app.config['REST_PKI_CORE_API_KEY']
+    if api_key is None or len(api_key) == 0:
+        return render_template('home/rest-core-api-key-not-set.html')
+
+    if fwd is not None and len(fwd) > 0:
+        if op is not None and len(op) > 0:
+            return redirect('/%s/%s-rest-core/%s' % (rc, fwd, op))
+        return redirect('/%s/%s-rest-core' % (rc, fwd))
+    return redirect('/%s-rest-core' % rc)
+
+
 @blueprint.route('/check-amplia-api-key/<rc>')
 @blueprint.route('/check-amplia-api-key/<rc>/<fwd>')
 @blueprint.route('/check-amplia-api-key/<rc>/<fwd>/<op>')

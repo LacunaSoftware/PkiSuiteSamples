@@ -332,6 +332,9 @@ web-pki:
         # Updated patterns for Python Flask format - using uppercase variable names
         # REST PKI Access Token with single quotes and no spaces
         $content = $content -replace "(REST_PKI_ACCESS_TOKEN=)'[^']*'", "`${1}'$RestPkiApiKey'"
+
+        # REST PKI Core API Key with single quotes
+        $content = $content -replace "(REST_PKI_CORE_API_KEY\s*=\s*)'[^']*'", "`${1}'$RestPkiCoreApiKey'"
         
         # Amplia API Key with single quotes and no spaces
         $content = $content -replace "(AMPLIA_API_KEY\s*=\s*)'[^']*'", "`${1}'$AmpliaApiKey'"

@@ -6,11 +6,14 @@ from datetime import datetime
 from datetime import timedelta
 from os.path import join
 
+import certifi
 from amplia_client import AmpliaClient
 from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
 from restpki_client import StandardSecurityContexts
+from restpki_ng_python_client import ApiClient
+from restpki_ng_python_client import Configuration
 
 
 # region REST PKI
@@ -69,6 +72,46 @@ def get_security_context_id():
     else:
         # In production, accepting only certificates from ICP-Brasil
         return StandardSecurityContexts.PKI_BRAZIL
+
+# endregion
+
+
+# region REST PKI Core
+
+def get_rest_pki_core_client():
+    """
+
+    Creates an instance of the ApiClient class of the REST PKI Core client
+    library (restpki-ng-python-client), used by the REST PKI Core samples. Pass
+    it to the API classes of the library, such as SignatureApi.
+
+    """
+
+    # Get your API key and endpoint values from the "config.py" configuration
+    # file.
+    api_key = current_app.config['REST_PKI_CORE_API_KEY']
+    endpoint = current_app.config['REST_PKI_CORE_ENDPOINT']
+
+    # Throw exception if the API key is not set (this check is here just for
+    # the sake of newcomers, you can remove it).
+    if api_key is None or len(api_key) == 0:
+        raise Exception('The REST PKI Core API key was not set! Hint: to run this sample you must generate an API key on REST PKI Core and paste it on sample/config.py file.')
+
+    if endpoint is None or len(endpoint) == 0:
+        endpoint = 'https://core.pki.rest/'
+
+    # We use the library's ApiClient class instead of its RestPkiClient class,
+    # because RestPkiClient (version 0.9.1.1) turns off the verification of
+    # the server's TLS certificate. We pass certifi's CA certificates because
+    # urllib3 1.24, which this project's other dependencies require, does not
+    # load the operating system's CA certificates by itself.
+    configuration = Configuration(host=endpoint.rstrip('/'),
+                                  ssl_ca_cert=certifi.where())
+    client = ApiClient(configuration)
+
+    # The API key is sent on the X-Api-Key header of every request.
+    client.set_default_header('X-Api-Key', api_key)
+    return client
 
 # endregion
 

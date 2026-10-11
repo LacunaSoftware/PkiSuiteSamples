@@ -68,6 +68,20 @@ Or informing on your project's `requirements.txt` file:
 
     restpki-client>=1.2.1
 
+## Rest PKI Core's client lib
+
+The Rest PKI Core sample of the Flask project uses `restpki-ng-python-client`, a client library for
+Rest PKI Core published by Lacuna Software on [PyPi](https://pypi.org/project/restpki-ng-python-client/).
+It is generated from the Rest PKI Core API and is not listed yet on the
+[Rest PKI Core documentation](https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started).
+The sample pins its version on `requirements.txt`:
+
+    restpki-ng-python-client==0.9.1.1
+
+The sample calls the library's API classes (such as `SignatureApi`) with an `ApiClient` created in
+`sample/utils.py`, instead of the library's `RestPkiClient` class, because `RestPkiClient` turns off
+the verification of the server's TLS certificate.
+
 ## PKI Express's helper library
 
 The sample projects also depend on [PKI Express's library for Python](https://github.com/LacunaSoftware/PkiExpressPython) library.

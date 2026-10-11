@@ -1,7 +1,7 @@
 # Flask sample (Python)
 
-One Flask web app (package `sample`) with the Python samples for **Rest PKI**, **PKI Express**,
-**Amplia** and **Web PKI**. Each module in `sample/views/` is one sample (a blueprint); its
+One Flask web app (package `sample`) with the Python samples for **Rest PKI**, **Rest PKI Core**,
+**PKI Express**, **Amplia** and **Web PKI**. Each module in `sample/views/` is one sample (a blueprint); its
 templates are in `sample/templates/<module>/`.
 
 ## Samples in this project
@@ -58,7 +58,7 @@ Express installed and activated (`sudo pkie activate LacunaPkiLicense.config`). 
 
 ## Configuration
 
-- `sample/config.py`: Rest PKI, Amplia, PKI Express and Web PKI settings, with one class per
+- `sample/config.py`: Rest PKI, Rest PKI Core, Amplia, PKI Express and Web PKI settings, with one class per
   `FLASK_ENV`. Every key is documented in [`sample/config.py.example`](sample/config.py.example).
 - The committed values are trial credentials rotated by `update-licenses.ps1`. Do not replace them
   in this repository.
