@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get '/check-express/:rc(/:fwd(/:op))', action: :check_pki_express, controller: :home
   get '/check-rest-token/:rc(/:fwd(/:op))', action: :check_rest_pki_token, controller: :home
+  get '/check-rest-pki-core-api-key/:rc(/:fwd(/:op))', action: :check_rest_pki_core_api_key, controller: :home
 
   get '/download/:file_id', action: :get, controller: :download
   get '/download/sample/:sample_id', action: :sample, controller: :download
@@ -31,6 +32,10 @@ Rails.application.routes.draw do
   
   get '/pades-signature-rest/:file_id', action: :index, controller: :pades_signature_rest, as: :pades_signature_rest
   post '/pades-signature-rest/:file_id', action: :action, controller: :pades_signature_rest
+
+  get '/pades-signature-rest-core/:file_id', action: :index, controller: :pades_signature_rest_core, as: :pades_signature_rest_core
+  post '/pades-signature-rest-core/start/:file_id', action: :start, controller: :pades_signature_rest_core
+  post '/pades-signature-rest-core/complete/:file_id', action: :complete, controller: :pades_signature_rest_core
 
   get '/pades-server-key-express/:file_id', action: :index, controller: :pades_server_key_express
 

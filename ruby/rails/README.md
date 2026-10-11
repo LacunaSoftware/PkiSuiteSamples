@@ -1,8 +1,10 @@
 # Rails sample (Ruby)
 
-One Rails 6.0 web app with the Ruby samples for **Rest PKI**, **PKI Express** and **Web PKI**. Each
-controller in `app/controllers/` is one sample; its views are in `app/views/<controller>/`, and page
-scripts in `app/assets/javascripts/`. Shared helpers are in `app/controllers/concerns/`.
+One Rails 6.0 web app with the Ruby samples for **Rest PKI**, **Rest PKI Core**, **PKI Express** and
+**Web PKI**. Each controller in `app/controllers/` is one sample; its views are in
+`app/views/<controller>/`, and page scripts in `app/assets/javascripts/`. Shared helpers are in
+`app/controllers/concerns/`. There is no Rest PKI Core client library for Ruby, so the Rest PKI Core
+sample calls the API with the small `RestPkiCoreClient` class in `app/controllers/concerns/`.
 
 ## Samples in this project
 
@@ -56,8 +58,8 @@ activated (`sudo pkie activate LacunaPkiLicense.config`).
 
 ## Configuration
 
-- `config/lacuna.yml`, one section per Rails environment: Rest PKI, PKI Express and Web PKI
-  settings. Every key is documented in [`config/lacuna.yml.example`](config/lacuna.yml.example).
+- `config/lacuna.yml`, one section per Rails environment: Rest PKI, Rest PKI Core, PKI Express and
+  Web PKI settings. Every key is documented in [`config/lacuna.yml.example`](config/lacuna.yml.example).
   This is where the Rest PKI token goes (`rest_pki.access_token`), not
   `config/initializers/restpki.rb`.
 - The committed token is a trial credential rotated by `update-licenses.ps1`. Do not replace it in

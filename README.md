@@ -100,6 +100,7 @@ The `update-licenses.ps1` script performs the following changes:
     *   Updates expiry date comments.
 *   **`ruby/rails/config/lacuna.yml`**:
     *   Updates `rest_pki.api_key` (with the RestPkiApiKey)
+    *   Updates `rest_pki_core.api_key` (with the RestPkiCoreApiKey)
     *   Updates expiry date comments.
 *   **`LacunaPkiLicense.config`** (all instances found in the repository, except `dotnet/mvc/PkiSuiteAspNetMvcSample/bin/LacunaPkiLicense.config`):
     *   The entire XML content is replaced with the new license content provided by the user.

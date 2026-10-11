@@ -353,6 +353,9 @@ web-pki:
         
         # Update the access token for REST PKI
         $content = $content -replace "(rest_pki:[^}]*access_token:\s*')[^']*'", "`${1}$RestPkiApiKey'"
+
+        # Update the API key for REST PKI Core
+        $content = $content -replace "(rest_pki_core:[^}]*?api_key:\s*')[^']*'", "`${1}$RestPkiCoreApiKey'"
         
         # Update expiry date comments for REST PKI
         $content = $content -replace "(# This is a TRIAL token\. It will) (be expired|expire) at \d{2}/\d{2}/\d{4}\.", "`${1} expire at $ExpiryDate."

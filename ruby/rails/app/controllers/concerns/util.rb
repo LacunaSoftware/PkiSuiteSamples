@@ -55,6 +55,32 @@ module Util
 
   # endregion
 
+  # region REST PKI Core
+
+  def get_rest_pki_core_client
+
+    # Retrieve your API key and endpoint values from the "config/lacuna.yml"
+    # configuration.
+    api_key = Rails.configuration.lacuna['rest_pki_core']['api_key']
+    endpoint = Rails.configuration.lacuna['rest_pki_core']['endpoint']
+
+    # Throw exception if the API key is not set (this check is here just for
+    # the sake of new comers, you can remove it).
+    if api_key.nil? or api_key.length == 0
+      raise 'The REST PKI Core API key was not set! Hint: to run this sample you must generate an API key on REST PKI Core and paste it on the file config/lacuna.yml'
+    end
+
+    if endpoint.nil? or endpoint.length == 0
+      endpoint = 'https://core.pki.rest/'
+    end
+
+    # Return an instance of our RestPkiCoreClient class (see
+    # rest_pki_core_client.rb), which calls the REST PKI Core API.
+    RestPkiCoreClient.new(endpoint, api_key)
+  end
+
+  # endregion
+
   # region PKI Express
 
   def set_pki_defaults(operator)
