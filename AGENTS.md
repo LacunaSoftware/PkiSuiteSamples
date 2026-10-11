@@ -81,7 +81,14 @@ redirecting to the sample.
 | `python/django` | Django | `python/django/sample` | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000 | `sample/config.py`; `sample/PkiSuitePythonDjangoSample/settings.py` |
 | `ruby/rails` | Rails 6.0, Ruby 2.5 | `ruby/rails` | `bundle install && yarn install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
 
-`dotnet/webapi` and `dotnet/webforms` are empty placeholders.
+`dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
+`README.md` with its sample list, which is generated from the catalog.
+
+Every key a project reads is listed, with placeholder values and a one-line comment, in an
+`.example` file next to the real config file: `Web.config.example`,
+`appsettings.json.example`, `application.yml.example`, `config/default.js.example`,
+`config.php.example`, `sample/config.py.example` (Flask and Django) and
+`config/lacuna.yml.example`. No app loads these files; they are documentation only.
 
 Credentials the apps read (the files `update-licenses.ps1` rewrites):
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Documentation only. This file is NOT loaded: the app reads the <appSettings> section of
+  Web.config, next to this file. It lists every key the app reads, with placeholder values.
+  The committed Web.config holds TRIAL credentials that update-licenses.ps1 rotates; do not
+  replace them in this repository.
+  The PKI SDK license is a separate file, LacunaPkiLicense.config, copied to bin/ on build.
+-->
+<configuration>
+  <appSettings>
+    <!-- Rest PKI (v1) API access token, read by Classes/Util.cs and the Home check page. -->
+    <add key="RestPkiAccessToken" value="YOUR_REST_PKI_ACCESS_TOKEN" />
+    <!-- Optional. Rest PKI URL for on-premises installs, with trailing '/'. Default: https://pki.rest/ -->
+    <add key="RestPkiEndpoint" value="https://pki.rest/" />
+
+    <!-- Rest PKI Core API key, read by Classes/Util.cs and the Home check page. -->
+    <add key="RestPkiCoreApiKey" value="YOUR_REST_PKI_CORE_API_KEY" />
+    <!-- Optional. Rest PKI Core URL for on-premises installs, with trailing '/'. Default: https://core.pki.rest/ -->
+    <add key="RestPkiCoreEndpoint" value="https://core.pki.rest/" />
+
+    <!-- CloudHub API key, used by the CloudHub samples (PadesCloudHubSdk, AuthenticationCloudHubSdk). -->
+    <add key="CloudHubApiKey" value="YOUR_CLOUDHUB_API_KEY" />
+    <!-- Optional. CloudHub URL, with trailing '/'. Default: https://cloudhub.lacunasoftware.com/ -->
+    <add key="CloudHubEndpoint" value="https://cloudhub.lacunasoftware.com/" />
+
+    <!-- Optional. Base64 Web PKI license, rendered by Views/Shared/_Layout.cshtml. Not needed on localhost. -->
+    <add key="WebPkiLicense" value="YOUR_BASE64_WEB_PKI_LICENSE" />
+
+    <!-- Optional. OAuth client credentials for each PSC (cloud certificate provider) used by the
+         PadesCloudOauthSdk and PadesCloudPwdSdk samples; read by Classes/Util.cs. A PSC is used
+         only when both its ClientId and ClientSecret are set. -->
+    <add key="TrustServices:BirdId:ClientId" value="YOUR_BIRDID_CLIENT_ID" />
+    <add key="TrustServices:BirdId:ClientSecret" value="YOUR_BIRDID_CLIENT_SECRET" />
+    <add key="TrustServices:ViDaaS:ClientId" value="YOUR_VIDAAS_CLIENT_ID" />
+    <add key="TrustServices:ViDaaS:ClientSecret" value="YOUR_VIDAAS_CLIENT_SECRET" />
+    <add key="TrustServices:NeoId:ClientId" value="YOUR_NEOID_CLIENT_ID" />
+    <add key="TrustServices:NeoId:ClientSecret" value="YOUR_NEOID_CLIENT_SECRET" />
+    <add key="TrustServices:RemoteId:ClientId" value="YOUR_REMOTEID_CLIENT_ID" />
+    <add key="TrustServices:RemoteId:ClientSecret" value="YOUR_REMOTEID_CLIENT_SECRET" />
+    <add key="TrustServices:SafeId:ClientId" value="YOUR_SAFEID_CLIENT_ID" />
+    <add key="TrustServices:SafeId:ClientSecret" value="YOUR_SAFEID_CLIENT_SECRET" />
+  </appSettings>
+</configuration>

@@ -1,0 +1,72 @@
+/**
+ * Documentation only. This file is NOT loaded: config.js reads config/default.js and merges
+ * config/<NODE_ENV>.js over it (config/development.js when NODE_ENV is unset). It lists every
+ * key the app reads, with placeholder values. The committed default.js holds TRIAL credentials
+ * that update-licenses.ps1 rotates; do not replace them in this repository.
+ * Environment variables: NODE_ENV selects the override file; PORT overrides `port`.
+ * The PKI Express license, LacunaPkiLicense.config, is not read by the app: activate PKI Express
+ * with it once per machine (`sudo pkie activate LacunaPkiLicense.config`).
+ */
+module.exports = {
+	// 'http' or 'https' (bin/www). 'https' also needs `ssl`.
+	protocol: 'http',
+	// HTTPS key and certificate files, used only when protocol is 'https' (bin/www).
+	ssl: {
+		key: 'server.key',
+		cert: 'server.cert'
+	},
+	// Secret used to sign the express-session cookie (app.js).
+	sessionSecret: 'YOUR_SESSION_SECRET',
+	// HTTP port (bin/www).
+	port: process.env.PORT || '3000',
+	// Environment name; 'development' selects the development error handler (app.js).
+	environment: 'default',
+	// Accept certificates from Lacuna's test PKI (development only; production.js sets false).
+	trustLacunaTestRoot: true,
+
+	restPki: {
+		// Rest PKI (v1) API access token (util.js); also authenticates the PKI Express timestamp authority.
+		accessToken: 'YOUR_REST_PKI_ACCESS_TOKEN',
+		// Rest PKI URL, with trailing '/'.
+		endpoint: 'https://pki.rest/'
+	},
+
+	restPkiCore: {
+		// Rest PKI Core API key (util.js).
+		apiKey: 'YOUR_REST_PKI_CORE_API_KEY',
+		// Rest PKI Core URL, with trailing '/'.
+		endpoint: 'https://core.pki.rest/'
+	},
+
+	amplia: {
+		// Id of the Amplia CA that issues certificates in the Amplia samples.
+		caId: 'YOUR_AMPLIA_CA_ID',
+		// Amplia API key (util.js).
+		apiKey: 'YOUR_AMPLIA_API_KEY',
+		// Amplia URL, with trailing '/'.
+		endpoint: 'https://amplia.lacunasoftware.com/'
+	},
+
+	pkiExpress: {
+		// Optional list of extra trusted root certificate files (resources/ folder).
+		trustedRoots: [],
+		// Run PKI Express in offline mode (no network access).
+		offline: false
+	},
+
+	// Password for the PKCS #12 file built from an Amplia-issued key (pades-server-key-express,
+	// xml-server-key-express). Read at the top level, and not defined in default.js today.
+	pkcs12Password: 'YOUR_PKCS12_PASSWORD',
+
+	cloudhub: {
+		// CloudHub API key (util.js).
+		apiKey: 'YOUR_CLOUDHUB_API_KEY',
+		// CloudHub URL, with trailing '/'.
+		endpoint: 'https://cloudhub.lacunasoftware.com/'
+	},
+
+	webPki: {
+		// Optional. Base64 Web PKI license, rendered by views/layout.pug. Not needed on localhost.
+		license: null
+	}
+};

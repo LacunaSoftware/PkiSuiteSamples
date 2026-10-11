@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""Generate SAMPLES.md from samples.json.
+"""Generate SAMPLES.md, and the samples list in each project README, from samples.json.
 
 Usage (from anywhere):  python scripts/generate-samples-md.py
 
 SAMPLES.md is generated: edit samples.json and re-run this script instead of
-editing the markdown. scripts/validate-catalog.py fails when they drift apart.
+editing the markdown. Project READMEs are hand-written except for the block between
+"<!-- BEGIN GENERATED SAMPLES LIST (project: <run.cwd>) -->" and
+"<!-- END GENERATED SAMPLES LIST -->", which this script rewrites.
+scripts/validate-catalog.py fails when any of them drift from samples.json.
 Needs only the Python 3.8+ standard library.
 """
 
 import json
+import os
+import re
 import sys
 from collections import OrderedDict
 from pathlib import Path
@@ -179,9 +184,55 @@ def render(catalog):
     return "\n".join(out)
 
 
+README_BEGIN = re.compile(r"<!-- BEGIN GENERATED SAMPLES LIST \(project: ([^)]+)\) -->")
+README_END = "<!-- END GENERATED SAMPLES LIST -->"
+SKIP_DIRS = {".git", "node_modules", "vendor", "bin", "obj", "packages", ".vs", "build", "dist"}
+
+
+def project_readmes():
+    """README.md files that contain a generated samples list, as {path: project cwd}."""
+    found = {}
+    for folder, dirs, files in os.walk(ROOT):
+        dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
+        if "README.md" in files:
+            path = Path(folder) / "README.md"
+            match = README_BEGIN.search(path.read_text(encoding="utf-8"))
+            if match:
+                found[path] = match.group(1)
+    return found
+
+
+def render_project_list(catalog, cwd, readme_dir):
+    rows = ["| Sample | Product | Entry file | Open |", "|---|---|---|---|"]
+    for e in catalog:
+        if e["run"]["cwd"] != cwd:
+            continue
+        link = os.path.relpath(ROOT / e["path"], readme_dir).replace(os.sep, "/")
+        rows.append(f"| {e['title']}<br>`{e['id']}` | {PRODUCTS[e['product']]} "
+                    f"| [{Path(e['path']).name}]({link}) | {e['run']['url']} |")
+    return "\n".join(rows)
+
+
+def render_readme(catalog, path, cwd):
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
+    begin = README_BEGIN.search(text)
+    end = text.index(README_END, begin.end())
+    body = render_project_list(catalog, cwd, path.parent)
+    return text[: begin.end()] + "\n" + body + "\n" + text[end:]
+
+
+def generated_files(catalog):
+    """Every file this script writes, as {path: expected content}."""
+    files = {SAMPLES_MD: render(catalog)}
+    for path, cwd in project_readmes().items():
+        files[path] = render_readme(catalog, path, cwd)
+    return files
+
+
 def main():
-    SAMPLES_MD.write_text(render(load_catalog()), encoding="utf-8", newline="\n")
-    print(f"wrote {SAMPLES_MD.relative_to(ROOT)}")
+    for path, content in generated_files(load_catalog()).items():
+        path.write_text(content, encoding="utf-8", newline="\n")
+        print(f"wrote {path.relative_to(ROOT).as_posix()}")
     return 0
 
 

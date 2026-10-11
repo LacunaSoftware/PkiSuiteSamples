@@ -1,0 +1,76 @@
+# Documentation only. This file is NOT loaded: Spring Boot reads application.yml next to this
+# file, then application-dev.yml (the 'dev' profile is active), which overrides trustLacunaTestRoot.
+# It lists every key the app reads, with placeholder values. The committed application.yml holds
+# TRIAL credentials that update-licenses.ps1 rotates; do not replace them in this repository.
+# The PKI Express license, LacunaPkiLicense.config, is not read by the app: activate PKI Express
+# with it once per machine (`sudo pkie activate LacunaPkiLicense.config`).
+
+server:
+  # HTTP port. Several controllers also hardcode http://localhost:60695 in callback URLs.
+  port: 60695
+  # Include stack traces in error pages (development convenience).
+  error.include-stacktrace: always
+
+spring:
+  # Active profile; 'dev' loads application-dev.yml.
+  profiles.active: 'dev'
+  # JSON mapper used by the REST controllers.
+  http.converters.preferred-json-mapper: gson
+
+proxy:
+  # Optional HTTP proxy host for calls to Lacuna services (config/ProxyProperties.java).
+  host: null
+  # Optional proxy port.
+  port: null
+  # Optional proxy user name.
+  username: null
+  # Optional proxy password.
+  password: null
+
+# Accept certificates from Lacuna's test PKI (development only; application-dev.yml sets true).
+trustLacunaTestRoot: false
+
+rest-pki:
+  # Rest PKI (v1) API access token (config/RestPkiProperties.java).
+  accessToken: 'YOUR_REST_PKI_ACCESS_TOKEN'
+  # Optional. Rest PKI URL for on-premises installs, with trailing '/'.
+  endpoint: null
+
+rest-pki-core:
+  # Rest PKI Core API key (config/RestPkiCoreProperties.java).
+  apiKey: 'YOUR_REST_PKI_CORE_API_KEY'
+  # Optional. Rest PKI Core URL for on-premises installs, with trailing '/'.
+  endpoint: null
+
+amplia:
+  # Id of the Amplia CA that issues certificates in the Amplia samples.
+  caId: 'YOUR_AMPLIA_CA_ID'
+  # Amplia API key (config/AmpliaProperties.java).
+  apiKey: 'YOUR_AMPLIA_API_KEY'
+  # Optional. Amplia URL, with trailing '/'. Default: https://amplia.lacunasoftware.com/
+  endpoint: null
+
+pki-express:
+  # Optional list of extra trusted root certificate files.
+  trustedRoots: null
+  # Run PKI Express in offline mode (no network access).
+  offline: false
+  # Password for the PKCS #12 file built from an Amplia-issued key (pades-server-key-express).
+  pkcs12Password: 'YOUR_PKCS12_PASSWORD'
+
+cloudhub:
+  # CloudHub API key (config/CloudhubProperties.java).
+  apiKey: 'YOUR_CLOUDHUB_API_KEY'
+  # Optional. CloudHub URL, with trailing '/'. Default: https://cloudhub.lacunasoftware.com/
+  endpoint: null
+
+signer:
+  # Lacuna Signer API key for the batch-signer-signature sample (config/SignerProperties.java).
+  # Not present in the committed application.yml: add it there to run that sample.
+  apiKey: 'YOUR_SIGNER_API_KEY'
+  # Lacuna Signer instance URL.
+  endpoint: 'YOUR_SIGNER_ENDPOINT'
+
+web-pki:
+  # Optional. Base64 Web PKI license, injected into templates/layout.html. Not needed on localhost.
+  license: null

@@ -11,7 +11,8 @@ Checks:
   3. `path` lives inside `run.cwd`.
   4. (id, language, framework) is unique, and `id` ends with `-<product>`.
   5. Entries that share an `id` share `title` and `product`.
-  6. SAMPLES.md is what scripts/generate-samples-md.py would write.
+  6. SAMPLES.md, and the generated samples list in each project README, are what
+     scripts/generate-samples-md.py would write.
 
 Exits with status 1 and lists every problem when a check fails.
 Needs only the Python 3.8+ standard library.
@@ -26,7 +27,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "samples.json"
 SCHEMA = ROOT / "schema" / "samples.schema.json"
-SAMPLES_MD = ROOT / "SAMPLES.md"
 GENERATOR = ROOT / "scripts" / "generate-samples-md.py"
 
 JSON_TYPES = {
@@ -131,14 +131,15 @@ def check_disk_and_consistency(catalog, errors):
                 errors.append(f"{name}: {field} {e.get(field)!r} differs from other '{e.get('id')}' entries ({first.get(field)!r})")
 
 
-def check_samples_md(errors):
+def check_generated_markdown(errors):
     spec = importlib.util.spec_from_file_location("generate_samples_md", GENERATOR)
     generator = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(generator)
-    expected = generator.render(generator.load_catalog())
-    actual = SAMPLES_MD.read_text(encoding="utf-8") if SAMPLES_MD.exists() else ""
-    if actual.replace("\r\n", "\n") != expected:
-        errors.append("SAMPLES.md is out of date: run `python scripts/generate-samples-md.py`")
+    for path, expected in generator.generated_files(generator.load_catalog()).items():
+        actual = path.read_text(encoding="utf-8") if path.exists() else ""
+        if actual.replace("\r\n", "\n") != expected:
+            name = path.relative_to(ROOT).as_posix()
+            errors.append(f"{name} is out of date: run `python scripts/generate-samples-md.py`")
 
 
 def main():
@@ -154,14 +155,14 @@ def main():
     if isinstance(catalog, list):
         check_disk_and_consistency(catalog, errors)
     if not errors:
-        check_samples_md(errors)
+        check_generated_markdown(errors)
 
     if errors:
         print(f"samples.json: {len(errors)} problem(s)", file=sys.stderr)
         for err in errors:
             print(f"  - {err}", file=sys.stderr)
         return 1
-    print(f"samples.json: OK ({len(catalog)} entries, SAMPLES.md up to date)")
+    print(f"samples.json: OK ({len(catalog)} entries, generated markdown up to date)")
     return 0
 
 

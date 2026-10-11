@@ -1,0 +1,23 @@
+# Documentation only. This file is NOT loaded: the views import sample/config.py (class Config),
+# next to this file. It lists every key the app reads, with placeholder values. The committed
+# config.py holds a TRIAL token that update-licenses.ps1 rotates; do not replace it in this
+# repository.
+#
+# Django's own settings live in sample/PkiSuitePythonDjangoSample/settings.py: SECRET_KEY (a
+# development-only key is committed), DEBUG, ALLOWED_HOSTS, DATABASES (SQLite, used for sessions).
+#
+# config.py also defines AMPLIA_* and PKI_EXPRESS_* keys copied from the Flask sample; no Django
+# sample reads them.
+
+
+class Config(object):
+    # Accept certificates from Lacuna's test PKI (development only).
+    TRUST_LACUNA_TEST_ROOT = True
+
+    # Rest PKI (v1) API access token (utils.py).
+    REST_PKI_ACCESS_TOKEN = 'YOUR_REST_PKI_ACCESS_TOKEN'
+    # Rest PKI URL, with trailing '/'.
+    REST_PKI_ENDPOINT = 'https://pki.rest/'
+
+    # Optional. Base64 Web PKI license, referenced by templates/layout.html. Not needed on localhost.
+    WEB_PKI_LICENSE = None
