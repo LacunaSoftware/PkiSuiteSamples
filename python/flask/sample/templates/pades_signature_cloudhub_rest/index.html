@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2 class="ls-title">PAdES Signature using cloud certificate with Cloudhub</h2>
+
+	<div class="ls-content">
+		<form id="selectFlowForm" action="/pades-signature-cloudhub-rest/discover/{{ request.view_args.get('file_id') }}" method="POST">
+			<div class="px-0 col col-sm-2">
+				<label for="cpfField">Inform your CPF:</label>
+				<input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00" value="{{ cpf }}"/>
+			</div>
+
+			<button id="searchButton" type="submit" class="btn btn-primary mt-2">
+				<i class="fas fa-search"></i> Search
+			</button>
+
+		</form>
+	</div>
+
+{% endblock %}

@@ -38,6 +38,7 @@ from .upload import blueprint as upload
 from .xml_nfe_signature_rest import blueprint as xml_nfe_signature_rest
 from .xml_signature_rest import blueprint as xml_signature_rest
 from .server_files import blueprint as server_files
+from .pades_signature_cloudhub_rest import blueprint as pades_signature_cloudhub_rest
 
 blueprints = {
     authentication_express,
@@ -64,6 +65,7 @@ blueprints = {
     open_pades_rest,
     pades_server_key_express,
     pades_signature_express,
+    pades_signature_cloudhub_rest,
     pades_signature_restpki,
     pades_cloud_pwd_express,
     pades_cloud_oauth_express,
