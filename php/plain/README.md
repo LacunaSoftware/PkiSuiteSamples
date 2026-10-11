@@ -62,6 +62,20 @@ composer start
 PKI Express samples also need PKI Express installed and activated
 (`sudo pkie activate LacunaPkiLicense.config`).
 
+Recent Composer versions block packages that have security advisories, so `composer install`
+fails with "these were not loaded, because they are affected by security advisories". The cause
+is Guzzle 6: every release of `lacuna/amplia-client`, and `lacuna/cloudhub-client` 1.x, require
+it, and there is no Amplia client for Guzzle 7 yet. To run the samples anyway, turn the check off
+for this project before installing:
+
+```bash
+composer config policy.advisories.block false
+composer install
+```
+
+This writes the setting into `composer.json`. Do not commit it, and do not copy it into your own
+application.
+
 ## Configuration
 
 - `config.php`: Rest PKI, Rest PKI Core (the `restPkiNg` section), Amplia, CloudHub, PKI Express
