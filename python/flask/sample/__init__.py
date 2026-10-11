@@ -6,7 +6,6 @@ from os.path import abspath
 from os.path import exists
 from os.path import join
 
-from imp import reload
 from flask import Flask
 from flask_session import Session
 
