@@ -163,7 +163,8 @@ def render(catalog):
         run = e["run"]
         base = run["url"].split("/", 3)
         projects.setdefault(run["cwd"], (e, run["command"], "/".join(base[:3]) + "/"))
-    for cwd, (e, command, base) in projects.items():
+    # Same order as the language columns, whatever the order of the catalog.
+    for cwd, (e, command, base) in sorted(projects.items(), key=lambda p: list(FRAMEWORKS).index(p[1][0]["framework"])):
         name = f"{LANGUAGES[e['language']]} / {FRAMEWORKS[e['framework']]}"
         out.append(f"| {name} | [`{cwd}`]({cwd}) | `{command}` | {base} |")
 

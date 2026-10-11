@@ -14,6 +14,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 <!-- BEGIN GENERATED SAMPLES LIST (project: ruby/rails) -->
 | Sample | Product | Entry file | Open |
 |---|---|---|---|
+| Sign a PDF with Rest PKI Core<br>`pades-signature-rest-pki-core` | Rest PKI Core | [pades_signature_rest_core_controller.rb](app/controllers/pades_signature_rest_core_controller.rb) | http://localhost:3000/check-rest-pki-core-api-key/server-files/pades-signature/sign-pdf |
 | Sign a PDF with PKI Express<br>`pades-signature-pki-express` | PKI Express | [pades_signature_express_controller.rb](app/controllers/pades_signature_express_controller.rb) | http://localhost:3000/check-express/server-files/pades-signature/sign-pdf |
 | Sign a PDF with Rest PKI<br>`pades-signature-rest-pki` | Rest PKI | [pades_signature_rest_controller.rb](app/controllers/pades_signature_rest_controller.rb) | http://localhost:3000/check-rest-token/server-files/pades-signature/sign-pdf |
 | Sign multiple PDFs with PKI Express<br>`batch-pades-signature-pki-express` | PKI Express | [batch_pades_express_controller.rb](app/controllers/batch_pades_express_controller.rb) | http://localhost:3000/check-express/batch-pades/ |

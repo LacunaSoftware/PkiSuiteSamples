@@ -58,20 +58,20 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Project | Run from | Command | Open |
 |---|---|---|---|
-| Java / Spring Boot | [`java/springmvc`](java/springmvc) | `./gradlew bootRun` | http://localhost:60695/ |
-| Node.js / Express | [`nodejs/expressmvc`](nodejs/expressmvc) | `npm install && npm start` | http://localhost:3000/ |
 | .NET / ASP.NET MVC | [`dotnet/mvc`](dotnet/mvc) | `Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)` | http://localhost:54123/ |
 | .NET / ASP.NET Core + Angular | [`dotnet/spa/PkiSuiteAspNetSpaSample`](dotnet/spa/PkiSuiteAspNetSpaSample) | `dotnet run` | https://localhost:5001/ |
+| Java / Spring Boot | [`java/springmvc`](java/springmvc) | `./gradlew bootRun` | http://localhost:60695/ |
+| Node.js / Express | [`nodejs/expressmvc`](nodejs/expressmvc) | `npm install && npm start` | http://localhost:3000/ |
 | PHP / PHP | [`php/plain`](php/plain) | `composer install && composer start` | http://localhost:8000/ |
 | Python / Flask | [`python/flask`](python/flask) | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000/ |
-| Ruby / Rails | [`ruby/rails`](ruby/rails) | `bundle install && yarn install && rails server` | http://localhost:3000/ |
 | Python / Django | [`python/django/sample`](python/django/sample) | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000/ |
+| Ruby / Rails | [`ruby/rails`](ruby/rails) | `bundle install && yarn install && rails server` | http://localhost:3000/ |
 
 ## Sign a PDF (PAdES)
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a PDF with Rest PKI Core**<br>`pades-signature-rest-pki-core` | Rest PKI Core | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureCoreController.java) | [code](nodejs/expressmvc/routes/pades-signature-core.js) | — | — | — |
+| **Sign a PDF with Rest PKI Core**<br>`pades-signature-rest-pki-core` | Rest PKI Core | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureCoreController.java) | [code](nodejs/expressmvc/routes/pades-signature-core.js) | [code](php/plain/public/pades-signature-rest-core/index.php) | [Flask](python/flask/sample/views/pades_signature_rest_core.py) | [code](ruby/rails/app/controllers/pades_signature_rest_core_controller.rb) |
 | **Sign a PDF with PKI SDK**<br>`pades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/PadesSignatureSdkController.cs) | — | — | — | — | — |
 | **Sign a PDF with PKI Express**<br>`pades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureExpressController.java) | [code](nodejs/expressmvc/routes/pades-signature-express.js) | [code](php/plain/public/pades-signature-express/index.php) | [Flask](python/flask/sample/views/pades_signature_express.py) | [code](ruby/rails/app/controllers/pades_signature_express_controller.rb) |
 | **Sign a local PDF in the browser with Web PKI**<br>`pades-signature-web-pki` | Web PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureWebController.cs) | — | — | — | — | — |

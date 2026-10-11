@@ -12,6 +12,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 <!-- BEGIN GENERATED SAMPLES LIST (project: python/flask) -->
 | Sample | Product | Entry file | Open |
 |---|---|---|---|
+| Sign a PDF with Rest PKI Core<br>`pades-signature-rest-pki-core` | Rest PKI Core | [pades_signature_rest_core.py](sample/views/pades_signature_rest_core.py) | http://localhost:5000/check-rest-pki-core-api-key/server-files/pades-signature/signPdf |
 | Sign a PDF with PKI Express<br>`pades-signature-pki-express` | PKI Express | [pades_signature_express.py](sample/views/pades_signature_express.py) | http://localhost:5000/check-express/server-files/pades-signature/signPdf |
 | Sign a PDF with Rest PKI<br>`pades-signature-rest-pki` | Rest PKI | [pades_signature_rest.py](sample/views/pades_signature_rest.py) | http://localhost:5000/check-rest-token/server-files/pades-signature/signPdf |
 | Sign multiple PDFs with PKI Express<br>`batch-pades-signature-pki-express` | PKI Express | [batch_pades_express.py](sample/views/batch_pades_express.py) | http://localhost:5000/check-express/batch-pades |

@@ -97,7 +97,7 @@ Credentials the apps read (the files `update-licenses.ps1` rewrites):
   (default.js), `restPki.accessToken` (config.php), `REST_PKI_ACCESS_TOKEN` (config.py),
   `rest_pki.access_token` (lacuna.yml).
 - **Rest PKI Core** API key: `RestPkiCoreApiKey`, `rest-pki-core.apiKey`, `restPkiCore.apiKey`,
-  `restPkiNg.apiKey` (PHP).
+  `restPkiNg.apiKey` (PHP), `REST_PKI_CORE_API_KEY` (Flask), `rest_pki_core.api_key` (Rails).
 - **Amplia** API key: `amplia.apiKey` / `AMPLIA_API_KEY`. **CloudHub**: `CloudHubApiKey` /
   `cloudhub.apiKey` / `cloudHub.apiKey`.
 - **Web PKI** license: `WebPkiLicense` / `web-pki.license` / `webPki.license` /
@@ -224,5 +224,7 @@ operation. Timestamping with PKI Express needs that token.
     `cloudhub-client`
   - Packagist: `lacuna/restpki-client`, `lacuna/restpkicore-client`, `lacuna/pki-express`,
     `lacuna/amplia-client`, `lacuna/cloudhub-client`
-  - PyPI: `restpki-client`, `pkiexpress`, `amplia-client`
-  - RubyGems: `rest_pki`, `pki_express`
+  - PyPI: `restpki-client`, `restpki-ng-python-client` (Rest PKI Core), `pkiexpress`,
+    `amplia-client`
+  - RubyGems: `rest_pki`, `pki_express`. There is no Rest PKI Core gem: the Rails sample calls
+    the API directly (`app/controllers/concerns/rest_pki_core_client.rb`)

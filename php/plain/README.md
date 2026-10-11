@@ -13,6 +13,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 <!-- BEGIN GENERATED SAMPLES LIST (project: php/plain) -->
 | Sample | Product | Entry file | Open |
 |---|---|---|---|
+| Sign a PDF with Rest PKI Core<br>`pades-signature-rest-pki-core` | Rest PKI Core | [index.php](public/pades-signature-rest-core/index.php) | http://localhost:8000/check-rest-core-key.php?rc=server-files&fwd=pades-signature&op=signPdf |
 | Sign a PDF with PKI Express<br>`pades-signature-pki-express` | PKI Express | [index.php](public/pades-signature-express/index.php) | http://localhost:8000/check-express.php?rc=server-files&fwd=pades-signature&op=signPdf |
 | Sign a PDF with Rest PKI<br>`pades-signature-rest-pki` | Rest PKI | [index.php](public/pades-signature-rest/index.php) | http://localhost:8000/check-rest-token.php?rc=server-files&fwd=pades-signature&op=signPdf |
 | Sign multiple PDFs with PKI Express<br>`batch-pades-signature-pki-express` | PKI Express | [index.php](public/batch-pades-signature-express/index.php) | http://localhost:8000/check-express.php?rc=batch-pades-signature |

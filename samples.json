@@ -49,6 +49,86 @@
     }
   },
   {
+    "id": "pades-signature-rest-pki-core",
+    "title": "Sign a PDF with Rest PKI Core",
+    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. lacuna/restpkicore-client has no methods for these two calls, so the sample sends them with the library's REST client.",
+    "product": "rest-pki-core",
+    "language": "php",
+    "framework": "php",
+    "path": "php/plain/public/pades-signature-rest-core/index.php",
+    "related_files": [
+      "php/plain/public/pades-signature-rest-core/start.php",
+      "php/plain/public/pades-signature-rest-core/complete.php",
+      "php/plain/public/scripts/signature-start-form.js",
+      "php/plain/public/scripts/signature-complete-form.js",
+      "php/plain/Util.php",
+      "php/plain/StorageMock.php"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
+    "run": {
+      "cwd": "php/plain",
+      "command": "composer install && composer start",
+      "url": "http://localhost:8000/check-rest-core-key.php?rc=server-files&fwd=pades-signature&op=signPdf"
+    }
+  },
+  {
+    "id": "pades-signature-rest-pki-core",
+    "title": "Sign a PDF with Rest PKI Core",
+    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. It uses restpki-ng-python-client through its ApiClient and SignatureApi classes, not its RestPkiClient class, which turns off TLS certificate verification.",
+    "product": "rest-pki-core",
+    "language": "python",
+    "framework": "flask",
+    "path": "python/flask/sample/views/pades_signature_rest_core.py",
+    "related_files": [
+      "python/flask/sample/templates/pades_signature_rest_core/index.html",
+      "python/flask/sample/templates/pades_signature_rest_core/start.html",
+      "python/flask/sample/templates/pades_signature_rest_core/signature-info.html",
+      "python/flask/sample/static/js/signature-start-form.js",
+      "python/flask/sample/static/js/signature-complete-form.js",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/storage_mock.py",
+      "python/flask/sample/views/upload.py",
+      "python/flask/sample/views/server_files.py"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
+    "run": {
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/check-rest-pki-core-api-key/server-files/pades-signature/signPdf"
+    }
+  },
+  {
+    "id": "pades-signature-rest-pki-core",
+    "title": "Sign a PDF with Rest PKI Core",
+    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. Ruby has no Rest PKI Core client library, so the sample calls the API directly with Net::HTTP (see rest_pki_core_client.rb).",
+    "product": "rest-pki-core",
+    "language": "ruby",
+    "framework": "rails",
+    "path": "ruby/rails/app/controllers/pades_signature_rest_core_controller.rb",
+    "related_files": [
+      "ruby/rails/app/views/pades_signature_rest_core/index.html.erb",
+      "ruby/rails/app/views/pades_signature_rest_core/start.html.erb",
+      "ruby/rails/app/views/pades_signature_rest_core/complete.html.erb",
+      "ruby/rails/app/assets/javascripts/signature-start-form.js",
+      "ruby/rails/app/assets/javascripts/signature-complete-form.js",
+      "ruby/rails/app/controllers/concerns/rest_pki_core_client.rb",
+      "ruby/rails/app/controllers/concerns/util.rb",
+      "ruby/rails/app/controllers/concerns/storage_mock.rb"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
+    "run": {
+      "cwd": "ruby/rails",
+      "command": "bundle install && yarn install && rails server",
+      "url": "http://localhost:3000/check-rest-pki-core-api-key/server-files/pades-signature/sign-pdf"
+    }
+  },
+  {
     "id": "pades-signature-pki-sdk",
     "title": "Sign a PDF with PKI SDK",
     "description": "Two-step PAdES signature built on your own server with PKI SDK: Web PKI reads the user's certificate, the server returns the hash to sign, Web PKI signs it in the browser, and the server assembles the signed PDF. The same page co-signs an already signed PDF.",
