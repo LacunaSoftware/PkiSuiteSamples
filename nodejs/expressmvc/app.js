@@ -86,7 +86,9 @@ app.use((req, res, next) => {
  * Development error handler: Will print stacktrace.
  */
 if (Config.getInstance().get('environment') === 'development') {
-	app.use((err, req, res) => {
+	// Express only treats a middleware as an error handler when it declares
+	// four parameters, so "next" must stay even though it is unused.
+	app.use((err, req, res, next) => {
 		const status = err.status || 500;
 		res.status(status);
 		res.render('error', {
@@ -102,7 +104,7 @@ if (Config.getInstance().get('environment') === 'development') {
 /**
  * Production error handler: No stack traces leaked to user.
  */
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
 	res.status(err.status || 500);
 	res.render('error', {
 		route: req.originalUrl,
