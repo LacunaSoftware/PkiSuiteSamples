@@ -43,11 +43,13 @@ public class WebhookRestCoreController {
 				// RestPkiService configuration.
 				RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
-				// Get document from ID. It updates the download locations.
-				Document document = service.getDocument(event.getDocument().getId());
+				// Get document from ID. It updates the download links. (getDocument() is not used
+				// because its DocumentFile class only exposes the deprecated "location" field.)
+				DocumentModel document = service.getDocumentModel(event.getDocument().getId());
 
-				// Get the link to download the signedFile.
-				String downloadLink = document.getSignedFile().getLocation();
+				// Get the link to download the signedFile: a temporary link that downloads the
+				// file without the API key.
+				String downloadLink = document.getSignedFile().getUrl();
 
 				// Get the signed file content.
 				InputStream signedContent = service.openRead(downloadLink);

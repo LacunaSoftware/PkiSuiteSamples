@@ -76,9 +76,11 @@ public class SignatureSessionRestCoreController {
 		model.addAttribute("sessionStatus", session.getStatus());
 
 		if (session.getStatus() == SignatureSessionStatus.COMPLETED){
-			// If signature completed, get document information
+			// If signature completed, get document information. Its files carry a "url" field: a
+			// temporary link that downloads the file without the API key. (getDocument() is not
+			// used because its DocumentFile class only exposes the deprecated "location" field.)
 			UUID docId = session.getDocuments().get(0).getId();
-			Document doc = service.getDocument(docId);
+			DocumentModel doc = service.getDocumentModel(docId);
 
 			model.addAttribute("originalFile", doc.getOriginalFile());
 			model.addAttribute("signedFile", doc.getSignedFile());
