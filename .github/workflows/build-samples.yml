@@ -256,11 +256,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
-      - name: Start a Ruby 2.5.3 container
+      - name: Start a Ruby 3.3 container
         run: >
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/ruby/rails
-          ruby:2.5.3 sleep infinity
-      # The image comes with Bundler 1.17, and the lockfile needs the Bundler 2 it was made with.
+          ruby:3.3 sleep infinity
+      # Install the exact Bundler version the lockfile was made with.
       - name: Install dependencies
         run: |
           docker exec app sh -c 'gem install bundler -v "$(awk "/BUNDLED WITH/ { getline; print \$1 }" Gemfile.lock)"'
