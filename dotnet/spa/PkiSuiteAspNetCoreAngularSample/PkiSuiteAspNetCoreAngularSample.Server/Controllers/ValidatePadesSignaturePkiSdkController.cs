@@ -25,8 +25,9 @@ public class ValidatePadesSignaturePkiSdkController(StorageMock storageMock, Uti
 		// Open the PDF and read its signatures.
 		PadesSignature signature;
 		try {
-			signature = PadesSignature.Open(path);
-		} catch (Exception ex) {
+			signature = PadesSignature.Open(System.IO.File.ReadAllBytes(path));
+		} catch (Exception ex) when (ex is InvalidPdfException or PasswordProtectedPdfException or PdfHandlerException) {
+			// The file is not a PDF, is corrupted or is password-protected.
 			return Problem(detail: $"The file could not be opened as a signed PDF: {ex.Message}", statusCode: StatusCodes.Status422UnprocessableEntity);
 		}
 

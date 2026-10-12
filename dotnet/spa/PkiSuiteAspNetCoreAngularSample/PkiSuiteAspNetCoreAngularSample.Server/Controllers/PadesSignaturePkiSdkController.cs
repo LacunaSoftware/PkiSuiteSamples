@@ -53,8 +53,9 @@ public class PadesSignaturePkiSdkController(
 			var certificate = PKCertificate.Decode(request.CertContent);
 
 			// Validate the certificate now: it must chain up to a trusted root, be within its
-			// validity period and not be revoked. PadesSigner validates it only on the complete
-			// step, and we don't want to ask the user to sign with a certificate we'll reject.
+			// validity period and not be revoked. Unlike CadesSigner and the XML signers,
+			// PadesSigner does not check it before the complete step, and we don't want the user to
+			// sign with a certificate we'll reject.
 			var certificateValidationResults = certificate.Validate(util.GetTrustArbitrator());
 			if (!certificateValidationResults.IsValid) {
 				throw new ValidationException(certificateValidationResults);
