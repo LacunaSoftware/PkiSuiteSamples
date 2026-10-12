@@ -28,7 +28,7 @@ public class CadesSignaturePkiSdkController(StorageMock storageMock, Util util) 
 
 		// Get the file to be signed (or the CMS signature to be co-signed) from the storage.
 		if (!storageMock.TryGetFile(request.FileId, out var filePath)) {
-			return NotFound();
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 		var fileContent = System.IO.File.ReadAllBytes(filePath);
 
@@ -61,7 +61,12 @@ public class CadesSignaturePkiSdkController(StorageMock storageMock, Util util) 
 			// The steps above throw a ValidationException if, for instance, the certificate is
 			// expired or not trusted. Answering with an error (instead of a "success: false" body) makes
 			// sure the browser never goes on to sign.
-			return Problem(title: "The certificate was not accepted", detail: ex.ValidationResults.ToString(), statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: "The signer's certificate is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results tell why. The page shows them below the message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
+			);
 		}
 
 		// Unlike PAdES signatures, CAdES signatures have no PKI SDK "transfer data". The complete
@@ -91,10 +96,10 @@ public class CadesSignaturePkiSdkController(StorageMock storageMock, Util util) 
 			state = null;
 		}
 		if (state == null) {
-			return Problem(detail: "The signature was not started, or was already completed. Please start again.", statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(detail: "The signature was not started or was already completed. Please sign again.", statusCode: StatusCodes.Status422UnprocessableEntity);
 		}
 		if (!storageMock.TryGetFile(state.FileId, out var filePath)) {
-			return NotFound();
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 		var fileContent = System.IO.File.ReadAllBytes(filePath);
 
@@ -124,7 +129,11 @@ public class CadesSignaturePkiSdkController(StorageMock storageMock, Util util) 
 		} catch (ValidationException ex) {
 			// ComputeSignature() throws a ValidationException if, for instance, the certificate is
 			// revoked or the signature value does not match the certificate.
-			return Problem(title: "The signature was not accepted", detail: ex.ValidationResults.ToString(), statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: "The signature is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
+			);
 		}
 
 		// Store the signature in the App_Data folder. In a real application, you'd store it in your

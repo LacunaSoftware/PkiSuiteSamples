@@ -43,7 +43,7 @@ public class PadesSignaturePkiSdkController(
 		// Get the path of the PDF to be signed (uploaded by the user or copied from a sample
 		// document, see FilesController).
 		if (!storageMock.TryGetFile(request.FileId, out var pdfPath)) {
-			return Problem(detail: "The file to be signed was not found", statusCode: StatusCodes.Status404NotFound);
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 
 		byte[] toSignBytes, transferData;
@@ -82,9 +82,10 @@ public class PadesSignaturePkiSdkController(
 			// The certificate is not valid: for instance, it is expired, revoked or not trusted.
 			// Stop here, so the browser does not ask the user to sign.
 			return Problem(
-				title: "The signer's certificate is not valid",
-				detail: ex.ValidationResults.ToString(),
-				statusCode: StatusCodes.Status422UnprocessableEntity
+				detail: "The signer's certificate is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results tell why. The page shows them below the message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
 			);
 		}
 
@@ -131,9 +132,9 @@ public class PadesSignaturePkiSdkController(
 
 		} catch (ValidationException ex) {
 			return Problem(
-				title: "The signature is not valid",
-				detail: ex.ValidationResults.ToString(),
-				statusCode: StatusCodes.Status422UnprocessableEntity
+				detail: "The signature is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
 			);
 		}
 

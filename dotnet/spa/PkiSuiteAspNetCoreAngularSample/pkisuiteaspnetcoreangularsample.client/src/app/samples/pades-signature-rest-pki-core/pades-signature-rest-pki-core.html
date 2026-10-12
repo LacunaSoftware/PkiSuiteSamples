@@ -63,3 +63,6 @@
 @if (error(); as message) {
   <p class="error">{{ message }}</p>
 }
+@if (failedValidationResults(); as validationResults) {
+  <pre>{{ validationResults }}</pre>
+}

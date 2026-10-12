@@ -37,7 +37,7 @@ public class XmlSignatureRestPkiCoreController(StorageMock storageMock, Util uti
 	[HttpPost("start")]
 	public async Task<ActionResult<XmlSignatureRestPkiCoreStartResponse>> Start(XmlSignatureRestPkiCoreStartRequest request) {
 		if (!storageMock.TryGetFile(request.FileId, out var path)) {
-			return Problem(detail: "File not found", statusCode: StatusCodes.Status404NotFound);
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 		var xml = await System.IO.File.ReadAllBytesAsync(path);
 
@@ -79,7 +79,13 @@ public class XmlSignatureRestPkiCoreController(StorageMock storageMock, Util uti
 		} catch (PrepareSignatureException ex) {
 			// Rest PKI Core refused to prepare the signature, for instance because the certificate is
 			// expired or not trusted.
-			return Problem(detail: $"The signature could not be started ({ex.Failure}): {ex.ValidationResults}", statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: $"The signature could not be prepared ({ex.Failure}).",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results, when there are any, tell why. The page shows them below the
+				// message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults?.ToString() }
+			);
 		}
 
 		return new XmlSignatureRestPkiCoreStartResponse(
@@ -99,7 +105,11 @@ public class XmlSignatureRestPkiCoreController(StorageMock storageMock, Util uti
 			// signature value computed by Web PKI. This also validates the signature.
 			document = await util.GetRestPkiService().CompleteSignatureAsync(request.State, request.Signature);
 		} catch (ValidationException ex) {
-			return Problem(detail: $"The signature is not valid: {ex.ValidationResults}", statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: "The signature is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
+			);
 		}
 
 		// Download the signed XML from Rest PKI Core (the link it returns expires) and store it. In a

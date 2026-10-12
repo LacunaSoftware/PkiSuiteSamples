@@ -3,7 +3,7 @@ import { Component, OnInit, inject, input, linkedSignal, signal } from '@angular
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { DocumentPicker } from '../../shared/document-picker/document-picker';
-import { errorMessage } from '../../shared/error-message';
+import { errorMessage, errorValidationResults } from '../../shared/error-message';
 import { FilesService } from '../../shared/files.service';
 import { CertificateModel, WebPkiService } from '../../shared/web-pki.service';
 
@@ -56,6 +56,8 @@ export class PadesSignaturePkiSdk implements OnInit {
   protected readonly loadingCertificates = signal(true);
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
+  /** Validation results that came with the error, such as why the certificate was rejected. */
+  protected readonly failedValidationResults = signal<string | null>(null);
 
   async ngOnInit(): Promise<void> {
     try {
@@ -82,6 +84,7 @@ export class PadesSignaturePkiSdk implements OnInit {
     }
     this.busy.set(true);
     this.error.set(null);
+    this.failedValidationResults.set(null);
     try {
       // 1. Read the chosen certificate (public, Base64 DER).
       const certContent = await this.webPki.readCertificate(thumbprint);
@@ -106,6 +109,7 @@ export class PadesSignaturePkiSdk implements OnInit {
       this.signedFileId.set(complete.signedFileId);
     } catch (error) {
       this.error.set(errorMessage(error));
+      this.failedValidationResults.set(errorValidationResults(error));
     } finally {
       this.busy.set(false);
     }

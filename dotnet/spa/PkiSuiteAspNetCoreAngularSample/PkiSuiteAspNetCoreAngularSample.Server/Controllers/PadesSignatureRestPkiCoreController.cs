@@ -39,7 +39,7 @@ public class PadesSignatureRestPkiCoreController(
 		// Get the path of the PDF to be signed (uploaded by the user or copied from a sample
 		// document, see FilesController).
 		if (!storageMock.TryGetFile(request.FileId, out var pdfPath)) {
-			return Problem(detail: "The file to be signed was not found", statusCode: StatusCodes.Status404NotFound);
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 
 		// Get a Rest PKI Core client (see Util.cs).
@@ -69,11 +69,13 @@ public class PadesSignatureRestPkiCoreController(
 			// Rest PKI Core could not prepare the signature: for instance, the certificate is not
 			// valid or not trusted ("CertificateValidationFailed"), or the PDF is corrupted. Stop
 			// here, so the browser does not ask the user to sign.
-			var detail = $"The signature could not be prepared ({ex.Failure})";
-			if (ex.ValidationResults != null) {
-				detail += ": " + ex.ValidationResults;
-			}
-			return Problem(detail: detail, statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: $"The signature could not be prepared ({ex.Failure}).",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results, when there are any, tell why. The page shows them below the
+				// message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults?.ToString() }
+			);
 		}
 
 		return new PadesSignatureRestPkiCoreStartResponse(
@@ -102,9 +104,9 @@ public class PadesSignatureRestPkiCoreController(
 			// For instance, the signature does not match the to-sign hash, or the certificate was
 			// revoked in the meantime.
 			return Problem(
-				title: "The signature is not valid",
-				detail: ex.ValidationResults.ToString(),
-				statusCode: StatusCodes.Status422UnprocessableEntity
+				detail: "The signature is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
 			);
 		}
 

@@ -32,7 +32,7 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 	[HttpPost("start")]
 	public ActionResult<XmlNfeSignaturePkiSdkStartResponse> Start(XmlNfeSignaturePkiSdkStartRequest request) {
 		if (!storageMock.TryGetFile(request.FileId, out var path)) {
-			return Problem(detail: "File not found", statusCode: StatusCodes.Status404NotFound);
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 		var nfe = System.IO.File.ReadAllBytes(path);
 
@@ -67,7 +67,12 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 		} catch (ValidationException ex) {
 			// The operations above throw a ValidationException if, for instance, the certificate is
 			// expired or not trusted.
-			return Problem(detail: $"The certificate is not valid: {ex.ValidationResults}", statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: "The signer's certificate is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results tell why. The page shows them below the message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
+			);
 		} catch (XmlException ex) {
 			// An uploaded file that is not XML.
 			return Problem(detail: $"The file is not a valid XML document: {ex.Message}", statusCode: StatusCodes.Status422UnprocessableEntity);
@@ -125,7 +130,11 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 			signedNfe = signer.GetSignedXml();
 
 		} catch (ValidationException ex) {
-			return Problem(detail: $"The signature is not valid: {ex.ValidationResults}", statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: "The signature is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
+			);
 		}
 
 		// Store the signed NF-e. In a real application, you'd store it in your database or blob

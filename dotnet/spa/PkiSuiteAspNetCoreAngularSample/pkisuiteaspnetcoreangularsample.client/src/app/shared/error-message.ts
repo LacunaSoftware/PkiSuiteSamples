@@ -25,3 +25,15 @@ export function errorMessage(error: unknown): string {
   }
   return String(error);
 }
+
+/**
+ * Returns the validation results that the server attaches to some errors, such as a rejected
+ * certificate or signature, in the problem's "validationResults" field. Returns null when there are
+ * none. Pages show them below the error message.
+ */
+export function errorValidationResults(error: unknown): string | null {
+  if (error instanceof HttpErrorResponse && typeof error.error?.validationResults === 'string') {
+    return error.error.validationResults;
+  }
+  return null;
+}

@@ -3,7 +3,7 @@ import { Component, OnInit, computed, effect, inject, input, signal, untracked }
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { DocumentPicker } from '../../shared/document-picker/document-picker';
-import { errorMessage } from '../../shared/error-message';
+import { errorMessage, errorValidationResults } from '../../shared/error-message';
 import { FilesService } from '../../shared/files.service';
 import { CertificateModel, WebPkiService } from '../../shared/web-pki.service';
 
@@ -53,6 +53,8 @@ export class CadesSignaturePkiSdk implements OnInit {
   protected readonly selectedThumbprint = signal('');
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
+  /** Validation results that came with the error, such as why the certificate was rejected. */
+  protected readonly failedValidationResults = signal<string | null>(null);
   protected readonly signedFileId = signal<string | null>(null);
 
   constructor() {
@@ -74,6 +76,7 @@ export class CadesSignaturePkiSdk implements OnInit {
     this.pickedFileId.set(null);
     this.signedFileId.set(null);
     this.error.set(null);
+    this.failedValidationResults.set(null);
   }
 
   async ngOnInit(): Promise<void> {
@@ -103,6 +106,7 @@ export class CadesSignaturePkiSdk implements OnInit {
     }
     this.busy.set(true);
     this.error.set(null);
+    this.failedValidationResults.set(null);
     try {
       // 1. Read the certificate (its public part only) and send it to the server's start step.
       const certContent = await this.webPki.readCertificate(thumbprint);
@@ -125,6 +129,7 @@ export class CadesSignaturePkiSdk implements OnInit {
       this.signedFileId.set(complete.signedFileId);
     } catch (error) {
       this.error.set(errorMessage(error));
+      this.failedValidationResults.set(errorValidationResults(error));
     } finally {
       this.busy.set(false);
     }

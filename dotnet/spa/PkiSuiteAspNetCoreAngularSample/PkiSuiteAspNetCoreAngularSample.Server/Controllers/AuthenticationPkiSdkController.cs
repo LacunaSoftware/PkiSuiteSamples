@@ -56,14 +56,12 @@ public class AuthenticationPkiSdkController(Util util) : ControllerBase {
 		if (!validationResults.IsValid) {
 			// The authentication failed. Do not log the user in. The validation results tell why
 			// (for instance, the certificate is expired, revoked or was issued by an untrusted root).
-			var problem = ProblemDetailsFactory.CreateProblemDetails(
-				HttpContext,
+			return Problem(
+				detail: "Authentication failed: the certificate or the signature failed validation.",
 				statusCode: StatusCodes.Status422UnprocessableEntity,
-				title: "Authentication failed",
-				detail: "The certificate or the signature failed validation."
+				// The page shows the validation results below the message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = validationResults.ToString() }
 			);
-			problem.Extensions["validationResults"] = validationResults.ToString();
-			return UnprocessableEntity(problem);
 		}
 
 		// The user is authenticated. This is where your application would find the user by one of

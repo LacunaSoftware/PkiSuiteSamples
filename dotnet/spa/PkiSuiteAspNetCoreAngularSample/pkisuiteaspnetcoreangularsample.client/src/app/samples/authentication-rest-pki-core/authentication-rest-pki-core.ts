@@ -1,11 +1,11 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ConfigurationService } from '../../shared/configuration.service';
-import { errorMessage } from '../../shared/error-message';
+import { errorMessage, errorValidationResults } from '../../shared/error-message';
 import { CertificateModel, WebPkiService } from '../../shared/web-pki.service';
 
 /** Response of POST /api/authentication-rest-pki-core/start. */
@@ -115,9 +115,7 @@ export class AuthenticationRestPkiCore implements OnInit {
       })));
     } catch (error) {
       this.error.set(errorMessage(error));
-      if (error instanceof HttpErrorResponse && typeof error.error?.validationResults === 'string') {
-        this.failedValidationResults.set(error.error.validationResults);
-      }
+      this.failedValidationResults.set(errorValidationResults(error));
     } finally {
       this.busy.set(false);
     }

@@ -19,7 +19,7 @@ public class FilesController(StorageMock storageMock) : ControllerBase {
 	[HttpPost]
 	public ActionResult<FileIdModel> Upload(IFormFile file) {
 		if (file.Length == 0) {
-			return BadRequest("The uploaded file is empty");
+			return Problem(detail: "The uploaded file is empty.", statusCode: StatusCodes.Status400BadRequest);
 		}
 		// Store the file in the App_Data folder. In a real application, you'd store it in your
 		// database or blob storage.
@@ -46,7 +46,7 @@ public class FilesController(StorageMock storageMock) : ControllerBase {
 	[HttpGet("{fileId}")]
 	public IActionResult Download(string fileId) {
 		if (!storageMock.TryGetFile(fileId, out var path)) {
-			return NotFound();
+			return Problem(detail: "The file was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 		return PhysicalFile(path, GetContentType(path), fileId);
 	}

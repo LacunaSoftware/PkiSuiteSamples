@@ -33,7 +33,7 @@ public class CadesSignatureRestPkiCoreController(StorageMock storageMock, Util u
 
 		// Get the file to be signed from the storage.
 		if (!storageMock.TryGetFile(request.FileId, out var filePath)) {
-			return NotFound();
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 
 		// Get the Rest PKI Core client (see Util.GetRestPkiService()).
@@ -74,7 +74,13 @@ public class CadesSignatureRestPkiCoreController(StorageMock storageMock, Util u
 			// Rest PKI Core refuses to prepare the signature if, for instance, the certificate is
 			// expired or not trusted in the security context. Answering with an error (instead of a
 			// "success: false" body) makes sure the browser never goes on to sign.
-			return Problem(title: ex.Message, detail: ex.ValidationResults?.ToString() ?? ex.Message, statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: $"The signature could not be prepared ({ex.Failure}).",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results, when there are any, tell why. The page shows them below the
+				// message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults?.ToString() }
+			);
 		}
 
 		return new CadesSignatureRestPkiCoreStartResponse(
@@ -101,7 +107,11 @@ public class CadesSignatureRestPkiCoreController(StorageMock storageMock, Util u
 			signedDocument = await restPkiService.CompleteSignatureAsync(request.State, request.Signature);
 		} catch (Lacuna.RestPki.Client.ValidationException ex) {
 			// Rest PKI Core throws a ValidationException if, for instance, the certificate is revoked.
-			return Problem(title: "The signature was not accepted", detail: ex.ValidationResults.ToString(), statusCode: StatusCodes.Status422UnprocessableEntity);
+			return Problem(
+				detail: "The signature is not valid.",
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				extensions: new Dictionary<string, object?> { ["validationResults"] = ex.ValidationResults.ToString() }
+			);
 		}
 
 		// Store the signature (.p7s) in the App_Data folder. The signed file's URL on Rest PKI Core

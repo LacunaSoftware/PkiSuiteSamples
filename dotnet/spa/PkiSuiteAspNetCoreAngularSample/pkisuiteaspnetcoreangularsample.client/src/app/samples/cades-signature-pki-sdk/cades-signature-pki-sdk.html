@@ -52,5 +52,8 @@
 @if (error(); as error) {
   <p class="error">{{ error }}</p>
 }
+@if (failedValidationResults(); as validationResults) {
+  <pre>{{ validationResults }}</pre>
+}
 
 <p><a routerLink="/">Back to the samples</a></p>

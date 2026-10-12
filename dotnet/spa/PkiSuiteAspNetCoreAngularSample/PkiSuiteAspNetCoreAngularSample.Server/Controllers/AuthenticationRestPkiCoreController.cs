@@ -57,30 +57,26 @@ public class AuthenticationRestPkiCoreController(Util util) : ControllerBase {
 			// they hold the certificate's private key. Rest PKI Core answers this with an error
 			// instead of a failed AuthenticationResult.
 			return Problem(
-				title: "Authentication failed",
-				detail: "The signature does not match the certificate.",
+				detail: "Authentication failed: the signature does not match the certificate.",
 				statusCode: StatusCodes.Status422UnprocessableEntity
 			);
 		}
 
 		if (!result.Success) {
 			// The authentication failed. Do not log the user in.
-			var problem = ProblemDetailsFactory.CreateProblemDetails(
-				HttpContext,
-				statusCode: StatusCodes.Status422UnprocessableEntity,
-				title: "Authentication failed",
+			return Problem(
 				detail: result.Failure switch {
-					AuthenticationFailures.CertificateFailedValidation => "The certificate failed validation.",
+					AuthenticationFailures.CertificateFailedValidation => "Authentication failed: the certificate failed validation.",
 					// The hash expired or was already used: start again.
 					AuthenticationFailures.StaleSession => "The authentication expired. Please try again.",
 					AuthenticationFailures.NonceReused => "This authentication was already used. Please try again.",
 					_ => $"The authentication failed ({result.Failure}).",
-				}
+				},
+				statusCode: StatusCodes.Status422UnprocessableEntity,
+				// The validation results, when there are any, tell why. The page shows them below the
+				// message.
+				extensions: new Dictionary<string, object?> { ["validationResults"] = result.ValidationResults?.ToString() }
 			);
-			if (result.ValidationResults != null) {
-				problem.Extensions["validationResults"] = result.ValidationResults.ToString();
-			}
-			return UnprocessableEntity(problem);
 		}
 
 		// The user is authenticated. This is where your application would find the user by one of
