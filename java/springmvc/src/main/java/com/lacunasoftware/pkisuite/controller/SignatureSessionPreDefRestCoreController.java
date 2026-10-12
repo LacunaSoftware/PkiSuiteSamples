@@ -97,8 +97,14 @@ public class SignatureSessionPreDefRestCoreController {
 		model.addAttribute("sessionStatus", session.getStatus());
 
 		if (session.getStatus() == SignatureSessionStatus.COMPLETED){
-			// If signature completed, get documents information
-			List<SignatureSessionDocument> docs = session.getDocuments();
+			// If signature completed, get documents information. Their files carry a "url" field: a
+			// temporary link that downloads the file without the API key. (The session's documents
+			// are not used directly because their DocumentFile class only exposes the deprecated
+			// "location" field.)
+			List<DocumentModel> docs = new ArrayList<>();
+			for (SignatureSessionDocument doc : session.getDocuments()) {
+				docs.add(service.getDocumentModel(doc.getId()));
+			}
 			model.addAttribute("documents", docs);
 		}
 		// Render the signature-session-rest-core page (templates/signature-session-rest-core/complete.html).

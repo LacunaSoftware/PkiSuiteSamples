@@ -11,8 +11,8 @@
 				<ul>
 					<li th:each="doc : ${documents}">
 						<span th:text="${doc.getOriginalFile().getName()}"></span> - 
-						<a th:href="${doc.getOriginalFile().getLocation()}">Download the original file</a> - 
-						<a th:href="${doc.getSignedFile().getLocation()}">Download the signed file</a>
+						<a th:href="${doc.getOriginalFile().getUrl()}">Download the original file</a> - 
+						<a th:href="${doc.getSignedFile().getUrl()}">Download the signed file</a>
 					</li>
 				</ul>
 			</div>
