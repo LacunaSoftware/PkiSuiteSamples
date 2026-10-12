@@ -17,14 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lacunasoftware.pkisuite.util.StorageMock;
 import com.lacunasoftware.pkisuite.util.Util;
+import com.lacunasoftware.pkisuite.util.restpkicore.PadesVisualElements;
 import com.lacunasoftware.restpkicore.CertificateReferenceModel;
 import com.lacunasoftware.restpkicore.CompleteSignatureRequestV2;
 import com.lacunasoftware.restpkicore.DocumentModel;
 import com.lacunasoftware.restpkicore.FileReferenceModel;
+import com.lacunasoftware.restpkicore.PdfSignatureOptions;
 import com.lacunasoftware.restpkicore.PrepareSignatureRequest;
 import com.lacunasoftware.restpkicore.PrepareSignatureResponse;
 import com.lacunasoftware.restpkicore.RestPkiService;
 import com.lacunasoftware.restpkicore.RestPkiServiceFactory;
+import com.lacunasoftware.restpkicore.SignatureTypes;
 import com.lacunasoftware.restpkicore.ValidationItemModel;
 
 
@@ -92,6 +95,13 @@ public class PadesSignatureCoreController {
         CertificateReferenceModel certificateRefModel = new CertificateReferenceModel();
         certificateRefModel.setContent(Base64.getDecoder().decode(certContent));
         request.setCertificate(certificateRefModel);
+
+		// Set the signature type and the visual representation of the signature. We have
+		// encapsulated the visual representation code on util/restpkicore/PadesVisualElements.java.
+		request.setSignatureType(SignatureTypes.PDF);
+		PdfSignatureOptions pdfSignatureOptions = new PdfSignatureOptions();
+		pdfSignatureOptions.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());
+		request.setPdfSignatureOptions(pdfSignatureOptions);
 
 		// Call the startSignature() method, which initiates the signature. This yields a
 		// PrepareSignatureResponse object containing the signer certificate and other information
