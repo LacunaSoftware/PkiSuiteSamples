@@ -29,7 +29,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 		{
 			var restPkiService = Util.GetRestPkiService();
 			var apiDocument = await restPkiService.GetDocumentAsync(model);
-			var content = await restPkiService.GetContentAsync(apiDocument.SignedFile.Location);
+			// SignedFile.Url is a temporary link that downloads the signed file without the API key.
+			var content = await restPkiService.GetContentAsync(apiDocument.SignedFile.Url);
 			StorageMock.Store(content, "", apiDocument.SignedFile.Name);
 		}
 	}
