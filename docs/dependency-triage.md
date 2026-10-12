@@ -5,6 +5,10 @@ request, branch or alert was merged, closed, dismissed or deleted. The cleanup t
 described in [Changes after the snapshot](#changes-after-the-snapshot); the rest of this document
 still describes the snapshot.
 
+The ASP.NET Core 3.1 + Angular 8 project in `dotnet/spa` was later removed
+([#148](https://github.com/LacunaSoftware/PkiSuiteSamples/issues/148)), so its per-package section
+and appendix are gone. The summary and the pull request lists below still count its alerts and PRs.
+
 ## Summary
 
 GitHub reports **577 open Dependabot alerts: 45 critical, 260 high, 204 medium and 68 low.** The
@@ -118,48 +122,6 @@ Still to do:
   rubygems.org API.
 - Nothing was built or run. The verdicts below about whether a branch can build come from
   version requirements, not from test runs.
-
-## dotnet/spa: `ClientApp/package-lock.json`
-
-219 open alerts (21 critical, 108 high). The full per-package table is in the
-[appendix](#appendix-b-dotnetspa-clientapppackage-lockjson).
-
-- **Direct dependencies with critical or high alerts:** `@angular/common` (6 high),
-  `@angular/compiler` (3), `@angular/core` (4), `@angular/platform-server` (10) and
-  `@angular/router` (1), all at 8.2.12. All but one of these advisories cover every Angular
-  release up to 18.2.x or 19.2.x, and those lines have no patched release, so the only fix is a
-  supported Angular major. Most of the `platform-server` and `router` advisories are about server-side
-  rendering, which is turned off here (`BuildServerSideRenderer` is `false` in the `.csproj`).
-- **Unused packages:** `oidc-client` brings in the critical `crypto-js` alert, and
-  `aspnet-prerendering` brings in the high `node-fetch` alert. Nothing under `ClientApp/src`
-  imports either of them.
-- **Everything else is transitive build or test tooling:** `@angular-devkit/build-angular`
-  0.803 (webpack 4), `@angular/cli`, `karma` 5, `protractor`, `node-sass` 5 and `tslint`.
-  GitHub labels many of these alerts as "runtime" only because `node-sass`, `protractor`,
-  `ts-node` and `tslint` sit under `dependencies` rather than `devDependencies`. No `.scss` file
-  exists in `ClientApp/src`, so `node-sass` may be removable too (check the build).
-- The NuGet side (`PkiSuiteAspNetSpaSample.csproj`) has no alerts. The project targets
-  `netcoreapp3.1`, which has been out of support since December 2022, and Dependabot does not
-  report the runtime itself.
-
-**Recommendation: needs the runtime upgrade first.** That means ASP.NET Core 3.1 to a current
-LTS, and Angular 8 to a supported major with its CLI. Before that, removing `oidc-client` and
-`aspnet-prerendering` from `package.json` is a low-risk step that clears the `crypto-js`
-critical and the `node-fetch` high.
-
-| PR | Bump | Alerts it clears (critical / high / medium / low) | Verdict |
-|---|---|---|---|
-| [#67](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/67) | `@angular/core` 8.2.12 → 11.0.5 | 0 / 0 / 1 / 0 | **Close.** It moves one Angular package to 11 and leaves the rest on 8.2.12, so it cannot build. |
-| [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) | `@angular-devkit/build-angular` → ^15.0.0 (and `loader-utils`) | 9 / 7 / 9 / 9 | **Close.** It is an Angular 15 builder on Angular 8, so it cannot build. This work belongs to the Angular upgrade. |
-| [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) | `@angular-devkit/build-angular` → ^14.2.1 (and `terser`) | 8 / 7 / 9 / 9 | **Close.** It has the same problem as #86 and is superseded by it. |
-| [#82](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/82) | `node-sass` ^5 → ^7.0.3 (and `scss-tokenizer`) | 0 / 2 / 1 / 0 | **Close.** `node-sass` is deprecated, and the app has no Sass sources. Remove it instead. |
-| [#79](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/79) | `engine.io` 3.5.0 → 3.6.0 | none | **Close (obsolete).** No open alert is left on `engine.io`. |
-| [#53](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/53) | `karma` 5.2.3 → 6.3.16 | 4 / 4 / 7 / 0 | **Try it, otherwise close with the Angular upgrade.** Test runner only. It clears all `socket.io-parser` and `xmlhttprequest-ssl` alerts, but Angular 8's karma plugin predates karma 6, so run `ng test` first. |
-| [#85](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/85) | `socket.io-parser` 3.3.2 → 3.3.3 | 2 / 0 / 0 / 0 | **Close when replaced.** It leaves 2 high and 2 medium alerts on the same package, and #53 clears all of them. |
-| [#78](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/78) | `eventsource` 1.0.7 → 1.1.2 | 1 / 0 / 0 / 0 | Still valid. A lockfile-only change for the dev server. |
-| [#62](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/62) | `minimist` 1.2.5 → 1.2.6 | 1 / 0 / 0 / 0 | Still valid. A lockfile-only change. |
-| [#61](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/61) | `async` 2.6.3 → 2.6.4 | 0 / 1 / 0 / 0 | Still valid. A lockfile-only change. |
-| [#81](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/81) | `jszip` 3.2.2 → 3.10.1 | 0 / 0 / 2 / 0 | Still valid. A lockfile-only change (comes from protractor through `selenium-webdriver`). |
 
 ## ruby/rails: `Gemfile.lock`
 
@@ -483,66 +445,3 @@ patched version at all.
 | `scss-tokenizer` |  | 1 | 1 | 0.2.3 | 0.4.3 | via `@rails/webpacker` | - |
 | `terser` |  | 1 | 1 | 4.4.2 | 4.8.1 | via `@rails/webpacker` | [#73](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/73) (all) |
 | `trim-newlines` |  | 1 | 1 | 1.0.0 | 3.0.1 | via `@rails/webpacker` | - |
-
-## Appendix B: dotnet/spa `ClientApp/package-lock.json`
-
-Critical and high alerts, grouped by package. The columns mean the same as in Appendix A. "No
-fix" means that the advisories cover every release up to a line that is out of support (for
-Angular, 18.2.x or 19.2.x) and have no patched version on those lines.
-
-| Package | Critical | High | All alerts | Installed | Fixed in | Direct or pulled in by | Dependabot PR (alerts it clears) |
-|---|--:|--:|--:|---|---|---|---|
-| `socket.io-parser` | 2 | 2 | 6 | 3.3.2, 3.4.1 | 3.4.5 | via `karma` | [#53](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/53) (all), [#85](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/85) (2/6) |
-| `loader-utils` | 2 |  | 2 | 1.2.3, 2.0.0 | 2.0.3 | via `@angular-devkit/build-angular` | [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all), [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (1/2) |
-| `pbkdf2` | 2 |  | 2 | 3.0.17 | 3.1.3 | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `xmlhttprequest-ssl` | 2 |  | 2 | 1.5.5 | 1.6.2 | via `karma` | [#53](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/53) (all) |
-| `tar` | 1 | 18 | 23 | 4.4.13, 6.1.0 | 7.5.21 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | - |
-| `form-data` | 1 | 1 | 2 | 2.3.3 | 2.5.6 | via `@angular-devkit/build-angular`, `@angular/cli`, `node-sass`, ... | - |
-| `@babel/traverse` | 1 |  | 1 | 7.8.4, 7.9.5 | 7.23.2 | via `@angular-devkit/build-angular`, `karma-coverage-istanbul-reporter` | - |
-| `cipher-base` | 1 |  | 1 | 1.0.4 | 1.0.5 | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `crypto-js` | 1 |  | 1 | 4.0.0 | 4.2.0 | via `oidc-client` | - |
-| `elliptic` | 1 |  | 8 | 6.5.3 | 6.6.1 (one has no fix) | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `eventsource` | 1 |  | 1 | 1.0.7 | 1.1.1 | via `@angular-devkit/build-angular` | [#78](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/78) (all), [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `json-schema` | 1 |  | 1 | 0.2.3 | 0.4.0 | via `@angular-devkit/build-angular`, `@angular/cli`, `node-sass`, ... | - |
-| `minimist` | 1 |  | 1 | 1.2.5 | 1.2.6 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | [#62](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/62) (all) |
-| `proxy-addr` | 1 |  | 1 | 2.0.6 | 2.0.8 | via `@angular-devkit/build-angular` | - |
-| `sha.js` | 1 |  | 1 | 2.4.11 | 2.4.12 | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `url-parse` | 1 |  | 6 | 1.4.7 | 1.5.9 | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `websocket-driver` | 1 |  | 1 | 0.6.5 | 0.7.5 | via `@angular-devkit/build-angular` | - |
-| `@angular/platform-server` |  | 10 | 10 | 8.2.12 | no fix | direct | - |
-| `node-forge` |  | 7 | 12 | 0.10.0 | 1.4.0 (one has no fix) | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (6/12), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (6/12) |
-| `@angular/common` |  | 6 | 7 | 8.2.12 | 19.2.16 (one has no fix) | direct | - |
-| `adm-zip` |  | 5 | 7 | 0.4.14 | 0.6.1 | via `protractor` | - |
-| `brace-expansion` |  | 5 | 8 | 1.1.11 | 1.1.21 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | - |
-| `@angular/core` |  | 4 | 8 | 8.2.12 | 10.2.5 (one has no fix) | direct | [#67](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/67) (1/8) |
-| `minimatch` |  | 4 | 4 | 3.0.4 | 3.1.4 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | - |
-| `ws` |  | 4 | 6 | 6.2.1, 7.4.2 | 7.5.11 | via `@angular-devkit/build-angular`, `karma` | [#53](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/53) (3/6), [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (3/6), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (3/6) |
-| `@angular/compiler` |  | 3 | 6 | 8.2.12 | no fix | direct | - |
-| `ansi-regex` |  | 3 | 3 | 2.1.1, 3.0.0, 4.1.0, 5.0.0 | 5.0.1 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | - |
-| `js-yaml` |  | 3 | 5 | 3.13.1 | 3.15.2 | via `@angular-devkit/build-angular`, `karma-coverage-istanbul-reporter`, `tslint` | - |
-| `cross-spawn` |  | 2 | 2 | 6.0.5, 7.0.3 | 7.0.5 | via `@angular-devkit/build-angular`, `@angular/compiler-cli`, `karma`, ... | - |
-| `json5` |  | 2 | 2 | 1.0.1, 2.1.3 | 2.2.2 | via `@angular-devkit/build-angular`, `karma-coverage-istanbul-reporter` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (1/2), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (1/2) |
-| `lodash` |  | 2 | 5 | 4.17.20 | 4.18.0 | via `@angular-devkit/build-angular`, `@angular/cli`, `karma`, ... | - |
-| `postcss` |  | 2 | 5 | 7.0.17 | 8.5.23 | via `@angular-devkit/build-angular` | - |
-| `qs` |  | 2 | 5 | 6.5.2, 6.7.0 | 6.16.0 | via `@angular-devkit/build-angular`, `@angular/cli`, `karma`, ... | - |
-| `semver` |  | 2 | 2 | 5.7.1, 6.3.0, 7.0.0, 7.3.2 | 7.5.2 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | - |
-| `webpack-dev-middleware` |  | 2 | 2 | 3.7.2 | 7.4.6 | via `@angular-devkit/build-angular` | - |
-| `@angular/router` |  | 1 | 1 | 8.2.12 | no fix | direct | - |
-| `async` |  | 1 | 1 | 2.6.3 | 2.6.4 | via `@angular-devkit/build-angular`, `karma-coverage-istanbul-reporter` | [#61](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/61) (all) |
-| `body-parser` |  | 1 | 1 | 1.19.0 | 1.20.3 | via `@angular-devkit/build-angular`, `karma` | - |
-| `braces` |  | 1 | 1 | 2.3.2, 3.0.2 | 3.0.3 | via `@angular-devkit/build-angular`, `@angular/compiler-cli`, `karma`, ... | - |
-| `browserify-sign` |  | 1 | 1 | 4.0.4 | 4.2.2 | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `browserslist` |  | 1 | 1 | 4.10.0 | 4.28.7 | via `@angular-devkit/build-angular` | - |
-| `compression` |  | 1 | 1 | 1.7.4 | 1.8.2 | via `@angular-devkit/build-angular` | - |
-| `decode-uri-component` |  | 1 | 2 | 0.2.0 | 0.5.0 | via `@angular-devkit/build-angular`, `@angular/compiler-cli`, `karma`, ... | - |
-| `dns-packet` |  | 1 | 1 | 1.3.1 | 1.3.2 | via `@angular-devkit/build-angular` | [#80](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/80) (all), [#86](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/86) (all) |
-| `flatted` |  | 1 | 1 | 2.0.2 | 3.4.2 | via `karma` | - |
-| `follow-redirects` |  | 1 | 5 | 1.10.0 | 1.16.0 | via `@angular-devkit/build-angular`, `karma` | - |
-| `http-cache-semantics` |  | 1 | 1 | 3.8.1 | no fix | via `@angular/cli` | - |
-| `ini` |  | 1 | 1 | 1.3.5, 1.3.8 | 1.3.6 | via `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli`, ... | - |
-| `ip` |  | 1 | 2 | 1.1.5 | 1.1.9 (one has no fix) | via `@angular-devkit/build-angular`, `@angular/cli` | - |
-| `node-fetch` |  | 1 | 1 | 1.7.3 | 2.6.7 | via `aspnet-prerendering` | - |
-| `scss-tokenizer` |  | 1 | 1 | 0.2.3 | 0.4.3 | via `node-sass` | [#82](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/82) (all) |
-| `serialize-javascript` |  | 1 | 1 | 3.1.0, 4.0.0 | 7.0.3 | via `@angular-devkit/build-angular`, `oidc-client` | - |
-| `tmp` |  | 1 | 2 | 0.0.30, 0.0.33, 0.2.1 | 0.2.6 | via `@angular/cli`, `karma`, `protractor` | - |
-| `trim-newlines` |  | 1 | 1 | 1.0.0 | 3.0.1 | via `node-sass` | [#82](https://github.com/LacunaSoftware/PkiSuiteSamples/pull/82) (all) |

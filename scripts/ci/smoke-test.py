@@ -3,10 +3,10 @@
 
 Usage:  python scripts/ci/smoke-test.py <project> [--base-url URL] [--timeout SECONDS]
 
-<project> is a project folder, such as java/springmvc or dotnet/spa. The script checks the
+<project> is a project folder, such as java/springmvc or dotnet/mvc. The script checks the
 samples listed for it in SMOKE_SAMPLES below, and reads their URLs (`run.url`) from samples.json.
 --base-url replaces the scheme, host and port of those URLs, for an app that listens somewhere
-else than the catalog says (the SPA runs on plain HTTP in CI).
+else than the catalog says, such as an HTTPS app run on plain HTTP in CI.
 
 It first waits up to --timeout seconds for the app to answer, then checks that:
   1. the home page returns 200;
@@ -47,11 +47,6 @@ SMOKE_SAMPLES = {
         ("pades-signature-pki-sdk", None),
         ("validate-pades-signature-pki-sdk", None),
         ("list-certificates-web-pki", None),
-    ],
-    "dotnet/spa": [
-        ("pades-signature-rest-pki", None),
-        ("pades-signature-pki-sdk", None),
-        ("xml-signature-pki-sdk", None),
     ],
     "java/springmvc": [
         ("pades-signature-rest-pki-core", None),
