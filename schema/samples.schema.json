@@ -32,13 +32,17 @@
         "type": "string",
         "enum": ["web-pki", "rest-pki", "rest-pki-core", "pki-express", "pki-sdk", "amplia", "cloudhub", "signer"]
       },
+      "area": {
+        "description": "Optional feature area the task belongs to (for example `documents`, `flows`, `webhooks`), used to group tasks. Entries that share an `id` share their `area`.",
+        "type": "string"
+      },
       "language": {
         "type": "string",
         "enum": ["dotnet", "java", "nodejs", "php", "python", "ruby"]
       },
       "framework": {
         "type": "string",
-        "enum": ["aspnet-mvc", "aspnet-core-angular", "spring-boot", "express", "php", "flask", "django", "rails"]
+        "enum": ["aspnet-mvc", "aspnet-core-angular", "spring-boot", "express", "php", "flask", "django", "rails", "console"]
       },
       "path": {
         "description": "Repo-relative path, with forward slashes, to the main entry file (controller, route module or page).",
@@ -82,8 +86,8 @@
             "minLength": 3
           },
           "url": {
-            "description": "URL to open once the project is running.",
-            "type": "string",
+            "description": "URL to open once the project is running, or null for a console project, which serves no page.",
+            "type": ["string", "null"],
             "pattern": "^https?://localhost:[0-9]+/"
           }
         }

@@ -40,6 +40,7 @@ FRAMEWORKS = {
     "flask": "Flask",
     "django": "Django",
     "rails": "Rails",
+    "console": "Console",
 }
 
 PRODUCTS = {
@@ -161,8 +162,9 @@ def render(catalog):
     projects = OrderedDict()
     for e in catalog:
         run = e["run"]
-        base = run["url"].split("/", 3)
-        projects.setdefault(run["cwd"], (e, run["command"], "/".join(base[:3]) + "/"))
+        # Console projects serve no page, so their run.url is null.
+        base = "/".join(run["url"].split("/", 3)[:3]) + "/" if run.get("url") else "—"
+        projects.setdefault(run["cwd"], (e, run["command"], base))
     for cwd, (e, command, base) in projects.items():
         name = f"{LANGUAGES[e['language']]} / {FRAMEWORKS[e['framework']]}"
         out.append(f"| {name} | [`{cwd}`]({cwd}) | `{command}` | {base} |")
@@ -212,7 +214,7 @@ def render_project_list(catalog, cwd, readme_dir):
             continue
         link = os.path.relpath(ROOT / e["path"], readme_dir).replace(os.sep, "/")
         rows.append(f"| {e['title']}<br>`{e['id']}` | {PRODUCTS[e['product']]} "
-                    f"| [{Path(e['path']).name}]({link}) | {e['run']['url']} |")
+                    f"| [{Path(e['path']).name}]({link}) | {e['run']['url'] or '—'} |")
     return "\n".join(rows)
 
 
