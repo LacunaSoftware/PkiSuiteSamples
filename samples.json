@@ -155,7 +155,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-pki-core-api-key/server-files/pades-signature/sign-pdf"
     }
   },
@@ -343,7 +343,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/server-files/pades-signature/sign-pdf"
     }
   },
@@ -565,7 +565,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/server-files/pades-signature/sign-pdf"
     }
   },
@@ -760,7 +760,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/batch-pades/"
     }
   },
@@ -900,7 +900,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/batch-pades/"
     }
   },
@@ -1083,7 +1083,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/upload/pades-server-key"
     }
   },
@@ -1350,7 +1350,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/upload/pades-cloud-oauth"
     }
   },
@@ -1497,7 +1497,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/upload/pades-cloud-pwd"
     }
   },
@@ -1944,7 +1944,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/server-files/cades-signature/sign-cms"
     }
   },
@@ -2132,7 +2132,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/server-files/cades-signature/sign-cms"
     }
   },
@@ -2274,7 +2274,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/batch-cades/"
     }
   },
@@ -2385,7 +2385,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/batch-cades/"
     }
   },
@@ -2834,7 +2834,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/xml-signature/"
     }
   },
@@ -3219,7 +3219,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/xml-nfe-signature/"
     }
   },
@@ -3506,7 +3506,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/upload/open-pades"
     }
   },
@@ -3679,7 +3679,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/upload/open-pades"
     }
   },
@@ -4180,7 +4180,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/upload/printer-version-pades"
     }
   },
@@ -4575,7 +4575,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-rest-token/authentication/"
     }
   },
@@ -4759,7 +4759,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/list-cert-jquery/"
     }
   },
@@ -4869,7 +4869,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/read-cert-jquery/"
     }
   },
@@ -4969,7 +4969,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/rsa-web/"
     }
   },
@@ -5347,7 +5347,7 @@
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
-      "command": "bundle install && yarn install && rails server",
+      "command": "bundle install && rails server",
       "url": "http://localhost:3000/receita-simples-express/"
     }
   },

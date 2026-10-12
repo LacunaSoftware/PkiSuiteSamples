@@ -79,7 +79,7 @@ redirecting to the sample.
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
 | `python/flask` | Flask | `python/flask` | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000 | `sample/config.py` (class picked by `FLASK_ENV`, which is required) |
 | `python/django` | Django | `python/django/sample` | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000 | `sample/config.py`; `sample/PkiSuitePythonDjangoSample/settings.py` |
-| `ruby/rails` | Rails 6.0, Ruby 2.5 | `ruby/rails` | `bundle install && yarn install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
+| `ruby/rails` | Rails 6.0, Ruby 2.5 | `ruby/rails` | `bundle install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
 
 `dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
 `README.md` with its sample list, which is generated from the catalog.

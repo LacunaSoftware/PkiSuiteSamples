@@ -65,7 +65,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 | PHP / PHP | [`php/plain`](php/plain) | `composer install && composer start` | http://localhost:8000/ |
 | Python / Flask | [`python/flask`](python/flask) | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000/ |
 | Python / Django | [`python/django/sample`](python/django/sample) | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000/ |
-| Ruby / Rails | [`ruby/rails`](ruby/rails) | `bundle install && yarn install && rails server` | http://localhost:3000/ |
+| Ruby / Rails | [`ruby/rails`](ruby/rails) | `bundle install && rails server` | http://localhost:3000/ |
 
 ## Sign a PDF (PAdES)
 

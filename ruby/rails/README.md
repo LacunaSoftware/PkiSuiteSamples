@@ -40,17 +40,12 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 ## Run
 
-Requires Ruby 2.5.3 (see `.ruby-version`), Bundler, and Node.js with Yarn (for Webpacker).
-
-`bundle install` also needs the freedesktop.org MIME database, because Rails depends on the
-`mimemagic` gem, which reads it when it installs. On Linux, install the `shared-mime-info` package
-(`sudo apt-get install shared-mime-info`); on macOS, `brew install shared-mime-info`. On Windows,
-download `freedesktop.org.xml` from the shared-mime-info project and set the
-`FREEDESKTOP_MIME_TYPES_PATH` environment variable to its full path.
+Requires Ruby 2.5.3 (see `.ruby-version`) and Bundler. Node.js is not needed: there is no
+JavaScript build step. The views load jQuery, Bootstrap and Web PKI from their CDNs, and the page
+scripts in `app/assets/javascripts/` go through the Rails asset pipeline (Sprockets).
 
 ```bash
 bundle install
-yarn install
 rails server
 ```
 
