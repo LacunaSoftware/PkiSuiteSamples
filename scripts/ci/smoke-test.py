@@ -13,6 +13,9 @@ It first waits up to --timeout seconds for the app to answer, then checks that:
   2. each listed sample page returns 200 after following redirects. A "check" route, such as
      /check-rest-token or /Home/CheckPkiLicense, must redirect first: when a credential is
      missing it renders an explanation page with status 200 instead of redirecting.
+For a single-page app (SPA_PROJECTS below), which answers every route with its index.html, it
+also checks that each page contains the app's root element, such as <app-root>, and that a JSON
+API endpoint, such as /api/configuration, answers 200 with JSON.
 
 Exits with status 1 when a check fails. Needs only the Python 3.8+ standard library.
 """
@@ -47,6 +50,15 @@ SMOKE_SAMPLES = {
         ("pades-signature-pki-sdk", None),
         ("validate-pades-signature-pki-sdk", None),
         ("list-certificates-web-pki", None),
+    ],
+    # An Angular app: see SPA_PROJECTS below. Its Rest PKI Core pages call Rest PKI Core only
+    # when the user signs, so they need no skip.
+    "dotnet/spa": [
+        ("pades-signature-pki-sdk", None),
+        ("pades-signature-rest-pki-core", None),
+        ("xml-nfe-signature-pki-sdk", None),
+        ("validate-pades-signature-rest-pki-core", None),
+        ("authentication-pki-sdk", None),
     ],
     "java/springmvc": [
         ("pades-signature-rest-pki-core", None),
@@ -89,6 +101,14 @@ SMOKE_SAMPLES = {
     ],
 }
 
+# Single-page apps, as {project: (root element, JSON API path)}. Their server answers every route
+# that is not an API or a file with the app's index.html and status 200, so a status check alone
+# proves little. For them the script also checks that each page holds the app's root element, and
+# that the API path answers 200 with JSON.
+SPA_PROJECTS = {
+    "dotnet/spa": ("app-root", "/api/configuration"),
+}
+
 CHECK_ROUTE = re.compile(r"^/(home/)?(check|redirecttospa)", re.IGNORECASE)
 IN_ACTIONS = os.environ.get("GITHUB_ACTIONS") == "true"
 
@@ -100,11 +120,20 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 def get(opener, url, timeout):
     """GET url without following redirects; return (status, Location header)."""
+    status, location, _, _ = fetch(opener, url, timeout, read_body=False)
+    return status, location
+
+
+def fetch(opener, url, timeout, read_body=True):
+    """GET url without following redirects; return (status, Location, Content-Type, body).
+
+    The body is read only for a 2xx response when read_body is true, and is b"" otherwise."""
     try:
         with opener.open(url, timeout=timeout) as resp:
-            return resp.status, None
+            body = resp.read() if read_body else b""
+            return resp.status, None, resp.headers.get("Content-Type", ""), body
     except urllib.error.HTTPError as e:
-        return e.code, e.headers.get("Location")
+        return e.code, e.headers.get("Location"), e.headers.get("Content-Type", ""), b""
 
 
 def annotate(level, message):
@@ -135,13 +164,15 @@ def wait_for_app(opener, url, timeout):
             time.sleep(3)
 
 
-def check_page(opener, url, timeout):
-    """Follow url's redirects; return a list of problems (empty when the page is fine)."""
+def check_page(opener, url, timeout, root_element=None):
+    """Follow url's redirects; return a list of problems (empty when the page is fine).
+
+    With root_element, the final page must also contain that element."""
     chain = []
     current = url
     for _ in range(10):
         try:
-            status, location = get(opener, current, timeout)
+            status, location, _, body = fetch(opener, current, timeout, read_body=bool(root_element))
         except OSError as e:
             print("    " + "\n    -> ".join(chain + [f"{e} {current}"]))
             return [f"request failed: {e}"]
@@ -156,7 +187,29 @@ def check_page(opener, url, timeout):
         problems.append(f"ended with status {status}, expected 200")
     if CHECK_ROUTE.match(urllib.parse.urlsplit(url).path) and len(chain) < 2:
         problems.append("the check route did not redirect (is a credential or license missing?)")
+    if status == 200 and root_element and f"<{root_element}".encode() not in body:
+        problems.append(f"the page has no <{root_element}> element (is the app built into wwwroot?)")
     return problems
+
+
+def check_json_api(opener, url, timeout):
+    """GET url; return a list of problems unless it answers 200 with a JSON body."""
+    try:
+        status, _, content_type, body = fetch(opener, url, timeout)
+    except OSError as e:
+        print(f"    {e} {url}")
+        return [f"request failed: {e}"]
+    print(f"    {status} {url} ({content_type or 'no Content-Type'})")
+    if status != 200:
+        return [f"ended with status {status}, expected 200"]
+    if "json" not in content_type.lower():
+        return [f"answered {content_type or 'no Content-Type'}, expected JSON "
+                "(did the request fall through to the single-page app's index.html?)"]
+    try:
+        json.loads(body)
+    except ValueError as e:
+        return [f"the body is not valid JSON: {e}"]
+    return []
 
 
 def main():
@@ -188,24 +241,35 @@ def main():
         annotate("error", f"{args.project}: {message}")
         sys.exit(message)
 
-    pages = [("home page", home, None)]
-    pages += [(sid, rebase(entries[sid]["run"]["url"], args.base_url), skip)
+    root_element, api_path = SPA_PROJECTS.get(args.project, (None, None))
+
+    def page(url):
+        return check_page(opener, url, timeout=120, root_element=root_element)
+
+    def json_api(url):
+        return check_json_api(opener, url, timeout=120)
+
+    # (name, URL, reason to skip or None, check)
+    pages = [("home page", home, None, page)]
+    pages += [(sid, rebase(entries[sid]["run"]["url"], args.base_url), skip, page)
               for sid, skip in SMOKE_SAMPLES[args.project]]
+    if api_path:
+        pages.append(("JSON API", urllib.parse.urljoin(home, api_path), None, json_api))
 
     failures = 0
-    for name, url, skip in pages:
+    for name, url, skip, check in pages:
         if skip:
             print(f"SKIP {name}: {skip}")
             annotate("notice", f"{args.project}: expected skip of {name}: {skip}")
             continue
         print(f"GET  {name}")
-        problems = check_page(opener, url, timeout=120)
+        problems = check(url)
         for problem in problems:
             print(f"FAIL {name}: {problem}")
             annotate("error", f"{args.project}: {name} ({url}) {problem}")
         failures += bool(problems)
 
-    checked = sum(1 for _, _, skip in pages if not skip)
+    checked = sum(1 for _, _, skip, _ in pages if not skip)
     print(f"\n{checked - failures} of {checked} pages passed, {len(pages) - checked} skipped.")
     sys.exit(1 if failures else 0)
 

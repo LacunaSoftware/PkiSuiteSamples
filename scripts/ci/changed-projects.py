@@ -18,6 +18,7 @@ import sys
 # One job per project in .github/workflows/build-samples.yml.
 PROJECTS = [
     "dotnet/mvc",
+    "dotnet/spa",
     "java/springmvc",
     "nodejs/expressmvc",
     "php/plain",
