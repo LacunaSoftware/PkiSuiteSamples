@@ -40,6 +40,11 @@ dotnet run
 Open https://localhost:5001/. In Development, the app starts the Angular dev server itself. You
 can also open `PkiSuiteAspNetSpaSample.sln` in Visual Studio and run the IIS Express profile.
 
+`ClientApp/package-lock.json` must stay at `"lockfileVersion": 2`. CI builds the Angular app in
+`node:14.21.3`, whose npm 6 reads lockfile versions 1 and 2 but fails on version 3. npm 9 and later,
+which Dependabot uses, keep a version 2 lockfile at version 2 but rewrite a version 1 lockfile as
+version 3. To regenerate it, run `npx npm@8 install --package-lock-only --lockfile-version 2`.
+
 ## Configuration
 
 - `PkiSuiteAspNetSpaSample/appsettings.json`: the Rest PKI token, plus optional Rest PKI Core and
