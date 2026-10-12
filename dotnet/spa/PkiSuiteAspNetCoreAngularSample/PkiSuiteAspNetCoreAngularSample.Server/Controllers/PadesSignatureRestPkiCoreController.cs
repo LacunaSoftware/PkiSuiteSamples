@@ -33,7 +33,7 @@ public class PadesSignatureRestPkiCoreController(
 	[HttpPost("start")]
 	public async Task<ActionResult<PadesSignatureRestPkiCoreStartResponse>> Start(PadesSignatureRestPkiCoreStartRequest request) {
 		if (!util.IsRestPkiCoreConfigured) {
-			return RestPkiCoreNotConfigured();
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
 		}
 
 		// Get the path of the PDF to be signed (uploaded by the user or copied from a sample
@@ -91,7 +91,7 @@ public class PadesSignatureRestPkiCoreController(
 	[HttpPost("complete")]
 	public async Task<ActionResult<PadesSignatureRestPkiCoreCompleteResponse>> Complete(PadesSignatureRestPkiCoreCompleteRequest request) {
 		if (!util.IsRestPkiCoreConfigured) {
-			return RestPkiCoreNotConfigured();
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
 		}
 
 		var restPkiService = util.GetRestPkiService();
@@ -114,13 +114,6 @@ public class PadesSignatureRestPkiCoreController(
 		// it only for a while, so we download it and store it with our StorageMock class.
 		using var signedPdf = await document.SignedFile.OpenReadAsync();
 		return new PadesSignatureRestPkiCoreCompleteResponse(storageMock.Store(signedPdf, ".pdf"));
-	}
-
-	private ObjectResult RestPkiCoreNotConfigured() {
-		return Problem(
-			detail: "The Rest PKI Core API key is not set. Set RestPkiCore:ApiKey in appsettings.json.",
-			statusCode: StatusCodes.Status503ServiceUnavailable
-		);
 	}
 }
 

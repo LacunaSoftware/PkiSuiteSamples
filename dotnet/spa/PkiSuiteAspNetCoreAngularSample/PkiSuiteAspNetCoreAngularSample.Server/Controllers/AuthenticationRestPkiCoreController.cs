@@ -22,7 +22,10 @@ public class AuthenticationRestPkiCoreController(Util util) : ControllerBase {
 
 	// POST api/authentication-rest-pki-core/start
 	[HttpPost("start")]
-	public async Task<AuthenticationRestPkiCoreStartResponse> StartAsync() {
+	public async Task<ActionResult<AuthenticationRestPkiCoreStartResponse>> Start() {
+		if (!util.IsRestPkiCoreConfigured) {
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
+		}
 
 		var restPkiService = util.GetRestPkiService();
 
@@ -41,7 +44,10 @@ public class AuthenticationRestPkiCoreController(Util util) : ControllerBase {
 
 	// POST api/authentication-rest-pki-core/complete
 	[HttpPost("complete")]
-	public async Task<ActionResult<AuthenticationRestPkiCoreCompleteResponse>> CompleteAsync(AuthenticationRestPkiCoreCompleteRequest request) {
+	public async Task<ActionResult<AuthenticationRestPkiCoreCompleteResponse>> Complete(AuthenticationRestPkiCoreCompleteRequest request) {
+		if (!util.IsRestPkiCoreConfigured) {
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
+		}
 
 		var restPkiService = util.GetRestPkiService();
 

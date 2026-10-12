@@ -27,6 +27,12 @@ public class Util(
 	public bool IsRestPkiCoreConfigured => !string.IsNullOrWhiteSpace(restPkiCoreOptions.Value.ApiKey);
 
 	/// <summary>
+	/// The message of the error (503 Service Unavailable) that every Rest PKI Core sample answers
+	/// with when no API key is set.
+	/// </summary>
+	public const string RestPkiCoreNotConfiguredMessage = "The Rest PKI Core API key is not set. Set RestPkiCore:ApiKey in appsettings.json.";
+
+	/// <summary>
 	/// Returns a Rest PKI Core client (Lacuna.RestPkiCore.Client), authenticated with the API key
 	/// set in appsettings.json.
 	/// </summary>

@@ -30,6 +30,9 @@ public class CadesSignatureRestPkiCoreController(StorageMock storageMock, Util u
 	// POST api/cades-signature-rest-pki-core/start
 	[HttpPost("start")]
 	public async Task<ActionResult<CadesSignatureRestPkiCoreStartResponse>> Start(CadesSignatureRestPkiCoreStartRequest request) {
+		if (!util.IsRestPkiCoreConfigured) {
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
+		}
 
 		// Get the file to be signed from the storage.
 		if (!storageMock.TryGetFile(request.FileId, out var filePath)) {
@@ -96,6 +99,9 @@ public class CadesSignatureRestPkiCoreController(StorageMock storageMock, Util u
 	// POST api/cades-signature-rest-pki-core/complete
 	[HttpPost("complete")]
 	public async Task<ActionResult<CadesSignatureRestPkiCoreCompleteResponse>> Complete(CadesSignatureRestPkiCoreCompleteRequest request) {
+		if (!util.IsRestPkiCoreConfigured) {
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
+		}
 
 		var restPkiService = util.GetRestPkiService();
 

@@ -36,6 +36,10 @@ public class XmlSignatureRestPkiCoreController(StorageMock storageMock, Util uti
 	// POST api/xml-signature-rest-pki-core/start
 	[HttpPost("start")]
 	public async Task<ActionResult<XmlSignatureRestPkiCoreStartResponse>> Start(XmlSignatureRestPkiCoreStartRequest request) {
+		if (!util.IsRestPkiCoreConfigured) {
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
+		}
+
 		if (!storageMock.TryGetFile(request.FileId, out var path)) {
 			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
@@ -99,6 +103,10 @@ public class XmlSignatureRestPkiCoreController(StorageMock storageMock, Util uti
 	// POST api/xml-signature-rest-pki-core/complete
 	[HttpPost("complete")]
 	public async Task<ActionResult<XmlSignatureRestPkiCoreCompleteResponse>> Complete(XmlSignatureRestPkiCoreCompleteRequest request) {
+		if (!util.IsRestPkiCoreConfigured) {
+			return Problem(detail: Util.RestPkiCoreNotConfiguredMessage, statusCode: StatusCodes.Status503ServiceUnavailable);
+		}
+
 		Document document;
 		try {
 			// Ask Rest PKI Core to finish the signature with the state from the start step and the
