@@ -208,6 +208,10 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
   CI runs the same check on every pull request and push to `master`
   (`.github/workflows/validate-catalog.yml`).
 
+- `.github/workflows/build-samples.yml` builds and starts each project a pull request touches
+  (all of them on `master` and weekly), and `scripts/ci/smoke-test.py` checks its home page and
+  the catalog pages listed in that script's `SMOKE_SAMPLES`.
+
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
   key.
 - Never commit real credentials. If a new config key holds a trial credential, add it to
