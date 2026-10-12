@@ -1,24 +1,11 @@
 const express = require("express");
-const path = require("path");
-const uuidv4 = require("uuid/v4");
-const {
-	PadesSignatureStarter,
-	StandardSignaturePolicies,
-	PadesSignatureFinisher,
-} = require("restpki-client");
-const {
-	RestPkiCoreClient,
-	PrepareSignatureRequest,
-	CompleteSignatureRequest,
-} = require("restpki-core-client");
-
-const { Util } = require('../util');
-const { PadesVisualElementsRestPki } = require('../pades-visual-elements-restpki');
-const { StorageMock } = require('../storage-mock');
 const fs = require('fs');
 
+const { Util } = require('../util');
+const { PadesVisualElementsCore } = require('../pades-visual-elements-core');
+const { StorageMock } = require('../storage-mock');
+
 const router = express.Router();
-const APP_ROOT = process.cwd();
 
 /**
  * GET /batch-pades-signature-core
@@ -45,52 +32,66 @@ router.get('/', (req, res) => {
  *
  * This route is called asynchronously via AJAX by the batch signature page for
  * each document being signed. It receives the ID of the document and the
- * signer's certificate content and initiates a PAdES signature.
+ * signer's certificate content and asks REST PKI Core to prepare a PAdES
+ * signature.
  */
 router.post('/start', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-core-form.js).
 	const { id } = req.body;
 	const { certContent } = req.body;
 
-	// Get an instantiate of the PadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
 	const client = Util.getRestPkiCoreClient();
-	const request = new PrepareSignatureRequest();
 
-	// Set signature policy.	
-	request.signaturePolicy = StandardSignaturePolicies.PADES_BASIC;
-	request.certificate = {
-		content: certContent,
+	// Build the request to prepare the signature. Its fields follow the
+	// PrepareSignatureRequest model of the REST PKI Core API (see
+	// https://core.pki.rest/swagger).
+	const request = {
+		// Set PDF to be signed, Base64-encoded.
+		file: {
+			content: fs.readFileSync(StorageMock.getBatchDocPath(id), 'base64'),
+			contentType: 'application/pdf',
+			name: `${id}.pdf`,
+		},
+		// Set the signer's certificate, as read by Web PKI (already
+		// Base64-encoded).
+		certificate: {
+			content: certContent,
+		},
+		signatureType: 'Pdf',
+		// Set security context to determine trust. We have encapsulated the
+		// security context choice on util.js.
+		securityContextId: Util.getSecurityContextId(),
+		pdfSignatureOptions: {
+			// Set the visual representation to the signature. We have
+			// encapsulated this code (on pades-visual-elements-core.js) to be
+			// used on the REST PKI Core samples.
+			visualRepresentation: PadesVisualElementsCore.getVisualRepresentation(),
+		},
 	};
-
-	filePath = StorageMock.getBatchDocPath(id);
-	fileContent = fs.readFileSync(filePath, 'base64');
-
-	// Set PDF to be signed.
-	request.file = {
-		content: fileContent,
-		contentType: "application/pdf",
-		name: `${id}.pdf`,
-	};
-
-	// Set security context to determine trust.
-	request.securityContextId = "d480958c-59b0-4178-bd11-0198188bfd3c"
-
-	request.certificate = {
-		content: req.body.certContent,
-	};
-
-	// Set the visual representation to the signature. We have encapsulated this
-	// code (on pades-visual-elements.js) to be used on various PAdES examples.
-	request.visualRepresentation = PadesVisualElementsRestPki.getVisualRepresentation();
 
 	return client.prepareSignature(request).then((result) => {
-		// return the certificate thumbprint, state, toSignHash, digestAlgorithm to the client
+		// REST PKI Core validates the signer's certificate before preparing the
+		// signature. If the certificate is not valid or not trusted, "success"
+		// is false and "validationResults" says why.
+		if (!result.data.success) {
+			let details = '';
+			const errors = result.data.validationResults && result.data.validationResults.errors;
+			if (errors && errors.length > 0) {
+				details = `: ${errors.map((item) => item.message).join('; ')}`;
+			}
+			res.status(422).json({
+				message: `The signature could not be prepared (${result.data.failure})${details}`,
+			});
+			return;
+		}
+
+		// Return the state, the hash to be signed and the OID of its digest
+		// algorithm (which Web PKI needs to sign the hash) to the page.
 		res.json({
 			state: result.data.state,
-			hash: result.data.toSignHash.value,
-			digestAlgorithm: result.data.toSignHash.algorithm,
+			hash: result.data.toSign.hash,
+			digestAlgorithm: result.data.toSign.signatureAlgorithm.digestAlgorithmOid,
 		});
 	})
 	.catch((err) => {
@@ -111,38 +112,42 @@ router.post('/start', (req, res, next) => {
  * This route is called asynchronously via AJAX by the batch signature page for
  * each document being signed. It receives the ID of the document, the computed
  * signature and the state, received on start action. We'll call REST
- * PKI Core to complete this signature and return a JSON with the saved filename so
- * that the page can render a link to it.
+ * PKI Core to complete this signature and return a JSON with the saved file's
+ * ID so that the page can render a link to it.
  */
 router.post('/complete', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-core-form.js).
 	const { signature } = req.body;
 	const { state } = req.body;
 
-	// Get an instance of the PadesSignatureFinisher class, responsible for
-	// completing the signature process.
 	const client = Util.getRestPkiCoreClient();
-	const request = new CompleteSignatureRequest();
 
-	// set the signature and state
-	request.signature = signature;
-	request.state = state;
+	// Set the signature and state.
+	const request = {
+		signature,
+		state,
+	};
 
 	return client.completeSignature(request).then((result) => {
-		// get the signed file location and give it a random filename
-		const signedFileLocation = result.data.signedFile.location;
-		const filename = `${uuidv4()}.pdf`;
-		// return the filename and the location to the client
-		res.json({
-			filename: filename,
-			location: signedFileLocation,
+		// At this point, you'd typically store the signed PDF on your database.
+		// The "signedFile" field holds a temporary link to it. For demonstration
+		// purposes, we'll download the signed PDF and store it with our
+		// StorageMock class.
+		return Util.download(result.data.signedFile.url).then((signedContent) => {
+			const fileId = StorageMock.storeSync(signedContent, null, '.pdf');
+			// Return the ID of the stored file to the page.
+			res.json({
+				fileId,
+			});
 		});
 	})
 	.catch((err) => {
 		const status = err && err.statusCode ? err.statusCode : 500;
 		const details = {
-			message: 'REST PKI Core completeSignature failed',
+			// REST PKI Core errors have a status code. Other errors, such as a
+			// failed download of the signed PDF, have their own message.
+			message: err && err.statusCode ? 'REST PKI Core completeSignature failed' : String(err && err.message),
 			statusCode: err && err.statusCode,
 			body: err && err.body,
 		};

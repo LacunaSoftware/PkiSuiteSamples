@@ -1,6 +1,8 @@
 const { RestPkiClient, StandardSecurityContexts } = require('restpki-client');
 const { TimestampAuthority } = require('pki-express');
 const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const crypto = require('crypto');
 const { AmpliaClient } = require("amplia-client");
 const { Config } = require('./config');
@@ -66,6 +68,9 @@ class Util {
 	 * Security contexts dictate witch root certification authorities are trusted
 	 * during certificate validation. In you API calls, you can use on of the
 	 * standard security contexts or reference one of your custom contexts.
+	 *
+	 * The REST PKI Core samples use it too: REST PKI Core's standard security
+	 * contexts have the same IDs as REST PKI's.
 	 */
 	static getSecurityContextId() {
 		// Get configuration from config/{env}.js file. It will choose the
@@ -92,6 +97,26 @@ class Util {
 		// Otherwise, accept only certificates from ICP-Brasil, by passing the
 		// "PKI_BRAZIL" security context.
 		return StandardSecurityContexts.PKI_BRAZIL;
+	}
+
+	/**
+	 * Downloads the content of a URL, such as the temporary link to a signed
+	 * file returned by REST PKI Core, and returns a promise of a Buffer.
+	 */
+	static download(url) {
+		return new Promise((resolve, reject) => {
+			const protocol = url.startsWith('https:') ? https : http;
+			protocol.get(url, (response) => {
+				if (response.statusCode !== 200) {
+					response.resume();
+					reject(new Error(`The file could not be downloaded (HTTP ${response.statusCode})`));
+					return;
+				}
+				const chunks = [];
+				response.on('data', (chunk) => chunks.push(chunk));
+				response.on('end', () => resolve(Buffer.concat(chunks)));
+			}).on('error', reject);
+		});
 	}
 
 	// endregion

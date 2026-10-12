@@ -243,7 +243,7 @@ var batchSignatureCoreForm = (function () {
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				// Render error.
-				renderFail(step, errorThrown || textStatus);
+				renderFail(step, getAjaxErrorMessage(jqXHR, textStatus, errorThrown));
 				// Call the "done" callback with no argument, signalling the document should not go
 				// to the next queue.
 				done();
@@ -301,9 +301,8 @@ var batchSignatureCoreForm = (function () {
 			},
 			dataType: 'json',
 			success: function (response) {
-				console.log(response);
-				step.filename = response.filename;	
-				step.location = response.location;
+				// Add the ID of the signed file to the document information.
+				step.fileId = response.fileId;
 				// Render success.
 				renderSuccess(step);
 				// Call the "done" callback signalling we're done with the document.
@@ -311,7 +310,7 @@ var batchSignatureCoreForm = (function () {
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				// Render error.
-				renderFail(step, errorThrown || textStatus);
+				renderFail(step, getAjaxErrorMessage(jqXHR, textStatus, errorThrown));
 				// Call the "done" callback with no argument, signalling the document should not go
 				// to the next queue.
 				done();
@@ -335,7 +334,6 @@ var batchSignatureCoreForm = (function () {
 	// Function that renders a documument as completed successfully.
 	// --------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
-		
 		var docLi = $('#docList li').eq(step.index);
 		docLi
 			.append(document.createTextNode(' '))
@@ -343,8 +341,19 @@ var batchSignatureCoreForm = (function () {
 				.addClass('fas fa-arrow-right'))
 			.append(document.createTextNode(' '))
 			.append($('<a />')
-				.text(step.filename.replace('_', '.'))
-				.attr('href', step.location));
+				.text(step.fileId.replace('_', '.'))
+				.attr('href', '/download?fileId=' + step.fileId));
+	}
+
+	// --------------------------------------------------------------------------------------------
+	// Function that returns the message of an error returned by the server, such as a signer's
+	// certificate that REST PKI Core does not trust.
+	// --------------------------------------------------------------------------------------------
+	function getAjaxErrorMessage(jqXHR, textStatus, errorThrown) {
+		if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+			return jqXHR.responseJSON.message;
+		}
+		return errorThrown || textStatus;
 	}
 
 	// --------------------------------------------------------------------------------------------

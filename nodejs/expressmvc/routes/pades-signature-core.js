@@ -1,17 +1,10 @@
 const express = require("express");
-const path = require("path");
-const uuidv4 = require("uuid/v4");
 
-const { Config } = require("../config");
 const { StorageMock } = require("../storage-mock");
-const {
-	RestPkiCoreClient,
-	PrepareSignatureRequest,
-} = require("restpki-core-client");
+const { PadesVisualElementsCore } = require("../pades-visual-elements-core");
 const { Util } = require("../util");
 
 const router = express.Router();
-const APP_ROOT = process.cwd();
 
 /**
  * GET /pades-signature-core
@@ -64,68 +57,45 @@ router.post("/start", async (req, res, next) => {
 				// set certificate content in base64
 				content: certContent,
 			},
-			// set security context id
-			securityContextId: "d480958c-59b0-4178-bd11-0198188bfd3c",
+			signatureType: "Pdf",
+			// The security context determines which root certification authorities are trusted
+			// when REST PKI Core validates the signer's certificate. We have encapsulated the
+			// security context choice on util.js.
+			securityContextId: Util.getSecurityContextId(),
 			pdfSignatureOptions: {
-				visualRepresentation: {
-					text: {
-						// For a full list of the supported tags, see:
-						// https://docs.lacunasoftware.com/articles/rest-pki/pades-tags.html
-						text: "Signed by {{name}} ({{national_id}})",
-						fontSize: 13.0,
-						// Specify that the signing time should also be rendered.
-						includeSigningTime: true,
-						// Optionally set the horizontal alignment of the text ('Left' or
-						// 'Right'), if not set the default is 'Left'.
-						horizontalAlign: "Left",
-						// Optionally set the container within the signature rectangle on
-						// which to place the text. By default, the text can occupy the
-						// entire rectangle (how much of the rectangle the text will actually
-						// fill depends on the length and font size). Below, we specify that
-						// the text should respect a right margin of 1.5 cm.
-						container: {
-							left: 0.2,
-							top: 0.2,
-							right: 0.2,
-							bottom: 0.2,
-						}
-					},
-					resource: {
-						content:
-							StorageMock.getPdfStampContent().toString("base64"),
-						mimeType: "image/png",
-					},
-					// Align the image to the right horizontally.
-					horizontalAlign: "Right",
-					// Align the image to the center vertically.
-					verticalAlign: "Center",
-					position: {
-						pageNumber: 0,
-						auto: {
-							container: {
-								left: 0.2,
-								top: 0.2,
-								right: 0.2,
-								bottom: 0.2,
-							},
-							signatureRectangleSize: {
-								height: 20,
-								width: 30,
-							},
-						},
-					},
-				},
+				// Set the visual representation of the signature. We have encapsulated this code
+				// (on pades-visual-elements-core.js) to be used on the REST PKI Core samples.
+				visualRepresentation: PadesVisualElementsCore.getVisualRepresentation(),
 			},
 		};
 
 		const response = await client.prepareSignature(request);
-		// render the start page with the response data
+
+		// REST PKI Core validates the signer's certificate before preparing the signature. If
+		// the certificate is not valid or not trusted, "success" is false and
+		// "validationResults" says why.
+		if (!response.data.success) {
+			let details = "";
+			const errors = response.data.validationResults && response.data.validationResults.errors;
+			if (errors && errors.length > 0) {
+				details = `: ${errors.map((item) => item.message).join("; ")}`;
+			}
+			throw new Error(`The signature could not be prepared (${response.data.failure})${details}`);
+		}
+
+		// Render the start page with the fields below, to be used on the javascript or on the
+		// "complete" step:
+		// - toSignHash: the hash to be signed by Web PKI, Base64-encoded.
+		// - digestAlgorithm: the OID of the digest algorithm, which Web PKI needs to sign the
+		//   hash.
+		// - state: data that REST PKI Core needs to complete the signature, which we pass back to
+		//   it on the "complete" step.
 		res.render("pades-signature-core/start", {
 			certThumb,
 			certContent,
 			state: response.data.state,
-			toSignHash: response.data.toSignHash.value,
-			digestAlgorithm: response.data.toSignHash.algorithm,
+			toSignHash: response.data.toSign.hash,
+			digestAlgorithm: response.data.toSign.signatureAlgorithm.digestAlgorithmOid,
 			fileId,
 		});
 	} catch (err) {
@@ -141,13 +111,9 @@ router.post("/start", async (req, res, next) => {
  * sign() on public/javascripts/signature-complete-form.js).
  */
 router.post("/complete", async (req, res, next) => {
-	const { fileId } = req.query;
-
 	// Recover variables from the POST arguments to be used on this step.
 	const state = req.body.state;
 	const signature = req.body.signature;
-
-	const client = Util.getRestPkiCoreClient();
 
 	const completeSignatureRequest = {
 		state: state,
@@ -155,13 +121,19 @@ router.post("/complete", async (req, res, next) => {
 	};
 
 	try {
+		const client = Util.getRestPkiCoreClient();
 		const response = await client.completeSignature(
 			completeSignatureRequest
 		);
 
+		// At this point, you'd typically store the signed PDF on your database. The "signedFile"
+		// field holds a temporary link to it. For demonstration purposes, we'll download the
+		// signed PDF and store it with our StorageMock class.
+		const signedContent = await Util.download(response.data.signedFile.url);
+		const signedPdf = StorageMock.storeSync(signedContent, null, ".pdf");
+
 		res.render("pades-signature-core/complete", {
-			signedPdf: response.data.signedFile.name,
-			downloadUrl: response.data.signedFile.location,
+			signedPdf,
 		});
 	} catch (err) {
 		next(err);
