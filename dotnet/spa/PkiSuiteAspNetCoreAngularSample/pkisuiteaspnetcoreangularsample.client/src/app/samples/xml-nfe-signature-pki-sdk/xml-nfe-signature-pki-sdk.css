@@ -1,0 +1,4 @@
+/* Validation results span several lines. */
+.error {
+  white-space: pre-wrap;
+}
