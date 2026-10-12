@@ -79,7 +79,7 @@ redirecting to the sample.
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
 | `python/flask` | Flask | `python/flask` | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000 | `sample/config.py` (class picked by `FLASK_ENV`, which is required) |
 | `python/django` | Django | `python/django/sample` | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000 | `sample/config.py`; `sample/PkiSuitePythonDjangoSample/settings.py` |
-| `ruby/rails` | Rails 6.0, Ruby 2.5 | `ruby/rails` | `bundle install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
+| `ruby/rails` | Rails 8.1, Ruby 3.3, Puma | `ruby/rails` | `bundle install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
 
 `dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
 `README.md` with its sample list, which is generated from the catalog.
@@ -183,6 +183,12 @@ localhost.
 **g. PKI Express samples also use Rest PKI.** The shared `setPkiDefaults` helpers add the Rest
 PKI timestamp authority, authenticated with the Rest PKI access token, to every PKI Express
 operation. Timestamping with PKI Express needs that token.
+
+**h. The Ruby `pki_express` gem needs a shim on Ruby 3.2 and later.** Versions up to 1.3.2 call
+`File.exists?`, which Ruby 3.2 removed, so every operator setter that takes a file path raises
+`NoMethodError`. The Rails sample aliases it back in
+`ruby/rails/config/initializers/pki_express_ruby32_compat.rb`. A client app on Ruby 3.2+ needs the
+same one-line initializer until a fixed gem ships. Do not put it in controller code.
 
 ## 6. Conventions for adding or changing a sample
 
