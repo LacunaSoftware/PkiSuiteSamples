@@ -1,0 +1,8 @@
+# Visual Studio and build output
+.vs/
+bin/
+obj/
+*.user
+
+# Files written by the samples at run time (see StorageMock.cs)
+App_Data/

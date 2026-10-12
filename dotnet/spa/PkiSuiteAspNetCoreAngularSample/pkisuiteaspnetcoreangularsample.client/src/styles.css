@@ -1,0 +1,80 @@
+/* Minimal styles shared by every page. The samples use plain HTML elements and these classes. */
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: #212529;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+a {
+  color: #0b5ed7;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #dee2e6;
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+fieldset {
+  border: 1px solid #dee2e6;
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+}
+
+button {
+  padding: 0.375rem 0.75rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+select {
+  max-width: 100%;
+  padding: 0.375rem;
+}
+
+/* A form row: label above its field. */
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+}
+
+/* Status messages. */
+.success {
+  color: #146c43;
+}
+
+.error {
+  color: #b02a37;
+}
+
+.warning {
+  background: #fff3cd;
+  border: 1px solid #ffe69c;
+  padding: 0.5rem 0.75rem;
+}
+
+.muted {
+  color: #6c757d;
+}

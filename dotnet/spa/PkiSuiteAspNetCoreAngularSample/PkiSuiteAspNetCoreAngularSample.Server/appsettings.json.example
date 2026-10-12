@@ -1,0 +1,34 @@
+// Documentation only. This file is NOT loaded: the app reads appsettings.json (and
+// appsettings.<ASPNETCORE_ENVIRONMENT>.json) next to this file. It lists every key the app
+// reads, with placeholder values. The committed appsettings.json holds a TRIAL API key that
+// update-licenses.ps1 rotates; do not replace it in this repository.
+// The PKI SDK license is a separate file, LacunaPkiLicense.config, loaded by Program.cs from
+// the content root (this folder, when you run `dotnet run` here).
+// ASPNETCORE_ENVIRONMENT=Development (set in Properties/launchSettings.json) loads
+// appsettings.Development.json and, with SpaProxy, starts the Angular dev server.
+{
+  "Logging": {
+    "LogLevel": {
+      // Standard ASP.NET Core log levels.
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "RestPkiCore": {
+    // Rest PKI Core API key, read by Classes/Util.cs. Required by the Rest PKI Core samples only.
+    "ApiKey": "YOUR_REST_PKI_CORE_API_KEY",
+    // Optional. Rest PKI Core URL for on-premises installs, with trailing '/'. Default: https://core.pki.rest/
+    "Endpoint": "https://core.pki.rest/"
+  },
+  "WebPki": {
+    // Optional. Base64 Web PKI license, sent to the Angular app by GET /api/configuration. Not needed on localhost.
+    "License": "YOUR_BASE64_WEB_PKI_LICENSE"
+  },
+  "PkiSuite": {
+    // Trust Lacuna's test certificates: the Lacuna Test security context on Rest PKI Core and the
+    // Lacuna test root on PKI SDK (Classes/Util.cs). true only in appsettings.Development.json.
+    "TrustLacunaTestRoot": false
+  },
+  // Standard ASP.NET Core host filtering.
+  "AllowedHosts": "*"
+}
