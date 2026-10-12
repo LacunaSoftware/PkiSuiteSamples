@@ -57,10 +57,11 @@ jobs:
       - name: Build, compiling the Razor views
         working-directory: dotnet/mvc
         run: msbuild PkiSuiteAspNetMvcSample.sln -p:MvcBuildViews=true
+      # Without -NoNewWindow, IIS Express gets its own console and outlives this step's.
       - name: Start the app in IIS Express
         run: |
           $site = (Resolve-Path dotnet/mvc/PkiSuiteAspNetMvcSample).Path
-          $app = Start-Process "$env:ProgramFiles\IIS Express\iisexpress.exe" -PassThru -NoNewWindow `
+          $app = Start-Process "$env:ProgramFiles\IIS Express\iisexpress.exe" -PassThru `
             -ArgumentList "/path:$site", "/port:54123", "/clr:v4.0", "/systray:false" `
             -RedirectStandardOutput "$env:RUNNER_TEMP\app.log"
           "APP_PID=$($app.Id)" >> $env:GITHUB_ENV
@@ -71,7 +72,9 @@ jobs:
         run: Get-Content "$env:RUNNER_TEMP\app.log" -ErrorAction SilentlyContinue
       - name: Stop the app
         if: always()
-        run: if ($env:APP_PID) { Stop-Process -Id $env:APP_PID -ErrorAction SilentlyContinue }
+        run: |
+          $app = if ($env:APP_PID) { Get-Process -Id $env:APP_PID -ErrorAction SilentlyContinue }
+          if ($app) { Stop-Process -InputObject $app } else { "IIS Express is not running." }
 
   dotnet-spa:
     name: dotnet/spa
@@ -256,8 +259,11 @@ jobs:
         run: >
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/ruby/rails
           ruby:2.5.3 sleep infinity
+      # The image comes with Bundler 1.17, and the lockfile needs the Bundler 2 it was made with.
       - name: Install dependencies
-        run: docker exec app bundle install
+        run: |
+          docker exec app sh -c 'gem install bundler -v "$(awk "/BUNDLED WITH/ { getline; print \$1 }" Gemfile.lock)"'
+          docker exec app bundle install
       - name: Start the app
         run: docker exec -d app sh -c "bundle exec rails server > /tmp/app.log 2>&1"
       - name: Smoke test

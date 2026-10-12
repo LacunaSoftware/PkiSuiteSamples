@@ -127,15 +127,16 @@ def rebase(url, base_url):
 
 
 def wait_for_app(opener, url, timeout):
+    """Return None once the app answers url with any status, or the last error at the deadline."""
     deadline = time.monotonic() + timeout
     while True:
         try:
             status, _ = get(opener, url, timeout=30)
             print(f"The app answered {url} with status {status}.")
-            return True
-        except OSError:
+            return None
+        except OSError as e:
             if time.monotonic() > deadline:
-                return False
+                return e
             time.sleep(3)
 
 
@@ -160,6 +161,7 @@ def check_page(opener, url, timeout):
 
 
 def main():
+    sys.stdout.reconfigure(line_buffering=True)  # show progress in CI logs as it happens
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("project", choices=sorted(SMOKE_SAMPLES))
     parser.add_argument("--base-url", help="scheme://host:port that replaces the catalog's")
@@ -181,9 +183,11 @@ def main():
         NoRedirect, urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 
     print(f"Waiting up to {args.timeout}s for {home} ...")
-    if not wait_for_app(opener, home, args.timeout):
-        annotate("error", f"{args.project}: the app did not answer {home} within {args.timeout}s")
-        sys.exit(f"The app did not answer {home} within {args.timeout}s.")
+    error = wait_for_app(opener, home, args.timeout)
+    if error:
+        message = f"the app did not answer {home} within {args.timeout}s (last error: {error})"
+        annotate("error", f"{args.project}: {message}")
+        sys.exit(message)
 
     pages = [("home page", home, None)]
     pages += [(sid, rebase(entries[sid]["run"]["url"], args.base_url), skip)
