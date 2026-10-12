@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page}">
 <body>
 
-<div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')}">
+<div th:fragment="content" th:with="fileId=${param.fileId}">
 	<h2 class="ls-title">XML Diploma Signature with REST PKI</h2>
 
 	<div class="ls-content">
@@ -11,7 +11,7 @@
 			This form will be shown initially and when this page is rendered to perform the
 			signature using Web PKI component.
 		-->
-		<form id="signForm" action="/xml-diploma-signature-rest/" method="POST">
+		<form id="signForm" action="/xml-diploma-signature-rest" method="POST">
 			<!-- Render the token in a hidden input field. -->
 			<input type="hidden" id="tokenField" name="token" th:value="${token}"/>
 

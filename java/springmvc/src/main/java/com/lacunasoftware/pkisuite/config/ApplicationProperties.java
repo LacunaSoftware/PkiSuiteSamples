@@ -1,5 +1,6 @@
 package com.lacunasoftware.pkisuite.config;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,9 +28,11 @@ public class ApplicationProperties {
 		return instance;
 	}
 
-	@Autowired
-	public void setInstance(ApplicationProperties properties) {
-		instance = properties;
+	// Exposes this bean to static code (Util). Spring Boot 2.6+ rejects the circular reference of
+	// injecting the bean into itself, so the instance is stored once it is initialized instead.
+	@PostConstruct
+	private void setInstance() {
+		instance = this;
 	}
 
 	public RestPkiProperties getRestPki() {

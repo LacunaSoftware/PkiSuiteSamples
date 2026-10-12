@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import com.lacunasoftware.restpkicore.*;
 import org.apache.commons.io.IOUtils;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 

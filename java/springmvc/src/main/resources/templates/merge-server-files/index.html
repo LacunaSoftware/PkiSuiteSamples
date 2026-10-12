@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"  th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org"  th:replace="~{layout :: page}">
 <head>
 	<link th:fragment="style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous" />
 </head>
@@ -58,12 +58,18 @@
 							Button used to choose a sample file. It will execute the function
 							chooseFile() on the javascript below. The field "id" from the
 							Thymeleaf's variable "file" has the task of identifying the document
-							on server side after submitting this form.
+							on server side after submitting this form. Thymeleaf only writes
+							numbers and booleans into "on*" attributes, so the values go in data-*
+							attributes.
 						-->
 							<button th:id="${index} + '-choice-btn'"
 									type="button"
 									class="choose-file btn btn-primary"
-									th:onclick="|chooseFile('${index}', '${file.getFiles()[0]}', '${file.getFiles().size() == 1 ? null : file.getFiles()[1]}', '${file.getNeedDataFile()}')|">
+									th:data-index="${index}"
+									th:data-item1="${file.getFiles()[0]}"
+									th:data-item2="${file.getFiles().size() == 1 ? 'null' : file.getFiles()[1]}"
+									th:data-need-data-file="${file.getNeedDataFile()}"
+									onclick="chooseFile(this.dataset.index, this.dataset.item1, this.dataset.item2, this.dataset.needDataFile)">
 								<i class="fas fa-check"></i> Use This
 							</button>
 						</div>

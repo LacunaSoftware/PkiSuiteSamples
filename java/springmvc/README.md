@@ -57,15 +57,21 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 ## Run
 
-Requires a JDK. The Gradle 4.8 wrapper and Spring Boot 1.5 are old, so use JDK 8.
+Requires JDK 21 or later. The project uses Spring Boot 3.5 and includes a Gradle 8.14 wrapper:
 
 ```bash
 ./gradlew bootRun
 ```
 
-On Windows, use `gradlew.bat bootRun` or double-click `Run-Sample.bat`. Then open
-http://localhost:60695/. The PKI Express samples also need PKI Express installed and activated
-(`sudo pkie activate LacunaPkiLicense.config`).
+On Windows, use `gradlew.bat bootRun` or double-click `Run-Sample.bat`. Maven (3.6.3 or later)
+works too, with the same dependencies in `pom.xml`:
+
+```bash
+mvn spring-boot:run
+```
+
+Then open http://localhost:60695/. The PKI Express samples also need PKI Express installed and
+activated (`sudo pkie activate LacunaPkiLicense.config`).
 
 ## Configuration
 

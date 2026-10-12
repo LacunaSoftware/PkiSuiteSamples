@@ -1,0 +1,277 @@
+name: Build samples
+
+# Builds each sample project, starts it, smoke-tests its home page and a few of its catalog pages
+# with scripts/ci/smoke-test.py, then stops it. Pull requests test only the projects they touch
+# (scripts/ci/changed-projects.py). Pushes to master, the weekly run and manual runs test all of
+# them.
+#
+# The Linux jobs run each app in a Docker image of the runtime the project targets, on the host
+# network so that the app's localhost URLs work from the runner. `docker rm -f` stops the app and
+# all of its child processes (Gradle daemon, nodemon, the Flask and Django reloaders).
+# The apps use the trial credentials committed in the repository. This workflow adds no secrets.
+on:
+  pull_request:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "0 6 * * 1" # Mondays at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-samples-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  changes:
+    name: Select projects
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.select.outputs.projects }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - id: select
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          projects=$(python3 scripts/ci/changed-projects.py ${BASE:+"$BASE"})
+          echo "Projects to test: $projects"
+          echo "projects=$projects" >> "$GITHUB_OUTPUT"
+
+  dotnet-mvc:
+    name: dotnet/mvc
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'dotnet/mvc')
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: microsoft/setup-msbuild@v3
+      - name: Restore NuGet packages
+        working-directory: dotnet/mvc
+        run: msbuild PkiSuiteAspNetMvcSample.sln -t:Restore -p:RestorePackagesConfig=true
+      - name: Build, compiling the Razor views
+        working-directory: dotnet/mvc
+        run: msbuild PkiSuiteAspNetMvcSample.sln -p:MvcBuildViews=true
+      # A process started from a step (Start-Process, with or without -NoNewWindow) ends with the
+      # step on this runner. WMI starts IIS Express outside the step, so it serves the next steps.
+      - name: Start the app in IIS Express
+        run: |
+          $site = (Resolve-Path dotnet/mvc/PkiSuiteAspNetMvcSample).Path
+          $iis = "$env:ProgramFiles\IIS Express\iisexpress.exe"
+          $cmd = "cmd.exe /c `"`"$iis`" /path:$site /port:54123 /clr:v4.0 /systray:false > `"$env:RUNNER_TEMP\app.log`" 2>&1`""
+          $result = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = $cmd }
+          if ($result.ReturnValue -ne 0) { throw "Win32_Process.Create returned $($result.ReturnValue)" }
+      - name: Smoke test
+        run: python scripts/ci/smoke-test.py dotnet/mvc
+      - name: Show the app log
+        if: always()
+        run: Get-Content "$env:RUNNER_TEMP\app.log" -ErrorAction SilentlyContinue
+      - name: Stop the app
+        if: always()
+        run: |
+          $app = Get-Process -Name iisexpress -ErrorAction SilentlyContinue
+          if ($app) { Stop-Process -InputObject $app } else { "IIS Express is not running." }
+
+  dotnet-spa:
+    name: dotnet/spa
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'dotnet/spa')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the Angular app (Node.js 14)
+        run: >
+          docker run --rm -e NG_CLI_ANALYTICS=false -v "$PWD:/repo"
+          -w /repo/dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp node:14.21.3
+          sh -c "npm ci && npm run build -- --prod"
+      # Production serves ClientApp/dist. Development would start `ng serve` instead.
+      - name: Start a .NET Core 3.1 SDK container
+        run: >
+          docker run -d --name app --network host -v "$PWD:/repo"
+          -w /repo/dotnet/spa/PkiSuiteAspNetSpaSample
+          -e ASPNETCORE_ENVIRONMENT=Production -e ASPNETCORE_URLS=http://localhost:5000
+          -e DOTNET_CLI_TELEMETRY_OPTOUT=1 mcr.microsoft.com/dotnet/sdk:3.1 sleep infinity
+      - name: Build
+        run: docker exec app dotnet build -c Release
+      - name: Start the app
+        run: docker exec -d app sh -c "dotnet bin/Release/netcoreapp3.1/PkiSuiteAspNetSpaSample.dll > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py dotnet/spa --base-url http://localhost:5000
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
+  java-springmvc:
+    name: java/springmvc
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'java/springmvc')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start a JDK 21 container with Maven
+        run: >
+          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/java/springmvc
+          maven:3.9-eclipse-temurin-21 sleep infinity
+      - name: Build with Gradle
+        run: docker exec app sh gradlew build
+      - name: Build with Maven
+        run: docker exec app mvn -B -ntp compile
+      - name: Start the app
+        run: docker exec -d app sh -c "sh gradlew bootRun > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py java/springmvc
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
+  nodejs-expressmvc:
+    name: nodejs/expressmvc
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'nodejs/expressmvc')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start a Node.js 22 container
+        run: >
+          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/nodejs/expressmvc
+          node:22 sleep infinity
+      - name: Install dependencies
+        run: docker exec app npm install
+      - name: Start the app
+        run: docker exec -d app sh -c "npm start > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py nodejs/expressmvc
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
+  php-plain:
+    name: php/plain
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'php/plain')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start a PHP 8.1 container with Composer 2
+        run: |
+          docker run --rm -v "$RUNNER_TEMP:/out" --entrypoint cp composer:2 /usr/bin/composer /out/composer
+          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/php/plain \
+            -v "$RUNNER_TEMP/composer:/usr/local/bin/composer" php:8.1-cli sleep infinity
+          docker exec app sh -c "apt-get update -qq && apt-get install -y -qq unzip > /dev/null"
+      # Lacuna's Amplia and CloudHub PHP clients require Guzzle 6, which Composer blocks for its
+      # security advisories. The README documents this workaround. CI does not commit it.
+      - name: Install dependencies
+        run: |
+          docker exec app composer config policy.advisories.block false
+          docker exec app composer install --no-interaction --no-progress
+      # `composer start` without display_errors, so that a PHP error returns status 500.
+      - name: Start the app
+        run: docker exec -d app sh -c "php -d display_errors=stderr -S localhost:8000 -t public > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py php/plain
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
+  python-flask:
+    name: python/flask
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'python/flask')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      # Python 3.11: pkiexpress and amplia-client's pinned requests do not import on 3.12.
+      - name: Start a Python 3.11 container
+        run: >
+          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/python/flask
+          -e FLASK_APP=sample -e FLASK_ENV=development -e PIP_ROOT_USER_ACTION=ignore
+          python:3.11 sleep infinity
+      - name: Install dependencies
+        run: docker exec app pip install -r requirements.txt
+      - name: Start the app
+        run: docker exec -d app sh -c "flask run > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py python/flask
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
+  python-django:
+    name: python/django
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'python/django')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start a Python 3.11 container
+        run: >
+          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/python/django/sample
+          -e PIP_ROOT_USER_ACTION=ignore python:3.11 sleep infinity
+      - name: Install dependencies and migrate
+        run: |
+          docker exec app pip install -r ../requirements.txt
+          docker exec app python manage.py migrate
+      - name: Start the app
+        run: docker exec -d app sh -c "python manage.py runserver > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py python/django
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
+  ruby-rails:
+    name: ruby/rails
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'ruby/rails')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start a Ruby 3.3 container
+        run: >
+          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/ruby/rails
+          ruby:3.3 sleep infinity
+      # Install the exact Bundler version the lockfile was made with.
+      - name: Install dependencies
+        run: |
+          docker exec app sh -c 'gem install bundler -v "$(awk "/BUNDLED WITH/ { getline; print \$1 }" Gemfile.lock)"'
+          docker exec app bundle install
+      - name: Start the app
+        run: docker exec -d app sh -c "bundle exec rails server > /tmp/app.log 2>&1"
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py ruby/rails
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
