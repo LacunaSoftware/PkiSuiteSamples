@@ -161,10 +161,10 @@ class PadesSignatureRestCoreController < ApplicationController
     document = client.complete_signature(state: state, signature: signature)
 
     # At this point, you'd typically store the signed PDF on your database. The
-    # "signedFile" field holds a temporary link to it. For demonstration
-    # purposes, we'll download the signed PDF and store it with our
-    # StorageMock class.
+    # "url" field of "signedFile" holds a temporary link to it. For
+    # demonstration purposes, we'll download the signed PDF and store it with
+    # our StorageMock class.
     signed_file = document['signedFile']
-    @signed_pdf = store(client.download(signed_file['location']), 'pdf', signed_file['name'])
+    @signed_pdf = store(client.download(signed_file['url']), 'pdf', signed_file['name'])
   end
 end

@@ -226,10 +226,10 @@ def complete(file_id):
                 state=state, signature=signature))
 
         # At this point, you'd typically store the signed PDF on your
-        # database. The "signed_file" field holds a temporary link to it. For
-        # demonstration purposes, we'll download the signed PDF and store it on
-        # the "app_data" folder.
-        download = client.call_api('GET', document.signed_file.location)
+        # database. The "url" field of "signed_file" holds a temporary link to
+        # it. For demonstration purposes, we'll download the signed PDF and
+        # store it on the "app_data" folder.
+        download = client.call_api('GET', document.signed_file.url)
         download.read()
         if download.status != 200:
             raise Exception('The signed PDF could not be downloaded (HTTP %d)'

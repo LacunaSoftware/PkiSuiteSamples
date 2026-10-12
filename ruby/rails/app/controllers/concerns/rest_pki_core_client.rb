@@ -31,9 +31,9 @@ class RestPkiCoreClient
     post('api/signature/completion', request)
   end
 
-  # Downloads a file from a link returned by REST PKI Core, such as the
-  # "location" of the "signedFile" of a DocumentModel. These links carry their
-  # own access ticket, so the API key is not sent.
+  # Downloads a file from a link returned by REST PKI Core, such as the "url"
+  # of the "signedFile" of a DocumentModel. These links carry their own access
+  # ticket, so the API key is not sent.
   def download(url)
     send_request(Net::HTTP::Get.new(URI(url))).body
   end
