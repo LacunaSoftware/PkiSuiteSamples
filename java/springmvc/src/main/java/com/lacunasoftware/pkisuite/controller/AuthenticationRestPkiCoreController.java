@@ -1,6 +1,6 @@
 package com.lacunasoftware.pkisuite.controller;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.lacunasoftware.pkisuite.util.Util;
 import com.lacunasoftware.restpkicore.AuthenticationFailures;

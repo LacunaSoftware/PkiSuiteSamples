@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page}">
 <body>
 
-<div th:fragment="content" th:with="fileId=${#httpServletRequest.getParameter('fileId')},
-                                    cosignFileId=${#httpServletRequest.getParameter('cosign')}">
+<div th:fragment="content" th:with="fileId=${param.fileId},
+                                    cosignFileId=${param.cosign}">
 	<h2 class="ls-title">CAdES Signature with REST PKI</h2>
 
 	<div class="ls-content">

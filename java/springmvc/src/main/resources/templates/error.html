@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page}">
 <body>
 
-<div th:fragment="content" th:with="requestUri = ${path} ? ${path} : ${#httpServletRequest.getRequestURI()}">
+<div th:fragment="content">
 	<h2 class="ls-title">An error has occurred</h2>
-	<h5 class="ls-subtitle">on route <b><span th:text="${#httpServletRequest.getMethod()}"></span> <span th:text="${requestUri}"></span></b></h5>
+	<h5 class="ls-subtitle">on route <b><span th:text="${method}"></span> <span th:text="${path}"></span></b></h5>
 
 	<div class="ls-content">
 

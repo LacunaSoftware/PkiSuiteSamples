@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class SignatureSessionPreDefRestCoreController {
