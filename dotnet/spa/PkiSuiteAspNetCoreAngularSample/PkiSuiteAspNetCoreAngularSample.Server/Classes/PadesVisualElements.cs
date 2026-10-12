@@ -1,5 +1,8 @@
+using Lacuna.Pki;
 using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Api.PadesSignature;
+// PKI SDK and Rest PKI Core both define PadesHorizontalAlign, PadesVerticalAlign, ... This file uses
+// both, so it refers to PKI SDK's PAdES types as Pki.*
 using Pki = Lacuna.Pki.Pades;
 
 namespace PkiSuiteAspNetCoreAngularSample.Classes;
@@ -13,7 +16,7 @@ public class PadesVisualElements(StorageMock storageMock) {
 	/// <summary>
 	/// Visual representation for the PAdES samples that use PKI SDK.
 	/// </summary>
-	public Pki.PadesVisualRepresentation2 GetVisualRepresentationForPkiSdk(Lacuna.Pki.PKCertificate certificate) {
+	public Pki.PadesVisualRepresentation2 GetVisualRepresentationForPkiSdk(PKCertificate certificate) {
 		var visualRepresentation = new Pki.PadesVisualRepresentation2() {
 
 			// Text of the visual representation. PKI SDK signs on this server, so we already know

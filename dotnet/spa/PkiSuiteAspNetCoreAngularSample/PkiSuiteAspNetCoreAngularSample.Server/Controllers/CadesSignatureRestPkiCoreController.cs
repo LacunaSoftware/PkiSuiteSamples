@@ -111,7 +111,7 @@ public class CadesSignatureRestPkiCoreController(StorageMock storageMock, Util u
 			// computed in the browser. Rest PKI Core validates the signer's certificate and the
 			// resulting signature.
 			signedDocument = await restPkiService.CompleteSignatureAsync(request.State, request.Signature);
-		} catch (Lacuna.RestPki.Client.ValidationException ex) {
+		} catch (ValidationException ex) {
 			// Rest PKI Core throws a ValidationException if, for instance, the certificate is revoked.
 			return Problem(
 				detail: "The signature is not valid.",

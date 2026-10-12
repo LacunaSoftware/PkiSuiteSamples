@@ -1,10 +1,12 @@
 using System.Net.Http.Headers;
-using Lacuna.Pki;
 using Lacuna.Pki.Stores;
 using Lacuna.RestPki.Api;
 using Lacuna.RestPki.Client;
 using Microsoft.Extensions.Options;
 using PkiSuiteAspNetCoreAngularSample.Configuration;
+// PKI SDK and Rest PKI Core both define PKCertificate. This file uses both, so it refers to PKI
+// SDK's types as Pki.*
+using Pki = Lacuna.Pki;
 
 namespace PkiSuiteAspNetCoreAngularSample.Classes;
 
@@ -100,17 +102,17 @@ public class Util(
 	/// authentications. A trust arbitrator determines which root certificates shall be trusted
 	/// during certificate and signature validation.
 	/// </summary>
-	public ITrustArbitrator GetTrustArbitrator() {
+	public Pki.ITrustArbitrator GetTrustArbitrator() {
 		// We start by trusting the ICP-Brasil roots.
-		var trustArbitrator = new LinkedTrustArbitrator(TrustArbitrators.PkiBrazil);
+		var trustArbitrator = new Pki.LinkedTrustArbitrator(Pki.TrustArbitrators.PkiBrazil);
 
 		if (pkiSuiteOptions.Value.TrustLacunaTestRoot) {
 			// For development purposes only, we also trust Lacuna Software's test PKI (see
 			// https://docs.lacunasoftware.com/articles/pki-guide/test-certs).
 			//
 			// THIS SHOULD NEVER BE DONE ON A PRODUCTION ENVIRONMENT!
-			var lacunaTestRoot = Lacuna.Pki.PKCertificate.Decode(Convert.FromBase64String(LacunaRootTestV3));
-			trustArbitrator.Add(new TrustedRoots(lacunaTestRoot));
+			var lacunaTestRoot = Pki.PKCertificate.Decode(Convert.FromBase64String(LacunaRootTestV3));
+			trustArbitrator.Add(new Pki.TrustedRoots(lacunaTestRoot));
 		}
 
 		return trustArbitrator;
