@@ -1,0 +1,26 @@
+# Dependabot version and security updates. Only the projects listed here get version updates;
+# security alerts cover every manifest in the repository regardless.
+# Docs: https://docs.github.com/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+version: 2
+updates:
+  # ASP.NET Core + Angular project: the Angular app.
+  - package-ecosystem: npm
+    directory: /dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client
+    schedule:
+      interval: weekly
+    groups:
+      # The Angular packages, and the TypeScript version each Angular release requires, move
+      # together: one pull request per Angular release. A major release may need `ng update`
+      # migrations on top of the version bump.
+      angular:
+        applies-to: version-updates
+        patterns: ["@angular/*", "@angular-devkit/*", "@schematics/angular", "typescript"]
+      angular-security:
+        applies-to: security-updates
+        patterns: ["@angular/*", "@angular-devkit/*", "@schematics/angular", "typescript"]
+
+  # ASP.NET Core + Angular project: the server (Lacuna.Pki, Lacuna.RestPkiCore.Client, SpaProxy).
+  - package-ecosystem: nuget
+    directory: /dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server
+    schedule:
+      interval: weekly

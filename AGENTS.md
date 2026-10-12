@@ -68,11 +68,14 @@ Layout: `<language>/<framework>/<project>`. Each project is one web app containi
 Its home page is an Angular app served from `cdn.lacunasoftware.com` (not in this repo), driven
 by a `SampleRoutes` object in the home view. Its links go through "check" routes
 (`check-express`, `check-rest-token`, ...) that confirm the product is configured before
-redirecting to the sample.
+redirecting to the sample. The exception is `dotnet/spa`, an Angular app with its own home page
+and no check routes, which uses Rest PKI Core and never Rest PKI (v1)
+([ADR 0001](docs/adr/0001-aspnet-core-angular-project-deviations.md)).
 
 | Project | Stack | Run from | Command | URL | Config the app reads |
 |---|---|---|---|---|---|
 | `dotnet/mvc/PkiSuiteAspNetMvcSample` | ASP.NET MVC 5, .NET Framework 4.8 | `dotnet/mvc` | Open `PkiSuiteAspNetMvcSample.sln` in Visual Studio, F5 (IIS Express) | http://localhost:54123 | `Web.config` `<appSettings>`; `LacunaPkiLicense.config` (copied to `bin/`) |
+| `dotnet/spa/PkiSuiteAspNetCoreAngularSample` | ASP.NET Core (.NET 10) Web API + Angular 21 (`pkisuiteaspnetcoreangularsample.client/`), Node.js 24 | `dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server` | `dotnet run --launch-profile http` (after `npm ci` in the client folder), or open the `.sln` in Visual Studio, F5 | http://localhost:4200 (Angular dev server; the API listens on http://localhost:5100) | `appsettings.json` (`RestPkiCore`, `WebPki`, `PkiSuite`), overridden by `appsettings.Development.json`; `LacunaPkiLicense.config` (loaded from the content root) |
 | `java/springmvc` | Spring Boot 3.5, Java 21, Gradle 8.14 wrapper (or Maven) | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
 | `nodejs/expressmvc` | Express + Pug | `nodejs/expressmvc` | `npm install && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
@@ -83,29 +86,39 @@ redirecting to the sample.
 `dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
 `README.md` with its sample list, which is generated from the catalog.
 
+In `dotnet/spa`, `dotnet run` starts the Angular dev server on port 4200 (SpaProxy), which
+serves the pages and forwards `/api` to the server on port 5100. Port 5100 itself serves only
+`/api` and a redirect from `/`: the Angular app reaches `wwwroot` only through
+`dotnet publish -c Release`. CI publishes it and runs the output from the publish folder, which
+is the content root. Each sample is an API controller `Controllers/<SampleId>Controller.cs` plus
+the Angular folder `src/app/samples/<sample id>/`.
+
 `java/springmvc` needs JDK 21 or later. `mvn spring-boot:run` runs it too: `pom.xml` and
 `build.gradle` declare the same dependencies, so change both when you change one.
 
 Every key a project reads is listed, with placeholder values and a one-line comment, in an
-`.example` file next to the real config file: `Web.config.example`, `application.yml.example`,
-`config/default.js.example`, `config.php.example`, `sample/config.py.example` (Flask and Django)
-and `config/lacuna.yml.example`. No app loads these files; they are documentation only.
+`.example` file next to the real config file: `Web.config.example`,
+`appsettings.json.example`, `application.yml.example`, `config/default.js.example`,
+`config.php.example`, `sample/config.py.example` (Flask and Django) and
+`config/lacuna.yml.example`. No app loads these files; they are documentation only.
 
 Credentials the apps read (the files `update-licenses.ps1` rewrites):
 
 - **Rest PKI** access token: `RestPkiAccessToken` (Web.config), `rest-pki.accessToken`
   (application.yml), `restPki.accessToken` (default.js), `restPki.accessToken` (config.php),
   `REST_PKI_ACCESS_TOKEN` (config.py), `rest_pki.access_token` (lacuna.yml).
-- **Rest PKI Core** API key: `RestPkiCoreApiKey`, `rest-pki-core.apiKey`, `restPkiCore.apiKey`,
-  `restPkiNg.apiKey` (PHP), `REST_PKI_CORE_API_KEY` (Flask), `rest_pki_core.api_key` (Rails).
+- **Rest PKI Core** API key: `RestPkiCoreApiKey` (Web.config), `RestPkiCore:ApiKey`
+  (appsettings.json), `rest-pki-core.apiKey`, `restPkiCore.apiKey`, `restPkiNg.apiKey` (PHP),
+  `REST_PKI_CORE_API_KEY` (Flask), `rest_pki_core.api_key` (Rails).
 - **Amplia** API key: `amplia.apiKey` / `AMPLIA_API_KEY`. **CloudHub**: `CloudHubApiKey` /
   `cloudhub.apiKey` / `cloudHub.apiKey`.
-- **Web PKI** license: `WebPkiLicense` / `web-pki.license` / `webPki.license` /
-  `WEB_PKI_LICENSE` / `web_pki.license`. It is empty in every project, which is fine on
-  localhost.
+- **Web PKI** license: `WebPkiLicense` / `WebPki:License` / `web-pki.license` /
+  `webPki.license` / `WEB_PKI_LICENSE` / `web_pki.license`. It is empty in every project, which
+  is fine on localhost.
 - **PKI SDK / PKI Express** license: `LacunaPkiLicense.config`. For PKI SDK it sits next to the
-  app, and the MVC app checks for it in `bin/`. PKI Express must be installed and activated with
-  it once per machine: `sudo pkie activate LacunaPkiLicense.config`, or `pkiemgr.exe` on Windows.
+  app: the MVC app checks for it in `bin/`, and the ASP.NET Core app loads it from the content
+  root in `Program.cs`. PKI Express must be installed and activated with it once per machine:
+  `sudo pkie activate LacunaPkiLicense.config`, or `pkiemgr.exe` on Windows.
 
 ## 4. Which product to use
 
@@ -166,7 +179,11 @@ the browser sent without that server-side check.
 described at https://docs.lacunasoftware.com/articles/pki-guide/test-certs. The samples trust
 them only in development, by switching to the *Lacuna Test* security context:
 
-- .NET: `#if DEBUG` in `Util.GetSecurityContextId()`
+- .NET MVC: `#if DEBUG` in `Util.GetSecurityContextId()`
+- .NET Core (`dotnet/spa`): the `PkiSuite:TrustLacunaTestRoot` flag, set only in
+  `appsettings.Development.json` and read by `Util.GetSecurityContextId()` (Rest PKI Core) and
+  `Util.GetTrustArbitrator()` (PKI SDK). It does not use `#if DEBUG`, so a Release build run in
+  Development still trusts test certificates.
 - elsewhere: `trustLacunaTestRoot` (or its equivalent), set in Java's `application-dev.yml`,
   Node.js's `config/default.js`, Flask's `DevelopmentConfig`, the `development` section of
   Rails' `lacuna.yml`, and PHP's `config.php`
@@ -211,7 +228,8 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
   the catalog pages listed in that script's `SMOKE_SAMPLES`.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
-  key.
+  key. In `dotnet/spa`, add them to `src/app/home/sample-list.ts` and `src/app/app.routes.ts`
+  instead.
 - Never commit real credentials. If a new config key holds a trial credential, add it to
   `update-licenses.ps1` and to the "For Devs" section of `README.md`.
 
@@ -229,7 +247,7 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
   - Maven: `restpki-client`, `restpkicore-client`, `pki-express`, `amplia-client`,
     `cloudhub-client`, `signer-client`
   - npm: `restpki-client`, `restpki-core-client`, `pki-express`, `amplia-client`,
-    `cloudhub-client`
+    `cloudhub-client`, and `web-pki` (the Web PKI library, in the `dotnet/spa` Angular app)
   - Packagist: `lacuna/restpki-client`, `lacuna/restpkicore-client`, `lacuna/pki-express`,
     `lacuna/amplia-client`, `lacuna/cloudhub-client`
   - PyPI: `restpki-client`, `restpki-ng-python-client` (Rest PKI Core), `pkiexpress`,
