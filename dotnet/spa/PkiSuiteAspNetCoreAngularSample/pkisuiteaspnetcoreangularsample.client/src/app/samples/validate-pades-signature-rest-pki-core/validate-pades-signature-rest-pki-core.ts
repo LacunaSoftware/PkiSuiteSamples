@@ -10,10 +10,10 @@ import { FilesService } from '../../shared/files.service';
 
 /**
  * The response of POST /api/validate-pades-signature-rest-pki-core/open: the signers as Rest PKI
- * Core's signature inspection returns them (see Models/ValidatePadesSignatureRestPkiCore). Fields
- * Rest PKI Core leaves out arrive as null.
+ * Core's signature inspection returns them (see ValidatePadesSignatureRestPkiCoreController.cs).
+ * Fields Rest PKI Core leaves out arrive as null.
  */
-interface PadesSignatureModel {
+interface OpenResponse {
   signers: SignerModel[];
 }
 
@@ -85,7 +85,7 @@ export class ValidatePadesSignatureRestPkiCore implements OnInit {
   readonly fileId = input<string>();
 
   protected readonly openedFileId = signal<string | null>(null);
-  protected readonly signature = signal<PadesSignatureModel | null>(null);
+  protected readonly signature = signal<OpenResponse | null>(null);
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
 
@@ -104,7 +104,7 @@ export class ValidatePadesSignatureRestPkiCore implements OnInit {
     try {
       // The server sends the PDF to Rest PKI Core, which validates every signature in it.
       this.signature.set(
-        await firstValueFrom(this.http.post<PadesSignatureModel>('/api/validate-pades-signature-rest-pki-core/open', { fileId })),
+        await firstValueFrom(this.http.post<OpenResponse>('/api/validate-pades-signature-rest-pki-core/open', { fileId })),
       );
     } catch (error) {
       this.error.set(errorMessage(error));

@@ -104,10 +104,10 @@ export class AuthenticationPkiSdk implements OnInit {
 
       // 3. Send the certificate (public), the nonce and the signature to the server, which validates
       //    them. The server does not trust the certificate until that validation succeeds.
-      const certificate = await this.webPki.readCertificate(thumbprint);
+      const certContent = await this.webPki.readCertificate(thumbprint);
       this.result.set(await firstValueFrom(this.http.post<CompleteResponse>('/api/authentication-pki-sdk/complete', {
         nonce: start.nonce,
-        certificate,
+        certContent,
         signature,
       })));
     } catch (error) {

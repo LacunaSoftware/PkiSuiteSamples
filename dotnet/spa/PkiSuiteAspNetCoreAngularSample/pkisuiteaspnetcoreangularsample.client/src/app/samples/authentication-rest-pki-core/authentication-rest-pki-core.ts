@@ -107,10 +107,10 @@ export class AuthenticationRestPkiCore implements OnInit {
 
       // 3. Send the state, the certificate (public) and the signature to the server, which has
       //    Rest PKI Core validate them. The certificate is not trusted until that validation succeeds.
-      const certificate = await this.webPki.readCertificate(thumbprint);
+      const certContent = await this.webPki.readCertificate(thumbprint);
       this.result.set(await firstValueFrom(this.http.post<CompleteResponse>('/api/authentication-rest-pki-core/complete', {
         state: start.state,
-        certificate,
+        certContent,
         signature,
       })));
     } catch (error) {

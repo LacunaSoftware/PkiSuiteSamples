@@ -3339,7 +3339,6 @@
     "related_files": [
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/validate-pades-signature-pki-sdk/validate-pades-signature-pki-sdk.ts",
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/validate-pades-signature-pki-sdk/validate-pades-signature-pki-sdk.html",
-      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Models/ValidatePadesSignaturePkiSdk/PadesSignatureModel.cs",
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/Util.cs"
     ],
     "status": "current",
@@ -3616,7 +3615,6 @@
     "related_files": [
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/validate-pades-signature-rest-pki-core/validate-pades-signature-rest-pki-core.ts",
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/validate-pades-signature-rest-pki-core/validate-pades-signature-rest-pki-core.html",
-      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Models/ValidatePadesSignatureRestPkiCore/PadesSignatureModel.cs",
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/Util.cs"
     ],
     "status": "current",

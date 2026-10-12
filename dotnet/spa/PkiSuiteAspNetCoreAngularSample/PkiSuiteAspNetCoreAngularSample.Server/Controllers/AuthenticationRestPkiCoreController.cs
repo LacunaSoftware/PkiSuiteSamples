@@ -57,7 +57,7 @@ public class AuthenticationRestPkiCoreController(Util util) : ControllerBase {
 		// the security context.
 		AuthenticationResult result;
 		try {
-			result = await restPkiService.CompleteAuthenticationAsync(request.State, request.Certificate, request.Signature);
+			result = await restPkiService.CompleteAuthenticationAsync(request.State, request.CertContent, request.Signature);
 		} catch (RestPkiExceptionV2 ex) when (ex.ErrorCode is ErrorCodesV2.BadSignature or ErrorCodesV2.InvalidNonceSignature) {
 			// The signature does not match the hash and the certificate: the user did not prove that
 			// they hold the certificate's private key. Rest PKI Core answers this with an error
@@ -96,7 +96,10 @@ public class AuthenticationRestPkiCoreController(Util util) : ControllerBase {
 
 public record AuthenticationRestPkiCoreStartResponse(string State, byte[] ToSignHash, string DigestAlgorithmOid);
 
-public record AuthenticationRestPkiCoreCompleteRequest(string State, byte[] Certificate, byte[] Signature);
+/// <param name="State">The state returned by the start step.</param>
+/// <param name="CertContent">The user's certificate (Base64 in JSON), read by Web PKI.</param>
+/// <param name="Signature">The signature of the to-sign hash, computed by Web PKI (Base64 in JSON).</param>
+public record AuthenticationRestPkiCoreCompleteRequest(string State, byte[] CertContent, byte[] Signature);
 
 public record AuthenticationRestPkiCoreCompleteResponse(AuthenticationRestPkiCoreCertificateModel Certificate, string? ValidationResults);
 

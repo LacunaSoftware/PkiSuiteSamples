@@ -47,7 +47,7 @@ public class AuthenticationPkiSdkController(Util util) : ControllerBase {
 		// - the certificate is valid and was issued by a trusted root (see Util.GetTrustArbitrator()).
 		var validationResults = certAuth.Complete(
 			request.Nonce,
-			request.Certificate,
+			request.CertContent,
 			request.Signature,
 			util.GetTrustArbitrator(),
 			out var certificate
@@ -75,7 +75,10 @@ public class AuthenticationPkiSdkController(Util util) : ControllerBase {
 
 public record AuthenticationPkiSdkStartResponse(byte[] Nonce, string DigestAlgorithmOid);
 
-public record AuthenticationPkiSdkCompleteRequest(byte[] Nonce, byte[] Certificate, byte[] Signature);
+/// <param name="Nonce">The nonce returned by the start step (Base64 in JSON).</param>
+/// <param name="CertContent">The user's certificate (Base64 in JSON), read by Web PKI.</param>
+/// <param name="Signature">The signature of the nonce, computed by Web PKI (Base64 in JSON).</param>
+public record AuthenticationPkiSdkCompleteRequest(byte[] Nonce, byte[] CertContent, byte[] Signature);
 
 public record AuthenticationPkiSdkCompleteResponse(AuthenticationPkiSdkCertificateModel Certificate, string ValidationResults);
 

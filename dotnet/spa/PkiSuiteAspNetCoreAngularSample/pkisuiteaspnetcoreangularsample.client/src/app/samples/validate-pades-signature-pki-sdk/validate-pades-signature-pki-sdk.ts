@@ -7,8 +7,8 @@ import { DocumentPicker } from '../../shared/document-picker/document-picker';
 import { errorMessage } from '../../shared/error-message';
 import { FilesService } from '../../shared/files.service';
 
-/** The response of POST /api/validate-pades-signature-pki-sdk/open (see Models/ValidatePadesSignaturePkiSdk). */
-interface PadesSignatureModel {
+/** The response of POST /api/validate-pades-signature-pki-sdk/open (see ValidatePadesSignaturePkiSdkController.cs). */
+interface OpenResponse {
   signers: SignerModel[];
 }
 
@@ -79,7 +79,7 @@ export class ValidatePadesSignaturePkiSdk implements OnInit {
   readonly fileId = input<string>();
 
   protected readonly openedFileId = signal<string | null>(null);
-  protected readonly signature = signal<PadesSignatureModel | null>(null);
+  protected readonly signature = signal<OpenResponse | null>(null);
   protected readonly busy = signal(false);
   protected readonly error = signal<string | null>(null);
 
@@ -98,7 +98,7 @@ export class ValidatePadesSignaturePkiSdk implements OnInit {
     try {
       // The server opens the PDF and validates every signature in it.
       this.signature.set(
-        await firstValueFrom(this.http.post<PadesSignatureModel>('/api/validate-pades-signature-pki-sdk/open', { fileId })),
+        await firstValueFrom(this.http.post<OpenResponse>('/api/validate-pades-signature-pki-sdk/open', { fileId })),
       );
     } catch (error) {
       this.error.set(errorMessage(error));
