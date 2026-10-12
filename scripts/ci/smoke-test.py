@@ -145,7 +145,11 @@ def check_page(opener, url, timeout):
     chain = []
     current = url
     for _ in range(10):
-        status, location = get(opener, current, timeout)
+        try:
+            status, location = get(opener, current, timeout)
+        except OSError as e:
+            print("    " + "\n    -> ".join(chain + [f"{e} {current}"]))
+            return [f"request failed: {e}"]
         chain.append(f"{status} {current}")
         if status in (301, 302, 303, 307, 308) and location:
             current = urllib.parse.urljoin(current, location)
