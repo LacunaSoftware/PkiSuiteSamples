@@ -1,0 +1,58 @@
+<h1>CAdES signature with Rest PKI Core</h1>
+<p>
+  Signs any file, producing a CMS signature (a <code>.p7s</code> file that contains the signed
+  file). The signature is computed by Rest PKI Core, Lacuna's cloud API. This sample signs new
+  documents only: Rest PKI Core has no option to co-sign an existing <code>.p7s</code> (the PKI SDK
+  sample can).
+</p>
+
+@if (!configuration.isRestPkiCoreConfigured) {
+  <p class="warning">
+    This sample needs a Rest PKI Core API key. Set <code>RestPkiCore:ApiKey</code> in the server's
+    <code>appsettings.json</code>.
+  </p>
+}
+
+@if (signedFileId(); as signedFileId) {
+  <p class="success">File signed successfully!</p>
+  <ul>
+    <li><a [href]="files.downloadUrl(signedFileId)">Download the signature (.p7s)</a></li>
+    <li><button type="button" (click)="restart()">Sign another document</button></li>
+  </ul>
+} @else {
+  @if (fileId(); as fileId) {
+    <p>
+      You are signing <a [href]="files.downloadUrl(fileId)">this document</a>.
+      <button type="button" (click)="restart()" [disabled]="busy()">Choose another</button>
+    </p>
+  } @else {
+    <app-document-picker [samples]="['SamplePdf']" (picked)="fileId.set($event)" />
+  }
+
+  <fieldset [disabled]="busy()">
+    <legend>Sign</legend>
+    <div class="field">
+      <label for="certificate">Choose a certificate</label>
+      <select id="certificate" (change)="selectedThumbprint.set($any($event.target).value)">
+        @for (certificate of certificates(); track certificate.thumbprint) {
+          <option [value]="certificate.thumbprint" [selected]="certificate.thumbprint === selectedThumbprint()">
+            {{ isExpired(certificate) ? '(expired) ' : '' }}{{ certificate.subjectName }} (issued by {{ certificate.issuerName }})
+          </option>
+        } @empty {
+          <option value="">No certificates found</option>
+        }
+      </select>
+    </div>
+    <button type="button" (click)="sign()" [disabled]="!fileId() || !selectedThumbprint()">Sign file</button>
+    <button type="button" (click)="loadCertificates()">Refresh certificates</button>
+    @if (busy()) {
+      <p class="muted">Signing...</p>
+    }
+  </fieldset>
+}
+
+@if (error(); as error) {
+  <p class="error">{{ error }}</p>
+}
+
+<p><a routerLink="/">Back to the samples</a></p>

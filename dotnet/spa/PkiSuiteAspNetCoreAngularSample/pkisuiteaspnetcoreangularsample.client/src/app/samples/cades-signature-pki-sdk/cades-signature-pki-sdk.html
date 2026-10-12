@@ -1,0 +1,56 @@
+<h1>CAdES signature with PKI SDK</h1>
+<p>
+  Signs any file, producing a CMS signature (a <code>.p7s</code> file that contains the signed
+  file), or adds a signature to an existing <code>.p7s</code>. The signature is computed on this
+  server with PKI SDK.
+</p>
+
+@if (signedFileId(); as signedFileId) {
+  <p class="success">File signed successfully!</p>
+  <ul>
+    <li><a [href]="files.downloadUrl(signedFileId)">Download the signature (.p7s)</a></li>
+    <li><a [routerLink]="[]" [queryParams]="{ cosignFileId: signedFileId }">Co-sign it with another certificate</a></li>
+    <li><button type="button" (click)="restart()">Sign another document</button></li>
+  </ul>
+} @else {
+  @if (cosignFileId(); as cosignFileId) {
+    <p>
+      You are co-signing <a [href]="files.downloadUrl(cosignFileId)">this signature</a>.
+      <button type="button" (click)="restart()" [disabled]="busy()">Sign a new document instead</button>
+    </p>
+  } @else if (pickedFileId(); as picked) {
+    <p>
+      You are signing <a [href]="files.downloadUrl(picked)">this document</a>.
+      <button type="button" (click)="pickedFileId.set(null)" [disabled]="busy()">Choose another</button>
+    </p>
+  } @else {
+    <app-document-picker [samples]="['SamplePdf']" (picked)="pickedFileId.set($event)" />
+  }
+
+  <fieldset [disabled]="busy()">
+    <legend>Sign</legend>
+    <div class="field">
+      <label for="certificate">Choose a certificate</label>
+      <select id="certificate" (change)="selectedThumbprint.set($any($event.target).value)">
+        @for (certificate of certificates(); track certificate.thumbprint) {
+          <option [value]="certificate.thumbprint" [selected]="certificate.thumbprint === selectedThumbprint()">
+            {{ isExpired(certificate) ? '(expired) ' : '' }}{{ certificate.subjectName }} (issued by {{ certificate.issuerName }})
+          </option>
+        } @empty {
+          <option value="">No certificates found</option>
+        }
+      </select>
+    </div>
+    <button type="button" (click)="sign()" [disabled]="!fileId() || !selectedThumbprint()">Sign file</button>
+    <button type="button" (click)="loadCertificates()">Refresh certificates</button>
+    @if (busy()) {
+      <p class="muted">Signing...</p>
+    }
+  </fieldset>
+}
+
+@if (error(); as error) {
+  <p class="error">{{ error }}</p>
+}
+
+<p><a routerLink="/">Back to the samples</a></p>
