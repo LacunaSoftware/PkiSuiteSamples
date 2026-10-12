@@ -1,0 +1,136 @@
+<p><a routerLink="/">Back to the samples</a></p>
+
+<h1>PAdES signature validation with PKI SDK</h1>
+<p>
+  Choose a signed PDF. The server opens it with PKI SDK and validates each signature: the signer's
+  certificate and its chain up to a trusted root, revocation status, timestamps and the integrity
+  of the signed content.
+</p>
+
+<app-document-picker [samples]="['SamplePdfSignedOnce', 'SamplePdfSignedTwice']" accept=".pdf" (picked)="open($event)" />
+
+@if (busy()) {
+  <p class="muted">Validating the signatures...</p>
+}
+@if (error(); as error) {
+  <p class="error">{{ error }}</p>
+}
+
+@if (signature(); as signature) {
+  <h2>
+    @switch (signature.signers.length) {
+      @case (0) { The document has no signatures }
+      @case (1) { The document has 1 signature }
+      @default { The document has {{ signature.signers.length }} signatures }
+    }
+  </h2>
+  @if (openedFileId(); as openedFileId) {
+    <p><a [href]="files.downloadUrl(openedFileId)">Download the document</a></p>
+  }
+
+  @for (signer of signature.signers; track $index) {
+    <section>
+      <h3>
+        {{ signer.certificate?.subjectCommonName ?? 'Unknown signer' }}:
+        @if (isValid(signer)) {
+          <span class="success">valid</span>
+        } @else {
+          <span class="error">invalid</span>
+        }
+      </h3>
+
+      <table>
+        <tbody>
+          @if (signer.certificate; as certificate) {
+            <tr><th>Signer</th><td>{{ certificate.subjectDisplayName }}</td></tr>
+            @if (certificate.emailAddress) {
+              <tr><th>Email</th><td>{{ certificate.emailAddress }}</td></tr>
+            }
+            <tr><th>Issuer</th><td>{{ certificate.issuerDisplayName }}</td></tr>
+            <tr>
+              <th>Certificate validity</th>
+              <td>{{ certificate.validityStart | date: 'medium' }} to {{ certificate.validityEnd | date: 'medium' }}</td>
+            </tr>
+            @if (certificate.pkiBrazil; as pkiBrazil) {
+              @if (pkiBrazil.cpf) {
+                <tr><th>CPF</th><td>{{ pkiBrazil.cpf }}</td></tr>
+              }
+              @if (pkiBrazil.cnpj) {
+                <tr><th>CNPJ</th><td>{{ pkiBrazil.cnpj }} {{ pkiBrazil.companyName }}</td></tr>
+              }
+              @if (pkiBrazil.responsavel) {
+                <tr><th>Responsável</th><td>{{ pkiBrazil.responsavel }}</td></tr>
+              }
+              @if (pkiBrazil.rgNumero) {
+                <tr><th>RG</th><td>{{ pkiBrazil.rgNumero }} {{ pkiBrazil.rgEmissor }} {{ pkiBrazil.rgEmissorUF }}</td></tr>
+              }
+              @if (pkiBrazil.oabNumero) {
+                <tr><th>OAB</th><td>{{ pkiBrazil.oabNumero }} {{ pkiBrazil.oabUF }}</td></tr>
+              }
+              @if (pkiBrazil.certificateType) {
+                <tr><th>ICP-Brasil certificate type</th><td>{{ pkiBrazil.certificateType }}</td></tr>
+              }
+            }
+          }
+          @if (signer.signingTime) {
+            <tr><th>Signing time (signer's clock)</th><td>{{ signer.signingTime | date: 'medium' }}</td></tr>
+          }
+          @if (signer.certifiedDateReference) {
+            <tr><th>Signing time (certified by a timestamp)</th><td>{{ signer.certifiedDateReference | date: 'medium' }}</td></tr>
+          }
+          @for (timestamp of signer.timestamps; track $index) {
+            <tr><th>Timestamp</th><td>{{ timestamp.genTime | date: 'medium' }} (serial number {{ timestamp.serialNumber }})</td></tr>
+          }
+          @if (signer.messageDigest; as messageDigest) {
+            <tr><th>Message digest</th><td><code>{{ messageDigest.algorithm }} {{ messageDigest.hexValue }}</code></td></tr>
+          }
+          @if (signer.signaturePolicy; as signaturePolicy) {
+            <tr><th>Signature policy</th><td>{{ signaturePolicy.oid }}</td></tr>
+          }
+        </tbody>
+      </table>
+
+      <details [open]="!isValid(signer)">
+        <summary>
+          Validation results: {{ signer.validationResults.errors.length }} errors,
+          {{ signer.validationResults.warnings.length }} warnings,
+          {{ signer.validationResults.passedChecks.length }} passed checks
+        </summary>
+        <ng-container *ngTemplateOutlet="validationResults; context: { $implicit: signer.validationResults }" />
+      </details>
+    </section>
+  }
+}
+
+<!-- Validation results nest: a certificate check holds the checks of the certificate's issuer. -->
+<ng-template #validationResults let-results>
+  <ul>
+    @for (item of results.errors; track $index) {
+      <li>
+        <span class="error">Error:</span> {{ item.message }}
+        @if (item.detail) { ({{ item.detail }}) }
+        @if (item.innerValidationResults) {
+          <ng-container *ngTemplateOutlet="validationResults; context: { $implicit: item.innerValidationResults }" />
+        }
+      </li>
+    }
+    @for (item of results.warnings; track $index) {
+      <li>
+        <strong>Warning:</strong> {{ item.message }}
+        @if (item.detail) { ({{ item.detail }}) }
+        @if (item.innerValidationResults) {
+          <ng-container *ngTemplateOutlet="validationResults; context: { $implicit: item.innerValidationResults }" />
+        }
+      </li>
+    }
+    @for (item of results.passedChecks; track $index) {
+      <li>
+        <span class="success">Passed:</span> {{ item.message }}
+        @if (item.detail) { ({{ item.detail }}) }
+        @if (item.innerValidationResults) {
+          <ng-container *ngTemplateOutlet="validationResults; context: { $implicit: item.innerValidationResults }" />
+        }
+      </li>
+    }
+  </ul>
+</ng-template>
