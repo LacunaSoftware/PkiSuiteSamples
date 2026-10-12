@@ -156,7 +156,7 @@ class Util {
         }
 
         $ampliaEndpoint = $config['amplia']['endpoint'];
-        if ($ampliaEndpoint == null || count($ampliaEndpoint) === 0) {
+        if (empty($ampliaEndpoint)) {
             $ampliaEndpoint = 'https://amplia.lacunasoftware.com/';
         }
 
