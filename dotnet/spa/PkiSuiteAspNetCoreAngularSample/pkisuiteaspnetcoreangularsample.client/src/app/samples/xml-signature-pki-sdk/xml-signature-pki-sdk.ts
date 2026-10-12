@@ -83,10 +83,10 @@ export class XmlSignaturePkiSdk implements OnInit {
       // 2. Sign the hash with the certificate's private key, which never leaves this computer.
       const signature = await this.webPki.signHash(thumbprint, start.toSignHash, start.digestAlgorithmOid);
 
-      // 3. Send the signature value to the server, which finishes the signed XML.
+      // 3. Send the signature value to the server, which finishes the signed XML. The server kept
+      //    the document with the transfer data, so it signs the same one as in step 1.
       const complete = await firstValueFrom(
         this.http.post<CompleteResponse>('/api/xml-signature-pki-sdk/complete', {
-          fileId,
           transferDataId: start.transferDataId,
           signature,
         }),

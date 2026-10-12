@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Xml;
 using Lacuna.Pki;
 using Lacuna.Pki.Xml;
@@ -72,10 +73,15 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 			return Problem(detail: $"The file is not a valid XML document: {ex.Message}", statusCode: StatusCodes.Status422UnprocessableEntity);
 		}
 
+		// The complete step needs the transfer data and the same NF-e. We keep both on this
+		// server, and send the browser only an id to retrieve them, so the browser cannot swap the
+		// NF-e between the two steps. In a real application, you'd store this in your database or
+		// cache, tied to the user's session.
+		var state = new XmlNfeSignatureState(request.FileId, transferData);
+		var transferDataId = storageMock.StoreTransferData(JsonSerializer.SerializeToUtf8Bytes(state));
+
 		return new XmlNfeSignaturePkiSdkStartResponse(
-			// The transfer data stays on the server; only its id goes to the browser. In a real
-			// application, store it in your database or cache, tied to the user's session.
-			TransferDataId: storageMock.StoreTransferData(transferData),
+			TransferDataId: transferDataId,
 			// GenerateToSignHash() already returns a hash: send it to the browser as is.
 			ToSignHash: toSignHash,
 			DigestAlgorithmOid: signatureAlg.DigestAlgorithm.Oid
@@ -85,17 +91,20 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 	// POST api/xml-nfe-signature-pki-sdk/complete
 	[HttpPost("complete")]
 	public ActionResult<XmlNfeSignaturePkiSdkCompleteResponse> Complete(XmlNfeSignaturePkiSdkCompleteRequest request) {
-		// The complete step must use the same document as the start step.
-		if (!storageMock.TryGetFile(request.FileId, out var path)) {
-			return Problem(detail: "File not found", statusCode: StatusCodes.Status404NotFound);
+		// Recover what the start step stored. Each id can be used only once.
+		XmlNfeSignatureState? state;
+		try {
+			state = JsonSerializer.Deserialize<XmlNfeSignatureState>(storageMock.ReadTransferData(request.TransferDataId));
+		} catch (FileNotFoundException) {
+			state = null;
+		}
+		if (state == null) {
+			return Problem(detail: "The signature was not started or was already completed. Please sign again.", statusCode: StatusCodes.Status422UnprocessableEntity);
 		}
 
-		byte[] transferData;
-		try {
-			// Read back the transfer data stored by the start step. It can be used only once.
-			transferData = storageMock.ReadTransferData(request.TransferDataId);
-		} catch (FileNotFoundException) {
-			return Problem(detail: "The signature was not started or was already completed. Please sign again.", statusCode: StatusCodes.Status422UnprocessableEntity);
+		// The complete step must use the same NF-e as the start step.
+		if (!storageMock.TryGetFile(state.FileId, out var path)) {
+			return Problem(detail: "The file to be signed was not found.", statusCode: StatusCodes.Status404NotFound);
 		}
 
 		byte[] signedNfe;
@@ -107,7 +116,7 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 			signer.SetPolicy(GetSignaturePolicy());
 
 			// Set the signature value computed by Web PKI, along with the transfer data.
-			signer.SetPrecomputedSignature(request.Signature, transferData);
+			signer.SetPrecomputedSignature(request.Signature, state.TransferData);
 
 			// Finish the signature. This also validates the signer's certificate and the resulting
 			// signature.
@@ -152,6 +161,11 @@ public class XmlNfeSignaturePkiSdkController(StorageMock storageMock, Util util)
 		var id = (document.SelectSingleNode("//nfe:infNFe", namespaces) as XmlElement)?.GetAttribute("Id");
 		return string.IsNullOrEmpty(id) ? null : id;
 	}
+
+	/// <summary>
+	/// What the complete step needs from the start step, kept on the server.
+	/// </summary>
+	private record XmlNfeSignatureState(string FileId, byte[] TransferData);
 }
 
 // byte[] properties travel as Base64 strings in JSON, as Web PKI expects.
@@ -165,9 +179,8 @@ public record XmlNfeSignaturePkiSdkStartRequest(string FileId, byte[] CertConten
 /// <param name="DigestAlgorithmOid">The digest algorithm for Web PKI's signHash().</param>
 public record XmlNfeSignaturePkiSdkStartResponse(string TransferDataId, byte[] ToSignHash, string DigestAlgorithmOid);
 
-/// <param name="FileId">The same NF-e as in the start step.</param>
 /// <param name="TransferDataId">Returned by the start step.</param>
 /// <param name="Signature">The signature value returned by Web PKI's signHash().</param>
-public record XmlNfeSignaturePkiSdkCompleteRequest(string FileId, string TransferDataId, byte[] Signature);
+public record XmlNfeSignaturePkiSdkCompleteRequest(string TransferDataId, byte[] Signature);
 
 public record XmlNfeSignaturePkiSdkCompleteResponse(string SignedFileId);

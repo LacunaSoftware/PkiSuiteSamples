@@ -83,10 +83,10 @@ export class XmlNfeSignaturePkiSdk implements OnInit {
       // 2. Sign the hash with the certificate's private key, which never leaves this computer.
       const signature = await this.webPki.signHash(thumbprint, start.toSignHash, start.digestAlgorithmOid);
 
-      // 3. Send the signature value to the server, which finishes the signed NF-e.
+      // 3. Send the signature value to the server, which finishes the signed NF-e. The server kept
+      //    the NF-e with the transfer data, so it signs the same one as in step 1.
       const complete = await firstValueFrom(
         this.http.post<CompleteResponse>('/api/xml-nfe-signature-pki-sdk/complete', {
-          fileId,
           transferDataId: start.transferDataId,
           signature,
         }),
