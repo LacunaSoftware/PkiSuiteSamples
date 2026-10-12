@@ -74,7 +74,7 @@ redirecting to the sample.
 |---|---|---|---|---|---|
 | `dotnet/mvc/PkiSuiteAspNetMvcSample` | ASP.NET MVC 5, .NET Framework 4.8 | `dotnet/mvc` | Open `PkiSuiteAspNetMvcSample.sln` in Visual Studio, F5 (IIS Express) | http://localhost:54123 | `Web.config` `<appSettings>`; `LacunaPkiLicense.config` (copied to `bin/`) |
 | `dotnet/spa/PkiSuiteAspNetSpaSample` | ASP.NET Core 3.1 + Angular 8 (`ClientApp/`) | the project folder | `dotnet run` (also needs Node.js for `ClientApp`) | https://localhost:5001 | `appsettings.json` (`RestPki`, `RestPkiCore`, `WebPki`); `LacunaPkiLicense.config` (loaded from the working directory) |
-| `java/springmvc` | Spring Boot 1.5, Gradle | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
+| `java/springmvc` | Spring Boot 3.5, Java 21, Gradle 8.14 wrapper (or Maven) | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
 | `nodejs/expressmvc` | Express + Pug | `nodejs/expressmvc` | `npm install && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
 | `python/flask` | Flask | `python/flask` | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000 | `sample/config.py` (class picked by `FLASK_ENV`, which is required) |
@@ -83,6 +83,9 @@ redirecting to the sample.
 
 `dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
 `README.md` with its sample list, which is generated from the catalog.
+
+`java/springmvc` needs JDK 21 or later. `mvn spring-boot:run` runs it too: `pom.xml` and
+`build.gradle` declare the same dependencies, so change both when you change one.
 
 Every key a project reads is listed, with placeholder values and a one-line comment, in an
 `.example` file next to the real config file: `Web.config.example`,

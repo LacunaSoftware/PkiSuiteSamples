@@ -10,12 +10,18 @@ server:
   port: 60695
   # Include stack traces in error pages (development convenience).
   error.include-stacktrace: always
+  # Include exception messages in error pages (development convenience).
+  error.include-message: always
 
 spring:
   # Active profile; 'dev' loads application-dev.yml.
   profiles.active: 'dev'
   # JSON mapper used by the REST controllers.
-  http.converters.preferred-json-mapper: gson
+  mvc.converters.preferred-json-mapper: gson
+  # Maximum size of an uploaded file and of a whole multipart request.
+  servlet.multipart:
+    max-file-size: 10MB
+    max-request-size: 10MB
 
 proxy:
   # Optional HTTP proxy host for calls to Lacuna services (config/ProxyProperties.java).

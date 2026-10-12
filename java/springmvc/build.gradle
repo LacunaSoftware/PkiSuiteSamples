@@ -1,31 +1,17 @@
-buildscript {
-    ext {
-        springBootVersion = '1.5.18.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'org.springframework.boot' version '3.5.16'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 group = 'com.lacunasoftware'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
 
-// The Signer client (signer-client) requires Jackson >= 2.9 (it uses
-// MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS). Spring Boot 1.5's dependency management pins
-// Jackson to 2.8.x, which causes a "NoSuchFieldError: ACCEPT_CASE_INSENSITIVE_ENUMS" at runtime.
-// Overriding the managed Jackson version fixes it. Note this project uses gson as its JSON mapper
-// (see application.yml), so bumping Jackson mostly affects the Signer client's internal usage.
-ext['jackson.version'] = '2.12.1'
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+}
 
 // XmlDiplomaArchivalExtensionCoreSelfTestController calls RestPkiService.extendArchivalSignature(),
 // which no released restpkicore-client has yet (it is only on the client's feature/extendachive
@@ -40,9 +26,9 @@ sourceSets {
 }
 
 repositories {
-    
+
     mavenCentral()
-    
+
     // Uncomment to use prerelease Lacuna packages
     // maven {
     //     url "https://s01.oss.sonatype.org/content/groups/staging/"
@@ -50,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.lowagie', name: 'itext', version: '4.2.0'
+    implementation 'com.lowagie:itext:4.2.0'
     implementation 'com.lacunasoftware.pkiexpress:pki-express:1.20.0'
     implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
     implementation 'com.lacunasoftware.restpki:restpkicore-client:1.4.0'
@@ -61,5 +47,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'commons-io:commons-io:2.14.0'
     implementation 'commons-codec:commons-codec:1.11'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    // gson is the JSON mapper of the REST controllers (see application.yml). Its version comes from
+    // Spring Boot's dependency management: Boot's gson auto-configuration needs a recent gson.
+    implementation 'com.google.code.gson:gson'
 }

@@ -45,8 +45,7 @@ public class PadesSignatureCloudhubRestController {
 	 * This action initiates a PAdES signature using Cloudhub API service
 	 * to retrieve the PSCs, which, in turn, will return a certificate.
 	 */
-	@GetMapping
-	@RequestMapping("/pades-signature-cloudhub-rest")
+	@GetMapping("/pades-signature-cloudhub-rest")
 	public ModelAndView get(
 		@RequestParam(value = "fileId") String fileToSign
 	) throws IOException, RestException {

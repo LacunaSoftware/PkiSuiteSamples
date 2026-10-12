@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page}">
 <body>
 
 <div th:fragment="content">
 	<h2 class="ls-title">Upload a file</h2>
 	<h5 class="ls-subtitle">
 		You will be redirected to route
-		<b>/<span th:text="${#httpServletRequest.getParameter('rc')}"></span></b>
+		<b>/<span th:text="${param.rc}"></span></b>
 	</h5>
 
 	<div class="ls-content">

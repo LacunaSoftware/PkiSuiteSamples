@@ -9,8 +9,9 @@ Default sample
 --------------
 
 A sample for a Java web application using the Spring Boot framework can be found in the folder
-[springmvc](springmvc/). The sample uses spring boot to provide a self-contained web application,
-not requiring a web server installed. The only requirement is **having a JDK installed**.
+[springmvc](springmvc/). The sample uses Spring Boot 3.5 to provide a self-contained web
+application, not requiring a web server installed. The only requirement is **having JDK 21 or
+later installed**.
 
 To run, you can use the following tools:
 
@@ -25,9 +26,6 @@ To run, you can use the following tools:
   
 1. Once you see the message "Started Application in x.xxx seconds" (the on-screen percentage
    will *not* reach 100%), open a web browser and go the URL http://localhost:60695
-   
-> If you are on Linux, you may have to add the execution permission to *gradrew* file by executing
-the command `chmod +x gradlew`.
 
 **Using Maven**
 
@@ -35,7 +33,8 @@ the command `chmod +x gradlew`.
    or clone the repository
 
 1. In a command prompt, navigate to the folder `springmvc` and run the command
-   `mvn spring-boot:run`. To run this command, it's necessary to have the Apache Maven installed.
+   `mvn spring-boot:run`. To run this command, it's necessary to have Apache Maven 3.6.3 or later
+   installed.
    
 1. Once you see the message "Started Application in x.xxx seconds", open a web browser and go the URL
    http://localhost:60695

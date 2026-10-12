@@ -1,20 +1,23 @@
 package com.lacunasoftware.pkisuite;
 
 import com.lacunasoftware.pkisuite.api.model.ErrorModel;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -32,7 +35,11 @@ public class GlobalExceptionResolver {
 				Object handler,
 				Exception ex
 		) {
-			HandlerMethod hm = (HandlerMethod)handler;
+			// Only exceptions thrown by controller actions are rendered here. Others (for example,
+			// from static resources) go to Spring Boot's error page.
+			if (!(handler instanceof HandlerMethod hm)) {
+				return null;
+			}
 
 			// Parse stack trace into a string.
 			StringWriter sw = new StringWriter();
@@ -50,7 +57,26 @@ public class GlobalExceptionResolver {
 			model.put("trace", stackTraceStr);
 			model.put("status", Integer.toString(internalServerErrorCode.value()));
 			model.put("error", internalServerErrorCode.getReasonPhrase());
+			model.put("path", request.getRequestURI());
+			model.put("method", request.getMethod());
 			return new ModelAndView("error", model, internalServerErrorCode);
+		}
+	}
+
+	/**
+	 * Adds the request method to the attributes of Spring Boot's error page (templates/error.html
+	 * shows it). Thymeleaf 3.1 templates cannot read the request directly.
+	 */
+	@Component
+	private static class ErrorAttributesWithMethod extends DefaultErrorAttributes {
+
+		@Override
+		public Map<String, Object> getErrorAttributes(WebRequest webRequest, ErrorAttributeOptions options) {
+			Map<String, Object> attributes = super.getErrorAttributes(webRequest, options);
+			if (webRequest instanceof ServletWebRequest servletWebRequest) {
+				attributes.put("method", servletWebRequest.getRequest().getMethod());
+			}
+			return attributes;
 		}
 	}
 

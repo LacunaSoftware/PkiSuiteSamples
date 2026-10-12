@@ -118,10 +118,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
-      - name: Start a JDK 8 container with Maven
+      - name: Start a JDK 21 container with Maven
         run: >
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/java/springmvc
-          maven:3.9-eclipse-temurin-8 sleep infinity
+          maven:3.9-eclipse-temurin-21 sleep infinity
       - name: Build with Gradle
         run: docker exec app sh gradlew build
       - name: Build with Maven

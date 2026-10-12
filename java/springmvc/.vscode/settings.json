@@ -1,5 +1,3 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic",
-    "java.jdt.ls.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.412.8-hotspot",
-    "java.import.gradle.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-8.0.412.8-hotspot"
+    "java.compile.nullAnalysis.mode": "automatic"
 }

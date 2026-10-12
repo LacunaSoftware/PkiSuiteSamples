@@ -15,16 +15,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.18.RELEASE</version>
+		<version>3.5.16</version>
 		<relativePath/>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<!-- The Signer client needs Jackson >= 2.9, newer than Spring Boot 1.5 manages (see build.gradle). -->
-		<jackson.version>2.12.1</jackson.version>
+		<java.version>21</java.version>
 	</properties>
 
 	<dependencies>
@@ -93,10 +91,11 @@
 			<version>1.11</version>
 		</dependency>
 
+		<!-- gson is the JSON mapper of the REST controllers (see application.yml). Its version comes
+		     from Spring Boot's dependency management: Boot's gson auto-configuration needs a recent gson. -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.8.9</version>
 		</dependency>
 
 	</dependencies>
