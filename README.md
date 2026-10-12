@@ -68,9 +68,6 @@ The `update-licenses.ps1` script performs the following changes:
     *   Updates `RestPkiCoreApiKey` (value for key "RestPkiCoreApiKey")
     *   The `CloudHubApiKey` is intentionally skipped.
     *   Updates expiry date comments.
-*   **`dotnet/spa/PkiSuiteAspNetSpaSample/appsettings.json`**:
-    *   Updates `RestPki.AccessToken` (with the RestPkiApiKey)
-    *   Updates expiry date comments.
 *   **`java/springmvc/src/main/resources/application.yml`**:
     *   Sets `rest-pki.accessToken` (with the RestPkiApiKey)
     *   Sets `rest-pki-core.apiKey` (with the RestPkiCoreApiKey)

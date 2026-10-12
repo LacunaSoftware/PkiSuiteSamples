@@ -187,34 +187,6 @@
     }
   },
   {
-    "id": "pades-signature-pki-sdk",
-    "title": "Sign a PDF with PKI SDK",
-    "description": "Two-step PAdES signature built on your own server with PKI SDK: Web PKI reads the user's certificate, the server returns the hash to sign, Web PKI signs it in the browser, and the server assembles the signed PDF. The same page co-signs an already signed PDF.",
-    "product": "pki-sdk",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/PadesSignatureSdkController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/pades-signature-sdk/pades-signature-sdk.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/pades-signature-sdk/pades-signature-sdk.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-sdk.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/PadesSignatureStartRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/PadesVisualElements.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/pades",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/RedirectToSPA?rc=server-files&fwd=pades-signature&op=SignPdf"
-    }
-  },
-  {
     "id": "pades-signature-pki-express",
     "title": "Sign a PDF with PKI Express",
     "description": "Two-step PAdES signature built on your own server with PKI Express: Web PKI reads the user's certificate, PKI Express returns the hash to sign and a transfer file, Web PKI signs the hash in the browser, and PKI Express completes the signed PDF. The same page co-signs an already signed PDF.",
@@ -389,34 +361,6 @@
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
       "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=ServerFiles&ctrl=PadesSignatureRest&op=signPdf"
-    }
-  },
-  {
-    "id": "pades-signature-rest-pki",
-    "title": "Sign a PDF with Rest PKI",
-    "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
-    "product": "rest-pki",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/PadesSignatureRestController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/pades-signature-rest/pades-signature-rest.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/pades-signature-rest/pades-signature-rest.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-rest.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureStartRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/PadesVisualElements.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/netcore",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/CheckRestPkiToken?rc=server-files&fwd=pades-signature&op=SignPdf"
     }
   },
   {
@@ -1795,33 +1739,6 @@
     }
   },
   {
-    "id": "cades-signature-pki-sdk",
-    "title": "Sign a file with CAdES using PKI SDK",
-    "description": "Two-step CMS/CAdES signature built on your server with PKI SDK: Web PKI reads the certificate, the server returns the hash to sign, Web PKI signs it, and the server writes the .p7s. The same page co-signs an existing CMS.",
-    "product": "pki-sdk",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/CadesSignatureSdkController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/cades-signature-sdk/cades-signature-sdk.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/cades-signature-sdk/cades-signature-sdk.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-sdk.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/CadesSignatureStartRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/CadesSignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/CadesSignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/cades",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/RedirectToSPA?rc=server-files&fwd=cades-signature&op=SignCms"
-    }
-  },
-  {
     "id": "cades-signature-pki-express",
     "title": "Sign a file with CAdES using PKI Express",
     "description": "Two-step CMS/CAdES signature built on your server with PKI Express: Web PKI reads the certificate, PKI Express returns the hash to sign, Web PKI signs it, and PKI Express writes the .p7s.",
@@ -1990,33 +1907,6 @@
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
       "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=ServerFiles&ctrl=CadesSignatureRest&op=signCms"
-    }
-  },
-  {
-    "id": "cades-signature-rest-pki",
-    "title": "Sign a file with CAdES using Rest PKI",
-    "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
-    "product": "rest-pki",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/CadesSignatureRestController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/cades-signature-rest/cades-signature-rest.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/cades-signature-rest/cades-signature-rest.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-rest.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureStartRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/netcore",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/CheckRestPkiToken?rc=server-files&fwd=cades-signature&op=SignCms"
     }
   },
   {
@@ -2619,33 +2509,6 @@
     }
   },
   {
-    "id": "xml-signature-pki-sdk",
-    "title": "Sign an XML document using PKI SDK",
-    "description": "Two-step XAdES signature of a whole XML document with PKI SDK: Web PKI reads the certificate, the server returns the hash to sign, Web PKI signs it, and the server inserts the signature.",
-    "product": "pki-sdk",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/XmlSignatureSdkController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-signature-sdk/xml-signature-sdk.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-signature-sdk/xml-signature-sdk.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-sdk.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/XmlSignatureStartRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/xml",
-    "demo_url": null,
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/RedirectToSPA?rc=xml-signature"
-    }
-  },
-  {
     "id": "xml-signature-pki-express",
     "title": "Sign an XML document using PKI Express",
     "description": "Two-step XAdES signature of a whole XML document with PKI Express and Web PKI.",
@@ -2692,32 +2555,6 @@
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
       "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=XmlSignatureRest"
-    }
-  },
-  {
-    "id": "xml-signature-rest-pki",
-    "title": "Sign an XML document using Rest PKI",
-    "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
-    "product": "rest-pki",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/XmlSignatureRestController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-signature-rest/xml-signature-rest.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-signature-rest/xml-signature-rest.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-rest.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/netcore",
-    "demo_url": null,
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/CheckRestPkiToken?rc=xml-signature"
     }
   },
   {
@@ -2979,33 +2816,6 @@
     }
   },
   {
-    "id": "xml-nfe-signature-pki-sdk",
-    "title": "Sign a Brazilian NF-e using PKI SDK",
-    "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, in two steps with PKI SDK and Web PKI.",
-    "product": "pki-sdk",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/XmlNFeSignatureSdkController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-nfe-signature-sdk/xml-nfe-signature-sdk.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-nfe-signature-sdk/xml-nfe-signature-sdk.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-sdk.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/XmlNFeSignatureStartRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/XmlNFeSignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/XmlNFeSignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/XmlNFeSignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/xml",
-    "demo_url": null,
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/RedirectToSPA?rc=xml-nfe-signature"
-    }
-  },
-  {
     "id": "xml-nfe-signature-pki-express",
     "title": "Sign a Brazilian NF-e using PKI Express",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, in two steps with PKI Express and Web PKI.",
@@ -3077,32 +2887,6 @@
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
       "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=XmlNFeSignatureRest"
-    }
-  },
-  {
-    "id": "xml-nfe-signature-rest-pki",
-    "title": "Sign a Brazilian NF-e using Rest PKI",
-    "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
-    "product": "rest-pki",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/XmlNFeSignatureRestController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-nfe-signature-rest/xml-nfe-signature-rest.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/xml-nfe-signature-rest/xml-nfe-signature-rest.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-rest.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/SignatureCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/netcore",
-    "demo_url": null,
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/CheckRestPkiToken?rc=xml-nfe-signature"
     }
   },
   {
@@ -3382,30 +3166,6 @@
     }
   },
   {
-    "id": "validate-pades-signature-pki-sdk",
-    "title": "Validate a signed PDF using PKI SDK",
-    "description": "Opens a signed PDF on the server, validates every signature with PKI SDK and shows the signers and validation results.",
-    "product": "pki-sdk",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/OpenPadesSdkController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/open-pades-sdk/open-pades-sdk.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/open-pades-sdk/open-pades-sdk.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-sdk.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/PadesSignatureModel.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/pades",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/RedirectToSPA?rc=server-files&fwd=pades-signature&op=SignPdf"
-    }
-  },
-  {
     "id": "validate-pades-signature-pki-express",
     "title": "Validate a signed PDF using PKI Express",
     "description": "Opens a signed PDF on the server, validates every signature with PKI Express and shows the signers and validation results.",
@@ -3529,30 +3289,6 @@
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
       "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=Upload&ctrl=OpenPadesSignatureRest"
-    }
-  },
-  {
-    "id": "validate-pades-signature-rest-pki",
-    "title": "Validate a signed PDF using Rest PKI",
-    "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
-    "product": "rest-pki",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/OpenPadesRestController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/open-pades-rest/open-pades-rest.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/open-pades-rest/open-pades-rest.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-rest.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/PadesSignatureModel.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/netcore",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/CheckRestPkiToken?rc=server-files&fwd=pades-signature&op=SignPdf"
     }
   },
   {
@@ -4297,32 +4033,6 @@
     }
   },
   {
-    "id": "authentication-pki-sdk",
-    "title": "Authenticate with a digital certificate using PKI SDK",
-    "description": "Certificate login with a nonce challenge: the server issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI SDK validates the signature and the certificate on the server.",
-    "product": "pki-sdk",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/AuthenticationSdkController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/authentication-sdk/authentication-sdk.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/authentication-sdk/authentication-sdk.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-sdk.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/AuthenticationStartResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/AuthenticationCompleteRequest.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Sdk/AuthenticationCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/certificates/auth",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/RedirectToSPA?rc=authentication"
-    }
-  },
-  {
     "id": "authentication-pki-express",
     "title": "Authenticate with a digital certificate using PKI Express",
     "description": "Certificate login with a nonce challenge: PKI Express issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI Express validates the signature and the certificate.",
@@ -4437,31 +4147,6 @@
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
       "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=AuthenticationRest"
-    }
-  },
-  {
-    "id": "authentication-rest-pki",
-    "title": "Authenticate with a digital certificate using Rest PKI",
-    "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
-    "product": "rest-pki",
-    "language": "dotnet",
-    "framework": "aspnet-core-angular",
-    "path": "dotnet/spa/PkiSuiteAspNetSpaSample/Controllers/AuthenticationRestController.cs",
-    "related_files": [
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/authentication-rest/authentication-rest.component.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/components/authentication-rest/authentication-rest.component.html",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp/src/app/services/signature-rest.service.ts",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/AuthenticationCompleteResponse.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Models/Rest/CertificateModel.cs",
-      "dotnet/spa/PkiSuiteAspNetSpaSample/Classes/Util.cs"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/netcore",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
-    "run": {
-      "cwd": "dotnet/spa/PkiSuiteAspNetSpaSample",
-      "command": "dotnet run",
-      "url": "https://localhost:5001/CheckRestPkiToken?rc=authentication"
     }
   },
   {
