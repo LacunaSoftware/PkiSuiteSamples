@@ -27,8 +27,10 @@ try {
         $client = Util::getRestPkiCoreClient();
         $service = new RestPkiService($client);
         
-        // Get the link to download the signedFile.
-        $downloadLink = $event->document->signedFile->location;
+        // Get the link to download the signedFile. Read it from the raw model: the "url" field is
+        // a temporary link that downloads the file without the API key, and WebhookEvent's
+        // DocumentFile class only exposes the deprecated "location" field.
+        $downloadLink = $model->document->signedFile->url;
 
         // Get the signed file content.
         $signedContent = $service->getContent($downloadLink);

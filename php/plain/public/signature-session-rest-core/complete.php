@@ -6,6 +6,7 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
+use Lacuna\RestPki\ApiRoutes;
 use Lacuna\RestPki\RestPkiService;
 use Lacuna\RestPki\SignatureSessionStatus;
 
@@ -21,9 +22,12 @@ try {
     $session = $service->getSignatureSession($sessionId);
 
     if ($session->status == SignatureSessionStatus::COMPLETED){
-        // If signature completed, get document information
+        // If signature completed, get document information. The response is a DocumentModel, whose
+        // files carry a "url" field: a temporary link that downloads the file without the API key.
+        // ($service->getDocument() is not used because its DocumentFile class only exposes the
+        // deprecated "location" field.)
         $docId = $session->documents[0]->id;
-        $doc = $service->getDocument($docId);
+        $doc = $client->getRestClient()->get(ApiRoutes::DOCUMENTS . '/' . $docId)->getBodyAsJson();
     }
 ?>
     <!DOCTYPE html>
@@ -43,8 +47,8 @@ try {
             <div class="ls-content">
                 <h3>Actions:</h3>
                 <ul>
-                    <li><a href="<?= $doc->originalFile->location ?>">Download the original file</a></li>
-                    <li><a href="<?= $doc->signedFile->location ?>">Download the signed file</a></li>
+                    <li><a href="<?= $doc->originalFile->url ?>">Download the original file</a></li>
+                    <li><a href="<?= $doc->signedFile->url ?>">Download the signed file</a></li>
                 </ul>
             </div>
         <?php } else if ($session->status == SignatureSessionStatus::USER_CANCELLED){ ?>
