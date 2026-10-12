@@ -76,11 +76,13 @@
 			},
 			signPdfServer: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureSdk", @op = "signPdf" }))',
-				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRest", @op = "signPdf" }))'
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRest", @op = "signPdf" }))',
+				restpkicore: '@Html.Raw(Url.Action("CheckRestPkiCoreApiKey", "Home", new { @rc = "ServerFiles", @ctrl = "PadesSignatureRestCore", @op = "signPdf" }))'
 			},
 			signPdfUser: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRest" }))',
+				restpkicore: '@Html.Raw(Url.Action("CheckRestPkiCoreApiKey", "Home", new { @rc = "Upload", @ctrl = "PadesSignatureRestCore" }))',
 				webpki: '@Html.Raw(Url.Action("Index", "PadesSignatureWeb"))'
 			},
 			signPdfServerKey: {

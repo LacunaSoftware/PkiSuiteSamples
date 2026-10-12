@@ -12,6 +12,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 <!-- BEGIN GENERATED SAMPLES LIST (project: dotnet/mvc) -->
 | Sample | Product | Entry file | Open |
 |---|---|---|---|
+| Sign a PDF with Rest PKI Core<br>`pades-signature-rest-pki-core` | Rest PKI Core | [PadesSignatureRestCoreController.cs](PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestCoreController.cs) | http://localhost:54123/Home/CheckRestPkiCoreApiKey?rc=ServerFiles&ctrl=PadesSignatureRestCore&op=signPdf |
 | Sign a PDF with PKI SDK<br>`pades-signature-pki-sdk` | PKI SDK | [PadesSignatureSdkController.cs](PkiSuiteAspNetMvcSample/Controllers/PadesSignatureSdkController.cs) | http://localhost:54123/Home/CheckPkiLicense?rc=ServerFiles&ctrl=PadesSignatureSdk&op=signPdf |
 | Sign a local PDF in the browser with Web PKI<br>`pades-signature-web-pki` | Web PKI | [PadesSignatureWebController.cs](PkiSuiteAspNetMvcSample/Controllers/PadesSignatureWebController.cs) | http://localhost:54123/PadesSignatureWeb |
 | Sign a PDF with Rest PKI<br>`pades-signature-rest-pki` | Rest PKI | [PadesSignatureRestController.cs](PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestController.cs) | http://localhost:54123/Home/CheckRestPkiToken?rc=ServerFiles&ctrl=PadesSignatureRest&op=signPdf |
