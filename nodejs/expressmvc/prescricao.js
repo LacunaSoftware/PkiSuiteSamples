@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { StorageMock } = require('./storage-mock');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const PDFDocument = require('pdfkit');
 
 const APP_ROOT = process.cwd();

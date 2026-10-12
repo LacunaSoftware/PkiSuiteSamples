@@ -1,5 +1,5 @@
 const express = require('express');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const { CadesSignatureStarter, CadesSignatureFinisher, StandardSignaturePolicies } = require('restpki-client');
 
 const { Util } = require('../util');

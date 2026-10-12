@@ -15,7 +15,7 @@ const {
 	PadesVisualElementsRestPki,
 } = require("../pades-visual-elements-restpki");
 const { StorageMock } = require("../storage-mock");
-const uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require("uuid");
 const path = require('path');
 
 const app = express();

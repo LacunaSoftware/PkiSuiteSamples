@@ -4,7 +4,7 @@ const { Util } = require("../util");
 const { Authentication, CompleteAuth } = require("restpki-client");
 const restpki = require("restpki-client");
 
-const uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 
 const app = express();

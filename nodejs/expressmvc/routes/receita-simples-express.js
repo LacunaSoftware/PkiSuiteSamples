@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const {
 	PadesSignatureStarter,
