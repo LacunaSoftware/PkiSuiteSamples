@@ -37,6 +37,7 @@
       "nodejs/expressmvc/views/pades-signature-core/complete.pug",
       "nodejs/expressmvc/public/javascripts/signature-start-form.js",
       "nodejs/expressmvc/public/javascripts/signature-complete-form.js",
+      "nodejs/expressmvc/pades-visual-elements-core.js",
       "nodejs/expressmvc/public/PdfStamp.png"
     ],
     "status": "current",
@@ -574,7 +575,7 @@
     "related_files": [
       "nodejs/expressmvc/views/batch-pades-signature-core/index.pug",
       "nodejs/expressmvc/public/javascripts/batch-signature-core-form.js",
-      "nodejs/expressmvc/pades-visual-elements-restpki.js"
+      "nodejs/expressmvc/pades-visual-elements-core.js"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",

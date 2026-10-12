@@ -2,9 +2,11 @@ package com.lacunasoftware.pkisuite.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Base64;
-import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import com.lacunasoftware.restpkicore.PrepareSignatureRequest;
 import com.lacunasoftware.restpkicore.PrepareSignatureResponse;
 import com.lacunasoftware.restpkicore.RestPkiService;
 import com.lacunasoftware.restpkicore.RestPkiServiceFactory;
+import com.lacunasoftware.restpkicore.ValidationItemModel;
 
 
 @Controller
@@ -72,8 +75,9 @@ public class PadesSignatureCoreController {
 		// Create a signature request.
 		PrepareSignatureRequest request = new PrepareSignatureRequest();
 		
-		// Set the security context to be used to determine trust in the certificate chain.
-		// request.setSecurityContextId(Util.getSecurityContextCore().getUUID());
+		// Set the security context to be used to determine trust in the certificate chain. We have
+		// encapsulated the security context choice on Util.java.
+		request.setSecurityContextId(Util.getSecurityContextCore().getUUID());
 
 		// Set the PDF to be signed.
         FileReferenceModel fileRefModel = new FileReferenceModel();
@@ -83,7 +87,6 @@ public class PadesSignatureCoreController {
         fileRefModel.setContentType("application/pdf");
         fileRefModel.setName("Sample PDF.pdf");
         request.setFile(fileRefModel);
-		request.setSecurityContextId(UUID.fromString("d480958c-59b0-4178-bd11-0198188bfd3c"));
 
         // set the certificate
         CertificateReferenceModel certificateRefModel = new CertificateReferenceModel();
@@ -94,6 +97,23 @@ public class PadesSignatureCoreController {
 		// PrepareSignatureResponse object containing the signer certificate and other information
 		// needed to complete the signature process.
 		PrepareSignatureResponse result = service.startSignature(request);
+
+		// REST PKI Core validates the signer's certificate before preparing the signature. If the
+		// certificate is not valid or not trusted, "success" is false and "validationResults" says
+		// why.
+		if (!Boolean.TRUE.equals(result.isSuccess())) {
+			String details = "";
+			List<ValidationItemModel> errors = result.getValidationResults() != null
+				? result.getValidationResults().getErrors()
+				: null;
+			if (errors != null && !errors.isEmpty()) {
+				details = ": " + errors.stream()
+					.map(ValidationItemModel::getMessage)
+					.collect(Collectors.joining("; "));
+			}
+			throw new Exception(String.format("The signature could not be prepared (%s)%s",
+				result.getFailure(), details));
+		}
 
 		// The token acquired above can only be used for a single signature attempt. In order to
 		// retry the signature it is necessary to get a new token. This can be a problem if the user
@@ -139,18 +159,16 @@ public class PadesSignatureCoreController {
 		DocumentModel signatureResult = service.completeSignature(request);
 		// System.out.println(signatureResult);
 
-		// At this point, you'd typically store the signed PDF on your database. For demonstration
-		// purposes, we'll store the PDF on our StorageMock class.
-
-		// Get the signed file content.
-		// InputStream signedContent = service.openRead(signatureResult.getDownloadUrl());
-
-		// Store the signed PDF.
-		// String signedPdf = StorageMock.store(signedContent, "pdf");
+		// At this point, you'd typically store the signed PDF on your database. The "signedFile"
+		// field holds a temporary link to it. For demonstration purposes, we'll download the signed
+		// PDF and store it with our StorageMock class.
+		String signedPdf;
+		try (InputStream signedContent = service.openRead(signatureResult.getSignedFile().getUrl())) {
+			signedPdf = StorageMock.store(signedContent, "pdf");
+		}
 
 		// Render the signature info page (templates/pades-signature-core/signature-info.html).
-		// model.addAttribute("signedPdf", signedPdf);
-		model.addAttribute("url", signatureResult.getSignedFile().getUrl());
+		model.addAttribute("signedPdf", signedPdf);
 		return "pades-signature-core/signature-info";
 	}
 }
