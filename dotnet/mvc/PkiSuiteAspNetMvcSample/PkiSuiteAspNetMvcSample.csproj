@@ -286,6 +286,7 @@
     <Compile Include="Controllers\AuthenticationCloudHubSdkController.cs" />
     <Compile Include="Controllers\PadesCloudHubSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
+    <Compile Include="Controllers\PadesSignatureRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
     <Compile Include="Controllers\MergeCadesSdkController.cs" />
@@ -382,6 +383,7 @@
     <Compile Include="Models\Rest\BatchSignatureModel.cs" />
     <Compile Include="Models\Rest\SignatureInfoModel.cs" />
     <Compile Include="Models\Rest\SignatureModel.cs" />
+    <Compile Include="Models\RestCore\SignatureCompleteModel.cs" />
     <Compile Include="Models\RedirectModel.cs" />
     <Compile Include="Models\ServerFilesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -563,6 +565,9 @@
     <Content Include="Views\SignatureSessionPreDefRestCore\Callback.cshtml" />
     <Content Include="Views\SignatureSessionPreDefRestCore\Index.cshtml" />
     <Content Include="Views\PadesServerKeyRestCore\Index.cshtml" />
+    <Content Include="Views\PadesSignatureRestCore\Index.cshtml" />
+    <Content Include="Views\PadesSignatureRestCore\Complete.cshtml" />
+    <Content Include="Views\PadesSignatureRestCore\SignatureInfo.cshtml" />
     <Content Include="Views\Home\RestPkiCoreApiKeyNotSet.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
