@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { PendingSample } from '../../shared/pending-sample';
+import { PadesSignatureRestPkiCore } from './pades-signature-rest-pki-core';
 
-// Placeholder until this sample is written. Replace PendingSample with the sample's component.
 export default [
-  { path: '', component: PendingSample },
+  { path: '', component: PadesSignatureRestPkiCore },
 ] satisfies Routes;
