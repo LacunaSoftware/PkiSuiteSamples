@@ -57,14 +57,15 @@ jobs:
       - name: Build, compiling the Razor views
         working-directory: dotnet/mvc
         run: msbuild PkiSuiteAspNetMvcSample.sln -p:MvcBuildViews=true
-      # Without -NoNewWindow, IIS Express gets its own console and outlives this step's.
+      # A process started from a step (Start-Process, with or without -NoNewWindow) ends with the
+      # step on this runner. WMI starts IIS Express outside the step, so it serves the next steps.
       - name: Start the app in IIS Express
         run: |
           $site = (Resolve-Path dotnet/mvc/PkiSuiteAspNetMvcSample).Path
-          $app = Start-Process "$env:ProgramFiles\IIS Express\iisexpress.exe" -PassThru `
-            -ArgumentList "/path:$site", "/port:54123", "/clr:v4.0", "/systray:false" `
-            -RedirectStandardOutput "$env:RUNNER_TEMP\app.log"
-          "APP_PID=$($app.Id)" >> $env:GITHUB_ENV
+          $iis = "$env:ProgramFiles\IIS Express\iisexpress.exe"
+          $cmd = "cmd.exe /c `"`"$iis`" /path:$site /port:54123 /clr:v4.0 /systray:false > `"$env:RUNNER_TEMP\app.log`" 2>&1`""
+          $result = Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = $cmd }
+          if ($result.ReturnValue -ne 0) { throw "Win32_Process.Create returned $($result.ReturnValue)" }
       - name: Smoke test
         run: python scripts/ci/smoke-test.py dotnet/mvc
       - name: Show the app log
@@ -73,7 +74,7 @@ jobs:
       - name: Stop the app
         if: always()
         run: |
-          $app = if ($env:APP_PID) { Get-Process -Id $env:APP_PID -ErrorAction SilentlyContinue }
+          $app = Get-Process -Name iisexpress -ErrorAction SilentlyContinue
           if ($app) { Stop-Process -InputObject $app } else { "IIS Express is not running." }
 
   dotnet-spa:
