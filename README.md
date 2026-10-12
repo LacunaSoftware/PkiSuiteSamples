@@ -68,6 +68,11 @@ The `update-licenses.ps1` script performs the following changes:
     *   Updates `RestPkiCoreApiKey` (value for key "RestPkiCoreApiKey")
     *   The `CloudHubApiKey` is intentionally skipped.
     *   Updates expiry date comments.
+*   **`dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/appsettings.json`**:
+    *   Updates `RestPkiCore.ApiKey` (with the RestPkiCoreApiKey)
+    *   Updates the expiry date comment.
+    *   The project has no Rest PKI or Amplia keys. Its PKI SDK license is the
+        `LacunaPkiLicense.config` next to `appsettings.json` (see below).
 *   **`java/springmvc/src/main/resources/application.yml`**:
     *   Sets `rest-pki.accessToken` (with the RestPkiApiKey)
     *   Sets `rest-pki-core.apiKey` (with the RestPkiCoreApiKey)

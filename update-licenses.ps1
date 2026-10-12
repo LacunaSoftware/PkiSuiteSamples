@@ -61,6 +61,22 @@ function Update-ApiKeys {
         Update-FileContent -FilePath $webConfigPath -Content $content -FileType "Web.config"
     }
 
+    # Update appsettings.json (ASP.NET Core + Angular). Only Rest PKI Core needs a key here: the
+    # project has no Rest PKI (v1) or Amplia samples, and its PKI SDK license is the
+    # LacunaPkiLicense.config file updated below.
+    $appSettingsPath = "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/appsettings.json"
+    if (Test-Path $appSettingsPath) {
+        $content = Get-Content $appSettingsPath -Raw
+
+        # "ApiKey" directly under "RestPkiCore" (the block holds no nested object)
+        $content = $content -replace '("RestPkiCore"\s*:\s*\{[^}]*?"ApiKey"\s*:\s*")[^"]*(")', "`${1}$RestPkiCoreApiKey`$2"
+
+        # Update the expiry date comment below the key
+        $content = $content -replace '// This is a TRIAL API key\. It will expire at \d{2}/\d{2}/\d{4}\.', "// This is a TRIAL API key. It will expire at $ExpiryDate."
+
+        Update-FileContent -FilePath $appSettingsPath -Content $content -FileType "appsettings.json"
+    }
+
     # Update application.yml with proper YAML formatting preservation
     $applicationYmlPath = "java/springmvc/src/main/resources/application.yml"
     if (Test-Path $applicationYmlPath) {
