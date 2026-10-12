@@ -1,0 +1,60 @@
+extends ../layout
+
+block content
+    h2(class='ls-title') Pades Signature using CloudHub API
+
+    if !sessionRes.services || sessionRes.services == []
+        //-----------------------------------------------------------------------
+        //- This block of code is not required in your application. It's just 
+        //- for helping the developer to configure the trust service providers
+        //-----------------------------------------------------------------------
+        h5(class='ls-subtitle') No trusted services were configured
+            div(class='ls-content')
+                p 
+                    | For information more about the configuration, follow this 
+                    a(href="https://docs.lacunasoftware.com/articles/pki-express/config/trust-services.html")="link"
+    else
+        div(class='ls-content')
+            //- Form containing information shared between front-end and back-end
+            form(id='authForm' action=`/pades-cloud-oauth-express` method='POST')
+                input(type='hidden' name='fileIdField' id='fileIdInput', value=fileId)
+                input(type='hidden' name='sessionIdField' id='sessionId', value=sessionId)
+
+                .form-group
+                    label File to sign
+                    p
+                        | You are signing&nbsp;
+                        a(href=`/download?fileId=${fileId}`, target='_blank') this document
+                        | .
+
+                //- Shows the list of configured providers
+                div(class='w-100')
+                    div
+                        b Choose one of the available cloud providers:
+                        div(class="container px-0 pt-2")
+                            div(class="row")
+                                each val in sessionRes.services
+                                    div(class="col-md-3")
+                                        div(class="card shadow rounded-0 min-vh-75" style="width: 18rem;")
+                                            if val.serviceInfo.badgeUrl
+                                                img(src=`${val.serviceInfo.badgeUrl}`, class="card-img-top" style="width: 100%; height: 150px")
+                                            else 
+                                                div(class="bg-light" style="width: 100%; height: 150px")
+                                                    div(class="pt-5")
+                                                        p(class="text-center")= "Empty BadgeUrl"
+                                            div(class="card-body")
+                                                button(type="button" class="provider-btn btn btn-dark", value=`${val.authUrl}`)= `Sign With ${val.serviceInfo.provider}`
+
+block scripts
+    script.
+        $(document).ready(function() {
+            // Register click listeners
+            $(".provider-btn").click(onProviderBtnClicked);
+        });
+
+        function onProviderBtnClicked(e) {
+            // Show modal with iframe with the URL of the desired trust service
+            // provider.
+            var authUrl = $(this).val();
+            window.location.replace(authUrl);
+        }

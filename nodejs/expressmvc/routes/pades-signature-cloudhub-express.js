@@ -1,0 +1,168 @@
+const express = require("express");
+const path = require("path");
+const uuidv4 = require("uuid/v4");
+const { TrustServiceSessionTypes } = require("cloudhub-client");
+const {
+	PadesSignatureStarter,
+	StandardSignaturePolicies,
+	SignatureFinisher,
+} = require("pki-express");
+
+const { Util } = require("../util");
+const { StorageMock } = require("../storage-mock");
+const {
+	PadesVisualElementsExpress,
+} = require("../pades-visual-elements-express");
+
+const router = express.Router();
+const APP_ROOT = process.cwd();
+
+const client = Util.getCloudhubClient();
+
+/**
+ * GET /pades-signature-cloudhub-express
+ *
+ * Renders the initial page where the user enters their CPF. The CPF is used to discover
+ * which PSCs (Prestadores de Serviço de Confiança) have a certificate associated with it.
+ */
+router.get("/", (req, res, next) => {
+	const { fileId } = req.query;
+
+	if (!StorageMock.existsSync({ fileId })) {
+		const notFound = new Error("The fileId was not found");
+		notFound.status = 404;
+		next(notFound);
+		return;
+	}
+
+	res.render("pades-signature-cloudhub-express", { fileId });
+});
+
+/**
+ * POST /pades-signature-cloudhub-express
+ *
+ * Called when the user submits their CPF on the index page. Creates a CloudHub session
+ * using the provided CPF to discover which PSCs hold a matching certificate. Returns a
+ * page listing the available trust services so the user can choose one and be redirected
+ * to the PSC's authentication page.
+ */
+router.post("/", async (req, res, next) => {
+	try {
+		const cpf = req.body.cpf;
+		const fileId = req.query.fileId;
+
+		// Remove formatting characters (dots and dashes) from the CPF.
+		const plainCpf = cpf.replace(/[.-]/g, "");
+
+		// Create a CloudHub session to discover available trust services for this CPF.
+		const sessionRes = await client.createSessionAsync({
+			identifier: plainCpf,
+			redirectUri: `http://localhost:3000/pades-signature-cloudhub-express/complete?fileId=${fileId}`,
+			type: TrustServiceSessionTypes.SingleSignature,
+		});
+
+		res.render("pades-signature-cloudhub-express/discover", {
+			sessionRes,
+			fileId,
+		});
+	} catch (err) {
+		next(err);
+	}
+});
+
+/**
+ * GET /pades-signature-cloudhub-express/complete
+ *
+ * Called when the user is redirected back from the PSC after completing authentication.
+ * Receives the session token and file ID, retrieves the user's certificate from CloudHub,
+ * starts the PAdES signature with PKI Express, signs the hash via CloudHub, and completes
+ * the signature with PKI Express.
+ */
+router.get("/complete", async (req, res, next) => {
+	try {
+		const session = req.query.session;
+		const { fileId } = req.query;
+
+		// Verify if the provided fileId exists.
+		if (!StorageMock.existsSync({ fileId })) {
+			const notFound = new Error("The fileId was not found");
+			notFound.status = 404;
+			next(notFound);
+			return;
+		}
+
+		// Retrieve the user's certificate from CloudHub using the session token
+		// returned by the PSC after authentication.
+		const certContent = await client.getCertificateAsync(session);
+
+		// Get an instance of the PadesSignatureStarter class, responsible for
+		// receiving the signature elements and starting the signature process.
+		const signatureStarter = new PadesSignatureStarter();
+		Util.setPkiDefaults(signatureStarter);
+
+		// Set the signature policy.
+		signatureStarter.signaturePolicy = StandardSignaturePolicies.PADES_BASIC;
+
+		// Set the PDF file to be signed.
+		signatureStarter.setPdfToSignFromPathSync(StorageMock.getDataPath(fileId));
+
+		// Set the certificate retrieved from CloudHub.
+		signatureStarter.setCertificateFromBase64Sync(certContent);
+
+		// Set a file reference for the stamp file. Note that this file can be
+		// referenced later by "fref://{alias}" at the "url" field on the visual
+		// representation (see public/vr.json or getVisualRepresentation() method).
+		signatureStarter.addFileReferenceSync("stamp", StorageMock.getPdfStampPath());
+
+		// Set the visual representation for the signature.
+		signatureStarter.setVisualRepresentationSync(
+			PadesVisualElementsExpress.getVisualRepresentation()
+		);
+
+		// Start the signature process. This returns the hash to be signed, the
+		// digest algorithm, and a transfer file that holds the signature state.
+		const startResult = await signatureStarter.start();
+
+		// Sign the hash remotely using the cloud certificate's key via CloudHub.
+		const signature = await client.signHashAsync({
+			session,
+			hash: startResult.toSignHash,
+			digestAlgorithmOid: startResult.digestAlgorithmOid,
+		});
+
+		// Get an instance of the SignatureFinisher class, responsible for
+		// completing the signature process.
+		const signatureFinisher = new SignatureFinisher();
+		Util.setPkiDefaults(signatureFinisher);
+
+		// Set the PDF file that was signed (same file used on the start step).
+		signatureFinisher.setFileToSignFromPathSync(StorageMock.getDataPath(fileId));
+
+		// Set the transfer file generated by the start step.
+		signatureFinisher.setTransferFileFromPathSync(startResult.transferFile);
+
+		// Set the signature produced by CloudHub.
+		signatureFinisher.signature = signature;
+
+		// Generate path for output file.
+		StorageMock.createAppDataSync();
+		const outputFile = `${uuidv4()}.pdf`;
+		signatureFinisher.outputFile = path.join(APP_ROOT, "app-data", outputFile);
+
+		// Complete the signature process. The `true` parameter causes the signer's
+		// certificate info to be returned.
+		const signerCert = await signatureFinisher.complete(true);
+
+		Util.setExpiredPage(res);
+
+		// Render the result page with the signed file and signer certificate info.
+		res.render("pades-signature-cloudhub-express/complete", {
+			signedPdf: outputFile,
+			signerCert,
+		});
+	} catch (err) {
+		next(err);
+	}
+});
+
+module.exports = router;
