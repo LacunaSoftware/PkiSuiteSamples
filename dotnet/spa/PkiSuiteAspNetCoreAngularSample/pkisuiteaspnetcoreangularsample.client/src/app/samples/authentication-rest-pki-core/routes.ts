@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
-import { PendingSample } from '../../shared/pending-sample';
+import { AuthenticationRestPkiCore } from './authentication-rest-pki-core';
 
-// Placeholder until this sample is written. Replace PendingSample with the sample's component.
 export default [
-  { path: '', component: PendingSample },
+  { path: '', component: AuthenticationRestPkiCore },
 ] satisfies Routes;
