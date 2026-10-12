@@ -73,7 +73,6 @@ redirecting to the sample.
 | Project | Stack | Run from | Command | URL | Config the app reads |
 |---|---|---|---|---|---|
 | `dotnet/mvc/PkiSuiteAspNetMvcSample` | ASP.NET MVC 5, .NET Framework 4.8 | `dotnet/mvc` | Open `PkiSuiteAspNetMvcSample.sln` in Visual Studio, F5 (IIS Express) | http://localhost:54123 | `Web.config` `<appSettings>`; `LacunaPkiLicense.config` (copied to `bin/`) |
-| `dotnet/spa/PkiSuiteAspNetSpaSample` | ASP.NET Core 3.1 + Angular 8 (`ClientApp/`) | the project folder | `dotnet run` (also needs Node.js for `ClientApp`) | https://localhost:5001 | `appsettings.json` (`RestPki`, `RestPkiCore`, `WebPki`); `LacunaPkiLicense.config` (loaded from the working directory) |
 | `java/springmvc` | Spring Boot 3.5, Java 21, Gradle 8.14 wrapper (or Maven) | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
 | `nodejs/expressmvc` | Express + Pug | `nodejs/expressmvc` | `npm install && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
@@ -88,17 +87,15 @@ redirecting to the sample.
 `build.gradle` declare the same dependencies, so change both when you change one.
 
 Every key a project reads is listed, with placeholder values and a one-line comment, in an
-`.example` file next to the real config file: `Web.config.example`,
-`appsettings.json.example`, `application.yml.example`, `config/default.js.example`,
-`config.php.example`, `sample/config.py.example` (Flask and Django) and
-`config/lacuna.yml.example`. No app loads these files; they are documentation only.
+`.example` file next to the real config file: `Web.config.example`, `application.yml.example`,
+`config/default.js.example`, `config.php.example`, `sample/config.py.example` (Flask and Django)
+and `config/lacuna.yml.example`. No app loads these files; they are documentation only.
 
 Credentials the apps read (the files `update-licenses.ps1` rewrites):
 
-- **Rest PKI** access token: `RestPkiAccessToken` (Web.config), `RestPki:AccessToken`
-  (appsettings.json), `rest-pki.accessToken` (application.yml), `restPki.accessToken`
-  (default.js), `restPki.accessToken` (config.php), `REST_PKI_ACCESS_TOKEN` (config.py),
-  `rest_pki.access_token` (lacuna.yml).
+- **Rest PKI** access token: `RestPkiAccessToken` (Web.config), `rest-pki.accessToken`
+  (application.yml), `restPki.accessToken` (default.js), `restPki.accessToken` (config.php),
+  `REST_PKI_ACCESS_TOKEN` (config.py), `rest_pki.access_token` (lacuna.yml).
 - **Rest PKI Core** API key: `RestPkiCoreApiKey`, `rest-pki-core.apiKey`, `restPkiCore.apiKey`,
   `restPkiNg.apiKey` (PHP), `REST_PKI_CORE_API_KEY` (Flask), `rest_pki_core.api_key` (Rails).
 - **Amplia** API key: `amplia.apiKey` / `AMPLIA_API_KEY`. **CloudHub**: `CloudHubApiKey` /
@@ -107,9 +104,8 @@ Credentials the apps read (the files `update-licenses.ps1` rewrites):
   `WEB_PKI_LICENSE` / `web_pki.license`. It is empty in every project, which is fine on
   localhost.
 - **PKI SDK / PKI Express** license: `LacunaPkiLicense.config`. For PKI SDK it sits next to the
-  app: the MVC app checks for it in `bin/`, and the SPA loads it from the working directory in
-  `Program.cs`. PKI Express must be installed and activated with it once per machine:
-  `sudo pkie activate LacunaPkiLicense.config`, or `pkiemgr.exe` on Windows.
+  app, and the MVC app checks for it in `bin/`. PKI Express must be installed and activated with
+  it once per machine: `sudo pkie activate LacunaPkiLicense.config`, or `pkiemgr.exe` on Windows.
 
 ## 4. Which product to use
 
@@ -147,8 +143,7 @@ PKI Express all use this flow. See `nodejs/expressmvc/routes/pades-signature-cor
    is:
    - Rest PKI Core: `state`
    - PKI Express: `transferFile`
-   - PKI SDK: transfer data, which the server stores (some SPA samples round-trip it through
-     the page)
+   - PKI SDK: transfer data, which the server stores
 3. The browser runs `pki.signHash({ thumbprint, hash, digestAlgorithm })` and posts the
    signature value.
 4. The server's **complete** step finishes the signature with that state plus the signature

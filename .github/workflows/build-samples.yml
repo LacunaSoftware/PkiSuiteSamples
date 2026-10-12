@@ -77,39 +77,6 @@ jobs:
           $app = Get-Process -Name iisexpress -ErrorAction SilentlyContinue
           if ($app) { Stop-Process -InputObject $app } else { "IIS Express is not running." }
 
-  dotnet-spa:
-    name: dotnet/spa
-    needs: changes
-    if: contains(fromJSON(needs.changes.outputs.projects), 'dotnet/spa')
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - name: Build the Angular app (Node.js 14)
-        run: >
-          docker run --rm -e NG_CLI_ANALYTICS=false -v "$PWD:/repo"
-          -w /repo/dotnet/spa/PkiSuiteAspNetSpaSample/ClientApp node:14.21.3
-          sh -c "npm ci && npm run build -- --prod"
-      # Production serves ClientApp/dist. Development would start `ng serve` instead.
-      - name: Start a .NET Core 3.1 SDK container
-        run: >
-          docker run -d --name app --network host -v "$PWD:/repo"
-          -w /repo/dotnet/spa/PkiSuiteAspNetSpaSample
-          -e ASPNETCORE_ENVIRONMENT=Production -e ASPNETCORE_URLS=http://localhost:5000
-          -e DOTNET_CLI_TELEMETRY_OPTOUT=1 mcr.microsoft.com/dotnet/sdk:3.1 sleep infinity
-      - name: Build
-        run: docker exec app dotnet build -c Release
-      - name: Start the app
-        run: docker exec -d app sh -c "dotnet bin/Release/netcoreapp3.1/PkiSuiteAspNetSpaSample.dll > /tmp/app.log 2>&1"
-      - name: Smoke test
-        run: python3 scripts/ci/smoke-test.py dotnet/spa --base-url http://localhost:5000
-      - name: Show the app log
-        if: always()
-        run: docker exec app cat /tmp/app.log || true
-      - name: Stop the app
-        if: always()
-        run: docker rm -f app
-
   java-springmvc:
     name: java/springmvc
     needs: changes

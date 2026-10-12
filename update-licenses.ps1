@@ -61,30 +61,6 @@ function Update-ApiKeys {
         Update-FileContent -FilePath $webConfigPath -Content $content -FileType "Web.config"
     }
 
-    # Update appsettings.json
-    $appSettingsPath = "dotnet/spa/PkiSuiteAspNetSpaSample/appsettings.json"
-    if (Test-Path $appSettingsPath) {
-        $content = Get-Content $appSettingsPath -Raw
-        
-        # Fix for the appsettings.json structure - "AccessToken" is directly under "RestPki"
-        $content = $content -replace '("RestPki":[^}]*"AccessToken":\s*")[^"]*(")', "`${1}$RestPkiApiKey`$2"
-
-        # Ensure the expiry date comment is present and up-to-date after the AccessToken line
-        $content = $content -replace '("AccessToken":\s*"[^"]*"\s*)(// This is a TRIAL token\. It will expire at \d{2}/\d{2}/\d{4}\.)?',
-            "`$1// This is a TRIAL token. It will expire at $ExpiryDate."
-
-        # For completeness, include the other patterns in case the file structure changes
-        $content = $content -replace '("RestPki":[^}]*"apiKey":\s*")[^"]*(")', "`${1}$RestPkiApiKey`$2"
-        $content = $content -replace '("RestPkiCore":[^}]*"apiKey":\s*")[^"]*(")', "`${1}$RestPkiCoreApiKey`$2"
-        $content = $content -replace '("Amplia":[^}]*"apiKey":\s*")[^"]*(")', "`${1}$AmpliaApiKey`$2"
-        
-        # Update expiry date comments for other possible comment lines
-        $content = $content -replace '// This is a TRIAL API KEY\. It will be expired at \d{2}/\d{2}/\d{4}\.', "// This is a TRIAL API KEY. It will be expired at $ExpiryDate."
-        $content = $content -replace '// This is a TRIAL token\. It will be expired at \d{2}/\d{2}/\d{4}\.', "// This is a TRIAL token. It will be expired at $ExpiryDate."
-        
-        Update-FileContent -FilePath $appSettingsPath -Content $content -FileType "appsettings.json"
-    }
-
     # Update application.yml with proper YAML formatting preservation
     $applicationYmlPath = "java/springmvc/src/main/resources/application.yml"
     if (Test-Path $applicationYmlPath) {
