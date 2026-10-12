@@ -29,11 +29,11 @@ try {
         'signature' => $signature,
     ])->getBodyAsJson();
 
-    // At this point, you'd typically store the signed PDF on your database. The "signedFile"
-    // field holds a temporary link to it. For demonstration purposes, we'll download the signed
-    // PDF and store it with our StorageMock class.
+    // At this point, you'd typically store the signed PDF on your database. The "url" field of
+    // "signedFile" holds a temporary link to it. For demonstration purposes, we'll download the
+    // signed PDF and store it with our StorageMock class.
     $service = new RestPkiService($client);
-    $signedContent = $service->getContent($document->signedFile->location);
+    $signedContent = $service->getContent($document->signedFile->url);
     $signedPdf = StorageMock::store($signedContent, 'pdf', $document->signedFile->name);
 
     ?>
