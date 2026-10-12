@@ -37,12 +37,12 @@ repositories {
 
 dependencies {
     implementation 'com.lowagie:itext:4.2.0'
-    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.20.0'
-    implementation 'com.lacunasoftware.restpki:restpki-client:1.15.6'
+    implementation 'com.lacunasoftware.pkiexpress:pki-express:1.23.1'
+    implementation 'com.lacunasoftware.restpki:restpki-client:1.15.11'
     implementation 'com.lacunasoftware.restpki:restpkicore-client:1.4.0'
-    implementation 'com.lacunasoftware.amplia:amplia-client:1.0.0'
-    implementation 'com.lacunasoftware.cloudhub:cloudhub-client:1.0.0'
-    implementation 'com.lacunasoftware.signer:signer-client:2.13.0'
+    implementation 'com.lacunasoftware.amplia:amplia-client:1.2.1'
+    implementation 'com.lacunasoftware.cloudhub:cloudhub-client:1.0.5'
+    implementation 'com.lacunasoftware.signer:signer-client:2.14.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'commons-io:commons-io:2.14.0'
