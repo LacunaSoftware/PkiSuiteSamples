@@ -1,0 +1,59 @@
+<h1>XML signature with Rest PKI Core</h1>
+<p>
+  Signs a whole XML document with an enveloped XAdES signature. The server uses Rest PKI Core, and
+  Web PKI signs with your certificate in the browser. The sample document has a
+  <code>signaturePlaceholder</code> element where the signature goes; other documents get it at the
+  end of their root element.
+</p>
+
+@if (!configuration.isRestPkiCoreConfigured) {
+  <p class="warning">
+    This sample needs a Rest PKI Core API key. Set <code>RestPkiCore:ApiKey</code> in the server's
+    <code>appsettings.json</code>.
+  </p>
+}
+
+@if (signedFileId(); as signedFileId) {
+  <p class="success">The document was signed.</p>
+  <p><a [href]="files.downloadUrl(signedFileId)">Download the signed XML</a></p>
+  <p>
+    <button type="button" (click)="reset()">Sign another document</button>
+    <a routerLink="/">Back to the samples</a>
+  </p>
+} @else if (fileId(); as fileId) {
+  <p>
+    Document to sign: <a [href]="files.downloadUrl(fileId)">{{ fileId }}</a>
+    <button type="button" (click)="reset()" [disabled]="busy()">Choose another document</button>
+  </p>
+
+  <form (submit)="$event.preventDefault(); sign()">
+    <fieldset [disabled]="busy() || loadingCertificates()">
+      <div class="field">
+        <label for="certificate">Choose a certificate</label>
+        <select id="certificate" (change)="selectedThumbprint.set($any($event.target).value)">
+          @for (certificate of certificates(); track certificate.thumbprint) {
+            <option [value]="certificate.thumbprint" [selected]="certificate.thumbprint === selectedThumbprint()">
+              {{ certificateLabel(certificate) }}
+            </option>
+          }
+        </select>
+        @if (loadingCertificates()) {
+          <p class="muted">Loading your certificates...</p>
+        } @else if (certificates().length === 0) {
+          <p class="muted">No certificates found.</p>
+        }
+      </div>
+      <button type="submit" [disabled]="!selectedThumbprint()">Sign</button>
+      <button type="button" (click)="loadCertificates()">Refresh certificates</button>
+    </fieldset>
+  </form>
+  @if (busy()) {
+    <p class="muted">Signing...</p>
+  }
+} @else {
+  <app-document-picker [samples]="['SampleXml']" accept=".xml,application/xml,text/xml" (picked)="fileId.set($event)" />
+}
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
