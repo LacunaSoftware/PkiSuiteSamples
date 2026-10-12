@@ -1,5 +1,5 @@
 const express = require('express');
-const { PadesSignatureExplorer, StandardSignaturePolicies } = require('pki-express');
+const { PadesSignatureExplorer } = require('pki-express');
 const { Util } = require('../util');
 const { StorageMock } = require('../storage-mock');
 
@@ -30,6 +30,10 @@ router.get('/', (req, res, next) => {
 	// Get an instance of PadesSignatureExplorer class, used to open/validate PDF
 	// signatures.
 	const sigExplorer = new PadesSignatureExplorer();
+
+	// Set PKI default options (see util.js). They also set which certificates
+	// PKI Express trusts: ICP-Brasil by default, plus the trustedRoots in the
+	// config and, when trustLacunaTestRoot is set, Lacuna's test root.
 	Util.setPkiDefaults(sigExplorer);
 
 	// Locate document from storage.
@@ -41,16 +45,6 @@ router.get('/', (req, res, next) => {
 	// Specify that we want to validate the signatures in the file, not only
 	// inspect them.
 	sigExplorer.validate = true;
-
-	// Specify the signature policy for signature validation. On this sample, we
-	// will accept any valid PAdES signature as long as the signer is trusted by
-	// the security context.
-	sigExplorer.defaultSignaturePolicyId = StandardSignaturePolicies.PADES_BASIC;
-
-	// Specify the security context to be used to determine trust in the
-	// certificate chain. We have encapsulated the security context choice on
-	// util.js.
-	sigExplorer.securityContextId = Util.getSecurityContextId(res.locals.environment);
 
 	// Call the open() method, which returns the signature file's information.
 	sigExplorer.open().then((signature) => {

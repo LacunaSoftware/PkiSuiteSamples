@@ -2,7 +2,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
-    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. The signature has no visual representation, because Lacuna.RestPkiCore.Client 1.10.1 has no option for one.",
+    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. The signature has no visual representation: the sample does not set one, although Lacuna.RestPkiCore.Client 1.13.0 can (`PdfSignatureOptions.VisualRepresentation`).",
     "product": "rest-pki-core",
     "language": "dotnet",
     "framework": "aspnet-mvc",

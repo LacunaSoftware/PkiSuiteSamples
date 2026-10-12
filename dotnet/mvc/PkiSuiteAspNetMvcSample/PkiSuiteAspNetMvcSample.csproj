@@ -81,14 +81,14 @@
     <Reference Include="Lacuna.RestPki.Client, Version=1.24.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.RestPki.Client.1.24.1\lib\net46\Lacuna.RestPki.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPkiCore.Api, Version=1.10.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPkiCore.Api.1.10.0\lib\net45\Lacuna.RestPkiCore.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPkiCore.Api, Version=1.13.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Api.1.13.0\lib\net45\Lacuna.RestPkiCore.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestPkiCore.Client, Version=1.10.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPkiCore.Client.1.10.1\lib\net46\Lacuna.RestPkiCore.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPkiCore.Client, Version=1.13.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Client.1.13.0\lib\net46\Lacuna.RestPkiCore.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.Spa.Api, Version=2.4.2.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Spa.Api.2.4.2\lib\net45\Lacuna.Spa.Api.dll</HintPath>
+    <Reference Include="Lacuna.Spa.Api, Version=2.6.0.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lacuna.Spa.Api.2.6.0\lib\net45\Lacuna.Spa.Api.dll</HintPath>
     </Reference>
     <Reference Include="Lacuna.T8, Version=1.2.17.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.13.0\lib\net47\Lacuna.T8.dll</HintPath>

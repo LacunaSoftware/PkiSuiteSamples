@@ -55,8 +55,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId()
 			};
 
-			// Lacuna.RestPkiCore.Client 1.10.1 cannot set a visual representation for the signature: its
-			// PrepareSignatureOptions only has the security context and the document key.
+			// This sample does not add a visual representation to the signature. Lacuna.RestPkiCore.Client
+			// 1.13.0 can, through PrepareSignatureOptions.PdfSignatureOptions.VisualRepresentation (1.10.1
+			// could not).
 
 			PrepareSignatureResult prepareSignatureResult;
 			try {
@@ -69,7 +70,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Rest PKI Core refuses to prepare the signature if, for instance, the PDF is corrupted.
 				//
 				// It also refuses it if the certificate fails validation (for instance, if it is expired
-				// or not trusted in the security context), but Lacuna.RestPkiCore.Client 1.10.1 cannot
+				// or not trusted in the security context), but Lacuna.RestPkiCore.Client 1.13.0 cannot
 				// read that failure ("CertificateValidationFailed"): it throws a JSON deserialization
 				// error instead, which ends up on the error page (see BaseController.OnException()).
 				ModelState.AddModelError("", ex.Message);

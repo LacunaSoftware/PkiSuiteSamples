@@ -34,6 +34,10 @@ router.get('/', (req, res, next) => {
 	// Get an instance of CadesSignatureExplorer class, used to open/validate PDF
 	// signatures.
 	const sigExplorer = new CadesSignatureExplorer();
+
+	// Set PKI default options (see util.js). They also set which certificates
+	// PKI Express trusts: ICP-Brasil by default, plus the trustedRoots in the
+	// config and, when trustLacunaTestRoot is set, Lacuna's test root.
 	Util.setPkiDefaults(sigExplorer);
 
 	// Locate document from storage.
@@ -45,11 +49,6 @@ router.get('/', (req, res, next) => {
 	// Specify that we want to validate the signatures in the file, not only
 	// inspect them.
 	sigExplorer.validate = true;
-
-	// Specify the security context to be used to determine trust in the
-	// certificate chain. We have encapsulated the security context choice on
-	// util.js.
-	sigExplorer.securityContextId = Util.getSecurityContextId(res.locals.environment);
 
 	// Generate path for output file and add the signature finisher.
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).

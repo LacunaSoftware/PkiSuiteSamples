@@ -60,7 +60,7 @@ be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 	} 
 
 	dependencies {
-		implementation 'com.lacunasoftware.restpki:restpki-client:1.15.7'
+		implementation 'com.lacunasoftware.restpki:restpki-client:1.15.11'
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -70,14 +70,14 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.restpki</groupId>
 			<artifactId>restpki-client</artifactId>
-			<version>1.15.7</version>
+			<version>1.15.11</version>
 		</dependency>
 		...
 	</dependencies>
 	...
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
-[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.restpki/restpki-client/1.15.7/jar).
+[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.restpki/restpki-client/1.15.11/jar).
 
 Rest PKI Core's client lib
 ---------------------
@@ -91,7 +91,7 @@ be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 	} 
 
 	dependencies {
-		implementation 'com.lacunasoftware.restpki:restpkicore-client:1.1.1'
+		implementation 'com.lacunasoftware.restpki:restpkicore-client:1.4.0'
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -101,7 +101,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.restpki</groupId>
 			<artifactId>restpkicore-client</artifactId>
-			<version>1.1.1</version>
+			<version>1.4.0</version>
 		</dependency>
 		...
 	</dependencies>
@@ -119,7 +119,7 @@ be seen in the file [build.gradle](springmvc/build.gradle) of each sample:
 	} 
 
 	dependencies {
-		implementation 'com.lacunasoftware.amplia:amplia-client:1.1.2'
+		implementation 'com.lacunasoftware.amplia:amplia-client:1.2.1'
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -129,7 +129,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.amplia</groupId>
 			<artifactId>amplia-client</artifactId>
-			<version>1.1.2</version>
+			<version>1.2.1</version>
 		</dependency>
 		...
 	</dependencies>
@@ -137,7 +137,7 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
-[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.amplia/amplia-client/1.1.2/jar).
+[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.amplia/amplia-client/1.2.1/jar).
 
 PKI Express's helper library
 ----------------------------
@@ -151,7 +151,7 @@ file [build.gradle](springmvc/build.gradle)
 	} 
 
 	dependencies {
-		implementation 'com.lacunasoftware.pkiexpress:pki-express:1.19.0'
+		implementation 'com.lacunasoftware.pkiexpress:pki-express:1.23.1'
 	}
 
 If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml) instead:
@@ -161,14 +161,14 @@ If you project uses Maven, please refer to the file [pom.xml](springmvc/pom.xml)
 		<dependency>
 			<groupId>com.lacunasoftware.pkiexpress</groupId>
 			<artifactId>pki-express</artifactId>
-			<version>1.19.0</version>
+			<version>1.23.1</version>
 		</dependency>
 		...
 	</dependencies>
 	...
 
 If your project uses another tool for dependency resolution (e.g. Ivy), please visit the
-[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.pkiexpress/pki-express/1.19.0/jar).
+[package page on Maven](https://search.maven.org/artifact/com.lacunasoftware.pkiexpress/pki-express/1.23.1/jar).
 
 Activating PKI Express
 ----------------------
