@@ -108,16 +108,16 @@ function Update-ApiKeys {
 server:
   port: 60695
   error.include-stacktrace: always
-
-# Maximum upload and request sizes
-multipart:
-  maxFileSize: '10Mb'
-  maxRequestSize: '10Mb'
+  error.include-message: always
 
 # Spring parameters
 spring:
   profiles.active: 'dev'
-  http.converters.preferred-json-mapper: gson
+  mvc.converters.preferred-json-mapper: gson
+  # Maximum upload and request sizes
+  servlet.multipart:
+    max-file-size: 10MB
+    max-request-size: 10MB
 
 # Proxy parameters (With you want there is problem to connect to REST PKI, cased by a proxy)
 proxy:
