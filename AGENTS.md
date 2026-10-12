@@ -43,9 +43,10 @@ Before reading code, look the task up in the catalog:
 - **[`SAMPLES.md`](SAMPLES.md)**: the same data as tables grouped by task, with one column per
   language. It is generated from `samples.json`, so never edit it by hand.
 
-Each entry has: `id` (slug), `title`, `description`, `product`, `language`, `framework`,
-`path` (the entry file: controller, route module or page), `related_files` (views, page scripts,
-models, helpers), `status`, `docs_url`, `demo_url`, and `run` (`cwd`, `command`, `url`).
+Each entry has: `id` (slug), `title` (and `title_pt`, in Brazilian Portuguese), `description`,
+`product`, `language`, `framework`, `path` (the entry file: controller, route module or page),
+`related_files` (views, page scripts, models, helpers), `status`, `docs_url`, `demo_url`, and
+`run` (`cwd`, `command`, `url`).
 
 Slugs are `<task>-<product>`, for example `pades-signature-rest-pki-core` or
 `authentication-pki-express`. The same slug in two languages means the same integration
