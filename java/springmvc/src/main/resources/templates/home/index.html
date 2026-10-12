@@ -107,7 +107,10 @@
 
 		},
 		signXmlServer: {
-			restpki: '/check-rest-token?rc=xml-signature'
+			restpki: '/check-rest-token?rc=xml-signature',
+		},
+		signXmlCloudHubServer: {
+			restpki: "/check-rest-token?rc=server-files&fwd=xml-signature-cloudhub&op=signXml"
 		},
 		// signXmlServerKey: { },
 		// signaturePackage: { },
