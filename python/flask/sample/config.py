@@ -23,6 +23,20 @@ class Config(object):
     REST_PKI_ENDPOINT = 'https://pki.rest/'
 
     # --------------------------------------------------------------------------
+    # REST PKI Core
+    # --------------------------------------------------------------------------
+
+    # ========================================================
+    #    >>>> PASTE YOUR REST PKI CORE API KEY BELOW <<<<
+    # ========================================================
+    REST_PKI_CORE_API_KEY = ''
+
+    # In order to use this sample on a "on premises" installation of REST PKI
+    # Core, fill the field below with the URL address of your REST PKI Core
+    # installation (with the trailing '/' character).
+    REST_PKI_CORE_ENDPOINT = 'https://core.pki.rest/'
+
+    # --------------------------------------------------------------------------
     # Amplia
     # --------------------------------------------------------------------------
 

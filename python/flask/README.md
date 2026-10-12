@@ -1,7 +1,7 @@
 # Flask sample (Python)
 
-One Flask web app (package `sample`) with the Python samples for **Rest PKI**, **PKI Express**,
-**Amplia** and **Web PKI**. Each module in `sample/views/` is one sample (a blueprint); its
+One Flask web app (package `sample`) with the Python samples for **Rest PKI**, **Rest PKI Core**,
+**PKI Express**, **Amplia** and **Web PKI**. Each module in `sample/views/` is one sample (a blueprint); its
 templates are in `sample/templates/<module>/`.
 
 ## Samples in this project
@@ -12,6 +12,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 <!-- BEGIN GENERATED SAMPLES LIST (project: python/flask) -->
 | Sample | Product | Entry file | Open |
 |---|---|---|---|
+| Sign a PDF with Rest PKI Core<br>`pades-signature-rest-pki-core` | Rest PKI Core | [pades_signature_rest_core.py](sample/views/pades_signature_rest_core.py) | http://localhost:5000/check-rest-pki-core-api-key/server-files/pades-signature/signPdf |
 | Sign a PDF with PKI Express<br>`pades-signature-pki-express` | PKI Express | [pades_signature_express.py](sample/views/pades_signature_express.py) | http://localhost:5000/check-express/server-files/pades-signature/signPdf |
 | Sign a PDF with Rest PKI<br>`pades-signature-rest-pki` | Rest PKI | [pades_signature_rest.py](sample/views/pades_signature_rest.py) | http://localhost:5000/check-rest-token/server-files/pades-signature/signPdf |
 | Sign multiple PDFs with PKI Express<br>`batch-pades-signature-pki-express` | PKI Express | [batch_pades_express.py](sample/views/batch_pades_express.py) | http://localhost:5000/check-express/batch-pades |
@@ -58,7 +59,7 @@ Express installed and activated (`sudo pkie activate LacunaPkiLicense.config`). 
 
 ## Configuration
 
-- `sample/config.py`: Rest PKI, Amplia, PKI Express and Web PKI settings, with one class per
+- `sample/config.py`: Rest PKI, Rest PKI Core, Amplia, PKI Express and Web PKI settings, with one class per
   `FLASK_ENV`. Every key is documented in [`sample/config.py.example`](sample/config.py.example).
 - The committed values are trial credentials rotated by `update-licenses.ps1`. Do not replace them
   in this repository.

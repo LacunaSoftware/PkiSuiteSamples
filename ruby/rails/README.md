@@ -1,8 +1,10 @@
 # Rails sample (Ruby)
 
-One Rails 6.0 web app with the Ruby samples for **Rest PKI**, **PKI Express** and **Web PKI**. Each
-controller in `app/controllers/` is one sample; its views are in `app/views/<controller>/`, and page
-scripts in `app/assets/javascripts/`. Shared helpers are in `app/controllers/concerns/`.
+One Rails 6.0 web app with the Ruby samples for **Rest PKI**, **Rest PKI Core**, **PKI Express** and
+**Web PKI**. Each controller in `app/controllers/` is one sample; its views are in
+`app/views/<controller>/`, and page scripts in `app/assets/javascripts/`. Shared helpers are in
+`app/controllers/concerns/`. There is no Rest PKI Core client library for Ruby, so the Rest PKI Core
+sample calls the API with the small `RestPkiCoreClient` class in `app/controllers/concerns/`.
 
 ## Samples in this project
 
@@ -12,6 +14,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 <!-- BEGIN GENERATED SAMPLES LIST (project: ruby/rails) -->
 | Sample | Product | Entry file | Open |
 |---|---|---|---|
+| Sign a PDF with Rest PKI Core<br>`pades-signature-rest-pki-core` | Rest PKI Core | [pades_signature_rest_core_controller.rb](app/controllers/pades_signature_rest_core_controller.rb) | http://localhost:3000/check-rest-pki-core-api-key/server-files/pades-signature/sign-pdf |
 | Sign a PDF with PKI Express<br>`pades-signature-pki-express` | PKI Express | [pades_signature_express_controller.rb](app/controllers/pades_signature_express_controller.rb) | http://localhost:3000/check-express/server-files/pades-signature/sign-pdf |
 | Sign a PDF with Rest PKI<br>`pades-signature-rest-pki` | Rest PKI | [pades_signature_rest_controller.rb](app/controllers/pades_signature_rest_controller.rb) | http://localhost:3000/check-rest-token/server-files/pades-signature/sign-pdf |
 | Sign multiple PDFs with PKI Express<br>`batch-pades-signature-pki-express` | PKI Express | [batch_pades_express_controller.rb](app/controllers/batch_pades_express_controller.rb) | http://localhost:3000/check-express/batch-pades/ |
@@ -56,8 +59,8 @@ activated (`sudo pkie activate LacunaPkiLicense.config`).
 
 ## Configuration
 
-- `config/lacuna.yml`, one section per Rails environment: Rest PKI, PKI Express and Web PKI
-  settings. Every key is documented in [`config/lacuna.yml.example`](config/lacuna.yml.example).
+- `config/lacuna.yml`, one section per Rails environment: Rest PKI, Rest PKI Core, PKI Express and
+  Web PKI settings. Every key is documented in [`config/lacuna.yml.example`](config/lacuna.yml.example).
   This is where the Rest PKI token goes (`rest_pki.access_token`), not
   `config/initializers/restpki.rb`.
 - The committed token is a trial credential rotated by `update-licenses.ps1`. Do not replace it in

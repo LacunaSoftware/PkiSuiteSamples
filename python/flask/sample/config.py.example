@@ -28,6 +28,11 @@ class Config(object):
     # Rest PKI URL, with trailing '/'.
     REST_PKI_ENDPOINT = 'https://pki.rest/'
 
+    # Rest PKI Core API key (utils.get_rest_pki_core_client).
+    REST_PKI_CORE_API_KEY = 'YOUR_REST_PKI_CORE_API_KEY'
+    # Rest PKI Core URL, with trailing '/'.
+    REST_PKI_CORE_ENDPOINT = 'https://core.pki.rest/'
+
     # Id of the Amplia CA that issues certificates in the Amplia samples.
     AMPLIA_CA_ID = 'YOUR_AMPLIA_CA_ID'
     # Amplia API key.

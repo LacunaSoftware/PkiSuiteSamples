@@ -18,6 +18,12 @@ development:
     # Optional. Rest PKI URL for on-premises installs, with trailing '/'. Default: https://pki.rest/
     endpoint:
 
+  rest_pki_core:
+    # Rest PKI Core API key (Util#get_rest_pki_core_client).
+    api_key: 'YOUR_REST_PKI_CORE_API_KEY'
+    # Rest PKI Core URL, with trailing '/'. Default: https://core.pki.rest/
+    endpoint: 'https://core.pki.rest/'
+
   pki_express:
     # Optional list of extra trusted root certificate files (private/ folder).
     trusted_roots: []
@@ -31,4 +37,4 @@ development:
 production:
   # Never accept Lacuna test certificates in production.
   trust_lacuna_test_root: false
-  # ... plus the same rest_pki, pki_express and web_pki keys as development.
+  # ... plus the same rest_pki, rest_pki_core, pki_express and web_pki keys as development.

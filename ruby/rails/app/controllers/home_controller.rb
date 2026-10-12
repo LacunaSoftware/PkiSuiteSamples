@@ -48,4 +48,24 @@ class HomeController < ApplicationController
       end
     end
   end
+
+  def check_rest_pki_core_api_key
+    rc = params[:rc]
+    fwd = params[:fwd]
+    op = params[:op]
+
+    api_key = Rails.configuration.lacuna['rest_pki_core']['api_key']
+    if api_key.nil? or api_key.length == 0
+      render 'home/rest-core-api-key-not-set'
+      return
+    end
+
+    if fwd.nil?
+      redirect_to "/#{rc}-rest-core"
+    elsif op.nil?
+      redirect_to "/#{rc}/#{fwd}-rest-core"
+    else
+      redirect_to "/#{rc}/#{fwd}-rest-core/#{op}"
+    end
+  end
 end

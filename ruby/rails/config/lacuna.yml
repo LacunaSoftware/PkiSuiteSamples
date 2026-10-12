@@ -19,6 +19,19 @@ development:
     # installation (with the trailing '/' character).
     endpoint:
 
+  # REST PKI Core parameters
+  # ------------------------
+  rest_pki_core:
+    # ======================================================
+    #     >>>> PASTE YOUR REST PKI CORE API KEY BELOW <<<<
+    # ======================================================
+    api_key: ''
+
+    # In order to use this sample on a "on premises" installation of
+    # REST PKI Core, fill the field below with the URL address of your REST PKI
+    # Core installation (with the trailing '/' character).
+    endpoint: 'https://core.pki.rest/'
+
   # PKI Express parameters
   # ----------------------
 
