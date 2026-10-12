@@ -12,7 +12,9 @@
       "java/springmvc/src/main/resources/templates/pades-signature-core/start.html",
       "java/springmvc/src/main/resources/templates/pades-signature-core/signature-info.html",
       "java/springmvc/src/main/resources/static/js/signature-start-form.js",
-      "java/springmvc/src/main/resources/static/js/signature-complete-form.js"
+      "java/springmvc/src/main/resources/static/js/signature-complete-form.js",
+      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/restpkicore/PadesVisualElements.java",
+      "java/springmvc/src/main/resources/static/stamp.png"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
