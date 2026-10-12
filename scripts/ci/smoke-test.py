@@ -14,8 +14,15 @@ It first waits up to --timeout seconds for the app to answer, then checks that:
      /check-rest-token or /Home/CheckPkiLicense, must redirect first: when a credential is
      missing it renders an explanation page with status 200 instead of redirecting.
 For a single-page app (SPA_PROJECTS below), which answers every route with its index.html, it
-also checks that each page contains the app's root element, such as <app-root>, and that a JSON
-API endpoint, such as /api/configuration, answers 200 with JSON.
+also checks that:
+  3. each page contains the app's root element, such as <app-root>;
+  4. the app's JavaScript declares a route for each listed sample, without which the browser
+     would show the app's not-found page. The script reads the <script> files of index.html and
+     every module they import, lazy chunks included, each of which must answer 200 with
+     JavaScript. It looks for a route declaration with the sample's path (`path: "<sample id>"`),
+     not just the id, which the home page also lists. This checks only that the route exists:
+     the script runs no JavaScript, so it cannot tell whether the page renders;
+  5. a JSON API endpoint, such as /api/configuration, answers 200 with JSON.
 
 Exits with status 1 when a check fails. Needs only the Python 3.8+ standard library.
 """
@@ -51,14 +58,21 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-pki-sdk", None),
         ("list-certificates-web-pki", None),
     ],
-    # An Angular app: see SPA_PROJECTS below. Its Rest PKI Core pages call Rest PKI Core only
-    # when the user signs, so they need no skip.
+    # An Angular app: see SPA_PROJECTS below. Every sample is listed, since each check costs one
+    # request. Its Rest PKI Core pages call Rest PKI Core only when the user acts, so they need no
+    # skip.
     "dotnet/spa": [
         ("pades-signature-pki-sdk", None),
         ("pades-signature-rest-pki-core", None),
+        ("cades-signature-pki-sdk", None),
+        ("cades-signature-rest-pki-core", None),
+        ("xml-signature-pki-sdk", None),
+        ("xml-signature-rest-pki-core", None),
         ("xml-nfe-signature-pki-sdk", None),
+        ("validate-pades-signature-pki-sdk", None),
         ("validate-pades-signature-rest-pki-core", None),
         ("authentication-pki-sdk", None),
+        ("authentication-rest-pki-core", None),
     ],
     "java/springmvc": [
         ("pades-signature-rest-pki-core", None),
@@ -103,13 +117,19 @@ SMOKE_SAMPLES = {
 
 # Single-page apps, as {project: (root element, JSON API path)}. Their server answers every route
 # that is not an API or a file with the app's index.html and status 200, so a status check alone
-# proves little. For them the script also checks that each page holds the app's root element, and
-# that the API path answers 200 with JSON.
+# proves little. For them the script also checks that each page holds the app's root element, that
+# the app's JavaScript has a route for each sample, and that the API path answers 200 with JSON.
 SPA_PROJECTS = {
     "dotnet/spa": ("app-root", "/api/configuration"),
 }
 
 CHECK_ROUTE = re.compile(r"^/(home/)?(check|redirecttospa)", re.IGNORECASE)
+# The scripts of an index.html, and the relative imports of a JavaScript module: static
+# (`from "./chunk.js"`, `import "./chunk.js"`) and dynamic (`import("./chunk.js")`), as Angular's
+# build writes them.
+SCRIPT_SRC = re.compile(r"""<script\b[^>]*\bsrc=["']([^"']+)["']""", re.IGNORECASE)
+JS_IMPORT = re.compile(r"""(?:\bfrom|\bimport)\s*\(?\s*["'](\.{1,2}/[^"']+\.m?js)["']""")
+MAX_SCRIPTS = 500  # stop following imports after this many scripts
 IN_ACTIONS = os.environ.get("GITHUB_ACTIONS") == "true"
 
 
@@ -192,6 +212,52 @@ def check_page(opener, url, timeout, root_element=None):
     return problems
 
 
+def route_pattern(path):
+    """A regex for a route declaration with this path, such as path:"pades-signature-pki-sdk"."""
+    return re.compile(r"""["']?\bpath["']?\s*:\s*["']""" + re.escape(path) + r"""["']""")
+
+
+def read_app_scripts(opener, home, timeout):
+    """Read the scripts of the app's index.html and every module they import, transitively.
+
+    Return (JavaScript texts, problems); a script that does not answer 200 with JavaScript is a
+    problem."""
+    try:
+        status, _, _, body = fetch(opener, home, timeout)
+    except OSError as e:
+        return [], [f"request failed: {e} {home}"]
+    if status != 200:
+        return [], [f"{home} ended with status {status}, expected 200"]
+    queue = [urllib.parse.urljoin(home, src) for src in SCRIPT_SRC.findall(body.decode("utf-8", "replace"))]
+    if not queue:
+        return [], [f"{home} has no <script src=...> (is the app built into wwwroot?)"]
+    seen, texts, problems = set(queue), [], []
+    while queue and len(seen) <= MAX_SCRIPTS:
+        url = queue.pop(0)
+        try:
+            status, _, content_type, body = fetch(opener, url, timeout)
+        except OSError as e:
+            problems.append(f"request failed: {e} {url}")
+            continue
+        if status != 200:
+            problems.append(f"the script {url} ended with status {status}, expected 200")
+            continue
+        if "javascript" not in content_type.lower():
+            # A missing file that fell through to the app's index.html, for instance.
+            problems.append(f"the script {url} answered {content_type or 'no Content-Type'}, "
+                            "expected JavaScript")
+            continue
+        text = body.decode("utf-8", "replace")
+        texts.append(text)
+        for path in JS_IMPORT.findall(text):
+            imported = urllib.parse.urljoin(url, path)
+            if imported not in seen:
+                seen.add(imported)
+                queue.append(imported)
+    print(f"    read {len(texts)} script(s) of {home}")
+    return texts, problems
+
+
 def check_json_api(opener, url, timeout):
     """GET url; return a list of problems unless it answers 200 with a JSON body."""
     try:
@@ -243,8 +309,25 @@ def main():
 
     root_element, api_path = SPA_PROJECTS.get(args.project, (None, None))
 
+    # For a single-page app: its JavaScript, read once, in which each sample needs a route.
+    scripts = None
+
+    def spa_route_problems(url):
+        nonlocal scripts
+        if scripts is None:
+            scripts = read_app_scripts(opener, home, timeout=120)
+        texts, problems = scripts
+        route = urllib.parse.urlsplit(url).path.strip("/").split("/")[0]
+        if not problems and route and not any(route_pattern(route).search(t) for t in texts):
+            problems = [f"the app's JavaScript has no route for /{route} "
+                        "(the browser would show the not-found page)"]
+        return problems
+
     def page(url):
-        return check_page(opener, url, timeout=120, root_element=root_element)
+        problems = check_page(opener, url, timeout=120, root_element=root_element)
+        if root_element and not problems:
+            problems = spa_route_problems(url)
+        return problems
 
     def json_api(url):
         return check_json_api(opener, url, timeout=120)
