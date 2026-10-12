@@ -1,0 +1,72 @@
+<h1>Certificate authentication with Rest PKI Core</h1>
+<p>
+  Rest PKI Core issues a hash to be signed, Web PKI signs it with your certificate, and Rest PKI Core
+  checks the signature and validates the certificate.
+</p>
+
+@if (!configuration.loadError() && !configuration.isRestPkiCoreConfigured) {
+  <p class="warning">
+    This sample needs a Rest PKI Core API key. Set <code>RestPkiCore:ApiKey</code> in the server's
+    <code>appsettings.json</code>.
+  </p>
+}
+
+@if (result(); as result) {
+  <p class="success"><strong>Authentication succeeded.</strong></p>
+  <table>
+    <tbody>
+      <tr><th>Subject</th><td>{{ result.certificate.subjectName }}</td></tr>
+      <tr><th>Email</th><td>{{ result.certificate.emailAddress }}</td></tr>
+      <tr><th>Issuer</th><td>{{ result.certificate.issuerName }}</td></tr>
+      <tr><th>Serial number</th><td>{{ result.certificate.serialNumber }}</td></tr>
+      <tr>
+        <th>Validity</th>
+        <td>{{ result.certificate.validityStart | date }} to {{ result.certificate.validityEnd | date }}</td>
+      </tr>
+      <tr><th>Thumbprint (SHA-256)</th><td><code>{{ result.certificate.thumbprintSha256 }}</code></td></tr>
+      @if (result.certificate.pkiBrazil; as pkiBrazil) {
+        <tr><th>CPF</th><td>{{ pkiBrazil.cpf }}</td></tr>
+        <tr><th>Responsavel</th><td>{{ pkiBrazil.responsavel }}</td></tr>
+        <tr><th>Date of birth</th><td>{{ pkiBrazil.dateOfBirth }}</td></tr>
+        <tr><th>Company</th><td>{{ pkiBrazil.companyName }}</td></tr>
+        <tr><th>CNPJ</th><td>{{ pkiBrazil.cnpj }}</td></tr>
+        <tr><th>RG</th><td>{{ pkiBrazil.rgNumero }} {{ pkiBrazil.rgEmissor }} {{ pkiBrazil.rgEmissorUf }}</td></tr>
+        <tr><th>OAB</th><td>{{ pkiBrazil.oabNumero }} {{ pkiBrazil.oabUf }}</td></tr>
+      }
+    </tbody>
+  </table>
+  @if (result.validationResults) {
+    <details>
+      <summary>Validation results</summary>
+      <pre>{{ result.validationResults }}</pre>
+    </details>
+  }
+  <p><button type="button" (click)="reset()">Sign in again</button></p>
+} @else {
+  <div class="field">
+    <label for="certificateSelect">Choose a certificate</label>
+    <select id="certificateSelect" [ngModel]="selected()" (ngModelChange)="selected.set($event)" [disabled]="busy()">
+      @for (certificate of certificates(); track certificate.thumbprint) {
+        <option [value]="certificate.thumbprint">
+          {{ isExpired(certificate) ? '(Expired) ' : '' }}{{ certificate.subjectName }} (issued by {{ certificate.issuerName }})
+        </option>
+      }
+    </select>
+  </div>
+  <p>
+    <button type="button" (click)="signIn()" [disabled]="busy() || !selected()">Sign in</button>
+    <button type="button" (click)="loadCertificates()" [disabled]="busy()">Refresh certificates</button>
+  </p>
+}
+
+@if (busy()) {
+  <p class="muted">Working...</p>
+}
+@if (error(); as error) {
+  <p class="error">{{ error }}</p>
+}
+@if (failedValidationResults(); as validationResults) {
+  <pre>{{ validationResults }}</pre>
+}
+
+<p><a routerLink="/">Back to the samples</a></p>
