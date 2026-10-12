@@ -1,7 +1,9 @@
 # Dependency alert triage
 
 Snapshot taken on 2026-10-11 against `master` at `b9d75cd`. This is a read-only triage: no pull
-request, branch or alert was merged, closed, dismissed or deleted.
+request, branch or alert was merged, closed, dismissed or deleted. The cleanup that followed it is
+described in [Changes after the snapshot](#changes-after-the-snapshot); the rest of this document
+still describes the snapshot.
 
 ## Summary
 
@@ -50,6 +52,56 @@ Main findings:
      never loaded.
    - `oidc-client` and `aspnet-prerendering` in the SPA.
    - The Rails test-group gems, for which there are no tests.
+
+## Changes after the snapshot
+
+On 2026-10-12, one commit per project applied the low-risk part of the recommendations. Each
+project was built and run in Docker, and its home page and sample pages were compared with a run
+of the previous code.
+
+| Project | Change | Alerts before | Cleared | Left |
+|---|---|--:|--:|--:|
+| `ruby/rails` (`yarn.lock`) | **Removed Webpacker.** The `src:` pack tags became `javascript_include_tag` calls with the same URL, `integrity` and `crossorigin`. The layout now sets the CSRF header on jQuery AJAX requests, which rails-ujs used to do for the batch samples. `package.json`, `yarn.lock` and the Webpack, Babel and PostCSS configs are gone, so the app no longer needs Node.js or Yarn. | 195 | 195 | 0 |
+| `ruby/rails` (`Gemfile.lock`) | **Replaced `gem 'rails'`** with the frameworks that `config/application.rb` loads: `actionpack`, `actionview`, `activejob`, `activemodel`, `railties` and `sprockets-rails`. This removes Active Record, Active Storage, Action Cable, Action Mailer, Action Mailbox and Action Text, along with `marcel`, `mimemagic`, `mail`, `nio4r` and `websocket-driver`. No other gem version changed. | 143 | 23 | 120 |
+| `dotnet/spa` | **Removed `oidc-client`, `aspnet-prerendering` and `node-sass`.** The production bundle is byte-identical. | 219 | 6 | 213 |
+| `nodejs/expressmvc` | **Bumped** multer to ^2.3.0, body-parser to ~1.20.6, morgan to ~1.12.1, pug to ~3.0.3 and uuid to ^11.1.1. The 31 `require('uuid/v4')` calls now read `v4` from the package root. | 16 | 16 | 0 |
+| `java/springmvc` | **Bumped** gson to 2.8.9 and commons-io to 2.14.0, in both `pom.xml` and `build.gradle`. | 4 | 3 | 1 |
+| **Total** | | **577** | **243** | **334** |
+
+The 243 cleared alerts are 22 critical, 112 high, 86 medium and 23 low. The 334 left are 23
+critical, 148 high, 118 medium and 45 low. These numbers are an estimate until the change reaches
+`master`, where GitHub re-scans it. They come from checking each open alert's vulnerable range
+against the manifests on the branch. GitHub's dependency-graph comparison of the branch with
+`master` agrees for Rails, Node.js and Java. That comparison also lists two things that look new
+but are not:
+
+- 26 SPA packages show as "added". They are the same versions, now marked development-only because
+  nothing at runtime depends on them any more.
+- The Gemfile now declares `actionpack` and `actionview` as `~> 6.0.1`, so the graph shows their
+  advisories against `Gemfile`. These are the same advisories that are already open against
+  `Gemfile.lock`.
+
+Effect on the 36 Dependabot PRs that were still open on 2026-10-12 (the 13 in "Close now" below had
+been closed by then):
+
+- **27 are moot:**
+  - the 25 Rails `yarn.lock` PRs, because the file is gone: #8, #14, #15, #16, #17, #20, #22, #24,
+    #29, #31, #32, #33, #34, #35, #36, #38, #48, #49, #60, #65, #73, #88, #89, #90 and #93
+  - #9 (`websocket-extensions`), because the gem is gone
+  - #64 (gson 2.8.9), because the same bump is now in both build files
+- **4 now conflict** with the new lockfiles, and their packages are still installed: #11 (rack),
+  #84 (addressable) and #94 (globalid) in `Gemfile.lock`, and #53 (karma) in the SPA's
+  `package-lock.json`.
+- **5 still merge cleanly:** #61, #62, #78, #81 and #85 (SPA lockfile only).
+
+Still to do:
+
+- The in-place gem bumps for Ruby 2.5 (rack, rails 6.0.6.1, nokogiri 1.12.5 and the rest).
+- Dropping the unused Rails test group (`capybara`, `selenium-webdriver`, `webdrivers`).
+- Replacing `com.lowagie:itext:4.2.0` with `com.itextpdf:itextpdf:5.5.13.6` in the Java sample.
+- Committing a `package-lock.json` for `nodejs/expressmvc`. The project's `.gitignore` excludes it
+  today.
+- The runtime upgrades.
 
 ## How this was checked
 

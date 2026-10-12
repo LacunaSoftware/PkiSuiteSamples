@@ -1,7 +1,7 @@
 const path = require("path");
 
 const express = require("express");
-const uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require("uuid");
 
 const {
 	StandardSignaturePolicies,

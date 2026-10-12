@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.lacunasoftware.signer:signer-client:2.13.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'commons-io:commons-io:2.4'
+    implementation 'commons-io:commons-io:2.14.0'
     implementation 'commons-codec:commons-codec:1.11'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.9'
 }

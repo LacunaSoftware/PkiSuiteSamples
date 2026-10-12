@@ -1,5 +1,5 @@
 const express = require('express');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const { XmlElementSignatureStarter, StandardSignaturePolicies, XmlSignatureFinisher } = require('restpki-client');
 const { Util } = require('../util');
 const { SampleDocs, StorageMock } = require('../storage-mock');
