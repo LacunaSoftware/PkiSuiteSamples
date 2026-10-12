@@ -10,8 +10,8 @@ module Util
 
     # Retrieve your token and endpoint values from the "application.rb"
     # configuration.
-    access_token = Rails.configuration.lacuna['rest_pki']['access_token']
-    endpoint = Rails.configuration.lacuna['rest_pki']['endpoint']
+    access_token = Rails.configuration.lacuna.dig(:rest_pki, :access_token)
+    endpoint = Rails.configuration.lacuna.dig(:rest_pki, :endpoint)
 
     # Throw exception if token is not set (this check is here just for the sake
     # of new comers, you can remove it).
@@ -34,7 +34,7 @@ module Util
   # standard security contexts or reference one of your custom contexts.
   def get_security_context_id
 
-    if Rails.configuration.lacuna['trust_lacuna_test_root']
+    if Rails.configuration.lacuna[:trust_lacuna_test_root]
 
       # Lacuna Test PKI (for development purposes only!)
       #
@@ -61,8 +61,8 @@ module Util
 
     # Retrieve your API key and endpoint values from the "config/lacuna.yml"
     # configuration.
-    api_key = Rails.configuration.lacuna['rest_pki_core']['api_key']
-    endpoint = Rails.configuration.lacuna['rest_pki_core']['endpoint']
+    api_key = Rails.configuration.lacuna.dig(:rest_pki_core, :api_key)
+    endpoint = Rails.configuration.lacuna.dig(:rest_pki_core, :endpoint)
 
     # Throw exception if the API key is not set (this check is here just for
     # the sake of new comers, you can remove it).
@@ -89,18 +89,18 @@ module Util
     # operator class. We will add each trusted root from configuration file. In
     # this sample, we assumed that all trusted roots are in the private/
     # folder. You are free to pass any path.
-    trusted_roots = Rails.configuration.lacuna['pki_express']['trusted_roots']
+    trusted_roots = Rails.configuration.lacuna.dig(:pki_express, :trusted_roots)
     trusted_roots&.each do |root|
       operator.add_trusted_root(get_resource_path(root))
     end
 
     # Set operator to "OFFLINE MODE" (default: false):
-    operator.offline = Rails.configuration.lacuna['pki_express']['offline']
+    operator.offline = Rails.configuration.lacuna.dig(:pki_express, :offline)
 
     # Set the operator to use a timestamp authority when performing an timestamp
     # operation. In this sample, we will use the REST PKI by default to emit a
     # timestamp. It only be filled if the REST PKI was provided.
-    rest_pki_access_token = Rails.configuration.lacuna['rest_pki']['access_token']
+    rest_pki_access_token = Rails.configuration.lacuna.dig(:rest_pki, :access_token)
     unless rest_pki_access_token&.include? ' ACCESS TOKEN '
 
       # Get an instance of the TimestampAuthority class, responsible to inform
@@ -110,7 +110,7 @@ module Util
 
       # Set authentication strategy. In the case of REST PKI, is using a bearer
       # token.
-      authority.set_oauth_token_authentication(Rails.configuration.lacuna['rest_pki']['access_token'])
+      authority.set_oauth_token_authentication(Rails.configuration.lacuna.dig(:rest_pki, :access_token))
 
       # Add authority to be used by the operator.
       operator.timestamp_authority = authority
@@ -119,7 +119,7 @@ module Util
     # Set the operator to trust Lacuna Test Root (for development purposes
     # only!). Use this to accept the test certificate provide by Lacuna
     # Software.
-    operator.trust_lacuna_test_root = Rails.configuration.lacuna['trust_lacuna_test_root']
+    operator.trust_lacuna_test_root = Rails.configuration.lacuna[:trust_lacuna_test_root]
     # THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
   end
 
