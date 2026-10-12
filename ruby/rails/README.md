@@ -1,6 +1,6 @@
 # Rails sample (Ruby)
 
-One Rails 6.0 web app with the Ruby samples for **Rest PKI**, **Rest PKI Core**, **PKI Express** and
+One Rails 8.1 web app (Ruby 3.3) with the Ruby samples for **Rest PKI**, **Rest PKI Core**, **PKI Express** and
 **Web PKI**. Each controller in `app/controllers/` is one sample; its views are in
 `app/views/<controller>/`, and page scripts in `app/assets/javascripts/`. Shared helpers are in
 `app/controllers/concerns/`. There is no Rest PKI Core client library for Ruby, so the Rest PKI Core
@@ -40,17 +40,29 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 ## Run
 
-Requires Ruby 2.5.3 (see `.ruby-version`) and Bundler. Node.js is not needed: there is no
-JavaScript build step. The views load jQuery, Bootstrap and Web PKI from their CDNs, and the page
-scripts in `app/assets/javascripts/` go through the Rails asset pipeline (Sprockets).
+Requires Ruby 3.3 (see `.ruby-version`) and Bundler. On Windows, install Ruby with RubyInstaller's
+"with Devkit" package: Bundler compiles the gems that have no prebuilt Windows version, such as
+Puma. Node.js is not needed: there is no JavaScript build step. The views load jQuery, Bootstrap
+and Web PKI from their CDNs, and the page scripts in `app/assets/javascripts/` go through the Rails
+asset pipeline (Sprockets).
 
 ```bash
 bundle install
 rails server
 ```
 
-Then open http://localhost:3000/. The PKI Express samples also need PKI Express installed and
-activated (`sudo pkie activate LacunaPkiLicense.config`).
+Then open http://localhost:3000/. `rails server` runs Puma, configured in `config/puma.rb`. The PKI
+Express samples also need PKI Express installed and activated
+(`sudo pkie activate LacunaPkiLicense.config`).
+
+### Temporary `File.exists?` shim for PKI Express
+
+`pki_express` 1.3.2 and earlier call `File.exists?`, which Ruby 3.2 removed, so every PKI Express
+sample would fail with `NoMethodError` as soon as it sets a file path.
+[`config/initializers/pki_express_ruby32_compat.rb`](config/initializers/pki_express_ruby32_compat.rb)
+aliases it back to `File.exist?`. It is a workaround, not part of the integration: your app needs
+it only if it uses the `pki_express` gem on Ruby 3.2 or later. Delete it once `pki_express` ships a
+fixed release.
 
 ## Configuration
 

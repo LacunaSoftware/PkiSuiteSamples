@@ -96,8 +96,6 @@ been closed by then):
 
 Still to do:
 
-- The in-place gem bumps for Ruby 2.5 (rack, rails 6.0.6.1, nokogiri 1.12.5 and the rest).
-- Dropping the unused Rails test group (`capybara`, `selenium-webdriver`, `webdrivers`).
 - Replacing `com.lowagie:itext:4.2.0` with `com.itextpdf:itextpdf:5.5.13.6` in the Java sample.
 - Committing a `package-lock.json` for `nodejs/expressmvc`. The project's `.gitignore` excludes it
   today.

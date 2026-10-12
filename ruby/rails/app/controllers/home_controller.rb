@@ -32,7 +32,7 @@ class HomeController < ApplicationController
     fwd = params[:fwd]
     op = params[:op]
 
-    access_token = Rails.configuration.lacuna['rest_pki']['access_token']
+    access_token = Rails.configuration.lacuna.dig(:rest_pki, :access_token)
     if access_token.nil? or access_token.length == 0
       render 'home/rest-token-not-set'
       return
@@ -54,7 +54,7 @@ class HomeController < ApplicationController
     fwd = params[:fwd]
     op = params[:op]
 
-    api_key = Rails.configuration.lacuna['rest_pki_core']['api_key']
+    api_key = Rails.configuration.lacuna.dig(:rest_pki_core, :api_key)
     if api_key.nil? or api_key.length == 0
       render 'home/rest-core-api-key-not-set'
       return
