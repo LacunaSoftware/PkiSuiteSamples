@@ -2,6 +2,34 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. The signature has no visual representation, because Lacuna.RestPkiCore.Client 1.10.1 has no option for one.",
+    "product": "rest-pki-core",
+    "language": "dotnet",
+    "framework": "aspnet-mvc",
+    "path": "dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestCoreController.cs",
+    "related_files": [
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/PadesSignatureRestCore/Index.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/PadesSignatureRestCore/Complete.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/PadesSignatureRestCore/SignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Content/js/signature-start-form.js",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Content/js/signature-complete-form.js",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Sdk/SignatureStartModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/RestCore/SignatureCompleteModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Sdk/SignatureInfoModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Classes/Util.cs"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
+    "run": {
+      "cwd": "dotnet/mvc",
+      "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
+      "url": "http://localhost:54123/Home/CheckRestPkiCoreApiKey?rc=ServerFiles&ctrl=PadesSignatureRestCore&op=signPdf"
+    }
+  },
+  {
+    "id": "pades-signature-rest-pki-core",
+    "title": "Sign a PDF with Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core.",
     "product": "rest-pki-core",
     "language": "java",
