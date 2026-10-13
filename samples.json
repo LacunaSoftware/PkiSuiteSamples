@@ -1163,7 +1163,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Sdk/SignatureInfoModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/pades-signature",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "dotnet/mvc",
@@ -1188,7 +1188,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/config/CloudhubProperties.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/pades-signature",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "java/springmvc",
@@ -1214,7 +1214,7 @@
       "nodejs/expressmvc/pades-visual-elements-restpki.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/pades-signature",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -1239,7 +1239,7 @@
       "php/plain/public/pades-signature-cloudhub-rest/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/pades-signature",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "php/plain",
@@ -2926,7 +2926,7 @@
       "php/plain/public/xml-signature-cloudhub-rest/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -4729,7 +4729,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Sdk/AuthenticationInfoModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/authentication",
     "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
@@ -4755,7 +4755,7 @@
       "nodejs/expressmvc/util.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/cloud-certificates",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/authentication",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
