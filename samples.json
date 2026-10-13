@@ -1815,7 +1815,7 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Adds a document timestamp to an uploaded PDF with Rest PKI Core's PDF stamp operation, using the PKI Brazil timestamp tier. Server-only: no signature and no Web PKI.",
+    "description": "Adds a document timestamp to an uploaded PDF with Rest PKI Core's PDF stamp operation, using the Lacuna Test timestamp tier (production uses PKI Brazil or the account's own tier). Server-only: no signature and no Web PKI.",
     "product": "rest-pki-core",
     "language": "nodejs",
     "framework": "express",
