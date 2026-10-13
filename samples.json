@@ -262,7 +262,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -289,7 +289,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -316,7 +316,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -346,7 +346,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -374,7 +374,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -420,7 +420,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -444,7 +444,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -468,7 +468,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/nodejs/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -493,7 +493,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -521,7 +521,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -550,7 +550,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/django/sample",
       "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
@@ -576,7 +576,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/ruby/rails",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -1291,7 +1291,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -1316,7 +1316,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -1341,7 +1341,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -1368,7 +1368,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -1394,7 +1394,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -1445,7 +1445,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -1469,7 +1469,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -1494,7 +1494,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -1521,7 +1521,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -1547,7 +1547,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/config/trust-services",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -1804,7 +1804,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/timestamp-pdf",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -1826,7 +1826,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/timestamp-pdf",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -1903,7 +1903,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -1928,7 +1928,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -1954,7 +1954,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -1983,7 +1983,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -2010,7 +2010,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -2056,7 +2056,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -2079,7 +2079,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -2102,7 +2102,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/nodejs/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -2126,7 +2126,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -2153,7 +2153,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -2178,7 +2178,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/ruby/rails",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -3505,7 +3505,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -3526,7 +3526,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -3548,7 +3548,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -3571,7 +3571,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -3594,7 +3594,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -3616,7 +3616,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -3637,7 +3637,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -3658,7 +3658,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -3680,7 +3680,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -3703,7 +3703,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -3727,7 +3727,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/django/sample",
       "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
@@ -3750,7 +3750,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -3773,7 +3773,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server",
       "command": "dotnet run --launch-profile http",
@@ -3817,7 +3817,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -3838,7 +3838,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -3860,7 +3860,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -3883,7 +3883,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -3905,7 +3905,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -3926,7 +3926,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -3948,7 +3948,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -3993,7 +3993,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -4015,7 +4015,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -4036,7 +4036,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -4058,7 +4058,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -4103,7 +4103,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -4128,7 +4128,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -4150,7 +4150,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -4176,7 +4176,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -4199,7 +4199,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/nodejs/mvc",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -4221,7 +4221,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -4246,7 +4246,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -4272,7 +4272,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "python/django/sample",
       "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
@@ -4297,7 +4297,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/ruby/rails",
-    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
@@ -4438,7 +4438,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/certificates/auth",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -4462,7 +4462,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/certificates/auth",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server",
       "command": "dotnet run --launch-profile http",
@@ -4486,7 +4486,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -4510,7 +4510,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -4533,7 +4533,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -4558,7 +4558,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -4584,7 +4584,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
       "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
@@ -4608,7 +4608,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
       "command": "./gradlew bootRun",
@@ -4632,7 +4632,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
       "command": "npm install && npm start",
@@ -4655,7 +4655,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "php/plain",
       "command": "composer install && composer start",
@@ -4680,7 +4680,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
@@ -4704,7 +4704,7 @@
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
-    "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
+    "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
