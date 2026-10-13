@@ -15,24 +15,18 @@ const APP_ROOT = process.cwd();
 /**
  * GET /timestamp-pdf-express
  *
- * This route only renders the signature page.
+ * This route adds a document timestamp to the given PDF and returns the
+ * timestamped PDF.
  */
 router.get('/', (req, res, next) => {
 	// Our demo only works if a "file" is given to work with.
 	const { fileId } = req.query;
-	if (!fileId) {
+	if (!fileId || !StorageMock.existsSync({ fileId })) {
 		res.status(404).send('Not found');
 		return;
 	}
 
-	// Locate document and read content.
-	const filePath = path.join(APP_ROOT, 'app-data', fileId);
-	if (!fs.existsSync(filePath)) {
-		res.status(404).send('Not found');
-		return;
-	}
-
-	generateTimestampVersion(filePath)
+	generateTimestampVersion(StorageMock.getDataPath(fileId))
 		.then((pfvContent) => {
 			// Return the generate file.
 			res.type('pdf');
@@ -69,7 +63,7 @@ function generateTimestampVersion(pdfPath) {
 					resolve(pfvContent);
 				});
 			}).catch((err) => { reject(err); });
-		});
+		}).catch((err) => { reject(err); });
 	});
 }
 
