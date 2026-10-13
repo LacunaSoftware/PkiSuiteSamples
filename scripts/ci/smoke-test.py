@@ -88,6 +88,7 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-rest-pki", None),
         ("pades-signature-pki-express", None),
         ("list-certificates-web-pki", None),
+        ("timestamp-pdf-rest-pki-core", None),
     ],
     "php/plain": [
         ("pades-signature-rest-pki-core", None),
@@ -102,6 +103,7 @@ SMOKE_SAMPLES = {
     ],
     "python/flask": [
         ("pades-signature-rest-pki-core", NO_CORE_KEY),
+        ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
         ("pades-signature-rest-pki", None),
         ("validate-pades-signature-rest-pki", None),
         ("list-certificates-web-pki", None),
