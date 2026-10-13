@@ -1,0 +1,37 @@
+<h1>Timestamp a PDF with Rest PKI Core</h1>
+<p>
+  Adds a document timestamp to a PDF: a timestamp authority attests that the PDF existed, exactly as
+  it is, at that time. The server sends the PDF to <strong>Rest PKI Core</strong>, Lacuna's cloud
+  API, which requests the timestamp and embeds it in the PDF. Nothing else in the PDF changes, and
+  nobody signs it, so this sample does not use Web PKI.
+</p>
+
+@if (!configuration.isRestPkiCoreConfigured) {
+  <p class="warning">
+    This sample needs a Rest PKI Core API key. Set <code>RestPkiCore:ApiKey</code> in the server's
+    <code>appsettings.json</code>.
+  </p>
+}
+
+@if (stampedFileId(); as stampedPdf) {
+  <p class="success">The PDF was timestamped.</p>
+  <ul>
+    <li>
+      <a [href]="files.downloadUrl(stampedPdf)">Download the timestamped PDF</a>
+      (a PDF reader shows the timestamp in its signature panel)
+    </li>
+    <li><button type="button" (click)="stampedFileId.set(null)">Timestamp another PDF</button></li>
+  </ul>
+  <p><a routerLink="/">Back to the samples</a></p>
+} @else {
+  <p><a routerLink="/">Back to the samples</a></p>
+
+  <app-document-picker [samples]="['SamplePdf']" accept=".pdf" (picked)="stamp($event)" />
+
+  @if (busy()) {
+    <p class="muted">Adding the timestamp...</p>
+  }
+  @if (error(); as error) {
+    <p class="error">{{ error }}</p>
+  }
+}
