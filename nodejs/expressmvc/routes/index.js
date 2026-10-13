@@ -77,6 +77,7 @@ router.use("/read-cert-jquery", require("./read-cert-jquery"));
 router.use("/receita-simples-express", require("./receita-simples-express"));
 router.use("/rsa-web", require("./rsa-web"));
 router.use("/server-files", require("./server-files"));
+router.use("/timestamp-pdf-core", require("./timestamp-pdf-core"));
 router.use("/timestamp-pdf-express", require("./timestamp-pdf-express"));
 router.use("/tsp-callback", require("./tsp-callback"));
 router.use("/upload", require("./upload"));
