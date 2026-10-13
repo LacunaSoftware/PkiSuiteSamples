@@ -5,10 +5,12 @@ const { Util } = require("../util");
 
 const router = express.Router();
 
-// The timestamp tier determines which timestamp authority issues the timestamp. Here we use the
-// PKI Brazil tier (ICP-Brasil timestamps), by its ID; the API also accepts a tier's name. The
-// Node.js client has no tier constants, so to use a different tier, change this value.
-const TIMESTAMP_TIER = "a402df41-8559-47b2-a05c-be555bf66310"; // PKI Brazil
+// The timestamp tier determines which timestamp authority issues the timestamp. The API takes a
+// tier's ID or name; the Node.js client has no tier constants. This sample uses the Lacuna Test
+// tier (for development purposes only!), which the samples' trial API key can use. In production,
+// use the PKI Brazil tier ("a402df41-8559-47b2-a05c-be555bf66310", the one the Demo uses) or your
+// account's own tier, which needs an API key with access to it.
+const TIMESTAMP_TIER = "9e5b9ccd-1916-49e7-bb99-9eb259ab00f8"; // Lacuna Test
 
 /**
  * GET /timestamp-pdf-core
