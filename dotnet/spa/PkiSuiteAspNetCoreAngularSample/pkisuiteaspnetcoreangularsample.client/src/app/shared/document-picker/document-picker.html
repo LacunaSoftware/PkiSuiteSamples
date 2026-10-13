@@ -1,0 +1,25 @@
+<fieldset [disabled]="busy()">
+  <legend>Choose a document</legend>
+
+  <ul>
+    @for (document of samples(); track document) {
+      <li>
+        {{ descriptions[document] }}
+        (<a [href]="files.sampleDownloadUrl(document)">download</a>)
+        <button type="button" (click)="useSample(document)">Use this document</button>
+      </li>
+    }
+  </ul>
+
+  <label>
+    Or upload a file of your own:
+    <input type="file" [accept]="accept()" (change)="upload($event)">
+  </label>
+
+  @if (busy()) {
+    <p class="muted">Sending the document to the server...</p>
+  }
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+</fieldset>

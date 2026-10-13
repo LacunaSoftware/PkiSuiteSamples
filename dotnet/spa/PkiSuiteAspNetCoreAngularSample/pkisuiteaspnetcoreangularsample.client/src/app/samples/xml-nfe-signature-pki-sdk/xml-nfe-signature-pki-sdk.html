@@ -1,0 +1,55 @@
+<h1>NF-e XML signature with PKI SDK</h1>
+<p>
+  Signs the <code>infNFe</code> element of a Brazilian electronic invoice (NF-e), following the
+  NF-e national standard. The server uses PKI SDK, and Web PKI signs with your certificate in the
+  browser. Rest PKI Core has no options for NF-e signatures, so this task has no Rest PKI Core
+  sample.
+</p>
+
+@if (signedFileId(); as signedFileId) {
+  <p class="success">The NF-e was signed.</p>
+  <p><a [href]="files.downloadUrl(signedFileId)">Download the signed NF-e</a></p>
+  <p>
+    <button type="button" (click)="reset()">Sign another NF-e</button>
+    <a routerLink="/">Back to the samples</a>
+  </p>
+} @else if (fileId(); as fileId) {
+  <p>
+    NF-e to sign: <a [href]="files.downloadUrl(fileId)">{{ fileId }}</a>
+    <button type="button" (click)="reset()" [disabled]="busy()">Choose another NF-e</button>
+  </p>
+
+  <form (submit)="$event.preventDefault(); sign()">
+    <fieldset [disabled]="busy() || loadingCertificates()">
+      <div class="field">
+        <label for="certificate">Choose a certificate</label>
+        <select id="certificate" (change)="selectedThumbprint.set($any($event.target).value)">
+          @for (certificate of certificates(); track certificate.thumbprint) {
+            <option [value]="certificate.thumbprint" [selected]="certificate.thumbprint === selectedThumbprint()">
+              {{ certificateLabel(certificate) }}
+            </option>
+          }
+        </select>
+        @if (loadingCertificates()) {
+          <p class="muted">Loading your certificates...</p>
+        } @else if (certificates().length === 0) {
+          <p class="muted">No certificates found.</p>
+        }
+      </div>
+      <button type="submit" [disabled]="!selectedThumbprint()">Sign</button>
+      <button type="button" (click)="loadCertificates()">Refresh certificates</button>
+    </fieldset>
+  </form>
+  @if (busy()) {
+    <p class="muted">Signing...</p>
+  }
+} @else {
+  <app-document-picker [samples]="['SampleNFe']" accept=".xml,application/xml,text/xml" (picked)="fileId.set($event)" />
+}
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+@if (failedValidationResults(); as validationResults) {
+  <pre>{{ validationResults }}</pre>
+}

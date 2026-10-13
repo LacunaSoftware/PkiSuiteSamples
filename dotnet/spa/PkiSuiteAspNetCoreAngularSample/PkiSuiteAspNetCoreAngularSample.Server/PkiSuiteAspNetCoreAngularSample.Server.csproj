@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PkiSuiteAspNetCoreAngularSample</RootNamespace>
+    <!-- In Development, SpaProxy starts the Angular dev server (npm start) and sends the browser to it. -->
+    <SpaRoot>..\pkisuiteaspnetcoreangularsample.client</SpaRoot>
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>http://localhost:4200</SpaProxyServerUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PKI SDK: signatures, validation and certificate authentication on this server. -->
+    <PackageReference Include="Lacuna.Pki" Version="2.22.7" />
+    <!-- Rest PKI Core: Lacuna's cloud signature, validation and authentication API. -->
+    <PackageReference Include="Lacuna.RestPkiCore.Client" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The Angular project. It is built and copied to wwwroot when this project is published. -->
+    <ProjectReference Include="..\pkisuiteaspnetcoreangularsample.client\pkisuiteaspnetcoreangularsample.client.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Sample documents and the PKI SDK license, read from the content root at run time. -->
+    <Content Include="Content\**" CopyToPublishDirectory="PreserveNewest" />
+    <Content Update="LacunaPkiLicense.config" CopyToPublishDirectory="PreserveNewest" />
+    <Content Remove="App_Data\**" />
+    <None Remove="App_Data\**" />
+  </ItemGroup>
+
+</Project>

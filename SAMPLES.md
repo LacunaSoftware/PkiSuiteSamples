@@ -59,6 +59,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 | Project | Run from | Command | Open |
 |---|---|---|---|
 | .NET / ASP.NET MVC | [`dotnet/mvc`](dotnet/mvc) | `Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)` | http://localhost:54123/ |
+| .NET / ASP.NET Core + Angular | [`dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server`](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server) | `dotnet run --launch-profile http` | http://localhost:4200/ |
 | Java / Spring Boot | [`java/springmvc`](java/springmvc) | `./gradlew bootRun` | http://localhost:60695/ |
 | Node.js / Express | [`nodejs/expressmvc`](nodejs/expressmvc) | `npm install && npm start` | http://localhost:3000/ |
 | PHP / PHP | [`php/plain`](php/plain) | `composer install && composer start` | http://localhost:8000/ |
@@ -70,11 +71,11 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a PDF with Rest PKI Core**<br>`pades-signature-rest-pki-core` | Rest PKI Core | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureCoreController.java) | [code](nodejs/expressmvc/routes/pades-signature-core.js) | [code](php/plain/public/pades-signature-rest-core/index.php) | [Flask](python/flask/sample/views/pades_signature_rest_core.py) | [code](ruby/rails/app/controllers/pades_signature_rest_core_controller.rb) |
-| **Sign a PDF with PKI SDK**<br>`pades-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign a PDF with Rest PKI Core**<br>`pades-signature-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestCoreController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/PadesSignatureRestPkiCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureCoreController.java) | [code](nodejs/expressmvc/routes/pades-signature-core.js) | [code](php/plain/public/pades-signature-rest-core/index.php) | [Flask](python/flask/sample/views/pades_signature_rest_core.py) | [code](ruby/rails/app/controllers/pades_signature_rest_core_controller.rb) |
+| **Sign a PDF with PKI SDK**<br>`pades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/PadesSignaturePkiSdkController.cs) | — | — | — | — | — |
 | **Sign a PDF with PKI Express**<br>`pades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureExpressController.java) | [code](nodejs/expressmvc/routes/pades-signature-express.js) | [code](php/plain/public/pades-signature-express/index.php) | [Flask](python/flask/sample/views/pades_signature_express.py) | [code](ruby/rails/app/controllers/pades_signature_express_controller.rb) |
-| **Sign a local PDF in the browser with Web PKI**<br>`pades-signature-web-pki` | Web PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureWebController.cs) | — | — | — | — | — |
-| **Sign a PDF with Rest PKI**<br>`pades-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/pades-signature-restpki.js) | [code](php/plain/public/pades-signature-rest/index.php) | [Flask](python/flask/sample/views/pades_signature_rest.py)<br>[Django](python/django/sample/pades_signature_rest/views.py) | [code](ruby/rails/app/controllers/pades_signature_rest_controller.rb) |
+| **Sign a local PDF in the browser with Web PKI**<br>`pades-signature-web-pki` | Web PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureWebController.cs) | — | — | — | — | — |
+| **Sign a PDF with Rest PKI**<br>`pades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/pades-signature-restpki.js) | [code](php/plain/public/pades-signature-rest/index.php) | [Flask](python/flask/sample/views/pades_signature_rest.py)<br>[Django](python/django/sample/pades_signature_rest/views.py) | [code](ruby/rails/app/controllers/pades_signature_rest_controller.rb) |
 
 ## Sign a PDF without browser access to Rest PKI
 
@@ -87,17 +88,17 @@ Every sample in this repository, grouped by task, with one column per language. 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
 | **Sign multiple PDFs with Rest PKI Core**<br>`batch-pades-signature-rest-pki-core` | Rest PKI Core | `current` | — | — | [code](nodejs/expressmvc/routes/batch-pades-signature-core.js) | — | — | — |
-| **Sign multiple PDFs with PKI SDK**<br>`batch-pades-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchPadesSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign multiple PDFs with PKI SDK**<br>`batch-pades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchPadesSignatureSdkController.cs) | — | — | — | — | — |
 | **Sign multiple PDFs with PKI Express**<br>`batch-pades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchPadesSignatureExpressController.java) | [code](nodejs/expressmvc/routes/batch-pades-signature-express.js) | [code](php/plain/public/batch-pades-signature-express/index.php) | [Flask](python/flask/sample/views/batch_pades_express.py) | [code](ruby/rails/app/controllers/batch_pades_express_controller.rb) |
-| **Sign multiple PDFs with Rest PKI**<br>`batch-pades-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchPadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchPadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/batch-pades-signature-restpki.js) | [code](php/plain/public/batch-pades-signature-rest/index.php) | [Flask](python/flask/sample/views/batch_pades_rest.py) | [code](ruby/rails/app/controllers/batch_pades_rest_controller.rb) |
+| **Sign multiple PDFs with Rest PKI**<br>`batch-pades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchPadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchPadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/batch-pades-signature-restpki.js) | [code](php/plain/public/batch-pades-signature-rest/index.php) | [Flask](python/flask/sample/views/batch_pades_rest.py) | [code](ruby/rails/app/controllers/batch_pades_rest_controller.rb) |
 | **Sign multiple Signer documents with Web PKI**<br>`batch-pades-signature-signer` | Signer | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchSignerSignatureController.java) | — | — | — | — |
 
 ## Sign a PDF with a server key
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a PDF with a server key using Rest PKI Core**<br>`pades-signature-server-key-rest-pki-core` | Rest PKI Core | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesServerKeyRestCoreController.cs) | — | — | — | — | — |
-| **Sign a PDF with a server key using PKI SDK**<br>`pades-signature-server-key-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesServerKeySdkController.cs) | — | — | — | — | — |
+| **Sign a PDF with a server key using Rest PKI Core**<br>`pades-signature-server-key-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesServerKeyRestCoreController.cs) | — | — | — | — | — |
+| **Sign a PDF with a server key using PKI SDK**<br>`pades-signature-server-key-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesServerKeySdkController.cs) | — | — | — | — | — |
 | **Sign a PDF with a server key using PKI Express**<br>`pades-signature-server-key-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesServerKeyExpressController.java) | [code](nodejs/expressmvc/routes/pades-server-key-express.js) | [code](php/plain/public/pades-server-key-express/index.php) | [Flask](python/flask/sample/views/pades_server_key_express.py) | [code](ruby/rails/app/controllers/pades_server_key_express_controller.rb) |
 | **Sign a PDF with a server key using Rest PKI**<br>`pades-signature-server-key-rest-pki` | Rest PKI | `current` | — | — | — | [code](php/plain/public/pades-server-key-rest/index.php) | — | — |
 
@@ -105,45 +106,45 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a PDF with a cloud certificate using CloudHub**<br>`sign-with-cloud-certificate-cloudhub` | CloudHub | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesCloudHubSdkController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureCloudhubRestController.java) | [code](nodejs/expressmvc/routes/pades-signature-cloudhub-restpki.js) | [code](php/plain/public/pades-signature-cloudhub-rest/index.php) | — | — |
+| **Sign a PDF with a cloud certificate using CloudHub**<br>`sign-with-cloud-certificate-cloudhub` | CloudHub | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesCloudHubSdkController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesSignatureCloudhubRestController.java) | [code](nodejs/expressmvc/routes/pades-signature-cloudhub-restpki.js) | [code](php/plain/public/pades-signature-cloudhub-rest/index.php) | — | — |
 
 ## Sign a PDF with a cloud certificate (OAuth flow)
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a PDF with a cloud certificate (OAuth flow) using PKI SDK**<br>`pades-signature-cloud-oauth-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesCloudOauthSdkController.cs) | — | — | — | — | — |
+| **Sign a PDF with a cloud certificate (OAuth flow) using PKI SDK**<br>`pades-signature-cloud-oauth-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesCloudOauthSdkController.cs) | — | — | — | — | — |
 | **Sign a PDF with a cloud certificate (OAuth flow) using PKI Express**<br>`pades-signature-cloud-oauth-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesCloudOauthExpressController.java) | [code](nodejs/expressmvc/routes/pades-cloud-oauth-express.js) | [code](php/plain/public/pades-cloud-oauth-express/index.php) | [Flask](python/flask/sample/views/pades_cloud_oauth_express.py) | [code](ruby/rails/app/controllers/pades_cloud_oauth_express_controller.rb) |
 
 ## Sign a PDF with a cloud certificate (password flow)
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a PDF with a cloud certificate (password flow) using PKI SDK**<br>`pades-signature-cloud-password-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesCloudPwdSdkController.cs) | — | — | — | — | — |
+| **Sign a PDF with a cloud certificate (password flow) using PKI SDK**<br>`pades-signature-cloud-password-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesCloudPwdSdkController.cs) | — | — | — | — | — |
 | **Sign a PDF with a cloud certificate (password flow) using PKI Express**<br>`pades-signature-cloud-password-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesCloudPwdExpressController.java) | [code](nodejs/expressmvc/routes/pades-cloud-pwd-express.js) | [code](php/plain/public/pades-cloud-pwd-express/index.php) | [Flask](python/flask/sample/views/pades_cloud_pwd_express.py) | [code](ruby/rails/app/controllers/pades_cloud_pwd_express_controller.rb) |
 
 ## Rest PKI Core signature sessions
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Signature session with Rest PKI Core**<br>`signature-session-rest-pki-core` | Rest PKI Core | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/SignatureSessionRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/SignatureSessionRestCoreController.java) | — | [code](php/plain/public/signature-session-rest-core/index.php) | — | — |
+| **Signature session with Rest PKI Core**<br>`signature-session-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/SignatureSessionRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/SignatureSessionRestCoreController.java) | — | [code](php/plain/public/signature-session-rest-core/index.php) | — | — |
 
 ## Rest PKI Core signature sessions with predefined documents
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Signature session with predefined documents using Rest PKI Core**<br>`signature-session-predefined-documents-rest-pki-core` | Rest PKI Core | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/SignatureSessionPreDefRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/SignatureSessionPreDefRestCoreController.java) | — | — | — | — |
+| **Signature session with predefined documents using Rest PKI Core**<br>`signature-session-predefined-documents-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/SignatureSessionPreDefRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/SignatureSessionPreDefRestCoreController.java) | — | — | — | — |
 
 ## Validate files uploaded to a signature session
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Validate files uploaded to a Rest PKI Core signature session**<br>`signature-session-file-validation-rest-pki-core` | Rest PKI Core | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ValidateFileRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ValidateFileRestCoreController.java) | — | [code](php/plain/public/validate-file-rest-core/index.php) | — | — |
+| **Validate files uploaded to a Rest PKI Core signature session**<br>`signature-session-file-validation-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ValidateFileRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ValidateFileRestCoreController.java) | — | [code](php/plain/public/validate-file-rest-core/index.php) | — | — |
 
 ## Webhooks
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Receive Rest PKI Core webhooks**<br>`webhook-rest-pki-core` | Rest PKI Core | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/WebhookRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/WebhookRestCoreController.java) | — | [code](php/plain/public/webhook-rest-core/index.php) | — | — |
+| **Receive Rest PKI Core webhooks**<br>`webhook-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/WebhookRestCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/WebhookRestCoreController.java) | — | [code](php/plain/public/webhook-rest-core/index.php) | — | — |
 
 ## Timestamp a PDF
 
@@ -155,24 +156,25 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a file with CAdES using PKI SDK**<br>`cades-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign a file with CAdES using PKI SDK**<br>`cades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesSignatureSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/CadesSignaturePkiSdkController.cs) | — | — | — | — | — |
 | **Sign a file with CAdES using PKI Express**<br>`cades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/CadesSignatureExpressController.java) | [code](nodejs/expressmvc/routes/cades-signature-express.js) | [code](php/plain/public/cades-signature-express/index.php) | [Flask](python/flask/sample/views/cades_signature_express.py) | [code](ruby/rails/app/controllers/cades_signature_express_controller.rb) |
-| **Sign a local file with CAdES in the browser using Web PKI**<br>`cades-signature-web-pki` | Web PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesSignatureWebController.cs) | — | — | — | — | — |
-| **Sign a file with CAdES using Rest PKI**<br>`cades-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/CadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/cades-signature-restpki.js) | [code](php/plain/public/cades-signature-rest/index.php) | [Flask](python/flask/sample/views/cades_signature_rest.py) | [code](ruby/rails/app/controllers/cades_signature_rest_controller.rb) |
+| **Sign a local file with CAdES in the browser using Web PKI**<br>`cades-signature-web-pki` | Web PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesSignatureWebController.cs) | — | — | — | — | — |
+| **Sign a file with CAdES using Rest PKI**<br>`cades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/CadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/cades-signature-restpki.js) | [code](php/plain/public/cades-signature-rest/index.php) | [Flask](python/flask/sample/views/cades_signature_rest.py) | [code](ruby/rails/app/controllers/cades_signature_rest_controller.rb) |
+| **Sign a file with CAdES using Rest PKI Core**<br>`cades-signature-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/CadesSignatureRestPkiCoreController.cs) | — | — | — | — | — |
 
 ## Sign multiple files with CMS/CAdES
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign multiple files with CAdES using PKI SDK**<br>`batch-cades-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchCadesSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign multiple files with CAdES using PKI SDK**<br>`batch-cades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchCadesSignatureSdkController.cs) | — | — | — | — | — |
 | **Sign multiple files with CAdES using PKI Express**<br>`batch-cades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchCadesSignatureExpressControler.java) | [code](nodejs/expressmvc/routes/batch-cades-signature-express.js) | [code](php/plain/public/batch-cades-signature-express/index.php) | [Flask](python/flask/sample/views/batch_cades_express.py) | [code](ruby/rails/app/controllers/batch_cades_express_controller.rb) |
-| **Sign multiple files with CAdES using Rest PKI**<br>`batch-cades-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchCadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchCadesSignatureRestControler.java) | [code](nodejs/expressmvc/routes/batch-cades-signature-restpki.js) | — | [Flask](python/flask/sample/views/batch_cades_rest.py) | [code](ruby/rails/app/controllers/batch_cades_rest_controller.rb) |
+| **Sign multiple files with CAdES using Rest PKI**<br>`batch-cades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchCadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchCadesSignatureRestControler.java) | [code](nodejs/expressmvc/routes/batch-cades-signature-restpki.js) | — | [Flask](python/flask/sample/views/batch_cades_rest.py) | [code](ruby/rails/app/controllers/batch_cades_rest_controller.rb) |
 
 ## Sign a file with CMS/CAdES and a server key
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a file with CAdES and a server key using PKI SDK**<br>`cades-signature-server-key-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesServerKeySdkController.cs) | — | — | — | — | — |
+| **Sign a file with CAdES and a server key using PKI SDK**<br>`cades-signature-server-key-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/CadesServerKeySdkController.cs) | — | — | — | — | — |
 | **Sign a file with CAdES and a server key using PKI Express**<br>`cades-signature-server-key-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/cades-server-key-express.js) | [code](php/plain/public/cades-server-key-express/index.php) | [Flask](python/flask/sample/views/cades_server_key_express.py) | — |
 
 ## Sign a file with CMS/CAdES and a cloud certificate
@@ -185,23 +187,24 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Merge CMS/CAdES signatures using PKI SDK**<br>`merge-cades-signatures-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/MergeCadesSdkController.cs) | — | — | — | — | — |
+| **Merge CMS/CAdES signatures using PKI SDK**<br>`merge-cades-signatures-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/MergeCadesSdkController.cs) | — | — | — | — | — |
 | **Merge CMS/CAdES signatures using PKI Express**<br>`merge-cades-signatures-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/MergeCadesExpressController.java) | [code](nodejs/expressmvc/routes/merge-cades-express.js) | — | [Flask](python/flask/sample/views/merge_cades_express.py) | — |
 
 ## Sign an XML document (XAdES)
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign an XML document using PKI SDK**<br>`xml-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign an XML document using PKI SDK**<br>`xml-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlSignatureSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/XmlSignaturePkiSdkController.cs) | — | — | — | — | — |
 | **Sign an XML document using PKI Express**<br>`xml-signature-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/xml-signature-express.js) | — | — | — |
-| **Sign an XML document using Rest PKI**<br>`xml-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/XmlSignatureRestController.java) | [code](nodejs/expressmvc/routes/xml-signature-restpki.js) | [code](php/plain/public/xml-signature-rest/index.php) | [Flask](python/flask/sample/views/xml_signature_rest.py) | [code](ruby/rails/app/controllers/xml_signature_rest_controller.rb) |
+| **Sign an XML document using Rest PKI**<br>`xml-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/XmlSignatureRestController.java) | [code](nodejs/expressmvc/routes/xml-signature-restpki.js) | [code](php/plain/public/xml-signature-rest/index.php) | [Flask](python/flask/sample/views/xml_signature_rest.py) | [code](ruby/rails/app/controllers/xml_signature_rest_controller.rb) |
 | **Sign an XML document with a cloud certificate using CloudHub**<br>`xml-signature-cloudhub` | CloudHub | `current` | — | — | — | [code](php/plain/public/xml-signature-cloudhub-rest/index.php) | — | — |
+| **Sign an XML document using Rest PKI Core**<br>`xml-signature-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/XmlSignatureRestPkiCoreController.cs) | — | — | — | — | — |
 
 ## Sign an XML document with a server key
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign an XML document with a server key using PKI SDK**<br>`xml-signature-server-key-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlServerKeySdkController.cs) | — | — | — | — | — |
+| **Sign an XML document with a server key using PKI SDK**<br>`xml-signature-server-key-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlServerKeySdkController.cs) | — | — | — | — | — |
 | **Sign an XML document with a server key using PKI Express**<br>`xml-signature-server-key-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/xml-server-key-express.js) | — | — | — |
 
 ## Sign an XML document with a cloud certificate
@@ -214,23 +217,23 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign one element of an XML document using Rest PKI**<br>`xml-element-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlContractSignatureRestController.cs) | — | — | — | — | — |
+| **Sign one element of an XML document using Rest PKI**<br>`xml-element-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlContractSignatureRestController.cs) | — | — | — | — | — |
 
 ## Sign a Brazilian NF-e
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a Brazilian NF-e using PKI SDK**<br>`xml-nfe-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlNFeSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign a Brazilian NF-e using PKI SDK**<br>`xml-nfe-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlNFeSignatureSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/XmlNfeSignaturePkiSdkController.cs) | — | — | — | — | — |
 | **Sign a Brazilian NF-e using PKI Express**<br>`xml-nfe-signature-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/xml-nfe-signature-express.js) | [code](php/plain/public/xml-nfe-signature-express/index.php) | — | — |
-| **Sign a Brazilian NF-e using Rest PKI**<br>`xml-nfe-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlNFeSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/XmlNFeSignatureRestController.java) | [code](nodejs/expressmvc/routes/xml-nfe-signature-restpki.js) | [code](php/plain/public/xml-nfe-signature-rest/index.php) | [Flask](python/flask/sample/views/xml_nfe_signature_rest.py) | [code](ruby/rails/app/controllers/xml_nfe_signature_rest_controller.rb) |
+| **Sign a Brazilian NF-e using Rest PKI**<br>`xml-nfe-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlNFeSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/XmlNFeSignatureRestController.java) | [code](nodejs/expressmvc/routes/xml-nfe-signature-restpki.js) | [code](php/plain/public/xml-nfe-signature-rest/index.php) | [Flask](python/flask/sample/views/xml_nfe_signature_rest.py) | [code](ruby/rails/app/controllers/xml_nfe_signature_rest_controller.rb) |
 
 ## Sign a COD XML
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a COD XML using PKI SDK**<br>`xml-cod-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlCodSignatureSdkController.cs) | — | — | — | — | — |
+| **Sign a COD XML using PKI SDK**<br>`xml-cod-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlCodSignatureSdkController.cs) | — | — | — | — | — |
 | **Sign a COD XML using PKI Express**<br>`xml-cod-signature-pki-express` | PKI Express | `current` | — | — | — | [code](php/plain/public/xml-cod-signature-express/index.php) | — | — |
-| **Sign a COD XML using Rest PKI**<br>`xml-cod-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlCodSignatureRestController.cs) | — | — | [code](php/plain/public/xml-cod-signature-rest/index.php) | — | — |
+| **Sign a COD XML using Rest PKI**<br>`xml-cod-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlCodSignatureRestController.cs) | — | — | [code](php/plain/public/xml-cod-signature-rest/index.php) | — | — |
 
 ## Sign a Brazilian digital diploma
 
@@ -242,51 +245,52 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Validate a signed PDF using PKI SDK**<br>`validate-pades-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenPadesSignatureSdkController.cs) | — | — | — | — | — |
+| **Validate a signed PDF using PKI SDK**<br>`validate-pades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenPadesSignatureSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/ValidatePadesSignaturePkiSdkController.cs) | — | — | — | — | — |
 | **Validate a signed PDF using PKI Express**<br>`validate-pades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenPadesExpressController.java) | [code](nodejs/expressmvc/routes/open-pades-express.js) | [code](php/plain/public/open-pades-express/index.php) | [Flask](python/flask/sample/views/open_pades_express.py) | [code](ruby/rails/app/controllers/open_pades_express_controller.rb) |
-| **Validate a signed PDF using Rest PKI**<br>`validate-pades-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenPadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenPadesRestController.java) | [code](nodejs/expressmvc/routes/open-pades-restpki.js) | [code](php/plain/public/open-pades-rest/index.php) | [Flask](python/flask/sample/views/open_pades_rest.py)<br>[Django](python/django/sample/open_pades_rest/views.py) | [code](ruby/rails/app/controllers/open_pades_rest_controller.rb) |
+| **Validate a signed PDF using Rest PKI**<br>`validate-pades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenPadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenPadesRestController.java) | [code](nodejs/expressmvc/routes/open-pades-restpki.js) | [code](php/plain/public/open-pades-rest/index.php) | [Flask](python/flask/sample/views/open_pades_rest.py)<br>[Django](python/django/sample/open_pades_rest/views.py) | [code](ruby/rails/app/controllers/open_pades_rest_controller.rb) |
+| **Validate a signed PDF using Rest PKI Core**<br>`validate-pades-signature-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/ValidatePadesSignatureRestPkiCoreController.cs) | — | — | — | — | — |
 
 ## Validate a CMS/CAdES signature
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Validate a CMS/CAdES signature using PKI SDK**<br>`validate-cades-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureSdkController.cs) | — | — | — | — | — |
+| **Validate a CMS/CAdES signature using PKI SDK**<br>`validate-cades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureSdkController.cs) | — | — | — | — | — |
 | **Validate a CMS/CAdES signature using PKI Express**<br>`validate-cades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenCadesExpressController.java) | [code](nodejs/expressmvc/routes/open-cades-express.js) | [code](php/plain/public/open-cades-express/index.php) | [Flask](python/flask/sample/views/open_cades_express.py) | — |
-| **Validate a CMS/CAdES signature using Rest PKI**<br>`validate-cades-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureRestController.cs) | — | [code](nodejs/expressmvc/routes/open-cades-restpki.js) | [code](php/plain/public/open-cades-rest/index.php) | — | — |
+| **Validate a CMS/CAdES signature using Rest PKI**<br>`validate-cades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureRestController.cs) | — | [code](nodejs/expressmvc/routes/open-cades-restpki.js) | [code](php/plain/public/open-cades-rest/index.php) | — | — |
 
 ## Validate a signed XML
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Validate a signed XML using PKI SDK**<br>`validate-xml-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenXmlSignatureSdkController.cs) | — | — | — | — | — |
+| **Validate a signed XML using PKI SDK**<br>`validate-xml-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenXmlSignatureSdkController.cs) | — | — | — | — | — |
 | **Validate a signed XML using PKI Express**<br>`validate-xml-signature-pki-express` | PKI Express | `current` | — | — | — | [code](php/plain/public/open-xml-express/index.php) | — | — |
-| **Validate a signed XML using Rest PKI**<br>`validate-xml-signature-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenXmlSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenXmlRestController.java) | — | [code](php/plain/public/open-xml-rest/index.php) | — | — |
+| **Validate a signed XML using Rest PKI**<br>`validate-xml-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenXmlSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenXmlRestController.java) | — | [code](php/plain/public/open-xml-rest/index.php) | — | — |
 
 ## Printer-friendly version of a signed PDF
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Make a printer-friendly version of a signed PDF using PKI SDK**<br>`printer-friendly-pdf-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyPadesSdkController.cs) | — | — | — | — | — |
+| **Make a printer-friendly version of a signed PDF using PKI SDK**<br>`printer-friendly-pdf-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyPadesSdkController.cs) | — | — | — | — | — |
 | **Make a printer-friendly version of a signed PDF using PKI Express**<br>`printer-friendly-pdf-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/printer-version-pades-express.js) | — | [Flask](python/flask/sample/views/printer_version_pades_express.py) | — |
-| **Make a printer-friendly version of a signed PDF using Rest PKI**<br>`printer-friendly-pdf-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyPadesRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PrinterFriendlyPadesRestController.java) | [code](nodejs/expressmvc/routes/printer-version-pades-restpki.js) | [code](php/plain/public/printer-friendly-pades-rest/index.php) | [Flask](python/flask/sample/views/printer_version_pades_rest.py)<br>[Django](python/django/sample/printer_version_pades_rest/views.py) | [code](ruby/rails/app/controllers/printer_version_pades_rest_controller.rb) |
+| **Make a printer-friendly version of a signed PDF using Rest PKI**<br>`printer-friendly-pdf-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyPadesRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PrinterFriendlyPadesRestController.java) | [code](nodejs/expressmvc/routes/printer-version-pades-restpki.js) | [code](php/plain/public/printer-friendly-pades-rest/index.php) | [Flask](python/flask/sample/views/printer_version_pades_rest.py)<br>[Django](python/django/sample/printer_version_pades_rest/views.py) | [code](ruby/rails/app/controllers/printer_version_pades_rest_controller.rb) |
 
 ## Printer-friendly version of a CMS/CAdES signature
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Make a printer-friendly version of a CMS/CAdES signature using PKI SDK**<br>`printer-friendly-cades-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyCadesSdkController.cs) | — | — | — | — | — |
+| **Make a printer-friendly version of a CMS/CAdES signature using PKI SDK**<br>`printer-friendly-cades-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyCadesSdkController.cs) | — | — | — | — | — |
 | **Make a printer-friendly version of a CMS/CAdES signature using PKI Express**<br>`printer-friendly-cades-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/printer-version-cades-express.js) | — | — | — |
-| **Make a printer-friendly version of a CMS/CAdES signature using Rest PKI**<br>`printer-friendly-cades-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyCadesRestController.cs) | — | — | — | — | — |
+| **Make a printer-friendly version of a CMS/CAdES signature using Rest PKI**<br>`printer-friendly-cades-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PrinterFriendlyCadesRestController.cs) | — | — | — | — | — |
 
 ## Authenticate with a digital certificate
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Authenticate with a digital certificate using Rest PKI Core**<br>`authentication-rest-pki-core` | Rest PKI Core | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/AuthenticationRestPkiCoreController.java) | — | — | — | — |
-| **Authenticate with a digital certificate using PKI SDK**<br>`authentication-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/AuthenticationSdkController.cs) | — | — | — | — | — |
+| **Authenticate with a digital certificate using Rest PKI Core**<br>`authentication-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/AuthenticationRestPkiCoreController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/AuthenticationRestPkiCoreController.java) | — | — | — | — |
+| **Authenticate with a digital certificate using PKI SDK**<br>`authentication-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/AuthenticationSdkController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/AuthenticationPkiSdkController.cs) | — | — | — | — | — |
 | **Authenticate with a digital certificate using PKI Express**<br>`authentication-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/AuthenticationExpressController.java) | [code](nodejs/expressmvc/routes/authentication-express.js) | [code](php/plain/public/authentication-express/index.php) | [Flask](python/flask/sample/views/authentication_express.py) | — |
-| **Authenticate with a digital certificate using Rest PKI**<br>`authentication-rest-pki` | Rest PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/AuthenticationRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/AuthenticationRestController.java) | [code](nodejs/expressmvc/routes/authentication-restpki.js) | [code](php/plain/public/authentication-rest/index.php) | [Flask](python/flask/sample/views/authentication_rest.py) | [code](ruby/rails/app/controllers/authentication_rest_controller.rb) |
-| **Authenticate with a cloud certificate using CloudHub**<br>`authentication-cloudhub` | CloudHub | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/AuthenticationCloudHubSdkController.cs) | — | [code](nodejs/expressmvc/routes/authentication-cloudhub.js) | — | — | — |
+| **Authenticate with a digital certificate using Rest PKI**<br>`authentication-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/AuthenticationRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/AuthenticationRestController.java) | [code](nodejs/expressmvc/routes/authentication-restpki.js) | [code](php/plain/public/authentication-rest/index.php) | [Flask](python/flask/sample/views/authentication_rest.py) | [code](ruby/rails/app/controllers/authentication_rest_controller.rb) |
+| **Authenticate with a cloud certificate using CloudHub**<br>`authentication-cloudhub` | CloudHub | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/AuthenticationCloudHubSdkController.cs) | — | [code](nodejs/expressmvc/routes/authentication-cloudhub.js) | — | — | — |
 
 ## Authenticate with a cloud certificate (OAuth flow)
 
@@ -298,19 +302,19 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **List the user's certificates with Web PKI**<br>`list-certificates-web-pki` | Web PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ListCertJQueryController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ListCertJQueryController.java) | [code](nodejs/expressmvc/routes/list-cert-jquery.js) | — | [Flask](python/flask/sample/views/list_cert_jquery.py) | [code](ruby/rails/app/controllers/list_cert_jquery_controller.rb) |
+| **List the user's certificates with Web PKI**<br>`list-certificates-web-pki` | Web PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ListCertJQueryController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ListCertJQueryController.java) | [code](nodejs/expressmvc/routes/list-cert-jquery.js) | — | [Flask](python/flask/sample/views/list_cert_jquery.py) | [code](ruby/rails/app/controllers/list_cert_jquery_controller.rb) |
 
 ## Read a certificate's details
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Read a certificate's details with Web PKI**<br>`read-certificate-web-pki` | Web PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ReadCertJQueryController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ReadCertJQueryController.java) | [code](nodejs/expressmvc/routes/read-cert-jquery.js) | — | [Flask](python/flask/sample/views/read_cert_jquery.py) | [code](ruby/rails/app/controllers/read_cert_jquery_controller.rb) |
+| **Read a certificate's details with Web PKI**<br>`read-certificate-web-pki` | Web PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ReadCertJQueryController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ReadCertJQueryController.java) | [code](nodejs/expressmvc/routes/read-cert-jquery.js) | — | [Flask](python/flask/sample/views/read_cert_jquery.py) | [code](ruby/rails/app/controllers/read_cert_jquery_controller.rb) |
 
 ## Raw RSA signature in the browser
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign data with RSA in the browser using Web PKI**<br>`rsa-signature-web-pki` | Web PKI | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/RSAWebController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/RSAWebController.java) | [code](nodejs/expressmvc/routes/rsa-web.js) | — | [Flask](python/flask/sample/views/rsa_web.py) | [code](ruby/rails/app/controllers/rsa_web_controller.rb) |
+| **Sign data with RSA in the browser using Web PKI**<br>`rsa-signature-web-pki` | Web PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/RSAWebController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/RSAWebController.java) | [code](nodejs/expressmvc/routes/rsa-web.js) | — | [Flask](python/flask/sample/views/rsa_web.py) | [code](ruby/rails/app/controllers/rsa_web_controller.rb) |
 
 ## Issue a certificate with the key on the user's machine
 
@@ -340,6 +344,6 @@ Every sample in this repository, grouped by task, with one column per language. 
 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
-| **Sign a medical prescription (Receita Simples) using PKI SDK**<br>`prescription-signature-pki-sdk` | PKI SDK | `current` | [code](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ReceitaSimplesSdkController.cs) | — | — | — | — | — |
+| **Sign a medical prescription (Receita Simples) using PKI SDK**<br>`prescription-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/ReceitaSimplesSdkController.cs) | — | — | — | — | — |
 | **Sign a medical prescription (Receita Simples) using PKI Express**<br>`prescription-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ReceitaSimplesExpressController.java) | [code](nodejs/expressmvc/routes/receita-simples-express.js) | [code](php/plain/public/receita-simples-express/index.php) | — | [code](ruby/rails/app/controllers/receita_simples_express_controller.rb) |
 | **Sign a medical prescription (Receita Simples) using Rest PKI**<br>`prescription-signature-rest-pki` | Rest PKI | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/ReceitaSimplesRestController.java) | — | [code](php/plain/public/receita-simples-rest/index.php) | [Django](python/django/sample/receita_simples_rest/views.py) | — |

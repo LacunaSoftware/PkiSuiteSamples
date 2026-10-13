@@ -1,0 +1,61 @@
+<h1>PAdES signature with PKI SDK</h1>
+<p>
+  Signs a PDF with a certificate on your computer. Web PKI signs in the browser, and
+  <strong>PKI SDK</strong> prepares and finishes the signature on this server. The signature gets a
+  visual representation at the bottom of the last page.
+</p>
+
+@if (signedFileId(); as signedPdf) {
+  <p class="success">The PDF was signed.</p>
+  <ul>
+    <li><a [href]="files.downloadUrl(signedPdf)">Download the signed PDF</a></li>
+    <li>
+      <a [routerLink]="['/pades-signature-pki-sdk']" [queryParams]="{ fileId: signedPdf }">Sign it again</a>
+      (co-signature)
+    </li>
+    <li>
+      <a [routerLink]="['/validate-pades-signature-pki-sdk']" [queryParams]="{ fileId: signedPdf }">Validate its signatures</a>
+    </li>
+  </ul>
+  <p><a routerLink="/">Back to the samples</a></p>
+} @else if (documentId(); as pdf) {
+  <fieldset [disabled]="busy()">
+    <legend>Sign the document</legend>
+
+    <p>
+      Document: <a [href]="files.downloadUrl(pdf)">{{ pdf }}</a>
+      <button type="button" (click)="documentId.set(null)">Choose another document</button>
+    </p>
+
+    <div class="field">
+      <label for="certificate">Choose a certificate</label>
+      @if (loadingCertificates()) {
+        <span class="muted">Loading your certificates...</span>
+      } @else if (certificates().length === 0) {
+        <span class="muted">No certificates were found on this computer.</span>
+      } @else {
+        <select id="certificate" (change)="selectedThumbprint.set($any($event.target).value)">
+          @for (certificate of certificates(); track certificate.thumbprint) {
+            <option [value]="certificate.thumbprint" [selected]="certificate.thumbprint === selectedThumbprint()">
+              {{ certificateLabel(certificate) }}
+            </option>
+          }
+        </select>
+      }
+    </div>
+
+    <button type="button" (click)="sign()" [disabled]="!selectedThumbprint()">Sign</button>
+    @if (busy()) {
+      <span class="muted">Signing...</span>
+    }
+  </fieldset>
+} @else {
+  <app-document-picker [samples]="['SamplePdf']" accept=".pdf" (picked)="documentId.set($event)" />
+}
+
+@if (error(); as message) {
+  <p class="error">{{ message }}</p>
+}
+@if (failedValidationResults(); as validationResults) {
+  <pre>{{ validationResults }}</pre>
+}

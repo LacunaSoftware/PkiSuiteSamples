@@ -35,11 +35,11 @@ ASP.NET Web Forms sample
 https://github.com/LacunaSoftware/RestPkiSamples/tree/master/CSharp/WebForms or
 https://github.com/LacunaSoftware/PkiSdkSamples/tree/master/WebForms
 
-ASP.NET Core Web application sample
------------------------------------
+ASP.NET Core + Angular sample
+-----------------------------
 
-**NOTICE:** This sample is currently being migrated. For now, please visit
-https://github.com/LacunaSoftware/RestPkiSamples/tree/master/CSharp/AspNetCore
+A sample using **ASP.NET Core (.NET 10)** with an **Angular** front end, for PKI SDK and Rest
+PKI Core, can be found in the folder [spa](spa/). See its [README](spa/README.md) to run it.
 
 REST PKI's client lib
 ---------------------

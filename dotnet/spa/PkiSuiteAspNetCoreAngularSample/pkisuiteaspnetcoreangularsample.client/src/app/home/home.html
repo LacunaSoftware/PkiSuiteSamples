@@ -1,0 +1,51 @@
+<h1>PKI Suite Samples</h1>
+<p>
+  Digital signatures and certificate authentication with Lacuna Software's PKI Suite, from an
+  ASP.NET Core server and an Angular app. In the browser, <strong>Web PKI</strong> reads the user's
+  certificates and signs with their private key, which never leaves the user's computer. On the
+  server, each task is done with <strong>PKI SDK</strong> (on this server) or with
+  <strong>Rest PKI Core</strong> (Lacuna's cloud API).
+</p>
+
+@if (configuration.loadError(); as loadError) {
+  <p class="error">{{ loadError }}</p>
+} @else if (!configuration.isRestPkiCoreConfigured) {
+  <p class="warning">
+    The Rest PKI Core samples need an API key. Set <code>RestPkiCore:ApiKey</code> in the server's
+    <code>appsettings.json</code>.
+  </p>
+}
+
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>PKI SDK</th>
+      <th>Rest PKI Core</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of tasks; track row.task) {
+      <tr>
+        <td>
+          <strong>{{ row.task }}</strong><br>
+          <span class="muted">{{ row.description }}</span>
+        </td>
+        <td><a [routerLink]="['/', row.pkiSdk]">{{ row.pkiSdk }}</a></td>
+        <td>
+          @if (row.restPkiCore) {
+            <a [routerLink]="['/', row.restPkiCore]">{{ row.restPkiCore }}</a>
+          } @else {
+            <span class="muted">Not available</span>
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+<p class="muted">
+  Signing with test certificates? See
+  <a href="https://docs.lacunasoftware.com/articles/pki-guide/test-certs">Lacuna's test certificates</a>.
+  They are accepted only when the server runs in the Development environment.
+</p>

@@ -1,0 +1,10 @@
+# Visual Studio and build output
+.vs/
+bin/
+obj/
+# dotnet publish -o out (see ../README.md)
+out/
+*.user
+
+# Files written by the samples at run time (see StorageMock.cs)
+App_Data/

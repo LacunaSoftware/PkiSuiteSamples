@@ -77,6 +77,49 @@ jobs:
           $app = Get-Process -Name iisexpress -ErrorAction SilentlyContinue
           if ($app) { Stop-Process -InputObject $app } else { "IIS Express is not running." }
 
+  dotnet-spa:
+    name: dotnet/spa
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.projects), 'dotnet/spa')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      # Publishing builds the Angular app too, so the .NET 10 SDK container needs Node.js 24. Copy
+      # it from its official image, as the php/plain job does with Composer.
+      - name: Start a .NET 10 SDK container with Node.js 24
+        run: |
+          docker create --name node node:24
+          docker cp node:/usr/local "$RUNNER_TEMP/node"
+          docker rm node
+          docker run -d --name app --network host -v "$PWD:/repo" -v "$RUNNER_TEMP/node:/opt/node:ro" \
+            -w /repo/dotnet/spa/PkiSuiteAspNetCoreAngularSample \
+            -e PATH=/opt/node/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+            -e DOTNET_CLI_TELEMETRY_OPTOUT=1 -e DOTNET_NOLOGO=1 -e NG_CLI_ANALYTICS=false \
+            mcr.microsoft.com/dotnet/sdk:10.0 sleep infinity
+          docker exec app sh -c "node --version && dotnet --version"
+      - name: Install the Angular app's dependencies
+        run: docker exec -w /repo/dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client app npm ci
+      # `dotnet run` serves only the API: the Angular app reaches wwwroot only when publishing.
+      - name: Build and publish
+        run: docker exec app dotnet publish PkiSuiteAspNetCoreAngularSample.Server -c Release -o /tmp/out
+      # The content root (Content/, LacunaPkiLicense.config, App_Data/) is the working directory,
+      # so the app runs from the publish folder. Development trusts Lacuna's test certificates.
+      - name: Start the app
+        run: >
+          docker exec -d -w /tmp/out -e ASPNETCORE_ENVIRONMENT=Development
+          -e ASPNETCORE_URLS=http://localhost:5100 app
+          sh -c "dotnet PkiSuiteAspNetCoreAngularSample.Server.dll > /tmp/app.log 2>&1"
+      # The catalog URLs point at the Angular dev server (port 4200), which runs only in Development.
+      - name: Smoke test
+        run: python3 scripts/ci/smoke-test.py dotnet/spa --base-url http://localhost:5100
+      - name: Show the app log
+        if: always()
+        run: docker exec app cat /tmp/app.log || true
+      - name: Stop the app
+        if: always()
+        run: docker rm -f app
+
   java-springmvc:
     name: java/springmvc
     needs: changes

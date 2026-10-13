@@ -10,5 +10,5 @@ The project in `dotnet/spa/PkiSuiteAspNetCoreAngularSample` replaces the ASP.NET
 
 ## Consequences
 
-- `scripts/ci/smoke-test.py` cannot treat this project like the others. Every Angular route returns `index.html` with status 200, so the smoke test also checks for `<app-root>` and calls a JSON API endpoint.
+- `scripts/ci/smoke-test.py` cannot treat this project like the others. Every Angular route returns `index.html` with status 200, so the smoke test also checks for `<app-root>`, looks for each sample's route in the app's JavaScript (unknown routes show a not-found page), and calls a JSON API endpoint.
 - Do not "fix" the home page by wiring in `SampleRoutes`, or add v1 samples to this project. Rest PKI v1 on .NET lives in `dotnet/mvc`.
