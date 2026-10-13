@@ -33,8 +33,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var prepareSignatureResult = await restPkiService.PrepareSignatureAsync(fileReference, certificateReference, signatureOptions);
 
 			// Perform RSA signature using signature parameters and certificate reference
-			var toSignHash = prepareSignatureResult.ToSignHash.Value;
-			var signature = certificate.GetRSAPrivateKey().SignHash(toSignHash, prepareSignatureResult.ToSignHash.Algorithm.HashAlgorithmName, RSASignaturePadding.Pkcs1);
+			var toSignHash = prepareSignatureResult.ToSign.Hash;
+			var signature = certificate.GetRSAPrivateKey().SignHash(toSignHash, prepareSignatureResult.ToSign.SignatureAlgorithm.DigestAlgorithm.HashAlgorithmName, RSASignaturePadding.Pkcs1);
 
 			// Complete signature in REST PKI Core service
 			var signedDocument = await restPkiService.CompleteSignatureAsync(prepareSignatureResult.State, signature);
