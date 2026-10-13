@@ -31,6 +31,14 @@ class RestPkiCoreClient
     post('api/signature/completion', request)
   end
 
+  # POST api/pdf/stamp
+  #
+  # Adds a document timestamp to a PDF. Receives a StampPdfRequest and returns
+  # a StampPdfResponse.
+  def stamp_pdf(request)
+    post('api/pdf/stamp', request)
+  end
+
   # Downloads a file from a link returned by REST PKI Core, such as the "url"
   # of the "signedFile" of a DocumentModel. These links carry their own access
   # ticket, so the API key is not sent.

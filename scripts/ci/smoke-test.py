@@ -96,6 +96,7 @@ SMOKE_SAMPLES = {
         ("pades-signature-rest-pki", None),
         ("validate-pades-signature-rest-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
+        ("timestamp-pdf-rest-pki-core", None),
     ],
     "python/django": [
         ("pades-signature-rest-pki", None),
@@ -116,6 +117,7 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-rest-pki", None),
         ("list-certificates-web-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
+        ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
     ],
 }
 

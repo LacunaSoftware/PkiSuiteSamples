@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   post '/pades-signature-rest-core/start/:file_id', action: :start, controller: :pades_signature_rest_core
   post '/pades-signature-rest-core/complete/:file_id', action: :complete, controller: :pades_signature_rest_core
 
+  get '/timestamp-pdf-rest-core/:file_id', action: :index, controller: :timestamp_pdf_rest_core
+
   get '/pades-server-key-express/:file_id', action: :index, controller: :pades_server_key_express
 
   get '/pades-cloud-oauth-express/complete', action: :complete, controller: :pades_cloud_oauth_express
