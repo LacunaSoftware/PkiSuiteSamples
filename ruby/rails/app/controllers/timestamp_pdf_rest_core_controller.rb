@@ -2,6 +2,15 @@ require 'base64'
 
 class TimestampPdfRestCoreController < ApplicationController
 
+  # The timestamp tier determines which timestamp authority issues the
+  # timestamp. Here we use the Lacuna Test tier, by its ID, which the trial API
+  # keys of these samples can use. In production, use the PKI Brazil tier
+  # (ICP-Brasil timestamps, ID a402df41-8559-47b2-a05c-be555bf66310), which the
+  # "Timestamp a PDF" demo uses, or your subscription's own tier. These need an
+  # API key with access to them. The API also accepts a tier's name, and
+  # leaving the field out uses your subscription's default tier.
+  TIMESTAMP_TIER = '9e5b9ccd-1916-49e7-bb99-9eb259ab00f8' # Lacuna Test
+
   # GET /timestamp-pdf-rest-core/:file_id
   #
   # This action adds a document timestamp to a PDF using REST PKI Core and
@@ -33,11 +42,8 @@ class TimestampPdfRestCoreController < ApplicationController
         name: retrieve_filename(file_id)
       },
 
-      # The timestamp tier determines which timestamp authority issues the
-      # timestamp. Here we use the PKI Brazil tier (ICP-Brasil timestamps), by
-      # its ID. The API accepts a tier's ID or name, and leaving this field out
-      # uses your subscription's default tier.
-      timestampTier: 'a402df41-8559-47b2-a05c-be555bf66310'
+      # The timestamp tier (see TIMESTAMP_TIER above).
+      timestampTier: TIMESTAMP_TIER
     }
 
     # Call REST PKI Core to add the document timestamp (see util.rb and
