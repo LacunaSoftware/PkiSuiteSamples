@@ -63,8 +63,9 @@
     <Reference Include="Lacuna.Cloudhub.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f3d9abf91ed9764b, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Cloudhub.Client.1.0.0\lib\netstandard2.0\Lacuna.Cloudhub.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.DataAnnotations, Version=1.3.0.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.DataAnnotations.1.3.0\lib\net45\Lacuna.DataAnnotations.dll</HintPath>
+    <Reference Include="Lacuna.DataAnnotations, Version=2.0.1.0, Culture=neutral, PublicKeyToken=5a78866d7d68b0f7">
+      <HintPath>..\packages\Lacuna.DataAnnotations.2.0.1\lib\netstandard2.0\Lacuna.DataAnnotations.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Lacuna.Pki, Version=2.13.0.0, Culture=neutral, PublicKeyToken=d63b3e133e6d3c7d, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.13.0\lib\net47\Lacuna.Pki.dll</HintPath>
@@ -72,23 +73,29 @@
     <Reference Include="Lacuna.Pki.BrazilTrustServices, Version=1.5.0.0, Culture=neutral, PublicKeyToken=f9a343ef085a160f, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.BrazilTrustServices.1.5.0\lib\net47\Lacuna.Pki.BrazilTrustServices.dll</HintPath>
     </Reference>
-    <Reference Include="Lacuna.RestClient, Version=1.15.0.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestClient.1.15.0\lib\net45\Lacuna.RestClient.dll</HintPath>
+    <Reference Include="Lacuna.RestClient, Version=1.15.1.0, Culture=neutral, PublicKeyToken=bf845f78aead27bc">
+      <HintPath>..\packages\Lacuna.RestClient.1.15.1\lib\net45\Lacuna.RestClient.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Api, Version=1.30.3.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Api.1.30.3\lib\net45\Lacuna.RestPki.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Api, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847">
+      <HintPath>..\packages\Lacuna.RestPki.Api.3.5.0\lib\netstandard2.0\Lacuna.RestPki.Api.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Lacuna.RestPki.Client, Version=1.24.1.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPki.Client.1.24.1\lib\net46\Lacuna.RestPki.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPki.Client, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847">
+      <HintPath>..\packages\Lacuna.RestPki.Client.3.5.0\lib\netstandard2.0\Lacuna.RestPki.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Lacuna.RestPkiCore.Api, Version=1.13.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPkiCore.Api.1.13.0\lib\net45\Lacuna.RestPkiCore.Api.dll</HintPath>
+    <Reference Include="Lacuna.RestPkiCore.Api, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Api.3.5.0\lib\netstandard2.0\Lacuna.RestPkiCore.Api.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Lacuna.RestPkiCore.Client, Version=1.13.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.RestPkiCore.Client.1.13.0\lib\net46\Lacuna.RestPkiCore.Client.dll</HintPath>
+    <Reference Include="Lacuna.RestPkiCore.Client, Version=3.5.0.0, Culture=neutral, PublicKeyToken=5705bce581cd1847">
+      <HintPath>..\packages\Lacuna.RestPkiCore.Client.3.5.0\lib\netstandard2.0\Lacuna.RestPkiCore.Client.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Lacuna.Spa.Api, Version=2.6.0.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lacuna.Spa.Api.2.6.0\lib\net45\Lacuna.Spa.Api.dll</HintPath>
+    <Reference Include="Lacuna.Spa.Api, Version=4.4.0.0, Culture=neutral, PublicKeyToken=25c2a1cfa2593877">
+      <HintPath>..\packages\Lacuna.Spa.Api.4.4.0\lib\net45\Lacuna.Spa.Api.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Lacuna.T8, Version=1.2.17.0, Culture=neutral, PublicKeyToken=e53c244ad67cdbc8, processorArchitecture=MSIL">
       <HintPath>..\packages\Lacuna.Pki.2.13.0\lib\net47\Lacuna.T8.dll</HintPath>
@@ -133,6 +140,42 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Http.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+      <HintPath>..\packages\Microsoft.Extensions.Options.ConfigurationExtensions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
@@ -145,8 +188,9 @@
     <Reference Include="MimeMapping, Version=1.0.1.50, Culture=neutral, PublicKeyToken=680e2d5f226b327b, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeMapping.1.0.1.50\lib\netstandard2.0\MimeMapping.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -286,6 +330,7 @@
     <Compile Include="Controllers\AuthenticationCloudHubSdkController.cs" />
     <Compile Include="Controllers\PadesCloudHubSdkController.cs" />
     <Compile Include="Controllers\PadesServerKeyRestCoreController.cs" />
+    <Compile Include="Controllers\TimestampPdfRestCoreController.cs" />
     <Compile Include="Controllers\PadesSignatureRestCoreController.cs" />
     <Compile Include="Controllers\SignatureSessionPreDefRestCoreController.cs" />
     <Compile Include="Controllers\ValidateFileRestCoreController.cs" />
@@ -565,6 +610,7 @@
     <Content Include="Views\SignatureSessionPreDefRestCore\Callback.cshtml" />
     <Content Include="Views\SignatureSessionPreDefRestCore\Index.cshtml" />
     <Content Include="Views\PadesServerKeyRestCore\Index.cshtml" />
+    <Content Include="Views\TimestampPdfRestCore\Index.cshtml" />
     <Content Include="Views\PadesSignatureRestCore\Index.cshtml" />
     <Content Include="Views\PadesSignatureRestCore\Complete.cshtml" />
     <Content Include="Views\PadesSignatureRestCore\SignatureInfo.cshtml" />

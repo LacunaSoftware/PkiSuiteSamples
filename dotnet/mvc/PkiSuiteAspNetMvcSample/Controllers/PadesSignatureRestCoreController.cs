@@ -56,8 +56,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			};
 
 			// This sample does not add a visual representation to the signature. Lacuna.RestPkiCore.Client
-			// 1.13.0 can, through PrepareSignatureOptions.PdfSignatureOptions.VisualRepresentation (1.10.1
-			// could not).
+			// can, through PrepareSignatureOptions.PdfSignatureOptions.VisualRepresentation (1.10.1 could
+			// not).
 
 			PrepareSignatureResult prepareSignatureResult;
 			try {
@@ -70,9 +70,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Rest PKI Core refuses to prepare the signature if, for instance, the PDF is corrupted.
 				//
 				// It also refuses it if the certificate fails validation (for instance, if it is expired
-				// or not trusted in the security context), but Lacuna.RestPkiCore.Client 1.13.0 cannot
-				// read that failure ("CertificateValidationFailed"): it throws a JSON deserialization
-				// error instead, which ends up on the error page (see BaseController.OnException()).
+				// or not trusted in the security context): ex.Failure is then CertificateValidationFailed,
+				// and ex.ValidationResults says why. (Lacuna.RestPkiCore.Client 1.13.0 and earlier could
+				// not read that failure and threw a JSON deserialization error instead.)
 				ModelState.AddModelError("", ex.Message);
 				return View(model);
 			}
@@ -85,8 +85,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
 				CertThumb = model.CertThumb,
-				ToSignHash = prepareSignatureResult.ToSignHash.Value,
-				DigestAlgorithmOid = prepareSignatureResult.ToSignHash.Algorithm.Oid,
+				ToSignHash = prepareSignatureResult.ToSign.Hash,
+				DigestAlgorithmOid = prepareSignatureResult.ToSign.SignatureAlgorithm.DigestAlgorithm.Oid,
 				State = prepareSignatureResult.State
 			};
 
