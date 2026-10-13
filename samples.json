@@ -2,6 +2,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. The signature has no visual representation: the sample does not set one, although Lacuna.RestPkiCore.Client 1.13.0 can (`PdfSignatureOptions.VisualRepresentation`).",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -19,7 +20,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Classes/Util.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "dotnet/mvc",
@@ -30,6 +31,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: the Angular page reads the user's certificate with Web PKI, the server asks Rest PKI Core to prepare the signature (with a visual representation) and gets back the hash to sign and a state, Web PKI signs the hash in the browser, and the server completes the signature with Rest PKI Core. The same page co-signs an already signed PDF.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -43,7 +45,7 @@
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/Util.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server",
@@ -54,6 +56,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core.",
     "product": "rest-pki-core",
     "language": "java",
@@ -69,7 +72,7 @@
       "java/springmvc/src/main/resources/static/stamp.png"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "java/springmvc",
@@ -80,6 +83,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core.",
     "product": "rest-pki-core",
     "language": "nodejs",
@@ -95,7 +99,7 @@
       "nodejs/expressmvc/public/PdfStamp.png"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -106,6 +110,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. lacuna/restpkicore-client has no methods for these two calls, so the sample sends them with the library's REST client.",
     "product": "rest-pki-core",
     "language": "php",
@@ -120,7 +125,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "php/plain",
@@ -131,6 +136,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. It uses restpki-ng-python-client through its ApiClient and SignatureApi classes, not its RestPkiClient class, which turns off TLS certificate verification.",
     "product": "rest-pki-core",
     "language": "python",
@@ -148,7 +154,7 @@
       "python/flask/sample/views/server_files.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "python/flask",
@@ -159,6 +165,7 @@
   {
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
+    "title_pt": "Assinar um PDF com o Rest PKI Core",
     "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. Ruby has no Rest PKI Core client library, so the sample calls the API directly with Net::HTTP (see rest_pki_core_client.rb).",
     "product": "rest-pki-core",
     "language": "ruby",
@@ -175,7 +182,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "ruby/rails",
@@ -186,6 +193,7 @@
   {
     "id": "pades-signature-pki-sdk",
     "title": "Sign a PDF with PKI SDK",
+    "title_pt": "Assinar um PDF com o PKI SDK",
     "description": "Two-step PAdES signature built on your own server with PKI SDK: Web PKI reads the user's certificate, the server returns the hash to sign, Web PKI signs it in the browser, and the server assembles the signed PDF. The same page co-signs an already signed PDF.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -213,6 +221,7 @@
   {
     "id": "pades-signature-pki-sdk",
     "title": "Sign a PDF with PKI SDK",
+    "title_pt": "Assinar um PDF com o PKI SDK",
     "description": "Two-step PAdES signature built on your own server with PKI SDK: the Angular page reads the user's certificate with Web PKI, the server returns the hash to sign and keeps the transfer data under an id, Web PKI signs the hash in the browser, and the server assembles the signed PDF with a visual representation. The same page co-signs an already signed PDF.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -237,6 +246,7 @@
   {
     "id": "pades-signature-pki-express",
     "title": "Sign a PDF with PKI Express",
+    "title_pt": "Assinar um PDF com o PKI Express",
     "description": "Two-step PAdES signature built on your own server with PKI Express: Web PKI reads the user's certificate, PKI Express returns the hash to sign and a transfer file, Web PKI signs the hash in the browser, and PKI Express completes the signed PDF. The same page co-signs an already signed PDF.",
     "product": "pki-express",
     "language": "java",
@@ -262,6 +272,7 @@
   {
     "id": "pades-signature-pki-express",
     "title": "Sign a PDF with PKI Express",
+    "title_pt": "Assinar um PDF com o PKI Express",
     "description": "Two-step PAdES signature built on your own server with PKI Express: Web PKI reads the user's certificate, PKI Express returns the hash to sign and a transfer file, Web PKI signs the hash in the browser, and PKI Express completes the signed PDF. The same page co-signs an already signed PDF.",
     "product": "pki-express",
     "language": "nodejs",
@@ -288,6 +299,7 @@
   {
     "id": "pades-signature-pki-express",
     "title": "Sign a PDF with PKI Express",
+    "title_pt": "Assinar um PDF com o PKI Express",
     "description": "Two-step PAdES signature built on your own server with PKI Express: Web PKI reads the user's certificate, PKI Express returns the hash to sign and a transfer file, Web PKI signs the hash in the browser, and PKI Express completes the signed PDF. The same page co-signs an already signed PDF.",
     "product": "pki-express",
     "language": "php",
@@ -314,6 +326,7 @@
   {
     "id": "pades-signature-pki-express",
     "title": "Sign a PDF with PKI Express",
+    "title_pt": "Assinar um PDF com o PKI Express",
     "description": "Two-step PAdES signature built on your own server with PKI Express: Web PKI reads the user's certificate, PKI Express returns the hash to sign and a transfer file, Web PKI signs the hash in the browser, and PKI Express completes the signed PDF. The same page co-signs an already signed PDF.",
     "product": "pki-express",
     "language": "python",
@@ -343,6 +356,7 @@
   {
     "id": "pades-signature-pki-express",
     "title": "Sign a PDF with PKI Express",
+    "title_pt": "Assinar um PDF com o PKI Express",
     "description": "Two-step PAdES signature built on your own server with PKI Express: Web PKI reads the user's certificate, PKI Express returns the hash to sign and a transfer file, Web PKI signs the hash in the browser, and PKI Express completes the signed PDF. The same page co-signs an already signed PDF.",
     "product": "pki-express",
     "language": "ruby",
@@ -370,6 +384,7 @@
   {
     "id": "pades-signature-web-pki",
     "title": "Sign a local PDF in the browser with Web PKI",
+    "title_pt": "Assinar um PDF local no navegador com o Web PKI",
     "description": "Web PKI opens a PDF on the user's machine, signs it with a PAdES policy and saves the signed copy next to the original. Nothing is sent to a server.",
     "product": "web-pki",
     "language": "dotnet",
@@ -390,6 +405,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -414,6 +430,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "java",
@@ -437,6 +454,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -460,6 +478,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "php",
@@ -484,6 +503,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "python",
@@ -511,6 +531,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "python",
@@ -539,6 +560,7 @@
   {
     "id": "pades-signature-rest-pki",
     "title": "Sign a PDF with Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
     "language": "ruby",
@@ -564,6 +586,7 @@
   {
     "id": "pades-signature-without-communication-rest-pki",
     "title": "Sign a PDF with Rest PKI without browser access to Rest PKI",
+    "title_pt": "Assinar um PDF com o Rest PKI sem acesso do navegador ao Rest PKI",
     "description": "Rest PKI (v1) variant in which the browser never calls Rest PKI: the server starts the signature, Web PKI signs only the returned hash, and the server completes the signature.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -589,6 +612,7 @@
   {
     "id": "batch-pades-signature-rest-pki-core",
     "title": "Sign multiple PDFs with Rest PKI Core",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI Core",
     "description": "Batch PAdES signature: the page reads the certificate once and, for each PDF, calls the server to prepare the signature with Rest PKI Core, signs the hash with Web PKI and calls the server again to complete it.",
     "product": "rest-pki-core",
     "language": "nodejs",
@@ -600,7 +624,7 @@
       "nodejs/expressmvc/pades-visual-elements-core.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -611,6 +635,7 @@
   {
     "id": "batch-pades-signature-pki-sdk",
     "title": "Sign multiple PDFs with PKI SDK",
+    "title_pt": "Assinar vários PDFs em lote com o PKI SDK",
     "description": "Batch PAdES signature with PKI SDK: for each selected PDF the page calls the server's start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -637,6 +662,7 @@
   {
     "id": "batch-pades-signature-pki-express",
     "title": "Sign multiple PDFs with PKI Express",
+    "title_pt": "Assinar vários PDFs em lote com o PKI Express",
     "description": "Batch PAdES signature with PKI Express: for each PDF stored on the server the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "java",
@@ -663,6 +689,7 @@
   {
     "id": "batch-pades-signature-pki-express",
     "title": "Sign multiple PDFs with PKI Express",
+    "title_pt": "Assinar vários PDFs em lote com o PKI Express",
     "description": "Batch PAdES signature with PKI Express: for each PDF stored on the server the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "nodejs",
@@ -686,6 +713,7 @@
   {
     "id": "batch-pades-signature-pki-express",
     "title": "Sign multiple PDFs with PKI Express",
+    "title_pt": "Assinar vários PDFs em lote com o PKI Express",
     "description": "Batch PAdES signature with PKI Express: for each PDF stored on the server the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "php",
@@ -711,6 +739,7 @@
   {
     "id": "batch-pades-signature-pki-express",
     "title": "Sign multiple PDFs with PKI Express",
+    "title_pt": "Assinar vários PDFs em lote com o PKI Express",
     "description": "Batch PAdES signature with PKI Express: for each PDF stored on the server the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "python",
@@ -735,6 +764,7 @@
   {
     "id": "batch-pades-signature-pki-express",
     "title": "Sign multiple PDFs with PKI Express",
+    "title_pt": "Assinar vários PDFs em lote com o PKI Express",
     "description": "Batch PAdES signature with PKI Express: for each PDF stored on the server the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "ruby",
@@ -759,6 +789,7 @@
   {
     "id": "batch-pades-signature-rest-pki",
     "title": "Sign multiple PDFs with Rest PKI",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI",
     "description": "Batch PAdES signature with Rest PKI (v1): for each PDF the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -781,6 +812,7 @@
   {
     "id": "batch-pades-signature-rest-pki",
     "title": "Sign multiple PDFs with Rest PKI",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI",
     "description": "Batch PAdES signature with Rest PKI (v1): for each PDF the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "java",
@@ -804,6 +836,7 @@
   {
     "id": "batch-pades-signature-rest-pki",
     "title": "Sign multiple PDFs with Rest PKI",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI",
     "description": "Batch PAdES signature with Rest PKI (v1): for each PDF the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -826,6 +859,7 @@
   {
     "id": "batch-pades-signature-rest-pki",
     "title": "Sign multiple PDFs with Rest PKI",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI",
     "description": "Batch PAdES signature with Rest PKI (v1): for each PDF the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "php",
@@ -851,6 +885,7 @@
   {
     "id": "batch-pades-signature-rest-pki",
     "title": "Sign multiple PDFs with Rest PKI",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI",
     "description": "Batch PAdES signature with Rest PKI (v1): for each PDF the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "python",
@@ -875,6 +910,7 @@
   {
     "id": "batch-pades-signature-rest-pki",
     "title": "Sign multiple PDFs with Rest PKI",
+    "title_pt": "Assinar vários PDFs em lote com o Rest PKI",
     "description": "Batch PAdES signature with Rest PKI (v1): for each PDF the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "ruby",
@@ -899,6 +935,7 @@
   {
     "id": "batch-pades-signature-signer",
     "title": "Sign multiple Signer documents with Web PKI",
+    "title_pt": "Assinar vários documentos do Signer em lote com o Web PKI",
     "description": "Creates documents on Lacuna Signer and signs them as a batch with the user's certificate: for each document the server starts the signature on Signer, Web PKI signs the hash in the browser, and the server completes it. Needs signer.apiKey and signer.endpoint, which application.yml does not ship.",
     "product": "signer",
     "language": "java",
@@ -915,7 +952,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/config/SignerProperties.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/signer",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/signer/integration/batch-signing",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -926,6 +963,7 @@
   {
     "id": "pades-signature-server-key-rest-pki-core",
     "title": "Sign a PDF with a server key using Rest PKI Core",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o Rest PKI Core",
     "description": "Server-only PAdES signature: Rest PKI Core prepares the signature, the server signs the hash with a private key from a PKCS #12 (.pfx) file, and Rest PKI Core completes it. No browser or Web PKI involved.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -936,7 +974,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Sdk/SignatureInfoModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/get-started",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/integration/two-step-signatures",
     "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
@@ -947,6 +985,7 @@
   {
     "id": "pades-signature-server-key-pki-sdk",
     "title": "Sign a PDF with a server key using PKI SDK",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o PKI SDK",
     "description": "Server-only PAdES signature with PKI SDK and a private key loaded from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -968,6 +1007,7 @@
   {
     "id": "pades-signature-server-key-pki-express",
     "title": "Sign a PDF with a server key using PKI Express",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o PKI Express",
     "description": "Server-only PAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file, either the bundled test certificate or one issued by the Amplia sample. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "java",
@@ -991,6 +1031,7 @@
   {
     "id": "pades-signature-server-key-pki-express",
     "title": "Sign a PDF with a server key using PKI Express",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o PKI Express",
     "description": "Server-only PAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file, either the bundled test certificate or one issued by the Amplia sample. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "nodejs",
@@ -1012,6 +1053,7 @@
   {
     "id": "pades-signature-server-key-pki-express",
     "title": "Sign a PDF with a server key using PKI Express",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o PKI Express",
     "description": "Server-only PAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file, either the bundled test certificate or one issued by the Amplia sample. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "php",
@@ -1035,6 +1077,7 @@
   {
     "id": "pades-signature-server-key-pki-express",
     "title": "Sign a PDF with a server key using PKI Express",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o PKI Express",
     "description": "Server-only PAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file, either the bundled test certificate or one issued by the Amplia sample. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "python",
@@ -1059,6 +1102,7 @@
   {
     "id": "pades-signature-server-key-pki-express",
     "title": "Sign a PDF with a server key using PKI Express",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o PKI Express",
     "description": "Server-only PAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file, either the bundled test certificate or one issued by the Amplia sample. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "ruby",
@@ -1082,6 +1126,7 @@
   {
     "id": "pades-signature-server-key-rest-pki",
     "title": "Sign a PDF with a server key using Rest PKI",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o Rest PKI",
     "description": "Server-only PAdES signature with Rest PKI (v1): the server starts the signature, signs the hash with OpenSSL and a PKCS #12 (.pfx) file, and finishes it with Rest PKI.",
     "product": "rest-pki",
     "language": "php",
@@ -1104,6 +1149,7 @@
   {
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
+    "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
     "product": "cloudhub",
     "language": "dotnet",
@@ -1128,6 +1174,7 @@
   {
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
+    "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
     "product": "cloudhub",
     "language": "java",
@@ -1152,6 +1199,7 @@
   {
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
+    "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
     "product": "cloudhub",
     "language": "nodejs",
@@ -1177,6 +1225,7 @@
   {
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
+    "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
     "product": "cloudhub",
     "language": "php",
@@ -1201,6 +1250,7 @@
   {
     "id": "pades-signature-cloud-oauth-pki-sdk",
     "title": "Sign a PDF with a cloud certificate (OAuth flow) using PKI SDK",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo OAuth) usando o PKI SDK",
     "description": "Finds the user's PSCs by CPF through trust services, sends the user to the chosen PSC to authorize with OAuth, and signs the PDF on the server with the remote key.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -1225,6 +1275,7 @@
   {
     "id": "pades-signature-cloud-oauth-pki-express",
     "title": "Sign a PDF with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the chosen PSC to authorize with OAuth, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "java",
@@ -1250,6 +1301,7 @@
   {
     "id": "pades-signature-cloud-oauth-pki-express",
     "title": "Sign a PDF with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the chosen PSC to authorize with OAuth, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "nodejs",
@@ -1274,6 +1326,7 @@
   {
     "id": "pades-signature-cloud-oauth-pki-express",
     "title": "Sign a PDF with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the chosen PSC to authorize with OAuth, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "php",
@@ -1298,6 +1351,7 @@
   {
     "id": "pades-signature-cloud-oauth-pki-express",
     "title": "Sign a PDF with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the chosen PSC to authorize with OAuth, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "python",
@@ -1324,6 +1378,7 @@
   {
     "id": "pades-signature-cloud-oauth-pki-express",
     "title": "Sign a PDF with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the chosen PSC to authorize with OAuth, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "ruby",
@@ -1349,6 +1404,7 @@
   {
     "id": "pades-signature-cloud-password-pki-sdk",
     "title": "Sign a PDF with a cloud certificate (password flow) using PKI SDK",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo com senha) usando o PKI SDK",
     "description": "Finds the user's PSCs by CPF through trust services, takes the PSC password or one-time code, and signs the PDF on the server with the remote key.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -1373,6 +1429,7 @@
   {
     "id": "pades-signature-cloud-password-pki-express",
     "title": "Sign a PDF with a cloud certificate (password flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo com senha) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, takes the PSC password or one-time code, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "java",
@@ -1398,6 +1455,7 @@
   {
     "id": "pades-signature-cloud-password-pki-express",
     "title": "Sign a PDF with a cloud certificate (password flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo com senha) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, takes the PSC password or one-time code, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "nodejs",
@@ -1421,6 +1479,7 @@
   {
     "id": "pades-signature-cloud-password-pki-express",
     "title": "Sign a PDF with a cloud certificate (password flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo com senha) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, takes the PSC password or one-time code, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "php",
@@ -1445,6 +1504,7 @@
   {
     "id": "pades-signature-cloud-password-pki-express",
     "title": "Sign a PDF with a cloud certificate (password flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo com senha) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, takes the PSC password or one-time code, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "python",
@@ -1471,6 +1531,7 @@
   {
     "id": "pades-signature-cloud-password-pki-express",
     "title": "Sign a PDF with a cloud certificate (password flow) using PKI Express",
+    "title_pt": "Assinar um PDF com um certificado em nuvem (fluxo com senha) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, takes the PSC password or one-time code, and signs the PDF on the server with the remote key.",
     "product": "pki-express",
     "language": "ruby",
@@ -1496,6 +1557,7 @@
   {
     "id": "signature-session-rest-pki-core",
     "title": "Signature session with Rest PKI Core",
+    "title_pt": "Sessão de assinatura com o Rest PKI Core",
     "description": "Redirects the user to a Rest PKI Core signature session, where documents are uploaded and signed in Lacuna's hosted pages, then handles the return to your callback URL. A second variant receives the result through a webhook instead.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -1518,6 +1580,7 @@
   {
     "id": "signature-session-rest-pki-core",
     "title": "Signature session with Rest PKI Core",
+    "title_pt": "Sessão de assinatura com o Rest PKI Core",
     "description": "Redirects the user to a Rest PKI Core signature session, where documents are uploaded and signed in Lacuna's hosted pages, then handles the return to your callback URL. A second variant receives the result through a webhook instead.",
     "product": "rest-pki-core",
     "language": "java",
@@ -1541,6 +1604,7 @@
   {
     "id": "signature-session-rest-pki-core",
     "title": "Signature session with Rest PKI Core",
+    "title_pt": "Sessão de assinatura com o Rest PKI Core",
     "description": "Redirects the user to a Rest PKI Core signature session, where documents are uploaded and signed in Lacuna's hosted pages, then handles the return to your callback URL. A second variant receives the result through a webhook instead.",
     "product": "rest-pki-core",
     "language": "php",
@@ -1564,6 +1628,7 @@
   {
     "id": "signature-session-predefined-documents-rest-pki-core",
     "title": "Signature session with predefined documents using Rest PKI Core",
+    "title_pt": "Sessão de assinatura com documentos predefinidos usando o Rest PKI Core",
     "description": "Creates a Rest PKI Core signature session for documents your server already has, redirects the user to sign them, and lists the signed documents on return.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -1585,6 +1650,7 @@
   {
     "id": "signature-session-predefined-documents-rest-pki-core",
     "title": "Signature session with predefined documents using Rest PKI Core",
+    "title_pt": "Sessão de assinatura com documentos predefinidos usando o Rest PKI Core",
     "description": "Creates a Rest PKI Core signature session for documents your server already has, redirects the user to sign them, and lists the signed documents on return.",
     "product": "rest-pki-core",
     "language": "java",
@@ -1607,6 +1673,7 @@
   {
     "id": "signature-session-file-validation-rest-pki-core",
     "title": "Validate files uploaded to a Rest PKI Core signature session",
+    "title_pt": "Validar os arquivos enviados a uma sessão de assinatura do Rest PKI Core",
     "description": "Endpoint that Rest PKI Core calls to accept or reject each file a user uploads to a signature session. It has no page, and Rest PKI Core must be able to reach it over the internet.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -1625,6 +1692,7 @@
   {
     "id": "signature-session-file-validation-rest-pki-core",
     "title": "Validate files uploaded to a Rest PKI Core signature session",
+    "title_pt": "Validar os arquivos enviados a uma sessão de assinatura do Rest PKI Core",
     "description": "Endpoint that Rest PKI Core calls to accept or reject each file a user uploads to a signature session. It has no page, and Rest PKI Core must be able to reach it over the internet.",
     "product": "rest-pki-core",
     "language": "java",
@@ -1643,6 +1711,7 @@
   {
     "id": "signature-session-file-validation-rest-pki-core",
     "title": "Validate files uploaded to a Rest PKI Core signature session",
+    "title_pt": "Validar os arquivos enviados a uma sessão de assinatura do Rest PKI Core",
     "description": "Endpoint that Rest PKI Core calls to accept or reject each file a user uploads to a signature session. It has no page, and Rest PKI Core must be able to reach it over the internet.",
     "product": "rest-pki-core",
     "language": "php",
@@ -1661,6 +1730,7 @@
   {
     "id": "webhook-rest-pki-core",
     "title": "Receive Rest PKI Core webhooks",
+    "title_pt": "Receber webhooks do Rest PKI Core",
     "description": "Endpoint that Rest PKI Core calls when a document is signed; it downloads the signed file. It has no page, and Rest PKI Core must be able to reach it over the internet.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -1679,6 +1749,7 @@
   {
     "id": "webhook-rest-pki-core",
     "title": "Receive Rest PKI Core webhooks",
+    "title_pt": "Receber webhooks do Rest PKI Core",
     "description": "Endpoint that Rest PKI Core calls when a document is signed; it downloads the signed file. It has no page, and Rest PKI Core must be able to reach it over the internet.",
     "product": "rest-pki-core",
     "language": "java",
@@ -1700,6 +1771,7 @@
   {
     "id": "webhook-rest-pki-core",
     "title": "Receive Rest PKI Core webhooks",
+    "title_pt": "Receber webhooks do Rest PKI Core",
     "description": "Endpoint that Rest PKI Core calls when a document is signed; it downloads the signed file. It has no page, and Rest PKI Core must be able to reach it over the internet.",
     "product": "rest-pki-core",
     "language": "php",
@@ -1721,6 +1793,7 @@
   {
     "id": "timestamp-pdf-pki-express",
     "title": "Timestamp a PDF with PKI Express",
+    "title_pt": "Adicionar um carimbo de tempo a um PDF com o PKI Express",
     "description": "Adds a document timestamp to a PDF with PKI Express, using the Rest PKI timestamp authority authenticated with the Rest PKI access token.",
     "product": "pki-express",
     "language": "nodejs",
@@ -1730,7 +1803,7 @@
       "nodejs/expressmvc/util.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/timestamp-pdf",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -1741,6 +1814,7 @@
   {
     "id": "timestamp-pdf-pki-express",
     "title": "Timestamp a PDF with PKI Express",
+    "title_pt": "Adicionar um carimbo de tempo a um PDF com o PKI Express",
     "description": "Adds a document timestamp to a PDF with PKI Express, using the Rest PKI timestamp authority authenticated with the Rest PKI access token.",
     "product": "pki-express",
     "language": "python",
@@ -1751,7 +1825,7 @@
       "python/flask/sample/storage_mock.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/timestamp-pdf",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
     "run": {
       "cwd": "python/flask",
@@ -1762,6 +1836,7 @@
   {
     "id": "cades-signature-pki-sdk",
     "title": "Sign a file with CAdES using PKI SDK",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI SDK",
     "description": "Two-step CMS/CAdES signature built on your server with PKI SDK: Web PKI reads the certificate, the server returns the hash to sign, Web PKI signs it, and the server writes the .p7s. The same page co-signs an existing CMS.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -1789,6 +1864,7 @@
   {
     "id": "cades-signature-pki-sdk",
     "title": "Sign a file with CAdES using PKI SDK",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI SDK",
     "description": "Two-step CMS/CAdES signature built on your server with PKI SDK and the ICP-Brasil AD-RB policy: Web PKI reads the certificate, the server returns the hash to sign, Web PKI signs it, and the server writes an attached .p7s. The same page co-signs an existing .p7s.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -1812,6 +1888,7 @@
   {
     "id": "cades-signature-pki-express",
     "title": "Sign a file with CAdES using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI Express",
     "description": "Two-step CMS/CAdES signature built on your server with PKI Express: Web PKI reads the certificate, PKI Express returns the hash to sign, Web PKI signs it, and PKI Express writes the .p7s.",
     "product": "pki-express",
     "language": "java",
@@ -1836,6 +1913,7 @@
   {
     "id": "cades-signature-pki-express",
     "title": "Sign a file with CAdES using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI Express",
     "description": "Two-step CMS/CAdES signature built on your server with PKI Express: Web PKI reads the certificate, PKI Express returns the hash to sign, Web PKI signs it, and PKI Express writes the .p7s.",
     "product": "pki-express",
     "language": "nodejs",
@@ -1860,6 +1938,7 @@
   {
     "id": "cades-signature-pki-express",
     "title": "Sign a file with CAdES using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI Express",
     "description": "Two-step CMS/CAdES signature built on your server with PKI Express: Web PKI reads the certificate, PKI Express returns the hash to sign, Web PKI signs it, and PKI Express writes the .p7s.",
     "product": "pki-express",
     "language": "php",
@@ -1885,6 +1964,7 @@
   {
     "id": "cades-signature-pki-express",
     "title": "Sign a file with CAdES using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI Express",
     "description": "Two-step CMS/CAdES signature built on your server with PKI Express: Web PKI reads the certificate, PKI Express returns the hash to sign, Web PKI signs it, and PKI Express writes the .p7s.",
     "product": "pki-express",
     "language": "python",
@@ -1913,6 +1993,7 @@
   {
     "id": "cades-signature-pki-express",
     "title": "Sign a file with CAdES using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com o PKI Express",
     "description": "Two-step CMS/CAdES signature built on your server with PKI Express: Web PKI reads the certificate, PKI Express returns the hash to sign, Web PKI signs it, and PKI Express writes the .p7s.",
     "product": "pki-express",
     "language": "ruby",
@@ -1939,6 +2020,7 @@
   {
     "id": "cades-signature-web-pki",
     "title": "Sign a local file with CAdES in the browser using Web PKI",
+    "title_pt": "Assinar um arquivo local em CAdES no navegador com o Web PKI",
     "description": "Web PKI opens a file on the user's machine, creates a CMS/CAdES signature and saves the .p7s next to it. Nothing is sent to a server.",
     "product": "web-pki",
     "language": "dotnet",
@@ -1959,6 +2041,7 @@
   {
     "id": "cades-signature-rest-pki",
     "title": "Sign a file with CAdES using Rest PKI",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI",
     "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -1983,6 +2066,7 @@
   {
     "id": "cades-signature-rest-pki",
     "title": "Sign a file with CAdES using Rest PKI",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI",
     "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
     "product": "rest-pki",
     "language": "java",
@@ -2005,6 +2089,7 @@
   {
     "id": "cades-signature-rest-pki",
     "title": "Sign a file with CAdES using Rest PKI",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI",
     "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -2027,6 +2112,7 @@
   {
     "id": "cades-signature-rest-pki",
     "title": "Sign a file with CAdES using Rest PKI",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI",
     "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
     "product": "rest-pki",
     "language": "php",
@@ -2050,6 +2136,7 @@
   {
     "id": "cades-signature-rest-pki",
     "title": "Sign a file with CAdES using Rest PKI",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI",
     "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
     "product": "rest-pki",
     "language": "python",
@@ -2076,6 +2163,7 @@
   {
     "id": "cades-signature-rest-pki",
     "title": "Sign a file with CAdES using Rest PKI",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI",
     "description": "CMS/CAdES signature with Rest PKI (v1): the server starts the signature and receives a token, Web PKI's signWithRestPki() signs in the browser, and the server finishes it and stores the .p7s. The same page co-signs an existing CMS.",
     "product": "rest-pki",
     "language": "ruby",
@@ -2100,6 +2188,7 @@
   {
     "id": "cades-signature-rest-pki-core",
     "title": "Sign a file with CAdES using Rest PKI Core",
+    "title_pt": "Assinar um arquivo em CAdES com o Rest PKI Core",
     "description": "Two-step CMS/CAdES signature: Web PKI reads the certificate, Rest PKI Core prepares the signature and returns the hash to sign and a state, Web PKI signs the hash, and Rest PKI Core completes an attached .p7s. It does not co-sign: the Rest PKI Core API has no co-signature option for CMS.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -2123,6 +2212,7 @@
   {
     "id": "batch-cades-signature-pki-sdk",
     "title": "Sign multiple files with CAdES using PKI SDK",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o PKI SDK",
     "description": "Batch CMS/CAdES signature with PKI SDK: for each file the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2149,6 +2239,7 @@
   {
     "id": "batch-cades-signature-pki-express",
     "title": "Sign multiple files with CAdES using PKI Express",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o PKI Express",
     "description": "Batch CMS/CAdES signature with PKI Express: for each file the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "java",
@@ -2174,6 +2265,7 @@
   {
     "id": "batch-cades-signature-pki-express",
     "title": "Sign multiple files with CAdES using PKI Express",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o PKI Express",
     "description": "Batch CMS/CAdES signature with PKI Express: for each file the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "nodejs",
@@ -2195,6 +2287,7 @@
   {
     "id": "batch-cades-signature-pki-express",
     "title": "Sign multiple files with CAdES using PKI Express",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o PKI Express",
     "description": "Batch CMS/CAdES signature with PKI Express: for each file the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "php",
@@ -2219,6 +2312,7 @@
   {
     "id": "batch-cades-signature-pki-express",
     "title": "Sign multiple files with CAdES using PKI Express",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o PKI Express",
     "description": "Batch CMS/CAdES signature with PKI Express: for each file the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "python",
@@ -2242,6 +2336,7 @@
   {
     "id": "batch-cades-signature-pki-express",
     "title": "Sign multiple files with CAdES using PKI Express",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o PKI Express",
     "description": "Batch CMS/CAdES signature with PKI Express: for each file the page calls start and complete endpoints with AJAX and Web PKI signs each hash with the same certificate.",
     "product": "pki-express",
     "language": "ruby",
@@ -2265,6 +2360,7 @@
   {
     "id": "batch-cades-signature-rest-pki",
     "title": "Sign multiple files with CAdES using Rest PKI",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o Rest PKI",
     "description": "Batch CMS/CAdES signature with Rest PKI (v1): for each file the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -2287,6 +2383,7 @@
   {
     "id": "batch-cades-signature-rest-pki",
     "title": "Sign multiple files with CAdES using Rest PKI",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o Rest PKI",
     "description": "Batch CMS/CAdES signature with Rest PKI (v1): for each file the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "java",
@@ -2309,6 +2406,7 @@
   {
     "id": "batch-cades-signature-rest-pki",
     "title": "Sign multiple files with CAdES using Rest PKI",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o Rest PKI",
     "description": "Batch CMS/CAdES signature with Rest PKI (v1): for each file the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -2330,6 +2428,7 @@
   {
     "id": "batch-cades-signature-rest-pki",
     "title": "Sign multiple files with CAdES using Rest PKI",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o Rest PKI",
     "description": "Batch CMS/CAdES signature with Rest PKI (v1): for each file the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "python",
@@ -2353,6 +2452,7 @@
   {
     "id": "batch-cades-signature-rest-pki",
     "title": "Sign multiple files with CAdES using Rest PKI",
+    "title_pt": "Assinar vários arquivos em lote em CAdES com o Rest PKI",
     "description": "Batch CMS/CAdES signature with Rest PKI (v1): for each file the server returns a token, Web PKI signs it with signWithRestPki() and the server finishes the signature.",
     "product": "rest-pki",
     "language": "ruby",
@@ -2376,6 +2476,7 @@
   {
     "id": "cades-signature-server-key-pki-sdk",
     "title": "Sign a file with CAdES and a server key using PKI SDK",
+    "title_pt": "Assinar um arquivo em CAdES com uma chave do servidor usando o PKI SDK",
     "description": "Server-only CMS/CAdES signature with PKI SDK and a private key from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2397,6 +2498,7 @@
   {
     "id": "cades-signature-server-key-pki-express",
     "title": "Sign a file with CAdES and a server key using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com uma chave do servidor usando o PKI Express",
     "description": "Server-only CMS/CAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "nodejs",
@@ -2417,6 +2519,7 @@
   {
     "id": "cades-signature-server-key-pki-express",
     "title": "Sign a file with CAdES and a server key using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com uma chave do servidor usando o PKI Express",
     "description": "Server-only CMS/CAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "php",
@@ -2438,6 +2541,7 @@
   {
     "id": "cades-signature-server-key-pki-express",
     "title": "Sign a file with CAdES and a server key using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com uma chave do servidor usando o PKI Express",
     "description": "Server-only CMS/CAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "python",
@@ -2461,6 +2565,7 @@
   {
     "id": "cades-signature-cloud-oauth-pki-express",
     "title": "Sign a file with CAdES and a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um arquivo em CAdES com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the PSC to authorize with OAuth, and creates the CMS/CAdES signature on the server with the remote key.",
     "product": "pki-express",
     "language": "java",
@@ -2486,6 +2591,7 @@
   {
     "id": "merge-cades-signatures-pki-sdk",
     "title": "Merge CMS/CAdES signatures using PKI SDK",
+    "title_pt": "Mesclar assinaturas CMS/CAdES com o PKI SDK",
     "description": "Merges CMS files that sign the same content into a single CMS on the server, optionally attaching the signed data.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2508,6 +2614,7 @@
   {
     "id": "merge-cades-signatures-pki-express",
     "title": "Merge CMS/CAdES signatures using PKI Express",
+    "title_pt": "Mesclar assinaturas CMS/CAdES com o PKI Express",
     "description": "Merges CMS files that sign the same content into a single CMS on the server with PKI Express, optionally attaching the signed data.",
     "product": "pki-express",
     "language": "java",
@@ -2529,6 +2636,7 @@
   {
     "id": "merge-cades-signatures-pki-express",
     "title": "Merge CMS/CAdES signatures using PKI Express",
+    "title_pt": "Mesclar assinaturas CMS/CAdES com o PKI Express",
     "description": "Merges CMS files that sign the same content into a single CMS on the server with PKI Express, optionally attaching the signed data.",
     "product": "pki-express",
     "language": "nodejs",
@@ -2555,6 +2663,7 @@
   {
     "id": "merge-cades-signatures-pki-express",
     "title": "Merge CMS/CAdES signatures using PKI Express",
+    "title_pt": "Mesclar assinaturas CMS/CAdES com o PKI Express",
     "description": "Merges CMS files that sign the same content into a single CMS on the server with PKI Express, optionally attaching the signed data.",
     "product": "pki-express",
     "language": "python",
@@ -2578,6 +2687,7 @@
   {
     "id": "xml-signature-pki-sdk",
     "title": "Sign an XML document using PKI SDK",
+    "title_pt": "Assinar um documento XML com o PKI SDK",
     "description": "Two-step XAdES signature of a whole XML document with PKI SDK: Web PKI reads the certificate, the server returns the hash to sign, Web PKI signs it, and the server inserts the signature.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2605,6 +2715,7 @@
   {
     "id": "xml-signature-pki-sdk",
     "title": "Sign an XML document using PKI SDK",
+    "title_pt": "Assinar um documento XML com o PKI SDK",
     "description": "Two-step enveloped XAdES signature of a whole XML document with PKI SDK: Web PKI reads the certificate, the server returns the hash to sign, Web PKI signs it, and the server inserts the signature (into the sample document's placeholder element, or at the end of the root element).",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2628,6 +2739,7 @@
   {
     "id": "xml-signature-pki-express",
     "title": "Sign an XML document using PKI Express",
+    "title_pt": "Assinar um documento XML com o PKI Express",
     "description": "Two-step XAdES signature of a whole XML document with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "nodejs",
@@ -2653,6 +2765,7 @@
   {
     "id": "xml-signature-rest-pki",
     "title": "Sign an XML document using Rest PKI",
+    "title_pt": "Assinar um documento XML com o Rest PKI",
     "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -2677,6 +2790,7 @@
   {
     "id": "xml-signature-rest-pki",
     "title": "Sign an XML document using Rest PKI",
+    "title_pt": "Assinar um documento XML com o Rest PKI",
     "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
     "product": "rest-pki",
     "language": "java",
@@ -2700,6 +2814,7 @@
   {
     "id": "xml-signature-rest-pki",
     "title": "Sign an XML document using Rest PKI",
+    "title_pt": "Assinar um documento XML com o Rest PKI",
     "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -2723,6 +2838,7 @@
   {
     "id": "xml-signature-rest-pki",
     "title": "Sign an XML document using Rest PKI",
+    "title_pt": "Assinar um documento XML com o Rest PKI",
     "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
     "product": "rest-pki",
     "language": "php",
@@ -2746,6 +2862,7 @@
   {
     "id": "xml-signature-rest-pki",
     "title": "Sign an XML document using Rest PKI",
+    "title_pt": "Assinar um documento XML com o Rest PKI",
     "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
     "product": "rest-pki",
     "language": "python",
@@ -2771,6 +2888,7 @@
   {
     "id": "xml-signature-rest-pki",
     "title": "Sign an XML document using Rest PKI",
+    "title_pt": "Assinar um documento XML com o Rest PKI",
     "description": "XAdES signature of a whole XML document with Rest PKI (v1): the signature is inserted at a placeholder element; the server gets a token, Web PKI signs with signWithRestPki(), and the server finishes.",
     "product": "rest-pki",
     "language": "ruby",
@@ -2795,6 +2913,7 @@
   {
     "id": "xml-signature-cloudhub",
     "title": "Sign an XML document with a cloud certificate using CloudHub",
+    "title_pt": "Assinar um documento XML com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, authorizes at a PSC listed by CloudHub, and CloudHub signs the hash; the XML signature is built with Rest PKI.",
     "product": "cloudhub",
     "language": "php",
@@ -2818,6 +2937,7 @@
   {
     "id": "xml-signature-rest-pki-core",
     "title": "Sign an XML document using Rest PKI Core",
+    "title_pt": "Assinar um documento XML com o Rest PKI Core",
     "description": "Two-step enveloped XAdES signature of a whole XML document: Rest PKI Core prepares the signature (XmlSignatureOptions, which needs Lacuna.RestPkiCore.Client 5.x) and returns the hash to sign and a state, Web PKI signs the hash in the browser, and Rest PKI Core completes the signed XML.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -2841,6 +2961,7 @@
   {
     "id": "xml-signature-server-key-pki-sdk",
     "title": "Sign an XML document with a server key using PKI SDK",
+    "title_pt": "Assinar um documento XML com uma chave do servidor usando o PKI SDK",
     "description": "Server-only XML signature with PKI SDK and a private key from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2862,6 +2983,7 @@
   {
     "id": "xml-signature-server-key-pki-express",
     "title": "Sign an XML document with a server key using PKI Express",
+    "title_pt": "Assinar um documento XML com uma chave do servidor usando o PKI Express",
     "description": "Server-only XAdES signature with PKI Express and a private key from a PKCS #12 (.pfx) file. No browser or Web PKI involved.",
     "product": "pki-express",
     "language": "nodejs",
@@ -2883,6 +3005,7 @@
   {
     "id": "xml-signature-cloud-oauth-pki-express",
     "title": "Sign an XML document with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Assinar um documento XML com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, sends the user to the PSC to authorize with OAuth, and signs the XML on the server with the remote key.",
     "product": "pki-express",
     "language": "nodejs",
@@ -2907,6 +3030,7 @@
   {
     "id": "xml-element-signature-rest-pki",
     "title": "Sign one element of an XML document using Rest PKI",
+    "title_pt": "Assinar um elemento de um documento XML com o Rest PKI",
     "description": "Signs a single element of an XML contract (XAdES, ICP-Brasil AD-RB policy) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -2931,6 +3055,7 @@
   {
     "id": "xml-nfe-signature-pki-sdk",
     "title": "Sign a Brazilian NF-e using PKI SDK",
+    "title_pt": "Assinar uma NF-e com o PKI SDK",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, in two steps with PKI SDK and Web PKI.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2958,6 +3083,7 @@
   {
     "id": "xml-nfe-signature-pki-sdk",
     "title": "Sign a Brazilian NF-e using PKI SDK",
+    "title_pt": "Assinar uma NF-e com o PKI SDK",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, in two steps with PKI SDK and Web PKI. This project has no Rest PKI Core version: the Rest PKI Core API has no signature-policy or ID-resolution options for NF-e.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -2981,6 +3107,7 @@
   {
     "id": "xml-nfe-signature-pki-express",
     "title": "Sign a Brazilian NF-e using PKI Express",
+    "title_pt": "Assinar uma NF-e com o PKI Express",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, in two steps with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "nodejs",
@@ -3006,6 +3133,7 @@
   {
     "id": "xml-nfe-signature-pki-express",
     "title": "Sign a Brazilian NF-e using PKI Express",
+    "title_pt": "Assinar uma NF-e com o PKI Express",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, in two steps with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "php",
@@ -3031,6 +3159,7 @@
   {
     "id": "xml-nfe-signature-rest-pki",
     "title": "Sign a Brazilian NF-e using Rest PKI",
+    "title_pt": "Assinar uma NF-e com o Rest PKI",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -3055,6 +3184,7 @@
   {
     "id": "xml-nfe-signature-rest-pki",
     "title": "Sign a Brazilian NF-e using Rest PKI",
+    "title_pt": "Assinar uma NF-e com o Rest PKI",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "java",
@@ -3078,6 +3208,7 @@
   {
     "id": "xml-nfe-signature-rest-pki",
     "title": "Sign a Brazilian NF-e using Rest PKI",
+    "title_pt": "Assinar uma NF-e com o Rest PKI",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -3101,6 +3232,7 @@
   {
     "id": "xml-nfe-signature-rest-pki",
     "title": "Sign a Brazilian NF-e using Rest PKI",
+    "title_pt": "Assinar uma NF-e com o Rest PKI",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "php",
@@ -3124,6 +3256,7 @@
   {
     "id": "xml-nfe-signature-rest-pki",
     "title": "Sign a Brazilian NF-e using Rest PKI",
+    "title_pt": "Assinar uma NF-e com o Rest PKI",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "python",
@@ -3149,6 +3282,7 @@
   {
     "id": "xml-nfe-signature-rest-pki",
     "title": "Sign a Brazilian NF-e using Rest PKI",
+    "title_pt": "Assinar uma NF-e com o Rest PKI",
     "description": "Signs the infNFe element of a Brazilian electronic invoice (NF-e) with the NF-e national standard policy, using Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "ruby",
@@ -3173,6 +3307,7 @@
   {
     "id": "xml-cod-signature-pki-sdk",
     "title": "Sign a COD XML using PKI SDK",
+    "title_pt": "Assinar um XML COD com o PKI SDK",
     "description": "Two chained element signatures on a COD XML envelope (first the COD element, then CODEH), each done in two steps with PKI SDK and Web PKI.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -3203,6 +3338,7 @@
   {
     "id": "xml-cod-signature-pki-express",
     "title": "Sign a COD XML using PKI Express",
+    "title_pt": "Assinar um XML COD com o PKI Express",
     "description": "Two chained element signatures on a COD XML envelope (first the COD element, then CODEH), each done in two steps with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "php",
@@ -3231,6 +3367,7 @@
   {
     "id": "xml-cod-signature-rest-pki",
     "title": "Sign a COD XML using Rest PKI",
+    "title_pt": "Assinar um XML COD com o Rest PKI",
     "description": "Two chained element signatures on a COD XML envelope (first the COD element, then CODEH) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -3257,6 +3394,7 @@
   {
     "id": "xml-cod-signature-rest-pki",
     "title": "Sign a COD XML using Rest PKI",
+    "title_pt": "Assinar um XML COD com o Rest PKI",
     "description": "Two chained element signatures on a COD XML envelope (first the COD element, then CODEH) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "php",
@@ -3282,6 +3420,7 @@
   {
     "id": "xml-diploma-signature-rest-pki",
     "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
     "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "java",
@@ -3309,6 +3448,7 @@
   {
     "id": "validate-pades-signature-pki-sdk",
     "title": "Validate a signed PDF using PKI SDK",
+    "title_pt": "Validar um PDF assinado com o PKI SDK",
     "description": "Opens a signed PDF on the server, validates every signature with PKI SDK and shows the signers and validation results.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -3331,6 +3471,7 @@
   {
     "id": "validate-pades-signature-pki-sdk",
     "title": "Validate a signed PDF using PKI SDK",
+    "title_pt": "Validar um PDF assinado com o PKI SDK",
     "description": "Opens a signed PDF on the server, validates each signature with PKI SDK (PAdES Basic policy and the sample's trust arbitrator) and shows the signers and validation results.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -3353,6 +3494,7 @@
   {
     "id": "validate-pades-signature-pki-express",
     "title": "Validate a signed PDF using PKI Express",
+    "title_pt": "Validar um PDF assinado com o PKI Express",
     "description": "Opens a signed PDF on the server, validates every signature with PKI Express and shows the signers and validation results.",
     "product": "pki-express",
     "language": "java",
@@ -3362,7 +3504,7 @@
       "java/springmvc/src/main/resources/templates/open-pades-express/index.html"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "java/springmvc",
@@ -3373,6 +3515,7 @@
   {
     "id": "validate-pades-signature-pki-express",
     "title": "Validate a signed PDF using PKI Express",
+    "title_pt": "Validar um PDF assinado com o PKI Express",
     "description": "Opens a signed PDF on the server, validates every signature with PKI Express and shows the signers and validation results.",
     "product": "pki-express",
     "language": "nodejs",
@@ -3382,7 +3525,7 @@
       "nodejs/expressmvc/views/open-pades-express/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3393,6 +3536,7 @@
   {
     "id": "validate-pades-signature-pki-express",
     "title": "Validate a signed PDF using PKI Express",
+    "title_pt": "Validar um PDF assinado com o PKI Express",
     "description": "Opens a signed PDF on the server, validates every signature with PKI Express and shows the signers and validation results.",
     "product": "pki-express",
     "language": "php",
@@ -3403,7 +3547,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "php/plain",
@@ -3414,6 +3558,7 @@
   {
     "id": "validate-pades-signature-pki-express",
     "title": "Validate a signed PDF using PKI Express",
+    "title_pt": "Validar um PDF assinado com o PKI Express",
     "description": "Opens a signed PDF on the server, validates every signature with PKI Express and shows the signers and validation results.",
     "product": "pki-express",
     "language": "python",
@@ -3425,7 +3570,7 @@
       "python/flask/sample/views/upload.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "python/flask",
@@ -3436,6 +3581,7 @@
   {
     "id": "validate-pades-signature-pki-express",
     "title": "Validate a signed PDF using PKI Express",
+    "title_pt": "Validar um PDF assinado com o PKI Express",
     "description": "Opens a signed PDF on the server, validates every signature with PKI Express and shows the signers and validation results.",
     "product": "pki-express",
     "language": "ruby",
@@ -3447,7 +3593,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "ruby/rails",
@@ -3458,6 +3604,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -3468,7 +3615,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/OpenPadesSignatureModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "dotnet/mvc",
@@ -3479,6 +3626,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "java",
@@ -3488,7 +3636,7 @@
       "java/springmvc/src/main/resources/templates/open-pades-rest/index.html"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "java/springmvc",
@@ -3499,6 +3647,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -3508,7 +3657,7 @@
       "nodejs/expressmvc/views/open-pades-restpki/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/nodejs/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3519,6 +3668,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "php",
@@ -3529,7 +3679,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "php/plain",
@@ -3540,6 +3690,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "python",
@@ -3551,7 +3702,7 @@
       "python/flask/sample/views/upload.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "python/flask",
@@ -3562,6 +3713,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "python",
@@ -3574,7 +3726,7 @@
       "python/django/sample/storage_mock.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "python/django/sample",
@@ -3585,6 +3737,7 @@
   {
     "id": "validate-pades-signature-rest-pki",
     "title": "Validate a signed PDF using Rest PKI",
+    "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
     "language": "ruby",
@@ -3596,7 +3749,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "ruby/rails",
@@ -3607,6 +3760,7 @@
   {
     "id": "validate-pades-signature-rest-pki-core",
     "title": "Validate a signed PDF using Rest PKI Core",
+    "title_pt": "Validar um PDF assinado com o Rest PKI Core",
     "description": "Sends a signed PDF to the Rest PKI Core signature-inspection endpoint (PUT api/signature-inspection, called over HTTP because the .NET client has no method for it) with validation on, and shows the signers and validation results.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -3629,6 +3783,7 @@
   {
     "id": "validate-cades-signature-pki-sdk",
     "title": "Validate a CMS/CAdES signature using PKI SDK",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o PKI SDK",
     "description": "Opens a .p7s on the server, validates every signer with PKI SDK and shows the results.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -3651,6 +3806,7 @@
   {
     "id": "validate-cades-signature-pki-express",
     "title": "Validate a CMS/CAdES signature using PKI Express",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o PKI Express",
     "description": "Opens a .p7s on the server, validates every signer with PKI Express, shows the results and extracts the encapsulated content.",
     "product": "pki-express",
     "language": "java",
@@ -3660,7 +3816,7 @@
       "java/springmvc/src/main/resources/templates/open-cades-express/index.html"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "java/springmvc",
@@ -3671,6 +3827,7 @@
   {
     "id": "validate-cades-signature-pki-express",
     "title": "Validate a CMS/CAdES signature using PKI Express",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o PKI Express",
     "description": "Opens a .p7s on the server, validates every signer with PKI Express, shows the results and extracts the encapsulated content.",
     "product": "pki-express",
     "language": "nodejs",
@@ -3680,7 +3837,7 @@
       "nodejs/expressmvc/views/open-cades-express/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3691,6 +3848,7 @@
   {
     "id": "validate-cades-signature-pki-express",
     "title": "Validate a CMS/CAdES signature using PKI Express",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o PKI Express",
     "description": "Opens a .p7s on the server, validates every signer with PKI Express, shows the results and extracts the encapsulated content.",
     "product": "pki-express",
     "language": "php",
@@ -3701,7 +3859,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "php/plain",
@@ -3712,6 +3870,7 @@
   {
     "id": "validate-cades-signature-pki-express",
     "title": "Validate a CMS/CAdES signature using PKI Express",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o PKI Express",
     "description": "Opens a .p7s on the server, validates every signer with PKI Express, shows the results and extracts the encapsulated content.",
     "product": "pki-express",
     "language": "python",
@@ -3723,7 +3882,7 @@
       "python/flask/sample/views/upload.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "python/flask",
@@ -3734,6 +3893,7 @@
   {
     "id": "validate-cades-signature-rest-pki",
     "title": "Validate a CMS/CAdES signature using Rest PKI",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o Rest PKI",
     "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -3744,7 +3904,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/OpenCadesSignatureModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "dotnet/mvc",
@@ -3755,6 +3915,7 @@
   {
     "id": "validate-cades-signature-rest-pki",
     "title": "Validate a CMS/CAdES signature using Rest PKI",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o Rest PKI",
     "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -3764,7 +3925,7 @@
       "nodejs/expressmvc/views/open-cades-restpki/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/nodejs/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3775,6 +3936,7 @@
   {
     "id": "validate-cades-signature-rest-pki",
     "title": "Validate a CMS/CAdES signature using Rest PKI",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o Rest PKI",
     "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content.",
     "product": "rest-pki",
     "language": "php",
@@ -3785,7 +3947,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "php/plain",
@@ -3796,6 +3958,7 @@
   {
     "id": "validate-xml-signature-pki-sdk",
     "title": "Validate a signed XML using PKI SDK",
+    "title_pt": "Validar um XML assinado com o PKI SDK",
     "description": "Finds every signature in an XML document, validates them with PKI SDK and shows the results.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -3818,6 +3981,7 @@
   {
     "id": "validate-xml-signature-pki-express",
     "title": "Validate a signed XML using PKI Express",
+    "title_pt": "Validar um XML assinado com o PKI Express",
     "description": "Opens an XML document, validates its XmlDSig/XAdES signatures with PKI Express and shows the results.",
     "product": "pki-express",
     "language": "php",
@@ -3828,7 +3992,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "php/plain",
@@ -3839,6 +4003,7 @@
   {
     "id": "validate-xml-signature-rest-pki",
     "title": "Validate a signed XML using Rest PKI",
+    "title_pt": "Validar um XML assinado com o Rest PKI",
     "description": "Sends an XML document to Rest PKI (v1) to open and validate its signatures, and shows the results.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -3849,7 +4014,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/OpenXmlSignatureModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "dotnet/mvc",
@@ -3860,6 +4025,7 @@
   {
     "id": "validate-xml-signature-rest-pki",
     "title": "Validate a signed XML using Rest PKI",
+    "title_pt": "Validar um XML assinado com o Rest PKI",
     "description": "Sends an XML document to Rest PKI (v1) to open and validate its signatures, and shows the results.",
     "product": "rest-pki",
     "language": "java",
@@ -3869,7 +4035,7 @@
       "java/springmvc/src/main/resources/templates/open-xml-rest/index.html"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "java/springmvc",
@@ -3880,6 +4046,7 @@
   {
     "id": "validate-xml-signature-rest-pki",
     "title": "Validate a signed XML using Rest PKI",
+    "title_pt": "Validar um XML assinado com o Rest PKI",
     "description": "Sends an XML document to Rest PKI (v1) to open and validate its signatures, and shows the results.",
     "product": "rest-pki",
     "language": "php",
@@ -3890,7 +4057,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/validate-a-signed-file",
     "run": {
       "cwd": "php/plain",
@@ -3901,6 +4068,7 @@
   {
     "id": "printer-friendly-pdf-pki-sdk",
     "title": "Make a printer-friendly version of a signed PDF using PKI SDK",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o PKI SDK",
     "description": "Validates the PDF's signatures, marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -3911,7 +4079,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/CheckPadesSdk/Index.cshtml"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/pades",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/printer-friendly-version",
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/printer-friendly-version",
     "run": {
       "cwd": "dotnet/mvc",
@@ -3922,6 +4090,7 @@
   {
     "id": "printer-friendly-pdf-pki-express",
     "title": "Make a printer-friendly version of a signed PDF using PKI Express",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o PKI Express",
     "description": "Validates the PDF's signatures with PKI Express, marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "pki-express",
     "language": "nodejs",
@@ -3944,6 +4113,7 @@
   {
     "id": "printer-friendly-pdf-pki-express",
     "title": "Make a printer-friendly version of a signed PDF using PKI Express",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o PKI Express",
     "description": "Validates the PDF's signatures with PKI Express, marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "pki-express",
     "language": "python",
@@ -3968,6 +4138,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -3989,6 +4160,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "java",
@@ -4014,6 +4186,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -4036,6 +4209,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "php",
@@ -4057,6 +4231,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "python",
@@ -4081,6 +4256,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "python",
@@ -4106,6 +4282,7 @@
   {
     "id": "printer-friendly-pdf-rest-pki",
     "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
     "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "ruby",
@@ -4130,6 +4307,7 @@
   {
     "id": "printer-friendly-cades-pki-sdk",
     "title": "Make a printer-friendly version of a CMS/CAdES signature using PKI SDK",
+    "title_pt": "Gerar a versão para impressão de uma assinatura CMS/CAdES com o PKI SDK",
     "description": "Validates a .p7s and produces a PDF manifest listing its signers, with a verification code and QR code. Includes the page that checks a document by its verification code.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -4140,7 +4318,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/CheckCadesSdk/Index.cshtml"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/signatures/cades",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-sdk/printer-friendly-version",
     "demo_url": null,
     "run": {
       "cwd": "dotnet/mvc",
@@ -4151,6 +4329,7 @@
   {
     "id": "printer-friendly-cades-pki-express",
     "title": "Make a printer-friendly version of a CMS/CAdES signature using PKI Express",
+    "title_pt": "Gerar a versão para impressão de uma assinatura CMS/CAdES com o PKI Express",
     "description": "Validates a .p7s with PKI Express and produces a PDF manifest listing its signers, with a verification code and QR code. Includes the page that checks a document by its verification code.",
     "product": "pki-express",
     "language": "nodejs",
@@ -4174,6 +4353,7 @@
   {
     "id": "printer-friendly-cades-rest-pki",
     "title": "Make a printer-friendly version of a CMS/CAdES signature using Rest PKI",
+    "title_pt": "Gerar a versão para impressão de uma assinatura CMS/CAdES com o Rest PKI",
     "description": "Validates a .p7s with Rest PKI (v1) and produces a PDF manifest listing its signers, with a verification code and QR code. Includes the page that checks a document by its verification code.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -4195,6 +4375,7 @@
   {
     "id": "authentication-rest-pki-core",
     "title": "Authenticate with a digital certificate using Rest PKI Core",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI Core",
     "description": "Certificate login: Rest PKI Core prepares an authentication, Web PKI signs its hash with the user's certificate in the browser, and the server completes it with Rest PKI Core, which validates the signature and the certificate.",
     "product": "rest-pki-core",
     "language": "java",
@@ -4218,6 +4399,7 @@
   {
     "id": "authentication-rest-pki-core",
     "title": "Authenticate with a digital certificate using Rest PKI Core",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI Core",
     "description": "Certificate login: Rest PKI Core prepares an authentication, Web PKI signs its hash with the user's certificate in the browser (signHash), and the server completes it with Rest PKI Core, which validates the signature and the certificate.",
     "product": "rest-pki-core",
     "language": "dotnet",
@@ -4241,6 +4423,7 @@
   {
     "id": "authentication-pki-sdk",
     "title": "Authenticate with a digital certificate using PKI SDK",
+    "title_pt": "Autenticar com um certificado digital usando o PKI SDK",
     "description": "Certificate login with a nonce challenge: the server issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI SDK validates the signature and the certificate on the server.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -4265,6 +4448,7 @@
   {
     "id": "authentication-pki-sdk",
     "title": "Authenticate with a digital certificate using PKI SDK",
+    "title_pt": "Autenticar com um certificado digital usando o PKI SDK",
     "description": "Certificate login with a nonce challenge: the server issues a nonce, Web PKI signs it with the user's certificate in the browser (signData), and PKI SDK validates the signature and the certificate on the server.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -4288,6 +4472,7 @@
   {
     "id": "authentication-pki-express",
     "title": "Authenticate with a digital certificate using PKI Express",
+    "title_pt": "Autenticar com um certificado digital usando o PKI Express",
     "description": "Certificate login with a nonce challenge: PKI Express issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI Express validates the signature and the certificate.",
     "product": "pki-express",
     "language": "java",
@@ -4300,7 +4485,7 @@
       "java/springmvc/src/main/resources/static/js/authentication-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "java/springmvc",
@@ -4311,6 +4496,7 @@
   {
     "id": "authentication-pki-express",
     "title": "Authenticate with a digital certificate using PKI Express",
+    "title_pt": "Autenticar com um certificado digital usando o PKI Express",
     "description": "Certificate login with a nonce challenge: PKI Express issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI Express validates the signature and the certificate.",
     "product": "pki-express",
     "language": "nodejs",
@@ -4323,7 +4509,7 @@
       "nodejs/expressmvc/public/javascripts/authentication-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -4334,6 +4520,7 @@
   {
     "id": "authentication-pki-express",
     "title": "Authenticate with a digital certificate using PKI Express",
+    "title_pt": "Autenticar com um certificado digital usando o PKI Express",
     "description": "Certificate login with a nonce challenge: PKI Express issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI Express validates the signature and the certificate.",
     "product": "pki-express",
     "language": "php",
@@ -4345,7 +4532,7 @@
       "php/plain/public/authentication-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "php/plain",
@@ -4356,6 +4543,7 @@
   {
     "id": "authentication-pki-express",
     "title": "Authenticate with a digital certificate using PKI Express",
+    "title_pt": "Autenticar com um certificado digital usando o PKI Express",
     "description": "Certificate login with a nonce challenge: PKI Express issues a nonce, Web PKI signs it with the user's certificate in the browser, and PKI Express validates the signature and the certificate.",
     "product": "pki-express",
     "language": "python",
@@ -4369,7 +4557,7 @@
       "python/flask/sample/utils.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "python/flask",
@@ -4380,6 +4568,7 @@
   {
     "id": "authentication-rest-pki",
     "title": "Authenticate with a digital certificate using Rest PKI",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI",
     "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
     "product": "rest-pki",
     "language": "dotnet",
@@ -4394,7 +4583,7 @@
       "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/AuthenticationInfoModel.cs"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "dotnet/mvc",
@@ -4405,6 +4594,7 @@
   {
     "id": "authentication-rest-pki",
     "title": "Authenticate with a digital certificate using Rest PKI",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI",
     "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
     "product": "rest-pki",
     "language": "java",
@@ -4417,7 +4607,7 @@
       "java/springmvc/src/main/resources/static/js/signature-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "java/springmvc",
@@ -4428,6 +4618,7 @@
   {
     "id": "authentication-rest-pki",
     "title": "Authenticate with a digital certificate using Rest PKI",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI",
     "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -4440,7 +4631,7 @@
       "nodejs/expressmvc/public/javascripts/signature-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/nodejs/mvc",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -4451,6 +4642,7 @@
   {
     "id": "authentication-rest-pki",
     "title": "Authenticate with a digital certificate using Rest PKI",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI",
     "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
     "product": "rest-pki",
     "language": "php",
@@ -4462,7 +4654,7 @@
       "php/plain/public/authentication-rest/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "php/plain",
@@ -4473,6 +4665,7 @@
   {
     "id": "authentication-rest-pki",
     "title": "Authenticate with a digital certificate using Rest PKI",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI",
     "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
     "product": "rest-pki",
     "language": "python",
@@ -4486,7 +4679,7 @@
       "python/flask/sample/utils.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "python/flask",
@@ -4497,6 +4690,7 @@
   {
     "id": "authentication-rest-pki",
     "title": "Authenticate with a digital certificate using Rest PKI",
+    "title_pt": "Autenticar com um certificado digital usando o Rest PKI",
     "description": "Certificate login with Rest PKI (v1): the server gets an authentication token, Web PKI's signWithRestPki() signs it in the browser, and the server completes the authentication, which validates the certificate.",
     "product": "rest-pki",
     "language": "ruby",
@@ -4509,7 +4703,7 @@
       "ruby/rails/app/controllers/concerns/util.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/certificate-authentication",
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "ruby/rails",
@@ -4520,6 +4714,7 @@
   {
     "id": "authentication-cloudhub",
     "title": "Authenticate with a cloud certificate using CloudHub",
+    "title_pt": "Autenticar com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, picks a PSC listed by CloudHub and authorizes there; the server then has the cloud certificate sign a challenge and validates it (with PKI SDK in .NET, Rest PKI in Node.js).",
     "product": "cloudhub",
     "language": "dotnet",
@@ -4545,6 +4740,7 @@
   {
     "id": "authentication-cloudhub",
     "title": "Authenticate with a cloud certificate using CloudHub",
+    "title_pt": "Autenticar com um certificado em nuvem usando o CloudHub",
     "description": "The user types a CPF, picks a PSC listed by CloudHub and authorizes there; the server then has the cloud certificate sign a challenge and validates it (with PKI SDK in .NET, Rest PKI in Node.js).",
     "product": "cloudhub",
     "language": "nodejs",
@@ -4570,6 +4766,7 @@
   {
     "id": "authentication-cloud-oauth-pki-express",
     "title": "Authenticate with a cloud certificate (OAuth flow) using PKI Express",
+    "title_pt": "Autenticar com um certificado em nuvem (fluxo OAuth) usando o PKI Express",
     "description": "Finds the user's PSCs by CPF through PKI Express trust services, authorizes with OAuth at the PSC, and has the cloud certificate sign the server's nonce.",
     "product": "pki-express",
     "language": "java",
@@ -4594,6 +4791,7 @@
   {
     "id": "list-certificates-web-pki",
     "title": "List the user's certificates with Web PKI",
+    "title_pt": "Listar os certificados do usuário com o Web PKI",
     "description": "Lists the certificates installed on the user's machine with Web PKI, in two variants: a plain jQuery select and a Select2 dropdown. Runs only in the browser.",
     "product": "web-pki",
     "language": "dotnet",
@@ -4616,6 +4814,7 @@
   {
     "id": "list-certificates-web-pki",
     "title": "List the user's certificates with Web PKI",
+    "title_pt": "Listar os certificados do usuário com o Web PKI",
     "description": "Lists the certificates installed on the user's machine with Web PKI, in two variants: a plain jQuery select and a Select2 dropdown. Runs only in the browser.",
     "product": "web-pki",
     "language": "java",
@@ -4638,6 +4837,7 @@
   {
     "id": "list-certificates-web-pki",
     "title": "List the user's certificates with Web PKI",
+    "title_pt": "Listar os certificados do usuário com o Web PKI",
     "description": "Lists the certificates installed on the user's machine with Web PKI, in two variants: a plain jQuery select and a Select2 dropdown. Runs only in the browser.",
     "product": "web-pki",
     "language": "nodejs",
@@ -4660,6 +4860,7 @@
   {
     "id": "list-certificates-web-pki",
     "title": "List the user's certificates with Web PKI",
+    "title_pt": "Listar os certificados do usuário com o Web PKI",
     "description": "Lists the certificates installed on the user's machine with Web PKI, in two variants: a plain jQuery select and a Select2 dropdown. Runs only in the browser.",
     "product": "web-pki",
     "language": "python",
@@ -4682,6 +4883,7 @@
   {
     "id": "list-certificates-web-pki",
     "title": "List the user's certificates with Web PKI",
+    "title_pt": "Listar os certificados do usuário com o Web PKI",
     "description": "Lists the certificates installed on the user's machine with Web PKI, in two variants: a plain jQuery select and a Select2 dropdown. Runs only in the browser.",
     "product": "web-pki",
     "language": "ruby",
@@ -4704,6 +4906,7 @@
   {
     "id": "read-certificate-web-pki",
     "title": "Read a certificate's details with Web PKI",
+    "title_pt": "Ler os dados de um certificado com o Web PKI",
     "description": "Lets the user pick one of their certificates and shows its fields (subject, issuer, validity, ICP-Brasil data) read with Web PKI, in jQuery and Select2 variants. Runs only in the browser.",
     "product": "web-pki",
     "language": "dotnet",
@@ -4726,6 +4929,7 @@
   {
     "id": "read-certificate-web-pki",
     "title": "Read a certificate's details with Web PKI",
+    "title_pt": "Ler os dados de um certificado com o Web PKI",
     "description": "Lets the user pick one of their certificates and shows its fields (subject, issuer, validity, ICP-Brasil data) read with Web PKI, in jQuery and Select2 variants. Runs only in the browser.",
     "product": "web-pki",
     "language": "java",
@@ -4748,6 +4952,7 @@
   {
     "id": "read-certificate-web-pki",
     "title": "Read a certificate's details with Web PKI",
+    "title_pt": "Ler os dados de um certificado com o Web PKI",
     "description": "Lets the user pick one of their certificates and shows its fields (subject, issuer, validity, ICP-Brasil data) read with Web PKI, in jQuery and Select2 variants. Runs only in the browser.",
     "product": "web-pki",
     "language": "nodejs",
@@ -4770,6 +4975,7 @@
   {
     "id": "read-certificate-web-pki",
     "title": "Read a certificate's details with Web PKI",
+    "title_pt": "Ler os dados de um certificado com o Web PKI",
     "description": "Lets the user pick one of their certificates and shows its fields (subject, issuer, validity, ICP-Brasil data) read with Web PKI, in jQuery and Select2 variants. Runs only in the browser.",
     "product": "web-pki",
     "language": "python",
@@ -4792,6 +4998,7 @@
   {
     "id": "read-certificate-web-pki",
     "title": "Read a certificate's details with Web PKI",
+    "title_pt": "Ler os dados de um certificado com o Web PKI",
     "description": "Lets the user pick one of their certificates and shows its fields (subject, issuer, validity, ICP-Brasil data) read with Web PKI, in jQuery and Select2 variants. Runs only in the browser.",
     "product": "web-pki",
     "language": "ruby",
@@ -4814,6 +5021,7 @@
   {
     "id": "rsa-signature-web-pki",
     "title": "Sign data with RSA in the browser using Web PKI",
+    "title_pt": "Assinar dados com RSA no navegador usando o Web PKI",
     "description": "Signs text with Web PKI's signData() and a SHA-256 hash with signHash(), using one of the user's certificates. Runs only in the browser.",
     "product": "web-pki",
     "language": "dotnet",
@@ -4834,6 +5042,7 @@
   {
     "id": "rsa-signature-web-pki",
     "title": "Sign data with RSA in the browser using Web PKI",
+    "title_pt": "Assinar dados com RSA no navegador usando o Web PKI",
     "description": "Signs text with Web PKI's signData() and a SHA-256 hash with signHash(), using one of the user's certificates. Runs only in the browser.",
     "product": "web-pki",
     "language": "java",
@@ -4854,6 +5063,7 @@
   {
     "id": "rsa-signature-web-pki",
     "title": "Sign data with RSA in the browser using Web PKI",
+    "title_pt": "Assinar dados com RSA no navegador usando o Web PKI",
     "description": "Signs text with Web PKI's signData() and a SHA-256 hash with signHash(), using one of the user's certificates. Runs only in the browser.",
     "product": "web-pki",
     "language": "nodejs",
@@ -4874,6 +5084,7 @@
   {
     "id": "rsa-signature-web-pki",
     "title": "Sign data with RSA in the browser using Web PKI",
+    "title_pt": "Assinar dados com RSA no navegador usando o Web PKI",
     "description": "Signs text with Web PKI's signData() and a SHA-256 hash with signHash(), using one of the user's certificates. Runs only in the browser.",
     "product": "web-pki",
     "language": "python",
@@ -4894,6 +5105,7 @@
   {
     "id": "rsa-signature-web-pki",
     "title": "Sign data with RSA in the browser using Web PKI",
+    "title_pt": "Assinar dados com RSA no navegador usando o Web PKI",
     "description": "Signs text with Web PKI's signData() and a SHA-256 hash with signHash(), using one of the user's certificates. Runs only in the browser.",
     "product": "web-pki",
     "language": "ruby",
@@ -4914,6 +5126,7 @@
   {
     "id": "issue-certificate-user-key-amplia",
     "title": "Issue a certificate with the key on the user's machine using Amplia",
+    "title_pt": "Emitir um certificado com a chave na máquina do titular usando o Amplia",
     "description": "Creates a certificate order on Amplia and redirects the user to Amplia's issuing page, where the key pair is generated on the user's machine.",
     "product": "amplia",
     "language": "java",
@@ -4928,7 +5141,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/model/amplia/IssueCertUserRedirectModel.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-on-user-machine",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "java/springmvc",
@@ -4939,6 +5152,7 @@
   {
     "id": "issue-certificate-user-key-amplia",
     "title": "Issue a certificate with the key on the user's machine using Amplia",
+    "title_pt": "Emitir um certificado com a chave na máquina do titular usando o Amplia",
     "description": "Creates a certificate order on Amplia and redirects the user to Amplia's issuing page, where the key pair is generated on the user's machine.",
     "product": "amplia",
     "language": "nodejs",
@@ -4951,7 +5165,7 @@
       "nodejs/expressmvc/public/javascripts/issue-cert-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-on-user-machine",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -4962,6 +5176,7 @@
   {
     "id": "issue-certificate-user-key-amplia",
     "title": "Issue a certificate with the key on the user's machine using Amplia",
+    "title_pt": "Emitir um certificado com a chave na máquina do titular usando o Amplia",
     "description": "Creates a certificate order on Amplia and redirects the user to Amplia's issuing page, where the key pair is generated on the user's machine.",
     "product": "amplia",
     "language": "php",
@@ -4975,7 +5190,7 @@
       "php/plain/public/issue-cert-user-amplia/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-on-user-machine",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "php/plain",
@@ -4986,6 +5201,7 @@
   {
     "id": "issue-certificate-user-key-amplia",
     "title": "Issue a certificate with the key on the user's machine using Amplia",
+    "title_pt": "Emitir um certificado com a chave na máquina do titular usando o Amplia",
     "description": "Creates a certificate order on Amplia and redirects the user to Amplia's issuing page, where the key pair is generated on the user's machine.",
     "product": "amplia",
     "language": "python",
@@ -4999,7 +5215,7 @@
       "python/flask/sample/utils.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-on-user-machine",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "python/flask",
@@ -5010,6 +5226,7 @@
   {
     "id": "issue-certificate-server-key-amplia",
     "title": "Issue a certificate with the key on the server using Amplia",
+    "title_pt": "Emitir um certificado com a chave no servidor usando o Amplia",
     "description": "Generates the key pair and CSR on the server with PKI Express, then has Amplia issue the certificate. The result can be used by the server-key signing samples.",
     "product": "amplia",
     "language": "java",
@@ -5025,7 +5242,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/DownloadController.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-from-csr",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "java/springmvc",
@@ -5036,6 +5253,7 @@
   {
     "id": "issue-certificate-server-key-amplia",
     "title": "Issue a certificate with the key on the server using Amplia",
+    "title_pt": "Emitir um certificado com a chave no servidor usando o Amplia",
     "description": "Generates the key pair and CSR on the server with PKI Express, then has Amplia issue the certificate. The result can be used by the server-key signing samples.",
     "product": "amplia",
     "language": "nodejs",
@@ -5048,7 +5266,7 @@
       "nodejs/expressmvc/routes/pades-server-key-express.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-from-csr",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -5059,6 +5277,7 @@
   {
     "id": "issue-certificate-server-key-amplia",
     "title": "Issue a certificate with the key on the server using Amplia",
+    "title_pt": "Emitir um certificado com a chave no servidor usando o Amplia",
     "description": "Generates the key pair and CSR on the server with PKI Express, then has Amplia issue the certificate. The result can be used by the server-key signing samples.",
     "product": "amplia",
     "language": "php",
@@ -5072,7 +5291,7 @@
       "php/plain/public/issue-cert-server-amplia/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-from-csr",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "php/plain",
@@ -5083,6 +5302,7 @@
   {
     "id": "issue-certificate-server-key-amplia",
     "title": "Issue a certificate with the key on the server using Amplia",
+    "title_pt": "Emitir um certificado com a chave no servidor usando o Amplia",
     "description": "Generates the key pair and CSR on the server with PKI Express, then has Amplia issue the certificate. The result can be used by the server-key signing samples.",
     "product": "amplia",
     "language": "python",
@@ -5095,7 +5315,7 @@
       "python/flask/sample/utils.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/issue-from-csr",
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "python/flask",
@@ -5106,6 +5326,7 @@
   {
     "id": "issue-pkcs12-certificate-amplia",
     "title": "Issue a PKCS #12 certificate using Amplia",
+    "title_pt": "Emitir um certificado em um arquivo PKCS #12 com o Amplia",
     "description": "Creates an order on Amplia and has Amplia generate the key and return a password-protected PKCS #12 (.pfx) file.",
     "product": "amplia",
     "language": "nodejs",
@@ -5117,7 +5338,7 @@
       "nodejs/expressmvc/public/javascripts/issue-cert-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/pkcs12",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -5128,6 +5349,7 @@
   {
     "id": "issue-attribute-certificate-amplia",
     "title": "Issue an attribute certificate using Amplia",
+    "title_pt": "Emitir um certificado de atributo com o Amplia",
     "description": "Creates an attribute-certificate order on Amplia and issues the certificate on the server.",
     "product": "amplia",
     "language": "php",
@@ -5140,7 +5362,7 @@
       "php/plain/public/issue-cert-attribute-amplia/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/amplia/integration/attribute-certificates",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -5151,6 +5373,7 @@
   {
     "id": "prescription-signature-pki-sdk",
     "title": "Sign a medical prescription (Receita Simples) using PKI SDK",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o PKI SDK",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with PKI SDK and Web PKI.",
     "product": "pki-sdk",
     "language": "dotnet",
@@ -5180,6 +5403,7 @@
   {
     "id": "prescription-signature-pki-express",
     "title": "Sign a medical prescription (Receita Simples) using PKI Express",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o PKI Express",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "java",
@@ -5209,6 +5433,7 @@
   {
     "id": "prescription-signature-pki-express",
     "title": "Sign a medical prescription (Receita Simples) using PKI Express",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o PKI Express",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "nodejs",
@@ -5236,6 +5461,7 @@
   {
     "id": "prescription-signature-pki-express",
     "title": "Sign a medical prescription (Receita Simples) using PKI Express",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o PKI Express",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "php",
@@ -5264,6 +5490,7 @@
   {
     "id": "prescription-signature-pki-express",
     "title": "Sign a medical prescription (Receita Simples) using PKI Express",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o PKI Express",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with PKI Express and Web PKI.",
     "product": "pki-express",
     "language": "ruby",
@@ -5292,6 +5519,7 @@
   {
     "id": "prescription-signature-rest-pki",
     "title": "Sign a medical prescription (Receita Simples) using Rest PKI",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o Rest PKI",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "java",
@@ -5319,6 +5547,7 @@
   {
     "id": "prescription-signature-rest-pki",
     "title": "Sign a medical prescription (Receita Simples) using Rest PKI",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o Rest PKI",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "php",
@@ -5346,6 +5575,7 @@
   {
     "id": "prescription-signature-rest-pki",
     "title": "Sign a medical prescription (Receita Simples) using Rest PKI",
+    "title_pt": "Assinar uma receita médica (Receita Simples) com o Rest PKI",
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "python",

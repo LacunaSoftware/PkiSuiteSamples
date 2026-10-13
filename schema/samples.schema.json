@@ -8,7 +8,7 @@
     "type": "object",
     "additionalProperties": false,
     "required": [
-      "id", "title", "description", "product", "language", "framework",
+      "id", "title", "title_pt", "description", "product", "language", "framework",
       "path", "related_files", "status", "docs_url", "demo_url", "run"
     ],
     "properties": {
@@ -19,6 +19,11 @@
       },
       "title": {
         "description": "Short human-readable name of the task.",
+        "type": "string",
+        "minLength": 3
+      },
+      "title_pt": {
+        "description": "The same name in Brazilian Portuguese, which the Portuguese pages of docs.lacunasoftware.com show. Entries that share an `id` share their `title_pt`.",
         "type": "string",
         "minLength": 3
       },
