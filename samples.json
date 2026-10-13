@@ -1859,7 +1859,7 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Server-only: uploads a PDF and asks Rest PKI Core to add a document timestamp to it, using the PKI Brazil timestamp tier, and stores the stamped PDF (returned inline, or downloaded from a temporary link). No signature is made and Web PKI is not involved. It calls PdfApi.api_pdf_stamp_post of restpki-ng-python-client on the ApiClient returned by the project's helper.",
+    "description": "Server-only: uploads a PDF and asks Rest PKI Core to add a document timestamp to it, using the Lacuna Test timestamp tier (production uses PKI Brazil, as the Demo does, or the account's own tier, with a key that has access to it), and stores the stamped PDF (returned inline, or downloaded from a temporary link). No signature is made and Web PKI is not involved. It calls PdfApi.api_pdf_stamp_post of restpki-ng-python-client on the ApiClient returned by the project's helper.",
     "product": "rest-pki-core",
     "language": "python",
     "framework": "flask",

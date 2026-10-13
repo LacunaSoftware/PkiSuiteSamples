@@ -27,8 +27,12 @@ blueprint = Blueprint(os.path.basename(__name__), __name__,
 
 # The timestamp tier that REST PKI Core uses to timestamp the PDF, passed by
 # its ID or name (the Python client has no constants for the tiers). This is
-# the ID of the "PKI Brazil" tier, the one used on the "Timestamp a PDF" demo.
-TIMESTAMP_TIER = 'a402df41-8559-47b2-a05c-be555bf66310'
+# the ID of the "Lacuna Test" tier, which trial API keys can use (for
+# development purposes only!). In production, use the "PKI Brazil" tier
+# ('a402df41-8559-47b2-a05c-be555bf66310', the one used on the "Timestamp a
+# PDF" demo) or your account's own tier, which need an API key with access to
+# them.
+TIMESTAMP_TIER = '9e5b9ccd-1916-49e7-bb99-9eb259ab00f8'
 
 
 @blueprint.route('/<file_id>')
