@@ -29,8 +29,8 @@ blueprint = Blueprint(os.path.basename(__name__), __name__,
 # its ID or name (the Python client has no constants for the tiers). This is
 # the ID of the "Lacuna Test" tier, which trial API keys can use (for
 # development purposes only!). In production, use the "PKI Brazil" tier
-# ('a402df41-8559-47b2-a05c-be555bf66310', the one used on the "Timestamp a
-# PDF" demo) or your account's own tier, which need an API key with access to
+# ('a402df41-8559-47b2-a05c-be555bf66310', the tier of the "Timestamp a PDF"
+# Demo) or your account's own tier, which need an API key with access to
 # them.
 TIMESTAMP_TIER = '9e5b9ccd-1916-49e7-bb99-9eb259ab00f8'
 

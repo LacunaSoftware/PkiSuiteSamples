@@ -38,7 +38,7 @@ public class TimestampPdfRestPkiCoreController(StorageMock storageMock, Util uti
 			// The timestamp tier picks the timestamp authority that issues the timestamp. This sample
 			// uses the Lacuna Test tier, which trial API keys can use (for development purposes
 			// only!). In production, use StandardTimestampTiers.PkiBrazil (an ICP-Brasil timestamp
-			// authority, the tier of the "Timestamp a PDF" demo) or your account's own tier, by its
+			// authority, the tier of the "Timestamp a PDF" Demo) or your account's own tier, by its
 			// ID or name. Those tiers need an API key with access to them.
 			TimestampTier = StandardTimestampTiers.LacunaTest.ToString(),
 			// Have Rest PKI Core keep the stamped PDF and return a reference to it. Without this, it

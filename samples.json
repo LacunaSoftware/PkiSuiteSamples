@@ -1815,14 +1815,16 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Adds a document timestamp to an uploaded PDF with Rest PKI Core's PDF stamp operation, using the Lacuna Test timestamp tier (production uses PKI Brazil or the account's own tier). Server-only: no signature and no Web PKI.",
+    "description": "Adds a document timestamp to a PDF with Rest PKI Core and stores the timestamped PDF for download. It uses the Lacuna Test timestamp tier (for development only); production uses PKI Brazil, the tier of the \"Timestamp a PDF\" Demo, or the account's own tier, with an API key that has access to it. Server-only: no signature is made and Web PKI is not involved.",
     "product": "rest-pki-core",
     "language": "nodejs",
     "framework": "express",
     "path": "nodejs/expressmvc/routes/timestamp-pdf-core.js",
     "related_files": [
       "nodejs/expressmvc/views/timestamp-pdf-core/index.pug",
-      "nodejs/expressmvc/util.js"
+      "nodejs/expressmvc/util.js",
+      "nodejs/expressmvc/storage-mock.js",
+      "nodejs/expressmvc/routes/upload.js"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",
@@ -1859,7 +1861,7 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Server-only: uploads a PDF and asks Rest PKI Core to add a document timestamp to it, using the Lacuna Test timestamp tier (production uses PKI Brazil, as the Demo does, or the account's own tier, with a key that has access to it), and stores the stamped PDF (returned inline, or downloaded from a temporary link). No signature is made and Web PKI is not involved. It calls PdfApi.api_pdf_stamp_post of restpki-ng-python-client on the ApiClient returned by the project's helper.",
+    "description": "Adds a document timestamp to a PDF with Rest PKI Core and stores the timestamped PDF for download. It uses the Lacuna Test timestamp tier (for development only); production uses PKI Brazil, the tier of the \"Timestamp a PDF\" Demo, or the account's own tier, with an API key that has access to it. Server-only: no signature is made and Web PKI is not involved.",
     "product": "rest-pki-core",
     "language": "python",
     "framework": "flask",
@@ -1883,7 +1885,7 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Adds a document timestamp to a PDF with the Rest PKI Core .NET client's StampPdfAsync (POST api/pdf/stamp), using the Lacuna Test timestamp tier (production uses PKI Brazil or the account's own tier), and stores the stamped PDF for download. Server only: no signature and no Web PKI.",
+    "description": "Adds a document timestamp to a PDF with Rest PKI Core and stores the timestamped PDF for download. It uses the Lacuna Test timestamp tier (for development only); production uses PKI Brazil, the tier of the \"Timestamp a PDF\" Demo, or the account's own tier, with an API key that has access to it. Server-only: no signature is made and Web PKI is not involved.",
     "product": "rest-pki-core",
     "language": "dotnet",
     "framework": "aspnet-core-angular",
@@ -1891,7 +1893,10 @@
     "related_files": [
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/timestamp-pdf-rest-pki-core/timestamp-pdf-rest-pki-core.ts",
       "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/timestamp-pdf-rest-pki-core/timestamp-pdf-rest-pki-core.html",
-      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/Util.cs"
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/Util.cs",
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/StorageMock.cs",
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/shared/document-picker/document-picker.ts",
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/FilesController.cs"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",

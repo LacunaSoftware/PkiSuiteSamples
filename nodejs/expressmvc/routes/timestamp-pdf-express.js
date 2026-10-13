@@ -1,6 +1,4 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const {
 	PadesTimestamper,
@@ -10,7 +8,6 @@ const { StorageMock } = require('../storage-mock');
 const { Util } = require('../util');
 
 const router = express.Router();
-const APP_ROOT = process.cwd();
 
 /**
  * GET /timestamp-pdf-express
@@ -27,10 +24,10 @@ router.get('/', (req, res, next) => {
 	}
 
 	generateTimestampVersion(StorageMock.getDataPath(fileId))
-		.then((pfvContent) => {
-			// Return the generate file.
+		.then((stampedContent) => {
+			// Return the timestamped PDF.
 			res.type('pdf');
-			res.send(pfvContent);
+			res.send(stampedContent);
 		})
 		.catch((err) => next(err));
 });
@@ -48,20 +45,13 @@ function generateTimestampVersion(pdfPath) {
 		stamper.setPdfFromPath(pdfPath).then(() => {
 			// Generate path for output file and add to the stamper.
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const outputFile = `${uuidv4()}.pdf`;
-			const outputFilePath = path.join(APP_ROOT, 'app-data', outputFile);
-			stamper.setOutputFilePath(outputFilePath);
+			const outputFileId = uuidv4();
+			stamper.setOutputFilePath(StorageMock.getDataPath(outputFileId, '.pdf'));
 
 			// Add a timestamp to the PDF file.
 			stamper.stamp().then(() => {
-				// Read printer-friendly version.
-				fs.readFile(outputFilePath, (err, pfvContent) => {
-					if (err) {
-						reject(err);
-						return;
-					}
-					resolve(pfvContent);
-				});
+				// Read the timestamped PDF.
+				resolve(StorageMock.readSync(outputFileId, '.pdf'));
 			}).catch((err) => { reject(err); });
 		}).catch((err) => { reject(err); });
 	});
