@@ -151,7 +151,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
 | **Timestamp a PDF with PKI Express**<br>`timestamp-pdf-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/timestamp-pdf-express.js) | — | [Flask](python/flask/sample/views/timestamp_pdf_express.py) | — |
-| **Timestamp a PDF with Rest PKI Core**<br>`timestamp-pdf-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/TimestampPdfRestCoreController.cs) | — | — | — | — | — |
+| **Timestamp a PDF with Rest PKI Core**<br>`timestamp-pdf-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/TimestampPdfRestCoreController.cs)<br>[ASP.NET Core + Angular](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/TimestampPdfRestPkiCoreController.cs) | — | [code](nodejs/expressmvc/routes/timestamp-pdf-core.js) | — | [Flask](python/flask/sample/views/timestamp_pdf_rest_core.py) | — |
 
 ## Sign a file with CMS/CAdES
 

@@ -23,3 +23,11 @@ _Avoid_: Library, API, engine (for the offering as a whole)
 **Slug**:
 The identifier of a task done with a product, written `<task>-<product>` and identical in every language.
 _Avoid_: Sample id, key, name
+
+**Demo Site**:
+Lacuna's public site where visitors try PKI Suite tasks live, at try.lacunasoftware.com.
+_Avoid_: Demo (for the whole site), try site
+
+**Demo**:
+One page on the Demo Site that does one task, made with one or more products (such as Web PKI in the browser with PKI SDK on the server). A sample matches a demo only when its task is the same and its product is one the demo is made with.
+_Avoid_: Sample, example

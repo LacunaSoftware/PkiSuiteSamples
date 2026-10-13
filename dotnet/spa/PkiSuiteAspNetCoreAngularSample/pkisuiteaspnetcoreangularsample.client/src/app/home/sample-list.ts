@@ -5,7 +5,8 @@
 export interface SampleTask {
   task: string;
   description: string;
-  pkiSdk: string;
+  /** Null when this project has no PKI SDK sample of the task. */
+  pkiSdk: string | null;
   /** Null when Rest PKI Core cannot do the task. */
   restPkiCore: string | null;
 }
@@ -46,5 +47,11 @@ export const sampleTasks: SampleTask[] = [
     description: 'Authenticate the user with a digital certificate.',
     pkiSdk: 'authentication-pki-sdk',
     restPkiCore: 'authentication-rest-pki-core',
+  },
+  {
+    task: 'Timestamp a PDF',
+    description: 'Add a document timestamp to a PDF, without signing it.',
+    pkiSdk: null,
+    restPkiCore: 'timestamp-pdf-rest-pki-core',
   },
 ];

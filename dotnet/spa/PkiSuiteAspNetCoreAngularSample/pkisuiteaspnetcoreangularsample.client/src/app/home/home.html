@@ -31,7 +31,13 @@
           <strong>{{ row.task }}</strong><br>
           <span class="muted">{{ row.description }}</span>
         </td>
-        <td><a [routerLink]="['/', row.pkiSdk]">{{ row.pkiSdk }}</a></td>
+        <td>
+          @if (row.pkiSdk) {
+            <a [routerLink]="['/', row.pkiSdk]">{{ row.pkiSdk }}</a>
+          } @else {
+            <span class="muted">Not available</span>
+          }
+        </td>
         <td>
           @if (row.restPkiCore) {
             <a [routerLink]="['/', row.restPkiCore]">{{ row.restPkiCore }}</a>

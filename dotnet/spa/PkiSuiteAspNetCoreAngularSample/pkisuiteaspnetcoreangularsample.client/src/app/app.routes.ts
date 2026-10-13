@@ -17,5 +17,6 @@ export const routes: Routes = [
   { path: 'validate-pades-signature-rest-pki-core', loadChildren: () => import('./samples/validate-pades-signature-rest-pki-core/routes') },
   { path: 'authentication-pki-sdk', loadChildren: () => import('./samples/authentication-pki-sdk/routes') },
   { path: 'authentication-rest-pki-core', loadChildren: () => import('./samples/authentication-rest-pki-core/routes') },
+  { path: 'timestamp-pdf-rest-pki-core', loadChildren: () => import('./samples/timestamp-pdf-rest-pki-core/routes') },
   { path: '**', component: NotFound },
 ];
