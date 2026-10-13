@@ -3,7 +3,7 @@
     "id": "pades-signature-rest-pki-core",
     "title": "Sign a PDF with Rest PKI Core",
     "title_pt": "Assinar um PDF com o Rest PKI Core",
-    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. The signature has no visual representation: the sample does not set one, although Lacuna.RestPkiCore.Client 1.13.0 can (`PdfSignatureOptions.VisualRepresentation`).",
+    "description": "Two-step PAdES signature: Web PKI reads the user's certificate in the browser, the server asks Rest PKI Core to prepare the signature and gets back the hash to sign, Web PKI signs that hash in the browser, and the server completes the signature with Rest PKI Core. The signature has no visual representation: the sample does not set one, although Lacuna.RestPkiCore.Client 3.5.0 can (`PdfSignatureOptions.VisualRepresentation`).",
     "product": "rest-pki-core",
     "language": "dotnet",
     "framework": "aspnet-mvc",
@@ -1831,6 +1831,29 @@
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-express/server-files/pades-signature/signPdf"
+    }
+  },
+  {
+    "id": "timestamp-pdf-rest-pki-core",
+    "title": "Timestamp a PDF with Rest PKI Core",
+    "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
+    "description": "Adds a document timestamp to an uploaded PDF with Rest PKI Core's PDF stamp operation (`IRestPkiService.StampPdfAsync`, in Lacuna.RestPkiCore.Client 3.5.0 and later), using the Lacuna Test timestamp tier, which the trial API keys can use; production uses PKI Brazil or the subscription's own tier. Server-only: no signature and no Web PKI. The sample sets `ForceBlobResult`, because client 3.5.0 cannot read a result returned inline.",
+    "product": "rest-pki-core",
+    "language": "dotnet",
+    "framework": "aspnet-mvc",
+    "path": "dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/TimestampPdfRestCoreController.cs",
+    "related_files": [
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/TimestampPdfRestCore/Index.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Sdk/SignatureInfoModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Classes/Util.cs"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
+    "run": {
+      "cwd": "dotnet/mvc",
+      "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
+      "url": "http://localhost:54123/Home/CheckRestPkiCoreApiKey?rc=Upload&ctrl=TimestampPdfRestCore"
     }
   },
   {
