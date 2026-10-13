@@ -33,7 +33,7 @@ var signatureStartForm = (function () {
 		pki.init({
 
 			ready: loadCertificates,// As soon as the component is ready we'll load the certificates.
-			defaultFail: onWebPkiError // Generic error callback (see function (declaration below).
+			defaultFail: onWebPkiError // Generic error callback (see function declaration below).
 		});
 
 	}
@@ -103,21 +103,19 @@ var signatureStartForm = (function () {
 	// ---------------------------------------------------------------------------------------------
 	// Function called if an error occurs on the Web PKI component.
 	// ---------------------------------------------------------------------------------------------
-	function onWebPkiError(message, error, origin) {
+	function onWebPkiError(ex) {
 
 		// Unblock the UI.
 		$.unblockUI();
 
 		// Log the error to the browser console (for debugging purposes).
 		if (console) {
-			console.log('An error has occurred on the signature browser component: ' + message, error);
+			console.log('Web PKI error originated at ' + ex.origin + ': (' + ex.code + ') ' + ex.error);
 		}
 
 		// Show the message to the user. You might want to substitute the alert below with a more
 		// user-friendly UI component to show the error.
-		alert(message);
-
-
+		addAlert('danger', ex.userMessage);
 	}
 
 	return {
