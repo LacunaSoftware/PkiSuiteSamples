@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ConfigurationService } from '../../shared/configuration.service';
@@ -31,6 +31,7 @@ interface CompleteResponse {
   selector: 'app-xml-signature-rest-pki-core',
   imports: [DocumentPicker, RouterLink],
   templateUrl: './xml-signature-rest-pki-core.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './xml-signature-rest-pki-core.css',
 })
 export class XmlSignatureRestPkiCore implements OnInit {

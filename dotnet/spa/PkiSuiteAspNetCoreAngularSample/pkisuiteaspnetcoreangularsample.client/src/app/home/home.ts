@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConfigurationService } from '../shared/configuration.service';
 import { sampleTasks } from './sample-list';
@@ -7,6 +7,7 @@ import { sampleTasks } from './sample-list';
 @Component({
   selector: 'app-home',
   imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './home.html',
 })
 export class Home {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { DocumentPicker } from '../../shared/document-picker/document-picker';
@@ -29,6 +29,7 @@ interface CompleteResponse {
   selector: 'app-xml-nfe-signature-pki-sdk',
   imports: [DocumentPicker, RouterLink],
   templateUrl: './xml-nfe-signature-pki-sdk.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './xml-nfe-signature-pki-sdk.css',
 })
 export class XmlNfeSignaturePkiSdk implements OnInit {

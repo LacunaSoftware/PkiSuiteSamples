@@ -126,9 +126,9 @@ SPA_PROJECTS = {
 CHECK_ROUTE = re.compile(r"^/(home/)?(check|redirecttospa)", re.IGNORECASE)
 # The scripts of an index.html, and the relative imports of a JavaScript module: static
 # (`from "./chunk.js"`, `import "./chunk.js"`) and dynamic (`import("./chunk.js")`), as Angular's
-# build writes them.
+# build writes them. Angular 22 quotes them with backticks (import(`./chunk.js`)).
 SCRIPT_SRC = re.compile(r"""<script\b[^>]*\bsrc=["']([^"']+)["']""", re.IGNORECASE)
-JS_IMPORT = re.compile(r"""(?:\bfrom|\bimport)\s*\(?\s*["'](\.{1,2}/[^"']+\.m?js)["']""")
+JS_IMPORT = re.compile(r"""(?:\bfrom|\bimport)\s*\(?\s*["'`](\.{1,2}/[^"'`]+\.m?js)["'`]""")
 MAX_SCRIPTS = 500  # stop following imports after this many scripts
 IN_ACTIONS = os.environ.get("GITHUB_ACTIONS") == "true"
 
@@ -213,8 +213,9 @@ def check_page(opener, url, timeout, root_element=None):
 
 
 def route_pattern(path):
-    """A regex for a route declaration with this path, such as path:"pades-signature-pki-sdk"."""
-    return re.compile(r"""["']?\bpath["']?\s*:\s*["']""" + re.escape(path) + r"""["']""")
+    """A regex for a route declaration with this path, such as path:"pades-signature-pki-sdk", or
+    path:`pades-signature-pki-sdk` as Angular 22 writes it."""
+    return re.compile(r"""["']?\bpath["']?\s*:\s*["'`]""" + re.escape(path) + r"""["'`]""")
 
 
 def read_app_scripts(opener, home, timeout):

@@ -85,8 +85,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
-      # Publishing builds the Angular app too, so the .NET 10 SDK container needs Node.js 24. Copy
-      # it from its official image, as the php/plain job does with Composer.
+      # Publishing builds the Angular app too, so the .NET 10 SDK container needs Node.js 24.15 or
+      # later (Angular CLI 22's minimum; node:24 is the latest 24.x). Copy it from its official
+      # image, as the php/plain job does with Composer.
       - name: Start a .NET 10 SDK container with Node.js 24
         run: |
           docker create --name node node:24

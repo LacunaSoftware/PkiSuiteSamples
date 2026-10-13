@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ConfigurationService } from '../../shared/configuration.service';
@@ -36,6 +36,7 @@ interface CompleteResponse {
 @Component({
   selector: 'app-cades-signature-rest-pki-core',
   imports: [DocumentPicker, RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './cades-signature-rest-pki-core.html',
 })
 export class CadesSignatureRestPkiCore implements OnInit {
