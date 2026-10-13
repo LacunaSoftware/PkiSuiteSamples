@@ -15,7 +15,7 @@ const MAX_FILE_SIZE = 10485760; // 10MB
 
 // Get URL parameter "rc".
 $rc = $_GET['rc'];
-$certId = $_GET['certId'];
+$certId = isset($_GET['certId']) ? $_GET['certId'] : null;
 
 if (isset($_FILES['userfile'])) {
 
