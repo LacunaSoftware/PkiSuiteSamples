@@ -1934,14 +1934,15 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Adds a document timestamp to an uploaded PDF with Rest PKI Core's PDF stamp operation, using the Lacuna Test timestamp tier (production uses PKI Brazil). Server-only: no signature and no Web PKI.",
+    "description": "Adds a document timestamp to a PDF with Rest PKI Core and stores the timestamped PDF for download. It uses the Lacuna Test timestamp tier (for development only); production uses PKI Brazil, the tier of the \"Timestamp a PDF\" Demo, or the account's own tier, with an API key that has access to it. Server-only: no signature is made and Web PKI is not involved.",
     "product": "rest-pki-core",
     "language": "php",
     "framework": "php",
     "path": "php/plain/public/timestamp-pdf-rest-core/index.php",
     "related_files": [
       "php/plain/Util.php",
-      "php/plain/StorageMock.php"
+      "php/plain/StorageMock.php",
+      "php/plain/public/upload.php"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",
@@ -1956,7 +1957,7 @@
     "id": "timestamp-pdf-rest-pki-core",
     "title": "Timestamp a PDF with Rest PKI Core",
     "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
-    "description": "Adds a document timestamp to an uploaded PDF with Rest PKI Core's PDF stamp operation, using the Lacuna Test timestamp tier (production uses PKI Brazil). Server-only: no signature and no Web PKI.",
+    "description": "Adds a document timestamp to a PDF with Rest PKI Core and stores the timestamped PDF for download. It uses the Lacuna Test timestamp tier (for development only); production uses PKI Brazil, the tier of the \"Timestamp a PDF\" Demo, or the account's own tier, with an API key that has access to it. Server-only: no signature is made and Web PKI is not involved.",
     "product": "rest-pki-core",
     "language": "ruby",
     "framework": "rails",
@@ -1965,7 +1966,8 @@
       "ruby/rails/app/views/timestamp_pdf_rest_core/index.html.erb",
       "ruby/rails/app/controllers/concerns/rest_pki_core_client.rb",
       "ruby/rails/app/controllers/concerns/util.rb",
-      "ruby/rails/app/controllers/concerns/storage_mock.rb"
+      "ruby/rails/app/controllers/concerns/storage_mock.rb",
+      "ruby/rails/app/controllers/upload_controller.rb"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",
