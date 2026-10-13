@@ -87,6 +87,7 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-rest-pki", None),
         ("pades-signature-pki-express", None),
         ("list-certificates-web-pki", None),
+        ("timestamp-pdf-rest-pki-core", None),
     ],
     "php/plain": [
         ("pades-signature-rest-pki-core", None),
