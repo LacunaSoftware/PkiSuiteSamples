@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+
+   h2(class='ls-title') Timestamp a PDF with REST PKI Core
+   h5(class='ls-subtitle') Timestamp added successfully!
+      i(class='fas fa-check-circle text-success')
+
+   h3 Actions:
+   ul
+      li
+         a(href=`/download?fileId=${stampedPdf}`) Download the timestamped file
+      li
+         a(href='/') Back to home

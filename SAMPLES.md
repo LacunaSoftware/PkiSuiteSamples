@@ -151,6 +151,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 | Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
 |---|---|---|---|---|---|---|---|---|
 | **Timestamp a PDF with PKI Express**<br>`timestamp-pdf-pki-express` | PKI Express | `current` | — | — | [code](nodejs/expressmvc/routes/timestamp-pdf-express.js) | — | [Flask](python/flask/sample/views/timestamp_pdf_express.py) | — |
+| **Timestamp a PDF with Rest PKI Core**<br>`timestamp-pdf-rest-pki-core` | Rest PKI Core | `current` | — | — | [code](nodejs/expressmvc/routes/timestamp-pdf-core.js) | — | — | — |
 
 ## Sign a file with CMS/CAdES
 
