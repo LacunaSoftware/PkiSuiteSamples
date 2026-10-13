@@ -73,6 +73,7 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-rest-pki-core", None),
         ("authentication-pki-sdk", None),
         ("authentication-rest-pki-core", None),
+        ("timestamp-pdf-rest-pki-core", None),
     ],
     "java/springmvc": [
         ("pades-signature-rest-pki-core", None),

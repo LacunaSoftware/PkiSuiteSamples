@@ -1834,6 +1834,29 @@
     }
   },
   {
+    "id": "timestamp-pdf-rest-pki-core",
+    "title": "Timestamp a PDF with Rest PKI Core",
+    "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
+    "description": "Adds a document timestamp to a PDF with the Rest PKI Core .NET client's StampPdfAsync (POST api/pdf/stamp), using the Lacuna Test timestamp tier (production uses PKI Brazil or the account's own tier), and stores the stamped PDF for download. Server only: no signature and no Web PKI.",
+    "product": "rest-pki-core",
+    "language": "dotnet",
+    "framework": "aspnet-core-angular",
+    "path": "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Controllers/TimestampPdfRestPkiCoreController.cs",
+    "related_files": [
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/timestamp-pdf-rest-pki-core/timestamp-pdf-rest-pki-core.ts",
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client/src/app/samples/timestamp-pdf-rest-pki-core/timestamp-pdf-rest-pki-core.html",
+      "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server/Classes/Util.cs"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
+    "run": {
+      "cwd": "dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server",
+      "command": "dotnet run --launch-profile http",
+      "url": "http://localhost:4200/timestamp-pdf-rest-pki-core"
+    }
+  },
+  {
     "id": "cades-signature-pki-sdk",
     "title": "Sign a file with CAdES using PKI SDK",
     "title_pt": "Assinar um arquivo em CAdES com o PKI SDK",
