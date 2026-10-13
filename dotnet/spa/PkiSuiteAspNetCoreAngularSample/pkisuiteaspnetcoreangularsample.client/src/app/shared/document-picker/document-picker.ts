@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { errorMessage } from '../error-message';
 import { FilesService } from '../files.service';
 import { SampleDocument, sampleDocumentDescriptions } from '../sample-documents';
@@ -13,6 +13,7 @@ import { SampleDocument, sampleDocumentDescriptions } from '../sample-documents'
 @Component({
   selector: 'app-document-picker',
   templateUrl: './document-picker.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './document-picker.css',
 })
 export class DocumentPicker {

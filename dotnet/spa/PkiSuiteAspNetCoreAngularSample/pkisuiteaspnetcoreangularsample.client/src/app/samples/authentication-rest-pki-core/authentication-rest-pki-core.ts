@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -52,6 +52,7 @@ interface AuthenticatedCertificate {
 @Component({
   selector: 'app-authentication-rest-pki-core',
   imports: [FormsModule, RouterLink, DatePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './authentication-rest-pki-core.html',
 })
 export class AuthenticationRestPkiCore implements OnInit {

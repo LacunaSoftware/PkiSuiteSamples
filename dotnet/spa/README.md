@@ -1,6 +1,6 @@
 # ASP.NET Core + Angular sample (.NET 10)
 
-An ASP.NET Core 10 Web API with an Angular 21 front end, in the shape of Visual Studio's
+An ASP.NET Core 10 Web API with an Angular 22 front end, in the shape of Visual Studio's
 "Angular and ASP.NET Core" template. It shows **PKI SDK** and **Rest PKI Core** signatures,
 validation and authentication with **Web PKI**. Each sample is one API controller in
 `PkiSuiteAspNetCoreAngularSample.Server/Controllers/` plus one Angular folder in
@@ -33,7 +33,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 ## Run
 
-Requires the .NET 10 SDK and Node.js 24.
+Requires the .NET 10 SDK and Node.js 24.15 or later (Angular CLI 22 refuses older versions).
 
 ```bash
 cd PkiSuiteAspNetCoreAngularSample/pkisuiteaspnetcoreangularsample.client

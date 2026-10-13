@@ -1,6 +1,6 @@
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject, input, signal } from '@angular/core';
+import { Component, OnInit, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { DocumentPicker } from '../../shared/document-picker/document-picker';
@@ -74,6 +74,7 @@ interface ValidationItemModel {
 @Component({
   selector: 'app-validate-pades-signature-rest-pki-core',
   imports: [DatePipe, NgTemplateOutlet, RouterLink, DocumentPicker],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './validate-pades-signature-rest-pki-core.html',
 })
 export class ValidatePadesSignatureRestPkiCore implements OnInit {

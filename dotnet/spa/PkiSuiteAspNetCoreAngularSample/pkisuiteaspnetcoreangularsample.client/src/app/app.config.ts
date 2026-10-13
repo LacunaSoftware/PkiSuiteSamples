@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { ConfigurationService } from './shared/configuration.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     // withComponentInputBinding: route and query parameters (such as ?fileId=...) bind to the
     // component inputs of the same name.
     provideRouter(routes, withComponentInputBinding()),
