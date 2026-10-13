@@ -35,6 +35,7 @@ from .read_cert_jquery import blueprint as read_cert_jquery
 from .read_cert_select2 import blueprint as read_cert_select2
 from .rsa_web import blueprint as rsa_web
 from .timestamp_pdf_express import blueprint as timestamp_pdf_express
+from .timestamp_pdf_rest_core import blueprint as timestamp_pdf_rest_core
 from .upload import blueprint as upload
 from .xml_nfe_signature_rest import blueprint as xml_nfe_signature_rest
 from .xml_signature_rest import blueprint as xml_signature_rest
@@ -75,6 +76,7 @@ blueprints = {
     read_cert_select2,
     rsa_web,
     timestamp_pdf_express,
+    timestamp_pdf_rest_core,
     upload,
     xml_nfe_signature_rest,
     xml_signature_rest,

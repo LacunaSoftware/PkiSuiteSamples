@@ -1834,6 +1834,30 @@
     }
   },
   {
+    "id": "timestamp-pdf-rest-pki-core",
+    "title": "Timestamp a PDF with Rest PKI Core",
+    "title_pt": "Adicionar um carimbo de tempo a um PDF com o Rest PKI Core",
+    "description": "Server-only: uploads a PDF and asks Rest PKI Core to add a document timestamp to it, using the PKI Brazil timestamp tier, and stores the stamped PDF (returned inline, or downloaded from a temporary link). No signature is made and Web PKI is not involved. It calls PdfApi.api_pdf_stamp_post of restpki-ng-python-client on the ApiClient returned by the project's helper.",
+    "product": "rest-pki-core",
+    "language": "python",
+    "framework": "flask",
+    "path": "python/flask/sample/views/timestamp_pdf_rest_core.py",
+    "related_files": [
+      "python/flask/sample/templates/timestamp_pdf_rest_core/timestamp-info.html",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/storage_mock.py",
+      "python/flask/sample/views/upload.py"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/core/requesting-timestamps",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
+    "run": {
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/check-rest-pki-core-api-key/upload/timestamp-pdf"
+    }
+  },
+  {
     "id": "cades-signature-pki-sdk",
     "title": "Sign a file with CAdES using PKI SDK",
     "title_pt": "Assinar um arquivo em CAdES com o PKI SDK",

@@ -101,6 +101,7 @@ SMOKE_SAMPLES = {
     ],
     "python/flask": [
         ("pades-signature-rest-pki-core", NO_CORE_KEY),
+        ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
         ("pades-signature-rest-pki", None),
         ("validate-pades-signature-rest-pki", None),
         ("list-certificates-web-pki", None),
