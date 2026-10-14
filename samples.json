@@ -261,7 +261,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/express/PadesVisualElements.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -288,7 +288,7 @@
       "nodejs/expressmvc/public/PdfStamp.png"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -315,7 +315,7 @@
       "php/plain/public/pades-signature-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -345,7 +345,7 @@
       "python/flask/sample/views/server_files.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -373,7 +373,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
@@ -678,7 +678,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/express/PadesVisualElements.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -702,7 +702,7 @@
       "nodejs/expressmvc/public/PdfStamp.png"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -728,7 +728,7 @@
       "php/plain/public/batch-pades-signature-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -753,7 +753,7 @@
       "python/flask/sample/pades_visual_elements_express.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -778,7 +778,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
@@ -1020,7 +1020,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/config/PkiExpressProperties.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -1042,7 +1042,7 @@
       "nodejs/expressmvc/pades-visual-elements-express.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -1066,7 +1066,7 @@
       "php/plain/config.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -1091,7 +1091,7 @@
       "python/flask/sample/views/upload.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -1115,7 +1115,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
@@ -2047,7 +2047,7 @@
       "java/springmvc/src/main/resources/static/js/signature-complete-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -2072,7 +2072,7 @@
       "nodejs/expressmvc/public/javascripts/signature-complete-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -2098,7 +2098,7 @@
       "php/plain/public/cades-signature-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -2127,7 +2127,7 @@
       "python/flask/sample/views/server_files.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -2154,7 +2154,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
@@ -2399,7 +2399,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/api/model/express/BatchSignatureCompleteRequest.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -2421,7 +2421,7 @@
       "nodejs/expressmvc/public/javascripts/batch-signature-express-form.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -2446,7 +2446,7 @@
       "php/plain/public/batch-cades-signature-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -2470,7 +2470,7 @@
       "python/flask/sample/storage_mock.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -2494,7 +2494,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
@@ -2653,7 +2653,7 @@
       "nodejs/expressmvc/views/cades-server-key-express/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -2675,7 +2675,7 @@
       "php/plain/StorageMock.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -2699,7 +2699,7 @@
       "python/flask/sample/views/upload.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -2770,7 +2770,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/MergeServerFilesController.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -2797,7 +2797,7 @@
       "nodejs/expressmvc/public/CMSDataFile.pdf"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -2821,7 +2821,7 @@
       "python/flask/sample/views/merge_server_files.py"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/cades-signature",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -2899,7 +2899,7 @@
       "nodejs/expressmvc/public/SampleDocument.xml"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/xml-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3139,7 +3139,7 @@
       "nodejs/expressmvc/public/SampleDocument.xml"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/xml-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3267,7 +3267,7 @@
       "nodejs/expressmvc/public/SampleNFe.xml"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/xml-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -3293,7 +3293,7 @@
       "php/plain/public/xml-nfe-signature-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/xml-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -3501,7 +3501,7 @@
       "php/plain/public/xml-cod-signature-express/signCodehComplete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/xml-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -4247,7 +4247,7 @@
       "nodejs/expressmvc/views/check-pades-express/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/printer-friendly-version",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -4272,7 +4272,7 @@
       "python/flask/sample/templates/check_pades_express/index.html"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/python",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/printer-friendly-version",
     "demo_url": null,
     "run": {
       "cwd": "python/flask",
@@ -4487,7 +4487,7 @@
       "nodejs/expressmvc/views/check-cades-express/index.pug"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/printer-friendly-version",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -5567,7 +5567,7 @@
       "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/express/PadesVisualElements.java"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/java",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "java/springmvc",
@@ -5595,7 +5595,7 @@
       "nodejs/expressmvc/pades-visual-elements-express.js"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/nodejs",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
@@ -5624,7 +5624,7 @@
       "php/plain/public/receita-simples-express/complete.php"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/php/plain",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "php/plain",
@@ -5653,7 +5653,7 @@
       "ruby/rails/app/controllers/concerns/storage_mock.rb"
     ],
     "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/ruby/rails",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/pki-express/pades-signature",
     "demo_url": null,
     "run": {
       "cwd": "ruby/rails",
