@@ -3591,6 +3591,35 @@
     }
   },
   {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
+    "language": "php",
+    "framework": "php",
+    "path": "php/plain/public/xml-diploma-signature-rest/index.php",
+    "related_files": [
+      "php/plain/public/scripts/signature-form.js",
+      "php/plain/Util.php",
+      "php/plain/StorageMock.php",
+      "php/plain/public/xml-diploma-signature-rest/complete.php",
+      "php/plain/public/xml-diploma-signature-rest/signDadosRegistro.php",
+      "php/plain/public/xml-diploma-signature-rest/signDadosRegistroComplete.php",
+      "php/plain/public/xml-diploma-signature-rest/signDiploma.php",
+      "php/plain/public/xml-diploma-signature-rest/signDiplomaComplete.php",
+      "php/plain/resources/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/php/current",
+    "demo_url": null,
+    "run": {
+      "cwd": "php/plain",
+      "command": "composer install && composer start",
+      "url": "http://localhost:8000/check-rest-token.php?rc=xml-diploma-signature"
+    }
+  },
+  {
     "id": "validate-pades-signature-pki-sdk",
     "title": "Validate a signed PDF using PKI SDK",
     "title_pt": "Validar um PDF assinado com o PKI SDK",

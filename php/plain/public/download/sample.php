@@ -20,6 +20,7 @@ switch ($id) {
     case SampleDocs::SAMPLE_NFE:
     case SampleDocs::SAMPLE_XML:
     case SampleDocs::SAMPLE_COD_ENVELOPE:
+    case SampleDocs::SAMPLE_DIPLOMA:
         $sampleId = $id;
         break;
     default:

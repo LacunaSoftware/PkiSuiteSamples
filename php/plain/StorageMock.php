@@ -12,6 +12,7 @@ class SampleDocs
     const SAMPLE_NFE = 'SAMPLE_NFE';
     const SAMPLE_XML = 'SAMPLE_XML';
     const SAMPLE_COD_ENVELOPE = 'SAMPLE_COD_ENVELOPE';
+    const SAMPLE_DIPLOMA = 'SAMPLE_DIPLOMA';
 }
 
 class ServerFile
@@ -326,6 +327,8 @@ class StorageMock
                 return 'SampleDocument.xml';
             case SampleDocs::SAMPLE_COD_ENVELOPE:
                 return 'SampleCodEnvelope.xml';
+            case SampleDocs::SAMPLE_DIPLOMA:
+                return 'SampleDiploma.xml';
             default:
                 throw new \Exception('File not found');
         }
