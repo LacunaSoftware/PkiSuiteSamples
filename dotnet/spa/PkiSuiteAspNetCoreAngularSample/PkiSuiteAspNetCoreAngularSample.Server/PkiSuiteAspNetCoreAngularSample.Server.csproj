@@ -15,7 +15,7 @@
     <!-- PKI SDK: signatures, validation and certificate authentication on this server. -->
     <PackageReference Include="Lacuna.Pki" Version="2.22.7" />
     <!-- Rest PKI Core: Lacuna's cloud signature, validation and authentication API. -->
-    <PackageReference Include="Lacuna.RestPkiCore.Client" Version="5.0.0" />
+    <PackageReference Include="Lacuna.RestPkiCore.Client" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="10.0.12" />
   </ItemGroup>
 
