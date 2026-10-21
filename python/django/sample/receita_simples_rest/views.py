@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from storage_mock import create_app_data, MEDIA_STORAGE_PATH
 
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from pypdf import PdfReader, PdfWriter
 from reportlab.platypus.tables import Table
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, A4
@@ -102,10 +102,10 @@ def generate(request):
 
         # Add metadata
         fin = open(file_path, 'rb')
-        reader = PdfFileReader(fin)
-        writer = PdfFileWriter()
-        writer.appendPagesFromReader(reader)
-        writer.addMetadata(info)
+        reader = PdfReader(fin)
+        writer = PdfWriter()
+        writer.append_pages_from_reader(reader)
+        writer.add_metadata(info)
         fout = open(file_path, 'ab') 
         writer.write(fout)
         fin.close()
