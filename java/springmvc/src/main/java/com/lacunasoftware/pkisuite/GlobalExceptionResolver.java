@@ -2,7 +2,7 @@ package com.lacunasoftware.pkisuite;
 
 import com.lacunasoftware.pkisuite.api.model.ErrorModel;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
+import org.springframework.boot.webmvc.error.DefaultErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;

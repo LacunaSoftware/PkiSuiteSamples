@@ -100,10 +100,26 @@ been closed by then):
 
 Still to do:
 
-- Replacing `com.lowagie:itext:4.2.0` with `com.itextpdf:itextpdf:5.5.13.6` in the Java sample.
 - Committing a `package-lock.json` for `nodejs/expressmvc`. The project's `.gitignore` excludes it
   today.
 - The runtime upgrades.
+
+### 2026-10-21: oldest versions without known vulnerabilities
+
+Each project's resolved dependencies, transitive ones included, were checked against
+[OSV](https://osv.dev), which includes the GitHub advisories. Each vulnerable dependency was then
+raised to the oldest version that has no known advisory. `dotnet/mvc`, the `dotnet/spa` server
+and `ruby/rails` had none, so they did not change. Each changed project was built and run in
+Docker, and `scripts/ci/smoke-test.py` passed.
+
+| Project | Change | Left |
+|---|---|---|
+| `java/springmvc` | **Spring Boot 3.5.16 → 4.0.8**, in both build files. Spring Framework 6.2.19, the last open-source 6.2 release, has two advisories that only 7.0.9 fixes. Boot 4.0.8 still manages vulnerable Tomcat and Jackson, so the build files override them: Tomcat 11.0.25, Jackson 3.1.7 and Jackson 2.21.7. okio is pinned to 3.4.0 (it was 3.0.0, via okhttp under `cloudhub-client`). `com.lowagie:itext:4.2.0` is now `com.itextpdf:itextpdf:5.5.13.3`. For Boot 4: `spring-boot-starter-webmvc` and `spring-boot-starter-gson` replace the web starter and plain gson, Jackson 2 is declared for the webhook controller, `DefaultErrorAttributes` moved package, and the gson property is now `spring.http.converters.preferred-json-mapper` (also in `update-licenses.ps1`). | none |
+| `dotnet/spa` (client) | npm `overrides` pins vite to 8.3.3. Every stable `@angular/build` 22 pins vite 8.3.0. | none |
+| `nodejs/expressmvc` | express ^4.20.0, express-session ~1.18.2, lodash ^4.18.0, moment ^2.31.0, multer ^2.4.0, pdfkit ^0.12.2 and nodemon ^3.0.0. | Lacuna's clients: `request` (under `amplia-client` and `restpki-core-client`), axios 0.19 (under `restpki-client`) and `tmp` (under `pki-express`). Also `braces`, under nodemon's chokidar, which has no fixed release. |
+| `php/plain` | tcpdf floor ^6.8.0. | Guzzle 6 and psr7 1.x, required by `lacuna/amplia-client`. |
+| `python/flask` | Floors raised: Flask 3.1.3, Jinja2 3.1.6, Werkzeug 3.1.9, wheel 0.38.1 and certifi 2026.10.19. | `requests` 2.21.0, urllib3 1.24.3 and idna 2.8, pinned by `amplia-client` 1.0.0. |
+| `python/django` | Floors raised: Django 5.2.17, reportlab 3.6.13 and Werkzeug 3.1.9. **PyPDF2 replaced with pypdf** 6.19.0, because PyPDF2 is no longer maintained and its last release is vulnerable. The prescription sample now uses `PdfReader` and `PdfWriter`; PyPDF2 3.0 had already removed the old names. | none |
 
 ## How this was checked
 

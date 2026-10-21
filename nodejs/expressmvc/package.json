@@ -10,14 +10,14 @@
     "body-parser": "~1.20.6",
     "cloudhub-client": "^1.0.0",
     "debug": "~2.6.9",
-    "express": "^4.16.4",
-    "express-session": "~1.15.6",
+    "express": "^4.20.0",
+    "express-session": "~1.18.2",
     "flash": "~1.1.0",
-    "lodash": "^4.17.15",
-    "moment": "^2.22.2",
+    "lodash": "^4.18.0",
+    "moment": "^2.31.0",
     "morgan": "~1.12.1",
-    "multer": "^2.3.0",
-    "pdfkit": "^0.11.0",
+    "multer": "^2.4.0",
+    "pdfkit": "^0.12.2",
     "pki-express": "^1.13.1",
     "pug": "~3.0.3",
     "restpki-client": "^2.3.8",
@@ -25,6 +25,6 @@
     "uuid": "^11.1.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^3.0.0"
   }
 }

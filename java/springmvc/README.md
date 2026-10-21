@@ -57,7 +57,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 ## Run
 
-Requires JDK 21 or later. The project uses Spring Boot 3.5 and includes a Gradle 8.14 wrapper:
+Requires JDK 21 or later. The project uses Spring Boot 4.0 and includes a Gradle 8.14 wrapper:
 
 ```bash
 ./gradlew bootRun

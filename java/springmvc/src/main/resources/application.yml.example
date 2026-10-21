@@ -17,7 +17,7 @@ spring:
   # Active profile; 'dev' loads application-dev.yml.
   profiles.active: 'dev'
   # JSON mapper used by the REST controllers.
-  mvc.converters.preferred-json-mapper: gson
+  http.converters.preferred-json-mapper: gson
   # Maximum size of an uploaded file and of a whole multipart request.
   servlet.multipart:
     max-file-size: 10MB
