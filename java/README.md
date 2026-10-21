@@ -9,7 +9,7 @@ Default sample
 --------------
 
 A sample for a Java web application using the Spring Boot framework can be found in the folder
-[springmvc](springmvc/). The sample uses Spring Boot 3.5 to provide a self-contained web
+[springmvc](springmvc/). The sample uses Spring Boot 4.0 to provide a self-contained web
 application, not requiring a web server installed. The only requirement is **having JDK 21 or
 later installed**.
 
