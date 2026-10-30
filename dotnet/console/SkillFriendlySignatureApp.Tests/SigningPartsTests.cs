@@ -105,4 +105,53 @@ public class PkiSdkLicenseTests {
 
 		Assert.Equal(ErrorCodes.InvalidPkiSdkLicense, Assert.Throws<AppException>(() => PkiSdkLicense.Load(configuration)).Code);
 	}
+
+	[Theory]
+	[InlineData("not a license")]
+	[InlineData("<NotALicense />")]
+	public void A_malformed_license_is_an_invalid_license_error(string content) {
+		var configuration = new ConfigurationBuilder()
+			.AddInMemoryCollection(new Dictionary<string, string?> { ["PkiSdk:License"] = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(content)) })
+			.Build();
+
+		var error = Assert.Throws<AppException>(() => PkiSdkLicense.Load(configuration));
+		Assert.Equal(ErrorCodes.InvalidPkiSdkLicense, error.Code);
+		Assert.Equal(ExitCodes.Configuration, error.ExitCode);
+	}
+}
+
+public class SignerGatewayTests {
+
+	[Theory]
+	[InlineData(null)]
+	[InlineData("  ")]
+	[InlineData("YOUR_SIGNER_API_KEY")]
+	public void Create_without_an_api_key_is_a_configuration_error(string? apiKey) {
+		var error = Assert.Throws<AppException>(() => SignerGateway.Create(Configuration(apiKey, null)));
+
+		Assert.Equal(ErrorCodes.MissingSignerApiKey, error.Code);
+		Assert.Equal(ExitCodes.Configuration, error.ExitCode);
+	}
+
+	[Theory]
+	[InlineData("dropsigner.com")]
+	[InlineData("ftp://www.dropsigner.com")]
+	public void Create_with_an_invalid_endpoint_is_a_configuration_error(string endpoint) {
+		var error = Assert.Throws<AppException>(() => SignerGateway.Create(Configuration("app|key", endpoint)));
+
+		Assert.Equal(ErrorCodes.InvalidSignerEndpoint, error.Code);
+		Assert.Equal(ExitCodes.Configuration, error.ExitCode);
+	}
+
+	[Theory]
+	[InlineData(null)]
+	[InlineData("https://signer-lac.azurewebsites.net")]
+	public void Create_accepts_the_default_or_an_absolute_endpoint(string? endpoint) {
+		Assert.NotNull(SignerGateway.Create(Configuration("app|key", endpoint)));
+	}
+
+	private static IConfiguration Configuration(string? apiKey, string? endpoint)
+		=> new ConfigurationBuilder()
+			.AddInMemoryCollection(new Dictionary<string, string?> { ["Signer:ApiKey"] = apiKey, ["Signer:Endpoint"] = endpoint })
+			.Build();
 }

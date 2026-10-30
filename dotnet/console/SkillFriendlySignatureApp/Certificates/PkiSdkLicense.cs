@@ -21,7 +21,7 @@ public static class PkiSdkLicense {
 			} catch (FormatException) {
 				throw new AppException(ErrorCodes.InvalidPkiSdkLicense, "PkiSdk:License is not valid Base64.", ExitCodes.Configuration);
 			}
-			LoadBase64Content(license);
+			LoadFrom("PkiSdk:License", () => LoadBase64Content(license));
 			return;
 		}
 
@@ -29,7 +29,20 @@ public static class PkiSdkLicense {
 		if (!File.Exists(path)) {
 			throw new AppException(ErrorCodes.MissingPkiSdkLicense, $"No PKI SDK license: set PkiSdk:License (or the PkiSdk__License environment variable) to a Base64 license, or put {FileName} next to the executable.", ExitCodes.Configuration);
 		}
-		PkiConfig.LoadLicense(path);
+		LoadFrom(path, () => PkiConfig.LoadLicense(path));
+	}
+
+	/// <summary>
+	/// PKI SDK decodes the license before it validates it, so a malformed license throws a format,
+	/// XML or stream exception rather than a LicenseException. Report all of them as an invalid
+	/// license, naming where it came from.
+	/// </summary>
+	private static void LoadFrom(string source, Action load) {
+		try {
+			load();
+		} catch (Exception ex) {
+			throw new AppException(ErrorCodes.InvalidPkiSdkLicense, $"Could not load the PKI SDK license from {source}: {ex.Message}", ExitCodes.Configuration);
+		}
 	}
 
 	/// <summary>
@@ -48,7 +61,11 @@ public static class PkiSdkLicense {
 			File.WriteAllBytes(path, license);
 			PkiConfig.LoadLicense(path);
 		} finally {
-			File.Delete(path);
+			try {
+				File.Delete(path);
+			} catch (IOException) {
+				// A leftover temporary file must not hide the license error, if there is one.
+			}
 		}
 	}
 }

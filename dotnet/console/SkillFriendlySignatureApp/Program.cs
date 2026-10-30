@@ -5,8 +5,8 @@ using SkillFriendlySignatureApp.Certificates;
 using SkillFriendlySignatureApp.Signer;
 
 // Settings: appsettings.json next to the executable, then user secrets, then environment
-// variables (Signer__ApiKey, Signer__Endpoint, PkiSdk__License). Never command-line flags, so an
-// agent that runs this app never sees the API key.
+// variables (Signer__ApiKey, Signer__Endpoint, PkiSdk__License). Never command-line flags, so the
+// API key never appears in the commands an agent writes, or in its transcript.
 var configuration = new ConfigurationBuilder()
 	.SetBasePath(AppContext.BaseDirectory)
 	.AddJsonFile("appsettings.json", optional: true)

@@ -978,6 +978,8 @@
       "dotnet/console/SkillFriendlySignatureApp/Certificates/LocalCertificates.cs",
       "dotnet/console/SkillFriendlySignatureApp/Certificates/PkiSdkLicense.cs",
       "dotnet/console/SkillFriendlySignatureApp/Cli.cs",
+      "dotnet/console/SkillFriendlySignatureApp/AppException.cs",
+      "dotnet/console/SkillFriendlySignatureApp/Participant.cs",
       "dotnet/console/SkillFriendlySignatureApp/Program.cs",
       "dotnet/console/SkillFriendlySignatureApp/skill/SKILL.md"
     ],

@@ -98,9 +98,10 @@ the Angular folder `src/app/samples/<sample id>/`.
 `dotnet/console` holds one sample, `sign-pending-documents-signer`: a CLI that lists a
 participant's pending documents on Signer (DropSigner by default) and signs them with a
 certificate from the Windows store through PKI SDK. A coding agent calls it through the Claude
-Code skill in `skill/SKILL.md`, which a client copies into their own `.claude/skills/`. It has
-no URL and no CI job, and its xUnit tests run with `dotnet test --solution
-SkillFriendlySignatureApp.slnx` from `dotnet/console`
+Code skill in `skill/SKILL.md`, which a client copies to
+`.claude/skills/sign-pending-documents/` in their project. It has no URL. Its xUnit tests run
+with `dotnet test --solution SkillFriendlySignatureApp.slnx` from `dotnet/console`, and in CI
+through `.github/workflows/test-console.yml`
 ([ADR 0002](docs/adr/0002-console-project-for-agent-driven-signing.md)).
 
 `java/springmvc` needs JDK 21 or later. `mvn spring-boot:run` runs it too: `pom.xml` and
@@ -131,7 +132,8 @@ Credentials the apps read (the files `update-licenses.ps1` rewrites):
 - **PKI SDK / PKI Express** license: `LacunaPkiLicense.config`. For PKI SDK it sits next to the
   app: the MVC app checks for it in `bin/`, and the ASP.NET Core app loads it from the content
   root in `Program.cs`. The console app loads it from the folder of the executable, unless
-  `PkiSdk:License` (`PkiSdk__License`) holds a Base64 license. PKI Express must be installed and activated with it once per machine:
+  `PkiSdk:License` (`PkiSdk__License`) holds a Base64 license. PKI Express must be installed and
+  activated with it once per machine:
   `sudo pkie activate LacunaPkiLicense.config`, or `pkiemgr.exe` on Windows.
 
 ## 4. Which product to use
@@ -238,7 +240,8 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
   (`.github/workflows/validate-catalog.yml`).
 
 - `.github/workflows/build-samples.yml` builds and starts each web project a pull request
-  touches (all of them on `master` and weekly; never `dotnet/console`), and `scripts/ci/smoke-test.py` checks its home page and
+  touches (all of them on `master` and weekly; never `dotnet/console`, whose tests run in
+  `.github/workflows/test-console.yml`), and `scripts/ci/smoke-test.py` checks its home page and
   the catalog pages listed in that script's `SMOKE_SAMPLES`.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the

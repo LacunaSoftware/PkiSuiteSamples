@@ -24,8 +24,10 @@ public interface ISignerGateway {
 	/// <summary>POST /api/documents/keys/{key}/signature/certificate</summary>
 	Task<StartSignatureResponse> StartPublicSignatureAsync(string key, PublicStartSignatureRequest request);
 
-	/// <summary>POST /api/documents/keys/{key}/signature</summary>
-	Task CompletePublicSignatureAsync(string key, CompleteSignatureRequest request);
+	/// <summary>
+	/// POST /api/documents/keys/{key}/signature. Success is false when Signer refused the signature.
+	/// </summary>
+	Task<CompleteSignatureResponse> CompletePublicSignatureAsync(string key, CompleteSignatureRequest request);
 }
 
 public class SignerGateway(SignerClient client) : ISignerGateway {
@@ -36,12 +38,18 @@ public class SignerGateway(SignerClient client) : ISignerGateway {
 	/// Returns a gateway authenticated with Signer:ApiKey on Signer:Endpoint (DropSigner by default).
 	/// </summary>
 	public static SignerGateway Create(IConfiguration configuration) {
-		var apiKey = configuration["Signer:ApiKey"];
-		if (string.IsNullOrWhiteSpace(apiKey) || apiKey.StartsWith("YOUR_", StringComparison.Ordinal)) {
+		var apiKey = configuration["Signer:ApiKey"]?.Trim();
+		if (string.IsNullOrEmpty(apiKey) || apiKey.StartsWith("YOUR_", StringComparison.Ordinal)) {
 			throw new AppException(ErrorCodes.MissingSignerApiKey, "The Signer API key is not set. Run `dotnet user-secrets set Signer:ApiKey \"<app name>|<key>\"` in the project folder, or set the Signer__ApiKey environment variable.", ExitCodes.Configuration);
 		}
 		var endpoint = configuration["Signer:Endpoint"];
-		return new SignerGateway(new SignerClient(string.IsNullOrWhiteSpace(endpoint) ? DefaultEndpoint : endpoint, apiKey));
+		if (string.IsNullOrWhiteSpace(endpoint)) {
+			endpoint = DefaultEndpoint;
+		}
+		if (!Uri.TryCreate(endpoint, UriKind.Absolute, out var endpointUri) || (endpointUri.Scheme != Uri.UriSchemeHttps && endpointUri.Scheme != Uri.UriSchemeHttp)) {
+			throw new AppException(ErrorCodes.InvalidSignerEndpoint, $"Signer:Endpoint is not an absolute URL, such as {DefaultEndpoint}: '{endpoint}'.", ExitCodes.Configuration);
+		}
+		return new SignerGateway(new SignerClient(endpoint, apiKey));
 	}
 
 	public Task<PaginatedSearchResponse<DocumentListModel>> ListDocumentsAsync(DocumentListParameters parameters)
@@ -56,6 +64,6 @@ public class SignerGateway(SignerClient client) : ISignerGateway {
 	public Task<StartSignatureResponse> StartPublicSignatureAsync(string key, PublicStartSignatureRequest request)
 		=> client.StartPublicSignatureAsync(key, request);
 
-	public Task CompletePublicSignatureAsync(string key, CompleteSignatureRequest request)
+	public Task<CompleteSignatureResponse> CompletePublicSignatureAsync(string key, CompleteSignatureRequest request)
 		=> client.CompletePublicSignatureAsync(key, request);
 }

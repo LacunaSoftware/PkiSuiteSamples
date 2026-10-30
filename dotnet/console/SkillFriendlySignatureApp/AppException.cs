@@ -19,19 +19,28 @@ public static class ExitCodes {
 	public const int InvalidArguments = 2;
 
 	/// <summary>
-	/// A missing Signer API key or an invalid PKI SDK license.
+	/// A missing or refused Signer API key, an invalid Signer endpoint, or a missing or invalid
+	/// PKI SDK license.
 	/// </summary>
 	public const int Configuration = 3;
 
 	/// <summary>
-	/// The certificate was not found in the store, or the store is not available on this OS.
+	/// No usable certificate with that thumbprint (missing, expired, or without a private key or
+	/// CPF), or the store is not available on this OS.
 	/// </summary>
 	public const int Certificate = 4;
 
 	/// <summary>
-	/// Signer answered with an error, or could not be reached.
+	/// Signer answered with an error, or could not be reached. Only from `list`: `sign` reports
+	/// Signer errors per document and exits with SomeDocumentsFailed.
 	/// </summary>
 	public const int Signer = 5;
+
+	/// <summary>
+	/// The user canceled the command (Ctrl+C). `sign` still prints its results: it stops between
+	/// documents, never in the middle of one.
+	/// </summary>
+	public const int Canceled = 6;
 
 	public const int Unexpected = 10;
 }
@@ -45,6 +54,8 @@ public static class ErrorCodes {
 	public const string InvalidCpf = "InvalidCpf";
 	public const string InvalidEmail = "InvalidEmail";
 	public const string MissingSignerApiKey = "MissingSignerApiKey";
+	public const string InvalidSignerApiKey = "InvalidSignerApiKey";
+	public const string InvalidSignerEndpoint = "InvalidSignerEndpoint";
 	public const string MissingPkiSdkLicense = "MissingPkiSdkLicense";
 	public const string InvalidPkiSdkLicense = "InvalidPkiSdkLicense";
 	public const string UnsupportedPlatform = "UnsupportedPlatform";
@@ -52,8 +63,13 @@ public static class ErrorCodes {
 	public const string NotPending = "NotPending";
 	public const string InvalidActionUrl = "InvalidActionUrl";
 	public const string CertificateRejected = "CertificateRejected";
+	public const string SignatureRejected = "SignatureRejected";
+	public const string PrivateKeyUnavailable = "PrivateKeyUnavailable";
 	public const string UnsupportedDigestAlgorithm = "UnsupportedDigestAlgorithm";
+	public const string OutcomeUnknown = "OutcomeUnknown";
 	public const string SignerUnavailable = "SignerUnavailable";
+	public const string SignerError = "SignerError";
+	public const string Canceled = "Canceled";
 	public const string Unexpected = "Unexpected";
 }
 

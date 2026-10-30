@@ -16,8 +16,9 @@ import subprocess
 import sys
 
 # One job per project in .github/workflows/build-samples.yml. dotnet/console is left out on
-# purpose: CI has no Signer API key and no Windows certificate store to run it with (see
-# docs/adr/0002-console-project-for-agent-driven-signing.md), so changes there select nothing.
+# purpose: it is a console app with no URL to smoke-test, and .github/workflows/test-console.yml
+# runs its tests instead (see docs/adr/0002-console-project-for-agent-driven-signing.md), so
+# changes there select nothing here.
 PROJECTS = [
     "dotnet/mvc",
     "dotnet/spa",

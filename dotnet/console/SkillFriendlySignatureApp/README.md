@@ -3,10 +3,11 @@
 A command-line app that lists the documents pending signature for a participant on **Lacuna
 Signer** (DropSigner by default) and signs them with a certificate from the Windows certificate
 store, through **PKI SDK**. It is built to be called by a coding agent: it prints JSON, never
-prompts, and ships a Claude Code skill ([`skill/SKILL.md`](skill/SKILL.md)) that drives it.
+prompts on the console (a smart card driver may still show its own PIN dialog), and ships a
+Claude Code skill ([`skill/SKILL.md`](skill/SKILL.md)) that drives it.
 
-It differs from the other projects in this repository: it is a console app (no URL), CI does not
-build it, and it runs on Windows only. See
+It differs from the other projects in this repository: it is a console app (no URL), CI runs its
+tests but does not start it, and `certs` and `sign` run on Windows only. See
 [ADR 0002](../../../docs/adr/0002-console-project-for-agent-driven-signing.md).
 
 ## Samples in this project
@@ -67,10 +68,20 @@ dotnet run -- --help
 |---|---|
 | `certs` | Certificates in `CurrentUser\My` with a private key, valid now, carrying a CPF |
 | `list --cpf <cpf>` / `list --email <email>` | The participant's pending documents, with their ids |
-| `sign --thumbprint <t> --id <id>... [--email <e>]` | One result per document: `signed`, or `failed` with the error |
+| `sign --thumbprint <t> --id <id>... [--email <e>]` | One result per document: `signed`, or `failed`, `unknown` or `notAttempted` with the error |
 
-Errors go to stderr as `{"error":{"code","message"}}`. Exit codes: 0 success, 1 some documents
-failed, 2 invalid arguments, 3 configuration, 4 certificate, 5 Signer error.
+Errors go to stderr as `{"error":{"code","message"}}`. Exit codes: 0 success, 1 not every
+document was signed, 2 invalid arguments, 3 configuration, 4 certificate, 5 Signer error (from
+`list`; `sign` reports Signer errors per document), 6 canceled, 10 unexpected error.
+
+`sign` accounts for every document, because a signature cannot be undone:
+
+- **`unknown`**: Signer did not answer the last step (a timeout or a dropped connection), and
+  asking again could not confirm that the document was signed. Run `list` again: the document
+  is signed if it is no longer pending.
+- **`notAttempted`**: Ctrl+C stops between documents, never in the middle of one, and still
+  prints the results. An error that every document would hit, such as a refused API key or a
+  wrong PIN, also stops the run, so that a smart card does not lock after a few wrong PINs.
 
 ## Use it from Claude Code
 
@@ -94,6 +105,8 @@ dotnet test --solution SkillFriendlySignatureApp.slnx
 ```
 
 The unit and command-line contract tests use an in-memory Signer and `Pierre de Fermat.pfx`.
-`LiveSandboxTests` run against the Signer sandbox only when `Signer__ApiKey` holds a sandbox API
-key and the Windows store has a Lacuna test certificate (issued by *Lacuna CA Test v7*, with a
+CI runs them on every pull request that touches `dotnet/console`
+(`.github/workflows/test-console.yml`). `LiveSandboxTests` run against the Signer sandbox, on
+Windows, only when `Signer__ApiKey` is set (to a sandbox API key: the tests do not check) and the
+Windows store has a Lacuna test certificate (issued by *Lacuna CA Test v7*, with a
 CPF), or `SkillSignatureTests__Thumbprint` names one. They create documents there and leave them.

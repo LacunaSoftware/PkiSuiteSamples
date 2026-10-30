@@ -21,7 +21,7 @@ public static class CliRunner {
 	/// without an API key; without a certificate source, Pierre de Fermat's PFX stands in for the
 	/// Windows store.
 	/// </summary>
-	public static async Task<CliRun> RunAsync(string[] args, ISignerGateway? signer = null, ICertificateSource? certificates = null, DateTimeOffset? now = null) {
+	public static async Task<CliRun> RunAsync(string[] args, ISignerGateway? signer = null, ICertificateSource? certificates = null, DateTimeOffset? now = null, CancellationToken? cancellationToken = null) {
 		var output = new StringWriter();
 		var error = new StringWriter();
 		var services = new CliServices(
@@ -31,7 +31,7 @@ public static class CliRunner {
 			() => certificates ?? PfxCertificateSource.Pierre(),
 			new FixedTimeProvider(now ?? TestCertificates.WhilePierreIsValid())
 		);
-		var exitCode = await Cli.RunAsync(args, services, TestContext.Current.CancellationToken);
+		var exitCode = await Cli.RunAsync(args, services, cancellationToken ?? TestContext.Current.CancellationToken);
 		return new CliRun(exitCode, output.ToString(), error.ToString());
 	}
 }

@@ -12,9 +12,12 @@ namespace SkillFriendlySignatureApp.Tests;
 /// <summary>
 /// End-to-end runs against the Signer sandbox, always the sandbox: production DropSigner refuses
 /// Lacuna test certificates, and these tests create documents. They are skipped unless:
-///   - Signer__ApiKey holds an API key of the sandbox, and
+///   - Signer__ApiKey is set. It must be a sandbox key: the tests do not check, and a production
+///     key fails against the sandbox;
+///   - the OS is Windows; and
 ///   - the Windows store has a Lacuna test certificate (issued by "Lacuna CA Test v7") with a
-///     private key and a CPF, or SkillSignatureTests__Thumbprint names a certificate to use.
+///     private key and a CPF, or SkillSignatureTests__Thumbprint names a usable certificate (hex,
+///     spaces allowed).
 /// The documents they create are left on the sandbox: a signed document cannot be deleted.
 /// </summary>
 public class LiveSandboxTests {

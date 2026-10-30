@@ -2,6 +2,6 @@
 .vs/
 bin/
 obj/
-# dotnet publish -o out (see SkillFriendlySignatureApp/README.md)
+# Local publish output (dotnet publish -o out)
 out/
 *.user

@@ -65,6 +65,28 @@ public class PendingDocumentsTests {
 	}
 
 	[Fact]
+	public void A_sign_rule_is_not_pending_for_a_user_who_refused() {
+		var document = Document("Contract", SignRuleAction(RuleUser(Cpf, null, refused: true), RuleUser(OtherCpf, null)));
+
+		Assert.Null(PendingDocuments.FindPendingAction(document, ByCpf));
+	}
+
+	[Fact]
+	public void HasSigned_reads_a_completed_signer_action_or_a_signed_rule_user() {
+		var pendingAction = SignerAction(Cpf, null);
+		var completedAction = SignerAction(Cpf, null, ActionStatus.Completed);
+		var rule = SignRuleAction(RuleUser(Cpf, null, signed: true), RuleUser(OtherCpf, null));
+		var otherRule = SignRuleAction(RuleUser(Cpf, null), RuleUser(OtherCpf, null, signed: true));
+		var document = Document("Contract", pendingAction, completedAction, rule, otherRule);
+
+		Assert.False(PendingDocuments.HasSigned(document, pendingAction.Id, ByCpf));
+		Assert.True(PendingDocuments.HasSigned(document, completedAction.Id, ByCpf));
+		Assert.True(PendingDocuments.HasSigned(document, rule.Id, ByCpf));
+		Assert.False(PendingDocuments.HasSigned(document, otherRule.Id, ByCpf));
+		Assert.False(PendingDocuments.HasSigned(document, Guid.NewGuid(), ByCpf));
+	}
+
+	[Fact]
 	public void A_participant_known_by_email_finds_an_action_without_cpf() {
 		var document = Document("Contract", SignerAction(null, "pierre@example.com"));
 

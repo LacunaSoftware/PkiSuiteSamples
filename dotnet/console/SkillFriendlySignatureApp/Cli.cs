@@ -1,4 +1,5 @@
 using System.CommandLine;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -27,14 +28,14 @@ public record CliServices(
 /// <summary>
 /// The command line contract an agent relies on: results as JSON on stdout, errors as
 /// {"error":{"code","message"}} on stderr, an exit code per kind of failure (ExitCodes), and no
-/// prompts. Only --help prints plain text.
+/// prompts on the console. Only --help and --version print plain text.
 /// </summary>
 public static class Cli {
 
 	private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web) {
 		WriteIndented = true,
 		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-		// Keep accented names readable ("Revisão", not "Revisão").
+		// Keep accented names readable ("Revisão", not "Revis\u00e3o").
 		Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 		Converters = { new JsonStringEnumConverter() },
 	};
@@ -55,6 +56,10 @@ public static class Cli {
 			Output = services.Output,
 			Error = services.Error,
 			EnableDefaultExceptionHandler = false,
+			// On Ctrl+C, give the command time to finish the document it is signing and print its
+			// results. The 2-second default would end the process in the middle of a signature
+			// (up to four Signer calls, and maybe a PIN prompt) and print nothing.
+			ProcessTerminationTimeout = TimeSpan.FromMinutes(5),
 		}, cancellationToken);
 	}
 
@@ -79,9 +84,16 @@ public static class Cli {
 	/// </summary>
 	public static (string Code, string Message, int ExitCode) Describe(Exception ex) => ex switch {
 		AppException app => (app.Code, app.Message, app.ExitCode),
-		// Signer's own error code, such as CpfMismatch or DocumentNotFound.
-		SignerApiException api => (api.Code.ToString(), api.ErrorMessage ?? api.Message, ExitCodes.Signer),
-		RestException or HttpRequestException or TaskCanceledException => (ErrorCodes.SignerUnavailable, $"Could not reach Signer: {ex.Message}", ExitCodes.Signer),
+		// Signer's own error code, such as CpfMismatch or DocumentNotFound, also one this client
+		// version does not know.
+		SignerApiException api => (api.CodeStr ?? api.Code.ToString(), api.ErrorMessage ?? api.Message, ExitCodes.Signer),
+		RestErrorException { StatusCode: HttpStatusCode.Unauthorized } => (ErrorCodes.InvalidSignerApiKey, "Signer refused the API key. Check Signer:ApiKey, and that Signer:Endpoint is the Signer instance that issued it.", ExitCodes.Configuration),
+		// Lacuna.RestClient turns its own timeout into a RestUnreachableException too.
+		RestUnreachableException unreachable => (ErrorCodes.SignerUnavailable, $"Could not reach Signer: {unreachable.InnerException?.Message ?? unreachable.Message}", ExitCodes.Signer),
+		HttpRequestException => (ErrorCodes.SignerUnavailable, $"Could not reach Signer: {ex.Message}", ExitCodes.Signer),
+		// Signer answered with an HTTP error that has no Signer error code.
+		RestException => (ErrorCodes.SignerError, ex.Message, ExitCodes.Signer),
+		OperationCanceledException => (ErrorCodes.Canceled, "The command was canceled.", ExitCodes.Canceled),
 		LicenseException => (ErrorCodes.InvalidPkiSdkLicense, $"PKI SDK license problem: {ex.Message}", ExitCodes.Configuration),
 		_ => (ErrorCodes.Unexpected, ex.ToString(), ExitCodes.Unexpected),
 	};

@@ -13,8 +13,8 @@
     "ApiKey": "YOUR_SIGNER_API_KEY"
   },
   "PkiSdk": {
-    // Optional. Base64 PKI SDK license. When empty, the app loads LacunaPkiLicense.config from
-    // the folder of the executable: the trial license that update-licenses.ps1 rotates.
-    "License": "YOUR_BASE64_PKI_SDK_LICENSE"
+    // Optional. Base64 PKI SDK license. Leave it empty to load LacunaPkiLicense.config from the
+    // folder of the executable: the trial license that update-licenses.ps1 rotates.
+    "License": ""
   }
 }

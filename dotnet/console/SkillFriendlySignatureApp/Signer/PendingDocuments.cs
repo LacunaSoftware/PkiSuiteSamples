@@ -90,4 +90,17 @@ public static class PendingDocuments {
 		}
 		return null;
 	}
+
+	/// <summary>
+	/// Whether the participant has signed the given flow action: a signer action is completed, or
+	/// the participant's user in a sign rule has a signature date.
+	/// </summary>
+	public static bool HasSigned(DocumentModel document, Guid flowActionId, Participant participant) {
+		var action = document.FlowActions?.FirstOrDefault(a => a.Id == flowActionId);
+		return action?.Type switch {
+			FlowActionType.Signer => action.Status == ActionStatus.Completed,
+			FlowActionType.SignRule => action.SignRuleUsers?.Any(u => u.SignatureDate != null && participant.Matches(u.Identifier, u.Email)) == true,
+			_ => false,
+		};
+	}
 }
