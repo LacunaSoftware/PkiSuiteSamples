@@ -1,0 +1,7 @@
+# Visual Studio and build output
+.vs/
+bin/
+obj/
+# dotnet publish -o out (see SkillFriendlySignatureApp/README.md)
+out/
+*.user

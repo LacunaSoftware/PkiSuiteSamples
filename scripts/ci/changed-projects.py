@@ -15,7 +15,9 @@ import json
 import subprocess
 import sys
 
-# One job per project in .github/workflows/build-samples.yml.
+# One job per project in .github/workflows/build-samples.yml. dotnet/console is left out on
+# purpose: CI has no Signer API key and no Windows certificate store to run it with (see
+# docs/adr/0002-console-project-for-agent-driven-signing.md), so changes there select nothing.
 PROJECTS = [
     "dotnet/mvc",
     "dotnet/spa",

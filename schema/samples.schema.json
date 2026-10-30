@@ -43,7 +43,7 @@
       },
       "framework": {
         "type": "string",
-        "enum": ["aspnet-mvc", "aspnet-core-angular", "spring-boot", "express", "php", "flask", "django", "rails"]
+        "enum": ["aspnet-mvc", "aspnet-core-angular", "console", "spring-boot", "express", "php", "flask", "django", "rails"]
       },
       "path": {
         "description": "Repo-relative path, with forward slashes, to the main entry file (controller, route module or page).",
@@ -87,8 +87,8 @@
             "minLength": 3
           },
           "url": {
-            "description": "URL to open once the project is running.",
-            "type": "string",
+            "description": "URL to open once the project is running, or null for a console project.",
+            "type": ["string", "null"],
             "pattern": "^https?://localhost:[0-9]+/"
           }
         }
