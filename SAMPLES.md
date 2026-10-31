@@ -17,7 +17,6 @@ Every sample in this repository, grouped by task, with one column per language. 
 - [Sign a PDF (PAdES)](#sign-a-pdf-pades)
 - [Sign a PDF without browser access to Rest PKI](#sign-a-pdf-without-browser-access-to-rest-pki)
 - [Sign multiple PDFs](#sign-multiple-pdfs)
-- [Sign your pending Signer documents](#sign-your-pending-signer-documents)
 - [Sign a PDF with a server key](#sign-a-pdf-with-a-server-key)
 - [Sign a PDF with a cloud certificate (CloudHub)](#sign-a-pdf-with-a-cloud-certificate-cloudhub)
 - [Sign a PDF with a cloud certificate (OAuth flow)](#sign-a-pdf-with-a-cloud-certificate-oauth-flow)
@@ -61,7 +60,6 @@ Every sample in this repository, grouped by task, with one column per language. 
 |---|---|---|---|
 | .NET / ASP.NET MVC | [`dotnet/mvc`](dotnet/mvc) | `Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)` | http://localhost:54123/ |
 | .NET / ASP.NET Core + Angular | [`dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server`](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server) | `dotnet run --launch-profile http` | http://localhost:4200/ |
-| .NET / Console | [`dotnet/console/SkillFriendlySignatureApp`](dotnet/console/SkillFriendlySignatureApp) | `dotnet run -- certs` | (console) |
 | Java / Spring Boot | [`java/springmvc`](java/springmvc) | `./gradlew bootRun` | http://localhost:60695/ |
 | Node.js / Express | [`nodejs/expressmvc`](nodejs/expressmvc) | `npm install && npm start` | http://localhost:3000/ |
 | PHP / PHP | [`php/plain`](php/plain) | `composer install && composer start` | http://localhost:8000/ |
@@ -94,12 +92,6 @@ Every sample in this repository, grouped by task, with one column per language. 
 | **Sign multiple PDFs with PKI Express**<br>`batch-pades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchPadesSignatureExpressController.java) | [code](nodejs/expressmvc/routes/batch-pades-signature-express.js) | [code](php/plain/public/batch-pades-signature-express/index.php) | [Flask](python/flask/sample/views/batch_pades_express.py) | [code](ruby/rails/app/controllers/batch_pades_express_controller.rb) |
 | **Sign multiple PDFs with Rest PKI**<br>`batch-pades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/BatchPadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchPadesSignatureRestController.java) | [code](nodejs/expressmvc/routes/batch-pades-signature-restpki.js) | [code](php/plain/public/batch-pades-signature-rest/index.php) | [Flask](python/flask/sample/views/batch_pades_rest.py) | [code](ruby/rails/app/controllers/batch_pades_rest_controller.rb) |
 | **Sign multiple Signer documents with Web PKI**<br>`batch-pades-signature-signer` | Signer | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/BatchSignerSignatureController.java) | — | — | — | — |
-
-## Sign your pending Signer documents
-
-| Sample | Product | Status | .NET | Java | Node.js | PHP | Python | Ruby |
-|---|---|---|---|---|---|---|---|---|
-| **Sign your pending Signer documents from a Claude Code skill**<br>`sign-pending-documents-signer` | Signer | `current` | [Console](dotnet/console/SkillFriendlySignatureApp/Commands/SignCommand.cs) | — | — | — | — | — |
 
 ## Sign a PDF with a server key
 
