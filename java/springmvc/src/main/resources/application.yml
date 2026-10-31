@@ -11,7 +11,7 @@ server:
 # Spring parameters
 spring:
   profiles.active: 'dev'
-  mvc.converters.preferred-json-mapper: gson
+  http.converters.preferred-json-mapper: gson
   # Maximum upload and request sizes
   servlet.multipart:
     max-file-size: 10MB
