@@ -961,38 +961,6 @@
     }
   },
   {
-    "id": "sign-pending-documents-signer",
-    "title": "Sign your pending Signer documents from a Claude Code skill",
-    "title_pt": "Assinar seus documentos pendentes no Signer a partir de uma skill do Claude Code",
-    "description": "A console app that lists the documents a participant (by CPF or email) can sign now on Signer (DropSigner by default) and signs the ones given with a certificate from the Windows store: Signer prepares each signature, PKI SDK signs the hash locally, and Signer completes it. It prints JSON for a coding agent, and ships a Claude Code skill (skill/SKILL.md) that asks the user to confirm before signing. Windows only; needs a Signer API key, which is not committed.",
-    "product": "signer",
-    "language": "dotnet",
-    "framework": "console",
-    "path": "dotnet/console/SkillFriendlySignatureApp/Commands/SignCommand.cs",
-    "related_files": [
-      "dotnet/console/SkillFriendlySignatureApp/Commands/ListCommand.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Commands/CertsCommand.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Signer/PendingDocuments.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Signer/SignerGateway.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Signer/PublicSignatureLink.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Certificates/LocalCertificates.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Certificates/PkiSdkLicense.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Cli.cs",
-      "dotnet/console/SkillFriendlySignatureApp/AppException.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Participant.cs",
-      "dotnet/console/SkillFriendlySignatureApp/Program.cs",
-      "dotnet/console/SkillFriendlySignatureApp/skill/SKILL.md"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/signer/integration/download-and-list",
-    "demo_url": null,
-    "run": {
-      "cwd": "dotnet/console/SkillFriendlySignatureApp",
-      "command": "dotnet run -- certs",
-      "url": null
-    }
-  },
-  {
     "id": "pades-signature-server-key-rest-pki-core",
     "title": "Sign a PDF with a server key using Rest PKI Core",
     "title_pt": "Assinar um PDF com uma chave do servidor usando o Rest PKI Core",

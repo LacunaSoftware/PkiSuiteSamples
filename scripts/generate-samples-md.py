@@ -96,7 +96,6 @@ TASK_GROUPS = {
     "issue-pkcs12-certificate": "Issue a PKCS #12 certificate",
     "issue-attribute-certificate": "Issue an attribute certificate",
     "prescription-signature": "Sign a medical prescription (Receita Simples)",
-    "sign-pending-documents": "Sign your pending Signer documents",
 }
 
 # What the "Open" columns show for a project without a URL (a console app).
