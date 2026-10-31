@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SkillFriendlySignatureApp</RootNamespace>
+    <!-- `dotnet user-secrets set Signer:ApiKey <key>` keeps the Signer API key out of this folder. -->
+    <UserSecretsId>skill-friendly-signature-app</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- PKI SDK: reads the certificates in the Windows store and signs the hash with their private key. -->
+    <PackageReference Include="Lacuna.Pki" Version="2.22.7" />
+    <!-- Signer client: lists the documents and runs the public signature flow. -->
+    <PackageReference Include="Lacuna.Signer.Client" Version="1.24.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.12" />
+    <PackageReference Include="System.CommandLine" Version="2.0.13" />
+    <!-- PKI SDK depends on System.Security.Cryptography.Xml 4.7.1, which brings in a vulnerable
+         System.Drawing.Common 4.7.0 (NU1904). The current version has no such dependency. -->
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Read from the folder of the executable at run time (Program.cs, PkiSdkLicense.cs). -->
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="LacunaPkiLicense.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SkillFriendlySignatureApp.Tests" />
+  </ItemGroup>
+
+</Project>

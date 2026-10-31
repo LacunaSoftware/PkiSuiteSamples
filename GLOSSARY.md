@@ -5,7 +5,7 @@ Runnable web apps that show how to call Lacuna Software's PKI Suite products fro
 ## Language
 
 **Project**:
-One runnable web app for one language and framework, such as `java/springmvc`. It contains many samples.
+One runnable app for one language and framework, such as `java/springmvc`. Most projects are web apps that contain many samples; a console project may contain a single sample.
 _Avoid_: App, sample (for the whole app), solution
 
 **Sample**:
@@ -31,3 +31,11 @@ _Avoid_: Demo (for the whole site), try site
 **Demo**:
 One page on the Demo Site that does one task, made with one or more products (such as Web PKI in the browser with PKI SDK on the server). A sample matches a demo only when its task is the same and its product is one the demo is made with.
 _Avoid_: Sample, example
+
+**Participant**:
+A person with a part to play in a Signer document's flow, identified by CPF, by email, or both.
+_Avoid_: Signer (for the person; Signer is the product), user, signatory
+
+**Pending Document**:
+A Signer document that a given participant can sign with a certificate right now. A document awaiting the participant's approval, or one where the participant's turn has not come yet, is not pending for them.
+_Avoid_: Open document, document to sign
