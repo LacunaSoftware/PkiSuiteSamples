@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- xUnit v3 test projects are executables, run by Microsoft.Testing.Platform (see ../global.json). -->
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SkillFriendlySignatureApp.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkillFriendlySignatureApp\SkillFriendlySignatureApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Pierre de Fermat.pfx (password 1234): a public test certificate from Lacuna's test PKI.
+         SamplePdf.pdf: the document the live tests create on the Signer sandbox. -->
+    <None Update="Content\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

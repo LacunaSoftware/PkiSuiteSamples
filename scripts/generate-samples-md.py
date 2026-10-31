@@ -34,6 +34,7 @@ LANGUAGES = OrderedDict([
 FRAMEWORKS = {
     "aspnet-mvc": "ASP.NET MVC",
     "aspnet-core-angular": "ASP.NET Core + Angular",
+    "console": "Console",
     "spring-boot": "Spring Boot",
     "express": "Express",
     "php": "PHP",
@@ -95,7 +96,11 @@ TASK_GROUPS = {
     "issue-pkcs12-certificate": "Issue a PKCS #12 certificate",
     "issue-attribute-certificate": "Issue an attribute certificate",
     "prescription-signature": "Sign a medical prescription (Receita Simples)",
+    "sign-pending-documents": "Sign your pending Signer documents",
 }
+
+# What the "Open" columns show for a project without a URL (a console app).
+NO_URL = "(console)"
 
 STATUS_LEGEND = [
     ("current", "Recommended for new integrations."),
@@ -161,8 +166,8 @@ def render(catalog):
     projects = OrderedDict()
     for e in catalog:
         run = e["run"]
-        base = run["url"].split("/", 3)
-        projects.setdefault(run["cwd"], (e, run["command"], "/".join(base[:3]) + "/"))
+        base = "/".join(run["url"].split("/", 3)[:3]) + "/" if run["url"] else NO_URL
+        projects.setdefault(run["cwd"], (e, run["command"], base))
     # Same order as the language columns, whatever the order of the catalog.
     for cwd, (e, command, base) in sorted(projects.items(), key=lambda p: list(FRAMEWORKS).index(p[1][0]["framework"])):
         name = f"{LANGUAGES[e['language']]} / {FRAMEWORKS[e['framework']]}"
@@ -213,7 +218,7 @@ def render_project_list(catalog, cwd, readme_dir):
             continue
         link = os.path.relpath(ROOT / e["path"], readme_dir).replace(os.sep, "/")
         rows.append(f"| {e['title']}<br>`{e['id']}` | {PRODUCTS[e['product']]} "
-                    f"| [{Path(e['path']).name}]({link}) | {e['run']['url']} |")
+                    f"| [{Path(e['path']).name}]({link}) | {e['run']['url'] or NO_URL} |")
     return "\n".join(rows)
 
 

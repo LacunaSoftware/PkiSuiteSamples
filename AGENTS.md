@@ -77,6 +77,7 @@ and no check routes, which uses Rest PKI Core and never Rest PKI (v1)
 |---|---|---|---|---|---|
 | `dotnet/mvc/PkiSuiteAspNetMvcSample` | ASP.NET MVC 5, .NET Framework 4.8 | `dotnet/mvc` | Open `PkiSuiteAspNetMvcSample.sln` in Visual Studio, F5 (IIS Express) | http://localhost:54123 | `Web.config` `<appSettings>`; `LacunaPkiLicense.config` (copied to `bin/`) |
 | `dotnet/spa/PkiSuiteAspNetCoreAngularSample` | ASP.NET Core (.NET 10) Web API + Angular 22 (`pkisuiteaspnetcoreangularsample.client/`), Node.js 24.15 or later | `dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server` | `dotnet run --launch-profile http` (after `npm ci` in the client folder), or open the `.sln` in Visual Studio, F5 | http://localhost:4200 (Angular dev server; the API listens on http://localhost:5100) | `appsettings.json` (`RestPkiCore`, `WebPki`, `PkiSuite`), overridden by `appsettings.Development.json`; `LacunaPkiLicense.config` (loaded from the content root) |
+| `dotnet/console/SkillFriendlySignatureApp` | .NET 10 console app, Windows only | `dotnet/console/SkillFriendlySignatureApp` | `dotnet run -- certs` (or `list`, `sign`; `--help` lists them) | none (prints JSON) | `appsettings.json`, then user secrets, then environment variables (`Signer__ApiKey`, `PkiSdk__License`); `LacunaPkiLicense.config` (next to the executable) |
 | `java/springmvc` | Spring Boot 3.5, Java 21, Gradle 8.14 wrapper (or Maven) | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
 | `nodejs/expressmvc` | Express + Pug | `nodejs/expressmvc` | `npm install && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
@@ -93,6 +94,15 @@ serves the pages and forwards `/api` to the server on port 5100. Port 5100 itsel
 `dotnet publish -c Release`. CI publishes it and runs the output from the publish folder, which
 is the content root. Each sample is an API controller `Controllers/<SampleId>Controller.cs` plus
 the Angular folder `src/app/samples/<sample id>/`.
+
+`dotnet/console` holds one sample, `sign-pending-documents-signer`: a CLI that lists a
+participant's pending documents on Signer (DropSigner by default) and signs them with a
+certificate from the Windows store through PKI SDK. A coding agent calls it through the Claude
+Code skill in `skill/SKILL.md`, which a client copies to
+`.claude/skills/sign-pending-documents/` in their project. It has no URL. Its xUnit tests run
+with `dotnet test --solution SkillFriendlySignatureApp.slnx` from `dotnet/console`, and in CI
+through `.github/workflows/test-console.yml`
+([ADR 0002](docs/adr/0002-console-project-for-agent-driven-signing.md)).
 
 `java/springmvc` needs JDK 21 or later. `mvn spring-boot:run` runs it too: `pom.xml` and
 `build.gradle` declare the same dependencies, so change both when you change one.
@@ -113,12 +123,17 @@ Credentials the apps read (the files `update-licenses.ps1` rewrites):
   `REST_PKI_CORE_API_KEY` (Flask), `rest_pki_core.api_key` (Rails).
 - **Amplia** API key: `amplia.apiKey` / `AMPLIA_API_KEY`. **CloudHub**: `CloudHubApiKey` /
   `cloudhub.apiKey` / `cloudHub.apiKey`.
+- **Signer** API key: `signer.apiKey` (application.yml), `Signer:ApiKey` (dotnet/console, best
+  set with `dotnet user-secrets` or `Signer__ApiKey`). No Signer key is committed, and the
+  script does not rotate one.
 - **Web PKI** license: `WebPkiLicense` / `WebPki:License` / `web-pki.license` /
   `webPki.license` / `WEB_PKI_LICENSE` / `web_pki.license`. It is empty in every project, which
   is fine on localhost.
 - **PKI SDK / PKI Express** license: `LacunaPkiLicense.config`. For PKI SDK it sits next to the
   app: the MVC app checks for it in `bin/`, and the ASP.NET Core app loads it from the content
-  root in `Program.cs`. PKI Express must be installed and activated with it once per machine:
+  root in `Program.cs`. The console app loads it from the folder of the executable, unless
+  `PkiSdk:License` (`PkiSdk__License`) holds a Base64 license. PKI Express must be installed and
+  activated with it once per machine:
   `sudo pkie activate LacunaPkiLicense.config`, or `pkiemgr.exe` on Windows.
 
 ## 4. Which product to use
@@ -224,8 +239,9 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
   CI runs the same check on every pull request and push to `master`
   (`.github/workflows/validate-catalog.yml`).
 
-- `.github/workflows/build-samples.yml` builds and starts each project a pull request touches
-  (all of them on `master` and weekly), and `scripts/ci/smoke-test.py` checks its home page and
+- `.github/workflows/build-samples.yml` builds and starts each web project a pull request
+  touches (all of them on `master` and weekly; never `dotnet/console`, whose tests run in
+  `.github/workflows/test-console.yml`), and `scripts/ci/smoke-test.py` checks its home page and
   the catalog pages listed in that script's `SMOKE_SAMPLES`.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
