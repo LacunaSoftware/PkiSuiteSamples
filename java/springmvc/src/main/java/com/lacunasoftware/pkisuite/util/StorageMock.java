@@ -85,7 +85,10 @@ public class StorageMock {
 		String filename, validExtension = null;
 		if (originalFilename != null) {
 			int i = originalFilename.lastIndexOf('.');
-			filename = i == -1 ? originalFilename : originalFilename.substring(0, 1);
+			filename = i == -1 ? originalFilename : originalFilename.substring(0, i);
+			// The file id turns every "." into "_" and back (see generateFileId()), so an "_" in the
+			// name would not survive the round trip.
+			filename = filename.replace('_', '-');
 			validExtension = i == -1 ? "" : originalFilename.substring(i + 1);
 		} else {
 			filename = "";
