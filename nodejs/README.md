@@ -22,7 +22,7 @@ Steps to execute the sample:
 1. Access the URL http://localhost:3000
 
 > If you use [Yarn](https://yarnpkg.com), you can use `yarn install` or `yarn` to **download the dependencies** and
-> `yarn start` to **run the application**.
+> `yarn start` to **run the application**. Yarn does not read `package-lock.json`, so it may install newer versions.
 
 REST PKI's client lib
 ---------------------

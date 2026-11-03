@@ -84,12 +84,11 @@ router.post('/complete', (req, res, next) => {
 			// to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
+			return result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
 			.then(() => {
 				// Render the result page.
 				return res.json(filename);
 			})
-			.catch((err) => { throw err });
 		})
 		.catch((err) => next(err));
 });

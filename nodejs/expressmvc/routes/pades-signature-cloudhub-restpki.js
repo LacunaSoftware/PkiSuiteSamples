@@ -110,11 +110,11 @@ router.get("/session-result", async (req, res, next) => {
 		signatureStarter.visualRepresentation = await PadesVisualElementsRestPki.getVisualRepresentation();
 
 		// Call the start() method, which initiates the signature.
-		// This yields the hash of the document, the digestAlgorithm used
-		// for the hash creation function and the token, a 43-character
-		// case-sensitive URL-safe string, which identifies this signature
-		// process. We'll use this value to call the signatureFinisher.finish()
-		// method to complete the signature. The token should not be mistaken with
+		// This yields the hash of the document, the OID of the digest algorithm
+		// used to compute it and the token, a 43-character case-sensitive
+		// URL-safe string, which identifies this signature process. We'll use
+		// this value to call the finisher.finish() method to complete the
+		// signature. The token should not be mistaken with
 		// the API access token.
 		const result = await signatureStarter.start();
 

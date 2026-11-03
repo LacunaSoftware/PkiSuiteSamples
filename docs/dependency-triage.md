@@ -128,9 +128,13 @@ Docker, and `scripts/ci/smoke-test.py` passed.
 - **Removed:** `body-parser` (replaced by `express.json()` and `express.urlencoded()`), `uuid`
   (replaced by Node's `crypto.randomUUID()`) and `flash`, which nothing used.
 - **`package-lock.json` is committed,** and CI installs with `npm ci`.
-- `npm audit --omit=dev` still reports the advisories listed above for Lacuna's clients: `request`,
-  axios 0.19, `tmp`, and the `qs`, `form-data`, `tough-cookie` and `uuid` versions that `request`
-  pins.
+- `npm audit --omit=dev` still reports the advisories that come from Lacuna's clients: `request`,
+  and the `qs`, `form-data`, `tough-cookie` and `uuid` versions it pins; axios 0.19 and its
+  `follow-redirects`, under `restpki-client`; and `tmp`, under `pki-express`. `braces`, under
+  nodemon, is a dev dependency, so `--omit=dev` leaves it out.
+- The promise chains in the Rest PKI CAdES, XML and batch samples that started `writeToFile()`
+  without returning it, and rethrew its error, now return it, so a failed download reaches the
+  error handler instead of crashing the process.
 
 ## How this was checked
 
