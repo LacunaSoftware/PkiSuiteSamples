@@ -31,7 +31,6 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 		// Redirect URL that the PSC will send the user back to after authentication.
 		private const string RedirectUrl = "http://localhost:54123/PadesCloudHubSdk/Complete";
-		CloudhubClient cloudhubClient = Util.GetCloudhubClient();
 
 		private IPadesPolicyMapper GetSignaturePolicy() {
 
@@ -71,6 +70,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				Type = Lacuna.Cloudhub.Api.TrustServiceSessionTypes.SingleSignature,
 			};
 
+			var cloudhubClient = Util.GetCloudhubClient();
 			SessionModel session = await cloudhubClient.CreateSessionAsync(sessionRequest);
 
 			return View(new AuthenticationCloudHubSdkModel() {
@@ -92,6 +92,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			try {
 				// Retrieve the user's certificate from CloudHub using the session token
 				// returned by the PSC after authentication.
+				var cloudhubClient = Util.GetCloudhubClient();
 				var cert = await cloudhubClient.GetCertificateAsync(session);
 
 				// Verify that the file to be signed exists and get its absolute path.
@@ -124,6 +125,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				});
 
 				signer.SetPreComputedSignature(signature, transferData);
+
+				// Call ComputeSignature(), which does all the work, including validation of the signer's
+				// certificate and of the resulting signature.
+				signer.ComputeSignature();
+
 				signatureContent = signer.GetPadesSignature();
 			}
 			catch (ValidationException ex) {

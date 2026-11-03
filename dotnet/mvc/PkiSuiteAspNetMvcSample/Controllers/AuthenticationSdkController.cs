@@ -89,7 +89,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// the auth cookie. For demonstration purposes, we'll set the email address directly on the
 			// cookie as if it were the user ID.
 			return View("Success", new AuthenticationInfoModel() {
-				UserCert = PKCertificate.Decode(model.Certificate)
+				UserCert = certificate
 			});
 		}
 	}
