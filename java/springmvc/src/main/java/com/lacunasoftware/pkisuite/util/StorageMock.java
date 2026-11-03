@@ -92,6 +92,10 @@ public class StorageMock {
 			// folder, and "_" and ".", which the file id maps to each other (see generateFileId()).
 			filename = filename.replaceAll("[^A-Za-z0-9-]", "-");
 			validExtension = validExtension.replaceAll("[^A-Za-z0-9]", "");
+			// Keep the stored name, which adds a UUID, well under the 255-character limit of a file
+			// name.
+			filename = filename.substring(0, Math.min(filename.length(), 100));
+			validExtension = validExtension.substring(0, Math.min(validExtension.length(), 10));
 		} else {
 			filename = "";
 		}
