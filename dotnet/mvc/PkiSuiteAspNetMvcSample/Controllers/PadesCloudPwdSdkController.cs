@@ -144,7 +144,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View();
+				return View("Index");
 			}
 
 			return View("SignatureInfo", new SignatureInfoModel() {

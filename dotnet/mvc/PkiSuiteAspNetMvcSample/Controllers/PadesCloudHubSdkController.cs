@@ -134,7 +134,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 			catch (ValidationException ex) {
 				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View();
+				return View("Index");
 			}
 
 			// Store the signed PDF and display the signature info page.

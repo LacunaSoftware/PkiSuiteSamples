@@ -25,6 +25,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            // If this action is called because the authentication failed, show the validation results.
+            var vr = TempData["ValidationResults"] as ValidationResults;
+            if (vr != null && !vr.IsValid)
+            {
+                ModelState.AddModelError("", vr.ToString());
+            }
             return View();
         }
 
