@@ -43,7 +43,7 @@ router.post('/generate', async (req, res, next) => {
 	const crmUf = req.body.crmUf;
 	
 	// Generate Receita Simples
-	const fileId = Prescricao.generateReceitaSimples(name, crm, crmUf);
+	const fileId = await Prescricao.generateReceitaSimples(name, crm, crmUf);
 
 	res.render('receita-simples-express/generate', { fileId });
 });

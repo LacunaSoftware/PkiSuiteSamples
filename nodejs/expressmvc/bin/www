@@ -21,7 +21,7 @@ if (Config.getInstance().get('protocol') === 'https') {
 	server = https.createServer({
 		key: fs.readFileSync(sslConfig['key']),
 		cert: fs.readFileSync(sslConfig['cert'])
-	});
+	}, app);
 } else {
 	const http = require('http');
 	server = http.createServer(app);
