@@ -490,6 +490,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_WebPki.cshtml" />
     <Content Include="Views\PadesCloudOauthSdk\Discover.cshtml" />
     <Content Include="Views\PadesCloudHubSdk\Index.cshtml" />
     <Content Include="Views\PadesCloudHubSdk\Discover.cshtml" />

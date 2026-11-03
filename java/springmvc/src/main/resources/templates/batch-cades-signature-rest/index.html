@@ -52,11 +52,7 @@
 	The file below contains the JS lib for accessing the Web PKI component. For more
 	information, see: https://webpki.lacunasoftware.com/#/Documentation
 -->
-<script th:fragment="scripts"
-        type="text/javascript"
-        src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.13.0.min.js"
-        integrity="sha256-nVy9sLakeQ03Xl+jOjBdjdfnZ9UVwwqNgAYszhxi4VQ="
-        crossorigin="anonymous"></script>
+<script th:fragment="scripts" th:replace="~{fragments/web-pki :: web-pki}"></script>
 
 <!--
 	 The file below contains the necessary calls to the Web PKI component. Once the necessary
