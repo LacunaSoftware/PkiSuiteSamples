@@ -86,13 +86,6 @@ class DevelopmentConfig(Config):
     # THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
     TRUST_LACUNA_TEST_ROOT = True
 
-    # --------------------------------------------------------------------------
-    # IMPORTANT NOTICE: in production code, you should use HTTPS to communicate
-    # with REST PKI, otherwise your API access token, as well as the documents
-    # you sign, will be sent to REST PKI unencrypted.
-    # --------------------------------------------------------------------------
-    REST_PKI_ENDPOINT = 'http://pki.rest/'
-
 
 class TestingConfig(Config):
     TESTING = True
