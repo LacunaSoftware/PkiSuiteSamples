@@ -63,7 +63,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 | .NET / ASP.NET Core + Angular | [`dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server`](dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server) | `dotnet run --launch-profile http` | http://localhost:4200/ |
 | .NET / Console | [`dotnet/console/SkillFriendlySignatureApp`](dotnet/console/SkillFriendlySignatureApp) | `dotnet run -- certs` | (console) |
 | Java / Spring Boot | [`java/springmvc`](java/springmvc) | `./gradlew bootRun` | http://localhost:60695/ |
-| Node.js / Express | [`nodejs/expressmvc`](nodejs/expressmvc) | `npm install && npm start` | http://localhost:3000/ |
+| Node.js / Express | [`nodejs/expressmvc`](nodejs/expressmvc) | `npm ci && npm start` | http://localhost:3000/ |
 | PHP / PHP | [`php/plain`](php/plain) | `composer install && composer start` | http://localhost:8000/ |
 | Python / Flask | [`python/flask`](python/flask) | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000/ |
 | Python / Django | [`python/django/sample`](python/django/sample) | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000/ |
