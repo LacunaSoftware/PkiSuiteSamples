@@ -102,7 +102,7 @@ def action():
     pkcs12_generator = Pkcs12Generator()
 
     # Set PKI default options (see utils.py).
-    set_pki_defaults(key_generator)
+    set_pki_defaults(pkcs12_generator)
 
     # Set the generate key.
     pkcs12_generator.key = gen_key.key
