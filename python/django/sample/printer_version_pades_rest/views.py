@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from os.path import join
+from os.path import join, exists
 
 from django.shortcuts import render
 from django.http import Http404, FileResponse
@@ -55,6 +55,8 @@ def index(request, file_id):
     """
     if request.method == 'GET':
         file_path = join(MEDIA_STORAGE_PATH, file_id)
+        if not exists(file_path):
+            raise Http404
 
         # Check if doc already has a verification code registered on storage.
         verification_code = get_verification_code(request.session, file_id)
@@ -68,7 +70,7 @@ def index(request, file_id):
         pfv_path = join(MEDIA_STORAGE_PATH, pfv_file)
         return FileResponse(open(pfv_path, 'rb'), as_attachment=True)
     else:
-        return Http404()
+        raise Http404
 
 def get_signer_description(signer):
     text = get_description(signer.certificate)
