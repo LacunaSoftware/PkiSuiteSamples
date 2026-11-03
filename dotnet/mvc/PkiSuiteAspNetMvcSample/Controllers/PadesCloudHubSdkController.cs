@@ -48,6 +48,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		[HttpGet]
 		public ActionResult Index() {
+			// If an earlier attempt failed validation, show why (see the catch below).
+			var vr = TempData["ValidationResults"] as ValidationResults;
+			if (vr != null && !vr.IsValid) {
+				ModelState.AddModelError("", vr.ToString());
+			}
 			return View();
 		}
 
@@ -133,8 +138,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				signatureContent = signer.GetPadesSignature();
 			}
 			catch (ValidationException ex) {
-				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View("Index");
+				TempData["ValidationResults"] = ex.ValidationResults;
+				return RedirectToAction("Index", new { userfile = fileId });
 			}
 
 			// Store the signed PDF and display the signature info page.

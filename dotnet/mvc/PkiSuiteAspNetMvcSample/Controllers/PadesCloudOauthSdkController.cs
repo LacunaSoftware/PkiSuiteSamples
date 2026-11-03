@@ -57,6 +57,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 */
 		[HttpGet]
 		public ActionResult Index() {
+			// If an earlier attempt failed validation, show why (see the catch below).
+			var vr = TempData["ValidationResults"] as ValidationResults;
+			if (vr != null && !vr.IsValid) {
+				ModelState.AddModelError("", vr.ToString());
+			}
 			return View();
 		}
 
@@ -106,6 +111,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			byte[] signatureContent;
 			PKCertificateWithKey signingCertificate;
 
+			string userfile = null;
 			try {
 
 				// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
@@ -117,7 +123,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				var completeAuthResult = await manager.CompleteAuthAsync(code, state);
 
 				// Recover file to be sigend on custom state parameter.
-				var userfile = completeAuthResult.CustomState;
+				userfile = completeAuthResult.CustomState;
 
 				// Verify if the userfile exists and get its absolute path.
 				string userfilePath;
@@ -151,8 +157,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			} catch (ValidationException ex) {
 				// Some of the operations above may throw a ValidationException, for instance if the certificate
 				// encoding cannot be read or if the certificate is expired.
-				ModelState.AddModelError("", ex.ValidationResults.ToString());
-				return View("Index");
+				TempData["ValidationResults"] = ex.ValidationResults;
+				return RedirectToAction("Index", new { userfile = userfile });
 			}
 
 			return View("SignatureInfo", new SignatureInfoModel() {
