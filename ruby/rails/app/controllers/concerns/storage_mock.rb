@@ -97,7 +97,7 @@ module StorageMock
     when :sample_nfe
       'SampleNFe.xml'
     else
-      raise Exception('File not found')
+      raise ArgumentError, 'File not found'
     end
   end
 

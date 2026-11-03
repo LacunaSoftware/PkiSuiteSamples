@@ -14,8 +14,9 @@ class CheckPadesRestController < ApplicationController
         
         # Verify if the file_id exists with the help of our StorageMock class.
         # This sample can only be executed if the provided file exists.
-        unless exist?(@file_id)
-            render text: 'Not Found', status: 404 && return
+        if @file_id.nil? || !exist?(@file_id)
+            render plain: 'Not Found', status: 404
+            return
         end
         
         # Get an instance of the PadesSignatureExplorer class, used to open/validate PDF

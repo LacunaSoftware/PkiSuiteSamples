@@ -241,8 +241,9 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
 
 - `.github/workflows/build-samples.yml` builds and starts each web project a pull request
   touches (all of them on `master` and weekly; never `dotnet/console`, whose tests run in
-  `.github/workflows/test-console.yml`), and `scripts/ci/smoke-test.py` checks its home page and
-  the catalog pages listed in that script's `SMOKE_SAMPLES`.
+  `.github/workflows/test-console.yml`), and `scripts/ci/smoke-test.py` checks its home page,
+  the catalog pages listed in that script's `SMOKE_SAMPLES`, and that the paths in its
+  `NOT_FOUND_PATHS` answer 404 for a file that does not exist.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
   key. In `dotnet/spa`, add them to `src/app/home/sample-list.ts` and `src/app/app.routes.ts`

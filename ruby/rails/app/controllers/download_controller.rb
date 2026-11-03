@@ -4,7 +4,7 @@ class DownloadController < ApplicationController
     file_id = params[:file_id]
 
     if file_id.nil? || !exist?(file_id)
-      render status: 404
+      render plain: 'Not Found', status: 404
     else
       filename = retrieve_filename(file_id)
       path = get_data_path(file_id)
