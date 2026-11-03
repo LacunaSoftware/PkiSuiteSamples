@@ -161,7 +161,7 @@ jobs:
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/nodejs/expressmvc
           node:22 sleep infinity
       - name: Install dependencies
-        run: docker exec app npm install
+        run: docker exec app npm ci
       - name: Start the app
         run: docker exec -d app sh -c "npm start > /tmp/app.log 2>&1"
       - name: Smoke test

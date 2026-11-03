@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 const APP_ROOT = process.cwd();
 
@@ -56,7 +56,7 @@ class StorageMock {
 
 		// Generate fileId.
 		if (!filename) {
-			filename = uuidv4();
+			filename = randomUUID();
 		}
 		const fileId = filename + extension;
 

@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 
 const { CadesSignatureExplorer } = require('pki-express');
@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
 
 	// Generate path for output file and add the signature finisher.
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
-	const extractedContent = `${uuidv4()}.pdf`;
+	const extractedContent = `${randomUUID()}.pdf`;
 	sigExplorer.setExtractContentPath(path.join(APP_ROOT, 'app-data', extractedContent));
 
 	// Call the open() method, which returns the signature file's information.

@@ -15,7 +15,7 @@ Steps to execute the sample:
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
    
-1. Install dependencies: `npm install`
+1. Install dependencies: `npm ci` (installs the exact versions in `package-lock.json`)
 
 1. Run application: `npm start`
 

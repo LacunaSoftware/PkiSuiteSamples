@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const { CadesSignatureStarter, StandardSignaturePolicies, CadesSignatureFinisher } = require('restpki-client');
 
 const { Util } = require('../util');
@@ -78,7 +78,7 @@ router.post('/complete', (req, res, next) => {
 			// For demonstration purposes, we'll store the CMS on a temporary folder
 			// publicly accessible and render a link to it.
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
-			const filename = `${uuidv4()}.p7s`;
+			const filename = `${randomUUID()}.p7s`;
 
 			// The SignatureResult object has functions for writing the signature file
 			// to a local life (writeToFile()) and to get its raw contents

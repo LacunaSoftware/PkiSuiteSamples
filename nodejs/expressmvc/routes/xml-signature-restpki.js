@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	FullXmlSignatureStarter, StandardSignaturePolicies, XmlSignatureFinisher, XmlInsertionOptions,
 } = require('restpki-client');
@@ -91,7 +91,7 @@ router.post('/', (req, res, next) => {
 			// publicly accessible and render a link to it.
 
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const filename = `${uuidv4()}.xml`;
+			const filename = `${randomUUID()}.xml`;
 			// The SignatureResult object has functions for writing the signature file
 			// to a local file (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid

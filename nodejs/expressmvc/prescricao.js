@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { StorageMock } = require('./storage-mock');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const PDFDocument = require('pdfkit');
 
 const APP_ROOT = process.cwd();
@@ -41,7 +41,7 @@ class Prescricao {
         ];
 
         // Create temporary file.
-        const outputFile = `${uuidv4()}.pdf`;
+        const outputFile = `${randomUUID()}.pdf`;
         StorageMock.createAppDataSync(); // Make sure the 'app-data' folder exists.
         let dest = path.join(APP_ROOT, 'app-data', outputFile);
 

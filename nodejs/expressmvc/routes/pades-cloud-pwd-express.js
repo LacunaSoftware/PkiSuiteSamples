@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 
 const {
@@ -163,7 +163,7 @@ router.post('/complete', async (req, res, next) => {
 		await signer.setVisualRepresentation(PadesVisualElementsExpress.getVisualRepresentation());
 	
 		// Generate path for output file and add the signature finisher.
-		const outputFile = `${uuidv4()}.pdf`;
+		const outputFile = `${randomUUID()}.pdf`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 	

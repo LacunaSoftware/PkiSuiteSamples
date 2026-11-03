@@ -100,8 +100,7 @@ been closed by then):
 
 Still to do:
 
-- Committing a `package-lock.json` for `nodejs/expressmvc`. The project's `.gitignore` excludes it
-  today.
+- ~~Committing a `package-lock.json` for `nodejs/expressmvc`.~~ Done on 2026-11-03 (see below).
 - The runtime upgrades.
 
 ### 2026-10-21: oldest versions without known vulnerabilities
@@ -120,6 +119,18 @@ Docker, and `scripts/ci/smoke-test.py` passed.
 | `php/plain` | tcpdf floor ^6.8.0. | Guzzle 6 and psr7 1.x, required by `lacuna/amplia-client`. |
 | `python/flask` | Floors raised: Flask 3.1.3, Jinja2 3.1.6, Werkzeug 3.1.9, wheel 0.38.1 and certifi 2026.10.19. | `requests` 2.21.0, urllib3 1.24.3 and idna 2.8, pinned by `amplia-client` 1.0.0. |
 | `python/django` | Floors raised: Django 5.2.17, reportlab 3.6.13 and Werkzeug 3.1.9. **PyPDF2 replaced with pypdf** 6.19.0, because PyPDF2 is no longer maintained and its last release is vulnerable. The prescription sample now uses `PdfReader` and `PdfWriter`; PyPDF2 3.0 had already removed the old names. | none |
+
+### 2026-11-03: Express 5 and a lockfile for `nodejs/expressmvc`
+
+- **Express 4.21 → 5.3.** Express 5 passes a rejected promise from a route handler to the error
+  handler, so a failing async route now renders the error page instead of leaving the request
+  open. The promise chains that were neither returned nor awaited now use `await`.
+- **Removed:** `body-parser` (replaced by `express.json()` and `express.urlencoded()`), `uuid`
+  (replaced by Node's `crypto.randomUUID()`) and `flash`, which nothing used.
+- **`package-lock.json` is committed,** and CI installs with `npm ci`.
+- `npm audit --omit=dev` still reports the advisories listed above for Lacuna's clients: `request`,
+  axios 0.19, `tmp`, and the `qs`, `form-data`, `tough-cookie` and `uuid` versions that `request`
+  pins.
 
 ## How this was checked
 

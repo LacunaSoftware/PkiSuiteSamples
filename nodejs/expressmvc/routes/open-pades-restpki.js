@@ -14,7 +14,7 @@ const router = express.Router();
  * This route only submits a PDF file to REST PKI for inspection of its signatures.
  */
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
 	// Get parameters from url
 	const { fileId } = req.query;
 
@@ -49,7 +49,8 @@ router.get('/', (req, res, next) => {
 
 	// Call the open() method, which returns a Promise with the signature file's
 	// information.
-	sigExplorer.open().then((r) => res.render('open-pades-restpki', { signature: r }));
+	const signature = await sigExplorer.open();
+	res.render('open-pades-restpki', { signature });
 });
 
 module.exports = router;
