@@ -37,10 +37,6 @@ try {
     // defined above to configure the policy.
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC;
 
-    // For development purposes, we also trust in Lacuna Software's test certificates.
-    // Comment the line bellow before release.
-    $signatureStarter->trustLacunaTestRoot = true;
-
     // REQUIRED!
     // Use a custom signature field name. This field MUST have the 
     // "Emitente" keyword as the last keyword.
