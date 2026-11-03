@@ -20,9 +20,6 @@ const APP_ROOT = process.cwd();
  * the next page, where it will ask which cloud signature service the user wants
  */
 router.get("/", async (req, res, next) => {
-	// Get an instance of the Authentication class.
-	const auth = new Authentication(Util.getRestPkiClient());
-
 	// Render the authentication page.
 	res.render("authentication-cloudhub", {});
 });
