@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import join, exists
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
@@ -17,6 +17,8 @@ def index(request, file_id):
 
         # Locate document from storage.
         file_path = join(MEDIA_STORAGE_PATH, file_id)
+        if not exists(file_path):
+            return HttpResponseNotFound()
 
         # Get an instance of PadesSignatureExplorer class, used to 
         # open/validate PDF signatures.
