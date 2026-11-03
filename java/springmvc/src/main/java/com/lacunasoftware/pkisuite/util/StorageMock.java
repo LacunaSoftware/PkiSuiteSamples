@@ -86,10 +86,12 @@ public class StorageMock {
 		if (originalFilename != null) {
 			int i = originalFilename.lastIndexOf('.');
 			filename = i == -1 ? originalFilename : originalFilename.substring(0, i);
-			// The file id turns every "." into "_" and back (see generateFileId()), so an "_" in the
-			// name would not survive the round trip.
-			filename = filename.replace('_', '-');
 			validExtension = i == -1 ? "" : originalFilename.substring(i + 1);
+			// The name comes from the request, so keep only characters that are safe in a path and in
+			// a URL. This also drops "/", "\" and "..", which would write outside the temporary
+			// folder, and "_" and ".", which the file id maps to each other (see generateFileId()).
+			filename = filename.replaceAll("[^A-Za-z0-9-]", "-");
+			validExtension = validExtension.replaceAll("[^A-Za-z0-9]", "");
 		} else {
 			filename = "";
 		}
