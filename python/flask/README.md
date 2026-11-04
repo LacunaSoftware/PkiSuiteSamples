@@ -42,6 +42,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 | Sign data with RSA in the browser using Web PKI<br>`rsa-signature-web-pki` | Web PKI | [rsa_web.py](sample/views/rsa_web.py) | http://localhost:5000/rsa-web |
 | Issue a certificate with the key on the user's machine using Amplia<br>`issue-certificate-user-key-amplia` | Amplia | [issue_cert_user_amplia.py](sample/views/issue_cert_user_amplia.py) | http://localhost:5000/check-amplia-api-key/issue-cert-user |
 | Issue a certificate with the key on the server using Amplia<br>`issue-certificate-server-key-amplia` | Amplia | [issue_cert_server_amplia.py](sample/views/issue_cert_server_amplia.py) | http://localhost:5000/check-amplia-api-key/issue-cert-server |
+| Sign a medical prescription (Receita Simples) using Rest PKI<br>`prescription-signature-rest-pki` | Rest PKI | [receita_simples_rest.py](sample/views/receita_simples_rest.py) | http://localhost:5000/receita-simples-rest/ |
 <!-- END GENERATED SAMPLES LIST -->
 
 ## Run

@@ -25,7 +25,6 @@ PROJECTS = [
     "java/springmvc",
     "nodejs/expressmvc",
     "php/plain",
-    "python/django",
     "python/flask",
     "ruby/rails",
 ]

@@ -43,7 +43,7 @@
       },
       "framework": {
         "type": "string",
-        "enum": ["aspnet-mvc", "aspnet-core-angular", "console", "spring-boot", "express", "php", "flask", "django", "rails"]
+        "enum": ["aspnet-mvc", "aspnet-core-angular", "console", "spring-boot", "express", "php", "flask", "rails"]
       },
       "path": {
         "description": "Repo-relative path, with forward slashes, to the main entry file (controller, route module or page).",

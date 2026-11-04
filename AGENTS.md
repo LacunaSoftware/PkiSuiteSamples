@@ -25,8 +25,7 @@ It is **not** a production template. Copy the integration calls, not the scaffol
 - Files are kept by a `StorageMock` class (a local folder such as `App_Data`, `app-data` or
   `private/files`). Replace it with your storage, and do not copy its file-id handling: it joins
   request input into file paths.
-- There is no login and no authorization. Django has its CSRF middleware commented out, and
-  Rails uses `protect_from_forgery with: :null_session`.
+- There is no login and no authorization. Rails uses `protect_from_forgery with: :null_session`.
 - Callback and return URLs are hardcoded to `http://localhost:<port>`.
 - The committed API keys and `LacunaPkiLicense.config` files are short-lived **trial**
   credentials, rotated by `update-licenses.ps1`. Do not edit, move or "clean up" them. Your
@@ -82,7 +81,6 @@ and no check routes, which uses Rest PKI Core and never Rest PKI (v1)
 | `nodejs/expressmvc` | Express 5 + Pug | `nodejs/expressmvc` | `npm ci && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
 | `python/flask` | Flask | `python/flask` | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000 | `sample/config.py` (class picked by `FLASK_ENV`, which is required) |
-| `python/django` | Django | `python/django/sample` | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000 | `sample/config.py`; `sample/PkiSuitePythonDjangoSample/settings.py` |
 | `ruby/rails` | Rails 8.1, Ruby 3.3, Puma | `ruby/rails` | `bundle install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
 
 `dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
@@ -110,7 +108,7 @@ through `.github/workflows/test-console.yml`
 Every key a project reads is listed, with placeholder values and a one-line comment, in an
 `.example` file next to the real config file: `Web.config.example`,
 `appsettings.json.example`, `application.yml.example`, `config/default.js.example`,
-`config.php.example`, `sample/config.py.example` (Flask and Django) and
+`config.php.example`, `sample/config.py.example` (Flask) and
 `config/lacuna.yml.example`. No app loads these files; they are documentation only.
 
 Credentials the apps read (the files `update-licenses.ps1` rewrites):

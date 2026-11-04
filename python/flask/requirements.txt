@@ -14,3 +14,5 @@ certifi>=2026.10.19
 # pkiexpress and restpki-client import distutils, which Python 3.12 removed. setuptools brings it
 # back. The Amplia samples need requirements-amplia.txt too.
 setuptools>=78.1.1
+pypdf>=6.19.0
+reportlab>=3.6.13

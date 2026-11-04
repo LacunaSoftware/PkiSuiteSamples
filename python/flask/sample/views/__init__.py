@@ -32,6 +32,7 @@ from .printer_version_pades_express import blueprint as \
 from .printer_version_pades_rest import blueprint as printer_version_pades_rest
 from .read_cert_jquery import blueprint as read_cert_jquery
 from .read_cert_select2 import blueprint as read_cert_select2
+from .receita_simples_rest import blueprint as receita_simples_rest
 from .rsa_web import blueprint as rsa_web
 from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .timestamp_pdf_rest_core import blueprint as timestamp_pdf_rest_core
@@ -71,6 +72,7 @@ blueprints = {
     printer_version_pades_rest,
     read_cert_jquery,
     read_cert_select2,
+    receita_simples_rest,
     rsa_web,
     timestamp_pdf_express,
     timestamp_pdf_rest_core,
