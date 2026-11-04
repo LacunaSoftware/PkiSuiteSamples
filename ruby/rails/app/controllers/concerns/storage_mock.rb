@@ -27,6 +27,9 @@ module StorageMock
     if filename.nil?
       filename = ''
     else
+      # A crafted request can send bytes that are not UTF-8, or a NUL, which gsub and
+      # File.extname reject.
+      filename = filename.scrub('-').delete("\0")
       valid_extension = filename.slice! File.extname(filename)
     end
 
