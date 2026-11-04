@@ -5425,7 +5425,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "python/flask",
-      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "command": "pip install -r requirements.txt -r requirements-amplia.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-amplia-api-key/issue-cert-user"
     }
   },
@@ -5525,7 +5525,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "python/flask",
-      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "command": "pip install -r requirements.txt -r requirements-amplia.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-amplia-api-key/issue-cert-server"
     }
   },

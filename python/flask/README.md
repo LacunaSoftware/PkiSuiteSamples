@@ -46,12 +46,16 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 
 ## Run
 
-Use Python 3.11 or older: `sample/__init__.py` imports the `imp` module, which Python 3.12 removed.
-
 ```bash
 pip install -r requirements.txt
 FLASK_APP=sample FLASK_ENV=development flask run
 ```
+
+The Amplia samples also need `pip install -r requirements-amplia.txt`. That file is separate because
+`amplia-client` 1.0.0 pins a `requests` that does not import on Python 3.12 or later, so those two
+samples run only on Python 3.11 or older. Without it, their links show how to install it. The
+other samples run on Python 3.13; `requirements.txt` includes `setuptools` because `pkiexpress`
+and `restpki-client` still import `distutils`, which Python 3.12 removed.
 
 `FLASK_ENV` is required: it selects the config class, and `development` is the one that trusts
 Lacuna test certificates. Then open http://localhost:5000/. The PKI Express samples also need PKI

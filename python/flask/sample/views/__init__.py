@@ -1,3 +1,4 @@
+from sample.utils import is_amplia_client_installed
 from .authentication_express import blueprint as authentication_express
 from .authentication_rest import blueprint as authentication_restpki
 from .batch_cades_express import blueprint as batch_cades_express
@@ -13,8 +14,6 @@ from .check_pades_express import blueprint as check_pades_express
 from .check_pades_rest import blueprint as check_pades_rest
 from .download import blueprint as download
 from .home import blueprint as home
-from .issue_cert_server_amplia import blueprint as issue_cert_server_amplia
-from .issue_cert_user_amplia import blueprint as issue_cert_user_amplia
 from .list_cert_jquery import blueprint as list_cert_jquery
 from .list_cert_select2 import blueprint as list_cert_select2
 from .merge_cades_express import blueprint as merge_cades_express
@@ -55,8 +54,6 @@ blueprints = {
     check_pades_rest,
     download,
     home,
-    issue_cert_server_amplia,
-    issue_cert_user_amplia,
     list_cert_jquery,
     list_cert_select2,
     merge_cades_express,
@@ -82,3 +79,10 @@ blueprints = {
     xml_signature_rest,
     server_files,
 }
+
+# The Amplia samples need amplia-client, which is optional (see requirements-amplia.txt). Without
+# it, /check-amplia-api-key explains how to install it instead of linking to them.
+if is_amplia_client_installed():
+    from .issue_cert_server_amplia import blueprint as issue_cert_server_amplia
+    from .issue_cert_user_amplia import blueprint as issue_cert_user_amplia
+    blueprints |= {issue_cert_server_amplia, issue_cert_user_amplia}
