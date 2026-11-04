@@ -98,11 +98,6 @@ SMOKE_SAMPLES = {
         ("pades-signature-pki-express", PKI_EXPRESS),
         ("timestamp-pdf-rest-pki-core", None),
     ],
-    "python/django": [
-        ("pades-signature-rest-pki", None),
-        ("validate-pades-signature-rest-pki", None),
-        ("printer-friendly-pdf-rest-pki", None),
-    ],
     "python/flask": [
         ("pades-signature-rest-pki-core", NO_CORE_KEY),
         ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),

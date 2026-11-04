@@ -12,3 +12,5 @@ pkiexpress>=1.10.0
 amplia-client>=1.0.0
 restpki-ng-python-client==0.9.1.1
 certifi>=2026.10.19
+pypdf>=6.19.0
+reportlab>=3.6.13

@@ -534,35 +534,6 @@
     "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
-    "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/pades_signature_rest/views.py",
-    "related_files": [
-      "python/django/sample/templates/pades_signature_rest/index.html",
-      "python/django/sample/templates/pades_signature_rest/complete.html",
-      "python/django/sample/static/js/signature-form.js",
-      "python/django/sample/pades_signature_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py",
-      "python/django/sample/pades_visual_elements_rest.py",
-      "python/django/sample/config.py",
-      "python/django/sample/PkiSuitePythonDjangoSample/urls.py"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
-    "demo_url": null,
-    "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/server-files?rc=pades-signature-rest&op=signPdf"
-    }
-  },
-  {
-    "id": "pades-signature-rest-pki",
-    "title": "Sign a PDF with Rest PKI",
-    "title_pt": "Assinar um PDF com o Rest PKI",
-    "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
-    "product": "rest-pki",
     "language": "ruby",
     "framework": "rails",
     "path": "ruby/rails/app/controllers/pades_signature_rest_controller.rb",
@@ -3922,30 +3893,6 @@
     "title_pt": "Validar um PDF assinado com o Rest PKI",
     "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
     "product": "rest-pki",
-    "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/open_pades_rest/views.py",
-    "related_files": [
-      "python/django/sample/templates/open_pades_rest/index.html",
-      "python/django/sample/open_pades_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": null,
-    "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/upload?rc=open-pades-rest"
-    }
-  },
-  {
-    "id": "validate-pades-signature-rest-pki",
-    "title": "Validate a signed PDF using Rest PKI",
-    "title_pt": "Validar um PDF assinado com o Rest PKI",
-    "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
-    "product": "rest-pki",
     "language": "ruby",
     "framework": "rails",
     "path": "ruby/rails/app/controllers/open_pades_rest_controller.rb",
@@ -4457,32 +4404,6 @@
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-rest-token/upload/printer-version-pades"
-    }
-  },
-  {
-    "id": "printer-friendly-pdf-rest-pki",
-    "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
-    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
-    "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
-    "product": "rest-pki",
-    "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/printer_version_pades_rest/views.py",
-    "related_files": [
-      "python/django/sample/printer_version_pades_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py",
-      "python/django/sample/check_pades_rest/views.py",
-      "python/django/sample/check_pades_rest/urls.py",
-      "python/django/sample/templates/check_pades_rest/index.html"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
-    "demo_url": null,
-    "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/server-files?rc=printer-version-pades-rest&op=printerFriendlyPdf"
     }
   },
   {
@@ -5785,22 +5706,23 @@
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/receita_simples_rest/views.py",
+    "framework": "flask",
+    "path": "python/flask/sample/views/receita_simples_rest.py",
     "related_files": [
-      "python/django/sample/templates/receita_simples_rest/index.html",
-      "python/django/sample/receita_simples_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py",
-      "python/django/sample/pades_signature_rest/views.py"
+      "python/flask/sample/templates/receita_simples_rest/index.html",
+      "python/flask/sample/views/pades_signature_rest.py",
+      "python/flask/sample/templates/pades_signature_rest/index.html",
+      "python/flask/sample/static/js/signature-form.js",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/storage_mock.py"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
     "demo_url": null,
     "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/receita-simples-rest/"
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/receita-simples-rest/"
     }
   }
 ]
