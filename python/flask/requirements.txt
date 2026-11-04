@@ -9,6 +9,8 @@ wheel>=0.38.1
 docopt>=0.6.1
 restpki-client>=1.1.1
 pkiexpress>=1.10.0
-amplia-client>=1.0.0
 restpki-ng-python-client==0.9.1.1
 certifi>=2026.10.19
+# pkiexpress and restpki-client import distutils, which Python 3.12 removed. setuptools brings it
+# back. The Amplia samples need requirements-amplia.txt too.
+setuptools>=78.1.1

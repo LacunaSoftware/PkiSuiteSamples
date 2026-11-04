@@ -221,6 +221,13 @@ operation. Timestamping with PKI Express needs that token.
 `ruby/rails/config/initializers/pki_express_ruby32_compat.rb`. A client app on Ruby 3.2+ needs the
 same one-line initializer until a fixed gem ships. Do not put it in controller code.
 
+**i. Python 3.12 and later need `setuptools`, and Amplia needs Python 3.11.** `pkiexpress` (up to
+1.10.4) and `restpki-client` (up to 1.3.1) import `distutils`, which Python 3.12 removed;
+installing `setuptools` brings it back, so the Flask sample lists it in `requirements.txt`.
+`amplia-client` 1.0.0 pins `requests` 2.21, which does not import on Python 3.12 or later, so the
+Flask sample keeps it in an optional `requirements-amplia.txt` and runs its Amplia samples only
+on Python 3.11 or older.
+
 ## 6. Conventions for adding or changing a sample
 
 - **Reuse slugs.** Name the task `<task>-<product>`, with `<product>` from the schema's enum,

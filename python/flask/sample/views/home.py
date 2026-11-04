@@ -7,6 +7,8 @@ from flask import redirect
 from pkiexpress import Authentication
 from pkiexpress import InstallationNotFoundError
 
+from sample.utils import is_amplia_client_installed
+
 # 26-08-2022
 # By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
 # when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
@@ -93,9 +95,13 @@ def check_rest_pki_core_api_key(rc, fwd=None, op=None):
 def check_amplia_api_key(rc, fwd=None, op=None):
     """
 
-    This function will check if the REST PKI token is set.
+    This function will check that amplia-client is installed and that the
+    Amplia API key is set.
 
     """
+    if not is_amplia_client_installed():
+        return render_template('home/amplia-client-not-installed.html')
+
     access_token = current_app.config['AMPLIA_API_KEY']
     if access_token is None or len(access_token) == 0:
         return render_template('home/amplia-key-not-set.html')
