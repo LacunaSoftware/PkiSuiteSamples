@@ -66,7 +66,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return View(new SignatureInfoModel() {
 				// Store the signature file on the folder "App_Data/".
 				// With this filename, it can show a link to download the signature file.
-				File = StorageMock.Store(signatureContent, ".pdf"),
+				File = StorageMock.Store(signatureContent, ".xml"),
 				SignerCertificate = certWithKey.Certificate
 			});
 		}
