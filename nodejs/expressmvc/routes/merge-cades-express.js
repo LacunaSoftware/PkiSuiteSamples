@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 	const signatureEditor = new CadesSignatureEditor();
 	Util.setPkiDefaults(signatureEditor);
 
-	const outputFile = `${randomUUID()}.ps7`;
+	const outputFile = `${randomUUID()}.p7s`;
 
 	if(dataFileId){
 		signatureEditor.setDataFileFromPathSync(StorageMock.getDataPath(dataFileId));

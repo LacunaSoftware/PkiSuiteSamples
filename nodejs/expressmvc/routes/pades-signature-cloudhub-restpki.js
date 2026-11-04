@@ -23,7 +23,6 @@ const app = express();
 const router = express.Router();
 const APP_ROOT = process.cwd();
 
-this.client = Util.getCloudhubClient();
 
 /*
  * GET /pades-signature-cloudhub-restpki
@@ -52,11 +51,12 @@ router.post("/", async (req, res, next) => {
 	try {
 		const cpf = req.body.cpf;
 		const fileId = req.query.fileId;
+		const client = Util.getCloudhubClient();
 
 		// remove all dots and hyphens
 		const new_cpf = cpf.replace(/[.-]/g, "");
 
-		const sessionRes = await this.client.createSessionAsync({
+		const sessionRes = await client.createSessionAsync({
 			identifier: new_cpf,
 			redirectUri: `http://localhost:3000/pades-signature-cloudhub-restpki/session-result?fileId=${fileId}`,
 			type: TrustServiceSessionTypes.SingleSignature,
@@ -81,8 +81,9 @@ router.get("/session-result", async (req, res, next) => {
 	try {
 		const session = req.query.session;
 		const file = req.query.fileId;
+		const client = Util.getCloudhubClient();
 
-		cert = await this.client.getCertificateAsync(session);
+		const cert = await client.getCertificateAsync(session);
 		const signatureStarter = new PadesSignatureStarter(
 			Util.getRestPkiClient()
 		);
@@ -118,7 +119,7 @@ router.get("/session-result", async (req, res, next) => {
 		// the API access token.
 		const result = await signatureStarter.start();
 
-		const hashRes = await this.client.signHashAsync({
+		const hashRes = await client.signHashAsync({
 			hash: result.toSignHash,
 			digestAlgorithmOid: result.digestAlgorithmOid,
 			session: session,
@@ -156,11 +157,6 @@ router.get("/session-result", async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-});
-
-router.get("/complete", async(req, res, next) => {
-
-	
 });
 
 module.exports = router;

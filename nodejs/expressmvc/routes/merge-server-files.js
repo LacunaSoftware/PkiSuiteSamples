@@ -58,8 +58,8 @@ router.post('/', (req, res) => {
 	}
 
 	// Copy file to the App_Data folder, where the upload files is stored.
-	const fileId1 = StorageMock.storeSync(file1, null, '.ps7');
-	const fileId2 = StorageMock.storeSync(file2, null, '.ps7');
+	const fileId1 = StorageMock.storeSync(file1, null, '.p7s');
+	const fileId2 = StorageMock.storeSync(file2, null, '.p7s');
 
 	redirectUrl += `fileId1=${fileId1}&fileId2=${fileId2}`;
 	res.redirect(redirectUrl);
