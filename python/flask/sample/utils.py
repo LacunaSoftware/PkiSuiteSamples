@@ -7,7 +7,6 @@ from datetime import timedelta
 from os.path import join
 
 import certifi
-from amplia_client import AmpliaClient
 from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
@@ -118,7 +117,19 @@ def get_rest_pki_core_client():
 
 # region Amplia
 
+def is_amplia_client_installed():
+    # amplia-client is optional (see requirements-amplia.txt): its pinned
+    # dependencies do not import on Python 3.12 or later.
+    try:
+        import amplia_client  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
 def get_amplia_client():
+    from amplia_client import AmpliaClient
+
     # Get Amplia API key to be used on the requests authentication.
     api_key = current_app.config['AMPLIA_API_KEY']
 

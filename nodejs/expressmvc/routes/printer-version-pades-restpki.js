@@ -120,7 +120,7 @@ async function generatePrinterFriendlyVersion(pdfPath, verificationCode, environ
 	signatureExplorer.securityContextId = Util.getSecurityContextId(environment);
 
 	// Call the open() method, which returns the signature file's information.
-	signature = await signatureExplorer.open();
+	const signature = await signatureExplorer.open();
 
 	// 2. Create PDF with verification info from uploaded PDF.
 	const pdfMarker = new PdfMarker(Util.getRestPkiClient());

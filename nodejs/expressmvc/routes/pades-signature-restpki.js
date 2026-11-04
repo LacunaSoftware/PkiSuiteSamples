@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 const {
 	PadesSignatureStarter,
@@ -117,7 +117,7 @@ router.post('/', (req, res, next) => {
 			// folder publicly accessible and render a link to it.
 
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const filename = `${uuidv4()}.pdf`;
+			const filename = `${randomUUID()}.pdf`;
 
 			// The SignatureResult object has functions for writing the signature
 			// file to a local life (writeToFile()) and to get its raw contents

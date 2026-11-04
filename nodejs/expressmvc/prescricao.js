@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const { StorageMock } = require('./storage-mock');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
+const { finished } = require('stream/promises');
 const PDFDocument = require('pdfkit');
 
 const APP_ROOT = process.cwd();
 
 class Prescricao {
-    static generateReceitaSimples(name, crm, crmUf){
+    static async generateReceitaSimples(name, crm, crmUf){
 
         const defaultLabel = [ 
             'Nome do(a) Médico(a):',
@@ -41,7 +42,7 @@ class Prescricao {
         ];
 
         // Create temporary file.
-        const outputFile = `${uuidv4()}.pdf`;
+        const outputFile = `${randomUUID()}.pdf`;
         StorageMock.createAppDataSync(); // Make sure the 'app-data' folder exists.
         let dest = path.join(APP_ROOT, 'app-data', outputFile);
 
@@ -61,7 +62,8 @@ class Prescricao {
             });
 
         // Stream contents to dest file
-        doc.pipe(fs.createWriteStream(dest));
+        const output = fs.createWriteStream(dest);
+        doc.pipe(output);
 
         // Add title.
         doc.fontSize(20);
@@ -81,6 +83,10 @@ class Prescricao {
         });
 
         doc.end();
+
+        // Wait until the whole PDF is on disk, so that the next step reads a complete
+        // file. This also rejects if the file cannot be written.
+        await finished(output);
 
         return outputFile;
     }

@@ -12,17 +12,19 @@ It first waits up to --timeout seconds for the app to answer, then checks that:
   1. the home page returns 200;
   2. each listed sample page returns 200 after following redirects. A "check" route, such as
      /check-rest-token or /Home/CheckPkiLicense, must redirect first: when a credential is
-     missing it renders an explanation page with status 200 instead of redirecting.
+     missing it renders an explanation page with status 200 instead of redirecting;
+  3. each path listed for it in NOT_FOUND_PATHS, which names a file that does not exist, returns
+     404 without redirecting.
 For a single-page app (SPA_PROJECTS below), which answers every route with its index.html, it
 also checks that:
-  3. each page contains the app's root element, such as <app-root>;
-  4. the app's JavaScript declares a route for each listed sample, without which the browser
+  4. each page contains the app's root element, such as <app-root>;
+  5. the app's JavaScript declares a route for each listed sample, without which the browser
      would show the app's not-found page. The script reads the <script> files of index.html and
      every module they import, lazy chunks included, each of which must answer 200 with
      JavaScript. It looks for a route declaration with the sample's path (`path: "<sample id>"`),
      not just the id, which the home page also lists. This checks only that the route exists:
      the script runs no JavaScript, so it cannot tell whether the page renders;
-  5. a JSON API endpoint, such as /api/configuration, answers 200 with JSON.
+  6. a JSON API endpoint, such as /api/configuration, answers 200 with JSON.
 
 Exits with status 1 when a check fails. Needs only the Python 3.8+ standard library.
 """
@@ -113,6 +115,27 @@ SMOKE_SAMPLES = {
         ("list-certificates-web-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
         ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
+    ],
+}
+
+# Sample pages that must answer 404 for a file (or verification code) that does not exist, as
+# {project: [path]}. Each one checks that the file exists before it calls any Lacuna service or
+# PKI Express.
+MISSING_FILE = "smoke-test-missing-file_pdf"
+NOT_FOUND_PATHS = {
+    "ruby/rails": [
+        f"/download/{MISSING_FILE}",
+        f"/pades-signature-rest/{MISSING_FILE}",
+        f"/open-pades-rest/{MISSING_FILE}",
+        f"/printer-version-pades-rest/{MISSING_FILE}",
+        f"/printer-version-pades-rest/download/{MISSING_FILE}",
+        f"/pades-signature-express/{MISSING_FILE}",
+        f"/cades-signature-express/{MISSING_FILE}",
+        f"/pades-server-key-express/{MISSING_FILE}",
+        f"/pades-cloud-oauth-express/{MISSING_FILE}",
+        f"/pades-cloud-pwd-express/{MISSING_FILE}",
+        f"/open-pades-express/{MISSING_FILE}",
+        "/check-pades-rest/AAAA-BBBB-CCCC-DDDD",  # a verification code that was never issued
     ],
 }
 
@@ -211,6 +234,19 @@ def check_page(opener, url, timeout, root_element=None):
     if status == 200 and root_element and f"<{root_element}".encode() not in body:
         problems.append(f"the page has no <{root_element}> element (is the app built into wwwroot?)")
     return problems
+
+
+def check_not_found(opener, url, timeout):
+    """GET url without following redirects; return a list of problems unless it answers 404."""
+    try:
+        status, location = get(opener, url, timeout)
+    except OSError as e:
+        print(f"    {e} {url}")
+        return [f"request failed: {e}"]
+    print(f"    {status} {url}" + (f" -> {location}" if location else ""))
+    if status != 404:
+        return [f"ended with status {status}, expected 404 for a file that does not exist"]
+    return []
 
 
 def route_pattern(path):
@@ -334,12 +370,17 @@ def main():
     def json_api(url):
         return check_json_api(opener, url, timeout=120)
 
+    def not_found(url):
+        return check_not_found(opener, url, timeout=120)
+
     # (name, URL, reason to skip or None, check)
     pages = [("home page", home, None, page)]
     pages += [(sid, rebase(entries[sid]["run"]["url"], args.base_url), skip, page)
               for sid, skip in SMOKE_SAMPLES[args.project]]
     if api_path:
         pages.append(("JSON API", urllib.parse.urljoin(home, api_path), None, json_api))
+    pages += [(f"missing file {path}", urllib.parse.urljoin(home, path), None, not_found)
+              for path in NOT_FOUND_PATHS.get(args.project, [])]
 
     failures = 0
     for name, url, skip, check in pages:

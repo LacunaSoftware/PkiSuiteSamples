@@ -15,7 +15,8 @@ class PadesSignatureRestController < ApplicationController
     # Verify if the :file_id exists with the help of our StorageMock class.
     # This sample can only be executed if the provided file exists.
     unless exist?(@file_to_sign)
-      render text: 'Not Found', status: 404 && return
+      render plain: 'Not Found', status: 404
+      return
     end
 
     # Get an instance of the PadesSignatureStarter class, responsible for

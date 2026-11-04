@@ -103,7 +103,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-rest-pki-core-api-key?rc=server-files&fwd=pades-signature&op=signPdf"
     }
   },
@@ -292,7 +292,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf"
     }
   },
@@ -471,7 +471,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf"
     }
   },
@@ -576,7 +576,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/upload?rc=pades-wo-communication-restpki"
     }
   },
@@ -599,7 +599,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-rest-pki-core-api-key?rc=batch-pades-signature"
     }
   },
@@ -677,7 +677,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=batch-pades-signature"
     }
   },
@@ -823,7 +823,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=batch-pades-signature"
     }
   },
@@ -1049,7 +1049,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=pades-server-key"
     }
   },
@@ -1221,7 +1221,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
     }
   },
@@ -1322,7 +1322,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=pades-cloud-oauth"
     }
   },
@@ -1475,7 +1475,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=pades-cloud-pwd"
     }
   },
@@ -1810,7 +1810,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=server-files&fwd=timestamp-pdf&op=signPdf"
     }
   },
@@ -1834,7 +1834,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-rest-pki-core-api-key?rc=upload&fwd=timestamp-pdf"
     }
   },
@@ -2079,7 +2079,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms"
     }
   },
@@ -2253,7 +2253,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms"
     }
   },
@@ -2428,7 +2428,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=batch-cades-signature"
     }
   },
@@ -2569,7 +2569,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=batch-cades-signature"
     }
   },
@@ -2660,7 +2660,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=cades-server-key"
     }
   },
@@ -2804,7 +2804,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=merge-server-files&fwd=merge-cades"
     }
   },
@@ -2906,7 +2906,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-signature"
     }
   },
@@ -2979,7 +2979,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=xml-signature"
     }
   },
@@ -3146,7 +3146,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-server-key"
     }
   },
@@ -3171,7 +3171,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-cloud-oauth"
     }
   },
@@ -3274,7 +3274,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-nfe-signature"
     }
   },
@@ -3373,7 +3373,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=xml-nfe-signature"
     }
   },
@@ -3706,7 +3706,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=open-pades"
     }
   },
@@ -3838,7 +3838,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=upload&fwd=open-pades"
     }
   },
@@ -3994,7 +3994,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=open-cades"
     }
   },
@@ -4082,7 +4082,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=upload&fwd=open-cades"
     }
   },
@@ -4259,7 +4259,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=printer-version-pades"
     }
   },
@@ -4355,7 +4355,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=upload&fwd=printer-version-pades"
     }
   },
@@ -4473,7 +4473,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=printer-version-cades"
     }
   },
@@ -4640,7 +4640,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=authentication"
     }
   },
@@ -4762,7 +4762,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=authentication"
     }
   },
@@ -4886,7 +4886,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/authentication-cloudhub"
     }
   },
@@ -4980,7 +4980,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/list-cert-jquery"
     }
   },
@@ -5095,7 +5095,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/read-cert-jquery"
     }
   },
@@ -5204,7 +5204,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/rsa-web"
     }
   },
@@ -5296,7 +5296,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-amplia-api-key?rc=issue-cert-user"
     }
   },
@@ -5346,7 +5346,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "python/flask",
-      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "command": "pip install -r requirements.txt -r requirements-amplia.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-amplia-api-key/issue-cert-user"
     }
   },
@@ -5397,7 +5397,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-amplia-api-key?rc=issue-cert-server"
     }
   },
@@ -5446,7 +5446,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "python/flask",
-      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "command": "pip install -r requirements.txt -r requirements-amplia.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-amplia-api-key/issue-cert-server"
     }
   },
@@ -5469,7 +5469,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/issue-pkcs12-cert-server-amplia"
     }
   },
@@ -5581,7 +5581,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/receita-simples-express"
     }
   },

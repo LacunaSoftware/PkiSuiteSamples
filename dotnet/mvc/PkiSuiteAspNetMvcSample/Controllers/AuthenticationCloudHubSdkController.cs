@@ -21,11 +21,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers
     {
 
         private const string RedirectUrl = "http://localhost:54123/AuthenticationCloudHubSdk/CloudHubCallBack";
-        CloudhubClient cloudhubClient = Util.GetCloudhubClient();
 
         [HttpGet]
         public ActionResult Index()
         {
+            // If this action is called because the authentication failed, show the validation results.
+            var vr = TempData["ValidationResults"] as ValidationResults;
+            if (vr != null && !vr.IsValid)
+            {
+                ModelState.AddModelError("", vr.ToString());
+            }
             return View();
         }
 
@@ -48,6 +53,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
                 Type = Lacuna.Cloudhub.Api.TrustServiceSessionTypes.SingleSignature,
             };
 
+            var cloudhubClient = Util.GetCloudhubClient();
             SessionModel session = await cloudhubClient.CreateSessionAsync(sessionRequest);
 
             return View(new AuthenticationCloudHubSdkModel()
@@ -66,6 +72,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             var nonceStore = Util.GetNonceStore();
 
             // We'll use the session to retrieve the user certificate and start the authentication process.
+            var cloudhubClient = Util.GetCloudhubClient();
             var cert = await cloudhubClient.GetCertificateAsync(session);
 
             // Instantiate the PKCertificateAuthentication class passing our EntityFrameworkNonceStore.

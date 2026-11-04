@@ -161,7 +161,7 @@ jobs:
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/nodejs/expressmvc
           node:22 sleep infinity
       - name: Install dependencies
-        run: docker exec app npm install
+        run: docker exec app npm ci
       - name: Start the app
         run: docker exec -d app sh -c "npm start > /tmp/app.log 2>&1"
       - name: Smoke test
@@ -213,12 +213,13 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
-      # Python 3.11: pkiexpress and amplia-client's pinned requests do not import on 3.12.
-      - name: Start a Python 3.11 container
+      # requirements.txt leaves out amplia-client, whose pinned requests does not import on 3.12 or
+      # later, so the Amplia samples show how to install it instead (see requirements-amplia.txt).
+      - name: Start a Python 3.13 container
         run: >
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/python/flask
           -e FLASK_APP=sample -e FLASK_ENV=development -e PIP_ROOT_USER_ACTION=ignore
-          python:3.11 sleep infinity
+          python:3.13 sleep infinity
       - name: Install dependencies
         run: docker exec app pip install -r requirements.txt
       - name: Start the app

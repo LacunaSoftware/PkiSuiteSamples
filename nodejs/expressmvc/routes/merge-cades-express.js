@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const { CadesSignatureEditor } = require('pki-express');
 
 const { Util } = require('../util');
@@ -16,14 +16,14 @@ const APP_ROOT = process.cwd();
  * This sample performs a merge of CAdES signature using PKI Express
  *
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 	const { fileId1 } = req.query;
 	const { fileId2 } = req.query;
 	const { dataFileId } = req.query;
 	const signatureEditor = new CadesSignatureEditor();
 	Util.setPkiDefaults(signatureEditor);
 
-	const outputFile = `${uuidv4()}.ps7`;
+	const outputFile = `${randomUUID()}.p7s`;
 
 	if(dataFileId){
 		signatureEditor.setDataFileFromPathSync(StorageMock.getDataPath(dataFileId));
@@ -32,10 +32,8 @@ router.get('/', (req, res) => {
 	signatureEditor.addCmsFileFromPathSync(StorageMock.getDataPath(fileId2));
 	signatureEditor.setOutputFilePath(path.join(APP_ROOT, 'app-data', outputFile));
 
-	signatureEditor.merge()
-		.then(() => {
-			res.render('merge-cades-express', { outputFile: outputFile.replace('.', '_') });
-		});
+	await signatureEditor.merge();
+	res.render('merge-cades-express', { outputFile: outputFile.replace('.', '_') });
 });
 
 module.exports = router;

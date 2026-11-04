@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<h2 class="ls-title">Amplia's client library is not installed</h2>
+
+	<p>The Amplia samples need the <code>amplia-client</code> package, which is optional:</p>
+	<pre>pip install -r requirements.txt -r requirements-amplia.txt</pre>
+	<p>
+		amplia-client 1.0.0 pins an old version of <code>requests</code> that does not import on
+		Python 3.12 or later, so these samples run only on Python 3.11 or older.
+	</p>
+{% endblock %}

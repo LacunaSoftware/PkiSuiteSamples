@@ -25,7 +25,7 @@ public class BatchCadesSignatureRestApiController {
     @PostMapping("/start/{fileId:.+}")
     public String start(
             @PathVariable int fileId
-    ) throws IOException {
+    ) throws IOException, RestException {
 
         // Get an instance of the CadesSignatureStarter2 class, responsible for receiving the
         // signature elements and start the signature process.
@@ -66,16 +66,9 @@ public class BatchCadesSignatureRestApiController {
         // (see file signature-form.js) and also to complete the signature after the form is
         // submitted (see method complete() below). This should not be mistaken with the API access
         // token.
-        SignatureStartWithWebPkiResult result;
+        SignatureStartWithWebPkiResult result = signatureStarter.startWithWebPki();
 
-        try{
-            result = signatureStarter.startWithWebPki();
-            return result.getToken();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-
+        return result.getToken();
     }
 
     /**

@@ -85,8 +85,17 @@ public class StorageMock {
 		String filename, validExtension = null;
 		if (originalFilename != null) {
 			int i = originalFilename.lastIndexOf('.');
-			filename = i == -1 ? originalFilename : originalFilename.substring(0, 1);
+			filename = i == -1 ? originalFilename : originalFilename.substring(0, i);
 			validExtension = i == -1 ? "" : originalFilename.substring(i + 1);
+			// The name comes from the request, so keep only characters that are safe in a path and in
+			// a URL. This also drops "/", "\" and "..", which would write outside the temporary
+			// folder, and "_" and ".", which the file id maps to each other (see generateFileId()).
+			filename = filename.replaceAll("[^A-Za-z0-9-]", "-");
+			validExtension = validExtension.replaceAll("[^A-Za-z0-9]", "");
+			// Keep the stored name, which adds a UUID, well under the 255-character limit of a file
+			// name.
+			filename = filename.substring(0, Math.min(filename.length(), 100));
+			validExtension = validExtension.substring(0, Math.min(validExtension.length(), 10));
 		} else {
 			filename = "";
 		}

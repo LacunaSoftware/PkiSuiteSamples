@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	XmlSignatureStarter,
 	StandardSignaturePolicies,
@@ -54,7 +54,7 @@ router.post('/start', (req, res, next) => {
 	signatureStarter.setCertificateFromBase64Sync(certContent);
 
 	// Set the ID of the element to be signed.
-	signatureStarter.ToSignElementId = 'NFe35141214314050000662550010001084271182362300';
+	signatureStarter.toSignElementId = 'NFe35141214314050000662550010001084271182362300';
 
 	// Start the signature process.
 	signatureStarter.start()
@@ -112,7 +112,7 @@ router.post('/complete', (req, res, next) => {
 
 	// Generate path for output file and add the signature finisher.
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-	const outputFile = `${uuidv4()}.xml`;
+	const outputFile = `${randomUUID()}.xml`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Complete the signature process.

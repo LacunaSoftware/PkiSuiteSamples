@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 const {
 	PadesSignatureStarter,
@@ -43,7 +43,7 @@ router.post('/generate', async (req, res, next) => {
 	const crmUf = req.body.crmUf;
 	
 	// Generate Receita Simples
-	const fileId = Prescricao.generateReceitaSimples(name, crm, crmUf);
+	const fileId = await Prescricao.generateReceitaSimples(name, crm, crmUf);
 
 	res.render('receita-simples-express/generate', { fileId });
 });
@@ -151,7 +151,7 @@ router.post('/complete', (req, res, next) => {
 
 	// Generate path for output file and add the signature finisher.
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-	const outputFile = `${uuidv4()}.pdf`;
+	const outputFile = `${randomUUID()}.pdf`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Complete the signature process.

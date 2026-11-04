@@ -78,7 +78,7 @@ and no check routes, which uses Rest PKI Core and never Rest PKI (v1)
 | `dotnet/spa/PkiSuiteAspNetCoreAngularSample` | ASP.NET Core (.NET 10) Web API + Angular 22 (`pkisuiteaspnetcoreangularsample.client/`), Node.js 24.15 or later | `dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server` | `dotnet run --launch-profile http` (after `npm ci` in the client folder), or open the `.sln` in Visual Studio, F5 | http://localhost:4200 (Angular dev server; the API listens on http://localhost:5100) | `appsettings.json` (`RestPkiCore`, `WebPki`, `PkiSuite`), overridden by `appsettings.Development.json`; `LacunaPkiLicense.config` (loaded from the content root) |
 | `dotnet/console/SkillFriendlySignatureApp` | .NET 10 console app, Windows only | `dotnet/console/SkillFriendlySignatureApp` | `dotnet run -- certs` (or `list`, `sign`; `--help` lists them) | none (prints JSON) | `appsettings.json`, then user secrets, then environment variables (`Signer__ApiKey`, `PkiSdk__License`); `LacunaPkiLicense.config` (next to the executable) |
 | `java/springmvc` | Spring Boot 4.0, Java 21, Gradle 8.14 wrapper (or Maven) | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
-| `nodejs/expressmvc` | Express + Pug | `nodejs/expressmvc` | `npm install && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
+| `nodejs/expressmvc` | Express 5 + Pug | `nodejs/expressmvc` | `npm ci && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
 | `python/flask` | Flask | `python/flask` | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000 | `sample/config.py` (class picked by `FLASK_ENV`, which is required) |
 | `ruby/rails` | Rails 8.1, Ruby 3.3, Puma | `ruby/rails` | `bundle install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
@@ -219,6 +219,13 @@ operation. Timestamping with PKI Express needs that token.
 `ruby/rails/config/initializers/pki_express_ruby32_compat.rb`. A client app on Ruby 3.2+ needs the
 same one-line initializer until a fixed gem ships. Do not put it in controller code.
 
+**i. Python 3.12 and later need `setuptools`, and Amplia needs Python 3.11.** `pkiexpress` (up to
+1.10.4) and `restpki-client` (up to 1.3.1) import `distutils`, which Python 3.12 removed;
+installing `setuptools` brings it back, so the Flask sample lists it in `requirements.txt`.
+`amplia-client` 1.0.0 pins `requests` 2.21, which does not import on Python 3.12 or later, so the
+Flask sample keeps it in an optional `requirements-amplia.txt` and runs its Amplia samples only
+on Python 3.11 or older.
+
 ## 6. Conventions for adding or changing a sample
 
 - **Reuse slugs.** Name the task `<task>-<product>`, with `<product>` from the schema's enum,
@@ -239,8 +246,9 @@ same one-line initializer until a fixed gem ships. Do not put it in controller c
 
 - `.github/workflows/build-samples.yml` builds and starts each web project a pull request
   touches (all of them on `master` and weekly; never `dotnet/console`, whose tests run in
-  `.github/workflows/test-console.yml`), and `scripts/ci/smoke-test.py` checks its home page and
-  the catalog pages listed in that script's `SMOKE_SAMPLES`.
+  `.github/workflows/test-console.yml`), and `scripts/ci/smoke-test.py` checks its home page,
+  the catalog pages listed in that script's `SMOKE_SAMPLES`, and that the paths in its
+  `NOT_FOUND_PATHS` answer 404 for a file (or verification code) that does not exist.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
   key. In `dotnet/spa`, add them to `src/app/home/sample-list.ts` and `src/app/app.routes.ts`

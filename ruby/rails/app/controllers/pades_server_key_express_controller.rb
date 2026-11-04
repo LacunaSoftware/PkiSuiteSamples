@@ -10,7 +10,10 @@ class PadesServerKeyExpressController < ApplicationController
     
     # Verify if the :file_id exists with the help of our StorageMock class.
     # This sample cna only be executed if the provided file exists.
-    render text: 'Not Found', status: 404 unless exist?(@file_to_sign)
+    unless exist?(@file_to_sign)
+      render plain: 'Not Found', status: 404
+      return
+    end
 
     # Get an instance of the PadesSigner class, responsible for receiving
     # the signature elements and performing the local signature.

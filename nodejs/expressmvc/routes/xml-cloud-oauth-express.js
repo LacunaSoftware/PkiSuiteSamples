@@ -1,7 +1,7 @@
 const path = require("path");
 
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require("crypto");
 
 const {
 	StandardSignaturePolicies,
@@ -65,7 +65,7 @@ router.get("/", async (req, res, next) => {
 
 	// We will use a sessionId to identify the code and state in the front-end
 	// to be used in the callback page (see tsp-callback.js file)
-	const sessionId = uuidv4();
+	const sessionId = randomUUID();
 
 	// Start authentication with available
 	const result = await manager.startAuth(
@@ -128,7 +128,7 @@ router.post("/", async (req, res, next) => {
 		signer.trustServiceSession = result.session;
 
 		// Generate path for output file and add the signature finisher.
-		const outputFile = `${uuidv4()}.xml`;
+		const outputFile = `${randomUUID()}.xml`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, "app-data", outputFile);
 

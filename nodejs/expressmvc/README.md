@@ -63,7 +63,7 @@ Run from this folder, because the app resolves `config/`, `app-data/` and `resou
 working directory:
 
 ```bash
-npm install
+npm ci
 npm start
 ```
 
