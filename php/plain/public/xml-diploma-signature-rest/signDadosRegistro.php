@@ -109,9 +109,7 @@ Util::setExpiredPage();
 
 <?php include '../shared/scripts.php' ?>
 
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js"
-        integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300="
-        crossorigin="anonymous"></script>
+<?php include '../shared/web-pki.php' ?>
 
 <script src="../scripts/signature-form.js"></script>
 <script>

@@ -15,8 +15,8 @@ module Util
 
     # Throw exception if token is not set (this check is here just for the sake
     # of new comers, you can remove it).
-    if access_token.include? ' API '
-      raise 'The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on the file config/application.rb'
+    if access_token.blank? || access_token == 'YOUR_REST_PKI_ACCESS_TOKEN'
+      raise 'The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on the file config/lacuna.yml'
     end
 
     if endpoint.nil? or endpoint.length == 0
@@ -101,7 +101,7 @@ module Util
     # operation. In this sample, we will use the REST PKI by default to emit a
     # timestamp. It only be filled if the REST PKI was provided.
     rest_pki_access_token = Rails.configuration.lacuna.dig(:rest_pki, :access_token)
-    unless rest_pki_access_token&.include? ' ACCESS TOKEN '
+    if rest_pki_access_token.present? && rest_pki_access_token != 'YOUR_REST_PKI_ACCESS_TOKEN'
 
       # Get an instance of the TimestampAuthority class, responsible to inform
       # the url and authentication logic to be used when contacting and

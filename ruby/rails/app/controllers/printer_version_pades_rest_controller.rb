@@ -38,7 +38,8 @@ class PrinterVersionPadesRestController < ApplicationController
         # Verify if the :file_id exists with the help of our StorageMock class.
         # This sample can only be executed if the provided file exists.
         unless exist?(@file_id)
-            render text: 'Not Found', status: 404 && return
+            render plain: 'Not Found', status: 404
+            return
         end
     end
 
@@ -51,7 +52,8 @@ class PrinterVersionPadesRestController < ApplicationController
         # Verify if the :file_id exists with the help of our StorageMock class.
         # This sample can only be executed if the provided file exists.
         unless exist?(@file_id)
-            render text: 'Not Found', status: 404 && return
+            render plain: 'Not Found', status: 404
+            return
         end
 
         file_path = get_data_path(@file_id)

@@ -1,0 +1,5 @@
+# Only the Amplia samples (issue-cert-server-amplia and issue-cert-user-amplia) need this:
+#     pip install -r requirements.txt -r requirements-amplia.txt
+# amplia-client 1.0.0 pins requests 2.21, whose bundled urllib3 does not import on Python 3.12 or
+# later, so these samples run only on Python 3.11 or older until a new amplia-client is released.
+amplia-client>=1.0.0

@@ -37,10 +37,6 @@ try {
     // defined above to configure the policy.
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC;
 
-    // For development purposes, we also trust in Lacuna Software's test certificates.
-    // Comment the line bellow before release.
-    $signatureStarter->trustLacunaTestRoot = true;
-
     // REQUIRED!
     // Use a custom signature field name. This field MUST have the 
     // "Emitente" keyword as the last keyword.
@@ -122,9 +118,7 @@ try {
     // The file below contains the JS lib for accessing the Web PKI component. For
     // more information, see: https://webpki.lacunasoftware.com/#/Documentation
     ?>
-    <script type="text/javascript" src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js"
-            integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300="
-            crossorigin="anonymous"></script>
+    <?php include '../shared/web-pki.php' ?>
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is

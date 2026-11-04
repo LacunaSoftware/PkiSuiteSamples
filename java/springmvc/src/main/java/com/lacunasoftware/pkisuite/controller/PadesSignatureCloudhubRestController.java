@@ -31,8 +31,6 @@ import java.util.Base64;
 
 @Controller
 public class PadesSignatureCloudhubRestController {
-	// Redirect URL where it's accessed after OAuth flow is finished.
-	private SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
 
 
 
@@ -94,6 +92,7 @@ public class PadesSignatureCloudhubRestController {
 		// page. As mentioned before, we pass the id of the file to be signed as the last parameter
 		// of the following method. The next action will recover this information.
 
+		SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
 		SessionModel result = sessionsApi.apiSessionsPost(sessionCreateRequest);
 
 		// Render complete page.
@@ -116,6 +115,7 @@ public class PadesSignatureCloudhubRestController {
 
 		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
 		// and handling the OAuth flow.
+		SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
 		byte[] certificate =  sessionsApi.apiSessionsCertificateGet(session);
 
 
