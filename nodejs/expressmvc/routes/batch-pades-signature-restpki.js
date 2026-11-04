@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const { PadesSignatureStarter, StandardSignaturePolicies, PadesSignatureFinisher } = require('restpki-client');
 
 const { Util } = require('../util');
@@ -107,19 +107,18 @@ router.post('/complete', (req, res, next) => {
 			// folder publicly accessible and render a link to it.
 
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const filename = `${uuidv4()}.pdf`;
+			const filename = `${randomUUID()}.pdf`;
 
 			// The SignatureResult object has functions for writing the signature
 			// file to a local life (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
+			return result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
 			.then(() => {
 				// Render the result page, showing the signed file and the signer
 				// certification info.
 				res.json(filename);
 			})
-			.catch((err) => { throw err });
 		})
 		.catch((err) => next(err));
 });

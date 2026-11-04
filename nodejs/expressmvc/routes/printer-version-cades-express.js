@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	CadesSignatureExplorer,
 	PdfMarker,
@@ -259,7 +259,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 
 			// Generate path for output file and add the marker.
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			outputFile = `${uuidv4()}.pdf`;
+			outputFile = `${randomUUID()}.pdf`;
 			pdfMarker.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 			// Apply marks.

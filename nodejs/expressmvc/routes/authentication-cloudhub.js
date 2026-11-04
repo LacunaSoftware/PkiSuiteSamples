@@ -4,7 +4,7 @@ const { Util } = require("../util");
 const { Authentication, CompleteAuth } = require("restpki-client");
 const restpki = require("restpki-client");
 
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require("crypto");
 const path = require("path");
 
 const app = express();
@@ -12,8 +12,6 @@ const app = express();
 const router = express.Router();
 const APP_ROOT = process.cwd();
 
-this.client = Util.getCloudhubClient();
-this.restPkiClient = Util.getRestPkiClient();
 
 /*
  * GET /authentication-cloudhub
@@ -22,9 +20,6 @@ this.restPkiClient = Util.getRestPkiClient();
  * the next page, where it will ask which cloud signature service the user wants
  */
 router.get("/", async (req, res, next) => {
-	// Get an instance of the Authentication class.
-	const auth = new Authentication(this.restPkiClient);
-
 	// Render the authentication page.
 	res.render("authentication-cloudhub", {});
 });
@@ -36,11 +31,12 @@ router.get("/", async (req, res, next) => {
  */
 router.post("/", async (req, res, next) => {
 	try {
+		const client = Util.getCloudhubClient();
 		const cpf = req.body.cpf;
 		// remove all dots and hyphens
 		const new_cpf = cpf.replace(/[.-]/g, "");
 
-		const sessionRes = await this.client.createSessionAsync({
+		const sessionRes = await client.createSessionAsync({
 			identifier: new_cpf,
 			redirectUri: `http://localhost:3000/authentication-cloudhub/session-result`,
 			type: TrustServiceSessionTypes.SingleSignature,
@@ -62,9 +58,10 @@ router.post("/", async (req, res, next) => {
  */
 router.get("/session-result", async (req, res, next) => {
 	try {
-		const auth = new Authentication(this.restPkiClient);
+		const auth = new Authentication(Util.getRestPkiClient());
 		const session = req.query.session;
-		const cert = await this.client.getCertificateAsync(session);
+		const client = Util.getCloudhubClient();
+		const cert = await client.getCertificateAsync(session);
 
 		// Call the start() method, which initiates the authentication.
 		// This yields the "token", a 22-character case-sensitive URL-safe string,
@@ -79,7 +76,7 @@ router.get("/session-result", async (req, res, next) => {
 		);
 		const token = startResult.token;
 
-		var signature = await this.client.signHashAsync({
+		var signature = await client.signHashAsync({
 			hash: startResult.toSignHash,
 			digestAlgorithmOid: startResult.digestAlgorithmOid,
 			session: session,
@@ -90,7 +87,7 @@ router.get("/session-result", async (req, res, next) => {
 			certificate: cert,
 		});
 
-		result = await auth.complete(token, payload);
+		const result = await auth.complete(token, payload);
 
 		// Check the authentication result.
 		if (!result.validationResults.isValid()) {

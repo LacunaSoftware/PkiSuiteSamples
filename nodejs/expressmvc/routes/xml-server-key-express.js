@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	XmlSigner,
 	StandardSignaturePolicies,
@@ -63,7 +63,7 @@ router.get('/', async (req, res, next) => {
 		}
 
 		// Generate path for output file and add the signature finisher.
-		const outputFile = `${uuidv4()}.xml`;
+		const outputFile = `${randomUUID()}.xml`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 

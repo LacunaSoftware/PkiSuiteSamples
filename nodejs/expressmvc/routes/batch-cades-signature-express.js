@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	CadesSignatureStarter,
 	StandardSignaturePolicies,
@@ -121,7 +121,7 @@ router.post('/complete', (req, res, next) => {
 
 	// Generate path for output file and add to the signature finisher.
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
-	const outputFile = `${uuidv4()}.p7s`;
+	const outputFile = `${randomUUID()}.p7s`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Call the finish() method, which finalizes the signature process.

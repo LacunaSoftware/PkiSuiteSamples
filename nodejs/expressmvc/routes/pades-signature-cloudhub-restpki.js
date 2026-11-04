@@ -15,7 +15,7 @@ const {
 	PadesVisualElementsRestPki,
 } = require("../pades-visual-elements-restpki");
 const { StorageMock } = require("../storage-mock");
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require("crypto");
 const path = require('path');
 
 const app = express();
@@ -23,7 +23,6 @@ const app = express();
 const router = express.Router();
 const APP_ROOT = process.cwd();
 
-this.client = Util.getCloudhubClient();
 
 /*
  * GET /pades-signature-cloudhub-restpki
@@ -52,11 +51,12 @@ router.post("/", async (req, res, next) => {
 	try {
 		const cpf = req.body.cpf;
 		const fileId = req.query.fileId;
+		const client = Util.getCloudhubClient();
 
 		// remove all dots and hyphens
 		const new_cpf = cpf.replace(/[.-]/g, "");
 
-		const sessionRes = await this.client.createSessionAsync({
+		const sessionRes = await client.createSessionAsync({
 			identifier: new_cpf,
 			redirectUri: `http://localhost:3000/pades-signature-cloudhub-restpki/session-result?fileId=${fileId}`,
 			type: TrustServiceSessionTypes.SingleSignature,
@@ -81,8 +81,9 @@ router.get("/session-result", async (req, res, next) => {
 	try {
 		const session = req.query.session;
 		const file = req.query.fileId;
+		const client = Util.getCloudhubClient();
 
-		cert = await this.client.getCertificateAsync(session);
+		const cert = await client.getCertificateAsync(session);
 		const signatureStarter = new PadesSignatureStarter(
 			Util.getRestPkiClient()
 		);
@@ -107,72 +108,55 @@ router.get("/session-result", async (req, res, next) => {
 	
 		// Set the visual representation to the signature. We have encapsulated this
 		// code (on pades-visual-elements.js) to be used on various PAdES examples.
-		PadesVisualElementsRestPki.getVisualRepresentation()
-			.then((visualRepresentation) => {
-				// Set the visual representation to signatureStarter.
-				signatureStarter.visualRepresentation = visualRepresentation;
-	
-				// Call the start() method, which initiates the signature.
-				// This yields the hash of the document, the digestAlgorithm used 
-				// for the hash creation function and the token, a 43-character 
-				// case-sensitive URL-safe string, which identifies this signature 
-				// process. We'll use this value to call the signatureFinisher.finish()
-				// method to complete the signature. The token should not be mistaken with 
-				// the API access token.
-				return signatureStarter.start();
-			})
-			.then(async (result) => {
-				var hashRes = await this.client.signHashAsync({
-					hash: result.toSignHash,
-					digestAlgorithmOid: result.digestAlgorithmOid,
-					session: session,
-				});
-				// Get an instance of the PadesSignatureFinisher class, responsible for
-				// completing the signature process.
-				var finisher = new PadesSignatureFinisher(
-					Util.getRestPkiClient()
-				);
-				// set the hash received from signature
-				finisher._signature = hashRes;
-				// set the token
-				finisher.token = result.token;
-				// finish the signature process
-				const finishRes = await finisher.finish();
-				
-				// Get the certificate from the response
-				const signerCert = finishRes.certificate;
-	
-				// The SignatureResult object has functions for writing the signature
-				// file to a local life (writeToFile()) and to get its raw contents
-				// (getContent()). For large files, use writeToFile() in order to avoid
-				// memory allocation issues.
-	
-				// Render the result page, showing the signed file and the signer
-				// certification info.
-				StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-				const filename = `${uuidv4()}.pdf`;
-	
-				// The SignatureResult object has functions for writing the signature
-				// file to a local life (writeToFile()) and to get its raw contents
-				// (getContent()). For large files, use writeToFile() in order to avoid
-				// memory allocation issues.
-				finishRes.writeToFile(path.join(APP_ROOT, "app-data", filename)).then(() => {
-						// Render the result page, showing the signed file and the signer
-						// certification info.
-						res.render("pades-signature-restpki/complete", {
-							signedPdf: filename,
-							signerCert,
-						});
-					});
-			});
+		signatureStarter.visualRepresentation = await PadesVisualElementsRestPki.getVisualRepresentation();
+
+		// Call the start() method, which initiates the signature.
+		// This yields the hash of the document, the OID of the digest algorithm
+		// used to compute it and the token, a 43-character case-sensitive
+		// URL-safe string, which identifies this signature process. We'll use
+		// this value to call the finisher.finish() method to complete the
+		// signature. The token should not be mistaken with
+		// the API access token.
+		const result = await signatureStarter.start();
+
+		const hashRes = await client.signHashAsync({
+			hash: result.toSignHash,
+			digestAlgorithmOid: result.digestAlgorithmOid,
+			session: session,
+		});
+		// Get an instance of the PadesSignatureFinisher class, responsible for
+		// completing the signature process.
+		const finisher = new PadesSignatureFinisher(
+			Util.getRestPkiClient()
+		);
+		// set the hash received from signature
+		finisher._signature = hashRes;
+		// set the token
+		finisher.token = result.token;
+		// finish the signature process
+		const finishRes = await finisher.finish();
+
+		// Get the certificate from the response
+		const signerCert = finishRes.certificate;
+
+		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
+		const filename = `${randomUUID()}.pdf`;
+
+		// The SignatureResult object has functions for writing the signature
+		// file to a local life (writeToFile()) and to get its raw contents
+		// (getContent()). For large files, use writeToFile() in order to avoid
+		// memory allocation issues.
+		await finishRes.writeToFile(path.join(APP_ROOT, "app-data", filename));
+
+		// Render the result page, showing the signed file and the signer
+		// certification info.
+		res.render("pades-signature-restpki/complete", {
+			signedPdf: filename,
+			signerCert,
+		});
 	} catch (err) {
 		next(err);
 	}
-});
-
-router.get("/complete", async(req, res, next) => {
-
-	
 });
 
 module.exports = router;
