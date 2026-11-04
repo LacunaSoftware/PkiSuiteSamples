@@ -26,7 +26,7 @@ class ServerFilesController < ApplicationController
     when 'sign-pdf'
       @available_files.append(id: :sample_pdf, description: 'A sample PDF document (size: 25kb) with no signatures.')
     else
-      raise Exception('Invalid operation')
+      raise ArgumentError, 'Invalid operation'
     end
     # Is it up to your application's business logic to determine which server
     # documents to be available for the signature.

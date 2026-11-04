@@ -36,7 +36,7 @@ class PadesCloudPwdExpressController < ApplicationController
     
     # Verify if the :file_id exists with the help of our StorageMock class.
     # This sample cna only be executed if the provided file exists.
-    render text: 'Not Found', status: 404 unless exist?(@file_to_sign)
+    render plain: 'Not Found', status: 404 unless exist?(@file_to_sign)
   end
   
   # POST /pades-cloud-pwd-express/discover

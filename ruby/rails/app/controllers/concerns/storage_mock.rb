@@ -27,14 +27,23 @@ module StorageMock
     if filename.nil?
       filename = ''
     else
+      # A crafted request can send bytes that are not UTF-8, or a NUL, which gsub and
+      # File.extname reject.
+      filename = filename.scrub('-').delete("\0")
       valid_extension = filename.slice! File.extname(filename)
     end
+
+    # The name comes from the request, so keep only characters that are safe in a path and in a
+    # URL ("#", "?" or "%" would break the redirect to the sample). This also turns "_" and "."
+    # into "-", since the file id maps them to each other (see generate_file_id).
+    filename = filename.gsub(/[^A-Za-z0-9-]/, '-')
+    valid_extension = valid_extension.gsub(/[^A-Za-z0-9]/, '') unless valid_extension.nil?
 
     valid_extension = extension unless extension.nil? || extension.empty?
 
     name = ''
     unless filename.nil? || filename.empty?
-      name += filename.gsub('_', '.')
+      name += filename
       name += '.'
     end
     name += SecureRandom.uuid
@@ -97,7 +106,7 @@ module StorageMock
     when :sample_nfe
       'SampleNFe.xml'
     else
-      raise Exception('File not found')
+      raise ArgumentError, 'File not found'
     end
   end
 
