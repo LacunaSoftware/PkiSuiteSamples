@@ -131,10 +131,9 @@ def generate():
         pdf_marker.file_path = file_path
 
         # PdfHelper is a class from the REST PKI's "fluent API" that helps
-        # creating elements and parameters for the PdfMarker. Create a
-        # "manifest" mark on a new page added on the end of the document, with
-        # the QR code on its lower-right corner. The QR code is a square, so its
-        # width is the same as its height.
+        # creating elements and parameters for the PdfMarker. Create a mark
+        # with the QR code on the lower-right corner of the prescription page.
+        # The QR code is a square, so its width is the same as its height.
         pdf = PdfHelper()
         manifest_mark = pdf.mark() \
             .on_container(pdf.container().var_width_and_height().margins(2.54, 2.54))
