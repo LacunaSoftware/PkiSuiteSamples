@@ -30,7 +30,15 @@ var issueCertForm = (function () {
             };
             var options = {
                 onKeyPress: function (telephone, e, field, options) {
-                    formElements.phoneNumberInput.mask(phoneMask(telephone), options);
+                    var mask = phoneMask(telephone);
+                    if (formElements.phoneNumberInput.data('mask').mask !== mask) {
+                        formElements.phoneNumberInput.mask(mask, options);
+                        // jquery.mask fills the new mask's caret map only on keydown, so an input event
+                        // without a keydown first (a paste on a phone, an autofill) would throw. Firing
+                        // keydown once fills it. See
+                        // https://github.com/igorescobar/jQuery-Mask-Plugin/issues/751
+                        formElements.phoneNumberInput.trigger('keydown');
+                    }
                 }
             };
             formElements.phoneNumberInput.mask(phoneMask(''), options);
