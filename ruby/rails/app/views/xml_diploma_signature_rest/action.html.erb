@@ -1,0 +1,10 @@
+<h2 class="ls-title">XML Diploma Signature with REST PKI</h2>
+<h5 class="ls-subtitle">Element <i>DadosDiploma</i> signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
+
+<div class="ls-content">
+  <h3>Actions:</h3>
+  <ul>
+    <li><a href="/download/<%= @file_id %>">Download the signed file</a></li>
+    <li><%= link_to 'Continue signature process (sign the DadosRegistro element)', xml_diploma_signature_rest_dados_registro_path(fileId: @file_id) %></li>
+  </ul>
+</div>

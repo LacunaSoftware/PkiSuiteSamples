@@ -105,6 +105,8 @@ module StorageMock
       'SampleXML.xml'
     when :sample_nfe
       'SampleNFe.xml'
+    when :sample_diploma
+      'SampleDiploma.xml'
     else
       raise ArgumentError, 'File not found'
     end
