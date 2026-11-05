@@ -72,6 +72,13 @@ Rails.application.routes.draw do
   get '/xml-nfe-signature-rest/', action: :index, controller: :xml_nfe_signature_rest, as: :xml_nfe_signature_rest
   post '/xml-nfe-signature-rest/', action: :action, controller: :xml_nfe_signature_rest
 
+  get '/xml-diploma-signature-rest/', action: :index, controller: :xml_diploma_signature_rest, as: :xml_diploma_signature_rest
+  post '/xml-diploma-signature-rest/', action: :action, controller: :xml_diploma_signature_rest
+  get '/xml-diploma-signature-rest/dados-registro', action: :dados_registro, controller: :xml_diploma_signature_rest, as: :xml_diploma_signature_rest_dados_registro
+  post '/xml-diploma-signature-rest/dados-registro', action: :dados_registro_action, controller: :xml_diploma_signature_rest
+  get '/xml-diploma-signature-rest/diploma', action: :diploma, controller: :xml_diploma_signature_rest, as: :xml_diploma_signature_rest_diploma
+  post '/xml-diploma-signature-rest/diploma', action: :diploma_action, controller: :xml_diploma_signature_rest
+
   get '/authentication-rest/', action: :index, controller: :authentication_rest, as: :authentication_rest
   post '/authentication-rest/', action: :action, controller: :authentication_rest
 

@@ -121,6 +121,8 @@ SMOKE_SAMPLES = {
         ("list-certificates-web-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
         ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
+        # Its page calls Rest PKI (startWithWebPki) with the committed trial access token.
+        ("xml-diploma-signature-rest-pki", None),
     ],
 }
 
@@ -146,6 +148,8 @@ NOT_FOUND_PATHS = {
         f"/pades-cloud-pwd-express/{MISSING_FILE}",
         f"/open-pades-express/{MISSING_FILE}",
         "/check-pades-rest/AAAA-BBBB-CCCC-DDDD",  # a verification code that was never issued
+        f"/xml-diploma-signature-rest/dados-registro?fileId={MISSING_FILE}",
+        f"/xml-diploma-signature-rest/diploma?fileId={MISSING_FILE}",
     ],
 }
 
