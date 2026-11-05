@@ -22,14 +22,18 @@ var issueCertForm = (function () {
 
         // Add mask and internationalization for phoneNumber field.
         if (formElements.phoneNumberField && formElements.phoneNumberInput) {
+            // A landline has 10 digits, (00) 0000-0000, and a mobile number 11, (00) 00000-0000.
+            // The mask starts with an optional last digit (the 9), so the user can type the 11th
+            // digit, and switches to the mobile mask once there are 11 digits.
+            var phoneMask = function (telephone) {
+                return telephone.replace(/\D/g, '').length > 10 ? '(00) 00000-0000' : '(00) 0000-00009';
+            };
             var options = {
                 onKeyPress: function(telephone, e, field, options) {
-                    var masks = ['(00) 00000-0000', '(00) 0000-0000'];
-                    var mask = (telephone.length > 13) ? masks[0] : masks[1];
-                    formElements.phoneNumberInput.mask(mask, options);
+                    formElements.phoneNumberInput.mask(phoneMask(telephone), options);
                 }
             };
-            formElements.phoneNumberInput.mask('(00) 00000-0000', options);
+            formElements.phoneNumberInput.mask(phoneMask(''), options);
         }
 
         // Add click handler for issueButton to submit form and perform
