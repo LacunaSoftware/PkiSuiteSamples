@@ -37,6 +37,8 @@ from .rsa_web import blueprint as rsa_web
 from .timestamp_pdf_express import blueprint as timestamp_pdf_express
 from .timestamp_pdf_rest_core import blueprint as timestamp_pdf_rest_core
 from .upload import blueprint as upload
+from .xml_diploma_signature_rest import blueprint as \
+    xml_diploma_signature_rest
 from .xml_nfe_signature_rest import blueprint as xml_nfe_signature_rest
 from .xml_signature_rest import blueprint as xml_signature_rest
 from .server_files import blueprint as server_files
@@ -77,6 +79,7 @@ blueprints = {
     timestamp_pdf_express,
     timestamp_pdf_rest_core,
     upload,
+    xml_diploma_signature_rest,
     xml_nfe_signature_rest,
     xml_signature_rest,
     server_files,
