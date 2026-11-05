@@ -349,8 +349,7 @@
 
 		// ----------------------------------------------------------------------------------------------
 		// Callback that will be called when the signature is completed with validation errors. It will
-		// render the validation results that caused the fail. It will show a popover with these
-		// validations.
+		// render the validation results that caused the fail, in a modal opened by a button.
 		// ----------------------------------------------------------------------------------------------
 		function onSignatureFailed(validationResults) {
 
@@ -363,9 +362,8 @@
 			// Add badge with the signature's results.
 			$('#resultBadge').html('<i class="far fa-times-circle text-danger"></i> Validation Error');
 
-			// Show validation results. We chose popper package to show this information, but
-			// might want to substitute this implementation with more user-friendly UI component
-			// to show the validation results.
+			// Show validation results in a Bootstrap modal. You might want to use a more
+			// user-friendly UI component to show the validation results.
 			$('#validationResults .modal-body').html(vrToString(validationResults, ''));
 			$('#signatureInfo')
 				.html($('<button/>')

@@ -186,9 +186,9 @@
 						$('#signButton').prop('disabled', true);
 						$('#searchFileButton').prop('disabled', true);
 					} else {
-						// Show validation results. We chose popper package to show this information, but might
-						// want to substitute this implementation with more user-friendly UI component to show
-						// the validation results.
+						// Show validation results in a Bootstrap popover (it needs Popper, which the layout loads
+						// with bootstrap.bundle.min.js). You might want to use a more user-friendly UI component
+						// to show the validation results.
 						$('#signatureInfo')
 							.html('<i class="fas fa-times" style="color: red;"></i> ')
 							.append($('<a/>')
@@ -204,8 +204,8 @@
 					$.unblockUI();
 				}).error(function (e) {
 
-					// Show error. We chose popper package to show this information, but might
-					// want to substitute this implementation with more user-friendly UI component to show
+					// Show the error in a Bootstrap popover (it needs Popper, which the layout loads with
+					// bootstrap.bundle.min.js). You might want to use a more user-friendly UI component to show
 					// the error.
 					$('#signatureInfo')
 						.html('<i class="fas fa-times" style="color: red;"></i> ')
