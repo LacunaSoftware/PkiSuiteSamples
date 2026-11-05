@@ -112,6 +112,7 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-rest-pki", None),
         ("list-certificates-web-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
+        ("xml-diploma-signature-rest-pki", None),
     ],
     "ruby/rails": [
         ("pades-signature-rest-pki-core", NO_CORE_KEY),
