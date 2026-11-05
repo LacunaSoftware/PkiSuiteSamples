@@ -79,6 +79,10 @@ def get_sample_nfe_path():
     return '%s/%s' % (current_app.static_folder, 'SampleNFe.xml')
 
 
+def get_sample_diploma_path():
+    return '%s/%s' % (current_app.static_folder, 'SampleDiploma.xml')
+
+
 def get_sample_xml_document_path():
     return '%s/%s' % (current_app.static_folder, 'SampleDocument.xml')
 

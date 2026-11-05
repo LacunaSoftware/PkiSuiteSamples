@@ -3651,6 +3651,36 @@
     }
   },
   {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
+    "language": "python",
+    "framework": "flask",
+    "path": "python/flask/sample/views/xml_diploma_signature_rest.py",
+    "related_files": [
+      "python/flask/sample/templates/xml_diploma_signature_rest/index.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/dados_diploma.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/sign_dados_registro.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/dados_registro.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/sign_diploma.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/diploma.html",
+      "python/flask/sample/static/js/signature-form.js",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/storage_mock.py",
+      "python/flask/sample/static/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
+    "demo_url": null,
+    "run": {
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/check-rest-token/xml-diploma-signature"
+    }
+  },
+  {
     "id": "validate-pades-signature-pki-sdk",
     "title": "Validate a signed PDF using PKI SDK",
     "title_pt": "Validar um PDF assinado com o PKI SDK",
