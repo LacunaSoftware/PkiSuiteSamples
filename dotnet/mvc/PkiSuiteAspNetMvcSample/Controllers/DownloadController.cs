@@ -55,6 +55,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return File(fileContent, "text/xml", "SampleNFe.xml");
 		}
 
+		// GET Download/SampleDiploma
+		[HttpGet]
+		public ActionResult SampleDiploma() {
+			var fileContent = StorageMock.Read(StorageMock.GetSampleDiplomaPath());
+			return File(fileContent, "text/xml", "SampleDiploma.xml");
+		}
+
 		// GET Download/SampleContract
 		[HttpGet]
 		public ActionResult SampleContract() {
