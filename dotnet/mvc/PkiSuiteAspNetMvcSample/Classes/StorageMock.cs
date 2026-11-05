@@ -266,6 +266,10 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			return File.ReadAllBytes(Path.Combine(ContentPath, "SampleNFe.xml"));
 		}
 
+		public static string GetSampleDiplomaPath() {
+			return Path.Combine(ContentPath, "SampleDiploma.xml");
+		}
+
 		public static string GetSampleXmlDocumentPath() {
 			return Path.Combine(ContentPath, "SampleDocument.xml");
 		}

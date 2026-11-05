@@ -3571,6 +3571,36 @@
     "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
     "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
+    "language": "dotnet",
+    "framework": "aspnet-mvc",
+    "path": "dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlDiplomaSignatureRestController.cs",
+    "related_files": [
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/Index.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DadosDiplomaSignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DadosRegistro.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DadosRegistroSignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/Diploma.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DiplomaSignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Content/js/signature-form.js",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/SignatureModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/SignatureInfoModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Content/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
+    "demo_url": null,
+    "run": {
+      "cwd": "dotnet/mvc",
+      "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
+      "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=XmlDiplomaSignatureRest"
+    }
+  },
+  {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
     "language": "java",
     "framework": "spring-boot",
     "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/XmlDiplomaSignatureRestController.java",

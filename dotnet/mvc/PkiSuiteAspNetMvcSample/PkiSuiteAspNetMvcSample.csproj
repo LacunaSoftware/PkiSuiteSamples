@@ -398,6 +398,7 @@
     <Compile Include="Controllers\XmlCodSignatureSdkController.cs" />
     <Compile Include="Controllers\XmlNFeSignatureSdkController.cs" />
     <Compile Include="Controllers\XmlNFeSignatureRestController.cs" />
+    <Compile Include="Controllers\XmlDiplomaSignatureRestController.cs" />
     <Compile Include="Controllers\XmlSignatureRestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -457,6 +458,7 @@
     <Content Include="Content\SampleContract.xml" />
     <Content Include="Content\SampleDocument.xml" />
     <Content Include="Content\SampleNFe.xml" />
+    <Content Include="Content\SampleDiploma.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -538,6 +540,12 @@
     <Content Include="Views\PadesSignatureRest\SignatureInfo.cshtml" />
     <Content Include="Views\XmlNFeSignatureRest\Index.cshtml" />
     <Content Include="Views\XmlNFeSignatureRest\SignatureInfo.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\DadosDiplomaSignatureInfo.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\DadosRegistro.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\DadosRegistroSignatureInfo.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\Diploma.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\DiplomaSignatureInfo.cshtml" />
+    <Content Include="Views\XmlDiplomaSignatureRest\Index.cshtml" />
     <Content Include="Views\XmlSignatureRest\Index.cshtml" />
     <Content Include="Views\XmlSignatureRest\SignatureInfo.cshtml" />
     <Content Include="Views\BatchPadesSignatureSdk\Index.cshtml" />
