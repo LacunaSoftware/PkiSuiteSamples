@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+
+   div(class="container")
+      h2(class="ls-title") XML Diploma Signature with REST PKI
+      h5(class="ls-subtitle")
+         | Element 
+         i DadosDiploma
+         |  signed successfully!
+
+      h3 Actions:
+      ul
+         li
+            a(href=`/download?fileId=${fileId}`) Download the signed file
+         li
+            a(href=`/xml-diploma-signature-restpki/dados-registro?fileId=${fileId}`) Continue the signature process (sign the DadosRegistro element)

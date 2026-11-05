@@ -92,6 +92,9 @@ SMOKE_SAMPLES = {
         ("pades-signature-pki-express", None),
         ("list-certificates-web-pki", None),
         ("timestamp-pdf-rest-pki-core", None),
+        # Unlike the pages above, this one calls Rest PKI to get its token, with the committed
+        # trial access token.
+        ("xml-diploma-signature-rest-pki", None),
     ],
     "php/plain": [
         ("pades-signature-rest-pki-core", None),
@@ -125,6 +128,10 @@ SMOKE_SAMPLES = {
 # PKI Express.
 MISSING_FILE = "smoke-test-missing-file_pdf"
 NOT_FOUND_PATHS = {
+    "nodejs/expressmvc": [
+        f"/xml-diploma-signature-restpki/dados-registro?fileId={MISSING_FILE}",
+        f"/xml-diploma-signature-restpki/diploma?fileId={MISSING_FILE}",
+    ],
     "ruby/rails": [
         f"/download/{MISSING_FILE}",
         f"/pades-signature-rest/{MISSING_FILE}",
