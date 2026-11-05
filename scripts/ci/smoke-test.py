@@ -60,6 +60,8 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-pki-sdk", None),
         ("list-certificates-web-pki", None),
         ("timestamp-pdf-rest-pki-core", None),
+        # Unlike the pages above, its start page calls Rest PKI (with the committed trial token).
+        ("xml-diploma-signature-rest-pki", None),
     ],
     # An Angular app: see SPA_PROJECTS below. Every sample is listed, since each check costs one
     # request. Its Rest PKI Core pages call Rest PKI Core only when the user acts, so they need no
