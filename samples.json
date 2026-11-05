@@ -3628,6 +3628,34 @@
     "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
     "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
+    "language": "nodejs",
+    "framework": "express",
+    "path": "nodejs/expressmvc/routes/xml-diploma-signature-restpki.js",
+    "related_files": [
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/index.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/dados-diploma.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/sign-dados-registro.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/dados-registro.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/sign-full-diploma.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/diploma.pug",
+      "nodejs/expressmvc/public/javascripts/signature-form.js",
+      "nodejs/expressmvc/public/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "demo_url": null,
+    "run": {
+      "cwd": "nodejs/expressmvc",
+      "command": "npm ci && npm start",
+      "url": "http://localhost:3000/check-restpki-token?rc=xml-diploma-signature"
+    }
+  },
+  {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
     "language": "python",
     "framework": "flask",
     "path": "python/flask/sample/views/xml_diploma_signature_rest.py",

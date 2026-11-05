@@ -18,6 +18,7 @@ const SampleDocs = {
 	CMS_ATTACHED_1: 9,
 	CMS_ATTACHED_2: 10,
 	CMS_DATA_FILE: 11,
+	SAMPLE_DIPLOMA: 12,
 };
 
 class StorageMock {
@@ -145,6 +146,8 @@ class StorageMock {
 			return 'CMSDetached2.p7s';
 		case SampleDocs.CMS_DATA_FILE:
 			return 'CMSDataFile.pdf';
+		case SampleDocs.SAMPLE_DIPLOMA:
+			return 'SampleDiploma.xml';
 		default:
 			throw new Error('Invalid sample document identification.');
 		}
