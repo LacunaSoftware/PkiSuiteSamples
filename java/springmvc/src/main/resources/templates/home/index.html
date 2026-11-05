@@ -15,6 +15,16 @@
 <script th:fragment="scripts" type="text/javascript">
 	/* <![CDATA[ */
 	SampleRoutes = {
+		authCloudOAuth: {
+			express: '/check-express?rc=authentication-cloud'
+		},
+		signPrescription: {
+			express: '/check-express?rc=receita-simples',
+			restpki: '/check-rest-token?rc=receita-simples'
+		},
+		signXmlDiploma: {
+			restpki: '/check-rest-token?rc=xml-diploma-signature'
+		},
 		authCert: {
 			express: '/check-express?rc=authentication',
 			restpki: '/check-rest-token?rc=authentication',
@@ -126,7 +136,7 @@
 </script>
 <script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 <script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
-<script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.e4ce9abd8d7b2452.js"></script>
+<script th:fragment="scripts" type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.30d13462294ecb92.js"></script>
 <!-- endregion -->
 
 </body>
