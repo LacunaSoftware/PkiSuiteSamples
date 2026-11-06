@@ -16,7 +16,7 @@ var signatureCompleteForm = (function () {
 	// ---------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive form parameters received as arguments.
+		// Receive the form elements passed as arguments.
 		formElements = fe;
 
 		// Block the UI while we get things ready.
@@ -34,7 +34,7 @@ var signatureCompleteForm = (function () {
 	}
 
 	// ---------------------------------------------------------------------------------------------
-	// Function that performs the siganture on startup. At this point, the UI is already blocked.
+	// Function that performs the signature on startup. At this point, the UI is already blocked.
 	// ---------------------------------------------------------------------------------------------
 	function sign() {
 

@@ -38,7 +38,7 @@ class PadesVisualElementsRest:
                 # which to place the text. By default, the text can occupy the
                 # entire rectangle (how much of the rectangle the text will
                 # actually fill depends on the length and font size). Below, we
-                # specify that the text should respect a right margin of 1.5 cm.
+                # specify a margin of 0.2 cm on each side.
                 'container': {
                     'left': 0.2,
                     'top': 0.2,

@@ -17,7 +17,7 @@ class Config(object):
     # If the REST PKI sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
-    # In order to use this sample on a "on premises' installation of REST PKI,
+    # In order to use this sample on an "on premises" installation of REST PKI,
     # fill the field below with the URL address of your REST PKI installation
     # (with the trailing '/' character).
     REST_PKI_ENDPOINT = 'https://pki.rest/'
@@ -31,7 +31,7 @@ class Config(object):
     # ========================================================
     REST_PKI_CORE_API_KEY = ''
 
-    # In order to use this sample on a "on premises" installation of REST PKI
+    # In order to use this sample on an "on premises" installation of REST PKI
     # Core, fill the field below with the URL address of your REST PKI Core
     # installation (with the trailing '/' character).
     REST_PKI_CORE_ENDPOINT = 'https://core.pki.rest/'
@@ -53,8 +53,8 @@ class Config(object):
     # If the Amplia's samples do not work please contact our support by email:
     # suporte@lacunasoftware.com
 
-    # In order to use this sample on a "on premises" installation of
-    # Amplia, fill the field below with the URL address of your REST PKI
+    # In order to use this sample on an "on premises" installation of
+    # Amplia, fill the field below with the URL address of your Amplia
     # installation (with the trailing '/' character).
     AMPLIA_ENDPOINT = 'https://amplia.lacunasoftware.com/'
 

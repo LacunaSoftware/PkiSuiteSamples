@@ -6,10 +6,9 @@ from flask import Blueprint, render_template, current_app, request
 
 from sample.utils import get_amplia_client, get_two_years_from_now_date
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/issue-cert-user-amplia')
@@ -33,14 +32,14 @@ def action():
     """
     POST /issue-cert-user-amplia
 
-    Receives issueForm POST request, containing two parameters:
+    Receives issueForm POST request, containing three parameters:
     - The subject name;
-    - The CPF number.
+    - The CPF number;
     - The phone number, used to validate identity when generating the certificate
     remotely.
     """
-    # Get an instance of the AmpliaClient, responsible to connect with
-    # Amplia and perform the requests.
+    # Get an instance of the AmpliaClient, responsible for connecting to
+    # Amplia and performing the requests.
     client = get_amplia_client()
 
     # --------------------------------------------------------------------------
@@ -55,8 +54,8 @@ def action():
     req.ca_id = current_app.config['AMPLIA_CA_ID']
     # Set the certificate validity. We encapsulated the validity date
     # definition on the get_two_years_from_now_date() method. We used the
-    # format_date() date method to parse to "MM-DD-YYYY" pattern accepted
-    # on Amplia.
+    # format_date() method to format it in the "MM-DD-YYYY" pattern
+    # accepted by Amplia.
     req.validity_end = get_two_years_from_now_date()
     # Set the kind of the certificate.
     req.kind = CertificateKinds.PUBLIC_KEY
@@ -70,14 +69,14 @@ def action():
     parameters.cpf = request.form['cpf']
     # Set the phone number.
     # WARNING: For this sample it's necessary to pass a phoneNumber to
-    # perform identity verification when issue the certificate remotely.
+    # perform identity verification when issuing the certificate remotely.
     parameters.phone_number = request.form['phoneNumber']
     req.parameters = parameters
 
     # Create an order of issuing certificate on Amplia.
     order = client.create_order(req)
 
-    # After the order is create, it's possible to get a redirect link
+    # After the order is created, it's possible to get a redirect link.
     link = client.get_order_issue_link(order.id, RETURN_URL)
 
     return render_template('issue_cert_user_amplia/redirect.html',
@@ -89,7 +88,8 @@ def complete():
     """
     GET /issue-cert-user-amplia/complete
 
-    Renders page, used as a "returnUrl' to Amplia returns to. This page can be
-    a page where you show to user that the certificate was successfully issued.
+    Renders the page used as the "returnUrl" for Amplia to return to. This
+    page can be a page where you show the user that the certificate was
+    successfully issued.
     """
     return render_template('issue_cert_user_amplia/complete.html')

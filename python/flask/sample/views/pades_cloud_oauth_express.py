@@ -21,37 +21,36 @@ from sample.storage_mock import get_pdf_stamp_path
 from sample.utils import get_expired_page_headers
 from sample.utils import set_pki_defaults
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__, 
                       url_prefix='/pades-cloud-oauth-express')
 
- # This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
- # signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- # the services by executing the following sample:
- #
- #    pkie config --set trustServices:<provider>:<configuration>
- #
- # All standard providers:
- #    - BirdId
- #    - ViDaaS
- #    - NeoId
- #    - RemoteId
- #    - SafeId
- # It's possible to create a custom provider if necessary.
- #
- # All configuration available:
- #    - clientId
- #    - clientSecret
- #    - endpoint
- #    - provider
- #    - badgeUrl
- #    - protocolVariant (error handling, normally it depends on the used provider)
- #
- # This sample will only show the PSCs that are configured.
+# This sample performs an OAuth flow to communicate with PSCs to perform a signature. To
+# perform this sample it's necessary to configure PKI Express with the credentials of the
+# services by executing the following command:
+#
+#    pkie config --set trustServices:<provider>:<configuration>
+#
+# All standard providers:
+#    - BirdId
+#    - ViDaaS
+#    - NeoId
+#    - RemoteId
+#    - SafeId
+# It's possible to create a custom provider if necessary.
+#
+# All available configuration keys:
+#    - clientId
+#    - clientSecret
+#    - endpoint
+#    - provider
+#    - badgeUrl
+#    - protocolVariant (error handling, normally it depends on the used provider)
+#
+# This sample will only show the PSCs that are configured.
 
 @blueprint.route('/complete', methods=['GET'])
 def complete():
@@ -67,7 +66,7 @@ def complete():
         code = request.args.get('code')
         state = request.args.get('state')
 
-        # Get an instance of the TrustServiceManager class, responsible for communicating with 
+        # Get an instance of the TrustServicesManager class, responsible for communicating with
         # PSCs and handling the OAuth flow.
         manager = TrustServicesManager()
 
@@ -96,13 +95,13 @@ def complete():
         # Set PDF to be signed.
         signer.set_pdf_to_sign_from_path(file_path)
 
-        # Set trust session acquired on the following steps of this sample.
+        # Set the trust session acquired on the previous steps of this sample.
         signer.trust_service_session = result.session
 
         # Set a file reference for the stamp file. Note that this file can be
         # referenced later by "fref://{alias}" at the "url" field on the visual
-        # representation (see content/vr.json or get_visual_representation()
-        # method).
+        # representation (see get_visual_representation() on
+        # sample/pades_visual_elements_express.py).
         signer.add_file_reference('stamp', get_pdf_stamp_path())
 
         # Set visual representation. We provide a dictionary that represents the
@@ -133,11 +132,11 @@ def complete():
 def index(file_id):
     """
 
-    This action will render a page that request a CPF to the user. This CPF is used to discover 
+    This action will render a page that asks the user for their CPF. This CPF is used to discover
     which PSCs have a certificate containing that CPF.
 
     """
-    # Verify if the provided userfile exists.
+    # Verify if the provided file_id exists.
     file_path = join(current_app.config['APPDATA_FOLDER'], file_id)
     if not exists(file_path):
         return render_template('error.html', msg='File not found')
@@ -149,14 +148,14 @@ def index(file_id):
 def discover(file_id):
     """
 
-    This action will be called after the user press the button "Search" on index page. It will
-    search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
+    This action will be called after the user presses the "Search" button on the index page. It
+    will search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
     authentication process and return a URL to redirect the user to perform the authentication.
 
-    After this action the user will be redirected, and to store the local data (fileId) to be user
-    after the user returns to your application. We use the parameter "customState", the last
-    parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
-    next action.
+    After this action the user will be redirected. To store the local data (fileId) to be used
+    after the user returns to your application, we use the parameter "customState", the last
+    parameter of the method discover_by_cpf_and_start_auth(). This parameter will be recovered in
+    the next action.
 
     """
     try:
@@ -166,7 +165,7 @@ def discover(file_id):
         # Process cpf, removing all formatting.
         plainCpf = cpf.replace(".", "").replace("-", "")
 
-        # Get an instance of the TrustServiceManager class, responsible for communicating with 
+        # Get an instance of the TrustServicesManager class, responsible for communicating with
         # PSCs and handling the OAuth flow.
         manager = TrustServicesManager()
 
@@ -178,7 +177,7 @@ def discover(file_id):
             trust_service_session_types.SIGNATURE_SESSION,
             file_id)
 
-        # Render complete page.
+        # Render the discover page.
         return render_template('pades_cloud_oauth_express/discover.html', cpf = cpf, services = services)
 
     except Exception as e:

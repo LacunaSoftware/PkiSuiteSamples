@@ -11,7 +11,7 @@
 
 		<form id="listCertForm">
 			<!--
-				Render a select (combo box) to list the users' certificates. For now
+				Render a select (combo box) to list the user's certificates. For now
 				it will be empty, we'll populate it after page loading (see function
 				loadCertificates() below).
 			-->
@@ -21,7 +21,7 @@
 			</div>
 
 			<!--
-				The "Refresh Certificates" button, which is responsible to reload
+				The "Refresh Certificates" button, which is responsible for reloading
 				the certificate list. This operation uses the same function used
 				on page loading (see function refresh() below).
 			-->
@@ -57,7 +57,7 @@
 	<script>
 
 		// Variable that will store an instance of the Lacuna WebPKI object. If a
-		// license was set on application.yml, the layout.html master template
+		// license was set on sample/config.py, the layout.html master template
 		// will have placed it on the global variable _webPkiLicense, which we
 		// pass to the class constructor.
 		var pki = new LacunaWebPKI(_webPkiLicense);
@@ -113,8 +113,8 @@
 			pki.listCertificates().success(function (certs) {
 
 				// Create an object to be shown on Select2 from each certificate.
-				// Its define which certificate are valid or invalid. At last, sort
-				// the list of objects by its validity.
+				// It defines which certificates are valid or invalid. At last, sort
+				// the list of objects by their validity.
 				var select2Certs = $.map(certs, function (cert) {
 
 					var obj = {};
@@ -155,8 +155,8 @@
 					}
 				});
 
-				// Verify if there is no certificates available to disable the
-				// <select> element, showing the messaging informing that.
+				// If there are no certificates available, disable the <select>
+				// element, showing a message saying so.
 				if (certs.length === 0) {
 					$('#certificateSelect')
 						.append('<option value="null">There is no certificate on your machine</option>')

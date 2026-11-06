@@ -7,7 +7,7 @@ var signatureStartForm = (function () {
 	// Auxiliary global variable.
 	var formElements = {};
 
-	// Instance Web PKi object.
+	// Create an instance of the LacunaWebPKI object.
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
 	// ---------------------------------------------------------------------------------------------
@@ -15,14 +15,14 @@ var signatureStartForm = (function () {
 	// ---------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive form parameters received as arguments.
+		// Receive the form elements passed as arguments.
 		formElements = fe;
 
-		// Wireup of button clicks.
+		// Wire up the button clicks.
 		formElements.signButton.click(startSignature);
 		formElements.refreshButton.click(refresh);
 
-		// Block the UI while we het things ready.
+		// Block the UI while we get things ready.
 		$.blockUI({message: 'Initializing ...'});
 
 		// Call the init() method on the LacunaWebPKI object, passing a callback for when the
@@ -33,7 +33,7 @@ var signatureStartForm = (function () {
 		pki.init({
 			// As soon as the component is ready we'll load the certificates.
 			ready: loadCertificates,
-			// Generic error callback (see function (declaration below).
+			// Generic error callback (see function declaration below).
 			defaultError: onWebPkiError
 		});
 

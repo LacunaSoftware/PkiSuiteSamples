@@ -10,10 +10,9 @@ from werkzeug.utils import redirect
 
 from sample.storage_mock import create_app_data
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. This blueprint has a
+# fixed name, "upload".
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint('upload', __name__, url_prefix='/upload')
 
@@ -24,8 +23,8 @@ def upload(rc):
 
     This function allows the user to upload a file to be signed. Once the file
     is uploaded, we save it to the app_data folder and redirect the user to
-    cades-signature or pades-signature view passing the filename on the
-    "userfile" URL argument.
+    the sample given by the "rc" URL argument, passing the filename as the
+    last part of the URL.
 
     """
 
@@ -36,8 +35,8 @@ def upload(rc):
         filename = '%s_%s' % (str(uuid.uuid4()), secure_filename(
             userfile.filename))
 
-        # Move the file to the "app_data" with the unique filename. Make sure
-        # the "app_data" folder exists (static/util.py).
+        # Save the file to the "app_data" folder with the unique filename. Make
+        # sure the "app_data" folder exists (see sample/storage_mock.py).
         create_app_data()
         userfile.save(
             os.path.join(current_app.config['APPDATA_FOLDER'], filename))

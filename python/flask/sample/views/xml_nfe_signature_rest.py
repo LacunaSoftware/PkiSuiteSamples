@@ -18,10 +18,9 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/xml-nfe-signature-rest')
@@ -30,7 +29,7 @@ blueprint = Blueprint(basename(__name__), __name__,
 @blueprint.route('/')
 def index():
     # Instantiate the XmlElementSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = XmlElementSignatureStarter(get_rest_pki_client())
 
     # Set the XML to be signed, a sample XML Document.
@@ -46,7 +45,7 @@ def index():
 
     # Set a security context to be used to determine trust in the
     # certificate chain. We have encapsulated the security context choice on
-    # util.py.
+    # utils.py.
     signature_starter.security_context = get_security_context_id()
 
     # Call the start_with_webpki() method, which initiates the signature.
@@ -74,7 +73,7 @@ def index():
 @blueprint.route('/', methods=['POST'])
 def action():
     # Get the token for this signature. (rendered in a hidden input field, see
-    # xml-signature/index.html template)
+    # xml_nfe_signature_rest/index.html template)
     token = request.form['token']
 
     # Instantiate the XmlSignatureFinisher class, responsible for completing
@@ -92,7 +91,7 @@ def action():
     # This method must only be called after calling the finish() method.
     signer_cert = result.certificate
 
-    # At this point, you'd typically store the signed PDF on your database. For
+    # At this point, you'd typically store the signed XML on your database. For
     # demonstration purposes, we'll store the XML on a temporary folder publicly
     # accessible and render a link to it.
 

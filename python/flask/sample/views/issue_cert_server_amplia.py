@@ -7,10 +7,9 @@ from pkiexpress import KeyGenerator, Pkcs12Generator, SupportedKeySizes
 
 from sample.utils import get_amplia_client, set_pki_defaults, get_two_years_from_now_date
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/issue-cert-server-amplia')
@@ -36,8 +35,8 @@ def action():
     - The subject name;
     - The CPF number.
     """
-    # Get an instance of the AmpliaClient, responsible to connect with
-    # Amplia and perform the requests.
+    # Get an instance of the AmpliaClient, responsible for connecting to
+    # Amplia and performing the requests.
     client = get_amplia_client()
 
     # --------------------------------------------------------------------------
@@ -52,8 +51,8 @@ def action():
     req.ca_id = current_app.config['AMPLIA_CA_ID']
     # Set the certificate validity. We encapsulated the validity date
     # definition on the get_two_years_from_now_date() method. We used the
-    # format_date() date method to parse to "MM-DD-YYYY" pattern accepted
-    # on Amplia.
+    # format_date() method to format it in the "MM-DD-YYYY" pattern
+    # accepted by Amplia.
     req.validity_end = get_two_years_from_now_date()
     # Set the kind of the certificate.
     req.kind = CertificateKinds.PUBLIC_KEY
@@ -73,10 +72,10 @@ def action():
     # --------------------------------------------------------------------------
     # 2nd Step: Generate key pair using PKI Express and generate the certificate
     # using Amplia. Note that the key is never sent to Amplia, it stays on
-    # server.
+    # the server.
     # --------------------------------------------------------------------------
 
-    # Get an instance of the KeyGenerator class, responsible for generate
+    # Get an instance of the KeyGenerator class, responsible for generating
     # a private key and the corresponding CSR.
     key_generator = KeyGenerator()
     key_generator.key_size = SupportedKeySizes.S2048
@@ -96,7 +95,7 @@ def action():
     # server key.
     # --------------------------------------------------------------------------
 
-    # Get an instance of the Pkcs12Generator class, responsible for generate
+    # Get an instance of the Pkcs12Generator class, responsible for generating
     # a PKCS #12 from a generated key and certificate file. This certificate
     # will be used to sign the uploaded PDF.
     pkcs12_generator = Pkcs12Generator()
@@ -104,7 +103,7 @@ def action():
     # Set PKI default options (see utils.py).
     set_pki_defaults(pkcs12_generator)
 
-    # Set the generate key.
+    # Set the generated key.
     pkcs12_generator.key = gen_key.key
 
     # Set the certificate file.

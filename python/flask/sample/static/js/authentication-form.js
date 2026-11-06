@@ -1,26 +1,26 @@
 // -------------------------------------------------------------------------------------------------
 // This file contains logic for calling the Web PKI component to perform an authentication. It is
-// only an example, feel free to alter is to meet your application's needs.
+// only an example, feel free to alter it to meet your application's needs.
 // -------------------------------------------------------------------------------------------------
 var authenticationForm = (function () {
 
 	// Auxiliary global variables.
 	var formElements = {};
 
-	// Create an instance of the LacunaWebPKI object. If a license was set on application.yml, the
+	// Create an instance of the LacunaWebPKI object. If a license was set on sample/config.py, the
 	// layout.html master view will have placed it on the global variable _webPkiLicense, which we
 	// pass to the class constructor.
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
 	// ----------------------------------------------------------------------------------------------
-	// Initializes the signature form.
+	// Initializes the authentication form.
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive form parameters received as arguments.
+		// Receive the form elements passed as arguments.
 		formElements = fe;
 
-		// Wireup of button clicks.
+		// Wire up the button clicks.
 		formElements.signInButton.click(signIn);
 		formElements.refreshButton.click(refresh);
 
@@ -94,8 +94,8 @@ var authenticationForm = (function () {
 		// server-side after the signature is computed.
 		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
 
-			// Call signData() on the Web PKI component the "nonce", the digest algorithm and the
-			// certificate selected by the user.
+			// Call signData() on the Web PKI component, passing the nonce, the digest algorithm and
+			// the certificate selected by the user.
 			pki.signData({
 				thumbprint: formElements.certificateSelect.val(),
 				data: formElements.nonceField.val(),

@@ -15,10 +15,10 @@ var signatureForm = (function () {
 	// ---------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive the form elements passed as arguments.
 		formElements = fe;
 
-		// Wireup of button clicks.
+		// Wire up the button clicks.
 		formElements.signButton.click(sign);
 		formElements.refreshButton.click(refresh);
 
@@ -33,7 +33,7 @@ var signatureForm = (function () {
 		pki.init({
 			ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
 			defaultError: onWebPkiError, // Generic error callback defined below.
-			restPkiUrl: _restPkiEndpoint // REST PKI endpoint to communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint // REST PKI endpoint, which Web PKI calls on signWithRestPki().
 		});
 	}
 

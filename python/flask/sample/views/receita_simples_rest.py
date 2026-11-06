@@ -21,10 +21,9 @@ from sample.storage_mock import create_app_data
 from sample.utils import get_rest_pki_client
 
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects),
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/receita-simples-rest')

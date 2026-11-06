@@ -23,10 +23,9 @@ from pkiexpress import PdfHelper
 from pkiexpress import PdfMarker
 from pkiexpress import Color
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/printer-version-pades-express')
@@ -51,12 +50,12 @@ NORMAL_FONT_SIZE = 12.0
 # Date format to be used when converting dates to string.
 DATE_FORMAT = ''
 
-# Display name of the timezone chosen above
+# Display name of the timezone of the dates shown on the PDF.
 TIME_ZONE_DISPLAY_NAME = 'Brasilia timezone'
 
 
-# You may also change texts, positions and more by editing directly the method
-# generate_printer_version below.
+# You may also change texts, positions and more by editing directly the
+# function generate_printer_friendly_version() below.
 ################################################################################
 
 def get_signer_description(signer):
@@ -80,7 +79,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
 
     # 1. Inspect signatures on the uploaded PDF
 
-    # Get and instance of the PadesSignatureExplorer class, used to
+    # Get an instance of the PadesSignatureExplorer class, used to
     # open/validate PDF signatures.
     sig_explorer = PadesSignatureExplorer()
     # Set PKI default options (see utils.py).
@@ -102,14 +101,14 @@ def generate_printer_friendly_version(pdf_path, verification_code):
     # Specify the file to be marked.
     pdf_marker.set_file_from_path(pdf_path)
 
-    # Build string with joined names of signers (see method get_display_name
-    # below)
+    # Build string with joined names of signers (see function
+    # get_display_name() on utils.py)
     signer_names_list = []
     for signer in signature.signers:
         signer_names_list.append(get_display_name(signer.certificate))
     signer_names = join_strings_pt(signer_names_list)
     all_pages_message = "This document was digitally signed by %s.\n" \
-                        "To check the signatures, visit %s at %s and inform this code %s." % (signer_names, VERIFICATION_SITE_NAME_WITH_ARTICLE, VERIFICATION_SITE, formatted_verification_code)
+                        "To check the signatures, visit %s at %s and enter this code %s." % (signer_names, VERIFICATION_SITE_NAME_WITH_ARTICLE, VERIFICATION_SITE, formatted_verification_code)
 
     # PdfHelper is a class from the PKI Express's "fluent API" that helps
     # creating elements and parameters for the PdfMarker.
@@ -178,7 +177,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
     vertical_offset = 0
 
     element_height = 3
-    # ICP-Brasil logo on the upper-left corner. Using elementHeight as width
+    # ICP-Brasil logo on the upper-left corner. Using element_height as width
     # because the image is a square.
     manifest_mark.add_element(
         pdf.image_element()
@@ -191,7 +190,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
         .with_image_content(get_icp_brasil_logo_content(), "image/png"))
 
     # QR Code with the verification link on the upper-right corner. Using
-    # elementHeight as width because the image is a square.
+    # element_height as width because the image is a square.
     manifest_mark.add_element(
         pdf.qr_code_element()
         .on_container(
@@ -236,7 +235,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
             .with_text("Verification code: %s" % formatted_verification_code)))
     vertical_offset += element_height
 
-    # Paragraph saving "this document was signed by the following signers etc"
+    # Paragraph saying "this document was signed by the following signers etc"
     # and mentioning the timezone of the date/times below.
     element_height = 2.5
     manifest_mark.add_element(
@@ -267,7 +266,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
                 .width(0.5).anchor_left())
             .with_image_content(get_validation_result_icon(signer.validation_results.is_valid), 'image/png'))
 
-        # Description of signer (see method  get_signer_description() below).
+        # Description of signer (see function get_signer_description() above).
         manifest_mark.add_element(
             pdf.text_element()
             .on_container(
@@ -308,7 +307,7 @@ def generate_printer_friendly_version(pdf_path, verification_code):
         .add_section(
             pdf.text_section()
             .with_font_size(NORMAL_FONT_SIZE)
-            .with_text(' and inform the code above or access the link below:')))
+            .with_text(' and enter the code above or access the link below:')))
     vertical_offset += element_height
 
     # Verification link.

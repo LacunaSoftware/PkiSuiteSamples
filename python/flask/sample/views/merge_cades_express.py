@@ -1,6 +1,6 @@
 """
 
-This sample performs a merge of CAdES signature using PKI Express.
+This sample performs a merge of CAdES signatures using PKI Express.
 
 """
 import os
@@ -15,10 +15,9 @@ from sample.storage_mock import create_app_data
 from sample.utils import set_pki_defaults
 
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/merge-cades-express')
@@ -28,13 +27,13 @@ blueprint = Blueprint(os.path.basename(__name__), __name__,
 def detached(data_file_id, file_id1, file_id2):
     """
 
-    This function performs a merge of CAdES signature using PKI Express
-    when both signatures doesn't have encapsulated content or when one 
-    signature has encpasulated content and the other doesn't
+    This function performs a merge of CAdES signatures using PKI Express
+    when both signatures don't have encapsulated content or when one
+    signature has encapsulated content and the other doesn't.
 
     """
     # Get an instance of the CadesSignatureEditor class, responsible for
-    # receiving the files and merge them.
+    # receiving the files and merging them.
     signature_editor = CadesSignatureEditor()
 
     # Set PKI default options (see utils.py).
@@ -66,12 +65,12 @@ def detached(data_file_id, file_id1, file_id2):
 def attached(file_id1, file_id2):
     """
 
-    This function performs a merge of CAdES signature using PKI Express
+    This function performs a merge of CAdES signatures using PKI Express
     when both signatures have encapsulated content
 
     """
     # Get an instance of the CadesSignatureEditor class, responsible for
-    # receiving the files and merge them.
+    # receiving the files and merging them.
     signature_editor = CadesSignatureEditor()
 
     # Set PKI default options (see utils.py).
@@ -98,12 +97,12 @@ def attached(file_id1, file_id2):
 def generate_attached(data_file_id, file_id1):
     """
 
-    This function performs a merge of CAdES signature using PKI Express to
-    generate an attached file from the data file and detached CMS file
+    This function uses PKI Express to merge the data file and a detached CMS
+    into a CMS with encapsulated content.
 
     """
     # Get an instance of the CadesSignatureEditor class, responsible for
-    # receiving the files and merge them.
+    # receiving the files and merging them.
     signature_editor = CadesSignatureEditor()
 
     # Set PKI default options (see utils.py).

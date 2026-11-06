@@ -22,10 +22,9 @@ from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import set_pki_defaults
 
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='')
@@ -47,7 +46,7 @@ def index():
     # will compose the batch.
     document_ids = list(range(1, 31))
 
-    # Render the batch signature signature page.
+    # Render the batch signature page.
     return render_template('batch_pades_express/index.html',
                            document_ids=document_ids)
 
@@ -59,7 +58,8 @@ def start():
     This method is called asynchronously via AJAX by the batch signature page
     for each document being signed. It receives the ID of the document and
     initiates a PAdES signature using PKI Express and returns a JSON with the
-    data needed in the next signature steps (see batch-signature-form.js).
+    data needed in the next signature steps (see
+    batch-signature-express-form.js).
 
     """
 
@@ -68,7 +68,7 @@ def start():
     cert_content = request.form['certContent']
 
     # Get an instance of the PadesSignatureStarter, responsible for receiving
-    # the signature elements and start the signature process.
+    # the signature elements and starting the signature process.
     signature_starter = PadesSignatureStarter()
 
     # Set PKI default options (see utils.py).
@@ -87,11 +87,11 @@ def start():
 
     # Set a file reference for the stamp file. Note that this file can be
     # referenced later by "fref://{alias}" at the "url" field on the visual
-    # representation (see static/vr.json or get_visual_representation()
-    # method).
+    # representation (see get_visual_representation() on
+    # sample/pades_visual_elements_express.py).
     signature_starter.add_file_reference('stamp', get_pdf_stamp_path())
 
-    # Set the visual representation. We provided a dictionary that
+    # Set the visual representation. We provide a dictionary that
     # represents the visual representation JSON model.
     signature_starter.set_visual_representation(
         PadesVisualElementsExpress.get_visual_representation())
@@ -111,9 +111,9 @@ def complete():
     """
 
     This method is called asynchronously via AJAX by the batch signature page
-    for each document being signed. We'll cal PKI Express to complete this
-    signature and return a JSOn with the save filename so that the page a link
-    to it.
+    for each document being signed. We'll call PKI Express to complete this
+    signature and return a JSON with the saved filename so that the page can
+    render a link to it.
 
     """
 

@@ -7,10 +7,9 @@ from pkiexpress import PadesSignatureExplorer
 
 from sample.utils import set_pki_defaults
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/open-pades-express')
@@ -19,7 +18,7 @@ blueprint = Blueprint(os.path.basename(__name__), __name__,
 @blueprint.route('/<file_id>')
 def index(file_id):
 
-    # Verify if the provided userfile exists.
+    # Verify if the provided file_id exists.
     file_path = os.path.join(current_app.config['APPDATA_FOLDER'], file_id)
     if not os.path.exists(file_path):
         return render_template('error.html', msg='File not found')

@@ -20,10 +20,9 @@ from sample.storage_mock import create_app_data
 from sample.storage_mock import get_pdf_stamp_path
 from sample.utils import set_pki_defaults
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/pades-signature-express')
@@ -36,7 +35,7 @@ def index(file_id):
     This method only renders the signature page.
 
     """
-    # Verify if the provided userfile exists.
+    # Verify if the provided file_id exists.
     file_path = os.path.join(current_app.config['APPDATA_FOLDER'], file_id)
     if not os.path.exists(file_path):
         return render_template('error.html', msg='File not found')
@@ -49,8 +48,8 @@ def start(file_id):
     """
 
     This method starts the signature. In this sample, it will be called
-    programatically after the user press the "Sign File" button (see method
-    readCertificate() on static/js/signature-start-form.js).
+    programmatically after the user presses the "Sign File" button (see
+    function startSignature() on static/js/signature-start-form.js).
 
     """
     try:
@@ -59,7 +58,7 @@ def start(file_id):
         cert_content = request.form['certContentField']
 
         # Get an instance of the PadesSignatureStarter class, responsible for
-        # receiving the signature elements and start the signature process.
+        # receiving the signature elements and starting the signature process.
         signature_starter = PadesSignatureStarter()
 
         # Set PKI default options (see utils.py).
@@ -78,11 +77,11 @@ def start(file_id):
 
         # Set a file reference for the stamp file. Note that this file can be
         # referenced later by "fref://{alias}" at the "url" field on the visual
-        # representation (see static/vr.json or get_visual_representation()
-        # method).
+        # representation (see get_visual_representation() on
+        # sample/pades_visual_elements_express.py).
         signature_starter.add_file_reference('stamp', get_pdf_stamp_path())
 
-        # Set the visual representation. We provided a dictionary that
+        # Set the visual representation. We provide a dictionary that
         # represents the visual representation JSON model.
         signature_starter.set_visual_representation(
             PadesVisualElementsExpress.get_visual_representation())
@@ -94,8 +93,8 @@ def start(file_id):
         # - transfer_file:    A temporary file to be passed to "complete" step.
         response = signature_starter.start()
 
-        # Render the field from start() method as hidden field to be used on the
-        # javascript or on the "complete" step.
+        # Render the fields received from the start() method as hidden fields
+        # to be used on the javascript or on the "complete" step.
         return render_template('pades_signature_express/start.html',
                                cert_thumb=cert_thumb,
                                transfer_file_id=response['transferFile'],
@@ -110,14 +109,14 @@ def start(file_id):
 def complete(file_id):
     """
 
-    This function completes the signature, it will be called programatically
-    after the Web PKI component perform the signature and submit the form (see
-    method sign() on static/js/signature-complete-form.js).
+    This function completes the signature, it will be called programmatically
+    after the Web PKI component performs the signature and submits the form
+    (see function sign() on static/js/signature-complete-form.js).
 
     """
     try:
 
-        # Recover variables form the POST arguments to be used on this step.
+        # Recover variables from the POST arguments to be used on this step.
         transfer_file = request.form['transferFileIdField']
         signature = request.form['signatureField']
 
