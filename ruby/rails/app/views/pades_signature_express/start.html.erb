@@ -3,8 +3,8 @@
 <div class="ls-content">
 
   <%
-    # This form will be shown initially and when this page is rendered to
-    # perform the signature using Web PKI component.
+    # This form will be submitted after Web PKI signs the hash (see
+    # signature-complete-form.js).
   %>
   <%= form_tag("/pades-signature-express/complete/#{@file_to_sign}", {:id => 'signForm'}) do %>
 
@@ -32,7 +32,7 @@
 <%= render 'shared/web_pki' %>
 
 <%
-  # The file below contains the necessary calls to the Web component. Once the
+  # The file below contains the necessary calls to the Web PKI component. Once the
   # necessary computations have been done, the javascript code will submit our
   # form.
 %>

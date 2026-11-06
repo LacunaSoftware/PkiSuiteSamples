@@ -1,5 +1,4 @@
 require 'rest_pki'
-# require 'securerandom'
 
 module Util
   include ActiveSupport::Concern
@@ -8,13 +7,13 @@ module Util
 
   def get_rest_pki_client
 
-    # Retrieve your token and endpoint values from the "application.rb"
+    # Retrieve your token and endpoint values from the "config/lacuna.yml"
     # configuration.
     access_token = Rails.configuration.lacuna.dig(:rest_pki, :access_token)
     endpoint = Rails.configuration.lacuna.dig(:rest_pki, :endpoint)
 
     # Throw exception if token is not set (this check is here just for the sake
-    # of new comers, you can remove it).
+    # of newcomers, you can remove it).
     if access_token.blank? || access_token == 'YOUR_REST_PKI_ACCESS_TOKEN'
       raise 'The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on the file config/lacuna.yml'
     end
@@ -29,7 +28,7 @@ module Util
   # This method is called by all pages to determine the security context to be
   # used.
   #
-  # Security contexts dictate witch root certification authorities are trusted
+  # Security contexts dictate which root certification authorities are trusted
   # during certificate validation. In your API calls, you can use one of the
   # standard security contexts or reference one of your custom contexts.
   def get_security_context_id
@@ -65,7 +64,7 @@ module Util
     endpoint = Rails.configuration.lacuna.dig(:rest_pki_core, :endpoint)
 
     # Throw exception if the API key is not set (this check is here just for
-    # the sake of new comers, you can remove it).
+    # the sake of newcomers, you can remove it).
     if api_key.nil? or api_key.length == 0
       raise 'The REST PKI Core API key was not set! Hint: to run this sample you must generate an API key on REST PKI Core and paste it on the file config/lacuna.yml'
     end
@@ -85,10 +84,10 @@ module Util
 
   def set_pki_defaults(operator)
 
-    # Set the operator to trust in a custom trusted root, you need to inform the
-    # operator class. We will add each trusted root from configuration file. In
-    # this sample, we assumed that all trusted roots are in the private/
-    # folder. You are free to pass any path.
+    # To make the operator trust a custom root, add it to the operator. We will
+    # add each trusted root listed in the configuration file. In this sample, we
+    # assume that all trusted roots are in the private/ folder. You are free to
+    # pass any path.
     trusted_roots = Rails.configuration.lacuna.dig(:pki_express, :trusted_roots)
     trusted_roots&.each do |root|
       operator.add_trusted_root(get_resource_path(root))
@@ -97,19 +96,18 @@ module Util
     # Set operator to "OFFLINE MODE" (default: false):
     operator.offline = Rails.configuration.lacuna.dig(:pki_express, :offline)
 
-    # Set the operator to use a timestamp authority when performing an timestamp
+    # Set the operator to use a timestamp authority when performing a timestamp
     # operation. In this sample, we will use the REST PKI by default to emit a
-    # timestamp. It only be filled if the REST PKI was provided.
+    # timestamp. It is only set if a REST PKI access token was provided.
     rest_pki_access_token = Rails.configuration.lacuna.dig(:rest_pki, :access_token)
     if rest_pki_access_token.present? && rest_pki_access_token != 'YOUR_REST_PKI_ACCESS_TOKEN'
 
-      # Get an instance of the TimestampAuthority class, responsible to inform
-      # the url and authentication logic to be used when contacting and
+      # Get an instance of the TimestampAuthority class, responsible for
+      # informing the URL and authentication logic to be used when contacting a
       # timestamp authority.
       authority = PkiExpress::TimestampAuthority.new('https://pki.rest/tsp/a402df41-8559-47b2-a05c-be555bf66310')
 
-      # Set authentication strategy. In the case of REST PKI, is using a bearer
-      # token.
+      # Set authentication strategy. REST PKI uses a bearer token.
       authority.set_oauth_token_authentication(Rails.configuration.lacuna.dig(:rest_pki, :access_token))
 
       # Add authority to be used by the operator.
@@ -117,10 +115,10 @@ module Util
     end
 
     # Set the operator to trust Lacuna Test Root (for development purposes
-    # only!). Use this to accept the test certificate provide by Lacuna
+    # only!). Use this to accept the test certificates provided by Lacuna
     # Software.
     operator.trust_lacuna_test_root = Rails.configuration.lacuna[:trust_lacuna_test_root]
-    # THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+    # THIS SHOULD NEVER BE USED ON A PRODUCTION ENVIRONMENT!
   end
 
   # endregion
@@ -156,7 +154,7 @@ module Util
     # Configuration of the code generation
     # ------------------------------------
     #
-    # - CodeSize   : size of the code in characters
+    # - code_size  : size of the code in characters
     #
     # Entropy
     # -------
@@ -167,7 +165,7 @@ module Util
     # - 12 characters = 48 bits
     # - 16 characters = 64 bits
     # - 20 characters = 80 bits
-    # - 24 characters = 92 bits
+    # - 24 characters = 96 bits
     #
     code_size = 16
 
@@ -187,12 +185,12 @@ module Util
     # Examples
     # --------
     #
-    # - codeSize = 12, codeGroups = 3 : XXXX-XXXX-XXXX
-    # - codeSize = 12, codeGroups = 4 : XXX-XXX-XXX-XXX
-    # - codeSize = 16, codeGroups = 4 : XXXX-XXXX-XXXX-XXXX
-    # - codeSize = 20, codeGroups = 4 : XXXXX-XXXXX-XXXXX-XXXXX
-    # - codeSize = 20, codeGroups = 5 : XXXX-XXXX-XXXX-XXXX-XXXX
-    # - codeSize = 25, codeGroups = 5 : XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+    # - code_size = 12, code_groups = 3 : XXXX-XXXX-XXXX
+    # - code_size = 12, code_groups = 4 : XXX-XXX-XXX-XXX
+    # - code_size = 16, code_groups = 4 : XXXX-XXXX-XXXX-XXXX
+    # - code_size = 20, code_groups = 4 : XXXXX-XXXXX-XXXXX-XXXXX
+    # - code_size = 20, code_groups = 5 : XXXX-XXXX-XXXX-XXXX-XXXX
+    # - code_size = 25, code_groups = 5 : XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
     #
     code_groups = 4
 

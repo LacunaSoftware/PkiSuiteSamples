@@ -1,11 +1,11 @@
-<h2 class='ls-title'> Batch of CAdES Signature with REST PKI </h2>
+<h2 class='ls-title'> Batch CAdES Signature with REST PKI </h2>
 
 <div class="ls-content">
 
   <form id="signForm" method="post">
 
     <div class="form-group">
-      <label>File to sign</label>
+      <label>Files to sign</label>
       <p>
         You'll be signing the following files:
         <%
@@ -27,11 +27,10 @@
     </div>
 
     <%
-      # Action buttons. Notice that the "Sign In" button is NOT a submit button.
-      # When the user clicks the button, we must first use the Web PKI component
-      # to perform the client-side computation necessary and only when that
-      # computation is finished we'll submit the form programmatically (see
-      # assets/javascripts/signature-form.js).
+      # Action buttons. Notice that the "Sign File" button is NOT a submit button.
+      # When the user clicks the button, the page signs each document with the
+      # Web PKI component, calling the server asynchronously to start and
+      # complete each signature (see batch-signature-restpki-form.js).
     %>
     <div class="form-group">
       <button id="signButton" type="button" class="btn btn-primary">
@@ -58,7 +57,7 @@
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function() {
-      // Once the page is ready, we call the init() function on the javascript code (see batch-signature-form.js).
+      // Once the page is ready, we call the init() function on the javascript code (see batch-signature-restpki-form.js).
       batchSignatureRestPkiForm.init({
         documentsIds: <%= @documents_ids %>,         // The IDs of documents.
         certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.

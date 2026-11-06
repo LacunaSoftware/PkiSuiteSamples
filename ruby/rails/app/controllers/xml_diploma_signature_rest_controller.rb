@@ -25,7 +25,7 @@ class XmlDiplomaSignatureRestController < ApplicationController
   def index
 
     # Instantiate the XmlElementSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = RestPki::XmlElementSignatureStarter.new(get_rest_pki_client)
 
     # Set the XML to be signed, a sample Brazilian digital diploma
@@ -51,7 +51,7 @@ class XmlDiplomaSignatureRestController < ApplicationController
     # identifies this signature process. We'll use this value to call the
     # signWithRestPki method on the Web PKI component (see signature-form.js)
     # and also to complete the signature after the form is submitted (see
-    # method action below). This should not be mistaken with the API access
+    # method action below). This should not be mistaken for the API access
     # token.
     @token = signature_starter.start_with_webpki
 
@@ -108,7 +108,7 @@ class XmlDiplomaSignatureRestController < ApplicationController
     end
 
     # Instantiate the XmlElementSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = RestPki::XmlElementSignatureStarter.new(get_rest_pki_client)
 
     # Set the XML to be signed, the diploma signed in the previous step.
@@ -180,7 +180,7 @@ class XmlDiplomaSignatureRestController < ApplicationController
     end
 
     # Instantiate the FullXmlSignatureStarter class, responsible for receiving
-    # the signature elements and start the signature process.
+    # the signature elements and starting the signature process.
     signature_starter = RestPki::FullXmlSignatureStarter.new(get_rest_pki_client)
 
     # Set the XML to be signed, the diploma signed in the previous step.

@@ -7,9 +7,9 @@ var signatureForm = (function () {
 	// Auxiliary global variable.
 	var formElements = {};
 
-	// Get an instance of the LacunaWebPKI object. If a license was set on application.yml, the
-	// layout.html master view will have placed it on the global variable _webPkiLicense, which we
-	// pass to the class constructor.
+	// Get an instance of the LacunaWebPKI object. If a license was set on config/lacuna.yml, the
+	// layouts/application.html.erb view will have placed it on the global variable _webPkiLicense,
+	// which we pass to the class constructor.
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
 	// ----------------------------------------------------------------------------------------------
@@ -17,10 +17,10 @@ var signatureForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Store the form parameters received as arguments.
 		formElements = fe;
 
-		// Wireup of button clicks.
+		// Wire up the button clicks.
 		formElements.signButton.click(sign);
 		formElements.refreshButton.click(refresh);
 
@@ -35,7 +35,7 @@ var signatureForm = (function () {
 		pki.init({
 			ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
 			defaultFail: onWebPkiError, // Generic error callback defined below.
-			restPkiUrl: _restPkiEndpoint // REST PKI endpoint to communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint // REST PKI endpoint that Web PKI calls.
 		});
 	}
 

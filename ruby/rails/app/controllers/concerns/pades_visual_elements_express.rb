@@ -3,8 +3,8 @@ module PadesVisualElementsExpress
   include Util
 
   # This method is called by PAdES samples. It contains an example of signature
-  # visual representation. This is only in a separate in order to organize the
-  # various examples.
+  # visual representation. This is only in a separate module in order to
+  # organize the various examples.
   def get_visual_representation
 
     # Create a visual representation
@@ -20,7 +20,7 @@ module PadesVisualElementsExpress
     # https://docs.lacunasoftware.com/articles/pki-express/pades-tags.html
     text = PkiExpress::PadesVisualText.new('Signed by {{name}} ({{national_id}})', true)
     text.font_size = 13.0
-    # Create a text  container and add PadesVisualText object.
+    # Create a text container and add it to the PadesVisualText object.
     container = PkiExpress::PadesVisualRectangle.new
     container.set_vertical_stretch(0.2, 0.2)
     container.set_horizontal_stretch(0.2, 0.2)
@@ -38,7 +38,7 @@ module PadesVisualElementsExpress
     # Create an instance of PadesVisualAutoPositioning class. This class will
     # create a custom auto positioning for the visual representation.
     position = PkiExpress::PadesVisualAutoPositioning.new
-    # Set the page number. Negative values represent pages counted form the end
+    # Set the page number. Negative values represent pages counted from the end
     # of the document (-1 is the last page).
     position.page_number = -1
     # Set the row spacing between signatures. The signatures will be placed in
@@ -49,7 +49,8 @@ module PadesVisualElementsExpress
     # Specify the size of each signature rectangle.
     size = PkiExpress::PadesSize.new(8.0, 4.94)
     position.signature_rectangle_size = size
-    # Create the position container and add to PadesVisualPosition object.
+    # Create the position container and add it to the
+    # PadesVisualAutoPositioning object.
     position_container = PkiExpress::PadesVisualRectangle.new
     position_container.set_height_bottom_anchored(4.94, 1.5)
     position_container.set_horizontal_stretch(1.5, 1.5)

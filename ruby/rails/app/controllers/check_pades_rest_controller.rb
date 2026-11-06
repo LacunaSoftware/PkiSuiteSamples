@@ -33,14 +33,13 @@ class CheckPadesRestController < ApplicationController
         sig_explorer.default_signature_policy_id = RestPki::StandardSignaturePolicies::PADES_BASIC
 
         # Specify the security context to be used to determine trust in the
-        # certificate chain. We have encapsulated the security context on util.js.
+        # certificate chain. We have encapsulated the security context on util.rb.
         sig_explorer.security_context_id = get_security_context_id
 
         # Set the PDF file.
         sig_explorer.set_signature_file_from_path(get_data_path(@file_id))
 
-        # Call the open() method, which returns a Promise with the signature file's
-        # information.
+        # Call the open() method, which returns the signature file's information.
         @signature = sig_explorer.open
         @datetime_offset = '-3'
     end

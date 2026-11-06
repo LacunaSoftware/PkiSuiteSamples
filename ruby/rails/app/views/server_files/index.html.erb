@@ -10,7 +10,7 @@
     <%= hidden_field_tag(:chosen_file_id, nil, :id => 'chosenFileIdField') %>
 
     <!--
-      Group of cards containing the server file's information. On each card its
+      Group of cards containing the server file's information. On each card it's
       possible to choose it to be used on the next operation or to download the
       server file. This is only an example of choosing a server file, you can
       change this file or use your own logic. The operation only requires the
@@ -32,10 +32,9 @@
               <div class="buttons">
                 <!--
                   Button used to choose a sample file. It will execute the
-                  function chooseFile() on the javascript below. The field "id"
-                  from the Thymeleaf's variable "file" has the task of
-                  identifying the document on server side after submitting this
-                  form.
+                  function chooseFile() on the javascript below. The "id" of
+                  each file (file[:id]) identifies the document on server side
+                  after submitting this form.
                 -->
                 <button id="<%= file[:id] %>-choice-btn"
                         type="button"
@@ -59,15 +58,15 @@
 </div>
 
 <!--
-	This javascript is only an optional feature for this upload page. It will use
+	This javascript is only an optional feature for this page. It will use
 	jQuery to improve the UX of the page. Feel free to alter it however you want.
 -->
 <script>
   // ---------------------------------------------------------------------------
   // Function called when the user clicks the "Use This" button. It will store
   // the file's id on the hidden <input> (#chosenFileIdField), which will be
-  // passed to server when submitting the <form> (#filesForm). After this, it
-  // submits the form#filesForm.
+  // passed to server when submitting the <form> (#serverFilesForm). After this,
+  // it submits the form#serverFilesForm.
   // ---------------------------------------------------------------------------
   function chooseFile(chosenFileId) {
 
@@ -86,7 +85,7 @@
         .removeClass('btn-outline-primary')
         .addClass('btn-outline-success');
 
-    // Show message, informing that will redirect to some other page, which will
+    // Show message, informing that we will redirect to some other page, which will
     // happen on server-side after submission.
     $.blockUI({message: 'Redirecting ...'});
     setTimeout(function () {

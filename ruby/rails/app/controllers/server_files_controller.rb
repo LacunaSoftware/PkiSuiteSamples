@@ -28,8 +28,8 @@ class ServerFilesController < ApplicationController
     else
       raise ArgumentError, 'Invalid operation'
     end
-    # Is it up to your application's business logic to determine which server
-    # documents to be available for the signature.
+    # It is up to your application's business logic to determine which server
+    # documents are available for the signature.
   end
 
   # POST /server-files
@@ -41,7 +41,7 @@ class ServerFilesController < ApplicationController
     path = get_sample_doc_path(params[:chosen_file_id])
     filename = get_sample_doc_name(params[:chosen_file_id])
 
-    # Copy file to the temporary folder, where the upload files are stored.
+    # Copy file to the temporary folder, where the uploaded files are stored.
     file_id = nil
     if params[:is_cms_cosign] == 'false'
       File.open(path, 'rb') do |file|
