@@ -22,14 +22,29 @@ var issueCertForm = (function () {
 
         // Add mask and internationalization for phoneNumber field.
         if (formElements.phoneNumberField && formElements.phoneNumberInput) {
+            // A landline has 10 digits, (00) 0000-0000, and a mobile number 11, (00) 00000-0000.
+            // Up to 10 digits the mask is (00) 0000-00009, whose last digit is optional so the user
+            // can type an 11th; from 11 digits on it is the mobile mask.
+            var phoneMask = function (telephone) {
+                return telephone.replace(/\D/g, '').length > 10 ? '(00) 00000-0000' : '(00) 0000-00009';
+            };
             var options = {
                 onKeyPress: function (telephone, e, field, options) {
-                    var masks = ['(00) 00000-0000', '(00) 0000-0000'];
-                    var mask = (telephone.length > 13) ? masks[0] : masks[1];
-                    formElements.phoneNumberInput.mask(mask, options);
+                    var mask = phoneMask(telephone);
+                    if (formElements.phoneNumberInput.data('mask').mask !== mask) {
+                        formElements.phoneNumberInput.mask(mask, options);
+                        // After a mask change, jquery.mask's new mask instance has no record of the previous
+                        // digit positions, which only its keydown handler stores, so an input event without a
+                        // keydown first (a paste on a phone, an autofill) would throw. Firing keydown after the
+                        // plugin's own caret update, as its paste handler does, stores it. See
+                        // https://github.com/igorescobar/jQuery-Mask-Plugin/issues/751
+                        setTimeout(function () {
+                            formElements.phoneNumberInput.trigger('keydown');
+                        }, $.jMaskGlobals.keyStrokeCompensation);
+                    }
                 }
             };
-            formElements.phoneNumberInput.mask('(00) 00000-0000', options);
+            formElements.phoneNumberInput.mask(phoneMask(formElements.phoneNumberInput.val()), options);
         }
 
         // Add click handler for issueButton to submit form and perform
