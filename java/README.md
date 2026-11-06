@@ -46,7 +46,7 @@ To open one of the samples on Eclipse, run `gradlew eclipse` on the sample's fol
 then import the project from Eclipse.
 
 To open one of the samples on IntelliJ IDEA, run `gradlew idea` on the sample's folder
-and then use the "Open" funcionality inside IDEA (works better than "Import").
+and then use the "Open" functionality inside IDEA (works better than "Import").
 
 REST PKI's client lib
 ---------------------

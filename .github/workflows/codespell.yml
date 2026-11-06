@@ -1,0 +1,30 @@
+name: Spell check
+
+# Runs codespell over the repository (settings and the words it must ignore are in
+# .codespellrc). For now it only reports: each typo becomes a warning on its line of the diff,
+# and the job never fails, so it does not block a merge. Make it fail the job once it has run
+# for a while without false positives.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  codespell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+      - run: pip install codespell==2.4.3
+      - name: Report typos as warnings
+        run: |
+          # The output goes outside the checkout, so codespell does not read its own report.
+          codespell > "$RUNNER_TEMP/codespell.txt" || true
+          # "./path:12: teh ==> the" becomes a warning annotation on that line.
+          sed -E 's#^\./##; s#^([^:]+):([0-9]+): (.*)$#::warning file=\1,line=\2::\3#' "$RUNNER_TEMP/codespell.txt"
+          echo "codespell found $(wc -l < "$RUNNER_TEMP/codespell.txt") possible typos."
