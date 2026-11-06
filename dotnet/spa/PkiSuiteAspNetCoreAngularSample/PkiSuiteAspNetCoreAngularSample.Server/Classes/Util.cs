@@ -45,7 +45,7 @@ public class Util(
 	public RestPkiOptions GetRestPkiOptions() {
 		var options = restPkiCoreOptions.Value;
 		if (string.IsNullOrWhiteSpace(options.ApiKey)) {
-			throw new InvalidOperationException("The Rest PKI Core API key was not set! Hint: to run this sample you must generate an API key on the Rest PKI Core website and paste it on appsettings.json (RestPkiCore:ApiKey)");
+			throw new InvalidOperationException("The Rest PKI Core API key was not set! Hint: to run this sample you must generate an API key on the Rest PKI Core website and paste it in appsettings.json (RestPkiCore:ApiKey)");
 		}
 		return new RestPkiOptions() {
 			Endpoint = options.Endpoint,
