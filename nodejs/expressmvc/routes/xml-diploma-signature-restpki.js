@@ -82,7 +82,7 @@ function fileNotFound() {
  */
 router.get('/', (req, res, next) => {
 	// Get an instance of the XmlElementSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
 	// Set the XML to be signed, a sample Brazilian digital diploma pre-generated.
@@ -163,7 +163,7 @@ router.get('/dados-registro', (req, res, next) => {
 	}
 
 	// Get an instance of the XmlElementSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
 	// Set the XML to be signed, the diploma with the DadosDiploma element
@@ -235,7 +235,7 @@ router.get('/diploma', (req, res, next) => {
 	}
 
 	// Get an instance of the FullXmlSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new FullXmlSignatureStarter(Util.getRestPkiClient());
 
 	// Set the XML to be signed, the diploma with the DadosDiploma and

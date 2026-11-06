@@ -18,7 +18,8 @@ const APP_ROOT = process.cwd();
 /**
  * GET /pades-server-key-express
  *
- * This route only renders the signature page.
+ * This route performs a PAdES signature with a key stored on the server and
+ * renders the signature result page.
  */
 router.get('/', async (req, res, next) => {
 	// Get parameters from url
@@ -45,8 +46,8 @@ router.get('/', async (req, res, next) => {
 	// Set PDF to be signed.
 	await signer.setPdfToSignFromPath(StorageMock.getDataPath(fileId));
 
-	// Set the PKCS #12 certificate path. We have an logic for choosing the generate the PKCS #12
-	// from "issue certificate" samples or a sample PKCS #12.
+	// Set the PKCS #12 certificate. We choose between a PKCS #12 generated from the key and
+	// certificate of the "issue certificate" sample and the sample PKCS #12.
 	if (certId) {
 		// Verify if the provided certId refers to an existing certificate file and
 		// key.
@@ -73,17 +74,17 @@ router.get('/', async (req, res, next) => {
 		signer.certPassword = '1234';
 	}
 
-	// Set a file reference for the stamp file. Note that file can be
+	// Set a file reference for the stamp file. Note that this file can be
 	// referenced later by "fref://{alias}" at the "url" field on the visual
 	// representation (see public/vr.json or getVisualRepresentation()
 	// method).
 	await signer.addFileReference('stamp', StorageMock.getPdfStampPath());
 
-	// Set visual reference. We provide a dictionary that represents the
+	// Set the visual representation. We provide a dictionary that represents the
 	// visual representation JSON model.
 	await signer.setVisualRepresentation(PadesVisualElementsExpress.getVisualRepresentation());
 
-	// Generate path for output file and add the signature finisher.
+	// Generate path for output file and add it to the signer.
 	const outputFile = `${randomUUID()}.pdf`;
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 	signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
@@ -99,7 +100,7 @@ router.get('/', async (req, res, next) => {
 });
 
 async function generatePkcs12(certId, password) {
-	// Get an instance of the Pkcs12Generator class, responsible for generate
+	// Get an instance of the Pkcs12Generator class, responsible for generating
 	// a PKCS #12 from a generated key and certificate file. This certificate
 	// will be used to sign the uploaded PDF.
 	let keyJson = StorageMock.readSync(certId, '.json').toString('utf-8');

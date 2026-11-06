@@ -2,19 +2,19 @@ extends ../layout
 
 block content
 
-   h2(class="ls-title") List certificates available on the user's machine with JQuery
+   h2(class="ls-title") List certificates available on the user's machine with jQuery
 
    div(class="ls-content")
 
       form(id="listCertForm")
-         //- Render a select (combo box) to list the users' certificates. For now
+         //- Render a select (combo box) to list the user's certificates. For now
          //- it will be empty, we'll populate it after page loading (see function
          //- loadCertificates() below).
          div(class="form-group")
             label(for="certificateSelect") Choose a certificate
             select(id="certificateSelect" class="custom-select")
 
-         //- The "Refresh Certificates" button, which is responsible to reload
+         //- The "Refresh Certificates" button, which is responsible for reloading
          //- the certificate list. This operation uses the same function used
          //- on page loading (see function refresh() below).
          div(class="form-group")
@@ -33,7 +33,7 @@ block scripts
    script.
 
       // Variable that will store an instance of the Lacuna WebPKI object. If a
-      // license was set on application.yml, the layout.html master template
+      // license was set on config/default.js, the layout.pug master template
       // will have placed it on the global variable _webPkiLicense, which we
       // pass to the class constructor.
       var pki = new LacunaWebPKI(_webPkiLicense);
@@ -104,8 +104,8 @@ block scripts
 
          }).success(function (certs) {
 
-            // Verify if there is no certificates available to disable the
-            // <select> element, showing the messaging informing that.
+            // If there are no certificates available, disable the <select>
+            // element, showing a message informing that.
             if (certs.length === 0) {
                $('#certificateSelect')
                   .append('<option value="null">There is no certificate on your machine</option>')
@@ -132,7 +132,7 @@ block scripts
 
          // Show the message to the user. You might want to substitute the alert
          // below with a more user-friendly UI component to show the error (see
-         // function addAlert() on layout.html).
+         // function addAlert() on layout.pug).
          addAlert('danger', ex.userMessage);
       }
 

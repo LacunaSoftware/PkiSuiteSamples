@@ -6,21 +6,21 @@ const { Util } = require("../util");
 const router = express.Router();
 
 /**
- * GET /
+ * GET /tsp-callback
  *
  * The route used for callback for cloud samples.
  */
 router.get("/", async (req, res) => {
-	// If some error ocurr, you have to handle it gracefully.
+	// If an error occurs, you have to handle it gracefully.
 	// The most common error is "user_denied", which happens when
-	// the user's rejects the operation.
+	// the user rejects the operation.
 	if (req.query.error) {
 		res.render("tsp-callback", { error: req.query.error });
 		return;
 	}
 	const { code, state } = req.query;
 
-	// Get an instance of the TrustServiceManager class, responsible for
+	// Get an instance of the TrustServicesManager class, responsible for
 	// communicating with PSCs and handling the OAuth flow. And set common
 	// configuration with setPkiDefaults (see util.js)
 	const manager = new TrustServicesManager();

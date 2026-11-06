@@ -14,7 +14,7 @@ class Util {
 	// region REST PKI Configuration
 
 	/**
-	 * Creates an instance of the RestPkiClient class, use to connect to REST PKI
+	 * Creates an instance of the RestPkiClient class, used to connect to REST PKI
 	 * on every sample using the REST PKI client library.
 	 */
 	static getRestPkiClient() {
@@ -65,8 +65,8 @@ class Util {
 	 * This method is called by all pages to determine the security context to be
 	 * used.
 	 *
-	 * Security contexts dictate witch root certification authorities are trusted
-	 * during certificate validation. In you API calls, you can use on of the
+	 * Security contexts dictate which root certification authorities are trusted
+	 * during certificate validation. In your API calls, you can use one of the
 	 * standard security contexts or reference one of your custom contexts.
 	 *
 	 * The REST PKI Core samples use it too: REST PKI Core's standard security
@@ -80,7 +80,7 @@ class Util {
 
 		if (CONFIG.get('trustLacunaTestRoot')) {
 			/*
-			 * Lacuna Text PKI (for development purposes only!)
+			 * Lacuna Test PKI (for development purposes only!)
 			 *
 			 * This security context trusts ICP-Brasil certificates as well as
 			 * certificates on Lacuna Software's test PKI. Use it to accept the
@@ -124,7 +124,7 @@ class Util {
 	// region Amplia Configuration
 
 	/**
-	 * Creates an instance of the AmpliaClient, use to the perform request to
+	 * Creates an instance of the AmpliaClient, used to perform requests to the
 	 * Amplia API. Here the default configuration will be set to the client
 	 * before it would be used on the sample.
 	 */
@@ -172,10 +172,10 @@ class Util {
 		// application.
 		const CONFIG = Config.getInstance().get('pkiExpress');
 
-		// Set the operator to trust in a custom trusted root, you need to
-		// inform the operator class. We will add each trusted root from
-		// configuration file. In this sample, we assumed that all trusted roots
-		// are in the resources/ folder. You are free to pass any path.
+		// To make the operator trust a custom root, you need to add it to the
+		// operator class. We will add each trusted root from the configuration
+		// file. In this sample, we assumed that all trusted roots are in the
+		// resources/ folder. You are free to pass any path.
 		const { trustedRoots } = CONFIG;
 		trustedRoots.forEach((root) => {
 			operator.addTrustedRootSync(StorageMock.getResourcePath(root));
@@ -184,19 +184,18 @@ class Util {
 		// Set operator to "OFFLINE MODE" (default: false):
 		operator.offline = CONFIG.offline;
 
-		// Set the operator to use a timestamp authority when performing an
-		// timestamp operation. In this sample, we will use the REST PKI by
-		// default to emit a timestamp. It only be filled if the REST PKI was
+		// Set the operator to use a timestamp authority when performing a
+		// timestamp operation. In this sample, we will use REST PKI by default
+		// to emit a timestamp. It is only set if the REST PKI access token is
 		// provided.
 		const REST_PKI_CONFIG = Config.getInstance().get('restPki');
 		if (REST_PKI_CONFIG.accessToken) {
-			// Get an instance of the TimestampAuthority class, responsible to
-			// inform the url and authentication logic to be used when contacting
-			// and timestamp authority.
+			// Get an instance of the TimestampAuthority class, responsible for
+			// providing the URL and authentication logic to be used when
+			// contacting a timestamp authority.
 			const authority = new TimestampAuthority('https://pki.rest/tsp/a402df41-8559-47b2-a05c-be555bf66310');
 
-			// Set authentication strategy. In the case of REST PKI, is using a
-			// bearer token.
+			// Set authentication strategy. REST PKI uses a bearer token.
 			authority.setOAuthTokenAuthentication(REST_PKI_CONFIG.accessToken);
 
 			// Add authority to be used on operator.
@@ -204,20 +203,20 @@ class Util {
 		}
 
 		// Trust Lacuna Test Root (for development purposes only!). Use this to
-		// accept the test certificate provided by Lacuna Software.
+		// accept the test certificates provided by Lacuna Software.
 		//
-		// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+		// THIS SHOULD NEVER BE USED IN PRODUCTION!
 		operator.trustLacunaTestRoot = Config.getInstance().get('trustLacunaTestRoot');
 	}
 
 	// endregion
 
 
-	// region Cloudhub Configuration
+	// region CloudHub Configuration
 
 	/**
-	 * Creates an instance of the Cloudhub class, use to connect to Cloudhub
-	 * on every sample using the Cloudhub client library.
+	 * Creates an instance of the CloudHubClient class, used to connect to
+	 * CloudHub on every sample using the CloudHub client library.
 	 */
 	 static getCloudhubClient() {
 		// Get configuration from config/{env}.js file. It will choose the
@@ -233,8 +232,8 @@ class Util {
 		// sake of newcomers, you can remove it).
 		if (!apiKey || apiKey.indexOf(' API KEY ') >= 0) {
 			throw new Error('The Cloudhub API key was not set! Hint: to '
-				+ 'run this sample you must generate an API key on the '
-				+ 'config/default.js.');
+				+ 'run this sample you must get a CloudHub API key and paste it on '
+				+ 'the file config/default.js.');
 		}
 
 		return new CloudHubClient(endpoint, apiKey);
@@ -333,7 +332,7 @@ class Util {
 		 * - 12 characters = 48 bits
 		 * - 16 characters = 64 bits
 		 * - 20 characters = 80 bits
-		 * - 24 characters = 92 bits
+		 * - 24 characters = 96 bits
 		 */
 		const codeSize = 16;
 

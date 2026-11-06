@@ -46,9 +46,6 @@ app.use(session({
 // Add middleware to add parameters on response's locals, to be used on the
 // Pug template engine before rendering the page.
 app.use((req, res, next) => {
-	// Pass some session parameters.
-	// res.locals.userId = req.session['userId'] || null;
-
 	// Pass moment callback for formatting dates.
 	res.locals.moment = moment;
 

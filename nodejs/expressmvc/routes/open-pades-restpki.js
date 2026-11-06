@@ -9,7 +9,7 @@ const { Util } = require('../util');
 const router = express.Router();
 
 /**
- * GET /open-pades
+ * GET /open-pades-restpki
  *
  * This route only submits a PDF file to REST PKI for inspection of its signatures.
  */
@@ -41,7 +41,8 @@ router.get('/', async (req, res, next) => {
 	sigExplorer.defaultSignaturePolicyId = StandardSignaturePolicies.PADES_BASIC;
 
 	// Specify the security context to be used to determine trust in the
-	// certificate chain. We have encapsulated the security context on util.js.
+	// certificate chain. We have encapsulated the security context choice on
+	// util.js.
 	sigExplorer.securityContextId = Util.getSecurityContextId(res.locals.environment);
 
 	// Set the PDF file.

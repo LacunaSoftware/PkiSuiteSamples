@@ -7,7 +7,7 @@ const { StorageMock } = require('../storage-mock');
 const router = express.Router();
 
 /*
-* GET /check
+* GET /check-pades-restpki
 *
 * This route submits a PDF file to REST PKI for inspection of its signatures
 * and renders the results.
@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
 	// before looking it up.
 	const verificationCode = Util.parseVerificationCode(req.query.code);
 
-	// Our demo only works if a userfile is given to work with
+	// Look up the document associated with the verification code.
 	const fileId = StorageMock.lookupVerificationCode(req.session, verificationCode);
 
 	if (!fileId) {
@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 	// Open and validate signature with Rest PKI.
 	const sigExplorer = new PadesSignatureExplorer(Util.getRestPkiClient());
 
-	// Se the PDF file to be inspected.
+	// Set the PDF file to be inspected.
 	sigExplorer.signatureFile = StorageMock.getDataPath(fileId);
 
 	// Specify that we want to validate the signatures in the file, not only

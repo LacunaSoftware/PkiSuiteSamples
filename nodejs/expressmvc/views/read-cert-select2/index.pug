@@ -4,7 +4,7 @@ block content
 
    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" integrity="sha384-4Efkt0T8BZbTzoX4+i/jZFCAWVy1BuRte6F0L3awo3Ek6D1L98qwg7ZRe5bxSrF/" crossorigin="anonymous")
 
-   h2(class="ls-title") Read one of the users' certificates with Select2
+   h2(class="ls-title") Read one of the user's certificates with Select2
 
    div(class="ls-content")
 
@@ -18,8 +18,8 @@ block content
                   label(for="certificateSelect") Choose a certificate
                   select(id="certificateSelect" class="js-example-basic-single js-states custom-select")
 
-               //- Action buttons. The "Refresh Certificates button, which is
-               //- responsible to reload the certificate list. This operation
+               //- Action buttons. The "Refresh Certificates" button, which is
+               //- responsible for reloading the certificate list. This operation
                //- uses the same function used on page loading (see function
                //- refresh() below).
                div(class="form-group")
@@ -30,7 +30,7 @@ block content
                      i(class="fas fa-external-link-alt") 
                      | More information about Select2
          //- The panel where the certificate's information will be rendered
-         //- using JQuery.
+         //- using jQuery.
          div(class="col col-lg-6")
             div(id="certInfo")
 
@@ -46,13 +46,13 @@ block scripts
    script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js", integrity="sha384-O/ymMhrYXP5tgvTj27eAjKZODlpm7nIVeAkhRL7i9mdenmlJGAjstxMy/bKdklFZ", crossorigin="anonymous")
 
    script.
-      // Global variable stored all certificate objects. This list will be
+      // Global variable that stores all certificate objects. This list will be
       // useful when we want to recover the certificate's information using its
       // thumbprint field.
       var certificates = [];
 
       // Variable that will store an instance of the Lacuna WebPKI object. If a
-      // license was set on application.yml, the layout.html master template
+      // license was set on config/default.js, the layout.pug master template
       // will have placed it on the global variable _webPkiLicense, which we
       // pass to the class constructor.
       var pki = new LacunaWebPKI(_webPkiLicense);
@@ -118,8 +118,8 @@ block scripts
             certificates = certs;
 
             // Create an object to be shown on Select2 from each certificate.
-            // Its define which certificate are valid or invalid. At last, sort
-            // the list of objects by its validity.
+            // It defines which certificates are valid or invalid. Finally, sort
+            // the list of objects by validity.
             var select2Certs = $.map(certificates, function (cert) {
 
                var obj = {};
@@ -160,8 +160,8 @@ block scripts
                }
             });
 
-            // Verify if there is no certificates available to disable the
-            // <select> element, showing the messaging informing that.
+            // If there are no certificates available, disable the <select>
+            // element, showing a message informing that.
             if (certificates.length === 0) {
                $('#certificateSelect')
                   .append('<option value="null">There is no certificate on your machine</option>')
@@ -183,12 +183,12 @@ block scripts
       // -----------------------------------------------------------------------
       function onCertificateChosen() {
 
-         // Get the thumbprint of the select certificate.
+         // Get the thumbprint of the selected certificate.
          var selectedThumbprint = $('#certificateSelect').val();
 
          // Find the certificate object referred by its thumbprint. After that,
          // we call the method showCertInfo() to render the certificate on the
-         // div#certInfo element using JQuery.
+         // div#certInfo element using jQuery.
          for (var i = 0; i < certificates.length; i++) {
             if (certificates[i].thumbprint === selectedThumbprint) {
                showCertInfo(certificates[i]);
@@ -198,7 +198,7 @@ block scripts
       }
 
       // -----------------------------------------------------------------------
-      // Function called by "onCertificationChosen" method. This method will
+      // Function called by "onCertificateChosen" method. This method will
       // render the certificate's fields on the div#certInfo element.
       // -----------------------------------------------------------------------
       function showCertInfo(cert) {
@@ -215,7 +215,7 @@ block scripts
             .append('<hr/>')
             .append('<span><b>Thumbprint</b>: ' + cert.thumbprint + '</span><br/>')
             .append('<span><b>Subject Name</b>: ' + cert.subjectName + '</span><br/>')
-            .append('<span><b>Issued Name</b>: ' + cert.issuerName + '</span><br/>')
+            .append('<span><b>Issuer Name</b>: ' + cert.issuerName + '</span><br/>')
             .append('<span><b>Validity Start</b>: ' + cert.validityStart + '</span><br/>')
             .append('<span><b>Validity End</b>: ' + cert.validityEnd + '</span><br/>');
 
@@ -270,8 +270,8 @@ block scripts
          }
 
          // Show the message to the user. You might want to substitute the alert
-         // below with a more/ user-friendly UI component to show the error (see
-         // function addAlert() on layout.html).
+         // below with a more user-friendly UI component to show the error (see
+         // function addAlert() on layout.pug).
          addAlert('danger', ex.userMessage);
       }
 

@@ -32,7 +32,7 @@ const APP_ROOT = process.cwd();
  */
 router.get("/", async (req, res, next) => {
 	try {
-		// Render the authentication page.
+		// Render the page that asks for the user's CPF.
 		res.render("pades-signature-cloudhub-restpki", {
 			fileId: req.query.fileId,
 		});
@@ -74,7 +74,7 @@ router.post("/", async (req, res, next) => {
 /*
  * GET /pades-signature-cloudhub-restpki/session-result
  * This page performs the signature process using CloudHub API session
- * and obtains the user certificate, which is used in Pades signature
+ * and obtains the user certificate, which is used in PAdES signature
  * process 
  */
 router.get("/session-result", async (req, res, next) => {
@@ -107,7 +107,8 @@ router.get("/session-result", async (req, res, next) => {
 		signatureStarter.measurementUnits = PadesMeasurementUnits.CENTIMETERS;
 	
 		// Set the visual representation to the signature. We have encapsulated this
-		// code (on pades-visual-elements.js) to be used on various PAdES examples.
+		// code (on pades-visual-elements-restpki.js) to be used on various PAdES
+		// examples.
 		signatureStarter.visualRepresentation = await PadesVisualElementsRestPki.getVisualRepresentation();
 
 		// Call the start() method, which initiates the signature.
@@ -129,7 +130,7 @@ router.get("/session-result", async (req, res, next) => {
 		const finisher = new PadesSignatureFinisher(
 			Util.getRestPkiClient()
 		);
-		// set the hash received from signature
+		// set the signature computed by CloudHub
 		finisher._signature = hashRes;
 		// set the token
 		finisher.token = result.token;
@@ -143,7 +144,7 @@ router.get("/session-result", async (req, res, next) => {
 		const filename = `${randomUUID()}.pdf`;
 
 		// The SignatureResult object has functions for writing the signature
-		// file to a local life (writeToFile()) and to get its raw contents
+		// file to a local file (writeToFile()) and to get its raw contents
 		// (getContent()). For large files, use writeToFile() in order to avoid
 		// memory allocation issues.
 		await finishRes.writeToFile(path.join(APP_ROOT, "app-data", filename));

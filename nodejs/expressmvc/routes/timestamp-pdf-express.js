@@ -38,7 +38,7 @@ function generateTimestampVersion(pdfPath) {
 		// file.
 		const stamper = new PadesTimestamper();
 
-		// Set PKI default (see util.js).
+		// Set PKI defaults (see util.js).
 		Util.setPkiDefaults(stamper);
 
 		// Set the PDF to be timestamped.

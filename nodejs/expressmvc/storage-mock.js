@@ -86,7 +86,7 @@ class StorageMock {
 	// Registers the verification code for a given document.
 	static setVerificationCode(session, fileId, code) {
 		// >>>>> NOTICE <<<<<
-		// This should be implemented on your application as a UPDATE on your
+		// This should be implemented on your application as an UPDATE on your
 		// "document table" filling the verification code column, which should be
 		// an indexed column.
 		session[`Files/${fileId}/Code`] = code;

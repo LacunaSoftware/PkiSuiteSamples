@@ -16,7 +16,8 @@ class PadesVisualElementsExpress {
 				// which to place the text. By default, the text can occupy the
 				// entire rectangle (how much of the rectangle the text will
 				// actually fill depends on the length and font size). Below, we
-				// specify that the text should respect a right margin of 1.5 cm.
+				// specify that the text should respect a margin of 0.2 cm on every
+				// side.
 				container: {
 					left: 0.2,
 					top: 0.2,
@@ -26,7 +27,8 @@ class PadesVisualElementsExpress {
 			},
 			image: {
 
-				// We'll use as background the image static/PdfStamp.png.
+				// We'll use as background the image public/PdfStamp.png, which the
+				// routes add as the file reference "stamp".
 				resource: {
 					url: 'fref://stamp',
 				},

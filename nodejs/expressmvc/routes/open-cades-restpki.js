@@ -23,8 +23,8 @@ router.get('/', (req, res, next) => {
 	}
 	const filePath = StorageMock.getDataPath(fileId);
 
-	// Get an instance of the CadesSignatureExplorer class, used tod open/validate
-	// PKCS #12 signatures.
+	// Get an instance of the CadesSignatureExplorer class, used to open/validate
+	// CAdES signatures.
 	const sigExplorer = new CadesSignatureExplorer(Util.getRestPkiClient());
 
 	// Specify that we want to validate the signatures in the file, not only
@@ -32,20 +32,20 @@ router.get('/', (req, res, next) => {
 	sigExplorer.validate = true;
 
 	// Specify the parameters for the signature validation:
-	// Accept any PAdES signature as long as the signer has an ICP-Brasil
+	// Accept any CAdES signature as long as the signer has an ICP-Brasil
 	// certificate.
 	sigExplorer.defaultSignaturePolicyId = StandardSignaturePolicies.CADES_BES;
 
 	// Specify the security context to be used to determine trust in the
-	// certificate chain. We have encapsulated the security context on util.js.
+	// certificate chain. We have encapsulated the security context choice on
+	// util.js.
 	sigExplorer.securityContextId = Util.getSecurityContextId(res.locals.environment);
 	
-	// Specify that we want to validate the signatures in the file, not only
-	// inspect them.
+	// Set the CMS file to be opened.
 	sigExplorer.setSignatureFileFromPath(filePath);
 
-	// Generate path for output file and add the signature finisher.
-	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
+	// Generate a path for the encapsulated content, which is written below.
+	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (see storage-mock.js).
 	const outputFile = `${randomUUID()}.pdf`;
 	
 	// Call the open() method, which returns the signature file's information.

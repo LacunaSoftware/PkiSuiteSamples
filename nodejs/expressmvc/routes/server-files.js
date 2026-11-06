@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
 	const fileName = StorageMock.getSampleDocName(sampleId);
 	const fileExtension = path.extname(fileName);
 
-	// Copy file to the App_Data folder, where the upload files is stored.
+	// Copy file to the "app-data" folder, where uploaded files are stored.
 	const file = StorageMock.readSampleDocSync(sampleId);
 	const fileId = StorageMock.storeSync(file, null, fileExtension);
 

@@ -8,7 +8,7 @@ const { StorageMock } = require('../storage-mock');
 const router = express.Router();
 
 /*
- * GET /cades-signature
+ * GET /cades-signature-restpki
  *
  * This route initiates a CAdES signature using REST PKI and renders the
  * signature page.
@@ -22,15 +22,15 @@ const router = express.Router();
  */
 router.get('/', (req, res, next) => {
 	// Get an instance of the CadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new CadesSignatureStarter(Util.getRestPkiClient());
 
 	if (req.query.cmsfile) {
 		/*
 		 * If the URL argument "cmsfile" is filled, the user has asked to co-sign
 		 * a previously signed CMS. We'll set the path to the CMS to be co-signed,
-		 * which was previously saved in the "public/app-data" folder by complete
-		 * action. Not two things:
+		 * which was previously saved in the "app-data" folder. Note two
+		 * things:
 		 *
 		 *    1. The CMS to be co-signed must be set using the setters for the
 		 *       "cmsToCoSign" or "cmsToCoSignContent" properties, not the setters
@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => {
 		// If the URL argument "fileId" is filled, it means the user was
 		// redirected here by the route "upload" (signature with file uploaded by
 		// user). We'll set the path of the file to be signed, which was saved
-		// in the "public/app-data" folder by the route upload.
+		// in the "app-data" folder by the route upload.
 		signatureStarter.fileToSign = StorageMock.getDataPath(req.query.fileId);
 	}
 
@@ -68,7 +68,7 @@ router.get('/', (req, res, next) => {
 	// yields the token, a 43-character case-sensitive URL-safe string, which
 	// identifies this signature process. We'll use this value to call the
 	// signWithRestPki() method on the WebPKI component
-	// (see public/js/signature-form.js) and also to complete the signature
+	// (see public/javascripts/signature-form.js) and also to complete the signature
 	// after the form is submitted (see post method). This should not be mistaken
 	// with the API access token.
 	signatureStarter.startWithWebPki()
@@ -93,9 +93,10 @@ router.get('/', (req, res, next) => {
 });
 
 /*
- * POST /cades-signature
+ * POST /cades-signature-restpki
  *
- * This route receives the form submission from the view 'cades-signature'.
+ * This route receives the form submission from the view
+ * 'cades-signature-restpki'.
  * We'll call REST PKI to complete the signature.
  */
 router.post('/', (req, res, next) => {
@@ -114,15 +115,15 @@ router.post('/', (req, res, next) => {
 			// information about the certificate used by the user to sign the file.
 			const signerCert = result.certificate;
 
-			// At this point, you'd typically store the signed PDF on you database.
-			// For demonstration purposes, we'll store the PDF on a temporary folder
+			// At this point, you'd typically store the signed CMS on your database.
+			// For demonstration purposes, we'll store the CMS on a temporary folder
 			// publicly accessible and render a link to it.
 
-			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
+			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (see storage-mock.js).
 			const filename = `${randomUUID()}.p7s`;
 
 			// The SignatureResult object has functions for writing the signature file
-			// to a local life (writeToFile()) and to get its raw contents
+			// to a local file (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
 			return result.writeToFile(StorageMock.getDataPath(filename))

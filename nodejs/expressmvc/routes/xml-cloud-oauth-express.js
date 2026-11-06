@@ -14,9 +14,9 @@ const { Util } = require("../util");
 const { StorageMock, SampleDocs } = require("../storage-mock");
 
 /**
- * This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
- * signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- * the services by executing the following sample:
+ * This sample performs an OAuth flow to communicate with PSCs to perform a signature. To run this
+ * sample it's necessary to configure PKI Express with the credentials of the services by executing
+ * the following command:
  *
  *    pkie config --set trustServices:<provider>:<configuration>
  *
@@ -53,7 +53,7 @@ const REDIRECT_URL = "http://localhost:3000/tsp-callback";
  *
  */
 router.get("/", async (req, res, next) => {
-	// Get an instance of the TrustServiceManager class, responsible for
+	// Get an instance of the TrustServicesManager class, responsible for
 	// communicating with PSCs and handling the OAuth flow. And set common
 	// configuration with setPkiDefaults (see util.js).
 	const manager = new TrustServicesManager();
@@ -67,7 +67,7 @@ router.get("/", async (req, res, next) => {
 	// to be used in the callback page (see tsp-callback.js file)
 	const sessionId = randomUUID();
 
-	// Start authentication with available
+	// Start the authentication with the available providers.
 	const result = await manager.startAuth(
 		REDIRECT_URL,
 		sessionType,
@@ -76,7 +76,7 @@ router.get("/", async (req, res, next) => {
 	);
 	const authParameters = result.authParameters;
 
-	// Render the result page.
+	// Render the page with the available providers.
 	res.render("xml-cloud-oauth-express", {
 		sampleId: SampleDocs.SAMPLE_XML,
 		authParameters,
@@ -88,26 +88,24 @@ router.get("/", async (req, res, next) => {
  * POST /xml-cloud-oauth-express
  *
  * This action will complete the authentication process and
- * create a signature using a session token returned by user.
- *  Also, we recover the parameter "customState" containing
- * the id of the file that will be signed.
+ * sign the sample XML using the session returned by the
+ * provider.
  *
  */
 router.post("/", async (req, res, next) => {
-	// Get parameters from urls
+	// Get parameters from the POST arguments.
 	const code = req.body.codeField;
 	const state = req.body.stateField;
 
 	try {
-		// Get an instance of the TrustServiceManager class, responsible for
+		// Get an instance of the TrustServicesManager class, responsible for
 		// communicating with PSCs and handling the OAuth flow. And setting
 		// common configuration with setPkiDefaults (see util.js)
 		const manager = new TrustServicesManager();
 		Util.setPkiDefaults(manager);
 
 		// Complete the authentication process, recovering the
-		// session info to be used on the signature and the
-		// custom state (fileId).
+		// session info to be used on the signature.
 		const result = await manager.completeAuth(code, state);
 
 		// Get an instance of the XmlSigner class, responsible for receiving
@@ -124,10 +122,10 @@ router.post("/", async (req, res, next) => {
 			StorageMock.getSampleDocPath(SampleDocs.SAMPLE_XML)
 		);
 
-		// Set trust session acquired on the following steps of this sample.
+		// Set trust session acquired on the previous steps of this sample.
 		signer.trustServiceSession = result.session;
 
-		// Generate path for output file and add the signature finisher.
+		// Generate path for output file and add it to the signer.
 		const outputFile = `${randomUUID()}.xml`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, "app-data", outputFile);
