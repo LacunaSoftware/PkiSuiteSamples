@@ -3,7 +3,7 @@
 /*
  * This file generates the Receita Simples file and it initiates a PAdES signature 
  * using REST PKI and renders the signature page. The form is posted to another 
- * file, receita-simples-rest.php/complete, which calls REST PKI again to complete
+ * file, receita-simples-rest/complete.php, which calls REST PKI again to complete
  * the signature.
  */
 require __DIR__ . '/../../vendor/autoload.php';
@@ -14,7 +14,7 @@ use Lacuna\RestPki\PadesMeasurementUnits;
 use Lacuna\RestPki\PadesCertificationLevels;
 
 try {
-    // Only accepts GET requests.
+    // Only accepts POST requests.
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
         die();
@@ -37,7 +37,7 @@ try {
     "Brasília", "Maria da Silva", "Clínica Local", "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias",
     "Bairro do Mar", "0000000", "DF" );
 
-    // Guarantees tha the 'app-data' folder exists.
+    // Ensures that the 'app-data' folder exists.
     StorageMock::createAppData();
 
     $fileId = StorageMock::generateFilename(".pdf", null) . ".pdf";
@@ -136,14 +136,14 @@ try {
     $client = Util::getRestPkiClient();
 
     // Instantiate the PadesSignatureStarter class, responsible for receiving the signature elements and
-    // start the signature process.
+    // starting the signature process.
     $signatureStarter = new PadesSignatureStarter($client);
 
     // REQUIRED!
     // Use a policy accepted by ICP-Brasil.
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::PADES_BASIC_WITHOUT_LTV;
 
-    // Set the security context. We have encapsulated the security context choice on util.php.
+    // Set the security context. We have encapsulated the security context choice on Util.php.
     $signatureStarter->securityContext = Util::getSecurityContextId();
 
     // Set the unit of measurement used to edit the pdf marks and visual representations.
@@ -158,8 +158,8 @@ try {
     // Set Certification Level to not allow changes after signed.
     $signatureStarter->certificationLevel = PadesCertificationLevels::CERTIFIED_NO_CHANGES_ALLOWED;
 
-    // Set the visual representation to the signature. We have encapsulated this code (on util-pades.php) to be used on
-    // various PAdES examples.
+    // Set the visual representation to the signature. We have encapsulated this code (in
+    // PadesVisualElementsRest.php) to be used on various PAdES examples.
     $signatureStarter->visualRepresentation = PadesVisualElementsRest::getVisualRepresentation();
 
     // Set the PDF to be signed.
@@ -171,7 +171,7 @@ try {
     // The token acquired above can only be used for a single signature attempt. In order to retry the signature it is
     // necessary to get a new token. This can be a problem if the user uses the back button of the browser, since the
     // browser might show a cached page that we rendered previously, with a now stale token. To prevent this from happening,
-    // we call the function setExpiredPage(), located in util.php, which sets HTTP headers to prevent caching of the page.
+    // we call the function setExpiredPage(), located in Util.php, which sets HTTP headers to prevent caching of the page.
     Util::setExpiredPage();
 
     ?>
@@ -235,7 +235,7 @@ try {
     <?php include '../shared/web-pki.php' ?>
 
     <?php
-    // The file below contains the logic for calling the Web PKI component. It is only an example, feel,
+    // The file below contains the logic for calling the Web PKI component. It is only an example, feel
     // free to alter it to meet your application's needs. You can also bring the code into the
     // javascript block below if you prefer.
     ?>

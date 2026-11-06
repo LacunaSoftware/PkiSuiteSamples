@@ -30,7 +30,7 @@ try {
         "Brasília", "Maria da Silva", "Clínica Local", "Dipirona ----------- 1 comprimido de 12 em 12 horas por 3 dias",
         "Bairro do Mar", "0000000", "DF" );
 
-    // Guarantees tha the 'app-data' folder exists.
+    // Ensures that the 'app-data' folder exists.
     StorageMock::createAppData();
 
     $fileId = StorageMock::generateFilename(".pdf", null) . ".pdf";
@@ -58,7 +58,7 @@ try {
     // Add form field
 
     // Field "Tipo de Documento". This text field identifies the type of
-    // document is being generated. It's a hidden field because this type
+    // document being generated. It's a hidden field because this type
     // is identified by the field name and NOT by the value of this field.
     $pdf->TextField(DocumentType::PRESCRICAO_MEDICAMENTO, 0, 0, array(
         'hidden' => 'true',
@@ -165,7 +165,7 @@ try {
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is
-    // only an example, feel, free to alter it to meet your application's needs. You
+    // only an example, feel free to alter it to meet your application's needs. You
     // can also bring the code into the javascript block below if you prefer.
     ?>
     <script src="../scripts/signature-start-form.js"></script>

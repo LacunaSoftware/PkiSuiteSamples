@@ -39,13 +39,13 @@ $documentsIds = array_map(function ($id) {
         <form id="signForm" method="POST">
 
             <div class="form-group">
-                <label>File to sign</label>
+                <label>Files to sign</label>
 
                 <p>
                     You'll be signing the following files:
                     <?php
                     // UL element to hold the batch's documents (we'll render these
-                    // programmatically, see batch-pades-signature-restpki-form.js).
+                    // programmatically, see batch-signature-rest-form.js).
                     ?>
                 <ul id="docList"/>
                 </p>
@@ -54,7 +54,7 @@ $documentsIds = array_map(function ($id) {
             <?php
             // Render a select (combo box) to list the user's certificates. For now
             // it will be empty, we'll populate it later on
-            // (see batch-pades-signature-restpki-form.js).
+            // (see batch-signature-rest-form.js).
             ?>
             <div class="form-group">
                 <label for="certificateSelect">Choose a certificate</label>
@@ -62,11 +62,11 @@ $documentsIds = array_map(function ($id) {
             </div>
 
             <?php
-            // Action buttons. Notice that the "Sign File" button is NOT a submit
-            // button. When the user clicks the button, we must first use the Web
-            // PKI component to perform the client-side computation necessary and
-            // only when that computation is finished we'll submit the form
-            // programmatically (see batch-pades-signature-restpki-form.js).
+            // Action buttons. Notice that the "Sign Batch" button is NOT a submit
+            // button. When the user clicks the button, the page signs each
+            // document with the Web PKI component, calling the server
+            // asynchronously to start and complete each signature
+            // (see batch-signature-rest-form.js).
             ?>
             <button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
             <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
@@ -93,7 +93,7 @@ $documentsIds = array_map(function ($id) {
 
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript
-        // code (see batch-pades-signature-restpki-form.js).
+        // code (see batch-signature-rest-form.js).
         batchSignatureRestForm.init({
             documentsIds: <?= json_encode($documentsIds); ?>,  // The documents IDs.
             docList: $('#docList'),                            // The reference to the list of documents.

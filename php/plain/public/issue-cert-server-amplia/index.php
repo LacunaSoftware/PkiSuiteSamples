@@ -40,9 +40,9 @@
 <?php include '../shared/scripts.php' ?>
 
 <?php
-// The file below contains the logic for filling and validating form. It is only
-// an example, feel free to alter it to meet your application's needs. You can
-// also bring the code in to the javascript block below if you prefer.
+// The file below contains the logic for filling and validating the form. It is
+// only an example, feel free to alter it to meet your application's needs. You
+// can also bring the code into the javascript block below if you prefer.
 ?>
 <script src="scripts/issue-cert-form.js"></script>
 <script>

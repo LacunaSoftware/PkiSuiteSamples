@@ -18,7 +18,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileToSign = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileToSign)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -41,7 +41,7 @@ try {
     // 1. Start the signature with REST PKI
 
     // Instantiate the PadesSignatureStarter class, responsible for receiving the signature elements and
-    // start the signature process.
+    // starting the signature process.
     $signatureStarter = new PadesSignatureStarter(Util::getRestPkiClient());
 
     // Set the PDF to be signed.
@@ -132,7 +132,7 @@ try {
                     <ul>
                         <li>Tipo de certificado: <?= $signerCert->pkiBrazil->certificateType ?></li>
                         <li>CPF: <?= $signerCert->pkiBrazil->cpf ?></li>
-                        <li>Responsavel: <?= $signerCert->pkiBrazil->responsavel ?></li>
+                        <li>Responsável: <?= $signerCert->pkiBrazil->responsavel ?></li>
                         <li>Empresa: <?= $signerCert->pkiBrazil->companyName ?></li>
                         <li>CNPJ: <?= $signerCert->pkiBrazil->cnpj ?></li>
                         <li>

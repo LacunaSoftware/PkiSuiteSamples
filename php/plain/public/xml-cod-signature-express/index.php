@@ -4,8 +4,8 @@
  * according to the standard Certificación de Origen Digital (COD), from Asociación 
  * Latinoamericana de Integración (ALADI). For more information, please see:
  * 
- * - Spanish: http://www.aladi.org/nsfweb/Documentos/2327Rev2.pdf
- * - Portuguese: http://www.mdic.gov.br/images/REPOSITORIO/secex/deint/coreo/2014_09_19_-_Brasaladi_761_-_Documento_ALADI_SEC__di_2327__Rev_2_al_port_.pdf
+ * - Spanish: https://cod.certificadoorigen.com.ar/ALADI_SEC_di2327_Rev13.pdf
+ * - Official page: https://www.aladi.org/agenda-digital/certificado-de-origen-digital/
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 <?php include '../shared/web-pki.php' ?>
 
 <?php
-// The file below contains the logic for calling the Web PKI component. It is only an example, feel,
+// The file below contains the logic for calling the Web PKI component. It is only an example, feel
 // free to alter it to meet your application's needs. You can also bring the code into the
 // javascript block below if you prefer.
 ?>

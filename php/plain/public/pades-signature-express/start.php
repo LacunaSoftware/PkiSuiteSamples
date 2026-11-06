@@ -1,10 +1,9 @@
 <?php
 
 /**
- * This block will be executed only when it's on the "start" step. In this
- * sample, the state is set
- * as "start" programmatically after the user press the "Sign File" button
- * (see method sign() on content/js/signature-form.js).
+ * This file is called when the user presses the "Sign File" button on index.php,
+ * after Web PKI has read the chosen certificate (see method startSignature() on
+ * scripts/signature-start-form.js).
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -26,7 +25,7 @@ try {
     $certContent = !empty($_POST['certContent']) ? $_POST['certContent'] : null;
 
     // Get an instance of the PadesSignatureStarter class, responsible for receiving
-    // the signature elements and start the signature process.
+    // the signature elements and starting the signature process.
     $signatureStarter = new PadesSignatureStarter();
 
     // Set PKI default options (see Util.php).
@@ -43,8 +42,8 @@ try {
 
     // Set a file reference for the stamp file. Note that this file can be
     // referenced later by "fref://stamp" at the "url" field on the visual
-    // representation (see content/vr.json file or getVisualRepresentation($case)
-    // method).
+    // representation (see resources/vr.json file or the
+    // PadesVisualElementsExpress::getVisualRepresentation() method).
     $signatureStarter->addFileReference('stamp', StorageMock::getPdfStampPath());
 
     // Set visual representation. We provide a PHP class that represents the visual
@@ -112,7 +111,7 @@ try {
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is
-    // only an example, feel, free to alter it to meet your application's needs. You
+    // only an example, feel free to alter it to meet your application's needs. You
     // can also bring the code into the javascript block below if you prefer.
     ?>
     <script src="scripts/signature-complete-form.js"></script>

@@ -1,6 +1,6 @@
 <?php
 /*
- * This file submits a Xml file to Rest PKI for inspection and renders the results.
+ * This file submits an XML file to Rest PKI for inspection and renders the results.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     die();
 }
 
-// Verify if the fileId correspond to an existing file on our StorageMock class.
+// Verify if the fileId corresponds to an existing file on our StorageMock class.
 $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
 if (!StorageMock::exists($fileId)) {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -30,11 +30,10 @@ $sigExplorer->setSignatureFileFromPath(StorageMock::getDataPath($fileId));
 // Specify that we want to validate the signatures in the file, not only inspect them
 $sigExplorer->validate = true;
 
-// Accept any valid XmlDSig signature as long as the signer has an ICP-Brasil certificate as long as the signer is
-// trusted by the security context.
+// Accept any valid XmlDSig signature as long as the signer is trusted by the security context.
 $sigExplorer->defaultSignaturePolicy = StandardSignaturePolicies::XML_DSIG_BASIC;
 
-// Specify the security context. We have encapsulated the security context choice on util.php.
+// Specify the security context. We have encapsulated the security context choice on Util.php.
 $sigExplorer->securityContext = Util::getSecurityContextId();
 
 // Call the open() method, which returns the signature file's information
@@ -105,7 +104,7 @@ $signatures = $sigExplorer->open();
                                     <ul>
                                         <li><strong>Tipo de certificado</strong>: <?= $signature->certificate->pkiBrazil->certificateType ?></li>
                                         <li><strong>CPF</strong>: <?= $signature->certificate->pkiBrazil->cpfFormatted ?></li>
-                                        <li><strong>Responsavel</strong>: <?= $signature->certificate->pkiBrazil->responsavel ?></li>
+                                        <li><strong>Responsável</strong>: <?= $signature->certificate->pkiBrazil->responsavel ?></li>
                                         <li><strong>Empresa</strong>: <?= $signature->certificate->pkiBrazil->companyName ?></li>
                                         <li><strong>CNPJ</strong>: <?= $signature->certificate->pkiBrazil->cnpjFormatted ?></li>
                                         <li><strong>RG</strong>: <?= $signature->certificate->pkiBrazil->rgNumero . " " . $signature->certificate->pkiBrazil->rgEmissor . " " . $signature->certificate->pkiBrazil->rgEmissorUF ?></li>

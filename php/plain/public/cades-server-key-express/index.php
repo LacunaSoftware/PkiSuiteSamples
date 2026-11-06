@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file perform a local CAdES signature in one step using PKI Express.
+ * This file performs a local CAdES signature in one step using PKI Express.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -16,7 +16,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileToSign = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileToSign)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -33,8 +33,8 @@ try {
     // Set signature policy.
     $signer->signaturePolicy = StandardSignaturePolicies::PKI_BRAZIL_CADES_ADR_BASICA;
 
-    // Set file to be signed. If the file is a CMS, the PKI Express will recognize
-    // that and will co-sign that file.
+    // Set file to be signed. If the file is a CMS, PKI Express will recognize that
+    // and will co-sign that file.
     $signer->setFileToSign(StorageMock::getDataPath($fileToSign));
 
     // The PKCS #12 certificate path.

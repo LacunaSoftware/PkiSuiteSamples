@@ -1,8 +1,9 @@
 <?php
 
 /**
- * This file receives the form submission from pades-signature.php. We'll call REST PKI to complete
- * the signature.
+ * This file is called when the provider redirects the user back after the authorization (see the
+ * redirect URI in discover.php). We'll start the signature with REST PKI, sign the hash with
+ * CloudHub and call REST PKI to complete the signature.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -18,8 +19,8 @@ use Lacuna\RestPki\StandardSignaturePolicies;
 use Lacuna\RestPki\XmlSignatureFinisher;
 
 try {
-	// Get the token for this signature (rendered in a hidden input field, see
-	// pades-signature-restpki/index.php).
+	// Get the CloudHub session (URL parameter of the redirect) and get the user's certificate from
+	// CloudHub.
 	$session = $_GET['session'];
 	$client = Util::getCloudhubClient();
 	$cert = $client->getCertificateAsync($session);
@@ -30,20 +31,19 @@ try {
     $signatureStarter = new FullXmlSignatureStarter(Util::getRestPkiClient());
     $signatureStarter->setSignerCertificateBase64($cert);
 
-    // Set the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
+    // Set the XML to be signed, a sample XML document pre-generated.
     $signatureStarter->setXmlToSignFromPath(StorageMock::getSampleDocPath(SampleDocs::SAMPLE_XML));
 
     // Set the signature policy
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::XML_ICPBR_ADR_BASICA;
 
-     // Set the security context. We have encapsulated the security context choice on util.php.
+     // Set the security context. We have encapsulated the security context choice on Util.php.
      $signatureStarter->securityContext = Util::getSecurityContextId();
 
-     // Call the startWithWebPki() method, which initiates the signature. This yields the token, a 43-character
-     // case-sensitive URL-safe string, which identifies this signature process. We'll use this value to call the
-     // signWithRestPki() method on the Web PKI component (see javascript below) and also to complete the signature after
-     // the form is submitted (see file xml-element-signature-action.php). This should not be mistaken with the API access
-     // token.
+     // Call the start() method, which initiates the signature. This yields the hash to be signed, which we'll
+     // sign with CloudHub, and the token, a 43-character case-sensitive URL-safe string, which identifies this
+     // signature process. We'll use the token to complete the signature below. This should not be mistaken with the
+     // API access token.
     $res = $signatureStarter->start();
     $signHashRequest = new SignHashRequest($session, CloudhubUtil::base64Convert($res->toSignHash), null, $res->digestAlgorithmOid, null);
 	$signHashResponse = $client->signHashAsync($signHashRequest);
@@ -63,7 +63,7 @@ try {
     $signerCert = $signatureFinisher->getCertificateInfo();
 
     // At this point, you'd typically store the signed XML on your database. For demonstration purposes, we'll
-    // store the PDF on a temporary folder publicly accessible and render a link to it.
+    // store the XML on a temporary folder publicly accessible and render a link to it.
     $filename = StorageMock::store($signedXml, 'xml');
     ?><!DOCTYPE html>
 <html>
@@ -77,7 +77,7 @@ try {
     <div class="container content">
         <div id="messagesPanel"></div>
 
-        <h2 class="ls-title">XML Signature with REST PKI</h2>
+        <h2 class="ls-title">XML Signature using cloud certificate with CloudHub API</h2>
         <h5 class="ls-subtitle">File signed successfully!<i class="fas fa-check-circle text-success"></i></h5>
 
         <div class="ls-content">
@@ -90,7 +90,7 @@ try {
                     <ul>
                         <li><strong>Tipo de certificado</strong>: <?= $signerCert->pkiBrazil->certificateType ?></li>
                         <li><strong>CPF</strong>: <?= $signerCert->pkiBrazil->cpf ?></li>
-                        <li><strong>Responsavel</strong>: <?= $signerCert->pkiBrazil->responsavel ?></li>
+                        <li><strong>Responsável</strong>: <?= $signerCert->pkiBrazil->responsavel ?></li>
                         <li><strong>Empresa</strong>: <?= $signerCert->pkiBrazil->companyName ?></li>
                         <li><strong>CNPJ</strong>: <?= $signerCert->pkiBrazil->cnpj ?></li>
                         <li><strong>RG</strong>: <?= $signerCert->pkiBrazil->rgNumero . " " . $signerCert->pkiBrazil->rgEmissor . " " . $signerCert->pkiBrazil->rgEmissorUF ?></li>

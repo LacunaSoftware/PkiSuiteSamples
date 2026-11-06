@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 }
 
 // Get the parameters for this signature (received from the POST call via AJAX,
-// see batch-pades-signature-express-form.js)
+// see batch-signature-express-form.js)
 $id = $_POST['id'];
 $signature = $_POST['signature'];
 $transferFile = $_POST['transferFile'];
@@ -41,7 +41,7 @@ $signatureFinisher->setTransferFile($transferFile);
 $signatureFinisher->setSignature($signature);
 
 // Generate path for output file and add to signature finisher.
-StorageMock::createAppData(); // make sure the "app-data" folder exists (Util.php)
+StorageMock::createAppData(); // make sure the "app-data" folder exists (StorageMock.php)
 $outputFile = uniqid() . ".pdf";
 $signatureFinisher->setOutputFile(StorageMock::getDataPath($outputFile));
 

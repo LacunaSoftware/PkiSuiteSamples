@@ -15,7 +15,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileId)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -34,7 +34,7 @@ try {
     // Accept only 100%-compliant ICP-Brasil signatures as long as the signer is trusted by the security context.
     $sigExplorer->acceptableExplicitPolicies = StandardSignaturePolicyCatalog::getPkiBrazilCades();
 
-    // Specify the security context. We have encapsulated the security context choice on util.php.
+    // Specify the security context. We have encapsulated the security context choice on Util.php.
     $sigExplorer->securityContext = Util::getSecurityContextId();
 
     // Call the open() method, which returns the signature file's information
@@ -96,7 +96,7 @@ try {
                                         <ul>
                                             <li><strong>Tipo de certificado</strong>: <?= $signer->certificate->pkiBrazil->certificateType ?></li>
                                             <li><strong>CPF</strong>: <?= $signer->certificate->pkiBrazil->cpfFormatted ?></li>
-                                            <li><strong>Responsavel</strong>: <?= $signer->certificate->pkiBrazil->responsavel ?></li>
+                                            <li><strong>Responsável</strong>: <?= $signer->certificate->pkiBrazil->responsavel ?></li>
                                             <li><strong>Empresa</strong>: <?= $signer->certificate->pkiBrazil->companyName ?></li>
                                             <li><strong>CNPJ</strong>: <?= $signer->certificate->pkiBrazil->cnpjFormatted ?></li>
                                             <li><strong>RG</strong>: <?= $signer->certificate->pkiBrazil->rgNumero . " " . $signer->certificate->pkiBrazil->rgEmissor . " " . $signer->certificate->pkiBrazil->rgEmissorUF ?></li>

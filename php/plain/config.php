@@ -50,7 +50,7 @@ function getConfig()
         'amplia' => [
 
             // The CA's id that will be used to issue a certificate using Amplia. We have configured
-            // to the sample CA from sample subscription for these samples.
+            // it with the sample CA from the sample subscription for these samples.
             'caId' => 'eaffa754-1fb5-474a-b9ef-efe43101e89f',
 
             // The CA's id that will be used to issue an attribute certificate using Amplia. Attribute
@@ -66,8 +66,8 @@ function getConfig()
             // If the Amplia's samples do not work please contact our support by email:
             // suporte@lacunasoftware.com
 
-            // In order to use this sample on a "on premises" installation of Amplia, fill the
-            // field below with the URL address of your REST PKI installation (with the trailing '/'
+            // In order to use this sample on an "on premises" installation of Amplia, fill the
+            // field below with the URL address of your Amplia installation (with the trailing '/'
             // character).
             'endpoint' => null,
         ],
@@ -82,7 +82,7 @@ function getConfig()
             // resources folder.
             "trustedRoots" => [],
 
-            // Offline mode. Set this, if you want to PKI Express to run on offline mode. This mode
+            // Offline mode. Set this if you want PKI Express to run in offline mode. This mode
             // is useful when there is no network available.
             "offline" => false,
 

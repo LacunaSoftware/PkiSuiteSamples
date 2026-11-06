@@ -20,20 +20,22 @@ try {
     $institutionCity = $_POST['institutionCity'];
     $institutionState = $_POST['institutionState'];
 
-    // Get an instance of the AmpliaClient, responsible to connect with Amplia and
-    // perform the requests.
+    // Get an instance of the AmpliaClient, responsible for connecting to Amplia and
+    // performing the requests.
     $client = Util::getAmpliaClient();
 
-    // Create an instance of the CreateOrderRequest class, which contains a class,
-    // that inherits the CertificateParameters class. In this sample, we use a
-    // CieCertificateParameters class to emit an attribute certificate.
+    // Create an instance of the CreateOrderRequest class, which contains an
+    // instance of a class that inherits the CertificateParameters class. In this
+    // sample, we use a CieCertificateParameters class to issue an attribute
+    // certificate.
     $createOrderRequest = new CreateOrderRequest();
     // Set the certificate authority's id. This authority will generate your
     // certificate. Attribute certificates require a CA configured to issue this
     // kind of certificate, which is different from the CA used to issue regular
     // (public key) certificates.
     $createOrderRequest->caId = getConfig()['amplia']['attributeCaId'];
-    // Set the certificate validity. We've encapsulated to set 2 years from now.
+    // Set the certificate validity. We use Util::getDateYearsFromNow() to set it to
+    // 2 years from now.
     $createOrderRequest->validityEnd = Util::getDateYearsFromNow(2);
     // Set the kind of the certificate.
     $createOrderRequest->kind = CertificateKinds::ATTRIBUTE;
@@ -82,8 +84,8 @@ try {
     <?php include '../shared/menu.php' ?>
 
     <div class="container content">
-        <h2 class="ls-title">Issue an attribute certificate storing the key on the server with Amplia</h2>
-        <h5 class="ls-subtitle">The certificate was successful issued <i class="fas fa-check-circle text-success"></i></h5>
+        <h2 class="ls-title">Issue an attribute certificate with Amplia</h2>
+        <h5 class="ls-subtitle">The certificate was successfully issued <i class="fas fa-check-circle text-success"></i></h5>
 
         <div class="ls-content">
 

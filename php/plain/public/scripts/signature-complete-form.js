@@ -34,7 +34,7 @@ var signatureCompleteForm = (function () {
     }
 
     // ---------------------------------------------------------------------------------------------
-    // Function that performs the siganture on startup. At this point, the UI is already blocked.
+    // Function that performs the signature on startup. At this point, the UI is already blocked.
     // ---------------------------------------------------------------------------------------------
     function sign() {
 

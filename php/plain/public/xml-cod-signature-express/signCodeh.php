@@ -4,8 +4,8 @@
  * according to the standard Certificación de Origen Digital (COD), from Asociación 
  * Latinoamericana de Integración (ALADI). For more information, please see:
  * 
- * - Spanish: http://www.aladi.org/nsfweb/Documentos/2327Rev2.pdf
- * - Portuguese: http://www.mdic.gov.br/images/REPOSITORIO/secex/deint/coreo/2014_09_19_-_Brasaladi_761_-_Documento_ALADI_SEC__di_2327__Rev_2_al_port_.pdf
+ * - Spanish: https://cod.certificadoorigen.com.ar/ALADI_SEC_di2327_Rev13.pdf
+ * - Official page: https://www.aladi.org/agenda-digital/certificado-de-origen-digital/
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -54,7 +54,7 @@ $xmlToSign = !empty($_GET['fileId']) ? $_GET['fileId'] : null;
             </div>
 
             <?php
-            // Action buttons. Notice that the "Sign COD element" button is NOT a submit button. When the user
+            // Action buttons. Notice that the "Sign CODEH element" button is NOT a submit button. When the user
             // clicks the button, we must first use the Web PKI component to perform the client-side
             // computation necessary and only when that computation is finished we'll submit the form
             // programmatically (see signature-start-form.js).
@@ -76,7 +76,7 @@ $xmlToSign = !empty($_GET['fileId']) ? $_GET['fileId'] : null;
 <?php include '../shared/web-pki.php' ?>
 
 <?php
-// The file below contains the logic for calling the Web PKI component. It is only an example, feel,
+// The file below contains the logic for calling the Web PKI component. It is only an example, feel
 // free to alter it to meet your application's needs. You can also bring the code into the
 // javascript block below if you prefer.
 ?>

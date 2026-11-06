@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file validate the file uploaded to REST PKI Core.
+ * This file validates the file uploaded to REST PKI Core.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';

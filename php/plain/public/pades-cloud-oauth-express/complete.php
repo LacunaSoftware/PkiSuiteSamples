@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This action will complete the authentication process and create a signature using a session
- * token returned by user. Also, we recover the parameter "customState" containing the id of the
+ * This action will complete the authentication process and create a signature using the session
+ * returned by the provider. Also, we recover the parameter "customState" containing the id of the
  * file that will be signed.
  */
 require __DIR__ . '/../../vendor/autoload.php';
@@ -13,7 +13,7 @@ use Lacuna\PkiExpress\TrustServicesManager;
 use Lacuna\PkiExpress\TrustServiceSessionTypes;
 
 try{
-    // Only accepts POST requests.
+    // Only accepts GET requests.
     if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
         die();
@@ -26,7 +26,7 @@ try{
     // Process cpf, removing all formatting.
     $plainCpf = str_replace([".","-"], "", $cpf);
 
-    // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+    // Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
     // and handling the OAuth flow.
     $manager = new TrustServicesManager();
 
@@ -50,7 +50,7 @@ try{
     // Set PDF to be signed.
     $signer->setPdfToSign(StorageMock::getDataPath($fileId));
 
-    // Set trust session acquired on the following steps of this sample.
+    // Set the trust service session acquired above.
     $signer->setTrustServiceSession($result->session);
 
     // The PKCS #12 certificate path.
@@ -60,8 +60,8 @@ try{
 
     // Set a file reference for the stamp file. Note that this file can be
     // referenced later by "fref://stamp" at the "url" field on the visual
-    // representation (see content/vr.json file or getVisualRepresentation($case)
-    // method).
+    // representation (see resources/vr.json file or the
+    // PadesVisualElementsExpress::getVisualRepresentation() method).
     $signer->addFileReference('stamp', StorageMock::getPdfStampPath());
 
     // Set visual representation. We provide a PHP class that represents the visual
