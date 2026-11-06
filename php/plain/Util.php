@@ -42,14 +42,14 @@ class Util {
         // Get configuration.
         $config = getConfig();
 
-        // Get your API key from the Rest PKI Core configuration.
+        // Get your API key from the REST PKI Core configuration (the 'restPkiNg' section of config.php).
         $apiKey = $config['restPkiNg']['apiKey'];
 
         // Throw exception if key is not set (this check is here just for the sake of newcomers, you
         // can remove it).
         if (empty($apiKey) || strpos($apiKey, ' API KEY ') !== false) {
-            throw new \Exception('The Rest PKI Core API key was not set! Hint: to run this ' .
-                'sample you must generate an API key on the Rest PKI Core website and paste it ' .
+            throw new \Exception('The REST PKI Core API key was not set! Hint: to run this ' .
+                'sample you must generate an API key on the REST PKI Core website and paste it ' .
                 'in the file config.php');
         }
 

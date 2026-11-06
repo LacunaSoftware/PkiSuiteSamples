@@ -82,7 +82,7 @@ function getConfig()
             // resources folder.
             "trustedRoots" => [],
 
-            // Offline mode. Set this if you want PKI Express to run on offline mode. This mode
+            // Offline mode. Set this if you want PKI Express to run in offline mode. This mode
             // is useful when there is no network available.
             "offline" => false,
 

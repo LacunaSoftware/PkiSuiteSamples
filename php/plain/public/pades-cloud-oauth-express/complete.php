@@ -13,7 +13,7 @@ use Lacuna\PkiExpress\TrustServicesManager;
 use Lacuna\PkiExpress\TrustServiceSessionTypes;
 
 try{
-    // Only accepts POST requests.
+    // Only accepts GET requests.
     if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
         die();
@@ -26,7 +26,7 @@ try{
     // Process cpf, removing all formatting.
     $plainCpf = str_replace([".","-"], "", $cpf);
 
-    // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+    // Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
     // and handling the OAuth flow.
     $manager = new TrustServicesManager();
 

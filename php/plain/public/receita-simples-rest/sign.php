@@ -14,7 +14,7 @@ use Lacuna\RestPki\PadesMeasurementUnits;
 use Lacuna\RestPki\PadesCertificationLevels;
 
 try {
-    // Only accepts GET requests.
+    // Only accepts POST requests.
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
         die();

@@ -34,7 +34,7 @@ try {
     // Process cpf, removing all formatting.
     $plainCpf = str_replace([".","-"], "", $cpf);
 
-    // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+    // Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
     // and handling the OAuth flow.
     $manager = new TrustServicesManager();
 

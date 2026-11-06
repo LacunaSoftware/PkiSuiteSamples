@@ -38,7 +38,7 @@ $documentsIds = array_map(function($id) {
         <form id="signForm" method="POST">
 
             <div class="form-group">
-                <label>File to sign</label>
+                <label>Files to sign</label>
 
                 <p>
                     You'll be signing the following files:
