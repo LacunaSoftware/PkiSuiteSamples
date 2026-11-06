@@ -27,7 +27,7 @@ import java.nio.file.Path;
  * of RestPkiNGJavaClient (restpkicore-client). No released restpkicore-client has that method yet,
  * so build.gradle and pom.xml exclude this controller from the build.
  *
- * The MEC digital diploma is a XAdES-A document that already carries signatures and archive
+ * The MEC digital diploma is an XAdES-A document that already carries signatures and archive
  * timestamps. This operation validates it against the given security context and, if the current
  * active archive timestamp is closer to expiring than minActiveTimestampValidityDays, adds a NEW
  * archive timestamp to extend its long-term validity. No user certificate / Web PKI is involved.

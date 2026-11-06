@@ -132,8 +132,7 @@ public class AuthenticationCloudExpressController {
 		dataSigner.setToSignData(nonce);
 		byte[] signature = dataSigner.sign();
 
-		// Get an instance of the Authentication class, responsible for contacting PKI
-		// Express to
+		// Get an instance of the Authentication class, responsible for contacting PKI Express to
 		// start and complete the authentication operation.
 		Authentication auth = new Authentication();
 		auth.setNonce(nonce);
