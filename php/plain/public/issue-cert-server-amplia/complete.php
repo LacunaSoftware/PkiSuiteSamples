@@ -15,29 +15,29 @@ try{
     $subjectName = $_POST['subjectName'];
     $cpf = $_POST['cpf'];
 
-    // Get an instance of the AmpliaClient, responsible to connect with Amplia and
-    // perform the requests.
+    // Get an instance of the AmpliaClient, responsible for connecting to Amplia and
+    // performing the requests.
     $client = Util::getAmpliaClient();
 
-    // Create an instance of the CreateOrderRequest class, which contains a class,
-    // that inherits the CertificateParameters class. In this sample, we use a
-    // PkiBrazilCertificateParameters class to emit a certificate with PKI Brazil
-    // parameters.
+    // Create an instance of the CreateOrderRequest class, which contains an
+    // instance of a class that inherits the CertificateParameters class. In this
+    // sample, we use a PkiBrazilCertificateParameters class to issue a certificate
+    // with PKI Brazil parameters.
     $createOrderRequest = new CreateOrderRequest();
     // Set the certificate authority's id. This authority will generate your
     // certificate. You can have a default CAId per application, in that case, there
     // is no need to set this parameter.
     $createOrderRequest->caId = getConfig()['amplia']['caId'];
-    // Set the certificate validity. We've encapsulated to set 2 years from now.
+    // Set the certificate validity. We use Util::getDateYearsFromNow() to set it to
+    // 2 years from now.
     $createOrderRequest->validityEnd = Util::getDateYearsFromNow(2);
     // Set the kind of the certificate.
     $createOrderRequest->kind = CertificateKinds::PUBLIC_KEY;
     // Set the certificate parameters class with the desired parameters to your
-    // certificate. In this sample, we use the ICP-Brazil model, and informed the
+    // certificate. In this sample, we use the ICP-Brasil model and fill the
     // following fields:
     // - The subject name of the certificate;
-    // - The CPF number;
-    // - The phone number, used to confirm the user identity.
+    // - The CPF number.
     $parameters = new PkiBrazilCertificateParameters();
     $parameters->name = $subjectName;
     $parameters->cpf = $cpf;
@@ -50,7 +50,7 @@ try{
     // private key and the corresponding CSR.
     $keyGenerator = new KeyGenerator();
 
-    // Set key size as 2048 (Available size: 1024, 2048, and 4096)
+    // Set key size as 2048 (Available sizes: 1024, 2048, and 4096)
     $keyGenerator->keySize = SupportedKeySizes::S2048;
     $keyGenerator->keyFormat = KeyFormats::JSON;
     // Set the option to generate the CSR value.
@@ -60,7 +60,7 @@ try{
     $genKey = $keyGenerator->generate();
 
     // Call Amplia in order to issue the certificate referred by the created
-    // order's id and passing the generate CSR.
+    // order's id and passing the generated CSR.
     $cert = $client->issueCertificate($order->getId(), $genKey->csr);
 
     // Store the key encrypted using a local key.
@@ -81,7 +81,7 @@ try{
 
     <div class="container content">
         <h2 class="ls-title">Issue a certificate storing the key on the server with Amplia</h2>
-        <h5 class="ls-subtitle">The certificate was successful issued <i class="fas fa-check-circle text-success"></i></h5>
+        <h5 class="ls-subtitle">The certificate was successfully issued <i class="fas fa-check-circle text-success"></i></h5>
 
         <div class="ls-content">
 

@@ -24,7 +24,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileId)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);

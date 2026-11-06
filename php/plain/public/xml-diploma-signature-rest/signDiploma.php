@@ -39,7 +39,7 @@ try {
     // Set the signature policy. The whole diploma is signed with the AD-RA (archiving) policy.
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::XML_ICPBR_ADR_ARQUIVAMENTO;
 
-    // Set the security context. We have encapsulated the security context choice on util.php.
+    // Set the security context. We have encapsulated the security context choice on Util.php.
     $signatureStarter->securityContext = Util::getSecurityContextId();
 
     // Call the startWithWebPki() method, which initiates the signature and returns the token.

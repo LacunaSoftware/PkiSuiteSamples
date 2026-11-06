@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This action will be called after the user press the button "Search" on index page. It will
- * search for all PSCs that have a certificate with the provided CPF. In this page, there will be
- * a form field asking for user current password. In BirdId provider, this password is called
- * OTP.
+ * This action will be called after the user presses the button "Search" on index page. It asks
+ * CloudHub to create a session for the provided CPF, which lists the PSCs that have a certificate
+ * with that CPF, and renders a button for each one that redirects the user to the provider's
+ * authorization page.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -31,8 +31,8 @@ try {
     // Process cpf, removing all formatting.
     $plainCpf = str_replace([".", "-"], "", $cpf);
 
-    // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
-    // and handling the password flow.
+    // Get an instance of the CloudhubClient class, responsible for communicating with CloudHub,
+    // which handles the OAuth flow with the PSCs.
     $manager = Util::getCloudhubClient();
     $redirectUri = "http://localhost:8000/pades-signature-cloudhub-rest/complete.php?fileId=". $fileId;
 
@@ -53,7 +53,7 @@ try {
 
         <?php include '../shared/menu.php' ?>
         <div class="container content">
-            <h2 class="ls-title">PAdES Signature using cloud certificate with Cloudhub API</h2>
+            <h2 class="ls-title">PAdES Signature using cloud certificate with CloudHub API</h2>
             <?php if (sizeof($services) > 0) { ?>
                 <div class='w-100'>
                     <div>
@@ -117,7 +117,7 @@ try {
             });
             
             function redirectUser() {
-                // Get redirect URL of the chosen provide.
+                // Get redirect URL of the chosen provider.
                 var redirectUrl = $(this).val();
                 // Redirect user.
                 window.location = redirectUrl;

@@ -32,7 +32,7 @@ $documentsIds = array_map(function($id) {
     <?php // Messages about the signature process will be rendered in here. ?>
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">Batch of CAdES Signature with PKI Express</h2>
+    <h2 class="ls-title">Batch CAdES Signature with PKI Express</h2>
 
     <div class="ls-content">
         <form id="signForm" method="POST">
@@ -44,7 +44,7 @@ $documentsIds = array_map(function($id) {
                     You'll be signing the following files:
                     <?php
                     // UL element to hold the batch's documents (we'll render
-                    // these programatically, see batch-signature-form.js).
+                    // these programmatically, see batch-signature-express-form.js).
                     ?>
                 <ul id="docList"/>
                 </p>
@@ -53,7 +53,7 @@ $documentsIds = array_map(function($id) {
             <?php
             // Render a select (combo box) to list the user's certificates. For now
             // it will be empty, we'll populate it later on
-            // (see batch-signature-form.js).
+            // (see batch-signature-express-form.js).
             ?>
             <div class="form-group">
                 <label for="certificateSelect">Choose a certificate</label>
@@ -62,10 +62,10 @@ $documentsIds = array_map(function($id) {
 
             <?php
             // Action buttons. Notice that the "Sign Batch" button is NOT a submit
-            // button. When the user clicks the button, we must first use the
-            // Web PKI component to perform the client-side computation necessary
-            // and only when that computation is finished we'll submit the form
-            // programmatically (see batch-signature-form.js).
+            // button. When the user clicks the button, the page signs each
+            // document with the Web PKI component, calling the server
+            // asynchronously to start and complete each signature
+            // (see batch-signature-express-form.js).
             ?>
             <button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
             <button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
@@ -93,14 +93,14 @@ $documentsIds = array_map(function($id) {
 
     $(document).ready(function () {
         // Once the page is ready, we call the init() function on the javascript
-        // code (see batch-signature-form.js).
+        // code (see batch-signature-express-form.js).
         batchSignatureExpressForm.init({
             documentsIds: <?= json_encode($documentsIds); ?>,  // The documents IDs.
             docList: $('#docList'),                            // The reference to the list of documents.
             certificateSelect: $('#certificateSelect'),        // The <select> element (combo box) to list the certificates.
             refreshButton: $('#refreshButton'),                // The "refresh" button.
             signButton: $('#signButton'),                      // The button that initiates the operation.
-            ctrlEndpoint: '/batch-cades-signature-express'     // The API controller endpoint to be called by Ajax.
+            ctrlEndpoint: '/batch-cades-signature-express'     // The sample endpoint to be called by Ajax.
         });
     });
 

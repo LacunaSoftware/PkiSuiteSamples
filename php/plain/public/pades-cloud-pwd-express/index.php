@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This sample is responsible to perform a flow using password to communicate with PSCs to perform a
+ * This sample is responsible for performing a flow using password to communicate with PSCs to perform a
  * signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- * the services by executing the following sample:
+ * the services by executing the following command:
  *
  *    pkie config --set trustServices:<provider>:<configuration>
  *
@@ -15,7 +15,7 @@
  *    - SafeId
  * It's possible to create a custom provider if necessary.
  *
- * All configuration available:
+ * All available configurations:
  *    - clientId
  *    - clientSecret
  *    - endpoint
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     die();
 }
 
-// Verify if the fileId correspond to an existing file on our StorageMock class.
+// Verify if the fileId corresponds to an existing file on our StorageMock class.
 $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
 if (!StorageMock::exists($fileId)) {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -63,7 +63,7 @@ if (!StorageMock::exists($fileId)) {
                 <p>You are signing <a href='/download?fileId=<?= $fileId ?>'>this document</a>.</p>
             </div>
             <div class="px-0 col col-sm-2">
-                <label for="cpfField">Inform your CPF:</label>
+                <label for="cpfField">Enter your CPF:</label>
                 <input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00" required/>
             </div>
 

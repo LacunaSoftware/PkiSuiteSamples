@@ -1,8 +1,9 @@
 <?php
 
 /*
- * This file initiates a XML signature of an element of the XML using REST PKI and renders the signature page. The form
- * is posted to another file, xml-element-signature-action.php, which calls REST PKI again to complete the signature.
+ * This file initiates an XML signature of an element of the XML using REST PKI and renders the signature page. The
+ * form is posted to another file, xml-nfe-signature-rest/complete.php, which calls REST PKI again to complete the
+ * signature.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -12,8 +13,8 @@ use Lacuna\RestPki\StandardSignaturePolicies;
 
 try {
 
-    // Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature elements and start the
-    // signature process
+    // Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature elements and starting
+    // the signature process
     $signatureStarter = new XmlElementSignatureStarter(Util::getRestPkiClient());
 
     // Set the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
@@ -25,13 +26,13 @@ try {
     // Set the signature policy
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::XML_ICPBR_NFE_PADRAO_NACIONAL;
 
-    // Set the security context. We have encapsulated the security context choice on util.php.
+    // Set the security context. We have encapsulated the security context choice on Util.php.
     $signatureStarter->securityContext = Util::getSecurityContextId();
 
     // Call the startWithWebPki() method, which initiates the signature. This yields the token, a 43-character
     // case-sensitive URL-safe string, which identifies this signature process. We'll use this value to call the
     // signWithRestPki() method on the Web PKI component (see javascript below) and also to complete the signature after
-    // the form is submitted (see file xml-element-signature-action.php). This should not be mistaken with the API access
+    // the form is submitted (see file complete.php). This should not be mistaken with the API access
     // token.
     $token = $signatureStarter->startWithWebPki();
 
@@ -50,7 +51,7 @@ try {
 // The token acquired above can only be used for a single signature attempt. In order to retry the signature it is
 // necessary to get a new token. This can be a problem if the user uses the back button of the browser, since the
 // browser might show a cached page that we rendered previously, with a now stale token. To prevent this from happening,
-// we call the function setExpiredPage(), located in util.php, which sets HTTP headers to prevent caching of the page.
+// we call the function setExpiredPage(), located in Util.php, which sets HTTP headers to prevent caching of the page.
 Util::setExpiredPage();
 
 ?><!DOCTYPE html>

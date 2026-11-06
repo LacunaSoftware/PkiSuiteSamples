@@ -2,8 +2,8 @@
 /**
  * This file initiates an authentication with REST PKI and renders the
  * authentication page. The form is posted to another file,
- * authentication-action.php, which calls REST PKI again to validate the data
- * received.
+ * authentication-rest/complete.php, which calls REST PKI again to validate the
+ * data received.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -24,7 +24,7 @@ try {
     // yields the "token", a 22-character case-sensitive URL-safe string, which
     // represents this authentication process. We'll use this value to call the
     // signWithRestPki() method on the Web PKI component (see signature-form.js
-    // below) and also the call the completeWithWebPki() method on the complete.php
+    // below) and also to call the completeWithWebPki() method on the complete.php
     // file. This should NOT be mistaken with the API access token. We have
     // encapsulated the security context choice on Util.php.
     $token = $auth->startWithWebPki(Util::getSecurityContextId());
@@ -94,7 +94,7 @@ try {
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is
-    // only an example, feel, free to alter it to meet your application's needs. You
+    // only an example, feel free to alter it to meet your application's needs. You
     // can also bring the code into the javascript block below if you prefer.
     ?>
     <script src="../scripts/signature-form.js"></script>

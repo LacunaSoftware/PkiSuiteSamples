@@ -19,7 +19,7 @@ $availableFiles = [];
 $isCmsCoSign = false;
 
 // It is up to your application's business logic to determine which server
-// documents to be available for the signature.
+// documents are available for the signature.
 switch ($op) {
     case 'cosignCms':
         $isCmsCoSign = true;
@@ -61,7 +61,7 @@ switch ($op) {
             <input type="hidden" id="chosenFileIdField" name="chosenFileId" />
 
             <?php
-            // Group of cards containing the server file's information. On each card its possible to choose it to be
+            // Group of cards containing the server file's information. On each card it's possible to choose it to be
             // used on the next operation or to download the server file. This is only an example of choosing a server
             // file, you can change this file or use your own logic. The operation only requires the content of this
             // document or its path.
@@ -80,8 +80,8 @@ switch ($op) {
                                 <div class="buttons">
                                     <?php
                                     // Button used to choose a sample file. It will execute the function chooseFile() on
-                                    // the javascript below. The field "id" from the Thymeleaf's variable "file" has the
-                                    // task of identifying the document on server side after submitting this form.
+                                    // the javascript below. The "id" field of each available file has the task of
+                                    // identifying the document on server side after submitting this form.
                                     ?>
                                     <button id="<?= $availableFiles[$index]->id ?>-choice-btn"
                                             type="button"
@@ -111,7 +111,7 @@ switch ($op) {
 <?php include '../shared/scripts.php' ?>
 
 <?php
-// This javascript is only an optional feature for this upload page. It will use jQuery to improve the UX of the page.
+// This javascript is only an optional feature for this page. It will use jQuery to improve the UX of the page.
 // Feel free to alter it however you want.
 ?>
 <script>
@@ -125,7 +125,7 @@ switch ($op) {
         // Store the file's id on hidden <input> (#chosenFileIdField).
         $('#chosenFileIdField').val(chosenFileId);
 
-        // Highlight card referred to the chosen file.
+        // Highlight the card referring to the chosen file.
 
         $('#' + chosenFileId + '-card')
             .addClass('border border-success text-success');
@@ -138,7 +138,7 @@ switch ($op) {
             .removeClass('btn-outline-primary')
             .addClass('btn-outline-success');
 
-        // Show message, informing that will redirect to some other page, which will happen on
+        // Show a message saying that it will redirect to some other page, which will happen on
         // server-side after submission.
         $.blockUI({message: 'Redirecting ...'});
         setTimeout(function () {

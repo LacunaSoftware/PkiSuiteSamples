@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This action will be called after the user press the button "Search" on index page. It will
+ * This action will be called after the user presses the button "Search" on index page. It will
  * search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
  * authentication process and return a URL to redirect the user to perform the authentication.
  *
- * After this action the user will be redirected, and to store the local data (fileId) to be user
- * after the user returns to your application. We use the parameter "customState", the last
+ * After this action the user will be redirected. To store the local data (fileId) to be used
+ * after the user returns to your application, we use the parameter "customState", the last
  * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
  * next action.
  */
@@ -78,15 +78,15 @@ try {
                 <p>Possible reasons include:
                     <ul>
                         <li>The given CPF does not exist on trusted services</li>
-                        <li>The PKI Express was not correctly configured</li>
+                        <li>PKI Express was not correctly configured</li>
                     </ul>
                 </p>
-                <p>To configure the PKI Express you need to configure all providers by running the 
+                <p>To configure PKI Express you need to configure all providers by running the
                     following commands on the terminal: <br/>
                     <code>pkie config --set trustServices:{provider}:clientId={value}</code><br/>
                     <code>pkie config --set trustServices:{provider}:clientSecret={value}</code>
                 </p>
-                <p>For customized providers you neet to also configure the endpoint:<br/>
+                <p>For customized providers you need to also configure the endpoint:<br/>
                     <code>pkie config --set trustServices:{provider}:endpoint={value}</code>
                 </p>
                 <p>The standard providers are:
@@ -109,7 +109,7 @@ try {
 
     <script fragment="scripts" type="text/javascript" inline="javascript">
         function redirectUser() {
-            // Get redirect URL of the chosen provide.
+            // Get redirect URL of the chosen provider.
             var redirectUrl = $('#serviceField').val();
             // Redirect user.
             window.location = redirectUrl;

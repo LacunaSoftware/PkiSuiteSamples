@@ -2,7 +2,7 @@
 
 /**
  * This file initiates the generation of Receita Simples file. The form is posted 
- * to another file, receita-simples-express.php/sign, which generate the file.
+ * to another file, receita-simples-express/sign.php, which generates the file.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 

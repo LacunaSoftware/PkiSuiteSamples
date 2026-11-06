@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file perform a local PAdES signature in one step using PKI Express.
+ * This file performs a local PAdES signature in one step using PKI Express.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -13,7 +13,7 @@ use Lacuna\PkiExpress\Pkcs12Generator;
 function generatePkcs12($certId, $password)
 {
     // Get an instance of the Pkcs12Generator class, responsible for
-    // generate a PKCS #12 from a generated key and certificate file. This
+    // generating a PKCS #12 from a generated key and certificate file. This
     // certificate will be used to sign the uploaded PDF.
     $keyJson = StorageMock::read($certId . ".json");
     $pkcs12Generator = new Pkcs12Generator();
@@ -36,7 +36,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileToSign = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileToSign)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -59,11 +59,11 @@ try {
     // Set PDF to be signed.
     $signer->setPdfToSign(StorageMock::getDataPath($fileToSign));
 
-    // Set the PKCS #12 certificate path. We have an logic for choosing the generate the PKCS #12
-    // from "issue certificate" samples or a sample PKCS #12.
+    // Set the PKCS #12 certificate. We choose between a PKCS #12 generated from the key and
+    // certificate of the "issue certificate" samples and a sample PKCS #12.
     if (isset($certId)) {
 
-        // Verify if the files provided by "certId" parameters exists.
+        // Verify if the files referenced by the "certId" parameter exist.
         if (!StorageMock::exists($certId .".json") || !StorageMock::exists($certId . ".cer")) {
             header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
             die();
@@ -89,8 +89,8 @@ try {
 
     // Set a file reference for the stamp file. Note that this file can be
     // referenced later by "fref://stamp" at the "url" field on the visual
-    // representation (see content/vr.json file or getVisualRepresentation($case)
-    // method).
+    // representation (see resources/vr.json file or the
+    // PadesVisualElementsExpress::getVisualRepresentation() method).
     $signer->addFileReference('stamp', StorageMock::getPdfStampPath());
 
     // Set visual representation. We provide a PHP class that represents the visual

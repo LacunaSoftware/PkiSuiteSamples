@@ -8,7 +8,7 @@
 <?php include '../shared/menu.php' ?>
 
 <div class="container content">
-    <h2 class="ls-title">Issue an attribute certificate storing the key on the server with Amplia</h2>
+    <h2 class="ls-title">Issue an attribute certificate with Amplia</h2>
 
     <div class="ls-content">
         <form id="issueForm" action="issue-cert-attribute-amplia/complete.php" method="POST">

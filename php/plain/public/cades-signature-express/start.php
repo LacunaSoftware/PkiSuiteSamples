@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This block will be executed only when it's on the "start" step. In this
- * sample, the state is set as "start" programmatically after the user press the
- * "Sign File" button (see method sign() on content/js/signature-form.js).
+ * This file is called when the user presses the "Sign File" button on index.php,
+ * after Web PKI has read the chosen certificate (see method startSignature() on
+ * scripts/signature-start-form.js).
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -25,7 +25,7 @@ try {
     $certContent = !empty($_POST['certContent']) ? $_POST['certContent'] : null;
 
     // Get an instance of the CadesSignatureStarter class, responsible for receiving
-    // the signature elements and start the signature process.
+    // the signature elements and starting the signature process.
     $signatureStarter = new CadesSignatureStarter();
 
     // Set PKI default options (see Util.php).
@@ -101,7 +101,7 @@ try {
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is
-    // only an example, feel, free to alter it to meet your application's needs.
+    // only an example, feel free to alter it to meet your application's needs.
     // You can also bring the code into the javascript block below if you prefer.
     ?>
     <script src="../scripts/signature-complete-form.js"></script>

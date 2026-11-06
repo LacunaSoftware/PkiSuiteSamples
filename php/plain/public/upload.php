@@ -2,12 +2,12 @@
 
 /**
  * This file allows the user to upload a file to be signed. Once the file is uploaded, we save it to
- * the "app-data" folder and redirect to the specified file (by the "goto" URL argument) passing the
- * filename on the "userfile" URL argument.
+ * the "app-data" folder and redirect to the page given by the "rc" URL argument, passing the file id
+ * on the "fileId" URL argument.
  */
 require __DIR__ . '/../vendor/autoload.php';
 
-// Indicate the maximum size of the uploaded file. You can change this value how ever you want. Be
+// Indicate the maximum size of the uploaded file. You can change this value however you want. Be
 // aware that if this value is greater than the "post_max_size" and the "upload_max_filesize" fields
 // on your php.ini, the upload will not work. To resolve that, increase these fields to support the
 // desired upload maximum size.
@@ -30,7 +30,7 @@ if (isset($_FILES['userfile'])) {
         $fileExt = end($filenameParts);
 
         // Generate a unique filename
-        StorageMock::createAppData(); // make sure the "app-data" folder exists (util.php)
+        StorageMock::createAppData(); // make sure the "app-data" folder exists (StorageMock.php)
         $filename = StorageMock::generateFileId($fileExt, $file['name']);
 
         // Move the file to the "app-data" folder with the unique filename
@@ -38,8 +38,8 @@ if (isset($_FILES['userfile'])) {
             die('File upload error');
         }
 
-        // Redirect the user to the provided page (by the "goto" URL argument), passing the name of
-        // the file as a URL argument.
+        // Redirect the user to the provided page (by the "rc" URL argument), passing the id of the
+        // file as a URL argument.
         if (isset($certId)) {
             header("Location: {$rc}?fileId={$filename}&certId={$certId}", true, 302);
             exit;

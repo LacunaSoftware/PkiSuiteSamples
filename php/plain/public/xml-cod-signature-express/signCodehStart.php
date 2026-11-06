@@ -4,8 +4,8 @@
  * according to the standard Certificación de Origen Digital (COD), from Asociación 
  * Latinoamericana de Integración (ALADI). For more information, please see:
  * 
- * - Spanish: http://www.aladi.org/nsfweb/Documentos/2327Rev2.pdf
- * - Portuguese: http://www.mdic.gov.br/images/REPOSITORIO/secex/deint/coreo/2014_09_19_-_Brasaladi_761_-_Documento_ALADI_SEC__di_2327__Rev_2_al_port_.pdf
+ * - Spanish: https://cod.certificadoorigen.com.ar/ALADI_SEC_di2327_Rev13.pdf
+ * - Official page: https://www.aladi.org/agenda-digital/certificado-de-origen-digital/
  */
 
  /**
@@ -34,7 +34,7 @@ try {
     $certContent = !empty($_POST['certContent']) ? $_POST['certContent'] : null;
 
 	// Get an instance of the XmlSignatureStarter class, responsible for receiving the
-	// signature elements and start the signature process.
+	// signature elements and starting the signature process.
     $signatureStarter = new XmlSignatureStarter();
 
     // Set PKI default options (see Util.php).
@@ -46,7 +46,7 @@ try {
     // Set the ID of the element to be signed.
     $signatureStarter->toSignElementId = 'CODEH';
 
-    // Set the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
+    // Set the XML to be signed, the XML whose COD element was signed on the previous step.
     $signatureStarter->setXmlToSign(StorageMock::getDataPath($xmlToSign));
 
     // Set Base64-encoded certificate's content to signature starter.
@@ -116,7 +116,7 @@ try {
 <?php include '../shared/web-pki.php' ?>
 
 <?php
-// The file below contains the logic for calling the Web PKI component. It is only an example, feel,
+// The file below contains the logic for calling the Web PKI component. It is only an example, feel
 // free to alter it to meet your application's needs. You can also bring the code into the
 // javascript block below if you prefer.
 ?>

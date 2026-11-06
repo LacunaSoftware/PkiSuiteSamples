@@ -178,7 +178,7 @@ try {
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is
-    // only an example, feel, free to alter it to meet your application's needs. You
+    // only an example, feel free to alter it to meet your application's needs. You
     // can also bring the code into the javascript block below if you prefer.
     ?>
     <script src="scripts/signature-complete-form.js"></script>

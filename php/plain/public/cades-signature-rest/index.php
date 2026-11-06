@@ -3,15 +3,15 @@
 /**
  * This file initiates a CAdES signature using REST PKI and renders the
  * signature page. The form is posted to another file,
- * cades-signature-action.php, which calls REST PKI again to complete the
+ * cades-signature-rest/complete.php, which calls REST PKI again to complete the
  * signature.
  *
- * All CAdES signature examples converge to this action, but with different URL
+ * All CAdES signature examples converge to this file, but with different URL
  * arguments:
  *
- * 1. Signature with a server file               : no arguments filled
- * 2. Signature with a file uploaded by the user : "userfile" filled
- * 3. Co-signature of a previously signed CMS    : "cmsfile" filled
+ * 1. Signature with a server file               : "fileId" filled
+ * 2. Signature with a file uploaded by the user : "fileId" filled
+ * 3. Co-signature of a previously signed CMS    : "cosign" filled
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -24,32 +24,33 @@ try {
     $cmsToCoSign = isset($_GET['cosign']) ? $_GET['cosign'] : null;
 
     // Instantiate the CadesSignatureStarter class, responsible for receiving the
-    // signature elements and start the signature process.
+    // signature elements and starting the signature process.
     $signatureStarter = new CadesSignatureStarter(Util::getRestPkiClient());
 
     if (!empty($cmsToCoSign)) {
 
-        // If the URL argument "cmsfile" is filled, the user has asked to co-sign a
+        // If the URL argument "cosign" is filled, the user has asked to co-sign a
         // previously signed CMS. We'll set the path to the CMS to be co-signed,
-        // which was previously saved in the "app-data" folder by the file
-        // cades-signature/complete.php. Note two important things:
+        // which was previously saved in the "app-data" folder by
+        // cades-signature-rest/complete.php or server-files/action.php. Note two
+        // important things:
         //
-        //      1. The CMS to be co-signed must be set using the method
-        //         "setCmsToSign" or "setCmsFileToSign", not the method
-        //         "setContentToSign" nor "setFileToSign".
+        //      1. The CMS to be co-signed must be set using one of the
+        //         "setCmsToCoSign..." methods, not one of the "setFileToSign..."
+        //         methods.
         //
-        //      2. Since we're creating CMSs with encapsulated content (see call to
-        //         setEncapsulateContent() below), we don't need to set the content
-        //         to be signed, REST PKI will get the content from the CMS being
-        //         co-signed.
+        //      2. Since we're creating CMSs with encapsulated content (see the
+        //         encapsulateContent property below), we don't need to set the
+        //         content to be signed, REST PKI will get the content from the CMS
+        //         being co-signed.
         $signatureStarter->setCmsToCoSignFromPath(StorageMock::getDataPath($cmsToCoSign));
 
     } else {
 
-        // If the URL argument "userfile" is filled, it means the user was
-        // redirected here by the file upload.php (signature with file uploaded by
-        // user). We'll set the path of the file to be signed, which was saved in
-        // the "app-data" folder by upload.php.
+        // Otherwise, the URL argument "fileId" is filled, which means the user was
+        // redirected here by upload.php (signature with file uploaded by user) or
+        // by server-files/action.php (signature with a server file). We'll set the
+        // path of the file to be signed, which was saved in the "app-data" folder.
         $signatureStarter->setFileToSignFromPath(StorageMock::getDataPath($fileToSign));
     }
 
@@ -57,7 +58,7 @@ try {
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::CADES_ICPBR_ADR_BASICA;
 
     // Set the security context. We have encapsulated the security context choice
-    // on util.php.
+    // on Util.php.
     $signatureStarter->securityContext = Util::getSecurityContextId();
 
     // Optionally, set whether the content should be encapsulated in the resulting
@@ -72,8 +73,8 @@ try {
     // this signature process. We'll use this value to call the signWithRestPki()
     // method on the Web PKI component (see javascript below) and also to complete
     // the signature after the form is submitted (see file
-    // cades-signature-action.php). This should not be mistaken with the API access
-    // token.
+    // cades-signature-rest/complete.php). This should not be mistaken with the API
+    // access token.
     $token = $signatureStarter->startWithWebPki();
 
     // The token acquired above can only be used for a single signature attempt. In
@@ -81,7 +82,7 @@ try {
     // a problem if the user uses the back button of the browser, since the browser
     // might show a cached page that we rendered previously, with a now stale token.
     // To prevent this from happening, we call the function setExpiredPage(),
-    // located in util.php, which sets HTTP headers to prevent caching of the page.
+    // located in Util.php, which sets HTTP headers to prevent caching of the page.
     Util::setExpiredPage();
 
     ?>
@@ -146,7 +147,7 @@ try {
 
     <?php
     // The file below contains the logic for calling the Web PKI component. It is
-    // only an example, feel, free to alter it to meet your application's needs. You
+    // only an example, feel free to alter it to meet your application's needs. You
     // can also bring the code into the javascript block below if you prefer.
     ?>
     <script src="../scripts/signature-form.js"></script>

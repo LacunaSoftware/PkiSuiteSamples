@@ -32,7 +32,7 @@ class PadesVisualElementsRest {
                 // Optionally set the container within the signature rectangle on which to place
                 // the text. By default, the text can occupy the entire rectangle (how much of the
                 // rectangle the text will actually fill depends on the length and font size).
-                // Below, we specify that the text should respect a right margin of 1.5 cm.
+                // Below, we specify that the text should respect a margin of 0.2 cm on each side.
                 'container' => [
                     'left' => 0.2,
                     'top' => 0.2,
@@ -66,13 +66,14 @@ class PadesVisualElementsRest {
     }
 
     /**
-     * This function is called by pades-signature.php. It contains examples of PDF marks, visual
-     * elements of arbitrary scripts placed in every page. This code is only in a separate function
-     * in order to organize the various examples, you can pick the one that best suits your needs
-     * and use it below directly without an encapsulating function.
+     * This function is not called by default: see the commented-out pdfMarks lines in
+     * pades-signature-rest/index.php and batch-pades-signature-rest/start.php. It contains examples of
+     * PDF marks, visual elements of arbitrary content placed in every page. This code is only in a
+     * separate function in order to organize the various examples, you can pick the one that best
+     * suits your needs and use it directly without an encapsulating function.
      *
-     * @param $sampleNumber : The number identifying the desirable sample mark.
-     * @return PdfMark The desirable sample mark.
+     * @param $sampleNumber : The number identifying the desired sample mark.
+     * @return PdfMark The desired sample mark.
      */
     public static function getPdfMark($sampleNumber)
     {
@@ -114,7 +115,7 @@ class PadesVisualElementsRest {
 
                 // We'll use the image at 'resources/PdfStamp.png'.
                 $element->image = new PdfMarkImage(StorageMock::getPdfStampContent(), "image/png");
-                // Opacity is an integer from 0 to 1000 (0 is completely transparent, 100 is
+                // Opacity is an integer from 0 to 100 (0 is completely transparent, 100 is
                 // completely opaque).
                 $element->image->opacity = 75;
                 array_push($mark->elements, $element);

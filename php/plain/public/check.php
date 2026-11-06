@@ -5,15 +5,15 @@ require __DIR__ . '/../vendor/autoload.php';
 use Lacuna\RestPki\PadesSignatureExplorer;
 use Lacuna\RestPki\StandardSignaturePolicies;
 
-// Get document ID from query string.
+// Get the verification code from query string.
 $formattedCode = isset($_GET['c']) ? $_GET['c'] : null;
 if (!isset($formattedCode)) {
     throw new \Exception("No code was provided");
 }
 
-// On printer-friendly-version.php, we stored the unformatted version of the verification code (without hyphens) but
-// used the formatted version (with hyphens) on the printer-friendly PDF. Now, we remove the hyphen before looking it
-// up.
+// On printer-friendly-pades-rest/index.php, we stored the unformatted version of the verification code (without
+// hyphens) but used the formatted version (with hyphens) on the printer-friendly PDF. Now, we remove the hyphen before
+// looking it up.
 $verificationCode = StorageMock::parseVerificationCode($formattedCode);
 
 // Get document associated with verification code.
@@ -40,7 +40,7 @@ $sigExplorer->validate = true;
 // Accept any valid PAdES signature as long as the signer is trusted by the security context.
 $sigExplorer->defaultSignaturePolicy = StandardSignaturePolicies::PADES_BASIC;
 
-// Specify the security context. We have encapsulated choice on util.php.
+// Specify the security context. We have encapsulated the security context choice on Util.php.
 $sigExplorer->securityContext = Util::getSecurityContextId();
 
 // Call the open() method, which returns the signature file's information.
@@ -102,7 +102,7 @@ $signature = $sigExplorer->open();
                                         <ul>
                                             <li><strong>Tipo de certificado</strong>: <?= $signer->certificate->pkiBrazil->certificateType ?></li>
                                             <li><strong>CPF</strong>: <?= $signer->certificate->pkiBrazil->cpfFormatted ?></li>
-                                            <li><strong>Responsavel</strong>: <?= $signer->certificate->pkiBrazil->responsavel ?></li>
+                                            <li><strong>Responsável</strong>: <?= $signer->certificate->pkiBrazil->responsavel ?></li>
                                             <li><strong>Empresa</strong>: <?= $signer->certificate->pkiBrazil->companyName ?></li>
                                             <li><strong>CNPJ</strong>: <?= $signer->certificate->pkiBrazil->cnpjFormatted ?></li>
                                             <li><strong>RG</strong>: <?= $signer->certificate->pkiBrazil->rgNumero . " " . $signer->certificate->pkiBrazil->rgEmissor . " " . $signer->certificate->pkiBrazil->rgEmissorUF ?></li>

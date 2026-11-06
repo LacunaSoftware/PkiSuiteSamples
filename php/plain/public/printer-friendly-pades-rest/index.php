@@ -25,7 +25,7 @@ use Lacuna\RestPki\Color;
 // Name of your website, with preceding article (article in lowercase).
 $verificationSiteNameWithArticle = 'a Minha Central de Verificação';
 
-// Publicly accessible URL of your website. Preferable HTTPS.
+// Publicly accessible URL of your website. Preferably HTTPS.
 $verificationSite = 'http://localhost:8000';
 
 // Format of the verification link, without the verification code, that is added on generatePrinterFriendlyVersion()
@@ -38,7 +38,7 @@ $normalFontSize = 12;
 // Date format to be used when converting dates to string
 $dateFormat = "d/m/Y H:i";
 
-// Display name of the time zone chosen above
+// Display name of the time zone used to render the dates (PHP's default time zone)
 $timeZoneDisplayName = "horário de Brasília";
 
 // You may also change texts, positions and more by editing directly the method generatePrinterFriendlyVersion() below.
@@ -65,7 +65,7 @@ if (!isset($verificationCode)) {
 // Generate the printer-friendly version
 $pfvContent = generatePrinterFriendlyVersion($filePath, $verificationCode);
 
-// Redirect to the generated file
+// Store the generated file
 $pdfPath = StorageMock::APP_DATA_PATH . StorageMock::formatVerificationCode($verificationCode) . '.pdf';
 StorageMock::createAppData();
 $putContents = file_put_contents($pdfPath, $pfvContent);
@@ -84,7 +84,7 @@ function generatePrinterFriendlyVersion($pdfPath, $verificationCode)
     global $normalFontSize;
     global $timeZoneDisplayName;
 
-    // Use PHP's global variable PHP_EOL that returns a OS independent break-line
+    // Use PHP's constant PHP_EOL, an OS-independent line break
     $breakline = PHP_EOL;
 
     $client = Util::getRestPkiClient();
@@ -107,13 +107,13 @@ function generatePrinterFriendlyVersion($pdfPath, $verificationCode)
     $signatureExplorer->validate = true;
     // Accept any valid PAdES signature as long as the signer is trusted by the security context.
     $signatureExplorer->defaultSignaturePolicy = StandardSignaturePolicies::PADES_BASIC;
-    // Specify the security context. We have encapsulated the security context choice on util.php.
+    // Specify the security context. We have encapsulated the security context choice on Util.php.
     $signatureExplorer->securityContext = Util::getSecurityContextId();
     // Specify the uploaded file from its BLOB's identification.
     $signatureExplorer->setSignatureFileFromBlob($blob);
     $signature = $signatureExplorer->open();
 
-    // 3. Create PDF wiht verification information from uploaded PDF.
+    // 3. Create PDF with verification information from uploaded PDF.
 
     $pdfMarker = new PdfMarker($client);
     $pdfMarker->setFileFromBlob($blob);
@@ -159,7 +159,7 @@ function generatePrinterFriendlyVersion($pdfPath, $verificationCode)
     array_push($pdfMark->elements, $element);
     array_push($pdfMarker->marks, $pdfMark);
 
-    // Summary on right margin of every page (except on the page which wil be created at the end of the document),
+    // Summary on right margin of every page (except on the page which will be created at the end of the document),
     // rotated 90 degrees counter-clockwise (text goes up).
     $pdfMark = new PdfMark();
     $pdfMark->pageOption = PdfMarkPageOptions::ALL_PAGES;
@@ -286,7 +286,7 @@ function generatePrinterFriendlyVersion($pdfPath, $verificationCode)
         ];
         $element->image = new PdfMarkImage(StorageMock::getValidationResultIcon($signer->validationResults->isValid()), 'image/png');
         array_push($manifestMark->elements, $element);
-        // Description of signer (see method _getSignerDescription() below.
+        // Description of signer (see method _getSignerDescription() below).
         $element = new PdfMarkTextElement();
         $element->relativeContainer = [
             'height' => $elementHeight,

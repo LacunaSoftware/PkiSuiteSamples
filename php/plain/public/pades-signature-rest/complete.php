@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file receives the form submission from pades-signature.php. We'll call REST PKI to complete
- * the signature.
+ * This file receives the form submission from pades-signature-rest/index.php. We'll call REST PKI to
+ * complete the signature.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -11,7 +11,7 @@ use Lacuna\RestPki\PadesSignatureFinisher2;
 
 try {
 	// Get the token for this signature (rendered in a hidden input field, see
-	// pades-signature-restpki/index.php).
+	// pades-signature-rest/index.php).
 	$token = $_POST['token'];
 
 	// Instantiate the PadesSignatureFinisher2 class, responsible for completing the signature process.
@@ -25,8 +25,7 @@ try {
 	$signatureResult = $signatureFinisher->finish();
 
 	// The "certificate" property of the SignatureResult object contains information about the
-	// certificate used by the user
-	// to sign the file.
+	// certificate used by the user to sign the file.
 	$signerCert = $signatureResult->certificate;
 
 	// At this point, you'd typically store the signed PDF on your database. For demonstration purposes,
@@ -66,7 +65,7 @@ try {
 					<ul>
 						<li>Tipo de certificado: <?= $signerCert->pkiBrazil->certificateType ?></li>
 						<li>CPF: <?= $signerCert->pkiBrazil->cpf ?></li>
-						<li>Responsavel: <?= $signerCert->pkiBrazil->responsavel ?></li>
+						<li>Responsável: <?= $signerCert->pkiBrazil->responsavel ?></li>
 						<li>Empresa: <?= $signerCert->pkiBrazil->companyName ?></li>
 						<li>CNPJ: <?= $signerCert->pkiBrazil->cnpj ?></li>
 						<li>

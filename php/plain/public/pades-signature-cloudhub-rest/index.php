@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This sample is responsible to perform a flow using OAuth to communicate with PSCs to perform a
+ * This sample is responsible for performing a flow using OAuth to communicate with PSCs to perform a
  * signature.
  *
  * All standard providers:
@@ -23,7 +23,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileId)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -43,7 +43,7 @@ try {
 <div class="container content">
     <div id="messagesPanel"></div>
 
-    <h2 class="ls-title">PAdES Signature using cloud certificate with Cloudhub API</h2>
+    <h2 class="ls-title">PAdES Signature using cloud certificate with CloudHub API</h2>
 
     <div class="ls-content">
         <form id="selectFlowForm" action="/pades-signature-cloudhub-rest/discover.php?fileId=<?= $fileId ?>" method="POST">
@@ -52,7 +52,7 @@ try {
                 <p>You are signing <a href='/download?fileId=<?= $fileId ?>'>this document</a>.</p>
             </div>
             <div class="px-0 col col-sm-2">
-                <label for="cpfField">Inform your CPF:</label>
+                <label for="cpfField">Enter your CPF:</label>
                 <input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00" required/>
             </div>
 
