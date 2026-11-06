@@ -99,7 +99,7 @@ var batchSignatureSdkForm = (function () {
 		pki.init({
 			ready: loadCertificates,        // As soon as the component is ready we'll load the certificates.
 			defaultFail: onWebPkiError,    // Generic error callback defined below.
-			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint that Web PKI communicates with.
+			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint. Only signWithRestPki() uses it; this flow calls signHash().
 		});
 	}
 

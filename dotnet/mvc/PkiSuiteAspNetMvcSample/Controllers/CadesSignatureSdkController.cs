@@ -66,7 +66,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 					// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
 					// CMS. We'll set the content of the CMS to be co-signed, which was previously saved in the
-					// App_Data folder by the Complete action on this controller.
+					// App_Data folder by the Complete action on this controller or by ServerFilesController.
 					cadesSigner.SetSignatureToCoSign(cmsfileContent);
 
 				} else {
@@ -163,7 +163,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 					// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
 					// CMS. We'll set the content of the CMS to be co-signed, which was previously saved in the
-					// App_Data folder by the Complete action on this controller.
+					// App_Data folder by the Complete action on this controller or by ServerFilesController.
 					cadesSigner.SetSignatureToCoSign(cmsfileContent);
 
 				} else {

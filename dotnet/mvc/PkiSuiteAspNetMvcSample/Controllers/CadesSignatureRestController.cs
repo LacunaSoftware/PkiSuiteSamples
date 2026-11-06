@@ -58,7 +58,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				/*
 				 * If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
 				 * CMS. We'll set the path to the CMS to be co-signed, which was previously saved in the
-				 * App_Data folder by the POST action on this controller. Note two important things:
+				 * App_Data folder by the POST action on this controller or by ServerFilesController. Note two
+				 * important things:
 				 * 
 				 *      1. The CMS to be co-signed must be set using the method "SetCmsToCoSign", not the
 				 *         method "SetContentToSign" nor "SetFileToSign".
