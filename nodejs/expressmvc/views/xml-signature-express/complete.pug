@@ -3,7 +3,7 @@ extends ../layout
 block content
 
    div(class="container")
-      h2(class="ls-title") Sign a XML stored on the server with PKI Express
+      h2(class="ls-title") Sign an XML stored on the server with PKI Express
       p File signed successfully!
 
       p
@@ -15,7 +15,7 @@ block content
                ul
                   li Tipo de certificado: #{signerCert.pkiBrazil.certificateType}
                   li CPF: #{signerCert.pkiBrazil.cpfFormatted}
-                  li Responsavel: #{signerCert.pkiBrazil.responsavel}
+                  li Responsável: #{signerCert.pkiBrazil.responsavel}
                   li Empresa: #{signerCert.pkiBrazil.companyName}
                   li CNPJ: #{signerCert.pkiBrazil.cnpjFormatted}
                   li RG: #{signerCert.pkiBrazil.rgNumero} #{signerCert.pkiBrazil.rgEmissor} #{signerCert.pkiBrazil.rgEmissorUF}

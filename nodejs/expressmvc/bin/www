@@ -1,5 +1,5 @@
 /**
- * This file will start the Express.js server. Adding friendly error messages
+ * This file starts the Express.js server. It also adds friendly error-message
  * handlers.
  */
 const fs = require('fs');

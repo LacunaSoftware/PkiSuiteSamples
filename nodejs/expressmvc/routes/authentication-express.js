@@ -8,8 +8,8 @@ const router = express.Router();
 /*
  * GET /authentication-express
  *
- * This file will initiate and authentication with the PKI Express's
- * "start-auth" command and will render the authentication page.
+ * This route initiates an authentication with the PKI Express's
+ * "start-auth" command and renders the authentication page.
  */
 router.get('/', async (_req, res, next) => {
 	// Get an instance of the Authentication class, responsible for 
@@ -20,7 +20,7 @@ router.get('/', async (_req, res, next) => {
 	Util.setPkiDefaults(auth);
 
 	try{
-		// Start the authentication. Receive as response a AuthStartResult 
+		// Start the authentication. Receive as response an AuthStartResult
 		// instance containing the following fields:
 		// - nonce:           The nonce to be signed. This value is also used
 		//                    on "complete" action;
@@ -38,14 +38,14 @@ router.get('/', async (_req, res, next) => {
 /*
  * POST /authentication-express
  *
- * This file completes the authentication.
+ * This route completes the authentication.
  * 
  */
 router.post('/', async (req, res, next) => {
 	// Recover variables from the POST arguments to be used on this step.
 	const { nonce, certContent, signature } = req.body;
 
-	// Get an instance of the Authentication class (util.js).
+	// Get an instance of the Authentication class.
 	const auth = new Authentication();
 
 	// Set PKI default options (see util.js).
@@ -56,14 +56,14 @@ router.post('/', async (req, res, next) => {
 		// action and passed by a hidden field.
 		auth.setNonce(nonce);
 		
-		// Set the Base64-encoded certificate scripts.
+		// Set the Base64-encoded certificate content.
 		await auth.setCertificateFromBase64(certContent);
 	
 		// Set the signature.
 		auth.setSignature(signature); 
 		
-		// Complete the authentication. Receive as response a 
-		// AuthCompleteResult instance containing the following fields:
+		// Complete the authentication. Receive as response
+		// an AuthCompleteResult instance containing the following fields:
 		// - The certificate information;
 		// - The validation results.
 		const result = await auth.complete();
@@ -85,9 +85,9 @@ router.post('/', async (req, res, next) => {
 					vrHtml,
 				});
 		} else {
-			// At this point, you have assurance tha the certificate is valid
-			// according to the TrustArbitrator you selected when starting the
-			// authentication and that the user is indeed the certificate's subject.
+			// At this point, you have assurance that the certificate is valid
+			// according to the trusted roots set by setPkiDefaults() (see util.js)
+			// and that the user is indeed the certificate's subject.
 			// Now, you'd typically query your database for a user that matches one of
 			// the certificate's fields, such as userCert.emailAddress or
 			// userCert.pkiBrazil.cpf (the actual field to be used as key depends on
@@ -95,7 +95,7 @@ router.post('/', async (req, res, next) => {
 			// as if it were the user ID.
 			const userCert = result.certificate;
 
-			// Redirect to the initial page with the user logged in.
+			// Render the success page, showing the user's certificate.
 			res.render('authentication-express/success', {
 				userCert,
 			});

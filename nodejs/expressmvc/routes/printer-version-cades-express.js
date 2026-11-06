@@ -23,7 +23,7 @@ const APP_ROOT = process.cwd();
 // Name of your website, with preceding article (article in lowercase).
 const verificationSiteNameWithArticle = 'my Verification Center';
 
-// Publicly accessible URL of your website. Preferable HTTPS.
+// Publicly accessible URL of your website. Preferably HTTPS.
 const verificationSite = 'http://localhost:3000';
 
 // Format of the verification link, without the verification code, that is added
@@ -45,7 +45,7 @@ const timeZoneDisplayName = 'Brasilia timezone';
 // #############################################################################
 
 /**
- * GET /printer-friendly-version
+ * GET /printer-version-cades-express
  *
  * This generates a printer-friendly version from a signature file using
  * PKI Express.
@@ -77,7 +77,7 @@ router.get('/', (req, res, next) => {
 	// Generate the printer-friendly version.
 	generatePrinterFriendlyVersion(filePath, verificationCode)
 		.then((pfvContent) => {
-			// Return the generate file.
+			// Return the generated file.
 			res.type('pdf');
 			res.send(pfvContent);
 		})
@@ -93,26 +93,26 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 	// verification page).
 	const formattedVerificationCode = Util.formatVerificationCode(verificationCode);
 
-	// Build the verification link from teh constant verificationLinkFormat (see
+	// Build the verification link from the constant verificationLinkFormat (see
 	// above) and the formatted verification code.
 	const verificationLink = verificationLinkFormat + formattedVerificationCode;
 
 	return new Promise((resolve, reject) => {
-		// 1. Inspect signatures on the updated PDF.
+		// 1. Inspect signatures on the uploaded CMS.
 
 		// Get an instance of the CadesSignatureExplorer class, used to
-		// open/validate PDF signatures.
+		// open/validate CAdES signatures.
 		const sigExplorer = new CadesSignatureExplorer();
-		// Set PKI defaults options (see util.js).
+		// Set PKI default options (see util.js).
 		Util.setPkiDefaults(sigExplorer);
 		// Specify that we want to validate the signatures in the file, not only
 		// inspect them.
 		sigExplorer.validate = true;
-		// Set the PDF file to be inspected.
+		// Set the CMS file to be inspected.
 		sigExplorer.setSignatureFileFromPathSync(pdfPath);
 		// Call the open() method, which returns the signature file's information.
 		sigExplorer.open().then((signature) => {
-			// 2. Create PDF with the verification information from uploaded PDF.
+			// 2. Create PDF with the verification information from uploaded CMS.
 
 			// Get an instance of the PDF Marker class, used to apply marks on the
 			// PDF.
@@ -123,7 +123,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 			pdfMarker.setFileFromPathSync(path.join(APP_ROOT, 'public', 'empty.pdf'));
 
 			// Build string with joined names of signers (see method
-			// getDisplayName() below).
+			// getDisplayName() on util.js).
 			const signerNamesList = [];
 			signature.signers.forEach((signer) => {
 				signerNamesList.push(Util.getDisplayName(signer.certificate));
@@ -133,8 +133,8 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 			// helps creating elements and parameters for the PdfMarker.
 			const pdf = new PdfHelper();
 
-			// Create a "manifest" mark on a new page added on the end of the
-			// document. We'll add several elements to this mark.
+			// Create a "manifest" mark on the empty PDF set above
+			// (public/empty.pdf). We'll add several elements to this mark.
 			const manifestMark = pdf.mark()
 				.onContainer(pdf.container().varWidthAndHeight().margins(2.54, 2.54));
 

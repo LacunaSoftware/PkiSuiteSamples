@@ -11,7 +11,7 @@ block content
         h5(class='ls-subtitle') No trusted services were configured
             div(class='ls-content')
                 p 
-                    | For information more about the configuration, follow this 
+                    | For more information about the configuration, follow this&nbsp;
                     a(href="https://docs.lacunasoftware.com/articles/pki-express/config/trust-services.html")="link"
     else
         div(class='ls-content')
@@ -46,7 +46,7 @@ block scripts
         });
 
         function onProviderBtnClicked(e) {
-            // Show modal with iframe with the URL of the desired trust service
+            // Redirect the user to the URL of the chosen trust service
             // provider.
             var authUrl = $(this).val();
             window.location.replace(authUrl);

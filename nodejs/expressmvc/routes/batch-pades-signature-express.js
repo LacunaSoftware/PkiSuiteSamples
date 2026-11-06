@@ -11,7 +11,7 @@ const router = express.Router();
 const APP_ROOT = process.cwd();
 
 /**
- * GET /batch-signature
+ * GET /batch-pades-signature-express
  *
  * This action renders the batch signature page.
  *
@@ -31,22 +31,22 @@ router.get('/', (req, res) => {
 });
 
 /**
- * POST /batch-signature/start
+ * POST /batch-pades-signature-express/start
  *
  * This route is called asynchronously via AJAX by the batch signature page for
  * each document being signed. It receives the ID of the document and the
  * signer's certificate content and initiates a PAdES signature using
  * PKI Express and returns a JSON with the parameters for the client-side
- * signature using Web PKI (see batch-signature-form.js).
+ * signature using Web PKI (see batch-signature-express-form.js).
  */
 router.post('/start', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-express-form.js).
 	const { id } = req.body;
 	const { certContent } = req.body;
 
-	// Get an instantiate of the PadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// Get an instance of the PadesSignatureStarter class, responsible for
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new PadesSignatureStarter();
 
 	// Set PKI default options (see util.js).
@@ -87,7 +87,7 @@ router.post('/start', (req, res, next) => {
 });
 
 /**
- * POST batch-signature/complete
+ * POST /batch-pades-signature-express/complete
  *
  * This route is called asynchronously via AJAX by the batch signature page for
  * each document being signed. It receives the ID of the document, the computed
@@ -99,12 +99,12 @@ router.post('/complete', (req, res, next) => {
 	let outputFile = null;
 
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-express-form.js).
 	const { id } = req.body;
 	const { transferFile } = req.body;
 	const { signature } = req.body;
 
-	// Get an instance of the PadesSignatureFinisher class, responsible for
+	// Get an instance of the SignatureFinisher class, responsible for
 	// completing the signature process.
 	const signatureFinisher = new SignatureFinisher();
 
@@ -120,15 +120,15 @@ router.post('/complete', (req, res, next) => {
 	// Set signature.
 	signatureFinisher.signature = signature;
 
-	// Generate path for output file and add the signature finisher.
-	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
+	// Generate path for output file and add it to the signature finisher.
+	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (see storage-mock.js).
 	outputFile = `${randomUUID()}.pdf`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Complete the signature process.
 	signatureFinisher.complete()
 		.then(() => {
-			// Render a JSON with the saved filename (the page wil use jQuery to
+			// Render a JSON with the saved filename (the page will use jQuery to
 			// decode this value).
 			res.json(outputFile);
 		})

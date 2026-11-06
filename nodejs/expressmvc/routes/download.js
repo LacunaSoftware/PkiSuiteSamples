@@ -59,7 +59,7 @@ router.get('/cert', (req, res, next) => {
 /**
  * GET /download/pfx
  *
- * Route to return the certificate file identified by the "fileId" query
+ * Route to return the PKCS #12 file identified by the "fileId" query
  * parameter.
  */
  router.get('/pfx', (req, res, next) => {
@@ -86,6 +86,8 @@ router.get('/cert', (req, res, next) => {
 /**
  * GET /download/doc
  *
+ * Route to return the batch sample document identified by the "fileId" query
+ * parameter.
  */
 router.get('/doc', (req, res) => {
 	const { fileId } = req.query;

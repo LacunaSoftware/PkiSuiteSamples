@@ -28,7 +28,7 @@ const APP_ROOT = process.cwd();
 // Name of your website, with preceding article (article in lowercase).
 const verificationSiteNameWithArticle = 'my Verification Center';
 
-// Publicly accessible URL of your website. Preferable HTTPS.
+// Publicly accessible URL of your website. Preferably HTTPS.
 const verificationSite = 'http://localhost:3000';
 
 // Format of the verification link, without the verification code, that is added
@@ -38,10 +38,11 @@ const verificationLinkFormat = 'http://localhost:3000/check-pades-restpki?code='
 // "Normal" font size. Sizes of header fonts are defined based on this size.
 const normalFontSize = 12;
 
-// Date format when converting date into a string (see
+// Date format when converting date into a string using moment library
+// (see https://momentjs.com/docs/#/displaying/format for other date formats).
 const dateFormat = 'DD/MM/YYYY HH:mm';
 
-// Display name of the time zone chosen above
+// Display name of the time zone.
 const timeZoneDisplayName = 'Brasilia timezone';
 
 // You may also change texts, positions and more by editing directly the method
@@ -49,7 +50,7 @@ const timeZoneDisplayName = 'Brasilia timezone';
 // #############################################################################
 
 /*
- * GET /printer-friendly-version
+ * GET /printer-version-pades-restpki
  *
  * This generates a printer-friendly version from a signature file using REST
  * PKI.
@@ -77,7 +78,7 @@ router.get('/', (req, res, next) => {
 	// Generate the printer-friendly version.
 	generatePrinterFriendlyVersion(filePath, verificationCode, res.locals.environment)
 		.then((pfvContent) => {
-			// Return the generate file.
+			// Return the generated file.
 			res.type('pdf');
 			res.setHeader('Content-Disposition', 'filename=printer-friendly.pdf');
 			res.send(pfvContent);
@@ -92,7 +93,7 @@ async function generatePrinterFriendlyVersion(pdfPath, verificationCode, environ
 	// verification page).
 	const formattedVerificationCode = Util.formatVerificationCode(verificationCode);
 
-	// Build the verification link from teh constant verificationLinkFormat (see
+	// Build the verification link from the constant verificationLinkFormat (see
 	// above) and the formatted verification code.
 	const verificationLink = verificationLinkFormat + formattedVerificationCode;
 
@@ -109,7 +110,7 @@ async function generatePrinterFriendlyVersion(pdfPath, verificationCode, environ
 	// inspect them.
 	signatureExplorer.validate = true;
 
-	// Specify the signature for signature validation. On this sample, we will
+	// Specify the signature policy for signature validation. On this sample, we will
 	// accept any valid PAdES signature as long as the signer is trusted by the
 	// security context.
 	signatureExplorer.defaultSignaturePolicyId = StandardSignaturePolicies.PADES_BASIC;
@@ -232,8 +233,8 @@ async function generatePrinterFriendlyVersion(pdfPath, verificationCode, environ
 	element.qrCodeData = verificationLink;
 	manifestMark.elements.push(element);
 
-	// Header "VERIFICAÇÃO DAS ASSINATURAS" centered between ICP-Brasil logo
-	// and QR Code.
+	// Header "SIGNATURE CHECK" centered between ICP-Brasil logo and QR
+	// Code.
 	element = new PdfMarkTextElement();
 	element.relativeContainer = {
 		height: elementHeight,
@@ -304,7 +305,7 @@ async function generatePrinterFriendlyVersion(pdfPath, verificationCode, environ
 		element.image = new PdfMarkImage(Util.getValidationResultIcon(signer.validationResults.isValid()), 'image/png');
 		manifestMark.elements.push(element);
 
-		// Description of signer (see method __getSignerDescription() below.
+		// Description of signer (see method _getSignerDescription() below).
 		element = new PdfMarkTextElement();
 		element.relativeContainer = {
 			height: elementHeight,

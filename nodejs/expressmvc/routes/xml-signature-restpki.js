@@ -9,18 +9,18 @@ const { SampleDocs, StorageMock } = require('../storage-mock');
 const router = express.Router();
 
 /**
- * GET /xml-signature
+ * GET /xml-signature-restpki
  */
 router.get('/', (req, res, next) => {
 	// Get an instance of the FullXmlSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new FullXmlSignatureStarter(Util.getRestPkiClient());
 
 	// Set the XML to be signed, a sample XML Document.
 	signatureStarter.setXmlToSignFromPath(StorageMock.getSampleDocPath(SampleDocs.SAMPLE_XML));
 
 	// Set the location on which to insert the signature code. If the location is
-	// not specified, the signature will appended to the root element (which is
+	// not specified, the signature will be appended to the root element (which is
 	// most usual with enveloped signatures).
 	signatureStarter.setSignatureElementLocation(
 		'//ls:signaturePlaceholder',
@@ -44,8 +44,8 @@ router.get('/', (req, res, next) => {
 	// yields the token, a 43-character case-sensitive URL-safe string, which
 	// identifies this signature process. We'll use this value to call the
 	// signWithRestPki() method on the WebPKI component
-	// (see public/js/signature-form.js) and also to complete the signature after
-	// the form is submitted (see post method). This should not be mistaken with
+	// (see public/javascripts/signature-form.js) and also to complete the signature
+	// after the form is submitted (see post method). This should not be mistaken
 	// with the API access token.
 	signatureStarter.startWithWebPki()
 		.then((result) => {
@@ -68,10 +68,10 @@ router.get('/', (req, res, next) => {
 });
 
 /**
- * POST /xml-signature
+ * POST /xml-signature-restpki
  */
 router.post('/', (req, res, next) => {
-	// Get an instance of XmlSignatureFinisher class, responsible for complete
+	// Get an instance of XmlSignatureFinisher class, responsible for completing
 	// the signature process.
 	const signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
 
@@ -79,14 +79,14 @@ router.post('/', (req, res, next) => {
 	signatureFinisher.token = req.body.token;
 
 	// Call the finish() method, which finalizes the signature process and
-	// returns the signed XML.
+	// returns the SignatureResult object.
 	signatureFinisher.finish()
 		.then((result) => {
 			// The "certificate" property of the SignatureResult object contains
 			// information about the certificate used by the user to sign the file.
 			const signerCert = result.certificate;
 
-			// At this point, you'd typically store the signed XML on you database.
+			// At this point, you'd typically store the signed XML on your database.
 			// For demonstration purposes, we'll store the XML on a temporary folder
 			// publicly accessible and render a link to it.
 

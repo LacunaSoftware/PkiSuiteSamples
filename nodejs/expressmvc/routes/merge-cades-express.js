@@ -13,7 +13,7 @@ const APP_ROOT = process.cwd();
 /*
  * GET /merge-cades-express/
  *
- * This sample performs a merge of CAdES signature using PKI Express
+ * This sample performs a merge of CAdES signatures using PKI Express
  *
  */
 router.get('/', async (req, res) => {

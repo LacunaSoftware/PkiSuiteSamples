@@ -43,10 +43,10 @@ router.get('/', (req, res, next) => {
 	const outputFile = `${randomUUID()}.p7s`;
 
 	// Process all independent IO operations in parallel. This should happen
-	// before the method "sign" to be called.
+	// before the "sign" method is called.
 	Promise.all([
 
-		// Set PDF to be signed.
+		// Set the file to be signed.
 		signer.setFileToSignFromPathSync(StorageMock.getDataPath(fileId)),
 
 		// The PKCS #12 certificate path.
@@ -59,7 +59,7 @@ router.get('/', (req, res, next) => {
 		// Set 'encapsulate content' option (default: True).
 		signer._encapsulatedContent = true;
 
-		// Generate path for output file and add the signature finisher.
+		// Generate path for output file and add it to the signer.
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 		// Perform the signature.

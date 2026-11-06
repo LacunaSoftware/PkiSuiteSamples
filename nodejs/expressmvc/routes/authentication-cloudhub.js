@@ -25,9 +25,9 @@ router.get("/", async (req, res, next) => {
 });
 
 /*
- * POST /pades-signature-cloudhub-restpki
- * This is the POST request from the index page which
- * sends the cpf and the file to be signed
+ * POST /authentication-cloudhub
+ * This is the POST request from the index page, which sends the user's CPF.
+ * It creates a CloudHub session and renders the cloud service selection page.
  */
 router.post("/", async (req, res, next) => {
 	try {
@@ -52,9 +52,9 @@ router.post("/", async (req, res, next) => {
 
 /*
  * GET /authentication-cloudhub/session-result
- * This page performs the signature process using CloudHub API session
- * and obtains the user certificate, which is used in Pades signature
- * process
+ * This page obtains the user's certificate from the CloudHub session, signs
+ * the authentication's hash with it through CloudHub and completes the
+ * authentication with REST PKI.
  */
 router.get("/session-result", async (req, res, next) => {
 	try {
@@ -65,10 +65,9 @@ router.get("/session-result", async (req, res, next) => {
 
 		// Call the start() method, which initiates the authentication.
 		// This yields the "token", a 22-character case-sensitive URL-safe string,
-		// which represents this authentication process. We'll use this value to call
-		// the sign() method on the Web PKI component
-		// (see public/javascripts/signature-form.js) and also call the
-		// complete() method on "complete" step. This should not be
+		// which represents this authentication process, along with the hash to
+		// be signed and its digest algorithm. CloudHub signs that hash below, and
+		// we pass the token to the complete() method. This should not be
 		// mistaken with the API access token. We have encapsulated the security
 		// context choice on util.js.
 		var startResult = await auth.start(
@@ -106,8 +105,8 @@ router.get("/session-result", async (req, res, next) => {
 				vrHtml,
 			});
 		} else {
-			// At this point, you have assurance tha the certificate is valid
-			// according to the TrustArbitrator you selected when starting the
+			// At this point, you have assurance that the certificate is valid
+			// according to the security context you selected when starting the
 			// authentication and that the user is indeed the certificate's subject.
 			// Now, you'd typically query your database for a user that matches one of
 			// the certificate's fields, such as userCert.emailAddress or
@@ -116,7 +115,7 @@ router.get("/session-result", async (req, res, next) => {
 			// as if it were the user ID.
 			const userCert = result.certificate;
 
-			// Redirect to the initial page with the user logged in.
+			// Render the success page, showing the user's certificate.
 			res.render("authentication-cloudhub/success", {
 				userCert,
 			});

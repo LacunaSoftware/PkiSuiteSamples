@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
-// This file contains logic for filling and validating the form to be used to
-// pass the certificate information to server to communicate with Amplia. It is
-// only an example, feel free to alter it to meet your application's needs.
+// This file contains logic for filling and validating the form used to pass
+// the user's CPF to the server, which starts a CloudHub session. It is only an
+// example, feel free to alter it to meet your application's needs.
 // -----------------------------------------------------------------------------
 var authCloudHubForm = (function () {
 
@@ -9,18 +9,17 @@ var authCloudHubForm = (function () {
     var formElements = null;
 
     // --------------------------------------------------------------------------
-    // Initializes the form used to collect the certificate information to be
-    // generated.
+    // Initializes the form used to collect the user's CPF.
     // --------------------------------------------------------------------------
     function init(fe) {
 
-        // Receive from parameters received as arguments.
+        // Receive form parameters received as arguments.
         formElements = fe;
 
         // Add mask for CPF field.
         formElements.cpfField.mask('000.000.000-00', { reserve: true });
 
-        // Add click handler for issueButton to submit form and perform
+        // Add click handler for loginButton to submit form and perform
         // validations.
         formElements.loginButton.click(issue);
     }

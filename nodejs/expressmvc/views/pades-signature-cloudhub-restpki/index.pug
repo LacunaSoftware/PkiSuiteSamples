@@ -23,9 +23,9 @@ block scripts
 
    script.
       $(document).ready(function () {
-         // Once the page is ready, we call the init() function on the javascript code (see issue-cert-form.js).
+         // Once the page is ready, we call the init() function on the javascript code (see authentication-cloudhub-form.js).
          authCloudHubForm.init({
             cpfField: $('#cpfField'),                 // The "cpf" field reference.
-            loginButton: $('#loginButton')            // The button that initiates the issuing operation on server-side.
+            loginButton: $('#loginButton')            // The button that submits the CPF to the server.
          });
       });

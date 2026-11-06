@@ -15,7 +15,7 @@ const { Config } = require('../config.js');
 const RETURN_URL = 'http://localhost:3000/issue-cert-user-amplia/complete';
 
 /**
- * GET issue-cert-user-amplia
+ * GET /issue-cert-user-amplia
  *
  * Renders issue certificate page, containing the form to be filled with the
  * information to be used on certificate generation.
@@ -25,9 +25,9 @@ router.get('/', (req, res, _next) => {
 });
 
 /**
- * POST issue-cert-user-amplia
+ * POST /issue-cert-user-amplia
  *
- * Receives issueForm POST request, containing two parameters:
+ * Receives issueForm POST request, containing three parameters:
  * - The subject name;
  * - The CPF number;
  * - The phone number, used to validate identity when generating the certificate
@@ -40,8 +40,8 @@ router.post('/', async (req, res, next) => {
 		// parameters to generate the certificate.
 		const CONFIG = Config.getInstance().get('amplia');
 
-		// Get an instance of the AmpliaClient, responsible to connect with Amplia
-		// and perform the requests.
+		// Get an instance of the AmpliaClient, responsible for connecting with
+		// Amplia and performing the requests.
 		let client = Util.getAmpliaClient();
 
 		// Create an order request.
@@ -54,8 +54,8 @@ router.post('/', async (req, res, next) => {
 
 			// Set the certificate validity. We encapsulated the validity date
 			// definition on the getTwoYearsFromNowDate() method. We used the
-			// Util.formatDate() date method to parse to "MM-DD-YYYY" pattern accepted
-			// on Amplia.
+			// Util.formatDate() method to format it with the "MM-DD-YYYY" pattern
+			// accepted by Amplia.
 			validityEnd: Util.getTwoYearsFromNowDate(),
 
 			// Set the kind of certificate.
@@ -73,7 +73,7 @@ router.post('/', async (req, res, next) => {
 
 				// Set the phone number.
 				// WARNING: For this sample it's necessary to pass a phoneNumber to
-				// perform identity verification when issue the certificate remotely.
+				// perform identity verification when issuing the certificate remotely.
 				phoneNumber: req.body.phoneNumber
 			})
 		});
@@ -81,12 +81,12 @@ router.post('/', async (req, res, next) => {
 		// Call Amplia to create an order.
 		let order = await client.createOrder(request);
 
-		// After the order is create, it's possible to get a redirect link
+		// After the order is created, it's possible to get a redirect link
 		// to a remote page to issue the certificate.
 		let link = await client.getOrderIssueLink(order.getId(), RETURN_URL);
 
-		// Render redirect page to show a message to the user, that he will be
-		// redirect to Amplia to issue his certificate.
+		// Render redirect page to show a message to the user, that they will be
+		// redirected to Amplia to issue their certificate.
 		res.render('issue-cert-user-amplia/redirect', {
 			redirectLink: link
 		});
@@ -97,10 +97,10 @@ router.post('/', async (req, res, next) => {
 });
 
 /**
- * GET issue-cert-user-amplia/complete
+ * GET /issue-cert-user-amplia/complete
  *
- * Renders page, used as a "returnUrl' to Amplia returns to. This page can be
- * a page where you show to user that the certificate was successfully issued.
+ * Renders page, used as the "returnUrl" Amplia returns to. This page can be
+ * a page where you show the user that the certificate was successfully issued.
  */
 router.get('/complete', (req, res, _next) => {
 	res.render('issue-cert-user-amplia/complete');
