@@ -1,6 +1,9 @@
 # A .NET console project signs pending Signer documents, called by an agent skill
 
-Status: accepted (2026-10-30)
+Status: superseded (2026-10-31). The project moved to SignerSamples, as
+[`dotnet/SkillFriendlySignatureApp`](https://github.com/LacunaSoftware/SignerSamples/tree/master/dotnet/SkillFriendlySignatureApp),
+with its catalog entry and its test workflow, so that it sits with the other Signer samples. The
+reasons below still hold there; the paths and workflow names in this record are the old ones.
 
 Every other project in this repo is a web app, and Signer workflow samples usually live in [SignerSamples](https://github.com/LacunaSoftware/SignerSamples). The Skill-friendly signature app breaks both habits on purpose. It is a .NET 10 console project in `dotnet/console/SkillFriendlySignatureApp`. It lists a participant's pending documents on Signer (DropSigner by default) and signs them with a certificate from the current user's Windows certificate store. A Claude Code skill shipped next to it calls it.
 

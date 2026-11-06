@@ -1,7 +1,0 @@
-# Visual Studio and build output
-.vs/
-bin/
-obj/
-# Local publish output (dotnet publish -o out)
-out/
-*.user
