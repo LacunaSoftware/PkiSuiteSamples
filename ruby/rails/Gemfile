@@ -1,11 +1,10 @@
 source 'https://rubygems.org'
 
 # Only the Rails frameworks that config/application.rb loads. The 'rails' gem would also
-# install Active Record, Active Storage, Action Cable, Action Mailer, Action Mailbox and
-# Action Text, which this app does not use.
+# install Active Record, Active Job, Active Storage, Action Cable, Action Mailer, Action Mailbox
+# and Action Text, which this app does not use.
 gem 'actionpack', '~> 8.1.0'
 gem 'actionview', '~> 8.1.0'
-gem 'activejob', '~> 8.1.0'
 gem 'activemodel', '~> 8.1.0'
 gem 'railties', '~> 8.1.0'
 # Serves the page scripts in app/assets/javascripts and application.css
