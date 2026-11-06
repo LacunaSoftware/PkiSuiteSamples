@@ -47,7 +47,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					throw new InvalidOperationException();
 			}
 
-			// It is up to your application's business logic to determine which server documents to be available
+			// It is up to your application's business logic to determine which server documents will be available
 			// for the signature.
 			var model = new ServerFilesModel() {
 				ReturnController = rc,
@@ -62,7 +62,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		[HttpPost]
 		public ActionResult Index(ServerFilesModel model) {
 
-			// Copy file to the App_Data folder, where the upload files is stored.
+			// Copy the file to the App_Data folder, where the uploaded files are stored.
 			var fileId = StorageMock.CopySampleToAppData(model.ChosenFileId);
 
 			if (model.IsCmsCoSign) {

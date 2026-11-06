@@ -10,7 +10,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 	/**
 	 * This controller's purpose is to download the sample file that is signed during the signature examples
-	 * or download a upload file for signature or download a previously performed signature.
+	 * or download an uploaded file for signature or download a previously performed signature.
 	 */
 	public class DownloadController : BaseController {
 
@@ -48,7 +48,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return File(fileContent, "application/pdf", string.Format("Doc{0:D2}.pdf", id));
 		}
 
-		// GET Download/Sample
+		// GET Download/SampleNFe
 		[HttpGet]
 		public ActionResult SampleNFe() {
 			var fileContent = StorageMock.Read(StorageMock.GetSampleNFePath());

@@ -26,7 +26,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			"MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS",
 			"SC", "SE", "SP", "TO" };
 
-		// GET: ReceitaSimples
+		// GET: ReceitaSimplesSdk
 		public ActionResult Index() {
 			return View(new PrescricaoDataModel {
 				UFs = ufs
@@ -34,9 +34,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: ReceitaSimples
+		* POST: ReceitaSimplesSdk
 		* 
-		* This action is called once the user enter the data for the prescrição, and generates
+		* This action is called once the user enters the data for the prescrição, and generates
 		* the file to be signed.
 		*/
 		[HttpPost]
@@ -80,7 +80,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 		}
 
-		// GET: ReceitaSimples/Start?userfile=<file_id>
+		// GET: ReceitaSimplesSdk/Start?userfile=<file_id>
 		public ActionResult Start(string userfile) {
 			return View(new SignatureStartModel() {
 				UserFile = userfile
@@ -88,7 +88,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: ReceitaSimples/Start
+		* POST: ReceitaSimplesSdk/Start
 		* 
 		* This action is called once the user's certificate encoding has been read, and contains the 
 		* logic to prepare the hash that needs to be actually signed with the user's private key
@@ -120,8 +120,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// REQUIRED!
 				// Provide the signer's certificate. You must sign with a valid digital
 				// certificate of a doctor, who was registered on CRM. In this sample,
-				// we used a sample certificate stored on server to do the execute this
-				// sample.
+				// it is the certificate the user chose on the page.
 				padesSigner.SetSigningCertificate(cert);
 
 				// REQUIRED!
@@ -180,12 +179,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("Complete", new { userfile = model.UserFile });
 		}
 
-		// GET: ReceitaSimples/Complete?userfile=<file_id>
+		// GET: ReceitaSimplesSdk/Complete?userfile=<file_id>
 		[HttpGet]
 		public ActionResult Complete(string userfile) {
 
-			// Recovery data from Index action, if returns null, it'll be redirected to Index 
-			// action again.
+			// Recover data from the Start action. If it returns null, it'll be redirected to the Index
+			// action.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
 				return RedirectToAction("Index", new { userfile });
@@ -195,10 +194,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: ReceitaSimples/Complete
+		* POST: ReceitaSimplesSdk/Complete
 		* 
-		* This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
-		* it'll be redirect to SignatureInfo action to show the signature file.
+		* This action is called once the "to-sign-hash" is signed using the user's certificate. After the signature,
+		* it redirects to the SignatureInfo action to show the signature file.
 		*/
 		[HttpPost]
 		public ActionResult Complete(SignatureCompleteModel model) {
@@ -236,11 +235,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
-			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
-				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
+				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".pdf")
 			};
@@ -248,11 +246,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("SignatureInfo");
 		}
 
-		// GET: ReceitaSimples/SignatureInfo
+		// GET: ReceitaSimplesSdk/SignatureInfo
 		[HttpGet]
 		public ActionResult SignatureInfo() {
 
-			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// Recover data from the Complete action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
 			if (model == null) {

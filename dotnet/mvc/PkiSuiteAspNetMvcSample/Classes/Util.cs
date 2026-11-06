@@ -24,7 +24,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 		public static RestPkiClient GetRestPkiClient() {
 			var accessToken = ConfigurationManager.AppSettings["RestPkiAccessToken"];
 			if (string.IsNullOrEmpty(accessToken) || accessToken.Contains(" API ")) {
-				throw new Exception("The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it on the web.config file");
+				throw new Exception("The API access token was not set! Hint: to run this sample you must generate an API access token on the REST PKI website and paste it in the web.config file");
 			}
 			var endpoint = ConfigurationManager.AppSettings["RestPkiEndpoint"];
 			if (string.IsNullOrEmpty(endpoint)) {
@@ -78,7 +78,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			/*
 				For simplification purposes, we're using the FileSystemNonceStore, which stores nonces as
 				0-byte files on a local filesystem folder. In a real application, the nonces would typically
-				be stored on the database. If you application uses Entity Framework, you can easily change this
+				be stored on the database. If your application uses Entity Framework, you can easily change this
 				code to store nonces on your database with the EntityFrameworkStore class (from the optional
 				Nuget package "Lacuna PKI Entity Framework Connector").
 			 */
@@ -187,7 +187,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 			var apiKey = ConfigurationManager.AppSettings["RestPkiCoreApiKey"];
 			if (string.IsNullOrEmpty(apiKey) || apiKey.Contains(" API KEY "))
 			{
-				throw new Exception("The API key was not set! Hint: to run this sample you must generate an API key on the REST PKI Core website and paste it on the web.config file");
+				throw new Exception("The API key was not set! Hint: to run this sample you must generate an API key on the REST PKI Core website and paste it in the web.config file");
 			}
 			var endpoint = ConfigurationManager.AppSettings["RestPkiCoreEndpoint"];
 			if (string.IsNullOrEmpty(endpoint))

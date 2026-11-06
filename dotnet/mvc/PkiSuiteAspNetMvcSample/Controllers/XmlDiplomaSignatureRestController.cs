@@ -41,7 +41,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// elements and start the signature process.
 			var signatureStarter = new XmlElementSignatureStarter(Util.GetRestPkiClient());
 
-			// Set the XML to be signed, a sample Brazilian digital diploma pre-generated.
+			// Set the XML to be signed, a pre-generated sample Brazilian digital diploma.
 			signatureStarter.SetXml(StorageMock.GetSampleDiplomaPath());
 
 			// Set the ID of the element to be signed (the DadosDiploma element).
@@ -61,7 +61,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
 			// signature-form.js) and also to complete the signature on the POST action below (this should
-			// not be mistaken with the API access token).
+			// not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// The token acquired above can only be used for a single signature attempt. In order to retry

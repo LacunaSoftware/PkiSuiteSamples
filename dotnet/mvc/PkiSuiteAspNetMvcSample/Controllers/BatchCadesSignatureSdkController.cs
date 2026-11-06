@@ -70,9 +70,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			byte[] toSignBytes = cadesSigner.GenerateToSignBytes(out SignatureAlgorithm signatureAlg);
 
 			// For the next steps, we'll need once again some information:
-			// - The "to-sign-hash" (digest of the "to-sign-bytes"). And the OID of the digest algorithm to be 
-			// used during the signature operation. this information is need in the signature computation with
-			// Web PKI component. (see batch-cades-signature-form.js). And the to-sign-bytes.
+			// - The "to-sign-hash" (digest of the "to-sign-bytes") and the OID of the digest algorithm to be
+			// used during the signature operation. This information is needed to compute the signature with
+			// the Web PKI component (see batch-cades-signature-sdk-form.js).
+			// - The "to-sign-bytes", which the page sends back to the Complete action.
 			return Json(new BatchCadesSignatureStartResponse() {
 				ToSignHash = signatureAlg.DigestAlgorithm.ComputeHash(toSignBytes),
 				DigestAlgorithmOid = signatureAlg.DigestAlgorithm.Oid,
@@ -84,8 +85,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		/**
 		 * POST: /BatchCadesSignatureSdk/Complete
 		 * 
-		 * This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
-		 * it'll be redirect to SignatureInfo action to show the signature file.
+		 * This action is called asynchronously from the batch signature page once the "to-sign-hash" of each
+		 * document is signed using the user's certificate. It returns the ID of the signed file.
 		 */
 		[HttpPost]
 		public ActionResult Complete(BatchCadesSignatureCompleteRequest request) {

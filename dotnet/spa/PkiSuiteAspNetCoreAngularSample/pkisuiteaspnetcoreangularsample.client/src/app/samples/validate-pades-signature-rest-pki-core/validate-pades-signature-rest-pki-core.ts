@@ -68,8 +68,8 @@ interface ValidationItemModel {
  * Opens a signed PDF on the server and shows each signature with its validation results, as
  * validated by Rest PKI Core. Nobody signs anything here, so this page does not use Web PKI.
  *
- * The PDF is a sample document, an upload, or the file id passed as ?fileId=... (for instance by a
- * signature sample's "validate the signed file" link).
+ * The PDF is a sample document, an upload, or the file id passed as ?fileId=... (for instance by the
+ * PAdES signature sample's "Validate its signatures" link).
  */
 @Component({
   selector: 'app-validate-pades-signature-rest-pki-core',

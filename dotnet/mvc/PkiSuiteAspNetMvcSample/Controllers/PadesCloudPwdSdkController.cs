@@ -15,8 +15,8 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
 	/**
-	 * This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
-	 * signature. To perform this sample it's necessary to configure this project on Web.config file.
+	 * This sample performs a password authorization flow to communicate with PSCs to perform a
+	 * signature. To run this sample, it's necessary to configure this project in the Web.config file.
 	 *
 	 * All standard providers:
 	 *    - BirdId
@@ -48,7 +48,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		/**
 		 * GET /PadesCloudPwdSdk
 		 * 
-		 * This action will render a page that request a CPF to the user. This CPF is used to discover
+		 * This action will render a page that requests the user's CPF. This CPF is used to discover
 		 * which PSCs have a certificate containing that CPF.
 		 */
 		[HttpGet]
@@ -64,14 +64,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		/**
 		 * POST /PadesCloudPwdSdk/Discover
 		 * 
-		 * This action will be called after the user press the button "Search" on index page. It will
-		 * search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
-		 * authentication process and return a URL to redirect the user to perform the authentication.
-		 *
-		 * After this action the user will be redirected, and to store the local data (fileId) to be user
-		 * after the user returns to your application. We use the parameter "customState", the last
-		 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
-		 * next action.
+		 * This action will be called after the user clicks the "Search" button on the Index page. It will
+		 * search for all PSCs that have a certificate with the provided CPF and render a page where the
+		 * user chooses one of them and enters their password.
 		 */
 		[HttpPost]
 		public async Task<ActionResult> Discover(string userfile, string cpf) {
@@ -80,13 +75,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var plainCpf = Regex.Replace(cpf, @"[.-]+", "");
 
 			// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
-			// and handling the OAuth flow.
+			// and handling the password authorization.
 			var manager = Util.GetTrustServicesManager();
 
 			// Discover available PSCs.
 			var services = await manager.DiscoverByCpfAsync(plainCpf);
 
-			// Render complete page.
+			// Render the page that lists the available PSCs.
 			return View(new PadesCloudPwdModel() {
 				Services = services,
 				Cpf = cpf,
@@ -94,8 +89,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * This action is called after the form after the user press the button "Sign". This action will
-		 * receive the user's CPF and current password.
+		 * This action is called when the user clicks the "Sign" button on the Discover page. It receives
+		 * the user's CPF, the chosen PSC and the user's current password.
 		 */
 		public async Task<ActionResult> Authorize(string userfile, string cpf, string service, string password) {
 			byte[] signatureContent;
@@ -106,14 +101,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				var plainCpf = Regex.Replace(cpf, @"[.-]+", "");
 
 				// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
-				// and handling the OAuth flow.
+				// and handling the password authorization.
 				var manager = Util.GetTrustServicesManager();
 
-				// Complete authentication using CPF and current password. The following method has three
-				// sessionTypes:
-				// - SINGLE_SIGNATURE: The returned token can only be used for one single signature request.
-				// - MULTI_SIGNATURE: The returned token can only be used for one multi signature request.
-				// - SIGNATURE_SESSION: The return token can only be used for one or more signature requests.
+				// Complete authentication using CPF and current password. The following method accepts three
+				// session types:
+				// - SingleSignature: The returned token can only be used for one single signature request.
+				// - MultiSignature: The returned token can only be used for one multi signature request.
+				// - SignatureSession: The returned token can be used for one or more signature requests.
 				var passwordAuthorizeResult = await manager.PasswordAuthorizeAsync(service, plainCpf, password, TrustServiceSessionTypes.SignatureSession);
 
 				// Verify if the userfile exists and get its absolute path.

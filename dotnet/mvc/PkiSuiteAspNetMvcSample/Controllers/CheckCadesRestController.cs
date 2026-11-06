@@ -15,15 +15,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		// GET: CheckCadesRest?c={id}
 		public ActionResult Index(string c) {
 
-			// On PrinterFriendlyVersionController, we stored the unformatted version of the verification
-			// code (without hyphens) but used the formatted version (with hiphens) on the printer-friendly
+			// On PrinterFriendlyCadesRestController, we stored the unformatted version of the verification
+			// code (without hyphens) but used the formatted version (with hyphens) on the printer-friendly
 			// PDF. Now, we remove the hyphens before looking it up.
 			var verificationCode = AlphaCode.Parse(c);
 
 			// Get document associated with verification code.
 			var fileId = StorageMock.LookupVerificationCode(verificationCode);
 			if (fileId == null) {
-				// Invalid code give!
+				// Invalid code given!
 				// Small delay to slow down brute-force attacks (if you want to be extra careful you might
 				// want to add a CAPTCHA to the process).
 				Thread.Sleep(TimeSpan.FromSeconds(2));
@@ -52,7 +52,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Call the Open() method, which returns the signature file's information.
 			var signature = sigExplorer.Open();
 
-			// Render the information (see file Check/Index.html for more information on
+			// Render the information (see the view CheckCadesRest/Index.cshtml for more information on
 			// the information returned).
 			return View(new OpenCadesSignatureModel() {
 				Signature = signature,

@@ -19,7 +19,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
 		}
 
-		// GET: PadesSignature
+		// GET: PadesSignatureSdk
 		public ActionResult Index(string userfile) {
 			if (string.IsNullOrEmpty(userfile)) {
 				return RedirectToAction("Index", "Home");
@@ -31,7 +31,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: PadesSignature
+		* POST: PadesSignatureSdk
 		* 
 		* This action is called once the user's certificate encoding has been read, and contains the 
 		* logic to prepare the hash that needs to be actually signed with the user's private key
@@ -98,11 +98,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("Complete", new { userfile = model.UserFile });
 		}
 
-		// GET: CadesSignature/Complete?userfile=<file_id>
+		// GET: PadesSignatureSdk/Complete?userfile=<file_id>
 		[HttpGet]
 		public ActionResult Complete(string userfile) {
 
-			// Recovery data from Index action, if returns null, it'll be redirected to Index 
+			// Recover data from the Index action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
@@ -113,10 +113,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		* POST: CadesSignature/Complete
+		* POST: PadesSignatureSdk/Complete
 		* 
-		* This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
-		* it'll be redirect to SignatureInfo action to show the signature file.
+		* This action is called once the "to-sign-hash" is signed using the user's certificate. After the signature,
+		* it redirects to the SignatureInfo action to show the signature file.
 		*/
 		[HttpPost]
 		public ActionResult Complete(SignatureCompleteModel model) {
@@ -154,11 +154,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
-			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
-				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
+				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".pdf")
 			};
@@ -166,11 +165,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("SignatureInfo");
 		}
 
-		// GET: PadesSignature/SignatureInfo
+		// GET: PadesSignatureSdk/SignatureInfo
 		[HttpGet]
 		public ActionResult SignatureInfo() {
 
-			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// Recover data from the Complete action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
 			if (model == null) {

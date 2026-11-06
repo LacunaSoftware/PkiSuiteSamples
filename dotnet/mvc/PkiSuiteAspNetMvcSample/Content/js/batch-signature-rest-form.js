@@ -70,7 +70,7 @@ var batchSignatureRestForm = (function () {
 	// ------------------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks.
@@ -91,14 +91,14 @@ var batchSignatureRestForm = (function () {
 		}
 
 		// Call the init() method on the LacunaWebPKI object, passing a callback for when the component is
-		// ready to be used and another to be called when an error occurrs on any of the subsequent
+		// ready to be used and another to be called when an error occurs on any of the subsequent
 		// operations. For more information, see:
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates,        // As soon as the component is ready we'll load the certificates.
 			defaultError: onWebPkiError,    // Generic error callback defined below. 
-			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint to communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint that Web PKI communicates with.
 		});
 	}
 
@@ -150,8 +150,7 @@ var batchSignatureRestForm = (function () {
 		// Block the UI while we perform the signature.
 		$.blockUI({ message: 'Signing ...' });
 
-		// Get the thumbprint of the selected certificate and store it in a global variable. (we'll need it
-		// later)
+		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
 
 		// Call Web PKI to preauthorize the signatures, so that the user only sees one confirmation dialog.
@@ -203,7 +202,7 @@ var batchSignatureRestForm = (function () {
 		// onBatchCompleted is a callback for when the last queue is completely processed.
 
 		// Notice: the thread count on each call above is already optimized, increasing the number of threads
-		// will not enhance the performance significatively.
+		// will not enhance the performance significantly.
 	}
 
 	// ------------------------------------------------------------------------------------------------------
@@ -310,7 +309,7 @@ var batchSignatureRestForm = (function () {
 	}
 
 	// ------------------------------------------------------------------------------------------------------
-	// Function that renders a documument as completed successfully.
+	// Function that renders a document as completed successfully.
 	// ------------------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
 		var docLi = formElements.docList.find('li').eq(step.index);
@@ -325,7 +324,7 @@ var batchSignatureRestForm = (function () {
 	}
 
 	// ------------------------------------------------------------------------------------------------------
-	// Function that renders a documument as failed.
+	// Function that renders a document as failed.
 	// ------------------------------------------------------------------------------------------------------
 	function renderFail(step, error) {
 		addAlert('danger', 'An error has occurred while signing Document ' + step.docId + ': ' + error);

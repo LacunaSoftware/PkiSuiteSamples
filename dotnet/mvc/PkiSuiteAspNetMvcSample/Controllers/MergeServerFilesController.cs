@@ -28,8 +28,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 						}
 					};
 
-			// It is up to your application's business logic to determine which server documents to be available
-			// for the signature.
+			// It is up to your application's business logic to determine which server documents will be available
+			// for the merge.
 			var model = new MergeServerFilesModel() {
 				ReturnController = rc,
 				AvailableFiles = availableFiles,
@@ -39,7 +39,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return View(model);
 		}
 
-		// POST: ServerFiles
+		// POST: MergeServerFiles
 		[HttpPost]
 		public ActionResult Index(MergeServerFilesModel model) {
 			string dataFileId, fileId1, fileId2;

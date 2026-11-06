@@ -12,7 +12,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class OpenXmlSignatureSdkController : BaseController {
 
 		/**
-		 * This action open a XML file and inspect its signatures.
+		 * This action opens an XML file and inspects its signatures.
 		 */
 		public ActionResult Index(string userfile) {
 
@@ -22,7 +22,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return HttpNotFound();
 			}
 
-			// Instanciate the XmlSignatureLocator class, responsible for opening and validating the signatures
+			// Instantiate the XmlSignatureLocator class, responsible for opening and validating the signatures
 			// in the XML file. The signed XML content is passed as a parameter of the XmlSignatureLocator.
 			var xmlSignatureLocator = new XmlSignatureLocator(userfileContent);
 
@@ -32,15 +32,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Specify the parameters for the signature validation:
 			// Define the trust arbitrator used to validate the certificate.
 			var trustArbitrator = Util.GetTrustArbitrator();
-			// Acces any valid XmlDSig signature as long as the signer certificate is trusted.
+			// Accept any valid XmlDSig signature as long as the signer certificate is trusted.
 			var policyMapper = XmlPoliciesForValidation.GetXmlDSigBasic(trustArbitrator);
 
 			// Generate a model to be shown on the page from each XmlSignature instance retrieved from
-			// GetSignatures() method above. This class can be inspected on Models/PKi/OpenXmlSignatureModel.cs
+			// GetSignatures() method above. This class can be inspected on Models/Sdk/XmlSignatureModel.cs
 			// file. In this class, we validate each signature based on the policy mapper defined above.
 			var sigModels = signatures.Select(s => new XmlSignatureModel(s, policyMapper)).ToList();
 
-			// Render the signatures' information (see file OpenXmlSignaturePki/Index.cshtml for more
+			// Render the signatures' information (see the view OpenXmlSignatureSdk/Index.cshtml for more
 			// information on the information returned).
 			return View(new OpenXmlSignatureModel() {
 				Signatures = sigModels

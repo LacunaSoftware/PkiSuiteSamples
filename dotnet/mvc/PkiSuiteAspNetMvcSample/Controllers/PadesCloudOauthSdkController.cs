@@ -15,8 +15,8 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
 	/**
-	 * This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
-	 * signature. To perform this sample it's necessary to configure this project on Web.config file.
+	 * This sample performs an OAuth flow to communicate with PSCs to perform a signature. To run
+	 * this sample, it's necessary to configure this project in the Web.config file.
 	 *
 	 * All standard providers:
 	 *    - BirdId
@@ -38,7 +38,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	 */
 	public class PadesCloudOauthSdkController : Controller {
 
-		// Redirect URL where it's accessed after OAuth flow is finished.
+		// Redirect URL that is accessed after the OAuth flow is finished.
 		private const string RedirectUrl = "http://localhost:54123/PadesCloudOauthSdk/Complete";
 
 		private IPadesPolicyMapper GetSignaturePolicy() {
@@ -50,9 +50,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET /PadesCloudPwdSdk
-		 * 
-		 * This action will render a page that request a CPF to the user. This CPF is used to discover
+		 * GET /PadesCloudOauthSdk
+		 *
+		 * This action will render a page that requests the user's CPF. This CPF is used to discover
 		 * which PSCs have a certificate containing that CPF.
 		 */
 		[HttpGet]
@@ -66,16 +66,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST /PadesCloudPwdSdk/Discover
-		 * 
-		 * This action will be called after the user press the button "Search" on index page. It will
+		 * POST /PadesCloudOauthSdk/Discover
+		 *
+		 * This action will be called after the user clicks the "Search" button on the Index page. It will
 		 * search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
 		 * authentication process and return a URL to redirect the user to perform the authentication.
 		 *
-		 * After this action the user will be redirected, and to store the local data (fileId) to be user
-		 * after the user returns to your application. We use the parameter "customState", the last
-		 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
-		 * next action.
+		 * After this action, the user will be redirected. To keep the local data (fileId) to be used
+		 * after the user returns to your application, we use the parameter "customState", the last
+		 * parameter of the method DiscoverByCpfAndStartAuthAsync(). This parameter will be recovered in
+		 * the next action.
 		 */
 		[HttpPost]
 		public async Task<ActionResult> Discover(string userfile, string cpf) {
@@ -87,13 +87,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// and handling the OAuth flow.
 			var manager = Util.GetTrustServicesManager();
 
-			// Discover available PSCs.The following method has three sessionTypes:
+			// Discover available PSCs. The following method accepts three session types:
 			// - SingleSignature: The returned token can only be used for one single signature request.
 			// - MultiSignature: The returned token can only be used for one multi signature request.
-			// - SignatureSession: The return token can only be used for one or more signature requests.
+			// - SignatureSession: The returned token can be used for one or more signature requests.
 			var services = await manager.DiscoverByCpfAndStartAuthAsync(plainCpf, RedirectUrl, TrustServiceSessionTypes.SignatureSession, userfile);
 
-			// Render complete page.
+			// Render the page that lists the available PSCs.
 			return View(new PadesCloudOauthModel() {
 				Services = services,
 				Cpf = cpf,
@@ -103,8 +103,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		/**
 		 * GET /PadesCloudOauthSdk/Complete
 		 * 
-		 * This action will complete the authentication process and create a signature using a sessionRequest
-		 * token returned by user. Also, we recover the parameter "customState" containing the id of the
+		 * This action will complete the authentication process and create a signature using the session
+		 * token returned by the PSC. Also, we recover the parameter "customState" containing the ID of the
 		 * file that will be signed.
 		 */
 		public async Task<ActionResult> Complete(string code, string state) {
@@ -122,7 +122,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// signature and the custom state (fileId).
 				var completeAuthResult = await manager.CompleteAuthAsync(code, state);
 
-				// Recover file to be sigend on custom state parameter.
+				// Recover the file to be signed from the custom state parameter.
 				userfile = completeAuthResult.CustomState;
 
 				// Verify if the userfile exists and get its absolute path.

@@ -14,8 +14,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 * This action initiates a PAdES signature using REST PKI and renders the signature page.
 		 *
 		 * Both PAdES signature examples, with a server file and with a file uploaded by the user, converge
-		 * to this action. The difference is that, when the file is uploaded by the user, the action is
-		 * called with a URL argument named "userfile".
+		 * to this action. In both cases, the action is called with a URL argument named "userfile", the ID of
+		 * the file saved in the App_Data folder by UploadController or ServerFilesController.
 		 */
 		[HttpGet]
 		public async Task<ActionResult> Index(string userfile) {
@@ -50,12 +50,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			/*
 				Optionally, add marks to the PDF before signing. These differ from the signature visual
 				representation in that they are actually changes done to the document prior to signing, not
-				binded to any signature. Therefore, any number of marks can be added, for instance one per
+				bound to any signature. Therefore, any number of marks can be added, for instance one per
 				page, whereas there can only be one visual representation per signature. However, since the
 				marks are in reality changes to the PDF, they can only be added to documents which have no
 				previous signatures, otherwise such signatures would be made invalid by the changes to the
 				document (see property PadesSignatureStarter.BypassMarksIfSigned). This problem does not
-				occurr with signature visual representations.
+				occur with signature visual representations.
 			
 				We have encapsulated this code in a method to include several possibilities depending on the
 				argument passed. Experiment changing the argument to see different examples of PDF marks.
@@ -65,9 +65,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Call the StartWithWebPki() method, which initiates the signature. This yields the token, a
 			// 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
-			// use this value to call the signWithRestPki() method on the Web PKI component (see 
-			// signature-forms.js) and also to complete the signature on the POST action below (this should
-			// not be mistaken with the API access token).
+			// use this value to call the signWithRestPki() method on the Web PKI component (see
+			// signature-form.js) and also to complete the signature on the POST action below (this should
+			// not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// The token acquired above can only be used for a single signature attempt. In order to retry

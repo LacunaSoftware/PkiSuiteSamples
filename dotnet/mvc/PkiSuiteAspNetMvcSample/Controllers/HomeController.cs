@@ -59,7 +59,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("Index", rc);
 		}
 
-		// Checks REST PKI Core api key 
+		// Checks REST PKI Core API key
 		public ActionResult CheckRestPkiCoreApiKey(string rc, string ctrl = "", string op = "") {
 			var accessToken = ConfigurationManager.AppSettings["RestPkiCoreApiKey"];
 			if (string.IsNullOrEmpty(accessToken) || accessToken.Contains(" API KEY ")) {

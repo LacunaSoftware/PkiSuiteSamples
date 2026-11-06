@@ -25,13 +25,13 @@ var xmlSignatureForm = (function () {
 		pki = new LacunaWebPKI(_webPkiLicense);
 
 		// Call the init() method on the LacunaWebPKI object, passing a callback for when
-		// the component is ready to be used and another to be called when an error occurrs
+		// the component is ready to be used and another to be called when an error occurs
 		// on any of the subsequent operations. For more information, see:
 		// https://webpki.lacunasoftware.com/#/Documentation#coding-the-first-lines
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates, // as soon as the component is ready we'll load the certificates
-			defaultError: onWebPkiError // generic error callback on Content/js/app/site.js
+			defaultError: onWebPkiError // generic error callback defined below
 		});
 	}
 

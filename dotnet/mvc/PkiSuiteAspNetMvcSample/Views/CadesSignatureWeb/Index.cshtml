@@ -54,7 +54,7 @@
 	<script>
 
 		$(document).ready(function () {
-			// To test outside of "localhost", place your Web PKI license on the variable "webPkiLicense".
+			// To test outside of "localhost", place your Web PKI license on the variable "_webPkiLicense".
 			var _webPkiLicense = null;
 			// Global variables.
 			var files = null;
@@ -89,7 +89,7 @@
 			}
 			// -------------------------------------------------------------------------------------------------
 			// Function that loads the certificates, either on startup or when the user clicks the "Refresh"
-			// button. At this point, the UI is already blocked.
+			// button.
 			// -------------------------------------------------------------------------------------------------
 			function loadCertificates() {
 
@@ -97,7 +97,7 @@
 				$.blockUI({ message: 'Loading certificates ...' });
 				// Call the listCertificates() method to list the user's certificates.
 				pki.listCertificates({
-					// ID of the <select> element to the populated with the certificates.
+					// ID of the <select> element to be populated with the certificates.
 					selectId: 'certificateSelect',
 					// Function that will be called to get the text that should be displayed for each option.
 					selectOptionFormatter: function (cert) {
@@ -116,24 +116,23 @@
 			// Function called when the user clicks the "Select File" button.
 			// -------------------------------------------------------------------------------------------------
 			function searchFile() {
-				// Call the showFileBrowser() method on the LacunaWebPKi object, passing the dialog title and
+				// Call the showFileBrowser() method on the LacunaWebPKI object, passing the dialog title and
 				// the success callback to store the opened file.
 				pki.showFileBrowser({
 					dialogTitle: 'Select the file to be signed'
 				}).success(function (result) {
 					// If the user didn't cancel the operation.
 					if (!result.userCancelled) {
-						// In this sample, will store the file information on "file" global variable declared
-						// above.
+						// In this sample, we store the file information in the "file" global variable.
 						file = result.files[0];
-						// Show file informations on page.
+						// Show the file information on the page.
 						$('#fileToBeSigned')
 							.html($('<a/>')
 								.attr('href', '#')
 								.text(file.name)
 								.click(function () { pki.openFile(file.id); }))
 							.append(' (' + displaySize(file.length) + ')');
-						// Enabled button
+						// Enable the "Sign" button.
 						$('#signButton').prop('disabled', false);
 					}
 				});
@@ -169,7 +168,7 @@
 					]
 				}).success(function (result) {
 					if (result.isValid) {
-						// Show successful signature infomation.
+						// Show successful signature information.
 						$('#signatureInfo')
 							.html('<i class="fas fa-check" style="color: green;"></i> ')
 							.append($('<a/>')
@@ -182,7 +181,7 @@
 								.text('Open file location')
 								.click(function () { pki.openFolder(result.signatureInfo.file.id); }))
 							.append(']');
-						// Disable upload button and sign buttons if the signature was succesful.
+						// Disable the "Select File" and "Sign" buttons if the signature was successful.
 						$('#signButton').prop('disabled', true);
 						$('#searchFileButton').prop('disabled', true);
 					} else {
@@ -213,7 +212,7 @@
 							.prop('href', '#')
 							.attr('data-toggle', 'popover')
 							.attr('data-placement', 'bottom')
-							.attr('title', 'An error has occured')
+							.attr('title', 'An error has occurred')
 							.attr('data-content', e, '')
 							.text('Signature Error')
 							.popover());
