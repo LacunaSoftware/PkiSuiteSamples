@@ -47,7 +47,7 @@ public class ReceitaSimplesRestController {
 	/**
 	 * POST /receita-simples-rest/sign
 	 *
-	 * This action generate Receita Simples file, it initiates a PAdES signature using 
+	 * This action generates the Receita Simples file, initiates a PAdES signature using
 	 * REST PKI and renders the signature page.
 	 */
 	@PostMapping("/sign")
@@ -92,7 +92,7 @@ public class ReceitaSimplesRestController {
 		/** START SIGNATURE **/
 
 		// Get an instance of the PadesSignatureStarter2 class, responsible for receiving the
-		// signature elements and start the signature process.
+		// signature elements and starting the signature process.
 		PadesSignatureStarter2 signatureStarter = new PadesSignatureStarter2(Util.getRestPkiClient());
 
 		// Set the unit of measurement used to edit the pdf marks and visual representations.
@@ -116,7 +116,7 @@ public class ReceitaSimplesRestController {
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
 		// We'll use this value to call the signWithRestPki() method on the Web PKI component
 		// (see file static/js/signature-form.js) and also to complete the signature after the form
-		// is submitted (see method complete() below). This should not be mistaken with the API
+		// is submitted (see method postFinish() below). This should not be mistaken with the API
 		// access token.
 		SignatureStartWithWebPkiResult result = signatureStarter.startWithWebPki();
 
@@ -146,7 +146,7 @@ public class ReceitaSimplesRestController {
 		PadesSignatureFinisher2 signatureFinisher = new PadesSignatureFinisher2(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see file
-		// templates/receita-simples.html).
+		// templates/receita-simples-rest/sign.html).
 		signatureFinisher.setToken(token);
 
 		// Call the finish() method, which finalizes the signature process and returns a
@@ -160,7 +160,7 @@ public class ReceitaSimplesRestController {
 		// At this point, you'd typically store the signed PDF on your database. For demonstration
 		// purposes, we'll store the PDF on our StorageMock class.
 
-		// The SignatureResult object has various methods for writing the signature file to a
+		// The SignatureResult object has various methods for writing the signature file to a stream
 		// (writeTo()), local file (writeToFile()), open a stream to read the content (openRead())
 		// and get its contents (getContent()). For large files, avoid the method getContent() to
 		// avoid memory allocation issues.

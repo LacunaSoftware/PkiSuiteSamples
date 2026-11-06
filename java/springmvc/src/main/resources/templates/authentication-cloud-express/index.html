@@ -3,12 +3,12 @@
 <body>
 
 <div th:fragment="content" th:with="fileId=${param.fileId}">
-	<h2 class="ls-title">PAdES Signature using cloud certificate with PKI Express (OAuth Flow)</h2>
+	<h2 class="ls-title">Authentication using cloud certificate with PKI Express (OAuth Flow)</h2>
 
 	<div class="ls-content">
 		<form id="selectFlowForm" th:action="@{/authentication-cloud-express/discover}" method="POST">
 			<div class="px-0 col col-sm-2">
-				<label for="cpfField">Inform your CPF:</label>
+				<label for="cpfField">Enter your CPF:</label>
 				<input id="cpfField" class="form-control" type="text" name="cpf" placeholder="000.000.000-00"/>
 			</div>
 

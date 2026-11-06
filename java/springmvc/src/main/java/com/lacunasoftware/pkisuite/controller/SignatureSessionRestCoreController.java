@@ -58,10 +58,10 @@ public class SignatureSessionRestCoreController {
 	}
 
 	/**
-	 * GET /ignature-session-rest-core/complete
+	 * GET /signature-session-rest-core/complete
 	 *
-	 * This action receives the form submission from the view. We'll call REST PKI to validate the
-	 * authentication.
+	 * REST PKI Core redirects the user to this action (RETURN_URL) once the signature session is
+	 * finished. We'll call REST PKI Core to get the session's status and its signed document.
 	 */
 	@GetMapping("/signature-session-rest-core/complete")
 	public String complete(

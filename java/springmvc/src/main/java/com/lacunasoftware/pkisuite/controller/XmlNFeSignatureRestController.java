@@ -21,11 +21,11 @@ public class XmlNFeSignatureRestController {
 	/**
 	 * GET /xml-nfe-signature-rest
 	 *
-	 * This route initiates a XML element signature using REST PKI and 
+	 * This route initiates an XML element signature using REST PKI and
 	 * renders the signature page.
 	 * 
-	 * The XML element signature is recommended in cases which there is
-	 * a need to sign a specific element of a XML.
+	 * The XML element signature is recommended in cases in which there is
+	 * a need to sign a specific element of an XML.
 	 */
 	@GetMapping
 	public String get(
@@ -33,10 +33,10 @@ public class XmlNFeSignatureRestController {
 		HttpServletResponse response
 	) throws IOException, RestException {
 		// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
-		// elements and start the signature process.
+		// elements and starting the signature process.
 		XmlElementSignatureStarter signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
-		// Set the XML to be signed, a sample Brazilian fiscal invoice pre-generated.
+		// Set the XML to be signed, a pre-generated sample Brazilian fiscal invoice.
 		signatureStarter.setXml(StorageMock.getSampleDocPath(SampleDocs.SAMPLE_NFE));
 
 		// Set the ID of the element to be signed.
@@ -64,7 +64,7 @@ public class XmlNFeSignatureRestController {
 		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-nfe-signature-rest/index.html).
 		model.addAttribute("sampleId", SampleDocs.SAMPLE_NFE);
 		model.addAttribute("token", token);
 		return "xml-nfe-signature-rest/index";
@@ -73,8 +73,8 @@ public class XmlNFeSignatureRestController {
 	/**
 	 * POST /xml-nfe-signature-rest
 	 *
-	 * This route receives the form submission from the view 
-	 * 'xml-nfe-signature'. We'll call REST PKI to complete the signature.
+	 * This route receives the form submission from the view
+	 * 'xml-nfe-signature-rest/index'. We'll call REST PKI to complete the signature.
 	 */
 	@PostMapping
 	public String post(@RequestParam String token, Model model) throws IOException, RestException {
@@ -83,7 +83,7 @@ public class XmlNFeSignatureRestController {
 		XmlSignatureFinisher signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see
-		// file templates/xml-full-signature.html).
+		// file templates/xml-nfe-signature-rest/index.html).
 		signatureFinisher.setToken(token);
 
 		// Call the finish() method, which finalizes the signature process and returns the signed
@@ -94,12 +94,12 @@ public class XmlNFeSignatureRestController {
 		// only be called after calling the finish() method.
 		PKCertificate signerCert = signatureFinisher.getCertificateInfo();
 
-		// At this point, you'd typically store the signed PDF on your database. For demonstration
+		// At this point, you'd typically store the signed XML on your database. For demonstration
 		// purposes, we'll store the XML on a temporary folder and return to the page an identifier
 		// that can be used to download it.
 		String filename = StorageMock.store(signedXml, "xml");
 
-		// Render the signature page (templates/xml-signature-info.html).
+		// Render the signature page (templates/xml-signature-rest/signature-info.html).
 		model.addAttribute("signerCert", signerCert);
 		model.addAttribute("filename", filename);
 		return "xml-signature-rest/signature-info";

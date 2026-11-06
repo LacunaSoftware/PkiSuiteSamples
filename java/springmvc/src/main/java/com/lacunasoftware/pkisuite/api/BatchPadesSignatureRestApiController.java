@@ -23,7 +23,7 @@ public class BatchPadesSignatureRestApiController {
 	public String start(@PathVariable int fileId) throws IOException, RestException {
 
 		// Get an instance of the PadesSignatureStarter2 class, responsible for receiving the
-		// signature elements and start the signature process.
+		// signature elements and starting the signature process.
 		PadesSignatureStarter2 signatureStarter = new PadesSignatureStarter2(Util.getRestPkiClient());
 
 		// Set the unit of measurement used to edit the pdf marks and visual representations.
@@ -44,7 +44,7 @@ public class BatchPadesSignatureRestApiController {
 
 		// Optionally, add marks to the PDF before signing. These differ from the signature visual
 		// representation in that they are actually changes done to the document prior to signing,
-		// not binded to any signature. Therefore, any number of marks can be added, for instance one
+		// not bound to any signature. Therefore, any number of marks can be added, for instance one
 		// per page, whereas there can only be one visual representation per signature. However,
 		// since the marks are in reality changes to the PDF, they can only be added to documents
 		// which have no previous signatures, otherwise such signatures would be made invalid by the
@@ -61,8 +61,8 @@ public class BatchPadesSignatureRestApiController {
 		// SignatureStartWithWebPkiResult object containing the signer certificate and the token,
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
 		// We'll use this value to call the signWithRestPki() method on the Web PKI component (see
-		// file signature-form.js) and also to complete the signature after the form is submitted
-		// (see method complete() below). This should not be mistaken with the API access token.
+		// file batch-signature-rest-form.js) and also to complete the signature (see method
+		// complete() below). This should not be mistaken with the API access token.
 		SignatureStartWithWebPkiResult result = signatureStarter.startWithWebPki();
 
 		// Return a JSON with the token obtained from REST PKI (the page will use jQuery to decode
@@ -71,10 +71,10 @@ public class BatchPadesSignatureRestApiController {
 	}
 
 	/**
-	 * POST /api/batch-signature-rest/complete/{token}
+	 * POST /api/batch-pades-signature-rest/complete/{token}
 	 *
-	 * This action receives the form submission from the view. We'll call REST PKI to complete the
-	 * signature.
+	 * This action is called asynchronously from the batch signature page in order to complete the
+	 * signature of each document in the batch. We'll call REST PKI to complete the signature.
 	 */
 	@PostMapping("/complete/{token:.+}")
 	public String complete(@PathVariable String token) throws IOException, RestException {

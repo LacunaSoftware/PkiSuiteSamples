@@ -126,9 +126,9 @@ public class Util {
 			// Lacuna Software's test PKI. Use it to accept the test certificates provided by Lacuna
 			// Software.
 
-			// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+			// THIS SHOULD NEVER BE USED IN PRODUCTION!
 			return SecurityContext.lacunaTest;
-			// For more information, see https://github.com/LacunaSoftware/RestPkiSamples/blob/master/TestCertificates.md
+			// For more information, see https://docs.lacunasoftware.com/articles/pki-guide/test-certs
 
 			// Notice for "on premises" users: this security context might not exist on your
 			// installation, if you encounter an error please contact developer support.
@@ -146,9 +146,9 @@ public class Util {
 			// Lacuna Software's test PKI. Use it to accept the test certificates provided by Lacuna
 			// Software.
 
-			// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+			// THIS SHOULD NEVER BE USED IN PRODUCTION!
 			return com.lacunasoftware.restpkicore.SecurityContext.lacunaTest;
-			// For more information, see https://github.com/LacunaSoftware/RestPkiSamples/blob/master/TestCertificates.md
+			// For more information, see https://docs.lacunasoftware.com/articles/pki-guide/test-certs
 
 			// Notice for "on premises" users: this security context might not exist on your
 			// installation, if you encounter an error please contact developer support.
@@ -188,8 +188,8 @@ public class Util {
 
 	public static void setPkiDefaults(PkiExpressOperator operator) throws IOException {
 
-		// Set the operator to trust in a custom trusted root, you need to inform the operator class.
-		// We will add each trusted root from configuration file. In this sample, we assumed that all
+		// To make the operator trust a custom root, you need to add it to the operator class. We
+		// will add each trusted root from the configuration file. In this sample, we assumed that all
 		// trusted roots are in the resources/ folder. You are free to pass any path.
 		List<String> trustedRoots = getProperties().getPkiExpress().getTrustedRoots();
 		if (trustedRoots != null && trustedRoots.size() > 0) {
@@ -201,19 +201,19 @@ public class Util {
 		// Set operator to "OFFLINE MODE" (default: false):
 		operator.setOffline(getProperties().getPkiExpress().isOffline());
 
-		// Set the operator to use a timestamp authority when performing an
-		// timestamp operation. In this sample, we will use the REST PKI by
-		// default to emit a timestamp. It only be filled if the REST PKI was
-		// provided.
+		// Set the operator to use a timestamp authority when performing a
+		// timestamp operation. In this sample, we will use REST PKI by
+		// default to emit a timestamp. It is only set if the REST PKI access
+		// token was provided.
 		String restPkiAccessToken = getProperties().getRestPki().getAccessToken();
 		if (!isNullOrEmpty(restPkiAccessToken) && !restPkiAccessToken.contains(" ACCESS TOKEN ")) {
 
-			// Get an instance of the TimestampAuthority class, responsible to
-			// inform the url and authentication logic to be used when contacting
-			// and timestamp authority.
+			// Get an instance of the TimestampAuthority class, responsible for
+			// informing the URL and authentication logic to be used when contacting
+			// the timestamp authority.
 			TimestampAuthority authority = new TimestampAuthority("https://pki.rest/tsp/a402df41-8559-47b2-a05c-be555bf66310");
 
-			// Set authentication strategy. In the case of REST PKI, is using a bearer token.
+			// Set authentication strategy. In the case of REST PKI, it uses a bearer token.
 			authority.setOAuthTokenAuthentication(getProperties().getRestPki().getAccessToken());
 
 			// Add authority to be used by the operator.
@@ -221,14 +221,14 @@ public class Util {
 		}
 
 		// Set the operator to trust Lacuna Test Root (for development purposes only!). Use this to
-		// accept the test certificate provide by Lacuna Software.
+		// accept the test certificates provided by Lacuna Software.
 		operator.setTrustLacunaTestRoot(getProperties().trustLacunaTestRoot());
-		// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+		// THIS SHOULD NEVER BE USED IN PRODUCTION!
 	}
 
 	//endregion
 
-	//region Cloubhub
+	//region CloudHub
 
 	public static CloudhubClient getCloudhubClient() {
 		String apiKey = getProperties().getCloudhub().getApiKey();
@@ -248,7 +248,7 @@ public class Util {
 
 		CloudhubClient CloudhubClient = new CloudhubClient(endpoint, apiKey);
 
-		// Return an instance of AmpliaClient class, passing the endpoint and the API key.
+		// Return an instance of CloudhubClient class, passing the endpoint and the API key.
 		return CloudhubClient;
 	}
 

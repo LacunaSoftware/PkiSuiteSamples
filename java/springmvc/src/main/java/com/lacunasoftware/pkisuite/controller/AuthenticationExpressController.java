@@ -32,7 +32,7 @@ public class AuthenticationExpressController {
 		// Set PKI default options. (see Util.java)
 		Util.setPkiDefaults(auth);
 
-		// Start the authentication. Receive as response a AuthStartResult instance containing
+		// Start the authentication. Receive as response an AuthStartResult instance containing
 		// the following fields:
 		// - nonce: The nonce to be signed. This value is also used on "complete" action;
 		// - digestAlgorithm: The digest algorithm that will inform the Web PKI component to
@@ -40,14 +40,14 @@ public class AuthenticationExpressController {
 		AuthStartResult result = auth.start();
 
 		// The nonce acquired above can only be used for a single authentication attempt. In order
-		// to retry the signature it is necessary to get a new nonce. This can be a problem if the
+		// to retry the authentication it is necessary to get a new nonce. This can be a problem if the
 		// user uses the back button of the browser, since the browser might show a cached page
 		// that we rendered previously, with a now stale nonce. To prevent this from happening, we
 		// call the method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of
 		// the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the authentication page (templates/authentication-failed.html)
+		// Render the authentication page (templates/authentication-express/index.html)
 		model.addAttribute("nonce", result.getNonce());
 		model.addAttribute("digestAlgorithm", result.getDigestAlgorithm());
 		return "authentication-express/index";
@@ -56,7 +56,7 @@ public class AuthenticationExpressController {
 	/**
 	 * POST /authentication-express
 	 *
-	 * This action receives the form submission form the view. We'll call PKI Express's
+	 * This action receives the form submission from the view. We'll call PKI Express's
 	 * "complete-auth" command to validate the authentication.
 	 */
 	@PostMapping
@@ -83,18 +83,17 @@ public class AuthenticationExpressController {
 		// Set the signature.
 		auth.setSignature(signature);
 
-		// Complete the authentication. Receive as response a AuthCompleteResult instance containing
+		// Complete the authentication. Receive as response an AuthCompleteResult instance containing
 		// the following fields:
 		// - The certificate information;
 		// - The validation results;
 		AuthCompleteResult result = auth.complete();
 
-		// Check the authentication result,
+		// Check the authentication result.
 		ValidationResults vr = result.getValidationResults();
 		if (!vr.isValid()) {
 
-			// If the authentication was not successful, we render a page showing that what went
-			// wrong.
+			// If the authentication was not successful, we render a page showing what went wrong.
 
 			// The toString() method of the ValidationResults object can be used to obtain the
 			// checks performed, but the string contains tabs and new line characters for
@@ -104,7 +103,7 @@ public class AuthenticationExpressController {
 				.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
 			model.addAttribute("vrHtml", vrHtml);
 
-			// Render the authentication failed page (templates/authentication-failed.html)
+			// Render the authentication failed page (templates/authentication-express/failed.html)
 			return "authentication-express/failed";
 		}
 
@@ -116,7 +115,7 @@ public class AuthenticationExpressController {
 		// demonstration purposes, we'll just render the user's certificate information.
 		model.addAttribute("userCert", result.getCertificate());
 
-		// Render the authentication succeeded page (templates/authentication-success.html)
+		// Render the authentication succeeded page (templates/authentication-express/success.html)
 		return "authentication-express/success";
 	}
 }

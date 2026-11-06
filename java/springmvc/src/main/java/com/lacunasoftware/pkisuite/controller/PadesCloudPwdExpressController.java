@@ -16,9 +16,9 @@ import java.util.List;
 
 
 /**
- * This sample is responsible to perform a flow using password to communicate with PSCs to perform a
- * signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- * the services by executing the following sample:
+ * This sample is responsible for performing a flow using a password to communicate with PSCs to
+ * perform a signature. To run this sample it's necessary to configure PKI Express with the
+ * credentials of the services by executing the following command:
  *
  *    pkie config --set trustServices:<provider>:<configuration>
  *
@@ -30,7 +30,7 @@ import java.util.List;
  *    - SafeId
  * It's possible to create a custom provider if necessary.
  *
- * All configuration available:
+ * All available configuration keys:
  *    - clientId
  *    - clientSecret
  *    - endpoint
@@ -44,7 +44,7 @@ import java.util.List;
 public class PadesCloudPwdExpressController {
 
 	/**
-	 * This action will render a page that request a CPF to the user. This CPF is used to discover
+	 * This action will render a page that requests a CPF from the user. This CPF is used to discover
 	 * which PSCs have a certificate containing that CPF.
 	 */
 	@GetMapping("/pades-cloud-pwd-express")
@@ -55,10 +55,10 @@ public class PadesCloudPwdExpressController {
 	}
 
 	/**
-	 * This action will be called after the user press the button "Search" on index page. It will
-	 * search for all PSCs that have a certificate with the provided CPF. In this page, there will be
-	 * a form field asking for user current password. In BirdId provider, this password is called
-	 * OTP.
+	 * This action will be called after the user presses the button "Search" on the index page. It
+	 * will search for all PSCs that have a certificate with the provided CPF. In this page, there will
+	 * be a form field asking for the user's current password. In BirdId provider, this password is
+	 * called OTP.
 	 */
 	@PostMapping("/pades-cloud-pwd-express/discover")
 	public ModelAndView discover(
@@ -69,14 +69,14 @@ public class PadesCloudPwdExpressController {
 		// Process cpf, removing all formatting.
 		String plainCpf = cpf.replaceAll("[.-]", "");
 
-		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+		// Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
 		// and handling the password flow.
 		TrustServicesManager manager = new TrustServicesManager();
 
 		// Discover available PSCs.
 		List<TrustServiceInfo> services = manager.discoverByCpf(plainCpf);
 
-		// Render complete page.
+		// Render the discover page.
 		PadesCloudPwdModel model = new PadesCloudPwdModel();
 		model.setServices(services);
 		model.setCpf(cpf);
@@ -84,8 +84,8 @@ public class PadesCloudPwdExpressController {
 	}
 
 	/**
-	 * This action is called after the form after the user press the button "Sign". This action will
-	 * receive the user's CPF and current password.
+	 * This action is called after the user presses the button "Sign". This action will receive the
+	 * user's CPF and current password.
 	 */
 	@PostMapping("/pades-cloud-pwd-express/authorize")
 	public ModelAndView authorize(
@@ -98,7 +98,7 @@ public class PadesCloudPwdExpressController {
 		// Process cpf, removing all formatting.
 		String plainCpf = cpf.replaceAll("[.-]", "");
 
-		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+		// Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
 		// and handling the password flow.
 		TrustServicesManager manager = new TrustServicesManager();
 
@@ -106,7 +106,7 @@ public class PadesCloudPwdExpressController {
 		// sessionTypes:
 		// - SINGLE_SIGNATURE: The returned token can only be used for one single signature request.
 		// - MULTI_SIGNATURE: The returned token can only be used for one multi signature request.
-		// - SIGNATURE_SESSION: The return token can only be used for one or more signature requests.
+		// - SIGNATURE_SESSION: The returned token can only be used for one or more signature requests.
 		TrustServiceSessionResult result = manager.passwordAuthorize(service, plainCpf, password, TrustServiceSessionTypes.SIGNATURE_SESSION);
 
 		// Verify if the provided fileToSign exists.
@@ -127,14 +127,14 @@ public class PadesCloudPwdExpressController {
 		// Set PDF to be signed.
 		signer.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
-		// Set trust session acquired on the following steps of this sample.
+		// Set trust session acquired on the previous steps of this sample.
 		signer.setTrustServiceSession(result.getSession());
 
 		// Set visual representation. We provide a Java class that represents the visual
 		// representation.
 		signer.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());
 
-		// Generate path for output file and add to signature finisher.
+		// Generate path for output file and add it to the signer.
 		String outputFile = StorageMock.generateFileId(".pdf");
 		signer.setOutputFile(StorageMock.getDataPath(outputFile));
 
@@ -142,7 +142,7 @@ public class PadesCloudPwdExpressController {
 		signer.sign();
 
 		// If you want to delete the temporary files created by this step, use the method dispose().
-		// This method MUST be called after the complete() method, because it deletes some files
+		// This method MUST be called after the sign() method, because it deletes some files
 		// needed by the method.
 		signer.dispose();
 

@@ -15,11 +15,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * This sample is responsible to perform a OAuth flow to communicate with PSCs
- * to perform a
- * signature. To perform this sample it's necessary to configure PKI Express
- * with the credentials of
- * the services by executing the following sample:
+ * This sample is responsible for performing an OAuth flow to communicate with PSCs to perform an
+ * authentication. To run this sample it's necessary to configure PKI Express with the credentials
+ * of the services by executing the following command:
  *
  * pkie config --set trustServices:<provider>:<configuration>
  *
@@ -31,7 +29,7 @@ import java.util.List;
  * - SafeId
  * It's possible to create a custom provider if necessary.
  *
- * All configuration available:
+ * All available configuration keys:
  * - clientId
  * - clientSecret
  * - endpoint
@@ -50,8 +48,7 @@ public class AuthenticationCloudExpressController {
 	private final String REDIRECT_URL = "http://localhost:60695/authentication-cloud-express/complete";
 
 	/**
-	 * This action will render a page that request a CPF to the user. This CPF is
-	 * used to discover
+	 * This action will render a page that requests a CPF from the user. This CPF is used to discover
 	 * which PSCs have a certificate containing that CPF.
 	 */
 	@GetMapping("/authentication-cloud-express")
@@ -60,57 +57,45 @@ public class AuthenticationCloudExpressController {
 	}
 
 	/**
-	 * This action will be called after the user press the button "Search" on index
-	 * page. It will
-	 * search for all PSCs that have a certificate with the provided CPF. Thus, it
-	 * will start the
-	 * authentication process and return a URL to redirect the user to perform the
-	 * authentication.
+	 * This action will be called after the user presses the button "Search" on the index page. It
+	 * will search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
+	 * authentication process and return a URL to redirect the user to perform the authentication.
 	 *
-	 * After this action the user will be redirected, and to store the local data
-	 * (fileId) to be user
-	 * after the user returns to your application. We use the parameter
-	 * "customState", the last
-	 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be
-	 * recovered in the
+	 * After this action the user will be redirected. To store the local data (the nonce) to be used
+	 * after the user returns to your application, we use the parameter "customState", the last
+	 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
 	 * next action.
 	 */
 	@PostMapping("/authentication-cloud-express/discover")
 	public ModelAndView discover(@RequestParam(value = "cpf") String cpf) throws IOException {
-		// Get an instance of the Authentication class, responsible for contacting PKI
-		// Express to // start and complete the authentication operation.
+		// Get an instance of the Authentication class, responsible for contacting PKI Express to
+		// start and complete the authentication operation.
 		Authentication auth = new Authentication();
 
 		// Set PKI default options. (see Util.java)
 		Util.setPkiDefaults(auth);
 
-		// Start the authentication. Receive as response a AuthStartResult instance
-		// containing
-		// the following fields:
-		// - nonce: The nonce to be signed. This value is also used on "complete"
-		// action;
-		// - digestAlgorithm: The digest algorithm that will inform the Web PKI
-		// component to
-		// compute the signature.
+		// Start the authentication. Receive as response an AuthStartResult instance containing the
+		// following fields:
+		// - nonce: The nonce to be signed. This value is also used on "complete" action;
+		// - digestAlgorithm: The digest algorithm that will inform the Web PKI component to compute
+		// the signature.
 		AuthStartResult result = auth.start();
 
 		// Process cpf, removing all formatting.
 		String plainCpf = cpf.replaceAll("[.-]", "");
 
-		// Get an instance of the TrustServiceManager class, responsible for
-		// communicating with PSCs
+		// Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
 		// and handling the OAuth flow.
 		TrustServicesManager manager = new TrustServicesManager();
 
-		// Discover PSCs and receive a URL to redirect the user to perform the OAuth
-		// authentication
-		// page. As mentioned before, we pass the id of the file to be signed as the
-		// last parameter
-		// of the following method. The next action will recover this information.
+		// Discover PSCs and receive a URL to redirect the user to perform the OAuth authentication
+		// page. As mentioned before, we pass the nonce as the last parameter of the following
+		// method. The next action will recover this information.
 		List<TrustServiceAuthParameters> services = manager.discoverByCpfAndStartAuth(plainCpf, REDIRECT_URL,
 				TrustServiceSessionTypes.SIGNATURE_SESSION, result.getNonce());
 
-		// Render complete page.
+		// Render the discover page.
 		AuthenticationCloudExpressModel model = new AuthenticationCloudExpressModel();
 		model.setServices(services);
 		model.setCpf(cpf);
@@ -126,9 +111,8 @@ public class AuthenticationCloudExpressController {
 
 		TrustServicesManager manager = new TrustServicesManager();
 
-		// Complete the authentication process, recovering the session info to be used
-		// on the
-		// signature and the custom state (fileId).
+		// Complete the authentication process, recovering the session info to be used on the
+		// signature and the custom state (the nonce).
 		TrustServiceSessionResult trssResult = manager.completeAuth(authorizationCode, state);
 		// get the signature session given by the cloud provider
 		String session = trssResult.getSession();
@@ -142,7 +126,7 @@ public class AuthenticationCloudExpressController {
 		CertificateExplorerResult certResult = certificateExplorer.open();
 		byte[] certContent = certResult.getCertificate().getContent();
 
-		// Perform a signature using PKIExpress on the nonce field
+		// Perform a signature using PKI Express on the nonce field
 		DataSigner dataSigner = new DataSigner();
 		dataSigner.setTrustServiceSession(session);
 		dataSigner.setToSignData(nonce);
@@ -156,20 +140,17 @@ public class AuthenticationCloudExpressController {
 		auth.setCertificate(certContent);
 		auth.setSignature(signature);
 
-		// Complete the authentication. Receive as response a AuthCompleteResult
-		// instance containing
+		// Complete the authentication. Receive as response an AuthCompleteResult instance containing
 		// the following fields:
 		// - The certificate information;
 		// - The validation results;
 		AuthCompleteResult result = auth.complete();
 
-		// Check the authentication result,
+		// Check the authentication result.
 		ValidationResults vr = result.getValidationResults();
 		if (!vr.isValid()) {
 
-			// If the authentication was not successful, we render a page showing that what
-			// went
-			// wrong.
+			// If the authentication was not successful, we render a page showing what went wrong.
 
 			// The toString() method of the ValidationResults object can be used to obtain
 			// the
@@ -180,7 +161,8 @@ public class AuthenticationCloudExpressController {
 					.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
 			model.addAttribute("vrHtml", vrHtml);
 
-			// Render the authentication failed page (templates/authentication-failed.html)
+			// Render the authentication failed page
+			// (templates/authentication-cloud-express/failed.html)
 			return "authentication-cloud-express/failed";
 		}
 
@@ -196,7 +178,7 @@ public class AuthenticationCloudExpressController {
 		model.addAttribute("userCert", result.getCertificate());
 
 		// Render the authentication succeeded page
-		// (templates/authentication-success.html)
+		// (templates/authentication-cloud-express/success.html)
 		return "authentication-cloud-express/success";
 
 	}

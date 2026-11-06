@@ -21,7 +21,7 @@ var signatureStartForm = (function () {
 		// Receive form parameters received as arguments.
 		formElements = fe;
 
-		// Wireup of buttons clicks.
+		// Wireup of button clicks.
 		formElements.signButton.click(startSignature);
 		formElements.refreshButton.click(refresh);
 

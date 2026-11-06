@@ -21,7 +21,7 @@
 			</div>
 
 			<!--
-				Action buttons. The "Refresh Certificates" button, which is responsible to reload the
+				Action buttons. The "Refresh Certificates" button, which is responsible for reloading the
 				certificate list. This operation uses the same function used on page loading
 				(see function refresh() below).
 			-->
@@ -108,8 +108,8 @@
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
 		pki.listCertificates().success(function (certs) {
 
-			// Create an object to be shown on Select2 from each certificate. Its define which
-			// certificate are valid or invalid. At last, sort the list of objects by its validity.
+			// Create an object to be shown on Select2 from each certificate. It defines which
+			// certificates are valid or invalid. At last, sort the list of objects by validity.
 			var select2Certs = $.map(certs, function (cert) {
 
 				var obj = {};
@@ -150,8 +150,8 @@
 				}
 			});
 
-			// Verify if there is no certificates available to disable the <select> element, showing
-			// the messaging informing that.
+			// If there are no certificates available, disable the <select> element, showing a message
+			// informing that.
 			if (certs.length === 0) {
 				$('#certificateSelect')
 					.append('<option value="null">There is no certificate on your machine</option>')

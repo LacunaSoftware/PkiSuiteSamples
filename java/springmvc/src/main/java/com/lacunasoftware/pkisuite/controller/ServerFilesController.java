@@ -24,7 +24,7 @@ public class ServerFilesController {
 	 * GET /server-files
 	 *
 	 * This method will render a page to show the available server files to be used on the sample
-	 * referred by "rc" parameter.
+	 * referred to by "rc" parameter.
 	 */
 	@GetMapping
 	public String get(
@@ -56,7 +56,7 @@ public class ServerFilesController {
 		}
 
 		// It is up to your application's business logic to determine which server documents
-		// to be available for the signature.
+		// will be available for the signature.
 		ServerFilesModel serverFilesModel = new ServerFilesModel();
 		serverFilesModel.setIsCmsCoSign(isCmsCoSign);
 		serverFilesModel.setAvailableFiles(availableFiles);

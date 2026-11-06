@@ -24,7 +24,7 @@ public class MergeServerFilesController {
 	 * GET /merge-server-files
 	 *
 	 * This method will render a page to show the available server files to be used on the merge
-	 * sample referred by "rc" parameter.
+	 * sample referred to by "rc" parameter.
 	 */
 	@GetMapping
 	public String get(
@@ -52,7 +52,7 @@ public class MergeServerFilesController {
 		);
 
 		// It is up to your application's business logic to determine which server documents
-		// to be available for the signature.
+		// will be available for the signature.
 		MergeServerFilesModel MergeServerFilesModel = new MergeServerFilesModel();
 		MergeServerFilesModel.setCmsDataFile(SampleDocs.CMS_DATA_FILE);
 		MergeServerFilesModel.setAvailableFiles(availableFiles);

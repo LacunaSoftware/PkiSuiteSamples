@@ -24,7 +24,8 @@ import java.nio.file.Path;
  *
  * PURPOSE: carimbar an already-signed diploma with a fresh archive timestamp, exercising the
  * extendArchivalSignature() capability added on the feature/extendachive branch (commit 93e460c)
- * of RestPkiNGJavaClient (restpkicore-client, wired via mavenLocal in build.gradle).
+ * of RestPkiNGJavaClient (restpkicore-client). No released restpkicore-client has that method yet,
+ * so build.gradle and pom.xml exclude this controller from the build.
  *
  * The MEC digital diploma is a XAdES-A document that already carries signatures and archive
  * timestamps. This operation validates it against the given security context and, if the current

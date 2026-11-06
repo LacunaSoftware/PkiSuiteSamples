@@ -35,13 +35,13 @@ public class IssueCertServerAmpliaController {
 	/**
 	 * POST /issue-cert-server-amplia
 	 *
-	 * Receives the form parameters to be used to created an order to generate a certificate at
+	 * Receives the form parameters to be used to create an order to generate a certificate at
 	 * Amplia. After that, we render a success page showing options to use the certificate.
 	 */
 	@PostMapping
 	public ModelAndView complete(IssueCertServerModel request) throws RestException, IOException {
 
-		// Get an instance of the AmpliaClient, responsible to connect with Amplia and perform the
+		// Get an instance of the AmpliaClient, responsible for connecting with Amplia and performing the
 		// requests.
 		AmpliaClient client = Util.getAmpliaClient();
 
@@ -52,12 +52,12 @@ public class IssueCertServerAmpliaController {
 		// Set the certificate authority's id. This authority will generate your certificate. You can
 		// have a default CAId per application, in that case, there is no need to set this parameter.
 		createOrderRequest.setCAId(ApplicationProperties.getInstance().getAmplia().getCaId());
-		// Set the certificate validity. We've encapsulated to set 2 years from the now.
+		// Set the certificate validity: 2 years from now (see Util.getDateYearsFromNow()).
 		createOrderRequest.setValidityEnd(Util.getDateYearsFromNow(2));
 		// Set the kind of certificate.
 		createOrderRequest.setKind(CertificateKinds.PUBLIC_KEY);
 		// Set the certificate parameters class with the desired parameters to your certificate. In
-		// this sample, we use the ICP-Brasil model, and informed the following fields:
+		// this sample, we use the ICP-Brasil model, and fill in the following fields:
 		// - The subject name of the certificate;
 		// - The CPF number.
 		PkiBrazilCertificateParameters parameters = new PkiBrazilCertificateParameters();
@@ -72,7 +72,7 @@ public class IssueCertServerAmpliaController {
 		// corresponding CSR.
 		KeyGenerator keyGenerator = new KeyGenerator();
 
-		// Set key size as 2048 (Available size: 1024, 2048, and 4096).
+		// Set key size as 2048 (Available sizes: 1024, 2048, and 4096).
 		keyGenerator.setKeySize(2048);
 		keyGenerator.setKeyFormat(KeyFormats.JSON);
 		// Set the option to generate the CSR value.
@@ -81,18 +81,18 @@ public class IssueCertServerAmpliaController {
 		// Generate private key and CSR.
 		KeyGenerationResult genKey = keyGenerator.generate();
 
-		// Call Amplia in order to issue the certificate referred by the created order's id and
+		// Call Amplia in order to issue the certificate referred to by the created order's id and
 		// passing the generated CSR.
 		Certificate cert = client.issueCertificate(order.getId(), genKey.getCsr());
 
-		// Store the key encrypted using a local key.
+		// Store the key. For simplicity, this sample stores it unencrypted.
 		// WARNING: It is highly RECOMMENDED to ENCRYPT the key before storing in your database.
 		StorageMock.storeKey(genKey.getKey().getBytes(), ".json", cert.getId());
 
 		// Store certificate.
 		StorageMock.storeKey(cert.getContent(), ".cer", cert.getId());
 
-		// Render complete page. We pass the certificate's id responsible for locate the key and
+		// Render complete page. We pass the certificate, whose id is used to locate the key and
 		// certificate files.
 		IssueCertServerCompleteModel response = new IssueCertServerCompleteModel();
 		response.setCertificate(cert);

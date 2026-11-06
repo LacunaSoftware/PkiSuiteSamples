@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------------------------------
-// This file contains logic for calling the Web PKI component to perform a signature of batch of
-// documents. It is only an example, feel free to alter is to meet your application's needs.
+// This file contains logic for calling the Web PKI component to sign a batch of documents. It is
+// only an example, feel free to alter it to meet your application's needs.
 // -------------------------------------------------------------------------------------------------
 var batchSignatureExpressForm = (function () {
 
@@ -72,7 +72,7 @@ var batchSignatureExpressForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks.
@@ -179,13 +179,13 @@ var batchSignatureExpressForm = (function () {
 
 		// For each document, we must perform 3 actions in sequence:
 		//
-		//    1. Start the signature    : Call the action batch-signature-express/start to start the
-		//                                signature and get the "to-sign-hash" content and the digest
-		//                                algorithm needed for the signature computation.
+		//    1. Start the signature    : Call the action <ctrlEndpoint>/start to start the signature
+		//                                and get the "to-sign-hash" content and the digest algorithm
+		//                                needed for the signature computation.
 		//    2. Perform the signature  : Call Web PKI's method signHash with the information from
 		//                                the start action.
-		//    3. Complete the signature : Call the action batch-signature-express/complete to notify
-		//                                that the signature is complete.
+		//    3. Complete the signature : Call the action <ctrlEndpoint>/complete to notify that the
+		//                                signature is complete.
 		//
 		// We'll use the Queue Javascript class defined above in order to perform these steps
 		// simultaneously.
@@ -218,8 +218,8 @@ var batchSignatureExpressForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that performs the first step described above for each document, which is the call
-	// batch-signature-express/start in order to start the signature and get the token associated
-	// with the signature process.
+	// to <ctrlEndpoint>/start in order to start the signature and get the "to-sign-hash", the
+	// digest algorithm and the transfer file associated with the signature process.
 	//
 	// This function is called by the Queue.process function, taking documents from the "start"
 	// queue. Once we're done, we'll call the "done" callback passing the document, and the
@@ -291,7 +291,7 @@ var batchSignatureExpressForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that performs the third step described above for each document, which is the call
-	// to the action "complete" of the BatchSignatureController order to complete the signature.
+	// to <ctrlEndpoint>/complete in order to complete the signature.
 	//
 	// This function is called by the Queue.process function, taking documents from the "complete"
 	// queue. Once we're done, we'll call the "done" callback passing the document. Once all
