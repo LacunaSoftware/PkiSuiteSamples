@@ -9,10 +9,9 @@ from pkiexpress import Authentication
 from sample.utils import set_pki_defaults
 from sample.utils import get_expired_page_headers
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/authentication-express')
@@ -27,7 +26,7 @@ def index():
     # Set PKI default options (see utils.py).
     set_pki_defaults(auth)
 
-    # Start the authentication. Receive as response a AuthStartResult instance
+    # Start the authentication. Receive as response an AuthStartResult instance
     # containing the following fields:
     # - nonce: The nonce to be signed. This value is also used on "complete"
     #          action.
@@ -35,21 +34,21 @@ def index():
     #                     component to compute the signature.
     result = auth.start()
 
-    # Render the fields received form start() method as hidden field to be used
-    # on the javascript and on the "complete" step. We pass the nonce as base64
-    # to be rendered on page.
+    # Render the fields received from the start() method as hidden fields to be
+    # used on the javascript and on the "complete" step. We pass the nonce as
+    # Base64 to be rendered on the page.
     response = make_response(
         render_template('authentication_express/index.html',
                         nonce=result.nonce,
                         digest_algorithm=result.digest_algorithm))
 
     # The nonce acquired above can only be used for a single authentication
-    # attempt. In order to retry the signature it is necessary to get a new
-    # token. This can be a problem if the user uses the back button of the
+    # attempt. In order to retry the authentication it is necessary to get a
+    # new nonce. This can be a problem if the user uses the back button of the
     # browser, since the browser might show a cached page that we rendered
-    # previously, with a now stale token. To prevent this from happening, we
-    # call the method set_no_cache_headers(), which sets HTTP headers to prevent
-    # caching of the page.
+    # previously, with a now stale nonce. To prevent this from happening, we
+    # call the method get_expired_page_headers(), which sets HTTP headers to
+    # prevent caching of the page.
     get_expired_page_headers(response.headers)
 
     return response
@@ -59,7 +58,7 @@ def index():
 def action():
 
     # Retrieve the values necessary to complete the authentication (rendered in
-    # hidden inputs, see authentication/index.html template):
+    # hidden inputs, see authentication_express/index.html template):
     # - nonce: The cryptographic nonce encoded as Base64.
     # - certContent: The content of the certificate, which is being
     #                 authenticated encoded as Base64.
@@ -74,7 +73,7 @@ def action():
     # Set PKI default options (see utils.py).
     set_pki_defaults(auth)
 
-    # Set the nonce. This value is generate on "start" action and passed by a
+    # Set the nonce. This value is generated on "start" action and passed by a
     # hidden field.
     auth.nonce_base64 = nonce_base64
 
@@ -84,7 +83,7 @@ def action():
     # Set the signature.
     auth.signature_base64 = signature_base64
 
-    # Complete the authentication. Receive as response a AuthCompleteResult
+    # Complete the authentication. Receive as response an AuthCompleteResult
     # instance containing the following fields:
     # - The certificate information;
     # - The validation results.
@@ -95,7 +94,7 @@ def action():
     if not vr.is_valid:
 
         # If the Authentication was not successful, we render a page showing
-        # that what went wrong.
+        # what went wrong.
 
         # The __str__() method of the ValidationResults object can be used to
         # obtain the checks performed, but the string contains tabs and new line
@@ -115,7 +114,7 @@ def action():
     # user_cert.pki_brazil.cpf (the actual field to be used as key depends on
     # your application's business logic) and set the user as authenticated
     # with whatever web security framework your application uses. For
-    # demonstration purposes. we'll just render the user's certificate
+    # demonstration purposes, we'll just render the user's certificate
     # information.
     user_cert = result.certificate
 

@@ -21,10 +21,9 @@ from sample.storage_mock import get_pdf_stamp_content
 from sample.utils import get_rest_pki_core_client
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects),
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/pades-signature-rest-core')
@@ -49,7 +48,7 @@ def index(file_id):
     This method only renders the signature page.
 
     """
-    # Verify if the provided userfile exists.
+    # Verify if the provided file_id exists.
     file_path = os.path.join(current_app.config['APPDATA_FOLDER'], file_id)
     if not os.path.exists(file_path):
         return render_template('error.html', msg='File not found')
@@ -62,8 +61,8 @@ def start(file_id):
     """
 
     This method asks REST PKI Core to prepare the signature. In this sample, it
-    will be called programatically after the user press the "Sign File" button
-    (see method startSignature() on static/js/signature-start-form.js).
+    will be called programmatically after the user presses the "Sign File"
+    button (see startSignature() on static/js/signature-start-form.js).
 
     """
     try:
@@ -206,14 +205,14 @@ def complete(file_id):
     """
 
     This function asks REST PKI Core to complete the signature, it will be
-    called programatically after the Web PKI component perform the signature
-    and submit the form (see method sign() on
+    called programmatically after the Web PKI component performs the signature
+    and submits the form (see function sign() on
     static/js/signature-complete-form.js).
 
     """
     try:
 
-        # Recover variables form the POST arguments to be used on this step.
+        # Recover variables from the POST arguments to be used on this step.
         state = request.form['stateField']
         signature = request.form['signatureField']
 

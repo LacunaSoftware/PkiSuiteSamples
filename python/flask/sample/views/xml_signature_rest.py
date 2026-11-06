@@ -21,10 +21,9 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/xml-signature-rest')
@@ -33,14 +32,14 @@ blueprint = Blueprint(basename(__name__), __name__,
 @blueprint.route('/')
 def index():
     # Get an instance of the FullXmlSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = FullXmlSignatureStarter(get_rest_pki_client())
 
     # Set the XML to be signed, a sample XML Document.
     signature_starter.set_xml_to_sign(get_sample_xml_document_path())
 
     # Set the location on which to insert the signature node. If the
-    # location is not specified, the signature will appended to the root
+    # location is not specified, the signature will be appended to the root
     # element (which is most usual with enveloped signatures).
     nsm = NamespaceManager()
     nsm.add_namespace('ls', 'http://www.lacunasoftware.com/sample')
@@ -55,7 +54,7 @@ def index():
 
     # Set the security context to be used to determine trust in the
     # certificate chain. We have encapsulated the security context choice on
-    # util.py.
+    # utils.py.
     signature_starter.security_context = get_security_context_id()
 
     # Call the start_with_webpki() method, which initiates the signature.
@@ -63,15 +62,15 @@ def index():
     # which identifies this signature process. We'll use this value to call
     # the signWithRestPki() method on the Web PKI component (see
     # signature-form.js javascript) and also to complete the signature after
-    # the form is submitted (see method pades_signature_action()). This
-    # should not be mistaken with the API access token.
+    # the form is submitted (see method action()). This should not be
+    # mistaken with the API access token.
     result = signature_starter.start_with_webpki()
 
     # The token acquired above can only be used for a single signature
     # attempt. In order to retry the signature it is necessary to get a new
     # token. This can be a problem if the user uses the back button of the
     # browser, since the browser might show a cached page that we rendered
-    # previously, with a now stale token. To prevent this from happen, we
+    # previously, with a now stale token. To prevent this from happening, we
     # force page expiration through HTTP headers to prevent caching of the
     # page.
     response = make_response(render_template('xml_signature_rest/index.html',
@@ -84,7 +83,7 @@ def index():
 @blueprint.route('/', methods=['POST'])
 def action():
     # Get the token for this signature. (rendered in a hidden input field, see
-    # xml-signature/index.html template)
+    # xml_signature_rest/index.html template)
     token = request.form['token']
 
     # Instantiate the XmlSignatureFinisher class, responsible for completing
@@ -102,7 +101,7 @@ def action():
     # This method must only be called after calling the finish() method.
     signer_cert = result.certificate
 
-    # At this point, you'd typically store the signed PDF on your database. For
+    # At this point, you'd typically store the signed XML on your database. For
     # demonstration purposes, we'll store the XML on a temporary folder publicly
     # accessible and render a link to it.
 

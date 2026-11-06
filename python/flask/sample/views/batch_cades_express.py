@@ -16,10 +16,9 @@ from sample.storage_mock import create_app_data
 from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import set_pki_defaults
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 
 blueprint = Blueprint(basename(__name__), __name__)
@@ -31,7 +30,7 @@ def index():
     # will compose the batch.
     document_ids = list(range(1, 31))
 
-    # Render the batch signature signature page.
+    # Render the batch signature page.
     return render_template('batch_cades_express/index.html',
                            document_ids=document_ids)
 
@@ -43,7 +42,7 @@ def start():
     cert_content = request.form['certContent']
 
     # Get an instance of the CadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = CadesSignatureStarter()
 
     # Set PKI default options (see utils.py).
@@ -87,7 +86,7 @@ def complete():
     # Set PKI default options (see utils.py).
     set_pki_defaults(signature_finisher)
 
-    # Set the file to be signed. It's the same file we use don "start" method.
+    # Set the file to be signed. It's the same file we used on "start" method.
     signature_finisher.set_file_to_sign_from_path(
         get_sample_batch_doc_path(file_id))
 

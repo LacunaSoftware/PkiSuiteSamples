@@ -30,10 +30,9 @@
 
 		<!--
 			Action buttons. Notice that the "Sign Batch" button is NOT a submit
-			button. When the user clicks the button, we must first use the
-			Web PKI component to perform the client-side computation necessary
-			and only when that computation is finished we'll submit the form
-			programmatically (see batch-signature-restpki-form.js).
+			button. When the user clicks the button, the javascript signs each
+			document of the batch, calling the server and the Web PKI component
+			(see batch-signature-restpki-form.js).
 		-->
 		<button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
 		<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
@@ -59,7 +58,7 @@
 	<script>
 		$(document).ready(function () {
 			// Once the page is ready, we call the init() function on the
-			// javascript code (see batch-signature-form.js).
+			// javascript code (see batch-signature-restpki-form.js).
 			batchSignatureRestPkiForm.init({
 				documentsIds: {{ document_ids | tojson }},   // The IDs of documents.
 				certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.

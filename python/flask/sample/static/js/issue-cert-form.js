@@ -14,7 +14,7 @@ var issueCertForm = (function () {
     // --------------------------------------------------------------------------
     function init(fe) {
 
-        // Receive from parameters received as arguments.
+        // Receive the form elements passed as arguments.
         formElements = fe;
 
         // Add mask for CPF field.
@@ -51,7 +51,7 @@ var issueCertForm = (function () {
         // validations.
         formElements.issueButton.click(issue);
 
-        // Generate random value for SubjectName and CPF fields.
+        // Fill the SubjectName and CPF fields with sample values.
         formElements.subjectNameField.val('Pierre de Fermat');
         formElements.cpfField.val('673.644.483-73');
     }
@@ -60,7 +60,7 @@ var issueCertForm = (function () {
 
         var subjectName = formElements.subjectNameField.val();
         if (!subjectName || subjectName.length === 0) {
-            alert('The subject name should be informed');
+            alert('The subject name should be provided');
             return;
         }
 

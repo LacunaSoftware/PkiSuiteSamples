@@ -9,10 +9,9 @@ from flask import request
 from werkzeug.utils import redirect
 from sample.storage_mock import get_sample_doc_name, SampleDocs, create_app_data
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/merge-server-files')
@@ -64,14 +63,14 @@ def index(rc):
 
 
 def copy_from_static_to_app_data(filename):
-    # Copy file to the App_Data folder, where the upload files is stored.
+    # Copy the file to the app_data folder, where the uploaded files are stored.
     with open(os.path.join(current_app.static_folder, filename), 'rb') as f:
         sample_file = f.read()
     # Generate a unique filename.
     new_filename = '%s.%s' % (str(uuid.uuid4()), 'p7s')
 
-    # Move the file to the "app_data" with the unique filename. Make sure
-    # the "app_data" folder exists (static/util.py).
+    # Save the file to the "app_data" folder with the unique filename. Make
+    # sure the "app_data" folder exists (see sample/storage_mock.py).
     create_app_data()
     with open(os.path.join(current_app.config['APPDATA_FOLDER'], new_filename), 'wb') as f:
         f.write(sample_file)

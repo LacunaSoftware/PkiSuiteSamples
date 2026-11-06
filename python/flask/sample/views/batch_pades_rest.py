@@ -15,10 +15,9 @@ from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='')
@@ -54,12 +53,12 @@ def start(file_id=None):
     for each document being signed. It receives the ID of the document and
     initiates a PAdES signature using REST PKI and returns a JSON with the
     token, which identifies this signature process, to be used in the next
-    signature steps (see batch-signature-form.js).
+    signature steps (see batch-signature-restpki-form.js).
 
     """
 
-    # Get an instantiate of the PadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # Get an instance of the PadesSignatureStarter class, responsible for
+    # receiving the signature elements and starting the signature process.
     signature_starter = PadesSignatureStarter(get_rest_pki_client())
 
     # Set the document to be signed based on its ID.
@@ -70,11 +69,12 @@ def start(file_id=None):
         StandardSignaturePolicies.PADES_BASIC
 
     # Set a security context to determine trust in the certificate chain. We
-    # have encapsulated the security context choice on util.py.
+    # have encapsulated the security context choice on utils.py.
     signature_starter.security_context = get_security_context_id()
 
     # Set the visual representation for the signature. We have encapsulated
-    # this code (on util-pades.py) to be used on various PAdES examples.
+    # this code (on pades_visual_elements_rest.py) to be used on various
+    # PAdES examples.
     signature_starter.visual_representation = \
         PadesVisualElementsRest.get_visual_representation()
 
@@ -82,9 +82,9 @@ def start(file_id=None):
     # This yields the token, a 43-character case-sensitive URL-safe string,
     # which identifies this signature process. We'll use this value to call
     # the signWithRestPki() method on the Web PKI component (see
-    # signature-form.js) and also to complete the signature after
-    # the form is submitted (see method action()). This should not be
-    # mistaken with the API access token.
+    # batch-signature-restpki-form.js) and also to complete the signature
+    # (see complete() below). This should not be mistaken with the API
+    # access token.
     result = signature_starter.start_with_webpki()
 
     # Return a JSON with the token obtained from REST PKI (the page will use
@@ -96,21 +96,21 @@ def start(file_id=None):
 def complete(token=None):
     """
 
-    This function is called asynchornously via AJAX by the batch signature page
-    for each document being signed. It receives the tokne, that identifies the
+    This function is called asynchronously via AJAX by the batch signature page
+    for each document being signed. It receives the token, which identifies the
     signature process. We'll call REST PKI to complete this signature and return
     a JSON with the saved filename so that the page can render a link to it.
 
     """
 
-    # Get an intance of the PadesSignatureFinisher class, responsible for
+    # Get an instance of the PadesSignatureFinisher class, responsible for
     # completing the signature process.
     signature_finisher = PadesSignatureFinisher(get_rest_pki_client())
 
     # Set the token.
     signature_finisher.token = token
 
-    # Call the finish() method, which finalizes the signature process.The
+    # Call the finish() method, which finalizes the signature process. The
     # return value is the signed PDF content.
     result = signature_finisher.finish()
 

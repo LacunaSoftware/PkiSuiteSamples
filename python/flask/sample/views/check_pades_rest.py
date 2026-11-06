@@ -8,10 +8,9 @@ from sample.storage_mock import lookup_verification_code
 from sample.utils import parse_verification_code, get_rest_pki_client, \
     get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/check-pades-rest')
@@ -19,7 +18,7 @@ blueprint = Blueprint(basename(__name__), __name__,
 
 @blueprint.route('/<code>')
 def index(code):
-    # On printer_version_pades_express, we stored the unformatted version of the
+    # On printer_version_pades_rest, we stored the unformatted version of the
     # verification code (without hyphens), but used the formatted version (with
     # hyphens) on the printer-friendly PDF. Now, we remove the hyphens before
     # looking it up.

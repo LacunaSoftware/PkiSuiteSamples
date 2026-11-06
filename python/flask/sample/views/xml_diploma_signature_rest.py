@@ -37,10 +37,9 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects),
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__,
                       url_prefix='/xml-diploma-signature-rest')
@@ -60,7 +59,7 @@ def index():
 
     """
     # Instantiate the XmlElementSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = XmlElementSignatureStarter(get_rest_pki_client())
 
     # Set the XML to be signed, a sample Brazilian digital diploma
@@ -137,7 +136,7 @@ def dados_registro(file_id):
     file_path = _get_stored_file_path(file_id)
 
     # Instantiate the XmlElementSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = XmlElementSignatureStarter(get_rest_pki_client())
 
     # Set the XML to be signed, the diploma signed on the previous step.
@@ -205,7 +204,7 @@ def diploma(file_id):
     file_path = _get_stored_file_path(file_id)
 
     # Instantiate the FullXmlSignatureStarter class, responsible for receiving
-    # the signature elements and start the signature process.
+    # the signature elements and starting the signature process.
     signature_starter = FullXmlSignatureStarter(get_rest_pki_client())
 
     # Set the XML to be signed, the diploma signed on the previous steps.

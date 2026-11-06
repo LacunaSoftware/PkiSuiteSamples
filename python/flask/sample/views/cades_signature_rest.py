@@ -15,10 +15,9 @@ from sample.utils import get_rest_pki_client
 from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/cades-signature-rest')
@@ -35,39 +34,40 @@ def index(file_to_sign=None, file_to_cosign=None):
     All CAdES signature examples converge to this action, but with different
     URL arguments:
 
-        1. Signature with a server file               : no arguments filled
-        2. Signature with a file uploaded by the user : "userfile" filled
-        3. Co-signature of a previously signed CMS    : "cmsfile" filled
+        1. Signature with a server file               : "file_to_sign" filled
+        2. Signature with a file uploaded by the user : "file_to_sign" filled
+        3. Co-signature of a previously signed CMS    : "file_to_cosign" filled
 
     """
 
     try:
 
-        # Get an instantiate of the CadesSignatureStarter class, responsible for
-        # receiving the signature elements and start the signature process.
+        # Get an instance of the CadesSignatureStarter class, responsible for
+        # receiving the signature elements and starting the signature process.
         signature_starter = CadesSignatureStarter(get_rest_pki_client())
 
         if file_to_cosign is not None:
-            # If the URL argument "cmsfile" is filled, the user has asked to
-            # co-sign a previously signed CMS. We'll set the path to the CMS to
-            # be co-signed, which was previously saved in the "app-data" folder
-            # by the action() step. Note two important things:
+            # If the "file_to_cosign" URL argument is filled, the user has
+            # asked to co-sign a previously signed CMS. We'll set the path to
+            # the CMS to be co-signed, which was previously saved in the
+            # "app_data" folder. Note two important things:
             #
             #   1. The CMS to be co-signed must be set using the method
             #      "set_cms_to_cosign", not the method "set_file_to_sign".
             #
-            #   2. Since we're creating CMSs with encapsulated content (see call
-            #      to encapsulated_content property below), we don't need to set
+            #   2. Since we're creating CMSs with encapsulated content (see the
+            #      encapsulate_content property below), we don't need to set
             #      the content to be signed, REST PKI will get the content from
             #      the CMS being co-signed.
             #
             signature_starter.set_cms_to_cosign_path(
                 '%s/%s' % (current_app.config['APPDATA_FOLDER'], file_to_cosign))
         else:
-            # If the URL argument "userfile" is filled, it means the user was
-            # redirected here by "upload" view (signature with file uploaded by
-            # user). We'll set the path of the file to be signed, which was
-            # saved in the app_data folder by "upload" view.
+            # Otherwise, the "file_to_sign" URL argument is filled: the user
+            # was redirected here by the "upload" view (signature with a file
+            # uploaded by the user) or by the "server_files" view. We'll set the
+            # path of the file to be signed, which those views saved in the
+            # app_data folder.
             signature_starter.set_file_to_sign_path(
                 '%s/%s' % (current_app.config['APPDATA_FOLDER'], file_to_sign))
 
@@ -77,11 +77,11 @@ def index(file_to_sign=None, file_to_cosign=None):
 
         # Set a security context to be used to determine trust in the
         # certificate chain. We have encapsulated the security context choice on
-        # util.py.
+        # utils.py.
         signature_starter.security_context = get_security_context_id()
 
         # Optionally, set whether the content should be encapsulated in the
-        # resulting CMS. If this parameter is ommitted, the following rules
+        # resulting CMS. If this parameter is omitted, the following rules
         # apply:
         #
         # - If no CmsToCoSign is given, the resulting CMS will include the
@@ -105,9 +105,9 @@ def index(file_to_sign=None, file_to_cosign=None):
         # new token. This can be a problem if the user uses the back button of
         # the browser, since the browser might show a cached page that we
         # rendered previously, with a now stale token. To prevent this from
-        # happening, we call the method get_expired_page_headers(). To prevent
-        # this from happen, we force page expiration through HTTP headers to
-        # prevent caching of the page.
+        # happening, we call the method get_expired_page_headers(), which
+        # forces page expiration through HTTP headers to prevent caching of the
+        # page.
         response = make_response(render_template('cades_signature_rest/index.html',
                                                  token=result.token))
 
@@ -123,13 +123,14 @@ def action():
     """
 
     This method receives the form submission from the template
-    cades-signature/index.html. We'll call REST PKI to complete the signature.
+    cades_signature_rest/index.html. We'll call REST PKI to complete the
+    signature.
 
     """
 
     try:
         # Get the token for this signature (rendered in a hidden input field,
-        # see cades-signature/index.html template).
+        # see cades_signature_rest/index.html template).
         token = request.form['token']
 
         # Get an instance of the CadesSignatureFinisher class, responsible for
@@ -139,16 +140,16 @@ def action():
         # Set the token.
         signature_finisher.token = token
 
-        # Call the finish() method, which finalizes the signature process.The
+        # Call the finish() method, which finalizes the signature process. The
         # return value is the CMS content.
         result = signature_finisher.finish()
 
         # Get information about the certificate used by the user to sign the
-        # file.This method must only be called after calling the finish()
+        # file. This method must only be called after calling the finish()
         # method.
         signer_cert = result.certificate
 
-        # At this point, you'd typically store the signed PDF on your database.
+        # At this point, you'd typically store the signed CMS on your database.
         # For demonstration purposes, we'll store the CMS on a temporary folder
         # publicly accessible and render a link to it.
 
