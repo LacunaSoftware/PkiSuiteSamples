@@ -1,8 +1,10 @@
 [codespell]
 # Read by codespell when it runs from the repository root, as .github/workflows/codespell.yml
-# does. Skip lockfiles, third-party and minified code, binaries, and sample XML documents
-# (NF-e and diplomas are in Portuguese).
-skip = ./.git,*.lock,*package-lock.json,*.min.js,*.min.css,*.map,*.pdf,*.pfx,*.p7s,*.png,*.jpg,*.gif,*.ico,*.svg,*.woff,*.woff2,*.ttf,*.eot,*.dll,*.nupkg,*.xml,*/vendor/*,*/node_modules/*,*/packages/*,*/Scripts/*,*/wwwroot/*,LacunaPkiLicense.config
+# does. Hidden paths (.github, .devcontainer, .vscode) are checked too. Skip the .git folder,
+# lockfiles, third-party and minified code, binaries, and the sample XML documents that are
+# signed by the samples (NF-e and diplomas, in Portuguese).
+check-hidden = true
+skip = ./.git,*.lock,*package-lock.json,*.min.js,*.min.css,*.map,*.pdf,*.pfx,*.p7s,*.png,*.jpg,*.gif,*.ico,*.svg,*.woff,*.woff2,*.ttf,*.eot,*.dll,*.nupkg,Sample*.xml,InvoiceWithSigs.xml,EventoManifesto.xml,*/vendor/*,*/node_modules/*,*/packages/*,*/Scripts/*,*/wwwroot/*,LacunaPkiLicense.config
 # Real words codespell does not know: Portuguese (the samples have Brazilian forms and labels)
 # and variable names. Lowercase, comma-separated.
 ignore-words-list = nome,validade,datas,bais

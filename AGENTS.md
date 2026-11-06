@@ -250,10 +250,12 @@ on Python 3.11 or older.
   the catalog pages listed in that script's `SMOKE_SAMPLES`, and that the paths in its
   `NOT_FOUND_PATHS` answer 404 for a file (or verification code) that does not exist.
 
-- `.github/workflows/codespell.yml` runs codespell on every pull request and push to `master`.
-  It reports each typo as a warning on its line and never fails the build. When it flags a
+- `.github/workflows/codespell.yml` runs codespell over the whole repository on every pull
+  request and push to `master`. It lists each typo in the job summary (GitHub also shows up to
+  10 as warnings on their lines) and never fails the build because of a typo. When it flags a
   real word (Portuguese, a product term, a variable name), add it to `ignore-words-list` in
-  `.codespellrc` instead of changing the text.
+  `.codespellrc` instead of changing the text. A typo in `SAMPLES.md` or in a README's sample
+  table comes from `samples.json`: fix it there and regenerate.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
   key. In `dotnet/spa`, add them to `src/app/home/sample-list.ts` and `src/app/app.routes.ts`

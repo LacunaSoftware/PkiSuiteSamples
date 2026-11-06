@@ -1,9 +1,10 @@
 name: Spell check
 
-# Runs codespell over the repository (settings and the words it must ignore are in
-# .codespellrc). For now it only reports: each typo becomes a warning on its line of the diff,
-# and the job never fails, so it does not block a merge. Make it fail the job once it has run
-# for a while without false positives.
+# Runs codespell over the whole repository (settings and the words it must ignore are in
+# .codespellrc). For now it only reports typos: they never fail the job, so they do not block
+# a merge. Each typo is listed in the job summary and log; GitHub also shows up to 10 of them as
+# warnings on their lines. Make typos fail the job once it has run for a while without false
+# positives.
 on:
   pull_request:
   push:
@@ -21,10 +22,28 @@ jobs:
         with:
           python-version: "3.x"
       - run: pip install codespell==2.4.3
-      - name: Report typos as warnings
+      - name: Report typos
         run: |
           # The output goes outside the checkout, so codespell does not read its own report.
-          codespell > "$RUNNER_TEMP/codespell.txt" || true
-          # "./path:12: teh ==> the" becomes a warning annotation on that line.
-          sed -E 's#^\./##; s#^([^:]+):([0-9]+): (.*)$#::warning file=\1,line=\2::\3#' "$RUNNER_TEMP/codespell.txt"
-          echo "codespell found $(wc -l < "$RUNNER_TEMP/codespell.txt") possible typos."
+          out="$RUNNER_TEMP/codespell.txt"
+          rc=0
+          codespell > "$out" || rc=$?
+          # codespell exits with 65 when it finds typos. Any other failure (for example a broken
+          # .codespellrc) is an error and fails the job.
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 65 ]; then
+            cat "$out"
+            echo "::error::codespell failed with exit code $rc"
+            exit "$rc"
+          fi
+          count=$(wc -l < "$out")
+          # "./path:12: <typo> ==> <fix>" becomes a warning annotation on that line.
+          sed -E 's#^\./##; s#^([^:]+):([0-9]+): (.*)$#::warning file=\1,line=\2::\3#' "$out"
+          {
+            echo "### codespell: $count possible typos"
+            if [ "$count" -gt 0 ]; then
+              echo '```'
+              sed -E 's#^\./##' "$out"
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "codespell found $count possible typos."
