@@ -11,6 +11,16 @@
 {% block scripts %}
 <script type="text/javascript">
 	SampleRoutes = {
+		signPrescription: {
+			restpki: '/check-rest-token/receita-simples'
+		},
+		signXmlDiploma: {
+			restpki: '/check-rest-token/xml-diploma-signature'
+		},
+		timestampPdf: {
+			express: '/check-express/server-files/timestamp-pdf/signPdf',
+			restpkicore: '/check-rest-pki-core-api-key/upload/timestamp-pdf'
+		},
 		authCert: {
 			express: '/check-express/authentication',
 			restpki: '/check-rest-token/authentication'
@@ -111,5 +121,5 @@
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.e4ce9abd8d7b2452.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.30d13462294ecb92.js"></script>
 {% endblock %}
