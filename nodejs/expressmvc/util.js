@@ -172,10 +172,10 @@ class Util {
 		// application.
 		const CONFIG = Config.getInstance().get('pkiExpress');
 
-		// Set the operator to trust in a custom trusted root, you need to
-		// inform the operator class. We will add each trusted root from
-		// configuration file. In this sample, we assumed that all trusted roots
-		// are in the resources/ folder. You are free to pass any path.
+		// To make the operator trust a custom root, you need to add it to the
+		// operator class. We will add each trusted root from the configuration
+		// file. In this sample, we assumed that all trusted roots are in the
+		// resources/ folder. You are free to pass any path.
 		const { trustedRoots } = CONFIG;
 		trustedRoots.forEach((root) => {
 			operator.addTrustedRootSync(StorageMock.getResourcePath(root));
@@ -203,16 +203,16 @@ class Util {
 		}
 
 		// Trust Lacuna Test Root (for development purposes only!). Use this to
-		// accept the test certificate provided by Lacuna Software.
+		// accept the test certificates provided by Lacuna Software.
 		//
-		// THIS SHOULD NEVER BE USED ON PRODUCTION ENVIRONMENT!
+		// THIS SHOULD NEVER BE USED IN PRODUCTION!
 		operator.trustLacunaTestRoot = Config.getInstance().get('trustLacunaTestRoot');
 	}
 
 	// endregion
 
 
-	// region Cloudhub Configuration
+	// region CloudHub Configuration
 
 	/**
 	 * Creates an instance of the CloudHubClient class, used to connect to

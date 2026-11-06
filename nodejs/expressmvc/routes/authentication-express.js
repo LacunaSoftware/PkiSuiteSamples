@@ -86,8 +86,9 @@ router.post('/', async (req, res, next) => {
 				});
 		} else {
 			// At this point, you have assurance that the certificate is valid
-			// according to the trusted roots set by setPkiDefaults() (see util.js)
-			// and that the user is indeed the certificate's subject.
+			// according to PKI Express's trust, plus any roots added by
+			// setPkiDefaults() (see util.js), and that the user is indeed the
+			// certificate's subject.
 			// Now, you'd typically query your database for a user that matches one of
 			// the certificate's fields, such as userCert.emailAddress or
 			// userCert.pkiBrazil.cpf (the actual field to be used as key depends on

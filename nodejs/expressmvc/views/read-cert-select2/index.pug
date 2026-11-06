@@ -30,7 +30,7 @@ block content
                      i(class="fas fa-external-link-alt") 
                      | More information about Select2
          //- The panel where the certificate's information will be rendered
-         //- using JQuery.
+         //- using jQuery.
          div(class="col col-lg-6")
             div(id="certInfo")
 
@@ -188,7 +188,7 @@ block scripts
 
          // Find the certificate object referred by its thumbprint. After that,
          // we call the method showCertInfo() to render the certificate on the
-         // div#certInfo element using JQuery.
+         // div#certInfo element using jQuery.
          for (var i = 0; i < certificates.length; i++) {
             if (certificates[i].thumbprint === selectedThumbprint) {
                showCertInfo(certificates[i]);

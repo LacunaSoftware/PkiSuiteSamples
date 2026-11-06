@@ -46,8 +46,8 @@ router.get('/', (req, res, next) => {
  * POST /authentication-restpki
  *
  * This route receives the form submission from the view
- * 'authentication-restpki'. We'll
- * call REST PKI to complete the authentication.
+ * 'authentication-restpki'. We'll call REST PKI to complete the
+ * authentication.
  */
 router.post('/', (req, res, next) => {
 	// Get an instance of the Authentication class.
