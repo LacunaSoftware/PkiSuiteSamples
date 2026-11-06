@@ -1,11 +1,12 @@
 package com.lacunasoftware.pkisuite.model;
 
-import com.lacunasoftware.pkisuite.util.SampleDocs;
-
 import java.util.List;
+
+import com.lacunasoftware.pkisuite.util.SampleDocs;
 
 public class ServerFilesModel {
 	private boolean isCmsCoSign;
+	private boolean isXmlToSign;
 	private List<ServerFile> availableFiles;
 	private SampleDocs chosenFileId;
 
@@ -31,5 +32,13 @@ public class ServerFilesModel {
 
 	public void setChosenFileId(SampleDocs chosenFileId) {
 		this.chosenFileId = chosenFileId;
+	}
+
+    public boolean getIsXmlToSign() {
+		return isXmlToSign;
+	}
+
+	public void setIsXmlToSign(boolean isXmlToSign) {
+		this.isXmlToSign = isXmlToSign;
 	}
 }
