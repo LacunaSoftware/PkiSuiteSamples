@@ -249,19 +249,21 @@ def get_display_name(c):
 # ------------------------------------
 # Configuration of the code generation
 #
-# - CodeSize   : size of the code in characters
-# - CodeGroups : number of groups to separate the code (must be a proper divisor
-#                of the code size)
+# - VERIFICATION_CODE_SIZE   : size of the code in characters. It must be even,
+#                              because the code is the hexadecimal form of
+#                              VERIFICATION_CODE_SIZE / 2 random bytes.
+# - VERIFICATION_CODE_GROUPS : number of groups to separate the code (must be a
+#                              proper divisor of the code size)
 #
 # Examples
 # --------
 #
-# - CodeSize = 12, CodeGroups = 3 : XXXX-XXXX-XXXX
-# - CodeSize = 12, CodeGroups = 4 : XXX-XXX-XXX-XXX
-# - CodeSize = 16, CodeGroups = 4 : XXXX-XXXX-XXXX-XXXX
-# - CodeSize = 20, CodeGroups = 4 : XXXXX-XXXXX-XXXXX-XXXXX
-# - CodeSize = 20, CodeGroups = 5 : XXXX-XXXX-XXXX-XXXX-XXXX
-# - CodeSize = 25, CodeGroups = 5 : XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+# - SIZE = 12, GROUPS = 3 : XXXX-XXXX-XXXX
+# - SIZE = 12, GROUPS = 4 : XXX-XXX-XXX-XXX
+# - SIZE = 16, GROUPS = 4 : XXXX-XXXX-XXXX-XXXX
+# - SIZE = 20, GROUPS = 4 : XXXXX-XXXXX-XXXXX-XXXXX
+# - SIZE = 20, GROUPS = 5 : XXXX-XXXX-XXXX-XXXX-XXXX
+# - SIZE = 24, GROUPS = 4 : XXXXXX-XXXXXX-XXXXXX-XXXXXX
 #
 # Entropy
 # -------
@@ -272,7 +274,7 @@ def get_display_name(c):
 # - 12 characters = 48 bits
 # - 16 characters = 64 bits
 # - 20 characters = 80 bits
-# - 25 characters = 100 bits
+# - 24 characters = 96 bits
 VERIFICATION_CODE_SIZE = 16
 VERIFICATION_CODE_GROUPS = 4
 

@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-	<h2 class="ls-title">Read one of the user's certificates with JQuery</h2>
+	<h2 class="ls-title">Read one of the user's certificates with jQuery</h2>
 
 	<div class="ls-content">
 
@@ -34,7 +34,7 @@
 
 		<!--
 			The panel where the certificate's information will be rendered using
-			JQuery.
+			jQuery.
 		-->
 		<div class="col-lg-6">
 			<div id="certInfo"></div>
@@ -170,7 +170,7 @@
 
 			// Find the certificate object referred by its thumbprint. After that,
 			// we call the method showCertInfo() to render the certificate on the
-			// div#certInfo element using JQuery.
+			// div#certInfo element using jQuery.
 			for (var i = 0; i < certificates.length; i++) {
 				if (certificates[i].thumbprint === selectedThumbprint) {
 					showCertInfo(certificates[i]);
