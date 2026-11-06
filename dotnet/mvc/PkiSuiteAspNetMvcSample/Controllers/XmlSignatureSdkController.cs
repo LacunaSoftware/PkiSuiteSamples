@@ -19,9 +19,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var policy = XmlPolicySpec.GetXadesBasic(Util.GetTrustArbitrator());
 
 #if DEBUG
-			// During debug only, we clear the policy's default trust arbitrator (which, in the case of
-			// the policy returned by BrazilXmlPolicySpec.GetNFePadraoNacional(), corresponds to the ICP-Brasil roots only),
-			// and use our custom trust arbitrator which accepts test certificates (see Util.GetTrustArbitrator())
+			// During debug only, we clear the policy's trust arbitrators and add our custom trust arbitrator, which
+			// accepts test certificates (see Util.GetTrustArbitrator()). The policy above was already created with
+			// that trust arbitrator, so this only matters if you create the policy with another one.
 			policy.ClearTrustArbitrators();
 			policy.AddTrustArbitrator(Util.GetTrustArbitrator());
 #endif
@@ -29,14 +29,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return policy;
 		}
 
-		// GET: XmlSignature
+		// GET: XmlSignatureSdk
 		[HttpGet]
 		public ActionResult Index() {
 			return View();
 		}
 
 		/**
-		 * POST: XmlSignature
+		 * POST: XmlSignatureSdk
 		 * 
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the hash that needs to be actually signed with the user's private key
@@ -49,7 +49,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			SignatureAlgorithm signatureAlg;
 
 			try {
-				// Instantiate a XmlSigner class
+				// Instantiate a FullXmlSigner class
 				var signer = new FullXmlSigner();
 
 				// Set the data to sign, which in the case of this example is a fixed sample document
@@ -73,12 +73,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 
 			// On the next step (Complete action), we'll need once again some information:
-			// - The thumpprint of the selected certificate.
-			// - The "transfer data" used to validate the signature in complete action.Its content is stored in
+			// - The thumbprint of the selected certificate.
+			// - The "transfer data" used to validate the signature in the Complete action. Its content is stored in
 			//   a temporary file (with extension .bin) to be shared with the Complete action.
 			// - The "to-sign-hash" to be signed. (see signature-complete-form.js)
 			// - The OID of the digest algorithm to be used during the signature operation.
-			// We'll store this value on TempData, that will store in dictionary shared between actions.
+			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
 				CertThumb = model.CertThumb,
 				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
@@ -89,10 +89,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("Complete");
 		}
 
-		// GET: XmlSignature/Complete
+		// GET: XmlSignatureSdk/Complete
 		[HttpGet]
 		public ActionResult Complete() {
-			// Recovery data from Index action, if returns null, it'll be redirected to Index 
+			// Recover data from the Index action. If it returns null, it'll be redirected to the Index
 			// action again.
 			if (!(TempData["SignatureCompleteModel"] is SignatureCompleteModel model)) {
 				return RedirectToAction("Index");
@@ -102,10 +102,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: XmlSignature/Complete
+		 * POST: XmlSignatureSdk/Complete
 		 * 
-		 * This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
-		 * it'll be redirect to SignatureInfo action to show the signature file.
+		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After the signature,
+		 * it redirects to the SignatureInfo action to show the signature file.
 		 */
 		[HttpPost]
 		public ActionResult Complete(SignatureCompleteModel model) {
@@ -122,7 +122,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Instantiate a FullXmlSigner class
 				var signer = new FullXmlSigner();
 
-				// Set the document to be signed and the policy, exactly like in the Start method
+				// Set the document to be signed and the policy, exactly like in the POST Index action.
 				signer.SetXml(StorageMock.GetSampleXmlDocumentContent());
 				signer.SetPolicy(getSignaturePolicy());
 
@@ -141,13 +141,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return View();
 			}
 
-			// On the next step (SignatureInfo action), we'll render the following information:]
+			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
-			// - The signer's certificate information to be rendered.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
-				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
+				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".xml")
 			};
@@ -155,10 +154,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("SignatureInfo");
 		}
 
-		// GET: XmlSignature/SignatureInfo
+		// GET: XmlSignatureSdk/SignatureInfo
 		[HttpGet]
 		public ActionResult SignatureInfo() {
-			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// Recover data from the Complete action. If it returns null, it'll be redirected to the Index
 			// action again.
 			if (!(TempData["SignatureInfoModel"] is SignatureInfoModel model)) {
 				return RedirectToAction("Index");

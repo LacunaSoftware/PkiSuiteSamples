@@ -18,8 +18,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class BatchCadesSignatureRestController : BaseController {
 
 		/**
-		 * GET: BatchCadesSignature
-		 * 
+		 * GET: BatchCadesSignatureRest
+		 *
 		 * This action renders the batch signature page.
 		 *
 		 * Notice that the only thing we'll do on the server-side at this point is determine the IDs of the
@@ -37,7 +37,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: BatchCadesSignature/Start
+		 * POST: BatchCadesSignatureRest/Start
 		 * 
 		 * This action is called asynchronously from the batch signature page in order to initiate the
 		 * signature of each document in the batch.
@@ -66,8 +66,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Call the StartWithWebPki() method, which initiates the signature. This yields the token, a
 			// 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
-			// batch-signature-form.js) and also to complete the signature on the POST action below (this
-			// should not be mistaken with the API access token).
+			// batch-signature-rest-form.js) and also to complete the signature on the Complete action below
+			// (this should not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// Return a JSON with the token obtained from REST PKI. (the page will use jQuery to decode this 
@@ -76,13 +76,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: /BatchCadesSignature/Complete
-		 * 
-		 * This action receives the form submission from the view. We'll call REST PKI to complete the
-		 * signature.
+		 * POST: /BatchCadesSignatureRest/Complete
+		 *
+		 * This action is called asynchronously from the batch signature page in order to complete the
+		 * signature of each document in the batch. We'll call REST PKI to complete the signature.
 		 *
 		 * Notice that the "id" is actually the signature process token. We're naming it "id" so that the
-		 * action can be called as /BatchCadesSignature/Complete/{token}
+		 * action can be called as /BatchCadesSignatureRest/Complete/{token}
 		 */
 		[HttpPost]
 		public async Task<ActionResult> Complete(string id) {
@@ -91,7 +91,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// process.
 			var signatureFinisher = new CadesSignatureFinisher2(Util.GetRestPkiClient()) {
 
-				// Set the token for this signature. (rendered in a hidden input field, see the view)
+				// Set the token for this signature (passed to us from the page).
 				Token = id
 			};
 
@@ -103,8 +103,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// certificate used by the user to sign the file.
 			var signerCert = result.Certificate;
 
-			// At this point, you'd typically store the signed PDF on your database. For demonstration
-			// purposes, we'll store the PDF on our mock Storage class.
+			// At this point, you'd typically store the signed CMS on your database. For demonstration
+			// purposes, we'll store the CMS on our mock Storage class.
 
 			// The SignatureResult object has various methods for writing the signature file to a stream
 			// (WriteTo()), local file (WriteToFile()), open a stream to read the content (OpenRead()) and

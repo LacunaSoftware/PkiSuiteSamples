@@ -18,7 +18,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	 * - Portuguese: http://www.mdic.gov.br/images/REPOSITORIO/secex/deint/coreo/2014_09_19_-_Brasaladi_761_-_Documento_ALADI_SEC__di_2327__Rev_2_al_port_.pdf
 	 */
 	public class XmlCodSignatureRestController : BaseController {
-		// GET CodXmlSignature
+		// GET: XmlCodSignatureRest
 		public async Task<ActionResult> Index() {
 			// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
@@ -41,7 +41,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
 			// signature-form.js) and also to complete the signature on the POST action below (this should
-			// not be mistaken with the API access token).
+			// not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// The token acquired above can only be used for a single signature attempt. In order to retry
@@ -58,7 +58,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 		}
 
-		// GET CodXmlSignature
+		// POST: XmlCodSignatureRest
 		[HttpPost]
 		public async Task<ActionResult> Index(SignatureModel model) {
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
@@ -68,7 +68,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				Token = model.Token
 			};
 
-			// Call the Finish() method, which finalizes the signature process and returns the signed PDF.
+			// Call the Finish() method, which finalizes the signature process and returns the signed XML.
 			var signedXml = await signatureFinisher.FinishAsync();
 
 			// Get information about the signer's certificate used. This method must only be called after
@@ -76,7 +76,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var signerCert = signatureFinisher.GetCertificateInfo();
 
 			// At this point, you'd typically store the signed XML on your database. For demonstration
-			// purposes, we'll store the PDF on our mock Storage class.
+			// purposes, we'll store the XML on our mock Storage class.
 			var fileId = StorageMock.Store(signedXml, ".xml");
 
 			// Render the signature information page.
@@ -86,7 +86,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 		}
 
-		// GET CodXmlSignature/SignCodeh
+		// GET: XmlCodSignatureRest/SignCodeh
 		[HttpGet]
 		public async Task<ActionResult> SignCodeh(string id) {
 			// Recover XML envelope with signed COD element from "storage" based on its ID
@@ -98,7 +98,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// elements and start the signature process.
 			var signatureStarter = new XmlElementSignatureStarter(Util.GetRestPkiClient());
 
-			// Set the data to sign, which in the case of this example is a fixed sample "COD envelope"
+			// Set the data to sign, which in the case of this example is the "COD envelope" with the signed COD element
 			signatureStarter.SetXml(content);
 
 			// Set the ID of the CODEH element
@@ -115,7 +115,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
 			// signature-form.js) and also to complete the signature on the POST action below (this should
-			// not be mistaken with the API access token).
+			// not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// The token acquired above can only be used for a single signature attempt. In order to retry
@@ -132,7 +132,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 		}
 
-		// POST CodXmlSignature/SignCodeh
+		// POST: XmlCodSignatureRest/SignCodeh
 		[HttpPost]
 		public async Task<ActionResult> SignCodeh(SignatureModel model) {
 			// Get an instance of the XmlSignatureFinisher class, responsible for completing the signature
@@ -142,7 +142,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				Token = model.Token
 			};
 
-			// Call the Finish() method, which finalizes the signature process and returns the signed PDF.
+			// Call the Finish() method, which finalizes the signature process and returns the signed XML.
 			var signedXml = await signatureFinisher.FinishAsync();
 
 			// Get information about the signer's certificate used. This method must only be called after
@@ -150,7 +150,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var signerCert = signatureFinisher.GetCertificateInfo();
 
 			// At this point, you'd typically store the signed XML on your database. For demonstration
-			// purposes, we'll store the PDF on our mock Storage class.
+			// purposes, we'll store the XML on our mock Storage class.
 			var fileId = StorageMock.Store(signedXml, ".xml");
 
 			// Render the signature information page.

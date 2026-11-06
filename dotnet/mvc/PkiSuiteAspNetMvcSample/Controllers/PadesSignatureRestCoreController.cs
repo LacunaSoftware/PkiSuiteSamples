@@ -97,7 +97,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		[HttpGet]
 		public ActionResult Complete(string userfile) {
 
-			// Recover data from Index action, if returns null, it'll be redirected to Index action
+			// Recover data from the Index action. If it returns null, it'll be redirected to the Index action
 			// again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
@@ -154,7 +154,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		[HttpGet]
 		public ActionResult SignatureInfo() {
 
-			// Recover data from Complete action, if returns null, it'll be redirected to Index action
+			// Recover data from the Complete action. If it returns null, it'll be redirected to the Index action
 			// again.
 			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
 			if (model == null) {

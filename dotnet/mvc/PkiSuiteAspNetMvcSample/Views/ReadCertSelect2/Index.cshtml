@@ -25,7 +25,7 @@
 
 	<script>
 
-		// Global variable stored all certificate objects. This list will be useful when we want to recover
+		// Global variable that stores all certificate objects. This list will be useful when we want to recover
 		// the certificate's information using its thumbprint field.
 		var certificates = [];
 
@@ -51,7 +51,7 @@
 			$.blockUI({ message: 'Initializing ...' });
 
 			// Call the init() method on the LacunaWebPKI object, passing a callback for when the component
-			// is ready to be used and another to be called when an error occurrs on any of the subsequent
+			// is ready to be used and another to be called when an error occurs on any of the subsequent
 			// operations. For more information, see:
 			// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 			// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
@@ -83,12 +83,12 @@
 			// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
 			pki.listCertificates().success(function (storedCerts) {
 
-				// Store certificates objects on a global variable to be used on rendering the chosen
+				// Store the certificate objects in a global variable to be used on rendering the chosen
 				// certificate's fields.
 				certificates = storedCerts;
 
-				// Create an object to be shown on Select2 from each certificate. Its define which
-				// certificate are valid or invalid. At last, sort the list of objects by its validity.
+				// Create an object to be shown on Select2 from each certificate. It defines which
+				// certificates are valid or invalid. Finally, sort the list of objects by validity.
 				var select2Certs = $.map(storedCerts, function (cert) {
 
 					var obj = {};
@@ -139,11 +139,11 @@
 		// --------------------------------------------------------------------------------------------------
 		function onCertificateChosen() {
 
-			// Get the thumbprint of the select certificate.
+			// Get the thumbprint of the selected certificate.
 			var selectedThumbprint = $('#certificateSelect').val();
 
 			// Find the certificate object referred by its thumbprint. After that, we call the method
-			// showCertInfo() to render the certificate on the div#certInfo element using JQuery.
+			// showCertInfo() to render the certificate on the div#certInfo element using jQuery.
 			for (var i = 0; i < certificates.length; i++) {
 				if (certificates[i].thumbprint === selectedThumbprint) {
 					showCertInfo(certificates[i]);
@@ -153,7 +153,7 @@
 		}
 
 		// --------------------------------------------------------------------------------------------------
-		// Function called by "onCertificationChosen" method. This method will render the certificate's
+		// Function called by the "onCertificateChosen" method. This method will render the certificate's
 		// fields on the div#certInfo element.
 		// --------------------------------------------------------------------------------------------------
 		function showCertInfo(cert) {
@@ -170,7 +170,7 @@
 				.append($('<hr>'))
 				.append($('<span>').append('<b>Thumbprint</b>: ' + cert.thumbprint)).append($('<br>'))
 				.append($('<span>').append('<b>Subject Name</b>: ' + cert.subjectName)).append($('<br>'))
-				.append($('<span>').append('<b>Issued Name</b>: ' + cert.issuerName)).append($('<br>'))
+				.append($('<span>').append('<b>Issuer Name</b>: ' + cert.issuerName)).append($('<br>'))
 				.append($('<span>').append('<b>Validity Start</b>: ' + cert.validityStart)).append($('<br>'))
 				.append($('<span>').append('<b>Validity End</b>: ' + cert.validityEnd)).append($('<br>'));
 
@@ -187,7 +187,7 @@
 				}
 			}
 
-			// Render the key usages of the certificates.
+			// Render the key usages of the certificate.
 			certInfoElement.append($('<span>').append('<b>Key Usage</b>: ')).append($('<br>'));
 			var keyUsageList = $('<ul>');
 			renderKeyUsage(keyUsageList, cert.keyUsage.crlSign, 'CRL Signature');

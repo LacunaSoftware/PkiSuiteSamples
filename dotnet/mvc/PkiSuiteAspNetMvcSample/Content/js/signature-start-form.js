@@ -18,7 +18,7 @@ var signatureStartForm = (function () {
 		// Receive form parameters received as arguments.
 		formElements = fe;
 
-		// Wireup of buttons clicks.
+		// Wireup of button clicks.
 		formElements.signButton.click(startSignature);
 		formElements.refreshButton.click(refresh);
 
@@ -32,7 +32,7 @@ var signatureStartForm = (function () {
 		// https://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates,        // As soon as the component is ready we'll load the certificates.
-			defaultError: onWebPkiError     // Generic error callback on Content/js/site.js.
+			defaultError: onWebPkiError     // Generic error callback defined below.
 		});
 	}
 

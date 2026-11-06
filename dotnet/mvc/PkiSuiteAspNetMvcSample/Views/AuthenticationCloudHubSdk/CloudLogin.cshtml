@@ -13,7 +13,7 @@
 					<label for="serviceField">Choose your trust provider:</label>
 					<select id="serviceField" name="service" class="form-control col col-sm-2">
 						@foreach (var service in Model.Services) {
-							<option value="@service.AuthUrl">@service.ServiceInfo.ServiceName.ToLower() (@service.ServiceInfo.ServiceName</option>
+							<option value="@service.AuthUrl">@service.ServiceInfo.ServiceName.ToLower() (@service.ServiceInfo.ServiceName)</option>
 						}
 					</select>
 				</div>
@@ -25,7 +25,7 @@
 		}
 	} else {
 		<div>
-			<p>No trusted services was found with this CPF.</p>
+			<p>No trusted services were found with this CPF.</p>
 			<button onclick="window.history.back()" class="btn btn-primary">Try Again</button>
 		</div>
 	}

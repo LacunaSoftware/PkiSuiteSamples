@@ -13,7 +13,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class OpenXmlSignatureRestController : BaseController {
 
 		/**
-		 *	This action submits a XML file to Rest PKI for inspection of signatures.
+		 *	This action submits an XML file to Rest PKI for inspection of signatures.
 		 */
 		[HttpGet]
 		public async Task<ActionResult> Index(string userfile) {
@@ -42,7 +42,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Call the Open() method, which returns a list of signatures found in the XML file.
 			var signatures = await sigExplorer.OpenAsync();
 
-			// Render the signatures' information (see file OpenXmlSignature/Index.html for more
+			// Render the signatures' information (see the view OpenXmlSignatureRest/Index.cshtml for more
 			// information on the information returned).
 			return View(new OpenXmlSignatureModel() {
 				Signatures = signatures

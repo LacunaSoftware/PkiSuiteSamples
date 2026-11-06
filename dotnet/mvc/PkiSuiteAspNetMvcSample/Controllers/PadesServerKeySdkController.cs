@@ -24,7 +24,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			byte[] signatureContent;
 			PKCertificateWithKey certWithKey;
 			try {
-				// Instantiate a CadesSigner class
+				// Instantiate a PadesSigner class
 				var padesSigner = new PadesSigner();
 
 				// Verify if the userfile exists and get the content of the userfile.
@@ -35,7 +35,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Set the file to be signed.
 				padesSigner.SetPdfToSign(userfileContent);
 
-				// Get the server's certificate, stores it and and set as the signer certificate.
+				// Get the server's certificate with its private key and set it as the signer certificate.
 				var certContent = StorageMock.GetServerCertificate();
 				var store = Pkcs12CertificateStore.Load(certContent, "1234");
 				certWithKey = store.GetCertificatesWithKey().First();

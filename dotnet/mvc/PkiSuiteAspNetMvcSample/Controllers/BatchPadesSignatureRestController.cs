@@ -19,8 +19,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class BatchPadesSignatureRestController : BaseController {
 
 		/**
-		 * GET: BatchPadesSignature
-		 * 
+		 * GET: BatchPadesSignatureRest
+		 *
 		 * This action renders the batch signature page.
 		 *
 		 * Notice that the only thing we'll do on the server-side at this point is determine the IDs of the
@@ -70,12 +70,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			/*
 				Optionally, add marks to the PDF before signing. These differ from the signature visual
 				representation in that they are actually changes done to the document prior to signing, not 
-				binded to any signature. Therefore, any number of marks can be added, for instance one per
+				bound to any signature. Therefore, any number of marks can be added, for instance one per
 				page, whereas there can only be one visual representation per signature. However, since the
 				marks are in reality changes to the PDF, they can only be added to documents which have no
 				previous signatures, otherwise such signatures would be made invalid by the changes to the
 				document (see property PadesSignatureStarter.BypassMarksIfSigned). This problem does not
-				occurr with signature visual representations.
+				occur with signature visual representations.
 			
 				We have encapsulated this code in a method to include several possibilities depending on the
 				argument passed. Experiment changing the argument to see different examples of PDF marks.
@@ -86,8 +86,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Call the StartWithWebPki() method, which initiates the signature. This yields the token,
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see
-			// batch-signature-form.js) and also to complete the signature on the POST action below (this
-			// should not be mistaken with the API access token).
+			// batch-signature-rest-form.js) and also to complete the signature on the Complete action below
+			// (this should not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// Return a JSON with the token obtained from REST PKI. (the page will use jQuery to decode this 
@@ -96,13 +96,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: Api/BatchPadesSignatureRest/Complete
-		 * 
-		 * This action receives the form submission from the view. We'll call REST PKI to complete the
-		 * signature.
+		 * POST: /BatchPadesSignatureRest/Complete
+		 *
+		 * This action is called asynchronously from the batch signature page in order to complete the
+		 * signature of each document in the batch. We'll call REST PKI to complete the signature.
 		 *
 		 * Notice that the "id" is actually the signature process token. We're naming it "id" so that the
-		 * action can be called as /BatchPadesSignature/Complete/{token}
+		 * action can be called as /BatchPadesSignatureRest/Complete/{token}
 		 */
 		[HttpPost]
 		public async Task<ActionResult> Complete(string id) {
@@ -111,7 +111,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// process.
 			var signatureFinisher = new PadesSignatureFinisher2(Util.GetRestPkiClient()) {
 
-				// Set the token for this signature. (rendered in a hidden input field, see the view)
+				// Set the token for this signature (passed to us from the page).
 				Token = id
 			};
 

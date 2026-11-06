@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 
 	/**
-	 * The Basic RSA sample has frontend code only. See file RSA/Index.cshtml
+	 * The Basic RSA sample has frontend code only. See the view RSAWeb/Index.cshtml.
 	 */
 	public class RSAWebController : BaseController {
 

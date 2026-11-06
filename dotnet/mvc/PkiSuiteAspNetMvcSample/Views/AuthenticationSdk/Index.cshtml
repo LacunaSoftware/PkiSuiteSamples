@@ -7,7 +7,7 @@
 	@Html.ValidationSummary("", new { @class = "text-danger" })
 
 	@*
-		Hidden fields used to pass data from the action to the "signature form" javascript (see below) and
+		Hidden fields used to pass data from the action to the "authentication form" javascript (see below) and
 		vice-versa.
 	*@
 	@Html.HiddenFor(m => m.CertificateBase64, new { id = "certificateField" })

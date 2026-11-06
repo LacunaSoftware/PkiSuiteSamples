@@ -47,12 +47,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public const string TimeZoneDisplayName = "Brasilia timezone";
 
 		// You may also change texts, positions and more by editing directly the method
-		// generatePrinterFriendlyVersion() below.
+		// GeneratePrinterFriendlyVersion() below.
 		// ####################################################################################################
 
 		// GET: PrinterFriendlyPadesSdk?userfile={id}
 		public ActionResult Index(string userfile) {
-			// Locate document and read content from storage. Our action only works if the a valid fileId is
+			// Locate document and read content from storage. Our action only works if a valid fileId is
 			// given.
 			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent)) {
 				return HttpNotFound();
@@ -61,7 +61,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Check if doc already has a verification code registered on storage.
 			var verificationCode = StorageMock.GetVerificationCode(userfile);
 			if (verificationCode == null) {
-				// If not, generate a code an register it.
+				// If not, generate a code and register it.
 				verificationCode = AlphaCode.Generate();
 				StorageMock.SetVerificationCode(userfile, verificationCode);
 			}
@@ -156,7 +156,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 
 			// Create a "manifest" mark on a new page added on the end of the document. We'll add several
-			// elements to this marks.
+			// elements to this mark.
 			var manifestMark = new PdfMark() {
 				PageOption = PdfMarkPageOptions.NewPage,
 				// This mark's container is the whole page with 1-inch margins.
@@ -178,7 +178,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
-					Width = elementHeight, /* Using elemengHeight as width because the image is square. */
+					Width = elementHeight, /* Using elementHeight as width because the image is square. */
 					Left = 0
 				},
 				ImageContent = StorageMock.GetIcpBrasilLogoContent()
@@ -203,13 +203,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
 					Top = verticalOffset,
-					Width = elementHeight, /* Using elemengHeight as width because the image is square. */
+					Width = elementHeight, /* Using elementHeight as width because the image is square. */
 					Right = 0
 				},
 				ImageContent = qrCodeImageContent
 			});
 
-			// Header "SIGNATURES VERIFICATION" centered between ICP-Brasil logo and QR Code.
+			// Header "SIGNATURE CHECK" centered between ICP-Brasil logo and QR Code.
 			manifestMark.Elements.Add(new PdfMarkText() {
 				RelativeContainer = new PadesVisualRectangle() {
 					Height = elementHeight,
@@ -229,7 +229,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			verticalOffset += elementHeight;
 
-			// Verifical padding.
+			// Vertical padding.
 			verticalOffset += 1.7;
 
 			// Header with verification code.
@@ -317,7 +317,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Some vertical padding from last signer.
 			verticalOffset += 1;
 
-			// Paragraph with link to veritifcation site and citing both the verification code above and the
+			// Paragraph with link to verification site and citing both the verification code above and the
 			// verification link below.
 			elementHeight = 2.5;
 			manifestMark.Elements.Add(new PdfMarkText() {
@@ -370,9 +370,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			});
 			pdfMarker.AddMark(manifestMark);
 
-			// Prevent from throwing exception when the file to be marked already have a signature (default: true).
+			// Prevent from throwing exception when the file to be marked already has a signature (default: true).
 			pdfMarker.ThrowIfSignedPdf = false;
-			// Note: Before applying the marks, all signature from the signed file will be removed.
+			// Note: Before applying the marks, all signatures from the signed file will be removed.
 
 			// Apply marks and return the printer-friendly PDF's content.
 			return pdfMarker.WriteMarks(pdfContent);

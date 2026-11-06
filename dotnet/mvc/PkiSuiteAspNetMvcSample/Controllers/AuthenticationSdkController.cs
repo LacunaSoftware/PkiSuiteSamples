@@ -13,11 +13,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class AuthenticationSdkController : BaseController {
 
 		/**
-		 * GET: AuthenticationPki
-		 * 
-		 * This action sets a NonceStore needed for authentication. And if it is rendered by some error that
-		 * occured, it will show the error message to the user and generate another instance of a NonceStore,
-		 * letting the user to sign again.
+		 * GET: AuthenticationSdk
+		 *
+		 * This action uses the PKCertificateAuthentication class to generate and store a cryptographic nonce,
+		 * which will then be sent to the view for signature using the user's certificate. If a failed
+		 * authentication redirected the user here, it also shows the error message, and the new nonce lets
+		 * the user try again.
 		 */
 		[HttpGet]
 		public ActionResult Index() {
@@ -26,21 +27,21 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// FileSystemNonceStore class.
 			var nonceStore = Util.GetNonceStore();
 
-			// Instantiate the PKCertificateAuthentication class passing our EntityFrameworkNonceStore.
+			// Instantiate the PKCertificateAuthentication class passing our nonce store.
 			var certAuth = new PKCertificateAuthentication(nonceStore);
 
 			// Call the Start() method, which is the first of the two server-side steps. This yields the nonce,
 			// a 16-byte-array which we'll send to the view.
 			var nonce = certAuth.Start();
 
-			// Notice that this previous will be executed even if an error has occured and it was redirected to
+			// Notice that the code above also runs when a failed authentication redirected the user back to
 			// this action.
 			var model = new AuthenticationModel() {
 				Nonce = nonce,
 				DigestAlgorithm = PKCertificateAuthentication.DigestAlgorithm.Oid
 			};
 
-			// If this action is called because occurred an error. This error's message will be shown.
+			// If this action is called because the authentication failed, show the validation results.
 			var vr = TempData["ValidationResults"] as ValidationResults;
 			if (vr != null && !vr.IsValid) {
 				ModelState.AddModelError("", vr.ToString());
@@ -49,11 +50,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: AuthenticationPki
-		 * 
-		 * This action is called once the user clicks the "Sign In" button. It uses the
-		 * PKCertificateAuthentication class to generate and store a cryptographic nonce, which will then be
-		 * sent to the view for signature using the user's certificate.
+		 * POST: AuthenticationSdk
+		 *
+		 * This action is called once the user clicks the "Sign In" button and the nonce is signed with the
+		 * user's certificate. It uses the PKCertificateAuthentication class to validate the signature and
+		 * the certificate.
 		 */
 		[HttpPost]
 		public ActionResult Index(AuthenticationModel model) {
@@ -76,7 +77,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 			// Check the authentication result
 			if (!vr.IsValid) {
-				// The authentication failed, redirect and inform in index view.
+				// The authentication failed. Redirect to the Index action, which shows the validation results.
 				TempData["ValidationResults"] = vr;
 				return RedirectToAction("Index");
 			}
@@ -86,8 +87,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// certificate's subject. Now, you'd typically query your database for a user that matches one of
 			// the certificate's fields, such as userCert.EmailAddress or userCert.PkiBrazil.CPF (the actual
 			// field to be used as key depends on your application's business logic) and set the user ID on
-			// the auth cookie. For demonstration purposes, we'll set the email address directly on the
-			// cookie as if it were the user ID.
+			// the auth cookie. For demonstration purposes, we'll just render the certificate's information.
 			return View("Success", new AuthenticationInfoModel() {
 				UserCert = certificate
 			});

@@ -45,12 +45,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		public const string TimeZoneDisplayName = "Brasilia timezone";
 
 		// You may also change texts, positions and more by editing directly the method
-		// generatePrinterFriendlyVersion() below.
+		// GeneratePrinterFriendlyVersion() below.
 		// ####################################################################################################
 
 		// GET: PrinterFriendlyCadesRest?userfile={id}
 		public ActionResult Index(string userfile) {
-			// Locate document and read content from storage. Our action only works if the a valid fileId is
+			// Locate document and read content from storage. Our action only works if a valid fileId is
 			// given.
 			if (!StorageMock.TryGetFile(userfile, out byte[] fileContent)) {
 				return HttpNotFound();
@@ -59,7 +59,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Check if doc already has a verification code registered on storage.
 			var verificationCode = StorageMock.GetVerificationCode(userfile);
 			if (verificationCode == null) {
-				// If not, generate a code an register it.
+				// If not, generate a code and register it.
 				verificationCode = AlphaCode.Generate();
 				StorageMock.SetVerificationCode(userfile, verificationCode);
 			}
@@ -100,7 +100,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var pdfMarker = new PdfMarker(client);
 			pdfMarker.SetFile(StorageMock.GetEmptyPdfContent());
 
-			// Build string with joined names of signers (see method getDisplayName below)
+			// Build string with joined names of signers (see method GetDisplayName() below)
 			var signerNames = Util.JoinStringsPt(signature.Signers.Select(s => GetDisplayName(s.Certificate)));
 			var allPagesMessage = string.Format("This document was digitally signed by {0}.\nTo verify the signatures go to {1} on {2} and inform the code {3}", signerNames, VerificationSiteNameWithArticle, VerificationSite, formattedVerificationCode);
 
@@ -132,7 +132,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				.OnContainer(pdf.Container().Height(elementHeight).AnchorTop(verticalOffset).Width(elementHeight /* using elementHeight as width because QR Codes are square */).AnchorRight())
 				.WithQRCodeData(verificationLink)
 			)
-			// Header "VERIFICAÇÃO DAS ASSINATURAS" centered between ICP-Brasil logo and QR Code.
+			// Header "SIGNATURE CHECK" centered between ICP-Brasil logo and QR Code.
 			.AddElement(
 				pdf.TextElement()
 				.OnContainer(pdf.Container().Height(elementHeight).AnchorTop(verticalOffset + 0.2).FullWidth())
@@ -176,7 +176,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					.OnContainer(pdf.Container().Height(0.5).AnchorTop(verticalOffset + 0.2).Width(0.5).AnchorLeft())
 					.WithImage(StorageMock.GetValidationResultIcon(signer.ValidationResults.IsValid), "image/png")
 				)
-				// Description of signer (see method getSignerDescription() below).
+				// Description of signer (see method GetSignerDescription() below).
 				.AddElement(
 					pdf.TextElement()
 					.OnContainer(pdf.Container().Height(elementHeight).AnchorTop(verticalOffset).VarWidth().Margins(0.8, 0))

@@ -19,7 +19,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		 *
 		 * All CAdES signature examples converge to this action, but with different URL arguments:
 		 *
-		 *      1. Signature with a server file               : no arguments filled
+		 *      1. Signature with a server file               : "userfile" filled (copied by ServerFilesController)
 		 *      2. Signature with a file uploaded by the user : "userfile" filled
 		 *      3. Co-signature of a previously signed CMS    : "cmsfile" filled
 		 *
@@ -39,7 +39,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				SecurityContextId = Util.GetSecurityContextId(),
 
 				// Optionally, set whether the content should be encapsulated in the resulting CMS. If this
-				// parameter is ommitted, the following rules apply:
+				// parameter is omitted, the following rules apply:
 				// - If no CmsToCoSign is given, the resulting CMS will include the content.
 				// - If a CmsToCoSign is given, the resulting CMS will include the content if and only if the
 				//   CmsToCoSign also includes the content.
@@ -57,14 +57,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 				/*
 				 * If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
-				 * CMS. We'll set the path to the CMS to be co-signed, which was perviously saved in the
+				 * CMS. We'll set the path to the CMS to be co-signed, which was previously saved in the
 				 * App_Data folder by the POST action on this controller. Note two important things:
 				 * 
 				 *      1. The CMS to be co-signed must be set using the method "SetCmsToCoSign", not the
 				 *         method "SetContentToSign" nor "SetFileToSign".
 				 *
-				 *      2. Since we're creating CMSs with encapsulated content (see call to
-				 *         SetEncapsulateContent below), we don't need to set the content to be signed,
+				 *      2. Since we're creating CMSs with encapsulated content (see the EncapsulateContent
+				 *         property above), we don't need to set the content to be signed,
 				 *         REST PKI will get the content from the CMS being co-signed.
 				 */
 				signatureStarter.SetCmsToCoSign(cmsfilePath);
@@ -78,8 +78,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				}
 
 				// If the URL argument "userfile" is filled, it means the user was redirected here by
-				// UploadController (signature with file uploaded by user). We'll set the path of the file to
-				// be signed, which was saved in the App_Data folder by UploadController.
+				// UploadController (signature with file uploaded by user) or by ServerFilesController. We'll set
+				// the path of the file to be signed, which was saved in the App_Data folder by that controller.
 				signatureStarter.SetFileToSign(userfilePath);
 
 			}
@@ -88,7 +88,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component
 			// (see signature-form.js) and also to complete the signature on the POST action below (this
-			// should not be mistaken with the API access token).
+			// should not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// The token acquired above can only be used for a single signature attempt. In order to retry
@@ -131,7 +131,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var signerCert = result.Certificate;
 
 			// At this point, you'd typically store the CMS on your database. For demonstration
-			// purposes, we'll store the PDF on our mock Storage class.
+			// purposes, we'll store the CMS on our mock Storage class.
 
 			// The SignatureResult object has various methods for writing the signature file to a stream
 			// (WriteTo()), local file (WriteToFile()), open a stream to read the content (OpenRead()) and

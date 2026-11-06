@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class ListCertSelect2Controller : Controller {
 
-		// GET: ListCertSelec2
+		// GET: ListCertSelect2
 		public ActionResult Index() {
 			return View();
 		}

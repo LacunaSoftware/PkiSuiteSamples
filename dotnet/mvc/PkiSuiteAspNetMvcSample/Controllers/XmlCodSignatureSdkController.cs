@@ -47,7 +47,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature
+		 * GET: XmlCodSignatureSdk
 		 * 
 		 * Renders the first signature page (for the COD element)
 		 */
@@ -56,7 +56,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST CodXmlSignature
+		 * POST: XmlCodSignatureSdk
 		 * 
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the COD element to be signed, yielding the byte array that needs to be 
@@ -69,7 +69,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			SignatureAlgorithm signatureAlg;
 
 			try {
-				// Instantiate a CadesSigner class
+				// Instantiate an XmlElementSigner class
 				var signer = new XmlElementSigner();
 
 				// Set the data to sign, which in the case of this example is a fixed sample "COD envelope"
@@ -95,11 +95,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return View();
 			}
 
-			// On the next step (SignCodComplete action), we'll need once again some information:
-			// - The thumpprint of the selected certificate
+			// On the next step (Complete action), we'll need once again some information:
+			// - The thumbprint of the selected certificate
 			// - The "to-sign-hash"
 			// - The OID of the digest algorithm to be used during the signature operation
-			// - The "transfer data" used to validate the signature in complete action.Its content is stored in
+			// - The "transfer data" used to validate the signature in the Complete action. Its content is stored in
 			//   a temporary file (with extension .bin) to be shared with the Complete action.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
 				CertThumb = model.CertThumb,
@@ -112,15 +112,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature/Complete
+		 * GET: XmlCodSignatureSdk/Complete
 		 * 
 		 * Renders the page on which the signature of the COD element will actually be computed
-		 * using the "to-sign-hash" generated on the SignCod action
+		 * using the "to-sign-hash" generated on the POST Index action
 		 */
 		[HttpGet]
 		public ActionResult Complete() {
 
-			// Recovery data from Index action, if returns null, it'll be redirected to Index 
+			// Recover data from the Index action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
@@ -131,10 +131,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST CodXmlSignature/SignCodComplete
+		 * POST: XmlCodSignatureSdk/Complete
 		 * 
-		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After signature,
-		 * we'll redirect the user to the SignCodResult action to show the signed file.
+		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After the signature,
+		 * we'll redirect the user to the SignatureInfo action to show the signed file.
 		 */
 		[HttpPost]
 		public ActionResult Complete(SignatureCompleteModel model) {
@@ -152,7 +152,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
-				// Set the document to be signed and the policy, exactly like in the SignCod method.
+				// Set the document to be signed and the policy, exactly like in the POST Index action.
 				signer.SetXml(StorageMock.GetSampleCodEnvelopeContent());
 				signer.SetPolicy(getSignaturePolicy());
 
@@ -171,7 +171,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return View();
 			}
 
-			// On the next step (SignatureInfo action), we'll render the following information:]
+			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
@@ -184,12 +184,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature/SignatureInfo
+		 * GET: XmlCodSignatureSdk/SignatureInfo
 		 */
 		[HttpGet]
 		public ActionResult SignatureInfo() {
 
-			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// Recover data from the Complete action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
 			if (model == null) {
@@ -200,14 +200,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodeh
+		 * GET: XmlCodSignatureSdk/SignCodeh/{id}
 		 * 
 		 * Renders the second signature page (for the CODEH element)
 		 */
 		[HttpGet]
 		public ActionResult SignCodeh(string id) {
 
-			// This sample only works with the file id with COD signature is provided.
+			// This sample only works if the ID of the file with the COD signature is provided.
 			if (string.IsNullOrEmpty(id)) {
 				return RedirectToAction("Index");
 			}
@@ -216,11 +216,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST CodXmlSignature/SignCodeh
+		 * POST: XmlCodSignatureSdk/SignCodeh/{id}
 		 * 
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the CODEH element to be signed, yielding the byte array that needs to be 
-		 * actually signed with the user's private key (the "to-sign-hash-bytes").
+		 * actually signed with the user's private key (the "to-sign-hash").
 		 */
 		[HttpPost]
 		public ActionResult SignCodeh(string id, SignatureStartModel model) {
@@ -263,11 +263,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 
 			// On the next step (SignCodehComplete action), we'll need once again some information:
-			// - The thumpprint of the selected certificate
+			// - The thumbprint of the selected certificate
 			// - The "to-sign-hash"
 			// - The OID of the digest algorithm to be used during the signature operation
-			// - The "transfer data" used to validate the signature in complete action.Its content is stored in
-			//   a temporary file (with extension .bin) to be shared with the Complete action.
+			// - The "transfer data" used to validate the signature in the SignCodehComplete action. Its content is
+			//   stored in a temporary file (with extension .bin) to be shared with the SignCodehComplete action.
 			TempData["SignatureCompleteModel"] = new SignatureCompleteModel() {
 				CertThumb = model.CertThumb,
 				ToSignHash = toSignHash,
@@ -279,7 +279,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodeh/Complete
+		 * GET: XmlCodSignatureSdk/SignCodehComplete/{id}
 		 * 
 		 * Renders the page on which the signature of the CODEH element will actually be computed
 		 * using the "to-sign-hash" generated on the SignCodeh action
@@ -298,10 +298,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST CodXmlSignature/SignCodeh/Complete
+		 * POST: XmlCodSignatureSdk/SignCodehComplete/{id}
 		 * 
-		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After signature,
-		 * we'll redirect the user to the SignCodehResult action to show the signed file.
+		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After the signature,
+		 * we'll redirect the user to the SignCodehSignatureInfo action to show the signed file.
 		 */
 		[HttpPost]
 		[Route("SignCodeh/Complete")]
@@ -326,7 +326,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Get an instance of the XmlElementSigner class.
 				var signer = new XmlElementSigner();
 
-				// Set the document to be signed and the policy, exactly like in the SignCodeh method
+				// Set the document to be signed and the policy, exactly like in the POST SignCodeh action.
 				signer.SetXml(content);
 				signer.SetPolicy(getSignaturePolicy());
 
@@ -350,7 +350,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
-				// Store the signature file on the folder "App_Data/" and redirect to the SignCodehResult action with the filename.
+				// Store the signature file on the folder "App_Data/" and redirect to the SignCodehSignatureInfo action with the filename.
 				File = StorageMock.Store(signatureContent, ".xml")
 			};
 
@@ -358,13 +358,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * GET CodXmlSignature/SignCodeh/SignatureInfo
+		 * GET: XmlCodSignatureSdk/SignCodehSignatureInfo
 		 */
 		[HttpGet]
 		[Route("SignCodeh/SignatureInfo")]
 		public ActionResult SignCodehSignatureInfo() {
 
-			// Recovery data from Conplete action, if returns null, it'll be redirected to Index 
+			// Recover data from the SignCodehComplete action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
 			if (model == null) {

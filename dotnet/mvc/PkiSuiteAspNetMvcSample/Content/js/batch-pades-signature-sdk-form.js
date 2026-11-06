@@ -71,7 +71,7 @@ var batchSignatureSdkForm = (function () {
 	// ------------------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks.
@@ -92,14 +92,14 @@ var batchSignatureSdkForm = (function () {
 		}
 
 		// Call the init() method on the LacunaWebPKI object, passing a callback for when the component is
-		// ready to be used and another to be called when an error occurrs on any of the subsequent
+		// ready to be used and another to be called when an error occurs on any of the subsequent
 		// operations. For more information, see:
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates,        // As soon as the component is ready we'll load the certificates.
 			defaultError: onWebPkiError,    // Generic error callback defined below. 
-			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint to communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint that Web PKI communicates with.
 		});
 	}
 
@@ -150,8 +150,7 @@ var batchSignatureSdkForm = (function () {
 		// Block the UI while we perform the signature.
 		$.blockUI({ message: 'Signing ...' });
 
-		// Get the thumbprint of the selected certificate and store it in a global variable. (we'll need it
-		// later)
+		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
 
 		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
@@ -184,10 +183,10 @@ var batchSignatureSdkForm = (function () {
 			For each document, we must perform 3 actions in sequence:
 
 			1. Start the signature    : Call the action /{API Controller}/Start to start the signature and
-			                            get the signature process token.
-			2. Perform the signature  : Call Web PKI's method signWithRestPki with the token.
-			3. Complete the signature : Call the action /{API Controller}/Complete to notify that the
-			                            signature is complete.
+			                            get the "to-sign-hash" and the digest algorithm.
+			2. Perform the signature  : Call Web PKI's method signHash with the "to-sign-hash".
+			3. Complete the signature : Call the action /{API Controller}/Complete to send the signature
+			                            value and get the signed file.
 
 			We'll use the Queue Javascript class defined above in order to perform these steps
 			simultaneously.
@@ -211,21 +210,21 @@ var batchSignatureSdkForm = (function () {
 		// onBatchCompleted is a callback for when the last queue is completely processed.
 
 		// Notice: the thread count on each call above is already optimized, increasing the number of threads
-		// will not enhance the performance significatively.
+		// will not enhance the performance significantly.
 	}
 
 	// ------------------------------------------------------------------------------------------------------
 	// Function that performs the first step described above for each document, which is the call to the
-	// action {API Controller}/Start in order to start the signature and get the token associated with the
-	// signature process.
+	// action {API Controller}/Start in order to start the signature and get the "to-sign-hash" and the
+	// digest algorithm.
 	//
 	// This function is called by the Queue.process function, taking documents from the "start" queue. Once
 	// we're done, we'll call the "done" callback passing the document, and the Queue.process function will
 	// place the document on the "perform" queue to await processing.
 	// ------------------------------------------------------------------------------------------------------
 	function startSignature(step, done) {
-		// Call the server asynchronously to start the signature. (the server will call REST PKI and will
-		// return the signature operation token).
+		// Call the server asynchronously to start the signature. (the server will use PKI SDK to compute the
+		// "to-sign-hash" and will return it, along with the data needed to complete the signature).
 		$.ajax({
 			url: formElements.controllerEndpoint + '/Start',
 			method: 'POST',
@@ -254,7 +253,7 @@ var batchSignatureSdkForm = (function () {
 
 	// ------------------------------------------------------------------------------------------------------
 	// Function that performs the second step described above for each document, which is the call to
-	// Web PKI's signWithRestPki function using the token acquired on the first step.
+	// Web PKI's signHash function using the "to-sign-hash" acquired on the first step.
 	//
 	// This function is called by the Queue.process function, taking documents from the "perform" queue. Once
 	// we're done, we'll call the "done" callback passing the document, and the Queue.process function will
@@ -326,7 +325,7 @@ var batchSignatureSdkForm = (function () {
 	}
 
 	// ------------------------------------------------------------------------------------------------------
-	// Function that renders a documument as completed successfully.
+	// Function that renders a document as completed successfully.
 	// ------------------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
 		var docLi = formElements.docList.find('li').eq(step.index);
@@ -342,7 +341,7 @@ var batchSignatureSdkForm = (function () {
 	}
 
 	// ------------------------------------------------------------------------------------------------------
-	// Function that renders a documument as failed.
+	// Function that renders a document as failed.
 	// ------------------------------------------------------------------------------------------------------
 	function renderFail(step, error) {
 		addAlert('danger', 'An error has occurred while signing Document ' + step.docId + ': ' + error);

@@ -41,7 +41,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Call the Open() method, which returns the signature file's information.
 			var signature = await sigExplorer.OpenAsync();
 
-			// Render the information (see file OpenPadesSignature/Index.html for more information on
+			// Render the information (see the view OpenPadesSignatureRest/Index.cshtml for more information on
 			// the information returned).
 			return View(new OpenPadesSignatureModel() {
 				Signature = signature
