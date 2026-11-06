@@ -8,11 +8,11 @@ class PrinterVersionPadesRestController < ApplicationController
     # Name of your website, with preceding article (article in lowercase).
     VERIFICATION_SITE_NAME_WITH_ARTICLE = 'my Verification Center'
 
-    # Publicly accessible URL of your website. Preferable HTTPS.
+    # Publicly accessible URL of your website. Preferably HTTPS.
     VERIFICATION_SITE = 'http://localhost:3000'
 
     # Format of the verification link, without the verification code, that is added
-    # on generatePrinterFriendlyVersion() method.
+    # on the generate_printer_friendly_version method.
     VERIFICATION_LINK_FORMAT = 'http://localhost:3000/check-pades-rest/'
 
     # "Normal" font size. Sizes of header fonts are defined based on this size.
@@ -21,12 +21,12 @@ class PrinterVersionPadesRestController < ApplicationController
     # Date format when converting date into a string (see strftime)
     DATE_FORMAT = '%d/%m/%Y %H:%M'
 
-    # Display name of the time zone chosen above
+    # Display name and UTC offset of the time zone used for the signing times
     TIMEZONE_DISPLAY_NAME = 'Brasilia timezone'
     TIMEZONE_UTC_OFFSET = '-3'
 
     # You may also change texts, positions and more by editing directly the method
-    # generatePrinterFriendlyVersion() below.
+    # generate_printer_friendly_version below.
     # #############################################################################
 
     # GET /printer-version-pades-rest
@@ -68,7 +68,7 @@ class PrinterVersionPadesRestController < ApplicationController
 
         # Generate the printer-friendly version.
         pfv_content = generate_printer_friendly_version(file_path, verification_code)
-        # Return the generate file.
+        # Return the generated file.
         send_data pfv_content, :filename => "printer-friendly.pdf"
     end
 
@@ -79,8 +79,8 @@ class PrinterVersionPadesRestController < ApplicationController
         # verification page).
         formatted_verification_code = format_verification_code(verification_code)
     
-        # Build the verification link from teh constant verificationLinkFormat (see
-        # above) and the formatted verification code.
+        # Build the verification link from the constant VERIFICATION_LINK_FORMAT
+        # (see above) and the formatted verification code.
         verification_link = VERIFICATION_LINK_FORMAT + formatted_verification_code
     
         # 1. Inspect signature on the uploaded PDF.
@@ -96,7 +96,7 @@ class PrinterVersionPadesRestController < ApplicationController
         # inspect them.
         signature_explorer.validate = true
     
-        # Specify the signature for signature validation. On this sample, we will
+        # Specify the signature policy for signature validation. On this sample, we will
         # accept any valid PAdES signature as long as the signer is trusted by the
         # security context.
         signature_explorer.default_signature_policy_id = RestPki::StandardSignaturePolicies::PADES_BASIC
@@ -108,11 +108,11 @@ class PrinterVersionPadesRestController < ApplicationController
 
         signature = signature_explorer.open
 
-        # 1. Create PDF with verification info from uploaded PDF.
+        # 2. Create PDF with verification info from uploaded PDF.
         pdf_marker = RestPki::PdfMarker.new(get_rest_pki_client)
         pdf_marker.set_file_from_path(pdf_path)
 
-        # Build string with joined names of signers (see method getDisplayName below)
+        # Build string with joined names of signers (see method get_display_name below)
         cert_display_names = []
         for signer in signature.signers
             cert_display_names.push(get_display_name(signer.certificate))
@@ -120,7 +120,7 @@ class PrinterVersionPadesRestController < ApplicationController
         signer_names = join_strings_pt(cert_display_names)
         all_pages_message = "This document was digitally signed by #{signer_names}.\n" +
             "To check the signatures, visit #{VERIFICATION_SITE_NAME_WITH_ARTICLE} at" +
-            " #{VERIFICATION_SITE} and inform this code #{formatted_verification_code}."
+            " #{VERIFICATION_SITE} and enter this code #{formatted_verification_code}."
 
         # PdfHelper is a class from the Rest PKI Client "fluent API" that helps to create elements and
         # parameters for the PdfMarker.
@@ -198,7 +198,7 @@ class PrinterVersionPadesRestController < ApplicationController
             )
             .with_qr_code_data(verification_link)
         )
-        .add_element( # Header "VERIFICAÇÃO DAS ASSINATURAS" centered between ICP-Brasil logo and QR Code.
+        .add_element( # Header "SIGNATURE CHECK" centered between ICP-Brasil logo and QR Code.
             pdf.text_element
             .on_container(pdf.container.height(element_height).anchor_top(vertical_offset + 0.2).full_width)
             .align_text_center
@@ -246,7 +246,7 @@ class PrinterVersionPadesRestController < ApplicationController
                 .on_container(pdf.container.height(0.5).anchor_top(vertical_offset + 0.2).width(0.5).anchor_left)
                 .with_image(get_validation_result_icon(signer.validation_results.is_valid), "image/png")
             )
-            .add_element( # Description of signer (see method getSignerDescription() below).
+            .add_element( # Description of signer (see method get_signer_description below).
                 pdf.text_element
                 .on_container(pdf.container.height(element_height).anchor_top(vertical_offset).var_width.margins(0.8, 0))
                 .add_section(pdf.text_section.with_font_size(NORMAL_FONT_SIZE).with_text(get_signer_description(signer)))
@@ -270,7 +270,7 @@ class PrinterVersionPadesRestController < ApplicationController
             )
             .add_section(pdf.text_section.with_font_size(NORMAL_FONT_SIZE).with_color(color_blue).with_text(VERIFICATION_SITE))
             .add_section(
-                pdf.text_section.with_font_size(NORMAL_FONT_SIZE).with_text(" and inform the code above or follow the link below:")
+                pdf.text_section.with_font_size(NORMAL_FONT_SIZE).with_text(" and enter the code above or follow the link below:")
             )
         )
         vertical_offset += element_height

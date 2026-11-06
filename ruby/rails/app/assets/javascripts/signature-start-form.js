@@ -8,9 +8,9 @@ var signatureStartForm = (function () {
 	// Auxiliary global variables.
 	var formElements = null;
 
-	// Create an instance of the LacunaWebPKI object. If a license was set on application.yml, the
-	// layout.html master view will have placed it on the global variable _webPkiLicense, which
-	// we pass to the class constructor.
+	// Create an instance of the LacunaWebPKI object. If a license was set on config/lacuna.yml, the
+	// layouts/application.html.erb view will have placed it on the global variable _webPkiLicense,
+	// which we pass to the class constructor.
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
 	// ----------------------------------------------------------------------------------------------
@@ -18,10 +18,10 @@ var signatureStartForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive form parameters received as arguments.
+		// Store the form parameters received as arguments.
 		formElements = fe;
 
-		// Wireup of buttons clicks.
+		// Wire up the button clicks.
 		formElements.signButton.click(startSignature);
 		formElements.refreshButton.click(refresh);
 

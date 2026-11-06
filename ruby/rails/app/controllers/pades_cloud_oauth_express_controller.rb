@@ -1,8 +1,8 @@
 require 'pki_express'
 
- # This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
+ # This sample performs an OAuth flow to communicate with PSCs to perform a
  # signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- # the services by executing the following sample:
+ # the services by executing the following command:
  #
  #    pkie config --set trustServices:<provider>:<configuration>
  #
@@ -14,7 +14,7 @@ require 'pki_express'
  #    - SafeId
  # It's possible to create a custom provider if necessary.
  #
- # All configuration available:
+ # Available settings:
  #    - clientId
  #    - clientSecret
  #    - endpoint
@@ -28,27 +28,27 @@ class PadesCloudOauthExpressController < ApplicationController
 
   # GET /pades-cloud-oauth-express
   #
-  # This action will render a page that request a CPF to the user. 
-  # This CPF is used to discover which PSCs have a certificate containing 
+  # This action will render a page that asks for the user's CPF.
+  # This CPF is used to discover which PSCs have a certificate containing
   # that CPF.
   def index
     # Retrieve "file_id" parameter.
     @file_to_sign = params[:file_id]
 
     # Verify if the :file_id exists with the help of our StorageMock class.
-    # This sample cna only be executed if the provided file exists.
+    # This sample can only be executed if the provided file exists.
     render plain: 'Not Found', status: 404 unless exist?(@file_to_sign)
   end
 
-  # POST /pades-cloud-oauth-express
+  # POST /pades-cloud-oauth-express/discover
   #
-  # This action will be called after the user press the button "Search" on index page.
+  # This action will be called after the user presses the button "Search" on index page.
   # It will search for all PSCs that have a certificate with the provided CPF. Thus, it will
   # start the authentication process and return a URL to redirect the user to perform the authentication.
   # 
-  # After this action the user will be redirected, and to store the local data (fileId) to be user
-  # after the user returns to your application. We use the parameter "customState", the last parameter
-  # of the method discover_by_cpf_and_start_auth(). This parameter will be recovered in the next action.
+  # After this action the user will be redirected. To store the local data (file_id) to be used after
+  # the user returns to your application, we use the parameter "customState", the last parameter of the
+  # method discover_by_cpf_and_start_auth(). This parameter will be recovered in the next action.
   def discover
     # Retrieve "file_id" parameter.
     file_to_sign = params[:file_id]
@@ -59,7 +59,7 @@ class PadesCloudOauthExpressController < ApplicationController
     plain_cpf.gsub!(".", "")
     plain_cpf.gsub!("-", "")
 
-    # Get an instance of the TrustServiceManager class, responsible for communicating with 
+    # Get an instance of the TrustServicesManager class, responsible for communicating with
     # PSCs and handling the OAuth flow.
     manager = PkiExpress::TrustServicesManager.new
 
@@ -82,7 +82,7 @@ class PadesCloudOauthExpressController < ApplicationController
     code = params[:code]
     state = params[:state]
 
-    # Get an instance of the TrustServiceManager class, responsible for communicating with 
+    # Get an instance of the TrustServicesManager class, responsible for communicating with
     # PSCs and handling the OAuth flow.
     manager = PkiExpress::TrustServicesManager.new
 
@@ -94,7 +94,7 @@ class PadesCloudOauthExpressController < ApplicationController
     file_to_sign = result.custom_state
 
     # Verify if the :file_id exists with the help of our StorageMock class.
-    # This sample cna only be executed if the provided file exists.
+    # This sample can only be executed if the provided file exists.
     unless exist?(file_to_sign)
       render plain: 'Not Found', status: 404
       return
@@ -113,14 +113,14 @@ class PadesCloudOauthExpressController < ApplicationController
     # Set PDF to be signed.
     signer.pdf_to_sign_path = get_data_path(file_to_sign)
 
-    # Set trust session acquired on the following steps of this sample.
+    # Set trust session acquired on the previous steps of this sample.
     signer.trust_service_session = result.session
 
     # Set visual representation. We provide a class that represents the visual
     # representation model.
     signer.visual_representation = get_visual_representation
 
-    # Generate path for output file and add to signature finisher.
+    # Generate path for output file and add it to the signer.
     output_file = generate_file_id('pdf')
     signer.output_file_path = get_data_path(output_file)
 

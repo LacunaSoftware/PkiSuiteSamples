@@ -6,7 +6,7 @@ class ReceitaSimplesExpressController < ApplicationController
 
   # GET /receita-simples-express
   #
-  # This file initiates the generation of Receita Simples file.
+  # This action initiates the generation of the Receita Simples file.
   def index
     @ufs = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 
       'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO']
@@ -14,8 +14,9 @@ class ReceitaSimplesExpressController < ApplicationController
 
   # POST /receita-simples-express/generate
   #
-  # This file generates the Receita Simples file and it performs a PAdES 
-  # signature in three steps using PKI Express and Web PKI.
+  # This action generates the Receita Simples file and renders the signature
+  # page, which performs a PAdES signature in three steps using PKI Express and
+  # Web PKI.
   def generate
     nome_medico = params[:name]
     crm = params[:crm]
@@ -96,7 +97,7 @@ class ReceitaSimplesExpressController < ApplicationController
     end
   end
 
-  # POST /pades-signature-express/start
+  # POST /receita-simples-express/start
   #
   # This action receives the form submission from the signature page. It will
   # perform a PAdES signature in three steps using PKI Express and Web PKI.
@@ -108,7 +109,7 @@ class ReceitaSimplesExpressController < ApplicationController
     @cert_content = params[:cert_content]
 
     # Get instance of the PadesSignatureStarter class, responsible for receiving
-    # the signature elements and start the signature process.
+    # the signature elements and starting the signature process.
     signature_starter = PkiExpress::PadesSignatureStarter.new
 
     # Set PKI default options (see util.rb)
@@ -136,9 +137,9 @@ class ReceitaSimplesExpressController < ApplicationController
     # Start the signature process. Receive as response a SignatureStartResult
     # instance containing the following fields:
     # - to_sign_hash: The hash to be signed.
-    # - digest_algorithm_name: The digest algorithm's name that be used to
+    # - digest_algorithm_name: The digest algorithm's name to be used to
     # configure Web PKI component to compute the signature.
-    # - digest_algorithm_oid: The digest algorithm's oid that be used to
+    # - digest_algorithm_oid: The digest algorithm's oid to be used to
     # configure Web PKI component to compute the signature.
     # - transfer_file_id: A temporary file's id to be passed to "complete" step.
     result = signature_starter.start
@@ -148,10 +149,11 @@ class ReceitaSimplesExpressController < ApplicationController
     @digest_algorithm = result.digest_algorithm_name
   end
 
-  # POST /pades-signature-express/complete
+  # POST /receita-simples-express/complete
   #
-  # This action receives the form submission from the signature page. It will
-  # perform a PAdES signature in three steps using PKI Express and Web PKI.
+  # This action receives the form submission from the "start" page, with the
+  # signature value computed by Web PKI, and completes the PAdES signature using
+  # PKI Express.
   def complete
     @file_to_sign = params[:file_id]
     @transfer_file_id = params[:transfer_file_id]
@@ -173,7 +175,8 @@ class ReceitaSimplesExpressController < ApplicationController
     # Set the signature value.
     signature_finisher.signature = signature
 
-    # Generate path for output file and add to signature finisher.
+    # Set the output file. In this sample, the signed PDF replaces the file to
+    # be signed.
     signature_finisher.output_file_path = get_data_path(@file_to_sign)
 
     # Complete the signature process.

@@ -5,15 +5,14 @@ class CadesSignatureRestController < ApplicationController
   #
   # All CAdES signature examples converge to this action, but with different URL arguments:
   #
-  # 1. Signature with a server file               : no arguments filled
-  # 2. Signature with a file uploaded by the user : "userfile" filled
-  # 3. Co-signature of a previously signed CMS    : "cmsfile" filled
+  # 1. Signature with a server file or a file uploaded by the user : "file_id" filled
+  # 2. Co-signature of a previously signed CMS                     : "cmsfile" filled
   def index
     @cmsfile = params[:cmsfile]
     @file_to_sign = params[:file_id]
 
-    # Get an instance the CadesSignatureStarter class, responsible for receiving the signature elements and start
-    # the signature process
+    # Get an instance of the CadesSignatureStarter class, responsible for receiving the signature elements and
+    # starting the signature process
     signature_starter = RestPki::CadesSignatureStarter.new(get_rest_pki_client)
 
     if not @cmsfile.nil?
@@ -51,22 +50,22 @@ class CadesSignatureRestController < ApplicationController
 
     # Call the start_with_webpki method, which initiates the signature. This yields the token, a 43-character
     # case-sensitive URL-safe string, which identifies this signature process. We'll use this value to call the
-    # sign_with_restpki method on the Web PKI component (see signature-form.js) and also to complete the
-    # signature after the form is submitted (see method action below). This should not be mistaken with the
+    # signWithRestPki method on the Web PKI component (see signature-form.js) and also to complete the
+    # signature after the form is submitted (see method action below). This should not be mistaken for the
     # API access token.
     @token = signature_starter.start_with_webpki
 
     # The token acquired above can only be used for a single signature attempt. In order to retry the signature
     # it is necessary to get a new token. This can be a problem if the user uses the back button of the browser,
     # since the browser might show a cached page that we rendered previously, with a now stale token. To prevent
-    # this from happening, we call the method set_expired_page_headers, located in application_helper.rb,
+    # this from happening, we call the method set_expired_page_headers, located in util.rb,
     # which sets HTTP headers to prevent caching of the page.
     set_expired_page_headers
   end
 
   # This action receives the form submission from the view. We'll call REST PKI to complete the signature.
   def action
-    # Get the token for this signature (rendered in a hidden input field, see cades_signature/index.html.erb)
+    # Get the token for this signature (rendered in a hidden input field, see cades_signature_rest/index.html.erb)
     token = params[:token]
 
     # Instantiate the CadesSignatureFinisher class, responsible for completing the signature process
@@ -83,7 +82,7 @@ class CadesSignatureRestController < ApplicationController
     @signer_cert = signature_finisher.certificate_info
 
     # At this point, you'd typically store the signed CMS on your database. For demonstration purposes, we'll
-    # store the CMS on a temporary folder publicly accessible and render a link to it.
+    # store the CMS on the private/files folder (see storage_mock.rb) and render a link to it.
 
     @filename = store(signed_bytes, 'p7s')
   end

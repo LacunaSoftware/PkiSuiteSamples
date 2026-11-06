@@ -11,8 +11,6 @@ gem 'railties', '~> 8.1.0'
 gem 'sprockets-rails', '>= 3.5'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 6.0'
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 # PDF generator for Ruby. Read more: https://github.com/prawnpdf/prawn
 gem 'prawn', '~> 2.5'
 

@@ -2,7 +2,7 @@ require 'rest_pki'
 
 class BatchCadesRestController < ApplicationController
 
-  # GET /batch-cades-signature-rest
+  # GET /batch-cades-rest
   #
   # This action renders the batch signature page.
   # Notice that the only thing we'll do on the server-side at this point is
@@ -14,20 +14,19 @@ class BatchCadesRestController < ApplicationController
     @documents_ids = [*1..30]
   end
 
-  # POST /batch-cades-signature-rest/start
+  # POST /batch-cades-rest/start
   #
   # This route is called asynchronously via AJAX by the batch signature page for
-  # each document being signed. It receives the ID of the document and the
-  # signer's certificate content and initiates a cades signature using
-  # REST PKI and returns a JSON with the parameters for the client-side
-  # signature using Web PKI (see batch-signature-form.js).
+  # each document being signed. It receives the ID of the document, initiates a
+  # CAdES signature using REST PKI and returns a JSON with the token for the
+  # client-side signature using Web PKI (see batch-signature-restpki-form.js).
   def start
     # Get the parameters for this signature (received from the POST call via
-    # AJAX, see batch-signature-form.js).
+    # AJAX, see batch-signature-restpki-form.js).
     id = params[:id]
   
-    # Get an instantiate of the CadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # Get an instance of the CadesSignatureStarter class, responsible for
+    # receiving the signature elements and starting the signature process.
     signature_starter = RestPki::CadesSignatureStarter.new(get_rest_pki_client)
   
     # Set signature policy.
@@ -46,30 +45,29 @@ class BatchCadesRestController < ApplicationController
     # Call the start_with_webpki method, which initiates the signature. This
     # yields the token, a 43-character case-sensitive URL-safe string, which
     # identifies this signature process. We'll use this value to call the
-    # sign_with_restpki method on the Web PKI component (see signature-form.js)
-    # and also to complete the signature after the form is submitted (see method
-    # create below). This should not be mistaken with the API access token.
+    # signWithRestPki method on the Web PKI component (see
+    # batch-signature-restpki-form.js) and also to complete the signature (see
+    # action complete below). This should not be mistaken for the API access
+    # token.
     @token = signature_starter.start_with_webpki
 
     # The token acquired above can only be used for a single signature attempt.
-    # In order to retry the signature it is necessary to get a new token. This
-    # can be a problem if the user uses the back button of the browser, since
-    # the browser might show a cached page that we rendered previously, with a
-    # now stale token. To prevent this from happening, we call the method
-    # set_expired_page_headers, located in application_helper.rb, which sets
-    # HTTP headers to prevent caching of the page.
+    # In order to retry the signature it is necessary to get a new token. To
+    # prevent the browser from caching this response, with a token that may be
+    # stale, we call the method set_expired_page_headers, located in util.rb,
+    # which sets HTTP headers to prevent caching.
     set_expired_page_headers
 
     render json: "\"#{@token}\""
   end
 
-  # POST /batch-cades-signature-rest/complete
+  # POST /batch-cades-rest/complete
   #
   # This route is called asynchronously via AJAX by the batch signature page for
-  # each document being signed. It receives the ID of the document, the computed
-  # signature and the transfer file, received on start action. We'll call REST
-  # PKI to complete this signature and return a JSON with the saved filename so
-  # that the page can render a link to it.
+  # each document being signed. It receives the token of the signature process,
+  # acquired on the start action. We'll call REST PKI to complete this signature
+  # and return a JSON with the saved filename so that the page can render a link
+  # to it.
   def complete
     # Get an instance of the CadesSignatureFinisher class, responsible for
     # completing the signature process.
@@ -79,12 +77,12 @@ class BatchCadesRestController < ApplicationController
     signature_finisher.token = params[:token]
 
     # Call the finish method, which finalizes the signature process and returns
-    # the signed PDF's bytes.
+    # the signed CMS bytes.
     signed_bytes = signature_finisher.finish
 
-    # At this point, you'd typically store the signed XML on your database. For
-    # demonstration purposes, we'll store the XML on a temporary folder publicly
-    # accessible and render a link to it.
+    # At this point, you'd typically store the signed CMS on your database. For
+    # demonstration purposes, we'll store the CMS on the private/files folder
+    # (see storage_mock.rb) and render a link to it.
     @filename = store(signed_bytes, 'p7s')
 
     render json: "\"#{@filename}\""

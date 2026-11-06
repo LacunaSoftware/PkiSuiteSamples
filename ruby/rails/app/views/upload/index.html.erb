@@ -44,11 +44,11 @@
     }
 
     // -------------------------------------------------------------------------
-    // This function will be called when a file is submitted.
+    // This function will be called when a file is chosen.
     // -------------------------------------------------------------------------
     function onFileChosen() {
 
-        // Only executes if the a file is chosen.
+        // Only executes if a file is chosen.
         if (this.value) {
 
             var labelRef = $('label#fileInputLabel');
@@ -64,7 +64,7 @@
             var filename = this.value.substr(this.value.lastIndexOf('\\') + 1);
             labelRef.text(filename);
 
-            // Show message, informing that will redirect to some other page,
+            // Show message, informing that we will redirect to some other page,
             // which will happen on server-side after submission.
             $.blockUI({message: 'Redirecting ...'});
             setTimeout(function () {
@@ -80,7 +80,7 @@
     // code (see function init() above).
     $(document).ready(init);
 
-    // Once the user is redirected after choosing, the file the value of the
+    // Once the user is redirected after choosing the file, the value of the
     // <input> (#fileInput) is reset. This is important when the user wants to
     // come back to this page and encounter it with cached chosen file.
     $(window).on("beforeunload", function () {

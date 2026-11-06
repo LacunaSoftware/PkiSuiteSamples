@@ -20,7 +20,7 @@ class PadesSignatureRestController < ApplicationController
     end
 
     # Get an instance of the PadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = RestPki::PadesSignatureStarter.new(get_rest_pki_client)
 
     # Set the signature policy.
@@ -39,9 +39,9 @@ class PadesSignatureRestController < ApplicationController
     # Call the start_with_webpki method, which initiates the signature. This
     # yields the token, a 43-character case-sensitive URL-safe string, which
     # identifies this signature process. We'll use this value to call the
-    # sign_with_restpki method on the Web PKI component (see signature-form.js)
-    # and also to complete the signature after the form is submitted (see method
-    # create below). This should not be mistaken with the API access token.
+    # signWithRestPki method on the Web PKI component (see signature-form.js)
+    # and also to complete the signature after the form is submitted (see action
+    # below). This should not be mistaken for the API access token.
     @token = signature_starter.start_with_webpki
 
     # The token acquired above can only be used for a single signature attempt.
@@ -49,19 +49,19 @@ class PadesSignatureRestController < ApplicationController
     # can be a problem if the user uses the back button of the browser, since
     # the browser might show a cached page that we rendered previously, with a
     # now stale token. To prevent this from happening, we call the method
-    # set_expired_page_headers, located in application_helper.rb, which sets
+    # set_expired_page_headers, located in util.rb, which sets
     # HTTP headers to prevent caching of the page.
     set_expired_page_headers
   end
 
   # POST /pades-signature-rest
   #
-  # This action receives the form submission form the signature page. We'll call
+  # This action receives the form submission from the signature page. We'll call
   # REST PKI to complete the signature.
   def action
 
     # Get the token for this signature (rendered in a hidden input field, see
-    # pades_signature/new.html.erb).
+    # pades_signature_rest/index.html.erb).
     token = params[:token]
 
     # Get an instance of the PadesSignatureFinisher class, responsible for
@@ -80,9 +80,9 @@ class PadesSignatureRestController < ApplicationController
     # This field can only be acquired after calling the finish method.
     @signer_cert = signature_finisher.certificate_info
 
-    # At this point, you'd typically store the signed XML on your database. For
-    # demonstration purposes, we'll store the XML on a temporary folder publicly
-    # accessible and render a link to it.
+    # At this point, you'd typically store the signed PDF on your database. For
+    # demonstration purposes, we'll store the PDF on the private/files folder
+    # (see storage_mock.rb) and render a link to it.
 
     @signed_pdf = store(signed_bytes, 'pdf')
   end

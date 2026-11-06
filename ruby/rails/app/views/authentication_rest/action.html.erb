@@ -13,7 +13,7 @@
         <ul>
           <li>Tipo de certificado: <%= @user_cert.pkiBrazil.certificateType %></li>
           <li>CPF: <%= @user_cert.pkiBrazil.cpf %></li>
-          <li>Responsavel: <%= @user_cert.pkiBrazil.responsavel %></li>
+          <li>Responsável: <%= @user_cert.pkiBrazil.responsavel %></li>
           <li>Empresa: <%= @user_cert.pkiBrazil.companyName %></li>
           <li>CNPJ: <%= @user_cert.pkiBrazil.cnpj %> </li>
           <li>RG: <%= "#{@user_cert.pkiBrazil.rgNumero} #{@user_cert.pkiBrazil.rgEmissor} #{@user_cert.pkiBrazil.rgEmissorUF}" %></li>
@@ -28,7 +28,7 @@
 
   <div class="ls-content">
     <%
-      # The $vr object can be  used as a string, but the string contains tabs and
+      # The validation results can be used as a string, but the string contains tabs and
       # new line characters for formatting, which we'll convert to <br>'s and
       # &nbsp;'s.
     %>

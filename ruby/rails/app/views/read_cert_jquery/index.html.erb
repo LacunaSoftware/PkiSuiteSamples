@@ -1,4 +1,4 @@
-<h2 class="ls-title">Read one of the users' certificates with JQuery</h2>
+<h2 class="ls-title">Read one of the user's certificates with jQuery</h2>
 
 <div class="ls-content">
 
@@ -17,7 +17,7 @@
 
         <%
           # Action buttons. The "Refresh Certificates" button, which is
-          # responsible to reload the certificate list. This operation uses
+          # responsible for reloading the certificate list. This operation uses
           # the same function used on page loading (see function refresh()
           # below).
         %>
@@ -31,7 +31,7 @@
 
     <%
       # The panel where the certificate's information will be rendered using
-      # JQuery.
+      # jQuery.
     %>
     <div class="col-lg-6">
       <div id="certInfo"></div>
@@ -49,15 +49,15 @@
 
 <script>
 
-  // Global variable stored all certificate objects. This list will be
+  // Global variable that stores all certificate objects. This list will be
   // useful when we want to recover the certificate's information using its
   // thumbprint field.
   var certificates = [];
 
   // Variable that will store an instance of the Lacuna WebPKI object. If a
-  // license was set on application.yml, the layout.html master template
-  // will have placed it on the global variable _webPkiLicense, which we
-  // pass to the class constructor.
+  // license was set on config/lacuna.yml, the layouts/application.html.erb
+  // view will have placed it on the global variable _webPkiLicense, which
+  // we pass to the class constructor.
   var pki = new LacunaWebPKI(_webPkiLicense);
 
   // -----------------------------------------------------------------------
@@ -136,8 +136,8 @@
       // rendering the chosen certificate's fields.
       certificates = certs;
 
-      // Verify if there is no certificates available to disable the
-      // <select> element, showing the messaging informing that.
+      // If there are no certificates available, disable the <select>
+      // element, showing a message informing that.
       if (certificates.length === 0) {
         $('#certificateSelect')
           .append('<option value="null">There is no certificate on your machine</option>')
@@ -159,12 +159,12 @@
   // -----------------------------------------------------------------------
   function onCertificateChosen() {
 
-    // Get the thumbprint of the select certificate.
+    // Get the thumbprint of the selected certificate.
     var selectedThumbprint = $('#certificateSelect').val();
 
     // Find the certificate object referred by its thumbprint. After that,
     // we call the method showCertInfo() to render the certificate on the
-    // div#certInfo element using JQuery.
+    // div#certInfo element using jQuery.
     for (var i = 0; i < certificates.length; i++) {
       if (certificates[i].thumbprint === selectedThumbprint) {
         showCertInfo(certificates[i]);
@@ -174,7 +174,7 @@
   }
 
   // -----------------------------------------------------------------------
-  // Function called by "onCertificationChosen" method. This method will
+  // Function called by "onCertificateChosen" method. This method will
   // render the certificate's fields on the div#certInfo element.
   // -----------------------------------------------------------------------
   function showCertInfo(cert) {
@@ -191,7 +191,7 @@
       .append('<hr/>')
       .append('<span><b>Thumbprint</b>: ' + cert.thumbprint + '</span><br/>')
       .append('<span><b>Subject Name</b>: ' + cert.subjectName + '</span><br/>')
-      .append('<span><b>Issued Name</b>: ' + cert.issuerName + '</span><br/>')
+      .append('<span><b>Issuer Name</b>: ' + cert.issuerName + '</span><br/>')
       .append('<span><b>Validity Start</b>: ' + cert.validityStart + '</span><br/>')
       .append('<span><b>Validity End</b>: ' + cert.validityEnd + '</span><br/>');
 
@@ -247,7 +247,7 @@
 
     // Show the message to the user. You might want to substitute the alert
     // below with a more user-friendly UI component to show the error (see
-    // function addAlert() on layout.html).
+    // function addAlert() on layouts/application.html.erb).
     addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
   }
 

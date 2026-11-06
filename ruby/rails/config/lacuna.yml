@@ -14,7 +14,7 @@ development:
     # sample doesn't work, please contact our support by email:
     # suporte@lacunasoftware.com
 
-    # In order to use this sample on a "on premises" installation of
+    # In order to use this sample on an "on premises" installation of
     # REST PKI, fill the field below with the URL address of your REST PKI
     # installation (with the trailing '/' character).
     endpoint:
@@ -27,7 +27,7 @@ development:
     # ======================================================
     api_key: ''
 
-    # In order to use this sample on a "on premises" installation of
+    # In order to use this sample on an "on premises" installation of
     # REST PKI Core, fill the field below with the URL address of your REST PKI
     # Core installation (with the trailing '/' character).
     endpoint: 'https://core.pki.rest/'
@@ -40,8 +40,8 @@ development:
     # files from private/ folder.
     trusted_roots: []
 
-    # Offline mode. Set this, if you want that PKI Express to run on offline
-    # mode. This mode is useful when there is no network available.
+    # Offline mode. Set this if you want PKI Express to run in offline mode.
+    # This mode is useful when there is no network available.
     offline: false
 
   # Web PKI parameters
