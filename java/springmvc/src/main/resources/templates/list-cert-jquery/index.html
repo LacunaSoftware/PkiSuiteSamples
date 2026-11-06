@@ -3,7 +3,7 @@
 <body>
 
 <div th:fragment="content">
-	<h2 class="ls-title">List certificates available on the user's machine with JQuery</h2>
+	<h2 class="ls-title">List certificates available on the user's machine with jQuery</h2>
 
 	<div class="ls-content">
 
@@ -18,7 +18,7 @@
 			</div>
 
 			<!--
-				The "Refresh Certificates" button, which is responsible to reload the certificate list.
+				The "Refresh Certificates" button, which is responsible for reloading the certificate list.
 				This operation uses the same function used on page loading (see function refresh()
 				below).
 			-->
@@ -108,8 +108,8 @@
 
 		}).success(function (certs) {
 
-			// Verify if there is no certificates available to disable the <select> element, showing
-			// the messaging informing that.
+			// If there are no certificates available, disable the <select> element, showing a message
+			// informing that.
 			if (certs.length === 0) {
 				$('#certificateSelect')
 					.append('<option value="null">There is no certificate on your machine</option>')

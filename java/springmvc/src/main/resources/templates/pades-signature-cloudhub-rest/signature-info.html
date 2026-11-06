@@ -3,7 +3,7 @@
 <body>
 
 <div th:fragment="content">
-	<h2 class="ls-title">PAdES Signature with REST PKI</h2>
+	<h2 class="ls-title">PAdES Signature using cloud certificate with CloudHub</h2>
 	<h5 class="ls-subtitle">File signed successfully! <i class="fas fa-check-circle text-success"></i></h5>
 
 	<div class="ls-content">
@@ -18,7 +18,7 @@
 					<ul>
 						<li><strong>Tipo de certificado</strong>: <span th:text="${signerCert.getPkiBrazil().getCertificateType()}"/></li>
 						<li><strong>CPF</strong>: <span th:text="${signerCert.getPkiBrazil().getCpfFormatted()}"/></li>
-						<li><strong>Responsavel</strong>: <span th:text="${signerCert.getPkiBrazil().getResponsavel()}"/></li>
+						<li><strong>Responsável</strong>: <span th:text="${signerCert.getPkiBrazil().getResponsavel()}"/></li>
 						<li><strong>Empresa</strong>: <span th:text="${signerCert.getPkiBrazil().getCompanyName()}"/></li>
 						<li><strong>CNPJ</strong>: <span th:text="${signerCert.getPkiBrazil().getCnpjFormatted()}"/></li>
 						<li><strong>RG</strong>: <span th:text="${signerCert.getPkiBrazil().getRGNumero()}"/> <span th:text="${signerCert.getPkiBrazil().getRGEmissor()}"/> <span th:text="${signerCert.getPkiBrazil().getRGEmissorUF()}"/></li>

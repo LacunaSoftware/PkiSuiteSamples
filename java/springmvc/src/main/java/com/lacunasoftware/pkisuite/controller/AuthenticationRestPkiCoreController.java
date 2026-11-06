@@ -26,8 +26,8 @@ public class AuthenticationRestPkiCoreController {
     @GetMapping
     public String get(Model model, HttpServletResponse response) throws Exception {
 
-        // Get an instance of the RestPkiService class, responsible for contacting Rest
-        // PKI core to prepare and complete the authentication operation.
+        // Get an instance of the RestPkiService class, responsible for contacting Rest PKI Core to
+        // prepare and complete the authentication operation.
         RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
         // Prepare the Authentication and set the Request options.
@@ -52,7 +52,7 @@ public class AuthenticationRestPkiCoreController {
         // Get another instance of the RestPkiService class
         RestPkiService service = RestPkiServiceFactory.getService(Util.getRestPkiCoreOptions());
 
-        // Complete the Autentication with the user's certificate and the hash's signature, plus the state
+        // Complete the Authentication with the user's certificate and the hash's signature, plus the state
         CompleteAuthenticationOptions request = new CompleteAuthenticationOptions();
         request.setCertificateFromBase64(certificate);
         request.setSignatureFromBase64(signature);

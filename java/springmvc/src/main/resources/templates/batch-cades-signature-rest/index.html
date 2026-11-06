@@ -3,7 +3,7 @@
 <body>
 
 <div th:fragment="content">
-    <h2 class="ls-title">Batch PAdES Signature with REST PKI</h2>
+    <h2 class="ls-title">Batch CAdES Signature with REST PKI</h2>
 
     <div class="ls-content">
 
@@ -30,10 +30,10 @@
             </div>
 
             <!--
-                Action buttons. Notice that the "Sign File" button is NOT a submit button. When the
-                user clicks the button, we must first use the Web PKI component to perform the
-                client-side computation necessary and only when that computation is finished we'll
-                submit the form programmatically (see batch-signature-rest-form.js).
+                Action buttons. Notice that the "Sign Batch" button is NOT a submit button. When the
+                user clicks the button, we use the Web PKI component and Ajax calls to the server to
+                sign each document of the batch, without submitting the form (see
+                batch-signature-rest-form.js).
             -->
             <div class="form-group">
                 <button id="signButton" type="button" class="btn btn-primary">
@@ -55,8 +55,8 @@
 <script th:fragment="scripts" th:replace="~{fragments/web-pki :: web-pki}"></script>
 
 <!--
-	 The file below contains the necessary calls to the Web PKI component. Once the necessary
-	 computations have been done, the javascript code will submit our form.
+	 The file below contains the necessary calls to the Web PKI component and to the server to
+	 sign each document of the batch.
  -->
 <script th:fragment="scripts"
         type="text/javascript"

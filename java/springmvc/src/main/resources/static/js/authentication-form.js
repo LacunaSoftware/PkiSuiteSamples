@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------------------------------
 // This file contains logic for calling the Web PKI component to perform an authentication. It is
-// only an example, feel free to alter is to meet your application's needs.
+// only an example, feel free to alter it to meet your application's needs.
 // -------------------------------------------------------------------------------------------------
 var authenticationForm = (function () {
 
@@ -13,7 +13,7 @@ var authenticationForm = (function () {
 	var pki = new LacunaWebPKI(_webPkiLicense);
 
 	// ----------------------------------------------------------------------------------------------
-	// Initializes the signature form.
+	// Initializes the authentication form.
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
@@ -94,7 +94,7 @@ var authenticationForm = (function () {
 		// server-side after the signature is computed.
 		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
 
-			// Call signData() on the Web PKI component the "nonce", the digest algorithm and the
+			// Call signData() on the Web PKI component passing the "nonce", the digest algorithm and the
 			// certificate selected by the user.
 			pki.signData({
 				thumbprint: formElements.certificateSelect.val(),

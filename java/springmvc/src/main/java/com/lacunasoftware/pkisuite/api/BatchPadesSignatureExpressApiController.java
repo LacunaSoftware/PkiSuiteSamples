@@ -28,7 +28,7 @@ public class BatchPadesSignatureExpressApiController {
 	public BatchSignatureStartResponse start(BatchSignatureStartRequest request) throws IOException {
 
 		// Get an instance of the PadesSignatureStarter class, responsible for receiving the
-		// signature elements and start the signature process.
+		// signature elements and starting the signature process.
 		PadesSignatureStarter signatureStarter = new PadesSignatureStarter();
 
 		// Set the PKI default options. (see Util.java)
@@ -68,9 +68,9 @@ public class BatchPadesSignatureExpressApiController {
 	}
 
 	/**
-	 * POST /api/batch-signature-express/complete
+	 * POST /api/batch-pades-signature-express/complete
 	 *
-	 * This action is called asynchronously form the batch signature page in order to complete the
+	 * This action is called asynchronously from the batch signature page in order to complete the
 	 * signature of each document in the batch.
 	 */
 	@PostMapping("/complete")

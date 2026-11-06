@@ -107,7 +107,7 @@ public class ReceitaSimplesExpressController {
 	) throws IOException {
 
 		// Get an instance of the PadesSignatureStarter class, responsible for receiving
-		// the signature elements and start the signature process.
+		// the signature elements and starting the signature process.
 		PadesSignatureStarter signatureStarter = new PadesSignatureStarter();
 
 		// Set PKI default options (see Util.java)
@@ -143,7 +143,7 @@ public class ReceitaSimplesExpressController {
 		// deletes some files needed by the method.
 		signatureStarter.dispose();
 
-		// Render the fields received form start() method as hidden fields to be used on
+		// Render the fields received from start() method as hidden fields to be used on
 		// the javascript or on the "complete" step.
 		model.addAttribute("certThumb", certThumb);
 		model.addAttribute("certContent", certContent);
@@ -154,7 +154,7 @@ public class ReceitaSimplesExpressController {
 	}
 
 	/**
-	 * GET /receita-simples-express/complete?fileId={fileToSign}
+	 * POST /receita-simples-express/complete?fileId={fileToSign}
 	 *
 	 * This action receives the form submission from the signature page. It will perform a PAdES
 	 * signature in three steps using PKI Express and Web PKI.

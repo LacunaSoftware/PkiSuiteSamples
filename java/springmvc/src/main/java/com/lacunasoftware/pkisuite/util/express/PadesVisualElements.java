@@ -8,8 +8,8 @@ import java.io.IOException;
 public class PadesVisualElements {
 
 	/**
-	 * This method is called by the get() method. It contains examples of signature visual
-	 * representation positionings.
+	 * This method is called by the PAdES samples that use PKI Express. It contains an example of
+	 * signature visual representation.
 	 */
 	public static PadesVisualRepresentation getVisualRepresentation() throws IOException {
 
@@ -39,7 +39,7 @@ public class PadesVisualElements {
 
 		// Create an instance of PadesVisualImage class.
 		PadesVisualImage image = new PadesVisualImage();
-		// Set the path of the image
+		// Set the content of the image.
 		image.setContent(StorageMock.getPdfStampContent());
 		// Add image to visual representation.
 		vr.setImage(image);
@@ -47,7 +47,7 @@ public class PadesVisualElements {
 		// Create an instance of PadesVisualAutoPositioning class. This class will create a
 		// custom auto positioning for the visual representation.
 		PadesVisualAutoPositioning position = new PadesVisualAutoPositioning();
-		// Set the page number. Negative values represent pages counted form the end of the
+		// Set the page number. Negative values represent pages counted from the end of the
 		// document (-1 is the last page)
 		position.setPageNumber(-1);
 		// Set the row spacing between signatures. The signatures will be placed in the
@@ -57,7 +57,7 @@ public class PadesVisualElements {
 		// Specify the size of each signature rectangle.
 		PadesSize size = new PadesSize(8.0, 4.94);
 		position.setSignatureRectangleSize(size);
-		// Create the position container and add to PadesVisualPosition object.
+		// Create the position container and add it to the PadesVisualAutoPositioning object.
 		PadesVisualRectangle positionContainer = new PadesVisualRectangle();
 		positionContainer.setHeightBottomAnchored(4.94, 1.5);
 		positionContainer.setHorizontalStretch(1.5, 1.5);

@@ -56,7 +56,7 @@ public class PrinterFriendlyPadesRestController {
 			@RequestParam(value = "fileId") String fileId
 	) throws IOException, RestException {
 
-		// Locate document. This document should not continue if the file was not found.
+		// Locate document. This action should not continue if the file was not found.
 		if (!StorageMock.exists(fileId)) {
 			// Return "Not Found" code.
 			response.setStatus(404);
@@ -91,7 +91,7 @@ public class PrinterFriendlyPadesRestController {
 		// hyphens (which will later be discarded on the verification page).
 		String formattedVerificationCode = AlphaCode.format(verificationCode);
 
-		// Build the verification link from the constant "VerificationLinkFormat" (see above) and the
+		// Build the verification link from the constant "verificationLinkFormat" (see above) and the
 		// formatted verification code.
 		String verificationLink = String.format(verificationLinkFormat, formattedVerificationCode);
 
@@ -239,7 +239,7 @@ public class PrinterFriendlyPadesRestController {
 			verticalOffset += elementHeight;
 		}
 
-		// Some vertical padding form last signer
+		// Some vertical padding from last signer
 		verticalOffset += 1;
 
 		// Paragraph with link to verification site and citing both the verification code above and

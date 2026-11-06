@@ -36,7 +36,7 @@
 </div>
 
 <!--
-	This javascript is only an optional feature for this upload page. It will use jQuery to improve
+	This javascript is only an optional feature for this page. It will use jQuery to improve
 	the UX of the page. Feel free to alter it however you want.
 -->
 <script th:fragment="scripts">
@@ -61,11 +61,11 @@
 	}
 
 	// ----------------------------------------------------------------------------------------------
-	// This function will be called when a file is submitted.
+	// This function will be called when a file is chosen.
 	// ----------------------------------------------------------------------------------------------
 	function onFileChosen() {
 
-		// Only executes if the a file is chosen.
+		// Only executes if a file is chosen.
 		if (this.value) {
 
 			var labelRef = $('label#fileInputLabel');
@@ -80,8 +80,8 @@
 			var filename = this.value.substr(this.value.lastIndexOf('\\') + 1);
 			labelRef.text(filename);
 
-			// Show message, informing that will redirect to some other page, which will happen on
-			// server-side after submission.
+			// Show a message informing that the user will be redirected to another page, which will
+			// happen on server-side after submission.
 			$.blockUI({message: 'Redirecting ...'});
 			setTimeout(function () {
 
@@ -96,8 +96,8 @@
 	// (see function init() above).
 	$(document).ready(init);
 
-	// Once the user is redirected after choosing, the file the value of the <input> (#fileInput) is
-	// reset. This is important when the user wants to come back to this page and encounter it with
+	// Once the user is redirected after choosing a file, the value of the <input> (#fileInput) is
+	// reset. This is important when the user comes back to this page, which would otherwise show the
 	// cached chosen file.
 	$(window).on("beforeunload", function () {
 		$('input#fileInput').val(null);

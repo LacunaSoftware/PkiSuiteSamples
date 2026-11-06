@@ -20,17 +20,17 @@ public class CadesSignatureExpressController {
 	/**
 	 * GET /cades-signature-express?fileId={fileToSign}
 	 *
-	 * This action simple renders the page.
+	 * This action simply renders the page.
 	 */
 	@GetMapping
 	public String get(@RequestParam(value = "fileId") String fileToSign) throws IOException {
 
-		// Verify if the fileId correspond to an existing file on our StorageMock class.
+		// Verify if the fileId corresponds to an existing file on our StorageMock class.
 		if (fileToSign == null || !StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
 
-		// Render the signature page (templates/cades-signature-express/index.html.html).
+		// Render the signature page (templates/cades-signature-express/index.html).
 		return "cades-signature-express/index";
 	}
 
@@ -49,7 +49,7 @@ public class CadesSignatureExpressController {
 	) throws IOException {
 
 		// Get an instance of the CadesSignatureStarter class, responsible for receiving
-		// the signature elements and start the signature process.
+		// the signature elements and starting the signature process.
 		CadesSignatureStarter signatureStarter = new CadesSignatureStarter();
 
 		// Set PKI default options (see Util.java)

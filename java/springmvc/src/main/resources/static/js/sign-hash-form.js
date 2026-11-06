@@ -1,7 +1,7 @@
 // -------------------------------------------------------------------------------------------------
 // This file contains logic for calling the Web PKI component to sign a given hash, either as part of
 // a certificate authentication or a document signature or any other operation requiring a hash to be
-// signed with the user's certificate. It is only an example, feel free to alter is to meet your
+// signed with the user's certificate. It is only an example, feel free to alter it to meet your
 // application's needs.
 // -------------------------------------------------------------------------------------------------
 var signHashForm = (function () {

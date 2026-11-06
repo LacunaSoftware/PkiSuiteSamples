@@ -17,7 +17,7 @@ import java.io.IOException;
 public class OpenPadesExpressController {
 
     /**
-	 * This action submits a PDF file to Rest PKI for inspection of its signatures.
+     * This action opens a PDF file with PKI Express for inspection of its signatures.
      */
     @RequestMapping(value = "/open-pades-express", method = {RequestMethod.GET})
     public String get(

@@ -47,7 +47,7 @@ public class PdfGeneration {
         table.addCell(doctorNameValue);
 
         
-        // Field "CRM". This text field contains the doctor's register
+        // Field "CRM". This text field contains the doctor's registration
         // number on CRM.
         PdfPCell crmLabel = new PdfPCell();
         crmLabel.setColspan(2);

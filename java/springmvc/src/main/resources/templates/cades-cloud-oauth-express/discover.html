@@ -3,12 +3,12 @@
 <body>
 
 <div th:fragment="content" th:with="fileId=${param.fileId}">
-	<h2 class="ls-title">cades Signature using cloud certificate with PKI Express (OAuth Flow)</h2>
+	<h2 class="ls-title">CAdES Signature using cloud certificate with PKI Express (OAuth Flow)</h2>
 
 	<div class="ls-content" th:with="condition=${model.getServices() != null and model.getServices().size() > 0}">
 
 		<div th:unless="${condition}">
-			<p>No trusted services was found with this CPF.</p>
+			<p>No trust services were found with this CPF.</p>
 			<button onclick="window.history.back()" class="btn btn-primary">Try Again</button>
 		</div>
 		<form id="pwdFlowForm" th:if="${condition}" th:action="@{/cades-cloud-pwd-express/authorize(fileId=${fileId})}" method="POST">
@@ -35,7 +35,7 @@
 	/*<![CDATA[*/
 	function redirectUser() {
 
-		// Get redirect URL of the chosen provide.
+		// Get redirect URL of the chosen provider.
 		var redirectUrl = $('#serviceField').val();
 
 		// Redirect user.

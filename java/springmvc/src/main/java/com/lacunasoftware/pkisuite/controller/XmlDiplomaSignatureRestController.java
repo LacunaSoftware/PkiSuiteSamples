@@ -17,7 +17,7 @@ public class XmlDiplomaSignatureRestController {
 
 	/**
 	 * GET /xml-diploma-signature-rest/
-	 * This action initiates a Xml signature using REST PKI
+	 * This action initiates an XML signature using REST PKI
 	 * that will sign the element DadosDiploma with e-CNPJ.
 	 */
 	@GetMapping
@@ -26,10 +26,10 @@ public class XmlDiplomaSignatureRestController {
 			HttpServletResponse response
 	) throws IOException, RestException {
 		// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
-		// elements and start the signature process.
+		// elements and starting the signature process.
 		XmlElementSignatureStarter signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
-		// Set the path of the XML to be signed, a sample Brazilian diploma digital pre-generated.
+		// Set the path of the XML to be signed, a pre-generated sample Brazilian digital diploma.
 		signatureStarter.setXml(StorageMock.getSampleDiplomaPath());
 
 		// Set the ID of the element to be signed.
@@ -58,15 +58,15 @@ public class XmlDiplomaSignatureRestController {
 		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-diploma-signature-rest/index.html).
 		model.addAttribute("token", token);
 		return "xml-diploma-signature-rest/index";
 	}
 
 	/**
 	 * POST /xml-diploma-signature-rest/
-	 * This action complete a Xml signature using REST PKI
-	 * that sign the element DadosDiploma.
+	 * This action completes an XML signature using REST PKI
+	 * that signs the element DadosDiploma.
 	 */
 	@PostMapping
 	public String post(
@@ -78,27 +78,27 @@ public class XmlDiplomaSignatureRestController {
 		XmlSignatureFinisher signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see
-		// file templates/xml-full-signature.html).
+		// file templates/xml-diploma-signature-rest/index.html).
 		signatureFinisher.setToken(token);
 
 		// Call the finish() method, which finalizes the signature process and returns the signed
 		// XML's bytes.
 		byte[] signedXml = signatureFinisher.finish();
 
-		// At this point, you'd typically store the signed PDF on your database. For demonstration
+		// At this point, you'd typically store the signed XML on your database. For demonstration
 		// purposes, we'll store the XML on a temporary folder and return to the page an identifier
 		// that can be used to download it.
 		String filename = StorageMock.store(signedXml, "xml");
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-diploma-signature-rest/dados-diploma.html).
 		model.addAttribute("filename", filename);
 		return "xml-diploma-signature-rest/dados-diploma";
 	}
 
 	/**
 	 * GET /xml-diploma-signature-rest/dados-registro
-	 * This action initiates a Xml signature using REST PKI
-	 * that will signs the element DadosRegistro with e-CPF.
+	 * This action initiates an XML signature using REST PKI
+	 * that will sign the element DadosRegistro with e-CPF.
 	 */
 	@GetMapping("/dados-registro")
 	public String getDadosRegistro(
@@ -112,10 +112,10 @@ public class XmlDiplomaSignatureRestController {
 			throw new FileNotFoundException();
 		}
 		// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
-		// elements and start the signature process.
+		// elements and starting the signature process.
 		XmlElementSignatureStarter signatureStarter = new XmlElementSignatureStarter(Util.getRestPkiClient());
 
-		// Set the path of the XML to be signed, a sample Brazilian diploma digital pre-generated.
+		// Set the path of the XML to be signed, the diploma signed on the previous step.
 		signatureStarter.setXml(StorageMock.getDataPath(fileToSign));
 
 		// Set the ID of the element to be signed.
@@ -133,8 +133,8 @@ public class XmlDiplomaSignatureRestController {
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
 		// We'll use this value to call the signWithRestPki() method on the Web PKI component
 		// (see file signature-form.js) and also to complete the signature after the form is
-		// submitted (see method post() below). This should not be mistaken with the API access
-		// token.
+		// submitted (see method postDadosRegistro() below). This should not be mistaken with the API
+		// access token.
 		String token = signatureStarter.startWithWebPki();
 
 		// The token acquired above can only be used for a single signature attempt. In order to
@@ -144,14 +144,14 @@ public class XmlDiplomaSignatureRestController {
 		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-diploma-signature-rest/sign-dados-registro.html).
 		model.addAttribute("token", token);
 		return "xml-diploma-signature-rest/sign-dados-registro";
 	}
 
 	/**
 	 * POST /xml-diploma-signature-rest/dados-registro
-	 * This action complete a Xml signature using REST PKI
+	 * This action completes an XML signature using REST PKI
 	 * that signs the element DadosRegistro.
 	 */
 	@PostMapping("/dados-registro")
@@ -164,26 +164,26 @@ public class XmlDiplomaSignatureRestController {
 		XmlSignatureFinisher signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see
-		// file templates/xml-full-signature.html).
+		// file templates/xml-diploma-signature-rest/sign-dados-registro.html).
 		signatureFinisher.setToken(token);
 
 		// Call the finish() method, which finalizes the signature process and returns the signed
 		// XML's bytes.
 		byte[] signedXml = signatureFinisher.finish();
 
-		// At this point, you'd typically store the signed PDF on your database. For demonstration
+		// At this point, you'd typically store the signed XML on your database. For demonstration
 		// purposes, we'll store the XML on a temporary folder and return to the page an identifier
 		// that can be used to download it.
 		String filename = StorageMock.store(signedXml, "xml");
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-diploma-signature-rest/dados-registro.html).
 		model.addAttribute("filename", filename);
 		return "xml-diploma-signature-rest/dados-registro";
 	}
 
 	/**
 	 * GET /xml-diploma-signature-rest/diploma
-	 * This action initiates a Xml signature using REST PKI
+	 * This action initiates an XML signature using REST PKI
 	 * that will sign the full Diploma XML with e-CNPJ (AD-RA).
 	 */
 	@GetMapping("/diploma")
@@ -199,24 +199,24 @@ public class XmlDiplomaSignatureRestController {
 		}
 
 		// Instantiate the FullXmlSignatureStarter class, responsible for receiving the signature
-		// elements and start the signature process.
+		// elements and starting the signature process.
 		FullXmlSignatureStarter signatureStarter = new FullXmlSignatureStarter(Util.getRestPkiClient());
 
-		// Set path of the XML to be signed, a sample XML Document.
+		// Set path of the XML to be signed, the diploma signed on the previous steps.
 		signatureStarter.setXml(StorageMock.getDataPath(fileToSign));
 
 		// Set the signature policy.
 		signatureStarter.setSignaturePolicy(SignaturePolicy.PkiBrazilXadesAdrArquivamento);
 
 		// Set the security context to be used to determine trust in the certificate chain. We have
-		// encapsulated the security context choice on Util.cs.
+		// encapsulated the security context choice on Util.java.
 		signatureStarter.setSecurityContext(Util.getSecurityContext());
 
 		// Call the startWithWebPki() method, which initiates the signature. This yields the token,
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
 		// We'll use this value to call the signWithRestPki() method on the Web PKI component
 		// (see file signature-form.js) and also to complete the signature after the form is
-		// submitted (see method complete() below). This should not be mistaken with the API access
+		// submitted (see method postDiploma() below). This should not be mistaken with the API access
 		// token.
 		String token = signatureStarter.startWithWebPki();
 
@@ -227,14 +227,14 @@ public class XmlDiplomaSignatureRestController {
 		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-diploma-signature-rest/sign-full-diploma.html).
 		model.addAttribute("token", token);
 		return "xml-diploma-signature-rest/sign-full-diploma";
 	}
 
 	/**
 	 * POST /xml-diploma-signature-rest/diploma
-	 * This action complete a Xml signature using REST PKI
+	 * This action completes an XML signature using REST PKI
 	 * that signs the full Diploma XML
 	 */
 	@PostMapping("/diploma")
@@ -247,18 +247,19 @@ public class XmlDiplomaSignatureRestController {
 		XmlSignatureFinisher signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see
-		// file templates/xml-full-signature.html).
+		// file templates/xml-diploma-signature-rest/sign-full-diploma.html).
 		signatureFinisher.setToken(token);
 
-		// Call the finish() method, which finalizes the signature process and returns a SignatureResult object
+		// Call the finish() method, which finalizes the signature process and returns the signed
+		// XML's bytes.
 		byte[] signedXml = signatureFinisher.finish();
 
-		// At this point, you'd typically store the signed PDF on your database. For demonstration
+		// At this point, you'd typically store the signed XML on your database. For demonstration
 		// purposes, we'll store the XML on a temporary folder and return to the page an identifier
 		// that can be used to download it.
 		String filename = StorageMock.store(signedXml, "xml");
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-diploma-signature-rest/diploma.html).
 		model.addAttribute("filename", filename);
 		return "xml-diploma-signature-rest/diploma";
 	}

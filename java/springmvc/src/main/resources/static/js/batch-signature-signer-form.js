@@ -4,8 +4,9 @@
 // the express batch sample; only the "start" and "complete" server calls were adapted:
 //   - the "start" step returns a "token" (instead of a "transferFile") that identifies the Signer
 //     signature process;
-//   - the "complete" step notifies Signer that the signature was performed and the document is no
-//     longer stored locally (it lives on Signer), so we just render it as completed.
+//   - the "complete" step notifies Signer that the signature was performed. The signed document
+//     is not stored locally (it lives on Signer), so we render it as completed with a link that
+//     downloads it from Signer through our server.
 // It is only an example, feel free to alter it to meet your application's needs.
 // -------------------------------------------------------------------------------------------------
 var batchSignatureSignerForm = (function () {
@@ -81,7 +82,7 @@ var batchSignatureSignerForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks.
@@ -129,7 +130,7 @@ var batchSignatureSignerForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that loads the certificates, either on startup or when the user clicks the
-	// "Refresh" button. At this point, the UI is already blocked.
+	// "Refresh" button. At this point, the buttons are already disabled.
 	// ----------------------------------------------------------------------------------------------
 	function loadCertificates() {
 
@@ -451,8 +452,8 @@ var batchSignatureSignerForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that renders a document as completed successfully. Unlike the express sample, the
-	// signed document is stored on Signer (not locally), so we only render a "signed" mark (with the
-	// Signer document ID) instead of a download link.
+	// signed document is stored on Signer (not locally), so we render a "signed" mark (with the
+	// Signer document ID) and a link that downloads the document from Signer through our server.
 	// ----------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
 		setDocStatus(step.index, [

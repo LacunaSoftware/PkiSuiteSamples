@@ -6,7 +6,7 @@
 <body>
 
 <div th:fragment="content">
-	<h2 class='ls-title'> Choose one of the avaliable merge combinations </h2>
+	<h2 class='ls-title'> Choose one of the available merge combinations </h2>
 	<p> All CMS/CAdES Signatures are related to <a th:href="${model.getDownloadUrl()}"> this file </a>. </p>
 	<form id="mergeFilesForm"
 	      th:object="${model}"
@@ -17,7 +17,7 @@
 		<input type="hidden" id="needDataFileField" th:field="*{needDataFile}" />
 
 		<!--
-			Group of cards containing the server file's information. On each card its possible to
+			Group of cards containing the server file's information. On each card it's possible to
 			choose it to be used on the next operation or to download the server file. This is only
 			an example of choosing a server file, you can change this file or use your own logic.
 			The operation only requires the content of this document or its path.
@@ -82,20 +82,20 @@
 </div>
 
 <!--
-	This javascript is only an optional feature for this upload page. It will use jQuery to improve
+	This javascript is only an optional feature for this page. It will use jQuery to improve
 	the UX of the page. Feel free to alter it however you want.
 -->
 <script th:fragment="scripts">
 	/*<![CDATA[*/
 
 	// ----------------------------------------------------------------------------------------------
-	// Function called when the user clicks the "Use This" button. It will store the file's id on the
+	// Function called when the user clicks the "Use This" button. It will store the files' ids on the
 	// hidden <input> (#chosenFileIdsField), which will be passed to server when submitting the
-	// <form> (#filesForm). After this, it submits the form#filesForm.
+	// <form> (#mergeFilesForm). After this, it submits the form#mergeFilesForm.
 	// ----------------------------------------------------------------------------------------------
 	function chooseFile(index, item1, item2, needDataFile) {
 
-		// Store the files id on hidden <input> (#chosenFileIdsField).
+		// Store the files' ids on hidden <input> (#chosenFileIdsField).
 		if(item2 == 'null'){
 			$('#chosenFileIdsField').val([item1]);
 		} else {
@@ -104,7 +104,7 @@
 		// Store the file's needDataFile on hidden <input> (#needDataFileField).
 		$('#needDataFileField').val(needDataFile);
 
-		// Highlight card referred to the chosen file.
+		// Highlight the card of the chosen file.
 
 		$('#' + index + '-card')
 			.addClass('border border-success text-success');
@@ -113,8 +113,8 @@
 			.removeClass('btn-primary')
 			.addClass('btn-success');
 
-		// Show message, informing that will redirect to some other page, which will happen on
-		// server-side after submission.
+		// Show a message informing that the user will be redirected to another page, which will
+		// happen on server-side after submission.
 		$.blockUI({message: 'Redirecting ...'});
 		setTimeout(function () {
 

@@ -125,14 +125,7 @@ public class PadesSignatureCoreController {
 				result.getFailure(), details));
 		}
 
-		// The token acquired above can only be used for a single signature attempt. In order to
-		// retry the signature it is necessary to get a new token. This can be a problem if the user
-		// uses the back button of the browser, since the browser might show a cached page that we
-		// rendered previously, with a now stale token. To prevent this from happening, we call the
-		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
-		// Util.setNoCacheHeaders(response);
-
-		// Render the signature page (templates/pades-signature-core/index.html).
+		// Render the page that completes the signature (templates/pades-signature-core/start.html).
 		model.addAttribute("certThumb", certThumb);
 		model.addAttribute("certContent", certContent);
 		model.addAttribute("state", result.getState());
@@ -167,7 +160,6 @@ public class PadesSignatureCoreController {
 		// Call the completeSignature() method, which finalizes the signature process and returns a
 		// DocumentModel object.
 		DocumentModel signatureResult = service.completeSignature(request);
-		// System.out.println(signatureResult);
 
 		// At this point, you'd typically store the signed PDF on your database. The "signedFile"
 		// field holds a temporary link to it. For demonstration purposes, we'll download the signed

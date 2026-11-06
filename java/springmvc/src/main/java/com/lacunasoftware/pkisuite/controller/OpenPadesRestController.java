@@ -35,7 +35,7 @@ public class OpenPadesRestController {
 			throw new FileNotFoundException();
 		}
 
-		// Get an instance the PadesSignatureExplorer2 class, used to open/validate PDF signatures.
+		// Get an instance of the PadesSignatureExplorer2 class, used to open/validate PDF signatures.
 		PadesSignatureExplorer2 sigExplorer = new PadesSignatureExplorer2(Util.getRestPkiClient());
 
 		// Specify that we want to validate the signatures in the file, not only inspect them.
@@ -55,7 +55,7 @@ public class OpenPadesRestController {
 		// Call the open() method, which returns the signature file's information.
 		PadesSignature signature = sigExplorer.open();
 
-		// Render the information (see file resources/templates/open-pades-signature.html for more
+		// Render the information (see file resources/templates/open-pades-rest/index.html for more
 		// information on the information returned).
 		model.addAttribute("signature", signature);
 		return "open-pades-rest/index";
