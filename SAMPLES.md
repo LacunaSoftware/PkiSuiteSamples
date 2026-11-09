@@ -107,7 +107,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 | **Sign a PDF with a server key using Rest PKI Core**<br>`pades-signature-server-key-rest-pki-core` | Rest PKI Core | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesServerKeyRestCoreController.cs) | — | — | — | — | — |
 | **Sign a PDF with a server key using PKI SDK**<br>`pades-signature-server-key-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/PadesServerKeySdkController.cs) | — | — | — | — | — |
 | **Sign a PDF with a server key using PKI Express**<br>`pades-signature-server-key-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesServerKeyExpressController.java) | [code](nodejs/expressmvc/routes/pades-server-key-express.js) | [code](php/plain/public/pades-server-key-express/index.php) | [code](python/flask/sample/views/pades_server_key_express.py) | [code](ruby/rails/app/controllers/pades_server_key_express_controller.rb) |
-| **Sign a PDF with a server key using Rest PKI**<br>`pades-signature-server-key-rest-pki` | Rest PKI | `current` | — | — | — | [code](php/plain/public/pades-server-key-rest/index.php) | — | — |
+| **Sign a PDF with a server key using Rest PKI**<br>`pades-signature-server-key-rest-pki` | Rest PKI | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesServerKeyRestController.java) | — | [code](php/plain/public/pades-server-key-rest/index.php) | — | — |
 
 ## Sign a PDF with a cloud certificate (CloudHub)
 

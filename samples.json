@@ -1130,6 +1130,30 @@
     "id": "pades-signature-server-key-rest-pki",
     "title": "Sign a PDF with a server key using Rest PKI",
     "title_pt": "Assinar um PDF com uma chave do servidor usando o Rest PKI",
+    "description": "Server-only PAdES signature with Rest PKI (v1): the server starts the signature, signs the data with java.security.Signature and the private key of a PKCS #12 (.pfx) file, and finishes it with Rest PKI.",
+    "product": "rest-pki",
+    "language": "java",
+    "framework": "spring-boot",
+    "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesServerKeyRestController.java",
+    "related_files": [
+      "java/springmvc/src/main/resources/templates/pades-server-key-rest/index.html",
+      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/restpki/PadesVisualElements.java",
+      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/Util.java",
+      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/StorageMock.java"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "demo_url": null,
+    "run": {
+      "cwd": "java/springmvc",
+      "command": "./gradlew bootRun",
+      "url": "http://localhost:60695/check-rest-token?rc=upload&fwd=pades-server-key"
+    }
+  },
+  {
+    "id": "pades-signature-server-key-rest-pki",
+    "title": "Sign a PDF with a server key using Rest PKI",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o Rest PKI",
     "description": "Server-only PAdES signature with Rest PKI (v1): the server starts the signature, signs the hash with OpenSSL and a PKCS #12 (.pfx) file, and finishes it with Rest PKI.",
     "product": "rest-pki",
     "language": "php",
