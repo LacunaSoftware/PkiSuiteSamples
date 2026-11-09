@@ -21,18 +21,16 @@ import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 
 
-/**
- * This controller performs a PAdES signature using REST PKI and a PKCS #12 file located on the
- * server side. The private key never leaves the server, and there is no Web PKI in this flow.
- */
 @Controller
 public class PadesServerKeyRestController {
 
 	/**
-	 * GET /pades-server-key-rest?fileId={fileId}
+	 * GET /pades-server-key-rest
 	 *
-	 * This action signs the uploaded PDF with the sample certificate "Pierre de Fermat" and renders
-	 * the information about the signed file.
+	 * This action performs a PAdES signature using REST PKI and a PKCS #12 file located on the
+	 * server side (the sample certificate "Pierre de Fermat"), and renders the information about
+	 * the signed file. The private key never leaves the server, and there is no Web PKI in this
+	 * flow.
 	 */
 	@GetMapping("/pades-server-key-rest")
 	public String get(

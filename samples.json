@@ -1137,9 +1137,7 @@
     "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesServerKeyRestController.java",
     "related_files": [
       "java/springmvc/src/main/resources/templates/pades-server-key-rest/index.html",
-      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/restpki/PadesVisualElements.java",
-      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/Util.java",
-      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/StorageMock.java"
+      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/restpki/PadesVisualElements.java"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
