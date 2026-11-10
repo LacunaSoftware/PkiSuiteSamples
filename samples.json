@@ -4209,13 +4209,14 @@
     "id": "validate-cades-signature-rest-pki",
     "title": "Validate a CMS/CAdES signature using Rest PKI",
     "title_pt": "Validar uma assinatura CMS/CAdES com o Rest PKI",
-    "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content.",
+    "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content. For a detached signature, it asks for the signed file and validates against it.",
     "product": "rest-pki",
     "language": "java",
     "framework": "spring-boot",
     "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenCadesRestController.java",
     "related_files": [
-      "java/springmvc/src/main/resources/templates/open-cades-rest/index.html"
+      "java/springmvc/src/main/resources/templates/open-cades-rest/index.html",
+      "java/springmvc/src/main/resources/templates/open-cades-rest/data-file.html"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",

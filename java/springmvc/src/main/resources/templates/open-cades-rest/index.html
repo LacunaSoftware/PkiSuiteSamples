@@ -14,6 +14,10 @@
 		<span th:if="${outputFile != null}">
 			<a class="btn btn-primary mb-3" th:href="@{'/download/' + ${outputFile}}">Download encapsulated file as PDF</a>
 		</span>
+		<p th:if="${dataFile != null}">
+			The signature is detached. It was validated against
+			<a th:href="@{'/download/' + ${dataFile}}">the signed file you uploaded</a>.
+		</p>
 
 		<p>The given file contains <span th:text="${signature.getSigners().size()}"/> signatures:</p>
 		<div id="accordion">

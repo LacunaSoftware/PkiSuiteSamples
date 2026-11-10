@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page}">
+<body>
+
+<div th:fragment="content">
+	<h2 class="ls-title">Open existing CAdES Signature with REST PKI</h2>
+	<h5 class="ls-subtitle">Upload the signed file</h5>
+
+	<div class="ls-content">
+		<p>
+			<a th:href="@{'/download/' + ${fileId}}">This signature</a> is detached: it does not
+			contain the file that was signed. Upload the signed file so that Rest PKI can validate the
+			signature.
+		</p>
+
+		<!-- The form is submitted to the post() action of OpenCadesRestController. -->
+		<form method="POST" enctype="multipart/form-data" th:action="@{/open-cades-rest}">
+			<input type="hidden" name="fileId" th:value="${fileId}" />
+			<div class="form-group">
+				<label for="dataFileInput">Signed file</label>
+				<input type="file" id="dataFileInput" name="userfile" class="form-control-file" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Open/validate</button>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>
