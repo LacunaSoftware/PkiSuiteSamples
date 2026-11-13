@@ -264,7 +264,7 @@ Every sample in this repository, grouped by task, with one column per language. 
 |---|---|---|---|---|---|---|---|---|
 | **Validate a CMS/CAdES signature using PKI SDK**<br>`validate-cades-signature-pki-sdk` | PKI SDK | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureSdkController.cs) | — | — | — | — | — |
 | **Validate a CMS/CAdES signature using PKI Express**<br>`validate-cades-signature-pki-express` | PKI Express | `current` | — | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenCadesExpressController.java) | [code](nodejs/expressmvc/routes/open-cades-express.js) | [code](php/plain/public/open-cades-express/index.php) | [code](python/flask/sample/views/open_cades_express.py) | — |
-| **Validate a CMS/CAdES signature using Rest PKI**<br>`validate-cades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureRestController.cs) | — | [code](nodejs/expressmvc/routes/open-cades-restpki.js) | [code](php/plain/public/open-cades-rest/index.php) | — | — |
+| **Validate a CMS/CAdES signature using Rest PKI**<br>`validate-cades-signature-rest-pki` | Rest PKI | `current` | [ASP.NET MVC](dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/OpenCadesSignatureRestController.cs) | [code](java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenCadesRestController.java) | [code](nodejs/expressmvc/routes/open-cades-restpki.js) | [code](php/plain/public/open-cades-rest/index.php) | — | — |
 
 ## Validate a signed XML
 
