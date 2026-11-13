@@ -1,10 +1,8 @@
 <?php
 
 /**
- * This block will be executed only when it's on the "complete" step. In this
- * sample, the state is set as "complete" programmatically after the Web PKI
- * component perform the signature and submit the form (see method sign() on
- * content/js/signature-form.js).
+ * This file is called after Web PKI signs the hash and submits the form (see
+ * method sign() on scripts/signature-complete-form.js).
  */
 require __DIR__ . '/../../vendor/autoload.php';
 

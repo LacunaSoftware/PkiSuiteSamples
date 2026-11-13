@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"  th:replace="~{layout :: page}">
 <head>
-	<link th:fragment="style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous" />
+	<link th:fragment="style" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" integrity="sha384-4Efkt0T8BZbTzoX4+i/jZFCAWVy1BuRte6F0L3awo3Ek6D1L98qwg7ZRe5bxSrF/" crossorigin="anonymous" />
 </head>
 <body>
 
@@ -21,7 +21,7 @@
 			</div>
 
 			<!--
-				Action buttons. The "Refresh Certificates" button, which is responsible to reload the
+				Action buttons. The "Refresh Certificates" button, which is responsible for reloading the
 				certificate list. This operation uses the same function used on page loading
 				(see function refresh() below).
 			-->
@@ -50,7 +50,7 @@
 -->
 <script th:fragment="scripts"
         type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js" integrity="sha384-O/ymMhrYXP5tgvTj27eAjKZODlpm7nIVeAkhRL7i9mdenmlJGAjstxMy/bKdklFZ" crossorigin="anonymous"></script>
 
 <script th:fragment="scripts" th:inline="javascript">
 	/*<![CDATA[*/
@@ -108,8 +108,8 @@
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_listCertificates
 		pki.listCertificates().success(function (certs) {
 
-			// Create an object to be shown on Select2 from each certificate. Its define which
-			// certificate are valid or invalid. At last, sort the list of objects by its validity.
+			// Create an object to be shown on Select2 from each certificate. It defines which
+			// certificates are valid or invalid. At last, sort the list of objects by validity.
 			var select2Certs = $.map(certs, function (cert) {
 
 				var obj = {};
@@ -150,8 +150,8 @@
 				}
 			});
 
-			// Verify if there is no certificates available to disable the <select> element, showing
-			// the messaging informing that.
+			// If there are no certificates available, disable the <select> element, showing a message
+			// informing that.
 			if (certs.length === 0) {
 				$('#certificateSelect')
 					.append('<option value="null">There is no certificate on your machine</option>')

@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
     die();
 }
 
-// Verify if the fileId correspond to an existing file on our StorageMock class.
+// Verify if the fileId corresponds to an existing file on our StorageMock class.
 $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
 if (!StorageMock::exists($fileId)) {
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -80,7 +80,7 @@ if (!StorageMock::exists($fileId)) {
 
 <?php
 // The file below contains the logic for calling the Web PKI component. It is
-// only an example, feel, free to alter it to meet your application's needs. You
+// only an example, feel free to alter it to meet your application's needs. You
 // can also bring the code into the javascript block below if you prefer.
 ?>
 <script src="scripts/signature-start-form.js"></script>

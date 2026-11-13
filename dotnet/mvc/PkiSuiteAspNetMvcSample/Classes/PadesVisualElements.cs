@@ -12,8 +12,8 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 
 		#region PKI SDK
 
-		// This function is called by the PAdES samples for PKI SDK. It contains a example of signature visual
-		// representation. This is only a separate function in order to organize the variaous examples.
+		// This function is called by the PAdES samples for PKI SDK. It contains an example of signature visual
+		// representation. This is only a separate function in order to organize the various examples.
 		public static Pki.PadesVisualRepresentation2 GetVisualRepresentationForPkiSdk(Lacuna.Pki.PKCertificate cert) {
 
 			// Create a visual representation.
@@ -31,7 +31,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 					// Optionally set the container within the signature rectangle on which to place the
 					// text. By default, the text can occupy the entire rectangle (how much of the rectangle the
 					// text will actually fill depends on the length and font size). Below, we specify that text
-					// should respect a right margin of 1.5 cm.
+					// should respect a margin of 0.2 cm on each side.
 					Container = new Pki.PadesVisualRectangle() {
 						Left = 0.2,
 						Top = 0.2,
@@ -63,7 +63,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 
 		#region REST PKI
 
-		// This function is called by the PAdES samples for REST PKI. It contains a example of signature visual
+		// This function is called by the PAdES samples for REST PKI. It contains an example of signature visual
 		// representation. This is only in a separate function in order to organize the various examples.
 		public static RestPki.PadesVisualRepresentation GetVisualRepresentationForRestPki() {
 
@@ -81,7 +81,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 					// Optionally set the container within the signature rectangle on which to place the
 					// text. By default, the text can occupy the entire rectangle (how much of the
 					// rectangle the text will actually fill depends on the length and font size).
-					// Below, we specify that the text should respect a right margin of 1.5 cm.
+					// Below, we specify that the text should respect a margin of 0.2 cm on each side.
 					Container = new RestPki.PadesVisualRectangle() {
 						Left = 0.2,
 						Top = 0.2,
@@ -97,7 +97,7 @@ namespace PkiSuiteAspNetMvcSample.Classes {
 				},
 			};
 
-			// Position of the visual represention. We get the footnote position preset and customize
+			// Position of the visual representation. We get the footnote position preset and customize
 			// it.
 			var visualPositioning = RestPki.PadesVisualPositioning.GetFootnote(Util.GetRestPkiClient());
 			visualPositioning.Container.Height = 4.94;

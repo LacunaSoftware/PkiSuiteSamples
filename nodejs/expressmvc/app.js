@@ -2,7 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const moment = require('moment');
 const { Config } = require('./config');
 
@@ -27,8 +26,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 // Configure server.
 app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /**
@@ -47,9 +46,6 @@ app.use(session({
 // Add middleware to add parameters on response's locals, to be used on the
 // Pug template engine before rendering the page.
 app.use((req, res, next) => {
-	// Pass some session parameters.
-	// res.locals.userId = req.session['userId'] || null;
-
 	// Pass moment callback for formatting dates.
 	res.locals.moment = moment;
 

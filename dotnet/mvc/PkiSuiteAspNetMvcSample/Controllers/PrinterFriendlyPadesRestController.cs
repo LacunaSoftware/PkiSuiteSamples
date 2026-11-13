@@ -49,10 +49,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		// generatePrinterFriendlyVersion() below.
 		// ####################################################################################################
 
-		// GET: PrinterFriendlyPadesRestPki?userfile={id}
+		// GET: PrinterFriendlyPadesRest?userfile={id}
 		public ActionResult Index(string userfile) {
 
-			// Locate document and read content from storage. Our action only works if the a valid fileId is
+			// Locate document and read content from storage. Our action only works if a valid fileId is
 			// given.
 			byte[] fileContent;
 			try {
@@ -64,7 +64,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// Check if doc already has a verification code registered on storage.
 			var verificationCode = StorageMock.GetVerificationCode(userfile);
 			if (verificationCode == null) {
-				// If not, generate a code an register it.
+				// If not, generate a code and register it.
 				verificationCode = AlphaCode.Generate();
 				StorageMock.SetVerificationCode(userfile, verificationCode);
 			}
@@ -179,7 +179,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				.OnContainer(pdf.Container().Height(elementHeight).AnchorTop(verticalOffset).Width(elementHeight /* using elementHeight as width because QR Codes are square */).AnchorRight())
 				.WithQRCodeData(verificationLink)
 			)
-			// Header "VERIFICAÇÃO DAS ASSINATURAS" centered between ICP-Brasil logo and QR Code.
+			// Header "SIGNATURE CHECK" centered between ICP-Brasil logo and QR Code.
 			.AddElement(
 				pdf.TextElement()
 				.OnContainer(pdf.Container().Height(elementHeight).AnchorTop(verticalOffset + 0.2).FullWidth())

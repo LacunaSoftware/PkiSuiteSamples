@@ -18,7 +18,8 @@ router.get('/', (req, res) => {
 /**
  * GET /check-pki-express
  *
- * ...
+ * Redirects to the PKI Express sample identified by the "rc", "fwd" and "op"
+ * parameters.
  */
 router.get('/check-pki-express', (req, res, next) => {
 	const { rc } = req.query;
@@ -38,7 +39,9 @@ router.get('/check-pki-express', (req, res, next) => {
 /**
  * GET /check-restpki-token
  *
- * ...
+ * Checks if the REST PKI access token is set on the configuration file. If not,
+ * it renders an informative page to show how to fix that. Otherwise, it will
+ * continue to the sample identified by "rc", "fwd" and "op" parameters.
  */
 router.get('/check-restpki-token', (req, res) => {
 	const { accessToken } = Config.getInstance().get('restPki');
@@ -88,7 +91,9 @@ router.get('/check-rest-pki-core-api-key', (req, res) => {
 /**
  * GET /check-amplia-api-key
  *
- * ...
+ * Checks if the Amplia API key is set on the configuration file. If not, it
+ * renders an informative page to show how to fix that. Otherwise, it will
+ * continue to the sample identified by "rc", "fwd" and "op" parameters.
  */
 router.get('/check-amplia-api-key', (req, res) => {
 	const { apiKey } = Config.getInstance().get('amplia');

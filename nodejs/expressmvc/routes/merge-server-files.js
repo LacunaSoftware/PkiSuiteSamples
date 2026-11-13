@@ -33,8 +33,8 @@ router.post('/', (req, res) => {
 	let file2 = null;
 	const dataFile = StorageMock.readSampleDocSync(SampleDocs.CMS_DATA_FILE.valueOf());
 	
-	// Redirect the user to the signature route, passing the name of the file as
-	// a URL argument.
+	// Redirect the user to the merge route, passing the names of the files as
+	// URL arguments.
 	let redirectUrl = req.query.rc;
 	
 	switch (sampleId) {
@@ -57,9 +57,9 @@ router.post('/', (req, res) => {
 		break;
 	}
 
-	// Copy file to the App_Data folder, where the upload files is stored.
-	const fileId1 = StorageMock.storeSync(file1, null, '.ps7');
-	const fileId2 = StorageMock.storeSync(file2, null, '.ps7');
+	// Copy files to the "app-data" folder, where uploaded files are stored.
+	const fileId1 = StorageMock.storeSync(file1, null, '.p7s');
+	const fileId2 = StorageMock.storeSync(file2, null, '.p7s');
 
 	redirectUrl += `fileId1=${fileId1}&fileId2=${fileId2}`;
 	res.redirect(redirectUrl);

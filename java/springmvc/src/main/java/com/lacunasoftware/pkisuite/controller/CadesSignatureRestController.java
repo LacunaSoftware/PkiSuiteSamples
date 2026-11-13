@@ -32,7 +32,7 @@ public class CadesSignatureRestController {
 	) throws IOException, RestException {
 
 		// Get an instance of the CadesSignatureStarter2 class, responsible for receiving the
-		// signature elements and start the signature process.
+		// signature elements and starting the signature process.
 		CadesSignatureStarter2 signatureStarter = new CadesSignatureStarter2(Util.getRestPkiClient());
 
 		// Set the signature policy.
@@ -51,22 +51,22 @@ public class CadesSignatureRestController {
 
 		if (!Util.isNullOrEmpty(cmsToCoSign)) {
 
-			// Verify if the CMS file exists and get its absolute path of the CMS file.
+			// Verify if the CMS file exists and get its absolute path.
 			if (!StorageMock.exists(cmsToCoSign)) {
 				throw new FileNotFoundException("The provided file was not found. Please verify if the \"cosign\" parameter is correct!");
 			}
 			Path cmsPath = StorageMock.getDataPath(cmsToCoSign);
 
-			// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously
+			// If the URL argument "cosign" is filled, the user has asked to co-sign a previously
 			// signed CMS. We'll set the path to the CMS to be co-signed, which was previously
-			// saved in our temporary folder by the post() method on this controller. Note two
-			// important things:
+			// saved in our temporary folder by the post() method on this controller or by
+			// ServerFilesController. Note two important things:
 			//
 			//   1. The CMS to be co-signed must be set using the method "setCmsToCoSign", not the
 			//      method "setContentToSign" nor "setFileToSign";
 			//
 			//   2. Since we're creating CMSs with encapsulated content (see call to
-			//      setEncapsulateContent() below), we don't need to set the content to be signed,
+			//      setEncapsulateContent() above), we don't need to set the content to be signed,
 			//      REST PKI will get the content from the CMS being co-signed.
 			signatureStarter.setCmsToCoSign(cmsPath);
 
@@ -78,10 +78,9 @@ public class CadesSignatureRestController {
 			}
 			Path filePath = StorageMock.getDataPath(fileToSign);
 
-			// If the URL argument "userfile" is filled, it means the user was redirected here by
-			// UploadController (signature with file uploaded by user). We'll set the path of the file
-			// to be signed, which was saved in the temporary folder by UploadController (such a file
-			// would normally come from your application's database).
+			// We'll set the path of the file to be signed, which was saved in the temporary folder by
+			// UploadController or ServerFilesController (such a file would normally come from your
+			// application's database).
 			signatureStarter.setFileToSign(filePath);
 		}
 
@@ -90,7 +89,7 @@ public class CadesSignatureRestController {
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
 		// We'll use this value to call the signWithRestPki() method on the Web PKI component
 		// (see file signature-form.js) and also to complete the signature after the form is
-		// submitted (see method complete() below). This should not be mistaken with the API access
+		// submitted (see method post() below). This should not be mistaken with the API access
 		// token.
 		SignatureStartWithWebPkiResult result = signatureStarter.startWithWebPki();
 
@@ -101,7 +100,7 @@ public class CadesSignatureRestController {
 		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the signature page (templates/cades-signature-rest/index.html.html).
+		// Render the signature page (templates/cades-signature-rest/index.html).
 		model.addAttribute("token", result.getToken());
 		return "cades-signature-rest/index";
 	}
@@ -115,12 +114,12 @@ public class CadesSignatureRestController {
 	@PostMapping
 	public String post(@RequestParam String token, Model model) throws IOException, RestException {
 
-		// Get an instance the CadesSignatureFinisher2 class, responsible for completing the
+		// Get an instance of the CadesSignatureFinisher2 class, responsible for completing the
 		// signature process.
 		CadesSignatureFinisher2 signatureFinisher = new CadesSignatureFinisher2(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see file
-		// templates/cades-signature.html).
+		// templates/cades-signature-rest/index.html).
 		signatureFinisher.setToken(token);
 
 		// Call the finish() method, which finalizes the signature process and returns a
@@ -136,7 +135,7 @@ public class CadesSignatureRestController {
 
 		// The SignatureResult object has various methods for writing the signature file to a stream
 		// (writeTo()), local file (writeToFile()), open a stream to read the content (openRead())
-		// and get its contents (getContent()). For large files, avoid the method GetContent() to
+		// and get its contents (getContent()). For large files, avoid the method getContent() to
 		// avoid memory allocation issues.
 		String cmsFile;
 		try (InputStream resultStream = signatureResult.openRead()) {

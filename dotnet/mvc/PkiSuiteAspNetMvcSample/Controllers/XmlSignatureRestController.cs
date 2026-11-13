@@ -14,17 +14,15 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class XmlSignatureRestController : BaseController {
 
 		/**
-		 * This action initiates a XML element signature using REST PKI and renders the signature page.
-		 * The full XML signature is recommended in cases which there is a need to sign the whole XML file.
+		 * This action initiates a full XML signature using REST PKI and renders the signature page.
+		 * The full XML signature is recommended in cases where there is a need to sign the whole XML file.
 		 *
-		 * Both XML signature examples, with a server file and with a file uploaded by the user, converge to
-		 * this action. The difference is that, when the file is uploaded by the user, the action is called
-		 * with a URL argument named "userfile".
+		 * In this sample, the XML to be signed is a sample XML document stored on the server.
 		 */
 		[HttpGet]
 		public async Task<ActionResult> Index() {
 
-			// Instantiate the XmlElementSignatureStarter class, responsible for receiving the signature
+			// Instantiate the FullXmlSignatureStarter class, responsible for receiving the signature
 			// elements and start the signature process.
 			var signatureStarter = new FullXmlSignatureStarter(Util.GetRestPkiClient());
 
@@ -39,7 +37,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			signatureStarter.SetSecurityContext(Util.GetSecurityContextId());
 
 			// Set the location on which to insert the signature node. If the location is not specified, the
-			// signature will appended to the root element (which is most usual with enveloped signatures).
+			// signature will be appended to the root element (which is most usual with enveloped signatures).
 			var nsm = new NamespaceManager();
 			nsm.AddNamespace("ls", "http://www.lacunasoftware.com/sample");
 			signatureStarter.SetSignatureElementLocation("//ls:signaturePlaceholder", XmlInsertionOptions.AppendChild, nsm);
@@ -48,7 +46,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// a 43-character case-sensitive URL-safe string, which identifies this signature process. We'll
 			// use this value to call the signWithRestPki() method on the Web PKI component (see 
 			// signature-form.js) and also to complete the signature on the POST action below (this should
-			// not be mistaken with the API access token).
+			// not be mistaken for the API access token).
 			var token = await signatureStarter.StartWithWebPkiAsync();
 
 			// The token acquired above can only be used for a single signature attempt. In order to retry
@@ -79,7 +77,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				Token = model.Token
 			};
 
-			// Call the Finish() method, which finalizes the signature process and returns the signed PDF.
+			// Call the Finish() method, which finalizes the signature process and returns the signed XML.
 			var signedXml = await signatureFinisher.FinishAsync();
 
 			// Get information about the certificate used by the user to sign the file. This method must only
@@ -87,7 +85,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var signerCert = signatureFinisher.GetCertificateInfo();
 
 			// At this point, you'd typically store the signed XML on your database. For demonstration
-			// purposes, we'll store the PDF on our mock Storage class.
+			// purposes, we'll store the XML on our mock Storage class.
 			var fileId = StorageMock.Store(signedXml, ".xml");
 
 			// Render the signature information page.

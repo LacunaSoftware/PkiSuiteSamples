@@ -18,7 +18,7 @@ var signatureCompleteForm = (function () {
 		// Receive form parameters received as arguments.
 		formElements = fe;
 
-		// Verify if the form is invalid. (this only happens after a unsuccessful form submission)
+		// Verify if the form is invalid. (this only happens after an unsuccessful form submission)
 		if (!formElements.formIsValid) {
 			formElements.tryAgainButton.show();
 			return;
@@ -39,7 +39,7 @@ var signatureCompleteForm = (function () {
 	}
 
 	// ------------------------------------------------------------------------------------------------------
-	// Function that performs the siganture on startup. At this point, the UI is already blocked.
+	// Function that performs the signature on startup. At this point, the UI is already blocked.
 	// ------------------------------------------------------------------------------------------------------
 	function sign() {
 

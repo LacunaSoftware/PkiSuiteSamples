@@ -94,8 +94,8 @@ class StorageMock
     static function generateFileId($extension, $originalFilename = null)
     {
         $filename = self::generateFilename($extension, $originalFilename);
-        // Replace extension '.'. to '_' to be passe as parameters on URL for
-        // safety.
+        // Replace '.' with '_' so the file id can be safely passed as a URL
+        // parameter.
         return str_replace(".", "_", $filename);
     }
 
@@ -126,7 +126,7 @@ class StorageMock
     static function store($content, $extension = '', $originalFilename = null)
     {
 
-        // Guarantees tha the 'app-data' folder exists.
+        // Ensures that the 'app-data' folder exists.
         self::createAppData();
 
         $filename = self::generateFilename($extension, $originalFilename);
@@ -135,8 +135,8 @@ class StorageMock
         $filePath = self::APP_DATA_PATH . $filename;
         file_put_contents($filePath, $content);
 
-        // Replace extension '.'. to '_' to be passe as parameters on URL for
-        // safety.
+        // Replace '.' with '_' so the file id can be safely passed as a URL
+        // parameter.
         return str_replace('.', '_', $filename);
     }
 
@@ -157,7 +157,7 @@ class StorageMock
 
     static function storeKey($content, $extension, $certId)
     {
-        // Guarantees tha the 'app-data' folder exists.
+        // Ensures that the 'app-data' folder exists.
         self::createAppData();
 
         $filename = $certId . $extension;
@@ -201,7 +201,7 @@ class StorageMock
         }
 
         // >>>>> NOTICE <<<<<
-        // This should be implemented on your application as a UPDATE on your
+        // This should be implemented on your application as an UPDATE on your
         // "document table" filling the verification code column, which should
         // be an indexed column.
         $_SESSION['Files/' . $fileId . '/Code'] = $code;
@@ -249,7 +249,7 @@ class StorageMock
      * - 12 characters = 48 bits
      * - 16 characters = 64 bits
      * - 20 characters = 80 bits
-     * - 24 characters = 92 bits
+     * - 24 characters = 96 bits
      */
         $codeSize = 16;
 
@@ -380,7 +380,7 @@ class StorageMock
     }
 
     static function getWebhookHandlerLogPath(){
-        // Guarantees tha the 'app-data' folder exists.
+        // Ensures that the 'app-data' folder exists.
         self::createAppData();
 
         $filename = "WebhookHandler.log";

@@ -6,7 +6,7 @@ const { StorageMock } = require('../storage-mock');
 const router = express.Router();
 
 /*
-* GET /check
+* GET /check-pades-express
 *
 * This route submits a PDF file to PKI Express for inspection of its signatures
 * and renders the results.
@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 	// before looking it up.
 	const verificationCode = Util.parseVerificationCode(req.query.code);
 
-	// Our demo only works if a userfile is given to work with
+	// Look up the document associated with the verification code.
 	const fileId = StorageMock.lookupVerificationCode(req.session, verificationCode);
 
 	if (!fileId) {
@@ -39,7 +39,7 @@ router.get('/', (req, res, next) => {
 	// Locate document from storage.
 	const filePath = StorageMock.getDataPath(fileId);
 
-	// Se the PDF file to be inspected.
+	// Set the PDF file to be inspected.
 	sigExplorer.setSignatureFileFromPathSync(filePath);
 
 	// Specify that we want to validate the signatures in the file, not only

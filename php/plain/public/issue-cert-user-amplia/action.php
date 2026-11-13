@@ -14,25 +14,26 @@ try{
     $cpf = $_POST['cpf'];
     $phoneNumber = $_POST['phoneNumber'];
 
-    // Get an instance of the AmpliaClient, responsible to connect with Amplia and
-    // perform the requests.
+    // Get an instance of the AmpliaClient, responsible for connecting to Amplia and
+    // performing the requests.
     $client = Util::getAmpliaClient();
 
-    // Create an instance of the CreateOrderRequest class, which contains a class,
-    // that inherits the CertificateParameters class. In this sample, we use a
-    // PkiBrazilCertificateParameters class to emit a certificate with PKI Brazil
-    // parameters.
+    // Create an instance of the CreateOrderRequest class, which contains an
+    // instance of a class that inherits the CertificateParameters class. In this
+    // sample, we use a PkiBrazilCertificateParameters class to issue a certificate
+    // with PKI Brazil parameters.
     $createOrderRequest = new CreateOrderRequest();
     // Set the certificate authority's id. This authority will generate your
     // certificate. You can have a default CAId per application, in that case, there
     // is no need to set this parameter.
     $createOrderRequest->caId = getConfig()['amplia']['caId'];
-    // Set the certificate validity. We've encapsulated to set 2 years from now.
+    // Set the certificate validity. We use Util::getDateYearsFromNow() to set it to
+    // 2 years from now.
     $createOrderRequest->validityEnd = Util::getDateYearsFromNow(2);
     // Set the kind of the certificate.
     $createOrderRequest->kind = CertificateKinds::PUBLIC_KEY;
     // Set the certificate parameters class with the desired parameters to your
-    // certificate. In this sample, we use the ICP-Brazil model, and informed the
+    // certificate. In this sample, we use the ICP-Brasil model and fill the
     // following fields:
     // - The subject name of the certificate;
     // - The CPF number;
@@ -46,7 +47,7 @@ try{
     // Call Amplia to create an order.
     $order = $client->createOrder($createOrderRequest);
 
-    // After the order is create, get a redirect link to a remote page to issue
+    // After the order is created, get a redirect link to a remote page to issue
     // the certificate. We pass a return URL, to redirect the user after the
     // certificate is issued.
     $redirectLink = $client->getOrderIssueLink($order->id, $RETURN_URL);

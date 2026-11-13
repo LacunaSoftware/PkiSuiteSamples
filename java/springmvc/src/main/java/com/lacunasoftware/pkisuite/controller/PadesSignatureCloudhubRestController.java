@@ -35,12 +35,10 @@ public class PadesSignatureCloudhubRestController {
 
 
 
-	// Configure API key authorization: ApiKey
-
     /**
 	 * GET /pades-signature-cloudhub-rest
 	 *
-	 * This action initiates a PAdES signature using Cloudhub API service
+	 * This action initiates a PAdES signature using CloudHub API service
 	 * to retrieve the PSCs, which, in turn, will return a certificate.
 	 */
 	@GetMapping("/pades-signature-cloudhub-rest")
@@ -54,22 +52,20 @@ public class PadesSignatureCloudhubRestController {
 		if (!StorageMock.exists(fileToSign)) {
 			throw new FileNotFoundException();
 		}
-		/**
-	 	* This action will render a page that request a CPF to the user. This CPF is used to discover
-	 	* which PSCs have a certificate containing that CPF.
-	 	*/
+		// This action will render a page that requests a CPF from the user. This CPF is used to
+		// discover which PSCs have a certificate containing that CPF.
 		return new ModelAndView("/pades-signature-cloudhub-rest/index");
     }
 
 	/**
-	 * This action will be called after the user press the button "Search" on index page. It will
-	 * search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
-	 * authentication process and return a URL to redirect the user to perform the authentication.
+	 * This action will be called after the user presses the button "Search" on the index page. It
+	 * will create a CloudHub session for the provided CPF, which finds the PSCs that have a
+	 * certificate with that CPF and returns the URLs to redirect the user to perform the
+	 * authentication.
 	 *
-	 * After this action the user will be redirected, and to store the local data (fileId) to be user
-	 * after the user returns to your application. We use the parameter "customState", the last
-	 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
-	 * next action.
+	 * After this action the user will be redirected. To recover the local data (fileId) after the
+	 * user returns to your application, we add it to the redirect URL. This parameter will be
+	 * recovered in the next action.
 	 * @throws ApiException
 	 */
 	@PostMapping("/pades-signature-cloudhub-rest/discover")
@@ -88,21 +84,21 @@ public class PadesSignatureCloudhubRestController {
     	sessionCreateRequest.setRedirectUri(REDIRECT_URL);
     	sessionCreateRequest.setType(TrustServiceSessionTypes.SINGLE_SIGNATURE);
 
-		// Discover PSCs and receive a URL to redirect the user to perform the OAuth authentication
-		// page. As mentioned before, we pass the id of the file to be signed as the last parameter
-		// of the following method. The next action will recover this information.
+		// Create the session, which discovers the PSCs and returns a URL to redirect the user to
+		// perform the OAuth authentication. As mentioned before, the id of the file to be signed is
+		// in the redirect URL set above. The next action will recover this information.
 
 		SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
 		SessionModel result = sessionsApi.apiSessionsPost(sessionCreateRequest);
 
-		// Render complete page.
+		// Render the discover page.
 		return new ModelAndView("/pades-signature-cloudhub-rest/discover", "model", result);
 	}
 
 	/**
 	 * This action will complete the authentication process and create a signature using a session
-	 * token returned by user. Also, we recover the parameter "customState" containing the id of the
-	 * file that will be signed.
+	 * token returned by user. Also, we recover the parameter "fileId" (added to the redirect URL)
+	 * containing the id of the file that will be signed.
 	 * @throws ApiException
 	 * @throws RestException
 	 */
@@ -113,8 +109,8 @@ public class PadesSignatureCloudhubRestController {
 		Model model
 	) throws IOException, ApiException, RestException {
 
-		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
-		// and handling the OAuth flow.
+		// Get an instance of the SessionsApi class, responsible for communicating with CloudHub, and
+		// get the certificate of the session.
 		SessionsApi sessionsApi = new SessionsApi(Util.getCloudhubClient());
 		byte[] certificate =  sessionsApi.apiSessionsCertificateGet(session);
 
@@ -124,7 +120,7 @@ public class PadesSignatureCloudhubRestController {
 			throw new FileNotFoundException();
 		}
 		// Get an instance of the PadesSignatureStarter2 class, responsible for receiving the
-		// signature elements and start the signature process.
+		// signature elements and starting the signature process.
 		PadesSignatureStarter2 signatureStarter = new PadesSignatureStarter2(Util.getRestPkiClient());
 
 		// Set the unit of measurement used to edit the pdf marks and visual representations.
@@ -158,8 +154,7 @@ public class PadesSignatureCloudhubRestController {
 		// signature process.
 		PadesSignatureFinisher2 signatureFinisher = new PadesSignatureFinisher2(Util.getRestPkiClient());
 
-		// Set the token for this signature (rendered in a hidden input field, see file
-	// templates/pades-signature.html).
+		// Set the token for this signature, returned by the start() method above.
 		signatureFinisher.setToken(signStartResult.getToken());
 
 		// Set the signature
@@ -176,7 +171,7 @@ public class PadesSignatureCloudhubRestController {
 		// At this point, you'd typically store the signed PDF on your database. For demonstration
 		// purposes, we'll store the PDF on our StorageMock class.
 
-		// The SignatureResult object has various methods for writing the signature file to a
+		// The SignatureResult object has various methods for writing the signature file to a stream
 		// (writeTo()), local file (writeToFile()), open a stream to read the content (openRead())
 		// and get its contents (getContent()). For large files, avoid the method getContent() to
 		// avoid memory allocation issues.
@@ -185,7 +180,7 @@ public class PadesSignatureCloudhubRestController {
 			signedPdf = StorageMock.store(resultStream, "pdf");
 		}
 
-		// Render the signature page (templates/pades-signature-rest/signature-info.html).
+		// Render the signature page (templates/pades-signature-cloudhub-rest/signature-info.html).
 		model.addAttribute("signerCert", signerCert);
 		model.addAttribute("signedPdf", signedPdf);
 		return "pades-signature-cloudhub-rest/signature-info";

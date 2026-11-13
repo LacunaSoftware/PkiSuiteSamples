@@ -39,7 +39,6 @@ FRAMEWORKS = {
     "express": "Express",
     "php": "PHP",
     "flask": "Flask",
-    "django": "Django",
     "rails": "Rails",
 }
 

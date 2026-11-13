@@ -15,14 +15,14 @@ Steps to execute the sample:
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or 
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
    
-1. Install dependencies: `npm install`
+1. Install dependencies: `npm ci` (installs the exact versions in `package-lock.json`)
 
 1. Run application: `npm start`
 
 1. Access the URL http://localhost:3000
 
 > If you use [Yarn](https://yarnpkg.com), you can use `yarn install` or `yarn` to **download the dependencies** and
-> `yarn start` to **run the application**.
+> `yarn start` to **run the application**. Yarn does not read `package-lock.json`, so it may install newer versions.
 
 REST PKI's client lib
 ---------------------

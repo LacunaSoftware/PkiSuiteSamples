@@ -8,19 +8,20 @@ using PkiSuiteAspNetCoreAngularSample.Classes;
 namespace PkiSuiteAspNetCoreAngularSample.Controllers;
 
 /// <summary>
-/// NF-e XML signature with PKI SDK: signs the infNFe element of a Brazilian electronic invoice
-/// (NF-e) with the user's certificate, through Web PKI, following the NF-e signature standard.
+/// NF-e XML signature with PKI SDK (sample "xml-nfe-signature-pki-sdk"). Signs the infNFe element
+/// of a Brazilian electronic invoice (NF-e) with the user's certificate, through Web PKI, following
+/// the NF-e signature standard.
 /// </summary>
 /// <remarks>
 /// Rest PKI Core has no signature policy or ID-resolution options for NF-e, so this project shows
 /// this task with PKI SDK only.
 ///
-/// The signature takes two steps, with the browser in between:
-/// 1. start: the browser sends the user's certificate; the server returns the hash to be signed
-///    with the certificate's private key (the "to-sign hash");
-/// 2. the browser signs the hash with Web PKI (signHash), so the private key never leaves the
-///    user's computer;
-/// 3. complete: the browser sends the signature value; the server finishes the signed NF-e.
+/// The signature takes two steps on this server, with Web PKI signing in the browser in between
+/// (see xml-nfe-signature-pki-sdk.ts):
+/// 1. start: the browser sends the user's certificate (never the private key); the server returns
+///    the hash to be signed with the certificate's private key (the "to-sign hash");
+/// 2. complete: the browser sends the signature value, computed by Web PKI's signHash(); the
+///    server finishes the signed NF-e.
 /// </remarks>
 [ApiController]
 [Route("api/xml-nfe-signature-pki-sdk")]

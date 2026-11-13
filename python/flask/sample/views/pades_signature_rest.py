@@ -17,10 +17,9 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/pades-signature-rest')
@@ -34,16 +33,16 @@ def index(file_to_sign=None):
     signature page.
 
     Both PAdES signature examples, with a server file and with a file uploaded
-    by the user, converge to this function. The difference is that, when the
-    file is uploaded by the user, the function is called with a URL argument
-    named "userfile".
+    by the user, converge to this function. In both cases, the file to be
+    signed was saved in the app_data folder, and its name is passed on the
+    "file_to_sign" URL argument.
 
     """
 
     try:
 
-        # Get an instantiate of the PadesSignatureStarter class, responsible for
-        # receiving the signature elements and start the signature process.
+        # Get an instance of the PadesSignatureStarter class, responsible for
+        # receiving the signature elements and starting the signature process.
         signature_starter = PadesSignatureStarter(get_rest_pki_client())
 
         # Set the PDF to be signed.
@@ -56,11 +55,12 @@ def index(file_to_sign=None):
 
         # Set a security context to be used to determine trust in the
         # certificate chain. We have encapsulated the security context choice on
-        # util.py.
+        # utils.py.
         signature_starter.security_context = get_security_context_id()
 
         # Set the visual representation for the signature. We have encapsulated
-        # this code (on util-pades.py) to be used on various PAdES examples.
+        # this code (on pades_visual_elements_rest.py) to be used on various
+        # PAdES examples.
         signature_starter.visual_representation = \
             PadesVisualElementsRest.get_visual_representation()
 
@@ -69,17 +69,17 @@ def index(file_to_sign=None):
         # which identifies this signature process. We'll use this value to call
         # the signWithRestPki() method on the Web PKI component (see
         # signature-form.js javascript) and also to complete the signature after
-        # the form is submitted (see method pades_signature_action()). This
-        # should not be mistaken with the API access token.
+        # the form is submitted (see method action()). This should not be
+        # mistaken with the API access token.
         result = signature_starter.start_with_webpki()
 
         # The token acquired above can only be used for a single signature
         # attempt. In order to retry the signature it is necessary to get a new
         # token. This can be a problem if the user uses the back button of the
         # browser, since the browser might show a cached page that we rendered
-        # previously, with a now stale token. To prevent this from happen, we
-        # force page expiration through HTTP headers to prevent caching of the
-        # page.
+        # previously, with a now stale token. To prevent this from happening,
+        # we force page expiration through HTTP headers to prevent caching of
+        # the page.
         response = make_response(
             render_template('pades_signature_rest/index.html',
                             token=result.token))
@@ -95,17 +95,18 @@ def action():
     """
 
     This function receives the form submission from the template
-    cades-signature/index.html. We'll call REST PKI to complete the signature.
+    pades_signature_rest/index.html. We'll call REST PKI to complete the
+    signature.
 
     """
 
     try:
 
         # Get the token for this signature. (rendered in a hidden input field,
-        # see pades-signature/index.html template)
+        # see pades_signature_rest/index.html template)
         token = request.form['token']
 
-        # Get an intance of the PadesSignatureFinisher class, responsible for
+        # Get an instance of the PadesSignatureFinisher class, responsible for
         # completing the signature process.
         signature_finisher = PadesSignatureFinisher(get_rest_pki_client())
 

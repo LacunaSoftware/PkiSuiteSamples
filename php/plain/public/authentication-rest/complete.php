@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file receives the form submission from authentication/index.php. We'll
+ * This file receives the form submission from authentication-rest/index.php. We'll
  * call REST PKI to validate the authentication.
  */
 require __DIR__ . '/../../vendor/autoload.php';
@@ -16,10 +16,10 @@ try {
     }
 
     // Get the token for this authentication (rendered in a hidden input field, see
-    // authentication-restpki/index.php).
+    // authentication-rest/index.php).
     $token = $_POST['token'];
 
-    // Get an instance for this authentication class.
+    // Get an instance of the Authentication class.
     $auth = new Authentication(Util::getRestPkiClient());
 
     // Call the completeWithWebPki() method with the token, which finalizes the
@@ -32,7 +32,7 @@ try {
 
         $userCert = $auth->getCertificate();
         // At this point, you have assurance that the certificate is valid according
-        // to the SecurityContext specified on the file authentication.php and that
+        // to the security context specified on authentication-rest/index.php and that
         // the user is indeed the certificate's subject. Now, you'd typically query
         // your database for a user that matches one of the certificate's fields,
         // such as $userCert->emailAddress or $userCert->pkiBrazil->cpf (the actual
@@ -43,10 +43,10 @@ try {
 
     } else {
 
-        // If the authentication was not successful, we render a page showing that
-        // what went wrong. The __toString() method of the ValidationResults object
-        // can be used to obtain the checks performed, but the string contains tabs
-        // and new line characters for formatting, which we'll convert the <br>'s
+        // If the authentication was not successful, we render a page showing what
+        // went wrong. The __toString() method of the ValidationResults object can
+        // be used to obtain the checks performed, but the string contains tabs
+        // and new line characters for formatting, which we'll convert to <br>'s
         // and &nbsp;'s.
         $vrHtml = $vr;
         $vrHtml = str_replace("\n", '<br/>', $vrHtml);
@@ -92,7 +92,7 @@ try {
                         <ul>
                             <li><strong>Tipo de certificado</strong>: <?= $userCert->pkiBrazil->certificateType ?></li>
                             <li><strong>CPF</strong>: <?= $userCert->pkiBrazil->cpf ?></li>
-                            <li><strong>Responsavel</strong>: <?= $userCert->pkiBrazil->responsavel ?></li>
+                            <li><strong>Responsável</strong>: <?= $userCert->pkiBrazil->responsavel ?></li>
                             <li><strong>Empresa</strong>: <?= $userCert->pkiBrazil->companyName ?></li>
                             <li><strong>CNPJ</strong>: <?= $userCert->pkiBrazil->cnpj ?></li>
                             <li><strong>RG</strong>: <?= $userCert->pkiBrazil->rgNumero." ".$userCert->pkiBrazil->rgEmissor." ".$userCert->pkiBrazil->rgEmissorUF ?></li>

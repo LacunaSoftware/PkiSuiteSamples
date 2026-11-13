@@ -9,7 +9,7 @@
 
 <div class="container content">
     <h2 class="ls-title">Issue a certificate storing the key on the user's machine with Amplia</h2>
-    <h5 class="ls-subtitle">The certificate was successful issue <i class="fas fa-check-circle text-success"></i></h5>
+    <h5 class="ls-subtitle">The certificate was successfully issued <i class="fas fa-check-circle text-success"></i></h5>
 
     <div class="ls-content">
 

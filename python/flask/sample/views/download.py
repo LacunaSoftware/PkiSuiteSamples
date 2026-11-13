@@ -5,10 +5,9 @@ from flask import current_app
 from flask import Blueprint
 from sample.storage_mock import get_sample_doc_name, SampleDocs
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/download')
@@ -18,9 +17,9 @@ blueprint = Blueprint(os.path.basename(__name__), __name__,
 def get_file(filename):
     """
 
-    This function's purpose is to download the sample file that is signed during
-    the signature examples or download a upload file for signature or download a
-    previously performed signature.
+    This function's purpose is to download a file from the app_data folder:
+    the sample file that is signed during the signature examples, an uploaded
+    file for signature or a previously performed signature.
 
     """
 
@@ -31,9 +30,8 @@ def get_file(filename):
 def get_doc(file_id):
     """
 
-    This function's purpose is to download the sample file that is signed during
-    the signature examples or download a upload file for signature or download a
-    previously performed signature.
+    This function's purpose is to download one of the documents signed by the
+    batch signature examples (static/00.pdf to static/09.pdf).
 
     """
 

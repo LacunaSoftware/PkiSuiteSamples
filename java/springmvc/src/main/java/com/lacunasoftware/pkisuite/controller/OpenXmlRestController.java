@@ -17,8 +17,8 @@ import java.util.List;
 @Controller
 public class OpenXmlRestController {
 
-/**
-	 * This action submits a XML file to Rest PKI for inspection of its signatures.
+	/**
+	 * This action submits an XML file to Rest PKI for inspection of its signatures.
 	 */
 	@RequestMapping(value = "/open-xml-rest", method = {RequestMethod.GET})
 	public String get(
@@ -52,7 +52,7 @@ public class OpenXmlRestController {
 		// Call the open() method, which returns a list of signatures found in the XML file.
 		List<XmlSignature> signatures = sigExplorer.open();
 
-		// Render the information (see file resources/templates/open-xml-signature.html for more
+		// Render the information (see file resources/templates/open-xml-rest/index.html for more
 		// information on the information returned).
 		model.addAttribute("signature", signatures);
 		return "open-xml-rest/index";

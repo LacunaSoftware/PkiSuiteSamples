@@ -40,7 +40,7 @@ try {
     // Set the signature policy.
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::XML_ICPBR_ADR_TEMPO;
 
-    // Set the security context. We have encapsulated the security context choice on util.php.
+    // Set the security context. We have encapsulated the security context choice on Util.php.
     $signatureStarter->securityContext = Util::getSecurityContextId();
 
     // Call the startWithWebPki() method, which initiates the signature. This yields the token, a
@@ -66,7 +66,7 @@ try {
 // signature it is necessary to get a new token. This can be a problem if the user uses the back
 // button of the browser, since the browser might show a cached page that we rendered previously,
 // with a now stale token. To prevent this from happening, we call the function setExpiredPage(),
-// located in util.php, which sets HTTP headers to prevent caching of the page.
+// located in Util.php, which sets HTTP headers to prevent caching of the page.
 Util::setExpiredPage();
 
 ?><!DOCTYPE html>

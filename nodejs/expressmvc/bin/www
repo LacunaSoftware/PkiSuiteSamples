@@ -1,5 +1,5 @@
 /**
- * This file will start the Express.js server. Adding friendly error messages
+ * This file starts the Express.js server. It also adds friendly error-message
  * handlers.
  */
 const fs = require('fs');
@@ -21,7 +21,7 @@ if (Config.getInstance().get('protocol') === 'https') {
 	server = https.createServer({
 		key: fs.readFileSync(sslConfig['key']),
 		cert: fs.readFileSync(sslConfig['cert'])
-	});
+	}, app);
 } else {
 	const http = require('http');
 	server = http.createServer(app);

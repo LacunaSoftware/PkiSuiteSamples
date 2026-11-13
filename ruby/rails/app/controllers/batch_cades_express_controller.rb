@@ -1,7 +1,7 @@
 require 'pki_express'
 
 class BatchCadesExpressController < ApplicationController
-  # GET /batch-cades-signature-express
+  # GET /batch-cades-express
   #
   # This action renders the batch signature page.
   # Notice that the only thing we'll do on the server-side at this point is
@@ -12,21 +12,21 @@ class BatchCadesExpressController < ApplicationController
     @documents_ids = [*1..30]
   end
 
-  # POST /batch-cades-signature-express/start
+  # POST /batch-cades-express/start
   #
   # This route is called asynchronously via AJAX by the batch signature page for
   # each document being signed. It receives the ID of the document and the
-  # signer's certificate content and initiates a cades signature using
+  # signer's certificate content and initiates a CAdES signature using
   # PKI Express and returns a JSON with the parameters for the client-side
-  # signature using Web PKI (see batch-signature-form.js).
+  # signature using Web PKI (see batch-signature-express-form.js).
   def start
     # Get the parameters for this signature (received from the POST call via
-    # AJAX, see batch-signature-form.js).
+    # AJAX, see batch-signature-express-form.js).
     id = params[:id]
     cert_content = params[:certContent]
 
     # Get instance of the CadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = PkiExpress::CadesSignatureStarter.new
 
     # Set PKI default options (see util.rb)
@@ -59,7 +59,7 @@ class BatchCadesExpressController < ApplicationController
     }
   end
 
-  # POST /batch-cades-signature-express/complete
+  # POST /batch-cades-express/complete
   #
   # This route is called asynchronously via AJAX by the batch signature page for
   # each document being signed. It receives the ID of the document, the computed
@@ -68,7 +68,7 @@ class BatchCadesExpressController < ApplicationController
   # so that the page can render a link to it.
   def complete
     # Get the parameters for this signature (received from the POST call via
-    # AJAX, see batch-signature-form.js).
+    # AJAX, see batch-signature-express-form.js).
     id = params[:id]
     transfer_file_id = params[:transferFile]
     signature = params[:signature]

@@ -63,7 +63,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 			return View(response);
 		}
 
-		// It doesn't have callback, the files will be given via webhook (see WebhookController)
+		// This flow has no callback: the signed files are delivered through the webhook (see WebhookRestCoreController).
 
 		#endregion
 	}

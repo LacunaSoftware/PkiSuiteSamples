@@ -28,7 +28,7 @@ public class BatchCadesSignatureRestApiController {
     ) throws IOException, RestException {
 
         // Get an instance of the CadesSignatureStarter2 class, responsible for receiving the
-        // signature elements and start the signature process.
+        // signature elements and starting the signature process.
         CadesSignatureStarter2 signatureStarter = new CadesSignatureStarter2(Util.getRestPkiClient());
 
         // Set the signature policy.
@@ -45,48 +45,38 @@ public class BatchCadesSignatureRestApiController {
         //   the CmsToCoSign also includes the content.
         signatureStarter.setEncapsulateContent(true);
 
-        // Verify if the fileId exists and get the absolute path of the fileId.
+        // Get the absolute path of the batch document with the given ID (passed to us from the page).
         Path filePath = StorageMock.getBatchDocPath(fileId);
 
-        // If the URL argument "userfile" is filled, it means the user was redirected here by
-        // UploadController (signature with file uploaded by user). We'll set the path of the file
-        // to be signed, which was saved in the temporary folder by UploadController (such a file
-        // would normally come from your application's database).
+        // Set the file to be signed.
         signatureStarter.setFileToSign(filePath);
 
-        // If the URL argument "userfile" is filled, it means the user was redirected here by
-        // UploadController (signature with file uploaded by user). We'll set the path of the file
-        // to be signed, which was saved in the temporary folder by UploadController (such a file
-        // would normally come from your application's database).
-        ///signatureStarter.setFileToSign(filePath);
         // Call the startWithWebPki() method, which initiates the signature. This yields a
         // SignatureStartWithWebPkiResult object containing the signer certificate and the token,
         // a 43-character case-sensitive URL-safe string, which identifies this signature process.
         // We'll use this value to call the signWithRestPki() method on the Web PKI component
-        // (see file signature-form.js) and also to complete the signature after the form is
-        // submitted (see method complete() below). This should not be mistaken with the API access
-        // token.
+        // (see file batch-signature-rest-form.js) and also to complete the signature (see method
+        // complete() below). This should not be mistaken with the API access token.
         SignatureStartWithWebPkiResult result = signatureStarter.startWithWebPki();
 
         return result.getToken();
     }
 
     /**
-     * POST /cades-signature-rest
+     * POST /api/batch-cades-signature-rest/complete/{token}
      *
-     * This action receives the form submission from the signature page. We'll call REST PKI to
-     * complete the signature.
+     * This action is called asynchronously from the batch signature page in order to complete the
+     * signature of each document in the batch. We'll call REST PKI to complete the signature.
      */
     @PostMapping("/complete/{token:.+}")
     public String complete(@PathVariable String token)
             throws IOException, RestException {
 
-        // Get an instance the CadesSignatureFinisher2 class, responsible for completing the
+        // Get an instance of the CadesSignatureFinisher2 class, responsible for completing the
         // signature process.
         CadesSignatureFinisher2 signatureFinisher = new CadesSignatureFinisher2(Util.getRestPkiClient());
 
-        // Set the token for this signature (rendered in a hidden input field, see file
-        // templates/cades-signature.html).
+        // Set the token for this signature, received as URL parameter.
         signatureFinisher.setToken(token);
 
         // Call the finish() method, which finalizes the signature process and returns a
@@ -102,7 +92,7 @@ public class BatchCadesSignatureRestApiController {
 
         // The SignatureResult object has various methods for writing the signature file to a stream
         // (writeTo()), local file (writeToFile()), open a stream to read the content (openRead())
-        // and get its contents (getContent()). For large files, avoid the method GetContent() to
+        // and get its contents (getContent()). For large files, avoid the method getContent() to
         // avoid memory allocation issues.
         String cmsFile;
         try (InputStream resultStream = signatureResult.openRead()) {

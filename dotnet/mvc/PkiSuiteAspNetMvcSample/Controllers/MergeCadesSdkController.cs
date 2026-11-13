@@ -29,7 +29,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			if (string.IsNullOrEmpty(datafile)) {
 				mergedSignature = CadesSignatureEditor.MergeSignatures(signatures);
 			} else {
-				// Verify if the datafile exist and retrive it's content
+				// Verify if the datafile exists and retrieve its content
 				if (!StorageMock.TryGetFile(datafile, out byte[] dataFileContent)) {
 					return HttpNotFound();
 				}
@@ -44,7 +44,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			}
 
 			return View(new SignatureInfoModel() {
-				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
+				// Store the signature file on the folder "App_Data/" and render the signature information page.
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(mergedSignature, ".p7s")
 			});

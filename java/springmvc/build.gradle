@@ -59,7 +59,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'commons-io:commons-io:2.14.0'
-    implementation 'commons-codec:commons-codec:1.11'
     // gson is the JSON mapper of the REST controllers (see application.yml). This starter brings
     // gson and Spring Boot's gson auto-configuration.
     implementation 'org.springframework.boot:spring-boot-starter-gson'

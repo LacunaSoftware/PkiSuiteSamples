@@ -13,11 +13,11 @@ Steps to execute the sample:
 
 1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or
    clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
-1. Install dependencies: `pip install -r requirements.txt`
+1. On the [flask](flask/) folder, install the dependencies: `pip install -r requirements.txt`
 
 1. Set the `FLASK_APP` environment variable to define the name of the application that should be run: `FLASK_APP=sample`
 
-1. In order to accept test certificates you need to set the environment: variable `FLASK_ENV="development`
+1. Set the `FLASK_ENV` environment variable, which the app requires: `FLASK_ENV=development` selects the configuration that accepts test certificates
 
 1. Run the web application: `flask run`
 
@@ -26,35 +26,19 @@ Steps to execute the sample:
 Optionally you can create and activate a "virtualenv" to avoid mixing library versions:
 
     $ virtualenv <venv>
-    $ source bin/activate (on Windows: ./<venv>/Scripts/activate)
+    $ source <venv>/bin/activate (on Windows: ./<venv>/Scripts/activate)
     $ pip install -r requirements.txt
-    $ python manage.py runserver
+    $ flask run
     $ deactivate
 
 ### Running with devcontainer
 The flask sample also has a devcontainer. To run it, just open the folder in [flask](flask/) and install the [Devcontainer for VSCode](https://code.visualstudio.com/docs/devcontainers/containers#_getting-started) to run it, next, use the launch.json configuration in the Run and Debug (`Ctrl+Shift+D`) to run the project.
 ## Django
 
-A sample using **Django** to build a web application can be found on folder [django](django/).
-
-Steps to execute the sample:
-
-1. [Download the project](https://github.com/LacunaSoftware/PkiSuiteSamples/archive/master.zip) or
-   clone the [repository](https://github.com/LacunaSoftware/PkiSuiteSamples.git)
-1. Install dependencies: `pip install -r requirements.txt`
-(It might be possible that you need to run this command several times in Windows platforms due to OS errors).
-
-1. Run the web application: `python manage.py runserver`
-1. (Optional): If you have any migrations pending after running the server, go to [django sample folder](django/sample) and run `python manage.py migrate`. The warnings will disappear the next time you run the application.
-1. Access the URL http://localhost:8000
-
-Optionally you can create and activate a "virtualenv" to avoid mixing library versions:
-
-    $ virtualenv <venv>
-    $ source bin/activate (on Windows: ./<venv>/Scripts/activate)
-    $ pip install -r requirements.txt
-    $ python manage.py runserver
-    $ deactivate
+There is no Django sample. The calls to Lacuna's client libraries are the same in any Python
+web framework, so the Flask sample is the guide: only the routing, the templates and the
+request handling change. In Django, keep its CSRF protection on and add the token to the
+forms that the sample's page scripts submit.
 
 ## REST PKI's client lib
 
@@ -64,7 +48,7 @@ The recommended way to install **REST PKI's client lib for Python** is through [
 
     pip install restpki-client
 
-Or informing on your project's `requirements.txt` file:
+Or adding it to your project's `requirements.txt` file:
 
     restpki-client>=1.2.1
 
@@ -90,13 +74,13 @@ The recommended way to install **PKI Express's lib for Python** is through [PyPi
 
     pip install pkiexpress
 
-Or informing on your project's `requirements.txt` file:
+Or adding it to your project's `requirements.txt` file:
 
     pkiexpress>=1.10.0
 
 ## Activating PKI Express
 
-After installing PKI Express, is necessary to activate it. On Linux, execute the following
+After installing PKI Express, it is necessary to activate it. On Linux, execute the following
 command with root permissions:
 
     $ sudo pkie activate LacunaPkiLicense.config

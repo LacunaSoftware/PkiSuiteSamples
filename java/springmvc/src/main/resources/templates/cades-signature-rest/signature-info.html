@@ -18,7 +18,7 @@
 					<ul>
 						<li><strong>Tipo de certificado</strong>: <span th:text="${signerCert.getPkiBrazil().getCertificateType()}"/></li>
 						<li><strong>CPF</strong>: <span th:text="${signerCert.getPkiBrazil().getCpfFormatted()}"/></li>
-						<li><strong>Responsavel</strong>: <span th:text="${signerCert.getPkiBrazil().getResponsavel()}"/></li>
+						<li><strong>Responsável</strong>: <span th:text="${signerCert.getPkiBrazil().getResponsavel()}"/></li>
 						<li><strong>Empresa</strong>: <span th:text="${signerCert.getPkiBrazil().getCompanyName()}"/></li>
 						<li><strong>CNPJ</strong>: <span th:text="${signerCert.getPkiBrazil().getCnpjFormatted()}"/></li>
 						<li><strong>RG</strong>: <span th:text="${signerCert.getPkiBrazil().getRGNumero()}"/> <span th:text="${signerCert.getPkiBrazil().getRGEmissor()}"/> <span th:text="${signerCert.getPkiBrazil().getRGEmissorUF()}"/></li>
@@ -31,6 +31,7 @@
 		<h3>Actions:</h3>
 		<ul>
 			<li><a th:href="@{'/download/' + ${cmsFile}}">Download the signed file</a></li>
+			<li><a th:href="@{/open-cades-rest(fileId=${cmsFile})}">Open/validate the signed file</a></li>
 			<li><a th:href="@{/cades-signature-rest(cosign=${cmsFile})}">Co-sign with another certificate</a></li>
 		</ul>
 

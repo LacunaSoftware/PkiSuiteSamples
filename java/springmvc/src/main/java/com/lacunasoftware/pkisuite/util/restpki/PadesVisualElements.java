@@ -11,7 +11,7 @@ public class PadesVisualElements {
 
 	/**
 	 * This method is called by the PAdES samples. It contains an example of signature visual
-	 * representation. This is only in a separate in order to organize the various examples.
+	 * representation. This is only in a separate class in order to organize the various examples.
 	 *
 	 * @return
 	 * @throws IOException
@@ -33,7 +33,7 @@ public class PadesVisualElements {
 		// Optionally, set the container within the signature rectangle on which to place the text.
 		// By default, the text can occupy the entire rectangle (how much of the rectangle the text
 		// will actually fill depends on the length and font size). Below, we specify that the text
-		// should respect a right margin of 1.5 cm.
+		// should respect a margin of 0.2 cm on each side.
 		PadesVisualRectangle container = new PadesVisualRectangle();
 		container.setLeft(0.2);
 		container.setTop(0.2);
@@ -103,7 +103,7 @@ public class PadesVisualElements {
 				elementImage.getRelativeContainer().setTop(0.0);
 				elementImage.getRelativeContainer().setBottom(0.0);
 
-				// We'll use the image at 'content/stamp.png'.
+				// We'll use the image at 'static/stamp.png'.
 				try {
 					elementImage.setImage(new PdfMarkImage(StorageMock.getPdfStampContent(), "image/png"));
 				} catch (IOException e) {
@@ -165,7 +165,6 @@ public class PadesVisualElements {
 
 				// Add a single image element.
 				elementImage = new PdfMarkImageElement();
-				// We center the text.
 				elementImage.setRelativeContainer(new PadesVisualRectangle());
 				// We'll make the image fill the entire mark, leaving space for the border.
 				elementImage.getRelativeContainer().setLeft(0.1);
@@ -173,13 +172,13 @@ public class PadesVisualElements {
 				elementImage.getRelativeContainer().setTop(0.1);
 				elementImage.getRelativeContainer().setBottom(0.1);
 
-				// We'll use the 'Content/stamp.png' as background.
+				// We'll use the 'static/stamp.png' as background.
 				try {
 					elementImage.setImage(new PdfMarkImage(StorageMock.getPdfStampContent(), "image/png"));
 				} catch (IOException e) {
 					throw new RuntimeException("Error trying to recovery the PDF stamp");
 				}
-				// Opacity is an double from 0 to 255 (0 is completely transparent, 255 is
+				// Opacity is a double from 0 to 255 (0 is completely transparent, 255 is
 				// completely opaque).
 				elementImage.getImage().setAlpha(128);
 
@@ -262,7 +261,7 @@ public class PadesVisualElements {
 				// Specifying just the width (but not left or right) results in a horizontally
 				// centered fixed-width container.
 				elementText.getRelativeContainer().setWidth(1.0);
-				// 90 degrees rotation (counter clockwise).
+				// 90 degrees rotation (counterclockwise).
 				elementText.setRotation(90);
 
 				// This example has a single section.

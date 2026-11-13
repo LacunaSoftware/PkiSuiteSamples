@@ -1,10 +1,10 @@
-<h2 class="ls-title">List certificates available on the user's machine with JQuery</h2>
+<h2 class="ls-title">List certificates available on the user's machine with jQuery</h2>
 
 <div class="ls-content">
 
   <form id="listCertForm">
     <%
-      # Render a select (combo box) to list the users' certificates. For now
+      # Render a select (combo box) to list the user's certificates. For now
       # it will be empty, we'll populate it after page loading (see function
       # loadCertificates() below).
     %>
@@ -14,7 +14,7 @@
     </div>
 
     <%
-      # The "Refresh Certificates" button, which is responsible to reload
+      # The "Refresh Certificates" button, which is responsible for reloading
       # the certificate list. This operation uses the same function used
       # on page loading (see function refresh() below).
     %>
@@ -35,9 +35,9 @@
 <script>
   <%
     # Variable that will store an instance of the Lacuna WebPKI object. If a
-    # license was set on application.yml, the layout.html master template
-    # will have placed it on the global variable _webPkiLicense, which we
-    # pass to the class constructor.
+    # license was set on config/lacuna.yml, the layouts/application.html.erb
+    # view will have placed it on the global variable _webPkiLicense, which
+    # we pass to the class constructor.
   %>
   var pki = new LacunaWebPKI(_webPkiLicense);
 
@@ -106,8 +106,8 @@
 
     }).success(function (certs) {
 
-      // Verify if there is no certificates available to disable the
-      // <select> element, showing the messaging informing that.
+      // If there are no certificates available, disable the <select>
+      // element, showing a message informing that.
       if (certs.length === 0) {
         $('#certificateSelect')
           .append('<option value="null">There is no certificate on your machine</option>')
@@ -134,7 +134,7 @@
 
     // Show the message to the user. You might want to substitute the alert
     // below with a more user-friendly UI component to show the error (see
-    // function addAlert() on layout.html).
+    // function addAlert() on layouts/application.html.erb).
     addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
   }
 

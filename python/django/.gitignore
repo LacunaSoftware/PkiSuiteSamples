@@ -1,8 +1,0 @@
-*.pyc
-.idea/
-app_data/
-venv/
-venv3/
-venv2/
-env/
-db.sqlite3

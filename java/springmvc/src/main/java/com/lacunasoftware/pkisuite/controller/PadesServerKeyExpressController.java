@@ -46,11 +46,12 @@ public class PadesServerKeyExpressController {
 		// Set PDF to be signed.
 		signer.setPdfToSign(StorageMock.getDataPath(fileToSign));
 
-		// Set the PKCS #12 certificate path. We have an logic for choosing the generate the PKCS #12
-		// from "issue certificate" samples or a sample PKCS #12.
+		// Set the PKCS #12 certificate. If "certId" is given, we generate the PKCS #12 from the key
+		// and certificate issued by the "issue certificate" samples; otherwise, we use a sample
+		// PKCS #12.
 		if (certId != null) {
 
-			// Verify if the files provided by "certId" parameters exists.
+			// Verify if the files provided by "certId" parameter exist.
 			if (!StorageMock.existsKey(certId, ".json") || !StorageMock.existsKey(certId, ".cer")) {
 				throw new FileNotFoundException(String.format("The PKI files referred by certId: %s were not found", certId));
 			}
@@ -78,7 +79,7 @@ public class PadesServerKeyExpressController {
 		// representation.
 		signer.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());
 
-		// Generate path for output file and add to signature finisher.
+		// Generate path for output file and add it to the signer.
 		String outputFile = StorageMock.generateFileId(".pdf");
 		signer.setOutputFile(StorageMock.getDataPath(outputFile));
 
@@ -86,7 +87,7 @@ public class PadesServerKeyExpressController {
 		signer.sign();
 
 		// If you want to delete the temporary files created by this step, use the method dispose().
-		// This method MUST be called after the complete() method, because it deletes some files
+		// This method MUST be called after the sign() method, because it deletes some files
 		// needed by the method.
 		signer.dispose();
 
@@ -98,14 +99,14 @@ public class PadesServerKeyExpressController {
 
 	private Pkcs12GenerationResult generatePkcs12(String certId, String password) throws IOException {
 
-		// Get an instance of the Pkcs12Generator class, responsible for generate a PKCS #12 from a
+		// Get an instance of the Pkcs12Generator class, responsible for generating a PKCS #12 from a
 		// generated key and certificate file. This certificate will be used to sign the uploaded
 		// PDF.
 		String keyJson = StorageMock.readKeyAsText(certId, ".json");
 		Pkcs12Generator pkcs12Generator = new Pkcs12Generator();
 		pkcs12Generator.setKey(keyJson);
 
-		// Set PKI defaults options (see Util.java).
+		// Set PKI default options (see Util.java).
 		Util.setPkiDefaults(pkcs12Generator);
 
 		// Set the certificate file.

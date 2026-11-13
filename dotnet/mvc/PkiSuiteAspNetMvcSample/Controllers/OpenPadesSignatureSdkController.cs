@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class OpenPadesSignatureSdkController : BaseController {
 		/**
-		 * This action open a Cades file and inspect its signatures.
+		 * This action opens a PDF file and inspects its signatures.
 		 */
 		public ActionResult Index(string userfile) {
 			// Our action only works if a userfile is given to work with.
@@ -18,7 +18,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			if (!StorageMock.TryGetFile(userfile, out userfileContent)) {
 				return HttpNotFound();
 			}
-			// Open Cades file
+			// Open the PDF file.
 			var signature = PadesSignature.Open(userfileContent);
 
 			// Specify the parameters for the signature validation:

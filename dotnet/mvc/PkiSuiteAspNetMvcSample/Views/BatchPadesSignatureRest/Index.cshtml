@@ -6,12 +6,12 @@
 <form id="signForm" method="POST">
 
 	<div class="form-group">
-		<label>File to sign</label>
+		<label>Files to sign</label>
 		<p>
 			You'll be signing the following files:
 			@*
-				UL element to hold the batch's documents (we'll render these programatically,
-				see batch-signature-form.js).
+				UL element to hold the batch's documents (we'll render these programmatically,
+				see batch-signature-rest-form.js).
 			*@
 			<ul id="docList" />
 		</p>
@@ -19,7 +19,7 @@
 
 	@*
 		Render a select (combo box) to list the user's certificates. For now it will be empty, we'll populate
-		it later on (see batch-signature-form.js).
+		it later on (see batch-signature-rest-form.js).
 	*@
 	<div class="form-group">
 		<label for="certificateSelect">Choose a certificate</label>
@@ -28,9 +28,8 @@
 
 	@*
 		Action buttons. Notice that the "Sign Batch" button is NOT a submit button. When the user clicks the
-		button, we must first use the Web PKI component to perform the client-side computation necessary and
-		only when that computation is finished we'll submit the form programmatically
-		(see batch-signature-form.js).
+		button, we use the Web PKI component and AJAX calls to the server to sign each document of the batch.
+		The form is never submitted (see batch-signature-rest-form.js).
 	*@
 	<button id="signButton" type="button" class="btn btn-primary">Sign Batch</button>
 	<button id="refreshButton" type="button" class="btn btn-outline-primary">Refresh Certificates</button>
@@ -54,14 +53,14 @@
 	<script>
         $(document).ready(function () {
             // Once the page is ready, we call the init() function on the javascript code
-            // (see batch-signature-form.js).
+            // (see batch-signature-rest-form.js).
             batchSignatureRestForm.init({
                 documentsIds: [ @string.Join("," , Model.DocumentIds) ], // The IDs of documents.
                 certificateSelect: $('#certificateSelect'),              // The <select> element (combo box) to list the certificates.
                 docList: $('#docList'),                                  // The <ul> element that holds the batch's documents.
                 refreshButton: $('#refreshButton'),                      // The "refresh" button.
                 signButton: $('#signButton'),                            // The button that initiates the operation.
-                controllerEndpoint: '/BatchPadesSignatureRest'           // The API controller address to be direct request for PAdES actions.
+                controllerEndpoint: '/BatchPadesSignatureRest'           // The address of the controller that handles the PAdES actions.
             });
         });
 

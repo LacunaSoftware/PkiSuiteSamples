@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 const {
 	PadesSignatureStarter,
@@ -39,20 +39,20 @@ router.get('/', (req, res, next) => {
 /**
  * POST /pades-wo-communication-restpki/start
  *
- * Both PAdES signature examples, with a server file and with a file uploaded by
- * the user, use this route. The difference is that, when the file is uploaded
- * by the user, the route is called with a URL argument named "fileId".
+ * This route starts the signature using REST PKI. In this sample, it will be
+ * called programmatically after the user presses the "Sign File" button (see
+ * method startSignature() on public/javascripts/signature-start-form.js).
  */
 router.post('/start', (req, res, next) => {
 	// Get parameters from url
 	const { fileId } = req.query;
 
-	// Recover variables from the POST arguments to be use don this step.
+	// Recover variables from the POST arguments to be used on this step.
 	const certThumb = req.body.certThumbField;
 	const certContent = req.body.certContentField;
 
 	// Get an instance of the PadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new PadesSignatureStarter(Util.getRestPkiClient());
 
 	// Set PDF to be signed.
@@ -73,19 +73,22 @@ router.post('/start', (req, res, next) => {
 	signatureStarter.measurementUnits = PadesMeasurementUnits.CENTIMETERS;
 
 	// Set the visual representation to the signature. We have encapsulated this
-	// code (on pades-visual-elements.js) to be used on various PAdES examples.
+	// code (on pades-visual-elements-restpki.js) to be used on various PAdES
+	// examples.
 	PadesVisualElementsRestPki.getVisualRepresentation()
 		.then((visualRepresentation) => {
 			// Set the visual representation to signatureStarter.
 			signatureStarter.visualRepresentation = visualRepresentation;
 
-			// Call the startWithWebPki() method, which initiates the signature.
-			// This yields the token, a 43-character case-sensitive URL-safe
-			// string, which identifies this signature process. We'll use this
-			// value to call the signWithRestPki() method on the WebPKI component
-			// (see public/js/signature-form.js) and also to complete the signature
-			// after the form is submitted (see post method). This should not be
-			// mistaken with the API access token.
+			// Call the start() method, which initiates the signature. This yields
+			// the hash to be signed, its digest algorithm and the token, a
+			// 43-character case-sensitive URL-safe string, which identifies this
+			// signature process. The page signs the hash with the signHash()
+			// method on the Web PKI component (see
+			// public/javascripts/signature-complete-form.js) and we use the token
+			// to complete the signature after the form is submitted (see the
+			// /complete route below). This should not be mistaken with the API
+			// access token.
 			return signatureStarter.start();
 		})
 		.then((result) => {
@@ -113,7 +116,8 @@ router.post('/start', (req, res, next) => {
 /**
  * POST /pades-wo-communication-restpki/complete
  *
- * This route receives the form submission from the view 'pades-signature'.
+ * This route receives the form submission from the view
+ * 'pades-wo-communication-restpki/start'.
  * We'll call REST PKI to complete the signature.
  */
 router.post('/complete', (req, res, next) => {
@@ -140,15 +144,15 @@ router.post('/complete', (req, res, next) => {
 			// information about the certificate used by the user to sign the file.
 			const signerCert = result.certificate;
 
-			// At this point, you'd typically store the signed PDF on you database.
+			// At this point, you'd typically store the signed PDF on your database.
 			// For demonstration purposes, we'll store the PDF on a temporary
 			// folder publicly accessible and render a link to it.
 
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const filename = `${uuidv4()}.pdf`;
+			const filename = `${randomUUID()}.pdf`;
 
 			// The SignatureResult object has functions for writing the signature
-			// file to a local life (writeToFile()) and to get its raw contents
+			// file to a local file (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
 			result.writeToFile(path.join(APP_ROOT, 'app-data', filename))

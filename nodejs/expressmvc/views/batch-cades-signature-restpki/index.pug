@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-   h2(class="ls-title") Batch of CAdES Signature with REST PKI
+   h2(class="ls-title") Batch of CAdES Signatures with REST PKI
 
    form(id="signForm" method="POST")
 
@@ -15,17 +15,17 @@ block content
             ul(id="docList")
 
       //- Render a select (combo box) to list the user's certificates. For
-      //- now it will be empty, we'll populated it later on
+      //- now it will be empty, we'll populate it later on
       //- (see batch-signature-restpki-form.js).
       .form-group
          label(for="certificateSelect") Choose a certificate
          select(id="certificateSelect" class="form-control")
 
       //- Action buttons. Notice that the "Sign Batch" button is NOT a submit
-      //- button. When the user clicks the button, we must first use the
-      //- Web PKI component to perform the client-side computation necessary
-      //- and only when that computation is finished we'll submit the form
-      //- programmatically (see batch-signature-restpki-form.js).
+      //- button. When the user clicks the button, the page script signs each
+      //- document of the batch with the Web PKI component, calling the server
+      //- asynchronously to start and complete each signature
+      //- (see batch-signature-restpki-form.js).
       button(id="signButton" type="button" class="btn btn-primary")
          i(class="fas fa-list") &nbsp; Sign Batch
       button(id="refreshButton" type="button" class="btn btn-outline-primary")
@@ -35,7 +35,7 @@ block scripts
 
    //- The file below contains the JS lib for accessing the Web PKI component. For more information, see:
    //- https://webpki.lacunasoftware.com/#/Documentation
-   script(type="text/javascript", src="https://cdn.lacunasoftware.com/libs/web-pki/lacuna-web-pki-2.14.0.min.js", integrity="sha256-m0Wlj4Pp61wsYSB4ROM/W5RMnDyTpqXTJCOYPBNm300=", crossorigin="anonymous")
+   include ../includes/web-pki
 
    //- The file below contains the logic for calling the Web PKI component. It is only an example, feel free to alter
    //- it to meet your application's needs. You can also bring the code into the javascript block below if you prefer.
@@ -43,7 +43,7 @@ block scripts
 
    script.
       $(document).ready(function() {
-         // Once the page is ready, we call the init() function on the javascript code (see batch-signature-form.js).
+         // Once the page is ready, we call the init() function on the javascript code (see batch-signature-restpki-form.js).
          batchSignatureRestPkiForm.init({
             documentsIds: [#{documentsIds}],             // The IDs of documents.
             certificateSelect: $('#certificateSelect'),  // The <select> element (combo box) to list the certificates.

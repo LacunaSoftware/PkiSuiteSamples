@@ -103,7 +103,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-a-file-rest-pki-core",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-rest-pki-core-api-key?rc=server-files&fwd=pades-signature&op=signPdf"
     }
   },
@@ -292,7 +292,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=server-files&fwd=pades-signature&op=signPdf"
     }
   },
@@ -471,7 +471,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=server-files&fwd=pades-signature&op=signPdf"
     }
   },
@@ -534,35 +534,6 @@
     "title_pt": "Assinar um PDF com o Rest PKI",
     "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
     "product": "rest-pki",
-    "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/pades_signature_rest/views.py",
-    "related_files": [
-      "python/django/sample/templates/pades_signature_rest/index.html",
-      "python/django/sample/templates/pades_signature_rest/complete.html",
-      "python/django/sample/static/js/signature-form.js",
-      "python/django/sample/pades_signature_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py",
-      "python/django/sample/pades_visual_elements_rest.py",
-      "python/django/sample/config.py",
-      "python/django/sample/PkiSuitePythonDjangoSample/urls.py"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
-    "demo_url": null,
-    "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/server-files?rc=pades-signature-rest&op=signPdf"
-    }
-  },
-  {
-    "id": "pades-signature-rest-pki",
-    "title": "Sign a PDF with Rest PKI",
-    "title_pt": "Assinar um PDF com o Rest PKI",
-    "description": "PAdES signature with Rest PKI (v1): the server starts the signature and receives a single-use token, Web PKI's signWithRestPki() signs in the browser, and the server finishes the signature with that token. The same page co-signs an already signed PDF.",
-    "product": "rest-pki",
     "language": "ruby",
     "framework": "rails",
     "path": "ruby/rails/app/controllers/pades_signature_rest_controller.rb",
@@ -605,7 +576,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/upload?rc=pades-wo-communication-restpki"
     }
   },
@@ -628,7 +599,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-rest-pki-core-api-key?rc=batch-pades-signature"
     }
   },
@@ -706,7 +677,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=batch-pades-signature"
     }
   },
@@ -852,7 +823,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=batch-pades-signature"
     }
   },
@@ -1046,7 +1017,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=pades-server-key"
     }
   },
@@ -1121,6 +1092,28 @@
       "cwd": "ruby/rails",
       "command": "bundle install && rails server",
       "url": "http://localhost:3000/check-express/upload/pades-server-key"
+    }
+  },
+  {
+    "id": "pades-signature-server-key-rest-pki",
+    "title": "Sign a PDF with a server key using Rest PKI",
+    "title_pt": "Assinar um PDF com uma chave do servidor usando o Rest PKI",
+    "description": "Server-only PAdES signature with Rest PKI (v1): the server starts the signature, signs the data with java.security.Signature and the private key of a PKCS #12 (.pfx) file, and finishes it with Rest PKI.",
+    "product": "rest-pki",
+    "language": "java",
+    "framework": "spring-boot",
+    "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/PadesServerKeyRestController.java",
+    "related_files": [
+      "java/springmvc/src/main/resources/templates/pades-server-key-rest/index.html",
+      "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/util/restpki/PadesVisualElements.java"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "demo_url": null,
+    "run": {
+      "cwd": "java/springmvc",
+      "command": "./gradlew bootRun",
+      "url": "http://localhost:60695/check-rest-token?rc=upload&fwd=pades-server-key"
     }
   },
   {
@@ -1218,7 +1211,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
     }
   },
@@ -1319,7 +1312,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=pades-cloud-oauth"
     }
   },
@@ -1472,7 +1465,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=pades-cloud-pwd"
     }
   },
@@ -1807,7 +1800,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=server-files&fwd=timestamp-pdf&op=signPdf"
     }
   },
@@ -1831,7 +1824,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/pki-suite/timestamp-a-pdf",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-rest-pki-core-api-key?rc=upload&fwd=timestamp-pdf"
     }
   },
@@ -2076,7 +2069,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=server-files&fwd=cades-signature&op=signCms"
     }
   },
@@ -2250,7 +2243,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=server-files&fwd=cades-signature&op=signCms"
     }
   },
@@ -2425,7 +2418,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=batch-cades-signature"
     }
   },
@@ -2566,7 +2559,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=batch-cades-signature"
     }
   },
@@ -2657,7 +2650,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=cades-server-key"
     }
   },
@@ -2801,7 +2794,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=merge-server-files&fwd=merge-cades"
     }
   },
@@ -2903,7 +2896,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-signature"
     }
   },
@@ -2976,7 +2969,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=xml-signature"
     }
   },
@@ -3143,7 +3136,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-server-key"
     }
   },
@@ -3168,7 +3161,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-cloud-oauth"
     }
   },
@@ -3271,7 +3264,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=xml-nfe-signature"
     }
   },
@@ -3370,7 +3363,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=xml-nfe-signature"
     }
   },
@@ -3568,6 +3561,36 @@
     "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
     "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
+    "language": "dotnet",
+    "framework": "aspnet-mvc",
+    "path": "dotnet/mvc/PkiSuiteAspNetMvcSample/Controllers/XmlDiplomaSignatureRestController.cs",
+    "related_files": [
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/Index.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DadosDiplomaSignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DadosRegistro.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DadosRegistroSignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/Diploma.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Views/XmlDiplomaSignatureRest/DiplomaSignatureInfo.cshtml",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Content/js/signature-form.js",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/SignatureModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Models/Rest/SignatureInfoModel.cs",
+      "dotnet/mvc/PkiSuiteAspNetMvcSample/Content/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/dotnet/mvc",
+    "demo_url": null,
+    "run": {
+      "cwd": "dotnet/mvc",
+      "command": "Open PkiSuiteAspNetMvcSample.sln in Visual Studio and press F5 (IIS Express)",
+      "url": "http://localhost:54123/Home/CheckRestPkiToken?rc=XmlDiplomaSignatureRest"
+    }
+  },
+  {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
     "language": "java",
     "framework": "spring-boot",
     "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/XmlDiplomaSignatureRestController.java",
@@ -3617,6 +3640,94 @@
       "cwd": "php/plain",
       "command": "composer install && composer start",
       "url": "http://localhost:8000/check-rest-token.php?rc=xml-diploma-signature"
+    }
+  },
+  {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
+    "language": "nodejs",
+    "framework": "express",
+    "path": "nodejs/expressmvc/routes/xml-diploma-signature-restpki.js",
+    "related_files": [
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/index.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/dados-diploma.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/sign-dados-registro.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/dados-registro.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/sign-full-diploma.pug",
+      "nodejs/expressmvc/views/xml-diploma-signature-restpki/diploma.pug",
+      "nodejs/expressmvc/public/javascripts/signature-form.js",
+      "nodejs/expressmvc/public/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/java/mvc",
+    "demo_url": null,
+    "run": {
+      "cwd": "nodejs/expressmvc",
+      "command": "npm ci && npm start",
+      "url": "http://localhost:3000/check-restpki-token?rc=xml-diploma-signature"
+    }
+  },
+  {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
+    "language": "python",
+    "framework": "flask",
+    "path": "python/flask/sample/views/xml_diploma_signature_rest.py",
+    "related_files": [
+      "python/flask/sample/templates/xml_diploma_signature_rest/index.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/dados_diploma.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/sign_dados_registro.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/dados_registro.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/sign_diploma.html",
+      "python/flask/sample/templates/xml_diploma_signature_rest/diploma.html",
+      "python/flask/sample/static/js/signature-form.js",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/storage_mock.py",
+      "python/flask/sample/static/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python/flask",
+    "demo_url": null,
+    "run": {
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/check-rest-token/xml-diploma-signature"
+    }
+  },
+  {
+    "id": "xml-diploma-signature-rest-pki",
+    "title": "Sign a Brazilian digital diploma XML using Rest PKI",
+    "title_pt": "Assinar o XML de um diploma digital com o Rest PKI",
+    "description": "Three chained signatures on a Brazilian digital diploma XML (the DadosDiploma element, the DadosRegistro element, then the whole document) with Rest PKI (v1) and Web PKI.",
+    "product": "rest-pki",
+    "language": "ruby",
+    "framework": "rails",
+    "path": "ruby/rails/app/controllers/xml_diploma_signature_rest_controller.rb",
+    "related_files": [
+      "ruby/rails/app/views/xml_diploma_signature_rest/index.html.erb",
+      "ruby/rails/app/views/xml_diploma_signature_rest/action.html.erb",
+      "ruby/rails/app/views/xml_diploma_signature_rest/dados_registro.html.erb",
+      "ruby/rails/app/views/xml_diploma_signature_rest/dados_registro_action.html.erb",
+      "ruby/rails/app/views/xml_diploma_signature_rest/diploma.html.erb",
+      "ruby/rails/app/views/xml_diploma_signature_rest/diploma_action.html.erb",
+      "ruby/rails/app/assets/javascripts/signature-form.js",
+      "ruby/rails/app/controllers/concerns/util.rb",
+      "ruby/rails/app/controllers/concerns/storage_mock.rb",
+      "ruby/rails/private/SampleDiploma.xml"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/ruby/rails",
+    "demo_url": null,
+    "run": {
+      "cwd": "ruby/rails",
+      "command": "bundle install && rails server",
+      "url": "http://localhost:3000/check-rest-token/xml-diploma-signature/"
     }
   },
   {
@@ -3703,7 +3814,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=open-pades"
     }
   },
@@ -3835,7 +3946,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=upload&fwd=open-pades"
     }
   },
@@ -3882,30 +3993,6 @@
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-rest-token/upload/open-pades"
-    }
-  },
-  {
-    "id": "validate-pades-signature-rest-pki",
-    "title": "Validate a signed PDF using Rest PKI",
-    "title_pt": "Validar um PDF assinado com o Rest PKI",
-    "description": "Sends a signed PDF to Rest PKI (v1) to open and validate every signature, and shows the signers and validation results.",
-    "product": "rest-pki",
-    "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/open_pades_rest/views.py",
-    "related_files": [
-      "python/django/sample/templates/open_pades_rest/index.html",
-      "python/django/sample/open_pades_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
-    "demo_url": null,
-    "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/upload?rc=open-pades-rest"
     }
   },
   {
@@ -4015,7 +4102,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=open-cades"
     }
   },
@@ -4090,6 +4177,28 @@
     "id": "validate-cades-signature-rest-pki",
     "title": "Validate a CMS/CAdES signature using Rest PKI",
     "title_pt": "Validar uma assinatura CMS/CAdES com o Rest PKI",
+    "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content. For a detached signature, it asks for the signed file and validates against it.",
+    "product": "rest-pki",
+    "language": "java",
+    "framework": "spring-boot",
+    "path": "java/springmvc/src/main/java/com/lacunasoftware/pkisuite/controller/OpenCadesRestController.java",
+    "related_files": [
+      "java/springmvc/src/main/resources/templates/open-cades-rest/index.html",
+      "java/springmvc/src/main/resources/templates/open-cades-rest/data-file.html"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/validate-signatures",
+    "demo_url": null,
+    "run": {
+      "cwd": "java/springmvc",
+      "command": "./gradlew bootRun",
+      "url": "http://localhost:60695/check-rest-token?rc=upload&fwd=open-cades"
+    }
+  },
+  {
+    "id": "validate-cades-signature-rest-pki",
+    "title": "Validate a CMS/CAdES signature using Rest PKI",
+    "title_pt": "Validar uma assinatura CMS/CAdES com o Rest PKI",
     "description": "Sends a .p7s to Rest PKI (v1) to open and validate every signer, shows the results and extracts the encapsulated content.",
     "product": "rest-pki",
     "language": "nodejs",
@@ -4103,7 +4212,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=upload&fwd=open-cades"
     }
   },
@@ -4280,7 +4389,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=printer-version-pades"
     }
   },
@@ -4376,7 +4485,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=upload&fwd=printer-version-pades"
     }
   },
@@ -4425,32 +4534,6 @@
       "cwd": "python/flask",
       "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
       "url": "http://localhost:5000/check-rest-token/upload/printer-version-pades"
-    }
-  },
-  {
-    "id": "printer-friendly-pdf-rest-pki",
-    "title": "Make a printer-friendly version of a signed PDF using Rest PKI",
-    "title_pt": "Gerar a versão para impressão de um PDF assinado com o Rest PKI",
-    "description": "Validates the PDF's signatures with Rest PKI (v1), marks every page with the signers and a verification code, and appends a manifest page with a QR code. Includes the page that checks a document by its verification code.",
-    "product": "rest-pki",
-    "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/printer_version_pades_rest/views.py",
-    "related_files": [
-      "python/django/sample/printer_version_pades_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py",
-      "python/django/sample/check_pades_rest/views.py",
-      "python/django/sample/check_pades_rest/urls.py",
-      "python/django/sample/templates/check_pades_rest/index.html"
-    ],
-    "status": "current",
-    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
-    "demo_url": null,
-    "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/server-files?rc=printer-version-pades-rest&op=printerFriendlyPdf"
     }
   },
   {
@@ -4520,7 +4603,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=upload&fwd=printer-version-cades"
     }
   },
@@ -4687,7 +4770,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-pki-express?rc=authentication"
     }
   },
@@ -4809,7 +4892,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-restpki-token?rc=authentication"
     }
   },
@@ -4933,7 +5016,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/authentication-cloudhub"
     }
   },
@@ -5027,7 +5110,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/list-cert-jquery"
     }
   },
@@ -5142,7 +5225,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/web-pki/certificates-in-the-browser",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/read-cert-jquery"
     }
   },
@@ -5251,7 +5334,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/rsa-web"
     }
   },
@@ -5343,7 +5426,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cpf-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-amplia-api-key?rc=issue-cert-user"
     }
   },
@@ -5444,7 +5527,7 @@
     "demo_url": "https://try.lacunasoftware.com/en/amplia/issue-e-cnpj-certificate",
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/check-amplia-api-key?rc=issue-cert-server"
     }
   },
@@ -5516,7 +5599,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/issue-pkcs12-cert-server-amplia"
     }
   },
@@ -5628,7 +5711,7 @@
     "demo_url": null,
     "run": {
       "cwd": "nodejs/expressmvc",
-      "command": "npm install && npm start",
+      "command": "npm ci && npm start",
       "url": "http://localhost:3000/receita-simples-express"
     }
   },
@@ -5753,22 +5836,23 @@
     "description": "Generates a Brazilian medical prescription PDF with the ICP-Brasil prescription metadata, then signs it with Rest PKI (v1) and Web PKI.",
     "product": "rest-pki",
     "language": "python",
-    "framework": "django",
-    "path": "python/django/sample/receita_simples_rest/views.py",
+    "framework": "flask",
+    "path": "python/flask/sample/views/receita_simples_rest.py",
     "related_files": [
-      "python/django/sample/templates/receita_simples_rest/index.html",
-      "python/django/sample/receita_simples_rest/urls.py",
-      "python/django/sample/utils.py",
-      "python/django/sample/storage_mock.py",
-      "python/django/sample/pades_signature_rest/views.py"
+      "python/flask/sample/templates/receita_simples_rest/index.html",
+      "python/flask/sample/views/pades_signature_rest.py",
+      "python/flask/sample/templates/pades_signature_rest/index.html",
+      "python/flask/sample/static/js/signature-form.js",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/storage_mock.py"
     ],
     "status": "current",
     "docs_url": "https://docs.lacunasoftware.com/en-us/articles/rest-pki/python",
     "demo_url": null,
     "run": {
-      "cwd": "python/django/sample",
-      "command": "pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver",
-      "url": "http://localhost:8000/receita-simples-rest/"
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/receita-simples-rest/"
     }
   }
 ]

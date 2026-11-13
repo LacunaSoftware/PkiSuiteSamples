@@ -2,8 +2,8 @@
 
 /**
  * This file initiates the generation of Receita Simples file. The form is posted 
- * to another file, receita-simples-rest.php/sign, which generate the file and 
- * start the signature.
+ * to another file, receita-simples-rest/sign.php, which generates the file and
+ * starts the signature.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 

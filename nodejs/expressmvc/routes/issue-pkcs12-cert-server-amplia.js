@@ -23,9 +23,10 @@ router.get('/', (req, res, _next) => {
 /**
  * POST /issue-pkcs12-cert-server-amplia
  *
- * Receives issueForm POST request, containing two parameters:
+ * Receives issueForm POST request, containing three parameters:
  * - The subject name;
- * - The CPF number.
+ * - The CPF number;
+ * - The password of the PKCS #12 file.
  */
 router.post('/', async (req, res, next) => {
 	try {
@@ -34,8 +35,8 @@ router.post('/', async (req, res, next) => {
 		// parameters to generate the certificate.
 		const CONFIG = Config.getInstance().get('amplia');
 
-		// Get an instance of the AmpliaClient, responsible to connect with Amplia
-		// and perform the requests.
+		// Get an instance of the AmpliaClient, responsible for connecting with
+		// Amplia and performing the requests.
 		const client = Util.getAmpliaClient();
 
 		// Create an order request.
@@ -48,8 +49,8 @@ router.post('/', async (req, res, next) => {
 
 			// Set the certificate validity. We encapsulated the validity date
 			// definition on the getTwoYearsFromNowDate() method. We used the
-			// Util.formatDate() date method to parse to "MM-DD-YYYY" pattern accepted
-			// on Amplia.
+			// Util.formatDate() method to format it with the "MM-DD-YYYY" pattern
+			// accepted by Amplia.
 			validityEnd: Util.getTwoYearsFromNowDate(),
 
 			// Set the kind of the certificate.
@@ -81,8 +82,8 @@ router.post('/', async (req, res, next) => {
 		// Store certificate.
 		StorageMock.storeSync(cert.getPfxContent(), certId, '.pfx');
 
-		// Render complete page. We pass the certId responsible for locate the
-		// key and certificate files.
+		// Render complete page. We pass the certId, used to locate the PKCS #12
+		// file.
 		res.render('issue-pkcs12-cert-server-amplia/complete', {
 			certId: certId
 		});

@@ -35,14 +35,14 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			PKCertificateWithKey certWithKey;
 
 			try {
-				// Instantiate a XmlSigner class
+				// Instantiate a FullXmlSigner class
 				var signer = new FullXmlSigner();
 
 				// Set the data to sign, which in the case of this example is a fixed sample document
 				signer.SetXml(StorageMock.GetSampleXmlDocumentContent());
 
 
-				// Get the server's certificate, stores it and and set as the signer certificate.
+				// Get the server's certificate with its private key and set it as the signer certificate.
 				var certContent = StorageMock.GetServerCertificate();
 				var store = Pkcs12CertificateStore.Load(certContent, "1234");
 				certWithKey = store.GetCertificatesWithKey().First();

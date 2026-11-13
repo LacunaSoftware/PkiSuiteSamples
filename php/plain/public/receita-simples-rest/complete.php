@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file receives the form submission from receita-simples.php. We'll call REST PKI to complete
- * the signature.
+ * This file receives the form submission from receita-simples-rest/sign.php. We'll call REST PKI to
+ * complete the signature.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -24,9 +24,9 @@ try {
 	// object.
 	$signatureResult = $signatureFinisher->finish();
 
-	// REQUIRED!
-	// Provide the signer's certificate. You must sign with a valid digital certificate of a doctor, 
-	// who was registered on CRM.
+	// The "certificate" property of the SignatureResult object contains information about the
+	// certificate used to sign the file, which must be a valid digital certificate of a doctor
+	// registered on CRM.
 	$signerCert = $signatureResult->certificate;
 
 	// At this point, you'd typically store the signed PDF on your database. For demonstration purposes,
@@ -66,7 +66,7 @@ try {
 					<ul>
 						<li>Tipo de certificado: <?= $signerCert->pkiBrazil->certificateType ?></li>
 						<li>CPF: <?= $signerCert->pkiBrazil->cpf ?></li>
-						<li>Responsavel: <?= $signerCert->pkiBrazil->responsavel ?></li>
+						<li>Responsável: <?= $signerCert->pkiBrazil->responsavel ?></li>
 						<li>Empresa: <?= $signerCert->pkiBrazil->companyName ?></li>
 						<li>CNPJ: <?= $signerCert->pkiBrazil->cnpj ?></li>
 						<li>

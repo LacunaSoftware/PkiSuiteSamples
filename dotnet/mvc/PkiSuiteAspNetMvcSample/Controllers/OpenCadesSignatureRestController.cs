@@ -44,11 +44,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var signature = data.Signature;
 			var encapsulatedContent = data.Signature.HasEncapsulatedContent ? data.EncapsulatedContent : null;
 
-			// Render the information (see file OpenCadesSignature/Index.html for more information on
+			// Render the information (see the view OpenCadesSignatureRest/Index.cshtml for more information on
 			// the information returned).
 			return View(new OpenCadesSignatureModel() {
 				Signature = signature,
-				// WARNING: this sample always consider the encapsulated content type as pdf, so the downloadable file uses pdf extension
+				// WARNING: this sample always considers the encapsulated content type as PDF, so the downloadable file uses pdf extension
 				File = encapsulatedContent != null ? StorageMock.Store(encapsulatedContent.GetContent(), ".pdf") : ""
 			});
 		}

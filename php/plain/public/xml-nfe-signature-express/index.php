@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file perform a XML signature of a Brazillian invoice in three steps using PKI Express and Web PKI.
+ * This file performs an XML signature of a Brazilian invoice in three steps using PKI Express and Web PKI.
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET') {
 <?php include '../shared/web-pki.php' ?>
 
 <?php
-// The file below contains the logic for calling the Web PKI component. It is only an example, feel,
+// The file below contains the logic for calling the Web PKI component. It is only an example, feel
 // free to alter it to meet your application's needs. You can also bring the code into the
 // javascript block below if you prefer.
 ?>

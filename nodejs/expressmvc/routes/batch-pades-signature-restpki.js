@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const { PadesSignatureStarter, StandardSignaturePolicies, PadesSignatureFinisher } = require('restpki-client');
 
 const { Util } = require('../util');
@@ -11,7 +11,7 @@ const router = express.Router();
 const APP_ROOT = process.cwd();
 
 /**
- * GET /batch-signature
+ * GET /batch-pades-signature-restpki
  *
  * This action renders the batch signature page.
  *
@@ -31,21 +31,20 @@ router.get('/', (req, res) => {
 });
 
 /**
- * POST /batch-signature/start
+ * POST /batch-pades-signature-restpki/start
  *
  * This route is called asynchronously via AJAX by the batch signature page for
- * each document being signed. It receives the ID of the document and the
- * signer's certificate content and initiates a PAdES signature using
- * REST PKI and returns a JSON with the parameters for the client-side
- * signature using Web PKI (see batch-signature-form.js).
+ * each document being signed. It receives the ID of the document, initiates a
+ * PAdES signature using REST PKI and returns a JSON with the token that the
+ * page passes to Web PKI (see batch-signature-restpki-form.js).
  */
 router.post('/start', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-restpki-form.js).
 	const { id } = req.body;
 
-	// Get an instantiate of the PadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// Get an instance of the PadesSignatureStarter class, responsible for
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new PadesSignatureStarter(Util.getRestPkiClient());
 
 	// Set signature policy.
@@ -54,11 +53,13 @@ router.post('/start', (req, res, next) => {
 	// Set PDF to be signed.
 	signatureStarter.setPdfToSignFromPath(StorageMock.getBatchDocPath(id));
 
-	// Set Base64-encoded certificate's content to signature starter.
+	// Set the security context. We have encapsulated the security context
+	// choice on util.js.
 	signatureStarter.securityContext = Util.getSecurityContextId();
 
 	// Set the visual representation to the signature. We have encapsulated this
-	// code (on pades-visual-elements.js) to be used on various PAdES examples.
+	// code (on pades-visual-elements-restpki.js) to be used on various PAdES
+	// examples.
 	PadesVisualElementsRestPki.getVisualRepresentation()
 		.then((visualRepresentation) => {
 			// Set the visual representation to signatureStarter.
@@ -68,27 +69,26 @@ router.post('/start', (req, res, next) => {
 			// This yields the token, a 43-character case-sensitive URL-safe
 			// string, which identifies this signature process. We'll use this
 			// value to call the signWithRestPki() method on the WebPKI component
-			// (see public/js/signature-form.js) and also to complete the signature
-			// after the form is submitted (see post method). This should not be
-			// mistaken with the API access token.
+			// (see public/javascripts/batch-signature-restpki-form.js) and also to
+			// complete the signature (see the /complete route below). This should
+			// not be mistaken with the API access token.
 			return signatureStarter.startWithWebPki();
 		})
 		.then((result) => {
-			// Respond this request with the fields received from start() method to
-			// be used on the javascript or on the complete action.
+			// Respond this request with the token, to be used on the javascript
+			// and on the complete action.
 			res.json(result.token);
 		})
 		.catch((err) => next(err));
 });
 
 /**
- * POST batch-signature/complete
+ * POST /batch-pades-signature-restpki/complete
  *
  * This route is called asynchronously via AJAX by the batch signature page for
- * each document being signed. It receives the ID of the document, the computed
- * signature and the transfer file, received on start action. We'll call REST
- * PKI to complete this signature and return a JSON with the saved filename so
- * that the page can render a link to it.
+ * each document being signed. It receives the token, received on start action.
+ * We'll call REST PKI to complete this signature and return a JSON with the
+ * saved filename so that the page can render a link to it.
  */
 router.post('/complete', (req, res, next) => {
 	// Get an instance of the PadesSignatureFinisher class, responsible for
@@ -102,24 +102,22 @@ router.post('/complete', (req, res, next) => {
 	// returns the SignatureResult object.
 	signatureFinisher.finish()
 		.then((result) => {
-			// At this point, you'd typically store the signed PDF on you database.
+			// At this point, you'd typically store the signed PDF on your database.
 			// For demonstration purposes, we'll store the PDF on a temporary
 			// folder publicly accessible and render a link to it.
 
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const filename = `${uuidv4()}.pdf`;
+			const filename = `${randomUUID()}.pdf`;
 
 			// The SignatureResult object has functions for writing the signature
-			// file to a local life (writeToFile()) and to get its raw contents
+			// file to a local file (writeToFile()) and to get its raw contents
 			// (getContent()). For large files, use writeToFile() in order to avoid
 			// memory allocation issues.
-			result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
+			return result.writeToFile(path.join(APP_ROOT, 'app-data', filename))
 			.then(() => {
-				// Render the result page, showing the signed file and the signer
-				// certification info.
+				// Return a JSON with the saved filename.
 				res.json(filename);
 			})
-			.catch((err) => { throw err });
 		})
 		.catch((err) => next(err));
 });

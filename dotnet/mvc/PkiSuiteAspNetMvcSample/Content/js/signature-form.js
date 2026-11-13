@@ -15,7 +15,7 @@ var signatureForm = (function () {
 	// ------------------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks.
@@ -26,14 +26,14 @@ var signatureForm = (function () {
 		$.blockUI({ message: 'Initializing ...' });
 
 		// Call the init() method on the LacunaWebPKI object, passing a callback for when the component is
-		// ready to be used and another to be called when an error occurrs on any of the subsequent
+		// ready to be used and another to be called when an error occurs on any of the subsequent
 		// operations. For more information, see:
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
 		pki.init({
 			ready: loadCertificates,        // As soon as the component is ready we'll load the certificates.
 			defaultError: onWebPkiError,    // Generic error callback defined below.
-			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint to communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint    // REST PKI endpoint that Web PKI communicates with.
 		});
 	}
 

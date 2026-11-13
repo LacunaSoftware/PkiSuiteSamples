@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 
 const { CadesSignatureExplorer } = require('pki-express');
@@ -10,9 +10,9 @@ const router = express.Router();
 const APP_ROOT = process.cwd();
 
 /*
-* GET /check
+* GET /check-cades-express
 *
-* This route submits a PDF file to PKI Express for inspection of its signatures
+* This route submits a CMS file to PKI Express for inspection of its signatures
 * and renders the results.
 */
 router.get('/', (req, res, next) => {
@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
 	// before looking it up.
 	const verificationCode = Util.parseVerificationCode(req.query.code);
 
-	// Our demo only works if a userfile is given to work with
+	// Look up the document associated with the verification code.
 	const fileId = StorageMock.lookupVerificationCode(req.session, verificationCode);
 
 	if (!fileId) {
@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 		return;
 	}
 
-	// Get an instance of CadesSignatureExplorer class, used to open/validate PDF
+	// Get an instance of CadesSignatureExplorer class, used to open/validate CAdES
 	// signatures.
 	const sigExplorer = new CadesSignatureExplorer();
 
@@ -43,16 +43,17 @@ router.get('/', (req, res, next) => {
 	// Locate document from storage.
 	const filePath = StorageMock.getDataPath(fileId);
 
-	// Se the PDF file to be inspected.
+	// Set the CMS file to be inspected.
 	sigExplorer.setSignatureFileFromPathSync(filePath);
 
 	// Specify that we want to validate the signatures in the file, not only
 	// inspect them.
 	sigExplorer.validate = true;
 
-	// Generate path for output file and add the signature finisher.
-	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
-	const extractedContent = `${uuidv4()}.pdf`;
+	// Generate a path for the extracted content and set it on the signature
+	// explorer.
+	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (see storage-mock.js).
+	const extractedContent = `${randomUUID()}.pdf`;
 	sigExplorer.setExtractContentPath(path.join(APP_ROOT, 'app-data', extractedContent));
 
 	// Call the open() method, which returns the signature file's information.

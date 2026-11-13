@@ -21,7 +21,7 @@ public class XmlSignatureRestController {
 	/**
 	 * GET /xml-signature-rest
 	 *
-	 * This action initiates a XML signature using REST PKI and renders the signature page.
+	 * This action initiates an XML signature using REST PKI and renders the signature page.
 	 */
 	@GetMapping
 	public String get(
@@ -30,7 +30,7 @@ public class XmlSignatureRestController {
 	) throws IOException, RestException {
 
 		// Instantiate the FullXmlSignatureStarter class, responsible for receiving the signature
-		// elements and start the signature process.
+		// elements and starting the signature process.
 		FullXmlSignatureStarter signatureStarter = new FullXmlSignatureStarter(Util.getRestPkiClient());
 
 		// Set the path of the Sample XML to be signed.
@@ -40,11 +40,11 @@ public class XmlSignatureRestController {
 		signatureStarter.setSignaturePolicy(SignaturePolicy.XadesBasic);
 
 		// Set the security context to be used to determine trust in the certificate chain. We have
-		// encapsulated the security context choice on Util.cs.
+		// encapsulated the security context choice on Util.java.
 		signatureStarter.setSecurityContext(Util.getSecurityContext());
 
 		// Set the location on which to insert the signature node. If the location is not specified,
-		// the signature will appended to the root element (which is most usual with enveloped
+		// the signature will be appended to the root element (which is most usual with enveloped
 		// signatures).
 		XmlNamespaceManager nsm = new XmlNamespaceManager();
 		nsm.addNamespace("ls", "http://www.lacunasoftware.com/sample");
@@ -54,7 +54,7 @@ public class XmlSignatureRestController {
 		// a 43-character case-sensitive URL-safe string, which identifies this signature process.
 		// We'll use this value to call the signWithRestPki() method on the Web PKI component
 		// (see file signature-form.js) and also to complete the signature after the form is
-		// submitted (see method complete() below). This should not be mistaken with the API access
+		// submitted (see method post() below). This should not be mistaken with the API access
 		// token.
 		String token = signatureStarter.startWithWebPki();
 
@@ -65,7 +65,7 @@ public class XmlSignatureRestController {
 		// method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-signature-rest/index.html).
 		model.addAttribute("sampleId", SampleDocs.SAMPLE_XML);
 		model.addAttribute("token", token);
 		return "xml-signature-rest/index";
@@ -85,13 +85,14 @@ public class XmlSignatureRestController {
 		XmlSignatureFinisher signatureFinisher = new XmlSignatureFinisher(Util.getRestPkiClient());
 
 		// Set the token for this signature (rendered in a hidden input field, see
-		// file templates/xml-full-signature.html).
+		// file templates/xml-signature-rest/index.html).
 		signatureFinisher.setToken(token);
 
-		// Call the finish() method, which finalizes the signature process and returns a SignatureResult object
+		// Call the finish() method, which finalizes the signature process and returns the signed
+		// XML's bytes.
 		byte[] signedXml = signatureFinisher.finish();
 
-		// At this point, you'd typically store the signed PDF on your database. For demonstration
+		// At this point, you'd typically store the signed XML on your database. For demonstration
 		// purposes, we'll store the XML on a temporary folder and return to the page an identifier
 		// that can be used to download it.
 		String filename = StorageMock.store(signedXml, "xml");
@@ -100,7 +101,7 @@ public class XmlSignatureRestController {
 		// only be called after calling the finish() method.
 		PKCertificate signerCert = signatureFinisher.getCertificateInfo();
 
-		// Render the signature page (templates/xml-diploma-signature-rest.html).
+		// Render the signature page (templates/xml-signature-rest/signature-info.html).
 		model.addAttribute("signerCert", signerCert);
 		model.addAttribute("filename", filename);
 		return "xml-signature-rest/signature-info";

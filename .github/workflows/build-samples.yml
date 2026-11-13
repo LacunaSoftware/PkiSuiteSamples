@@ -7,7 +7,7 @@ name: Build samples
 #
 # The Linux jobs run each app in a Docker image of the runtime the project targets, on the host
 # network so that the app's localhost URLs work from the runner. `docker rm -f` stops the app and
-# all of its child processes (Gradle daemon, nodemon, the Flask and Django reloaders).
+# all of its child processes (Gradle daemon, nodemon, the Flask reloader).
 # The apps use the trial credentials committed in the repository. This workflow adds no secrets.
 on:
   pull_request:
@@ -161,7 +161,7 @@ jobs:
           docker run -d --name app --network host -v "$PWD:/repo" -w /repo/nodejs/expressmvc
           node:22 sleep infinity
       - name: Install dependencies
-        run: docker exec app npm install
+        run: docker exec app npm ci
       - name: Start the app
         run: docker exec -d app sh -c "npm start > /tmp/app.log 2>&1"
       - name: Smoke test
@@ -226,33 +226,6 @@ jobs:
         run: docker exec -d app sh -c "flask run > /tmp/app.log 2>&1"
       - name: Smoke test
         run: python3 scripts/ci/smoke-test.py python/flask
-      - name: Show the app log
-        if: always()
-        run: docker exec app cat /tmp/app.log || true
-      - name: Stop the app
-        if: always()
-        run: docker rm -f app
-
-  python-django:
-    name: python/django
-    needs: changes
-    if: contains(fromJSON(needs.changes.outputs.projects), 'python/django')
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v7
-      - name: Start a Python 3.11 container
-        run: >
-          docker run -d --name app --network host -v "$PWD:/repo" -w /repo/python/django/sample
-          -e PIP_ROOT_USER_ACTION=ignore python:3.11 sleep infinity
-      - name: Install dependencies and migrate
-        run: |
-          docker exec app pip install -r ../requirements.txt
-          docker exec app python manage.py migrate
-      - name: Start the app
-        run: docker exec -d app sh -c "python manage.py runserver > /tmp/app.log 2>&1"
-      - name: Smoke test
-        run: python3 scripts/ci/smoke-test.py python/django
       - name: Show the app log
         if: always()
         run: docker exec app cat /tmp/app.log || true

@@ -25,8 +25,7 @@ It is **not** a production template. Copy the integration calls, not the scaffol
 - Files are kept by a `StorageMock` class (a local folder such as `App_Data`, `app-data` or
   `private/files`). Replace it with your storage, and do not copy its file-id handling: it joins
   request input into file paths.
-- There is no login and no authorization. Django has its CSRF middleware commented out, and
-  Rails uses `protect_from_forgery with: :null_session`.
+- There is no login and no authorization. Rails uses `protect_from_forgery with: :null_session`.
 - Callback and return URLs are hardcoded to `http://localhost:<port>`.
 - The committed API keys and `LacunaPkiLicense.config` files are short-lived **trial**
   credentials, rotated by `update-licenses.ps1`. Do not edit, move or "clean up" them. Your
@@ -78,10 +77,9 @@ and no check routes, which uses Rest PKI Core and never Rest PKI (v1)
 | `dotnet/mvc/PkiSuiteAspNetMvcSample` | ASP.NET MVC 5, .NET Framework 4.8 | `dotnet/mvc` | Open `PkiSuiteAspNetMvcSample.sln` in Visual Studio, F5 (IIS Express) | http://localhost:54123 | `Web.config` `<appSettings>`; `LacunaPkiLicense.config` (copied to `bin/`) |
 | `dotnet/spa/PkiSuiteAspNetCoreAngularSample` | ASP.NET Core (.NET 10) Web API + Angular 22 (`pkisuiteaspnetcoreangularsample.client/`), Node.js 24.15 or later | `dotnet/spa/PkiSuiteAspNetCoreAngularSample/PkiSuiteAspNetCoreAngularSample.Server` | `dotnet run --launch-profile http` (after `npm ci` in the client folder), or open the `.sln` in Visual Studio, F5 | http://localhost:4200 (Angular dev server; the API listens on http://localhost:5100) | `appsettings.json` (`RestPkiCore`, `WebPki`, `PkiSuite`), overridden by `appsettings.Development.json`; `LacunaPkiLicense.config` (loaded from the content root) |
 | `java/springmvc` | Spring Boot 4.0, Java 21, Gradle 8.14 wrapper (or Maven) | `java/springmvc` | `./gradlew bootRun` (`gradlew.bat bootRun` on Windows) | http://localhost:60695 | `src/main/resources/application.yml`, overridden by `application-dev.yml` (profile `dev` is active) |
-| `nodejs/expressmvc` | Express + Pug | `nodejs/expressmvc` | `npm install && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
+| `nodejs/expressmvc` | Express 5 + Pug | `nodejs/expressmvc` | `npm ci && npm start` | http://localhost:3000 | `config/default.js` merged with `config/<NODE_ENV>.js` (`development.js` by default) |
 | `php/plain` | Plain PHP (Composer) | `php/plain` | `composer install && composer start` | http://localhost:8000 | `config.php` |
 | `python/flask` | Flask | `python/flask` | `pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run` | http://localhost:5000 | `sample/config.py` (class picked by `FLASK_ENV`, which is required) |
-| `python/django` | Django | `python/django/sample` | `pip install -r ../requirements.txt && python manage.py migrate && python manage.py runserver` | http://localhost:8000 | `sample/config.py`; `sample/PkiSuitePythonDjangoSample/settings.py` |
 | `ruby/rails` | Rails 8.1, Ruby 3.3, Puma | `ruby/rails` | `bundle install && rails server` | http://localhost:3000 | `config/lacuna.yml` (one section per Rails environment) |
 
 `dotnet/webapi` and `dotnet/webforms` are empty placeholders. Each project folder has a
@@ -105,7 +103,7 @@ Claude Code skill, that signs a participant's pending Signer documents with PKI 
 Every key a project reads is listed, with placeholder values and a one-line comment, in an
 `.example` file next to the real config file: `Web.config.example`,
 `appsettings.json.example`, `application.yml.example`, `config/default.js.example`,
-`config.php.example`, `sample/config.py.example` (Flask and Django) and
+`config.php.example`, `sample/config.py.example` (Flask) and
 `config/lacuna.yml.example`. No app loads these files; they are documentation only.
 
 Credentials the apps read (the files `update-licenses.ps1` rewrites):
@@ -242,6 +240,13 @@ on Python 3.11 or older.
   touches (all of them on `master` and weekly), and `scripts/ci/smoke-test.py` checks its home
   page, the catalog pages listed in that script's `SMOKE_SAMPLES`, and that the paths in its
   `NOT_FOUND_PATHS` answer 404 for a file (or verification code) that does not exist.
+
+- `.github/workflows/codespell.yml` runs codespell over the whole repository on every pull
+  request and push to `master`. It lists each typo in the job summary (GitHub also shows up to
+  10 as warnings on their lines) and never fails the build because of a typo. When it flags a
+  real word (Portuguese, a product term, a variable name), add it to `ignore-words-list` in
+  `.codespellrc` instead of changing the text. A typo in `SAMPLES.md` or in a README's sample
+  table comes from `samples.json`: fix it there and regenerate.
 
 - Link new samples from the project's home `SampleRoutes` when the shared home app knows the
   key. In `dotnet/spa`, add them to `src/app/home/sample-list.ts` and `src/app/app.routes.ts`

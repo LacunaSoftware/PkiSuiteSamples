@@ -26,7 +26,7 @@ block content
                div(id=collapseId class="collapse" role="tabpanel" aria-labelledby=headingId data-parent="#accordion")
                   div(class="card-body")
                      if signer.signingTime
-                        //- Date format when converting date into a string using moment library, passed throw the
+                        //- Date format when converting date into a string using moment library, passed through the
                         //- middleware (see https://momentjs.com/docs/#/displaying/format for other date formats).
                         - var dateFormat = 'DD/MM/YYYY HH:mm';
                         p Signing time: #{moment(signer.signingTime).format(dateFormat)}
@@ -41,7 +41,7 @@ block content
                            ul
                               li Tipo de certificado: #{signer.certificate.pkiBrazil.certificateType}
                               li CPF: #{signer.certificate.pkiBrazil.cpfFormatted}
-                              li Responsavel: #{signer.certificate.pkiBrazil.responsavel}
+                              li Responsável: #{signer.certificate.pkiBrazil.responsavel}
                               li Empresa: #{signer.certificate.pkiBrazil.companyName}
                               li CNPJ: #{signer.certificate.pkiBrazil.cnpjFormatted}
                               li RG: #{signer.certificate.pkiBrazil.rgNumero} #{signer.certificate.pkiBrazil.rgEmissor} #{signer.certificate.pkiBrazil.rgEmissorUF}

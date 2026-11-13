@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const { CadesSignatureStarter, SignatureFinisher, StandardSignaturePolicies } = require('pki-express');
 
 const { Util } = require('../util');
@@ -32,19 +32,19 @@ router.get('/', (req, res, next) => {
  * POST /cades-signature-express/start
  *
  * This method starts the signature. In this sample, it will be called
- * programatically after the user press the "Sign File" button (see method
- * readCertificate() on static/js/signature-start-form.js).
+ * programmatically after the user presses the "Sign File" button (see method
+ * startSignature() on public/javascripts/signature-start-form.js).
  *
  */
 router.post('/start', (req, res, next) => {
 	const { fileId } = req.query;
 
-	// Recover variables from the POST arguments to be use don this step.
+	// Recover variables from the POST arguments to be used on this step.
 	const certThumb = req.body.certThumbField;
 	const certContent = req.body.certContentField;
 
-	// Get an instantiate of the CadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// Get an instance of the CadesSignatureStarter class, responsible for
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new CadesSignatureStarter();
 
 	// Set PKI default options (see util.js).
@@ -74,7 +74,7 @@ router.post('/start', (req, res, next) => {
 			const { toSignHash } = response;
 			const { digestAlgorithm } = response;
 			const { transferFile } = response;
-			// Render the field from start() method as hidden field to be used on
+			// Render the fields from start() method as hidden fields to be used on
 			// the javascript or on the "complete" step.
 			res.render('cades-signature-express/start', {
 				toSignHash,
@@ -89,9 +89,9 @@ router.post('/start', (req, res, next) => {
 /**
  * POST /cades-signature-express/complete
  *
- * This function completes the signature, it will be called programatically
- * after the Web PKI component perform the signature and submit the form (see
- * method sign() on static/js/signature-complete-form.js).
+ * This function completes the signature, it will be called programmatically
+ * after the Web PKI component performs the signature and the page submits the
+ * form (see method sign() on public/javascripts/signature-complete-form.js).
  *
  */
 router.post('/complete', (req, res, next) => {
@@ -115,19 +115,19 @@ router.post('/complete', (req, res, next) => {
 	// Set the transfer file.
 	signatureFinisher.setTransferFileFromPathSync(transferFile);
 
-	// Set the signature file.
+	// Set the signature.
 	signatureFinisher.signature = signature;
 
 	// Generate path for output file and add to the signature finisher.
-	StorageMock.createAppDataSync(); // Guarantees that "app data" folder exists.
-	const outputFile = `${uuidv4()}.p7s`;
+	StorageMock.createAppDataSync(); // Guarantees that "app-data" folder exists.
+	const outputFile = `${randomUUID()}.p7s`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Complete the signature process.
 	signatureFinisher
 		.complete(true)
 		.then((certificate) => {
-			// After complete the signature, render the result page, passing the
+			// After completing the signature, render the result page, passing the
 			// outputFile containing the signed file.
 			res.render('cades-signature-express/complete', {
 				cmsFile: outputFile,

@@ -17,10 +17,9 @@ from sample.storage_mock import get_sample_batch_doc_path
 from sample.utils import get_rest_pki_client
 from sample.utils import get_security_context_id
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(basename(__name__), __name__)
 
@@ -31,15 +30,15 @@ def index():
     # will compose the batch.
     document_ids = list(range(1, 31))
 
-    # Render the batch signature signature page.
+    # Render the batch signature page.
     return render_template('batch_cades_rest/index.html',
                            document_ids=document_ids)
 
 
 @blueprint.route('/api/batch-cades-rest/start/<file_id>', methods=['POST'])
 def start(file_id):
-    # Get an instantiate of the CadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # Get an instance of the CadesSignatureStarter class, responsible for
+    # receiving the signature elements and starting the signature process.
     signature_starter = CadesSignatureStarter(get_rest_pki_client())
 
     # Set the document to be signed based on its ID.
@@ -50,11 +49,11 @@ def start(file_id):
         StandardSignaturePolicies.PKI_BRAZIL_CADES_ADR_BASICA
 
     # Set a security context. We have encapsulated the security context
-    # choice on util.py.
+    # choice on utils.py.
     signature_starter.security_context = get_security_context_id()
 
     # Optionally, set whether the content should be encapsulated in the
-    # resulting CMS. If this parameter is ommitted, the following rules
+    # resulting CMS. If this parameter is omitted, the following rules
     # apply:
     # - If no CmsToCoSign is given, the resulting CMS will include the
     # content.
@@ -67,9 +66,9 @@ def start(file_id):
     # This yields the token, a 43-character case-sensitive URL-safe string,
     # which identifies this signature process. We'll use this value to call
     # the signWithRestPki() method on the Web PKI component (see
-    # signature-form.js) and also to complete the signature after
-    # the form is submitted (see method action()). This should not be
-    # mistaken with the API access token.
+    # batch-signature-restpki-form.js) and also to complete the signature
+    # (see complete() below). This should not be mistaken with the API
+    # access token.
     result = signature_starter.start_with_webpki()
 
     # Return a JSON with the token obtained from REST PKI (the page will use
@@ -86,11 +85,11 @@ def complete(token):
     # Set the token.
     signature_finisher.token = token
 
-    # Call the finish() method, which finalizes the signature process.The
+    # Call the finish() method, which finalizes the signature process. The
     # return value is the CMS content.
     result = signature_finisher.finish()
 
-    # At this point, you'd typically store the signed PDF on your database.
+    # At this point, you'd typically store the signed CMS on your database.
     # For demonstration purposes, we'll store the CMS on a temporary folder
     # publicly accessible and render a link to it.
 

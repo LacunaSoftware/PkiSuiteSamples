@@ -34,9 +34,9 @@ import java.security.cert.X509Certificate;
  * XML Diploma Signature (REST PKI Core) — headless self-test
  * ================================================================================================
  *
- * PURPOSE: verify that the locally-published RestPkiNGJavaClient library
- * (com.lacunasoftware.restpki:restpkicore-client, wired to 1.4.0 in build.gradle via mavenLocal)
- * works end-to-end, by driving a full XML signature of a diploma through REST PKI Core.
+ * PURPOSE: verify that the RestPkiNGJavaClient library (com.lacunasoftware.restpki:restpkicore-client
+ * 1.4.0, from Maven Central) works end-to-end, by driving a full XML signature of a diploma through
+ * REST PKI Core.
  *
  * This is a TEST HARNESS, not a product sample. It replaces the browser + Web PKI part of a normal
  * signature flow with local signing using the bundled "Pierre de Fermat.pfx" test certificate, so
@@ -49,7 +49,7 @@ import java.security.cert.X509Certificate;
  *   3. (local) sign the returned DigestInfo      -> stands in for Web PKI signHash
  *   4. service.completeSignature(request)        -> returns the signed diploma document
  *
- * If every step succeeds and a signed XML comes back, the local 1.4.0 build is functional.
+ * If every step succeeds and a signed XML comes back, the 1.4.0 library is functional.
  *
  * Run it (with the app started) via:  GET /xml-diploma-signature-core/selftest
  */

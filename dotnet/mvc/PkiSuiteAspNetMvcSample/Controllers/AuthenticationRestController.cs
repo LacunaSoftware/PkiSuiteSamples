@@ -12,8 +12,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class AuthenticationRestController : BaseController {
 
 		/**
-		 * GET: AuthenticationRestPki
-		 * 
+		 * GET: AuthenticationRest
+		 *
 		 * This action initiates an authentication with REST PKI and renders the authentication page.
 		 */
 		[HttpGet]
@@ -26,7 +26,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// "token", a 22-character case-sensitive URL-safe string, which represents this authentication
 			// process. We'll use this value to call the signWithRestPki() method on the Web PKI component
 			// (see javascript on the view) and also to call the CompleteWithWebPki() method on the POST
-			// action below (this should not be mistaken with the API access token). We have encapsulated the
+			// action below (this should not be mistaken for the API access token). We have encapsulated the
 			// security context choice on Util.cs.
 			var token = await auth.StartWithWebPkiAsync(Util.GetSecurityContextId());
 
@@ -45,9 +45,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: AuthenticationRestPki
-		 * 
-		 * This action receives the form submission form the view. We'll call REST PKI to validate the
+		 * POST: AuthenticationRest
+		 *
+		 * This action receives the form submission from the view. We'll call REST PKI to validate the
 		 * authentication.
 		 */
 		[HttpPost]
@@ -72,8 +72,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// certificate's subject. Now, you'd typically query your database for a user that matches one of
 			// the certificate's fields, such as userCert.EmailAddress or userCert.PkiBrazil.CPF (the actual
 			// field to be used as key depends on your application's business logic) and set the user ID on
-			// the auth cookie. For demonstration purposes, we'll set the email address directly on the
-			// cookie as if it were the user ID.
+			// the auth cookie. For demonstration purposes, we'll just render the certificate's information.
 			return View("Success", new AuthenticationInfoModel() {
 				UserCert = auth.GetCertificate()
 			});

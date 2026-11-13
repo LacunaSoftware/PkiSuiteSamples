@@ -91,10 +91,6 @@ The `update-licenses.ps1` script performs the following changes:
     *   Updates `'amplia' => 'apiKey'` (with the AmpliaApiKey)
     *   Updates expiry date comments.
     *   The `cloudHub` section is intentionally not modified.
-*   **`python/django/sample/config.py`**:
-    *   Updates `REST_PKI_ACCESS_TOKEN` (with the RestPkiApiKey)
-    *   Updates `AMPLIA_API_KEY` (with the AmpliaApiKey)
-    *   Updates expiry date comments.
 *   **`python/flask/sample/config.py`**:
     *   Updates `REST_PKI_ACCESS_TOKEN` (with the RestPkiApiKey)
     *   Updates `REST_PKI_CORE_API_KEY` (with the RestPkiCoreApiKey)

@@ -5,8 +5,8 @@ module PadesVisualElementsRest
   include Util
 
   # This method is called by the PAdES samples. It contains an example of
-  # signature visual representation. This is only in a separate in order to
-  # organize the various examples.
+  # signature visual representation. This is only in a separate module in order
+  # to organize the various examples.
   def get_visual_representation
 
     # Create a visual representation
@@ -25,7 +25,7 @@ module PadesVisualElementsRest
         # to place the text. By default, the text can occupy the entire
         # rectangle (how much of the rectangle the text will actually fill
         # depends on the length and font size). Below, we specify that the text
-        # should respect a right margin of 1.5 cm.
+        # should respect a margin of 0.2 cm on each side.
         container: {
           left: 0.2,
           top: 0.2,
@@ -34,7 +34,7 @@ module PadesVisualElementsRest
         }
       },
       image: {
-        # We'll use as background the image content/PdfStamp.png
+        # We'll use as background the image private/stamp.png
         resource: {
           content: Base64.encode64(get_pdf_stamp_content),
           mimeType: 'image/png'

@@ -1,8 +1,8 @@
 /*
  * This file allows the user to upload a file to be signed. Once the file is
- * uploaded, we save it to the * "public/app-data" folder and redirect the user
- * to the /pades-signature route passing the filename on the "fileId" URL
- * argument.
+ * uploaded, we save it to the "app-data" folder and redirect the user to the
+ * route given on the "rc" URL argument, passing the filename on the "fileId"
+ * URL argument.
  */
 const express = require('express');
 const path = require('path');

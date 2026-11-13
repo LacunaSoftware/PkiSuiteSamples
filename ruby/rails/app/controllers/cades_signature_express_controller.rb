@@ -1,21 +1,21 @@
 require 'pki_express'
 
 class CadesSignatureExpressController < ApplicationController
-  # GET /cades-signature
+  # GET /cades-signature-express
   # This sample performs a CAdES signature in three steps using PKI Express
   # and Web PKI
   def index
     @file_to_sign = params[:file_id]
     
     # Verify if the :file_id exists with the help of our StorageMock class.
-    # This sample cna only be executed if the provided file exists.
+    # This sample can only be executed if the provided file exists.
     render plain: 'Not Found', status: 404 unless exist?(@file_to_sign)
   end
 
-  # POST /cades-signature/start
+  # POST /cades-signature-express/start
   # This method starts the signature. In this sample, it will be called
-  # programatically after the user press the "Sign File" button
-  # (see method readCertificate() on signature-start-form.js)
+  # programmatically after the user presses the "Sign File" button
+  # (see function startSignature() on signature-start-form.js)
   def start
     # Retrieve parameters
     @file_to_sign = params[:file_id]
@@ -23,7 +23,7 @@ class CadesSignatureExpressController < ApplicationController
     cert_content = params[:cert_content]
 
     # Get instance of the CadesSignatureStarter class, responsible for
-    # receiving the signature elements and start the signature process.
+    # receiving the signature elements and starting the signature process.
     signature_starter = PkiExpress::CadesSignatureStarter.new
 
     # Set PKI default options (see util.rb)
@@ -32,7 +32,7 @@ class CadesSignatureExpressController < ApplicationController
     # Set signature policy.
     signature_starter.signature_policy = PkiExpress::StandardSignaturePolicies::PKI_BRAZIL_CADES_ADR_BASICA
 
-    # Set PDF to be signed.
+    # Set the file to be signed.
     signature_starter.file_to_sign_path = get_data_path(@file_to_sign)
 
     # Set Base64-encoded certificate's content to signature starter.
@@ -53,9 +53,9 @@ class CadesSignatureExpressController < ApplicationController
     @digest_algorithm = result.digest_algorithm_name
   end
 
-  # POST /cades-signature/complete
-  # This method completes the signature, it will be called programatically
-  # after the Web PKI component perform the signature and submit the form
+  # POST /cades-signature-express/complete
+  # This method completes the signature, it will be called programmatically
+  # after the Web PKI component performs the signature and submits the form
   # (see method sign() on signature-complete-form.js)
   def complete
     # Retrieve parameters

@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------------------------------------
-// This file contains logic for calling the Web PKI component to sign a batch of documents (Core scaffolding).
-// It mirrors the Express sample flow and should be adapted as needed.
+// This file contains logic for calling the Web PKI component to sign a batch of documents with
+// REST PKI Core. It is only an example, feel free to alter it to meet your application's needs.
 // ------------------------------------------------------------------------------------------------
 var batchSignatureCoreForm = (function () {
 
@@ -71,7 +71,7 @@ var batchSignatureCoreForm = (function () {
 	// --------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks
@@ -92,7 +92,7 @@ var batchSignatureCoreForm = (function () {
 		}
 
 		// Call the init() method on the LacunaWebPKI object, passing a callback for when the
-		// component is ready to be used and another to be called when an error occurrs on any of
+		// component is ready to be used and another to be called when an error occurs on any of
 		// the subsequent operations. For more information, see:
 		// https://docs.lacunasoftware.com/en-us/articles/web-pki/get-started.html#coding-the-first-lines
 		// http://webpki.lacunasoftware.com/Help/classes/LacunaWebPKI.html#method_init
@@ -150,8 +150,7 @@ var batchSignatureCoreForm = (function () {
 		// Block the UI while we perform the signature.
 		$.blockUI({message: 'Signing ...'});
 
-		// Get the thumbprint of the selected certificate and store it in a global variable (we'll
-		// need it later).
+		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
 
 		pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
@@ -176,12 +175,12 @@ var batchSignatureCoreForm = (function () {
 
 		// For each document, we must perform 3 actions in sequence:
 		//
-		//    1. Start the signature    : Call the action batch-pades-signature-core/start to start the
-		//                                signature and get the "to-sign-hash" content and the digest
-		//                                algorithm needed for the signature computation.
+		//    1. Start the signature    : Call the action <ctrlEndpoint>/start to start the
+		//                                signature and get the hash to be signed, its digest
+		//                                algorithm and the signature state.
 		//    2. Perform the signature  : Call Web PKI's method signHash with the information from
 		//                                the start action.
-		//    3. Complete the signature : Call the action batch-pades-signature-core/complete to notify
+		//    3. Complete the signature : Call the action <ctrlEndpoint>/complete to notify
 		//                                that the signature is complete.
 		//
 		// We'll use the Queue Javascript class defined above in order to perform these steps
@@ -214,8 +213,8 @@ var batchSignatureCoreForm = (function () {
 
 	// --------------------------------------------------------------------------------------------
 	// Function that performs the first step described above for each document, which is the call
-	// batch-pades-signature-core/start in order to start the signature and get the token associated
-	// with the signature process.
+	// to <ctrlEndpoint>/start in order to start the signature and get the hash to be signed, its
+	// digest algorithm and the state associated with the signature process.
 	//
 	// This function is called by the Queue.process function, taking documents from the "start"
 	// queue. Once we're done, we'll call the "done" callback passing the document, and the
@@ -283,7 +282,7 @@ var batchSignatureCoreForm = (function () {
 
 	// --------------------------------------------------------------------------------------------
 	// Function that performs the third step described above for each document, which is the call
-	// to the action "complete" in order to complete the signature.
+	// to <ctrlEndpoint>/complete in order to complete the signature.
 	//
 	// This function is called by the Queue.process function, taking documents from the "complete"
 	// queue. Once we're done, we'll call the "done" callback passing the document. Once all
@@ -331,7 +330,7 @@ var batchSignatureCoreForm = (function () {
 	}
 
 	// --------------------------------------------------------------------------------------------
-	// Function that renders a documument as completed successfully.
+	// Function that renders a document as completed successfully.
 	// --------------------------------------------------------------------------------------------
 	function renderSuccess(step) {
 		var docLi = $('#docList li').eq(step.index);
@@ -357,7 +356,7 @@ var batchSignatureCoreForm = (function () {
 	}
 
 	// --------------------------------------------------------------------------------------------
-	// Function that renders a documument as failed.
+	// Function that renders a document as failed.
 	// --------------------------------------------------------------------------------------------
 	function renderFail(step, error) {
 		addAlert('danger', 'An error has occurred while signing Document ' + step.docId + ': ' + error);

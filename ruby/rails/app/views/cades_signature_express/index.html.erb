@@ -19,7 +19,7 @@
     <%
       # Render a select (combo box) to list the user's certificates. For now it
       # will be empty, we'll populate it later on
-      # (see assets/javascripts/signature-form.js).
+      # (see assets/javascripts/signature-start-form.js).
     %>
     <div class="form-group">
       <%= label_tag('certificateSelect', 'Choose a certificate') %>
@@ -27,11 +27,11 @@
     </div>
 
     <%
-      # Action buttons. Notice that the "Sign In" button is NOT a submit button.
+      # Action buttons. Notice that the "Sign File" button is NOT a submit button.
       # When the user clicks the button, we must first use the Web PKI component
       # to perform the client-side computation necessary and only when that
       # computation is finished we'll submit the form programmatically (see
-      # assets/javascripts/signature-form.js).
+      # assets/javascripts/signature-start-form.js).
     %>
     <div class="form-group">
       <button id="signButton" type="button" class="btn btn-primary">
@@ -52,7 +52,7 @@
 <%= render 'shared/web_pki' %>
 
 <%
-  # The file below contains the necessary calls to the Web component. Once the
+  # The file below contains the necessary calls to the Web PKI component. Once the
   # necessary computations have been done, the javascript code will submit our
   # form.
 %>

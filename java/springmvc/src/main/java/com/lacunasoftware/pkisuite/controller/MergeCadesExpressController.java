@@ -18,18 +18,18 @@ public class MergeCadesExpressController {
 	/**
 	 * GET /merge-cades-express?dataFile={dataFile}&fileId1={fileId1}&fileId2={fileId2}
 	 *
-	 * This action performs a merge of CAdES signature using PKI Express 
-	 * when both signatures doesn't have encapsulated content or when one 
-	 * signature has encpasulated content and the other doesn't
+	 * This action performs a merge of CAdES signatures using PKI Express
+	 * when both signatures don't have encapsulated content or when one
+	 * signature has encapsulated content and the other doesn't
 	 * 
 	 * GET /merge-cades-express?fileId1={fileId1}&fileId2={fileId2}
 	 *
-	 * This action performs a merge of CAdES signature using PKI Express
+	 * This action performs a merge of CAdES signatures using PKI Express
 	 * when both signatures have encapsulated content
 	 * 
 	 * GET /merge-cades-express?dataFile={dataFile}&fileId1={fileId1}
 	 *
-	 * This action performs a merge of CAdES signature using PKI Express to
+	 * This action performs a merge of CAdES signatures using PKI Express to
 	 * generate an attached file from the data file and detached CMS file
 	 */
 	@GetMapping
@@ -39,25 +39,25 @@ public class MergeCadesExpressController {
 		@RequestParam(value = "fileId2", defaultValue = "") String fileId2,
 		Model model
 		) throws IOException, IllegalArgumentException {
-			// Verify if the fileId1 correspond to an existing file on our StorageMock class.
+			// Verify if the fileId1 corresponds to an existing file on our StorageMock class.
 			if (fileId1 == null || !StorageMock.exists(fileId1)) {
 				throw new FileNotFoundException();
 			}
 
-			// Verify if the fileId2 or the dataFile are setted.
+			// Verify if the fileId2 or the dataFile is set.
 			if (Util.isNullOrEmpty(fileId2) && Util.isNullOrEmpty(dataFile)) {
 				throw new IllegalArgumentException();
 			}
 
 			// Get an instance of the CadesSignatureEditor class, responsible for
-			// receiving the files and merge them.
+			// receiving the files and merging them.
 			CadesSignatureEditor signatureEditor = new CadesSignatureEditor();
 
 			// Set PKI default options (see Util.java)
 			Util.setPkiDefaults(signatureEditor);
 
 			if (!Util.isNullOrEmpty(dataFile)) {
-				// Verify if the dataFile correspond to an existing file on our StorageMock class.
+				// Verify if the dataFile corresponds to an existing file on our StorageMock class.
 				if(!StorageMock.exists(dataFile)){
 					throw new FileNotFoundException();
 				}
@@ -69,7 +69,7 @@ public class MergeCadesExpressController {
 			signatureEditor.addCmsFile(StorageMock.getDataPath(fileId1));
 
 			if (!Util.isNullOrEmpty(fileId2)){
-				// Verify if the fileId2 correspond to an existing file on our StorageMock class.
+				// Verify if the fileId2 corresponds to an existing file on our StorageMock class.
 				if(!StorageMock.exists(fileId2)) {
 					throw new FileNotFoundException();
 				}
@@ -88,7 +88,7 @@ public class MergeCadesExpressController {
 			signatureEditor.merge();
 
 			// If you want to delete the temporary files created by this step, use the method
-			// dispose(). This method MUST be called after the complete() method, because it
+			// dispose(). This method MUST be called after the merge() method, because it
 			// deletes some files needed by the method.
 			signatureEditor.dispose();
 

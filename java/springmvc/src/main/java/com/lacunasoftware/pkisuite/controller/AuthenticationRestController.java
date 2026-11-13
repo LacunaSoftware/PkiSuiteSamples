@@ -32,14 +32,14 @@ public class AuthenticationRestController {
 		String token = auth.startWithWebPki(Util.getSecurityContext());
 
 		// The token acquired above can only be used for a single authentication attempt. In order
-		// to retry the signature it is necessary to get a new token. This can be a problem if the
+		// to retry the authentication it is necessary to get a new token. This can be a problem if the
 		// user uses the back button of the browser, since the browser might show a cached page
 		// that we rendered previously, with a now stale token. To prevent this from happening, we
 		// call the method Util.setNoCacheHeaders(), which sets HTTP headers to prevent caching of
 		// the page.
 		Util.setNoCacheHeaders(response);
 
-		// Render the authentication page (templates/index.html.html).
+		// Render the authentication page (templates/authentication-rest/index.html).
 		model.addAttribute("token", token);
 		return "authentication-rest/index";
 	}
@@ -57,7 +57,7 @@ public class AuthenticationRestController {
 		Authentication auth = new Authentication(Util.getRestPkiClient());
 
 		// Call the completeWithWebPki() method with the token (rendered in a hidden input field,
-		// see file templates/index.html.html). This method finalizes the authentication
+		// see file templates/authentication-rest/index.html). This method finalizes the authentication
 		// process, yielding a ValidationResults object which denotes whether the authentication
 		// was successful or not.
 		ValidationResults vr = auth.completeWithWebPki(token);
@@ -75,7 +75,7 @@ public class AuthenticationRestController {
 					.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
 			model.addAttribute("vrHtml", vrHtml);
 
-			// Render the authentication failed page (templates/authentication-failed.html).
+			// Render the authentication failed page (templates/authentication-rest/failed.html).
 			return "authentication-rest/failed";
 		}
 
@@ -89,7 +89,7 @@ public class AuthenticationRestController {
 		// the user's certificate information.
 		PKCertificate userCert = auth.getPKCertificate();
 
-		// Render the authentication succeeded page (templates/authentication-success.html).
+		// Render the authentication succeeded page (templates/authentication-rest/success.html).
 		model.addAttribute("userCert", userCert);
 		return "authentication-rest/success";
 	}

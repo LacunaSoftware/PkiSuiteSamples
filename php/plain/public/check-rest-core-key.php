@@ -55,7 +55,7 @@ if (!empty($restPkiCoreConfig['apiKey']) && strpos($restPkiCoreConfig['apiKey'],
 
     <div class="ls-content">
         <p>
-            To run this sample, generate an API key on REST PKI Core and paste it on the
+            To run this sample, generate an API key on REST PKI Core and paste it in the
             <code>restPkiNg</code> section of the file <code>config.php</code>.
         </p>
     </div>

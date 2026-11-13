@@ -68,7 +68,7 @@
 
 				<div class="ls-signature-actions">
 					<div class="form-group ls-inactive">
-						<label for="certificateSelect">Choose a certificates</label>
+						<label for="certificateSelect">Choose a certificate</label>
 						<select id="certificateSelect" class="custom-select"></select>
 					</div>
 
@@ -175,16 +175,16 @@
 			$('#signButtom').prop('disabled', false);
 
 			// Call the listCertificates() method to list the user's certificates. It returns the list of
-			// certificate store on the user's machine, we will customize how each certificate is 
-			// displayed on the <select> element.For more information, see:
+			// certificates stored on the user's machine, and we will customize how each certificate is
+			// displayed on the <select> element. For more information, see:
 			// https://docs.lacunasoftware.com/en-us/content/typedocs/web-pki/classes/_lacuna_web_pki_d_.lacunawebpki.html#listcertificates
 			pki.listCertificates().success(function (certs) {
 
 				// Retrieve the <select> element to be populated with the certificates.
 				var certificateSelectRef = $('#certificateSelect');
 
-				// Verify if there is no certificates available to disable the <select> element, showing
-				// the messaging informing that.
+				// If there are no certificates available, disable the <select> element and show a message
+				// saying so.
 				if (certs.length === 0) {
 
 					// Disable <select> element and the "Sign File" button.
@@ -194,7 +194,7 @@
 					$('#signButton').prop('disabled', true);
 				}
 
-				// Populate the <select> element with the stored certificates using JQuery.
+				// Populate the <select> element with the stored certificates using jQuery.
 				$.each(certs, function (i, cert) {
 
 					// Format the text that should be displayed on <select> element.
@@ -219,7 +219,7 @@
 		// ----------------------------------------------------------------------------------------------
 		function searchFile() {
 
-			// Call the showFileBrowser() method on the LacunaWebPKi object, passing the dialog title
+			// Call the showFileBrowser() method on the LacunaWebPKI object, passing the dialog title
 			// and the success callback to get the chosen file.
 			pki.showFileBrowser({
 				dialogTitle: 'Select the PDF to be signed'
@@ -228,7 +228,7 @@
 				// Verify if the user didn't cancel the operation.
 				if (!result.userCancelled) {
 
-					// In this sample, will store the file information on "file" global variable declared
+					// In this sample, we store the file information in the "file" global variable declared
 					// above.
 					file = result.files[0];
 
@@ -262,16 +262,16 @@
 			pki.signPdf({
 				// The file identification, which was retrieved by the searchFile() method.
 				fileId: file.id,
-				// Options to the create the output file. In this sample, we will autosave the signed file
-				// on the same folder of the original file. We add the "-signed" suffix to the result file.
+				// Options to create the output file. In this sample, we will autosave the signed file
+				// in the same folder as the original file. We add the "-signed" suffix to the result file.
 				output: {
 					mode: 'autoSave',
 					fileNameSuffix: '-signed'
 				},
 				// The signer's certificate thumbprint.
 				certificateThumbprint: $('#certificateSelect').val(),
-				// The visual representation's model. We encapsulate this model construction on 
-				// getVisualRepresentationModel() model.
+				// The visual representation's model. We build this model in the
+				// getVisualRepresentationModel() function.
 				visualRepresentation: getVisualRepresentationModel(),
 				// The signature policy: PAdES Basic policy.
 				policy: 'basic',
@@ -287,8 +287,8 @@
 				]
 			}).success(function (result) {
 
-				// This callback will be called if the signature's attempt is completed, whether it had
-				// success or not.
+				// This callback will be called when the signature attempt is completed, whether it succeeded
+				// or not.
 				result.isValid
 					? onSignatureSuccess(result.signatureInfo)
 					: onSignatureFailed(result.signingCertificateValidationResults);
@@ -322,7 +322,7 @@
 					'      <ul>' +
 					'         <li>Tipo de certificado: ' + (signatureInfo.signerCertificate.pkiBrazil.certificateType || '') + '</li>' +
 					'         <li>CPF: ' + (signatureInfo.signerCertificate.pkiBrazil.cpf || '') + '</li>' +
-					'         <li>Responsavel: ' + (signatureInfo.signerCertificate.responsavel || '') + '</li>' +
+					'         <li>Responsável: ' + (signatureInfo.signerCertificate.responsavel || '') + '</li>' +
 					'         <li>Empresa: ' + (signatureInfo.signerCertificate.companyName || '') + '</li>' +
 					'         <li>CNPJ: ' + (signatureInfo.signerCertificate.cnpj || '') + '</li>' +
 					'         <li>RG: ' + (signatureInfo.signerCertificate.rgNumero || '') + ' ' + (signatureInfo.signerCertificate.rgEmissor || '') + ' ' + (signatureInfo.signerCertificate.rgEmissorUF || '') + '</li>' +
@@ -349,8 +349,7 @@
 
 		// ----------------------------------------------------------------------------------------------
 		// Callback that will be called when the signature is completed with validation errors. It will
-		// render the validation results that caused the fail. It will show a popover with these
-		// validations.
+		// render the validation results that caused the failure, in a modal opened by a button.
 		// ----------------------------------------------------------------------------------------------
 		function onSignatureFailed(validationResults) {
 
@@ -363,9 +362,8 @@
 			// Add badge with the signature's results.
 			$('#resultBadge').html('<i class="far fa-times-circle text-danger"></i> Validation Error');
 
-			// Show validation results. We chose popper package to show this information, but
-			// might want to substitute this implementation with more user-friendly UI component
-			// to show the validation results.
+			// Show validation results in a Bootstrap modal. You might want to use a more
+			// user-friendly UI component to show the validation results.
 			$('#validationResults .modal-body').html(vrToString(validationResults, ''));
 			$('#signatureInfo')
 				.html($('<button/>')
@@ -440,7 +438,7 @@
 		}
 
 		// ----------------------------------------------------------------------------------------------
-		// Function called to build the signature's visual representation model, passed to signPades()
+		// Function called to build the signature's visual representation model, passed to signPdf()
 		// function.
 		// ----------------------------------------------------------------------------------------------
 		function getVisualRepresentationModel() {
@@ -495,7 +493,7 @@
 			}
 
 			// Show the message to the user. You might want to substitute the alert below with a more
-			// user-friendly UI component to show the error (see function addAlert() on layout.html).
+			// user-friendly UI component to show the error (see function addAlert() on _Layout.cshtml).
 			addAlert('danger', ex.userMessage);
 		}
 

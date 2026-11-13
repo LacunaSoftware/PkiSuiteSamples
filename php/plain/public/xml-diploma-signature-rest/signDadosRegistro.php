@@ -46,7 +46,7 @@ try {
     // Set the signature policy.
     $signatureStarter->signaturePolicy = StandardSignaturePolicies::XML_ICPBR_ADR_TEMPO;
 
-    // Set the security context. We have encapsulated the security context choice on util.php.
+    // Set the security context. We have encapsulated the security context choice on Util.php.
     $signatureStarter->securityContext = Util::getSecurityContextId();
 
     // Call the startWithWebPki() method, which initiates the signature and returns the token.

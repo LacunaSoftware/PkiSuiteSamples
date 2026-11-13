@@ -6,7 +6,7 @@ const { Util } = require('../util');
 const router = express.Router();
 
 /*
- * GET /authentication
+ * GET /authentication-restpki
  *
  * This route initiates a certificate authentication using REST PKI and renders
  * the authentication page.
@@ -43,18 +43,19 @@ router.get('/', (req, res, next) => {
 });
 
 /*
- * POST /authentication
+ * POST /authentication-restpki
  *
- * This route receives the form submission from the view 'authentication'. We'll
- * call REST PKI to complete the authentication.
+ * This route receives the form submission from the view
+ * 'authentication-restpki'. We'll call REST PKI to complete the
+ * authentication.
  */
 router.post('/', (req, res, next) => {
-	// Get an instance of the Authentication class (util.js).
+	// Get an instance of the Authentication class.
 	const auth = new Authentication(Util.getRestPkiClient());
 
 	// Call the completeWithWebPki() method with the token, which finalizes the
 	// authentication process. The call yields a ValidationResults which denotes
-	// whether the authentication was success or not.
+	// whether the authentication was successful or not.
 	auth.completeWithWebPki(req.body.token)
 		.then((result) => {
 			// Check the authentication result.
@@ -74,8 +75,8 @@ router.post('/', (req, res, next) => {
 					vrHtml,
 				});
 			} else {
-				// At this point, you have assurance tha the certificate is valid
-				// according to the TrustArbitrator you selected when starting the
+				// At this point, you have assurance that the certificate is valid
+				// according to the security context you selected when starting the
 				// authentication and that the user is indeed the certificate's subject.
 				// Now, you'd typically query your database for a user that matches one of
 				// the certificate's fields, such as userCert.emailAddress or
@@ -84,7 +85,7 @@ router.post('/', (req, res, next) => {
 				// as if it were the user ID.
 				const userCert = result.certificate;
 
-				// Redirect to the initial page with the user logged in.
+				// Render the success page, showing the user's certificate.
 				res.render('authentication-restpki/success', {
 					userCert,
 				});

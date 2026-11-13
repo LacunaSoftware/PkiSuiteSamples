@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This file receives the form submission from cades-signature.php. We'll call REST PKI to complete
- * the signature.
+ * This file receives the form submission from cades-signature-rest/index.php. We'll call REST PKI to
+ * complete the signature.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -11,7 +11,7 @@ use Lacuna\RestPki\CadesSignatureFinisher2;
 
 try {
     // Get the token for this signature (rendered in a hidden input field, see
-    // cades-signature-rest.php).
+    // cades-signature-rest/index.php).
     $token = $_POST['token'];
 
     // Instantiate the CadesSignatureFinisher2 class, responsible for completing the signature process.
@@ -66,7 +66,7 @@ try {
                     <ul>
                         <li>Tipo de certificado: <?= $signerCert->pkiBrazil->certificateType ?></li>
                         <li>CPF: <?= $signerCert->pkiBrazil->cpf ?></li>
-                        <li>Responsavel: <?= $signerCert->pkiBrazil->responsavel ?></li>
+                        <li>Responsável: <?= $signerCert->pkiBrazil->responsavel ?></li>
                         <li>Empresa: <?= $signerCert->pkiBrazil->companyName ?></li>
                         <li>CNPJ: <?= $signerCert->pkiBrazil->cnpj ?></li>
                         <li>

@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	CadesSignatureStarter,
 	StandardSignaturePolicies,
@@ -46,12 +46,12 @@ router.get('/', (req, res) => {
  */
 router.post('/start', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-express-form.js).
 	const { id } = req.body;
 	const { certContent } = req.body;
 
-	// Get an instantiate of the CadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// Get an instance of the CadesSignatureStarter class, responsible for
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new CadesSignatureStarter();
 
 	// Set PKI default options (see util.js).
@@ -67,7 +67,7 @@ router.post('/start', (req, res, next) => {
 	signatureStarter.setCertificateFromBase64Sync(certContent);
 
 	// Optionally, set whether the content should be encapsulated in the
-	// resulting CMS. If this parameter is ommitted, the following rules
+	// resulting CMS. If this parameter is omitted, the following rules
 	// apply:
 	// - If no CmsToCoSign is given, the resulting CMS will include the
 	// content.
@@ -91,13 +91,13 @@ router.post('/start', (req, res, next) => {
  * POST /batch-cades-signature-express/complete
  *
  * This method is called asynchronously via AJAX by the batch signature page
- * for each document being signed. We'll cal PKI Express to complete this
- * signature and return a JSON with the save filename so that the page a link
- * to it.
+ * for each document being signed. We'll call PKI Express to complete this
+ * signature and return a JSON with the saved filename so that the page can
+ * render a link to it.
  */
 router.post('/complete', (req, res, next) => {
 	// Get the parameters for this signature (received from the POST call via
-	// AJAX, see batch-signature-form.js).
+	// AJAX, see batch-signature-express-form.js).
 	const { id } = req.body;
 	const { transferFile } = req.body;
 	const { signature } = req.body;
@@ -116,17 +116,17 @@ router.post('/complete', (req, res, next) => {
 	// Set the transfer file.
 	signatureFinisher.setTransferFileFromPathSync(transferFile);
 
-	// Set the signature file.
+	// Set the signature.
 	signatureFinisher.signature = signature;
 
 	// Generate path for output file and add to the signature finisher.
-	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (util.js).
-	const outputFile = `${uuidv4()}.p7s`;
+	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists (see storage-mock.js).
+	const outputFile = `${randomUUID()}.p7s`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
-	// Call the finish() method, which finalizes the signature process.
+	// Call the complete() method, which finalizes the signature process.
 	signatureFinisher.complete()
-		// Render a JSON with the saved filename (the page wil use jQuery to
+		// Render a JSON with the saved filename (the page will use jQuery to
 		// decode this value).
 		.then(() => res.json(outputFile))
 		.catch((err) => next(err));

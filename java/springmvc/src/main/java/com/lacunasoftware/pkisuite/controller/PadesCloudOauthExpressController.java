@@ -19,9 +19,9 @@ import java.util.List;
 
 
 /**
- * This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
- * signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- * the services by executing the following sample:
+ * This sample is responsible for performing an OAuth flow to communicate with PSCs to perform a
+ * signature. To run this sample it's necessary to configure PKI Express with the credentials of
+ * the services by executing the following command:
  *
  *    pkie config --set trustServices:<provider>:<configuration>
  *
@@ -33,7 +33,7 @@ import java.util.List;
  *    - SafeId
  * It's possible to create a custom provider if necessary.
  *
- * All configuration available:
+ * All available configuration keys:
  *    - clientId
  *    - clientSecret
  *    - endpoint
@@ -50,7 +50,7 @@ public class PadesCloudOauthExpressController {
 	private final String REDIRECT_URL = "http://localhost:60695/pades-cloud-oauth-express/complete";
 
 	/**
-	 * This action will render a page that request a CPF to the user. This CPF is used to discover
+	 * This action will render a page that requests a CPF from the user. This CPF is used to discover
 	 * which PSCs have a certificate containing that CPF.
 	 */
 	@GetMapping("/pades-cloud-oauth-express")
@@ -61,12 +61,12 @@ public class PadesCloudOauthExpressController {
 	}
 
 	/**
-	 * This action will be called after the user press the button "Search" on index page. It will
-	 * search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
+	 * This action will be called after the user presses the button "Search" on the index page. It
+	 * will search for all PSCs that have a certificate with the provided CPF. Thus, it will start the
 	 * authentication process and return a URL to redirect the user to perform the authentication.
 	 *
-	 * After this action the user will be redirected, and to store the local data (fileId) to be user
-	 * after the user returns to your application. We use the parameter "customState", the last
+	 * After this action the user will be redirected. To store the local data (fileId) to be used
+	 * after the user returns to your application, we use the parameter "customState", the last
 	 * parameter of the method discoverByCpfAndStartAuth(). This parameter will be recovered in the
 	 * next action.
 	 */
@@ -79,7 +79,7 @@ public class PadesCloudOauthExpressController {
 		// Process cpf, removing all formatting.
 		String plainCpf = cpf.replaceAll("[.-]", "");
 
-		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+		// Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
 		// and handling the OAuth flow.
 		TrustServicesManager manager = new TrustServicesManager();
 
@@ -88,7 +88,7 @@ public class PadesCloudOauthExpressController {
 		// of the following method. The next action will recover this information.
 		List<TrustServiceAuthParameters> services = manager.discoverByCpfAndStartAuth(plainCpf, REDIRECT_URL, TrustServiceSessionTypes.SIGNATURE_SESSION, fileToSign);
 
-		// Render complete page.
+		// Render the discover page.
 		PadesCloudOauthModel model = new PadesCloudOauthModel();
 		model.setServices(services);
 		model.setCpf(cpf);
@@ -106,7 +106,7 @@ public class PadesCloudOauthExpressController {
 		@RequestParam(value="state", required = false) String state
 	) throws IOException {
 
-		// Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+		// Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
 		// and handling the OAuth flow.
 		TrustServicesManager manager = new TrustServicesManager();
 
@@ -142,7 +142,7 @@ public class PadesCloudOauthExpressController {
 		// representation.
 		signer.setVisualRepresentation(PadesVisualElements.getVisualRepresentation());
 
-		// Generate path for output file and add to signature finisher.
+		// Generate path for output file and add it to the signer.
 		String outputFile = StorageMock.generateFileId(".pdf");
 		signer.setOutputFile(StorageMock.getDataPath(outputFile));
 
@@ -150,7 +150,7 @@ public class PadesCloudOauthExpressController {
 		signer.sign();
 
 		// If you want to delete the temporary files created by this step, use the method dispose().
-		// This method MUST be called after the complete() method, because it deletes some files
+		// This method MUST be called after the sign() method, because it deletes some files
 		// needed by the method.
 		signer.dispose();
 

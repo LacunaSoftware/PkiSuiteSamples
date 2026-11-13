@@ -129,7 +129,7 @@ public class StorageMock {
 	public static String generateFileId(String extension, String originalFilename) {
 		String filename = generateFilename(extension, originalFilename);
 		return filename.replace('.', '_');
-		// Note: The fileId are generated with "." as "_" because of URL safety.
+		// Note: File IDs are generated with "." as "_" because of URL safety.
 	}
 
 	public static String retriveFilename(String fileId) {
@@ -169,7 +169,7 @@ public class StorageMock {
 		}
 
 		return fileId.replace('.', '_');
-		// Note: The fileId are generated with "." as "_" because of URL safety.
+		// Note: File IDs are generated with "." as "_" because of URL safety.
 	}
 
 	public static String store(byte[] content) throws IOException {
@@ -272,7 +272,7 @@ public class StorageMock {
 
 	/**
 	 * Returns the ID of the document associated with a given verification code, or null if no
-	 * document matcher the given code.
+	 * document matches the given code.
 	 *
 	 * @param session
 	 * @param code

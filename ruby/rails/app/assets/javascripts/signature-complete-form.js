@@ -16,7 +16,7 @@ var signatureCompleteForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive form parameters received as arguments.
+		// Store the form parameters received as arguments.
 		formElements = fe;
 
 		// Block the UI while we get things ready.

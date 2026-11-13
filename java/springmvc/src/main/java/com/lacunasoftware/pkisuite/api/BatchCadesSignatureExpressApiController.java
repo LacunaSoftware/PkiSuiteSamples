@@ -33,7 +33,7 @@ public class BatchCadesSignatureExpressApiController {
     ) throws IOException {
 
         // Get an instance of the CadesSignatureStarter class, responsible for receiving
-        // the signature elements and start the signature process.
+        // the signature elements and starting the signature process.
         CadesSignatureStarter signatureStarter = new CadesSignatureStarter();
 
         // Set PKI default options (see Util.java)
@@ -74,10 +74,10 @@ public class BatchCadesSignatureExpressApiController {
     }
 
     /**
-     * POST /cades-signature-express/complete?fileId={fileToSign}
+     * POST /api/batch-cades-signature-express/complete
      *
-     * This action receives the form submission from the signature page. It will perform a CAdES
-     * signature in three steps using PKI Express and Web PKI.
+     * This action is called asynchronously from the batch signature page in order to complete the
+     * signature of each document in the batch.
      */
     @PostMapping("/complete")
     public String complete(

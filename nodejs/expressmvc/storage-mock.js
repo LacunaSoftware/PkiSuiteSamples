@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 const APP_ROOT = process.cwd();
 
@@ -18,6 +18,7 @@ const SampleDocs = {
 	CMS_ATTACHED_1: 9,
 	CMS_ATTACHED_2: 10,
 	CMS_DATA_FILE: 11,
+	SAMPLE_DIPLOMA: 12,
 };
 
 class StorageMock {
@@ -56,7 +57,7 @@ class StorageMock {
 
 		// Generate fileId.
 		if (!filename) {
-			filename = uuidv4();
+			filename = randomUUID();
 		}
 		const fileId = filename + extension;
 
@@ -85,7 +86,7 @@ class StorageMock {
 	// Registers the verification code for a given document.
 	static setVerificationCode(session, fileId, code) {
 		// >>>>> NOTICE <<<<<
-		// This should be implemented on your application as a UPDATE on your
+		// This should be implemented on your application as an UPDATE on your
 		// "document table" filling the verification code column, which should be
 		// an indexed column.
 		session[`Files/${fileId}/Code`] = code;
@@ -145,6 +146,8 @@ class StorageMock {
 			return 'CMSDetached2.p7s';
 		case SampleDocs.CMS_DATA_FILE:
 			return 'CMSDataFile.pdf';
+		case SampleDocs.SAMPLE_DIPLOMA:
+			return 'SampleDiploma.xml';
 		default:
 			throw new Error('Invalid sample document identification.');
 		}

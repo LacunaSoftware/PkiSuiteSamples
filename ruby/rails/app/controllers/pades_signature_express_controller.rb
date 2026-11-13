@@ -5,14 +5,14 @@ class PadesSignatureExpressController < ApplicationController
 
   # GET /pades-signature-express
   #
-  # This action simply  renders the page.
+  # This action simply renders the page.
   def index
 
     # Retrieve "file_id" parameter.
     @file_to_sign = params[:file_id]
 
     # Verify if the :file_id exists with the help of our StorageMock class.
-    # This sample cna only be executed if the provided file exists.
+    # This sample can only be executed if the provided file exists.
     render plain: 'Not Found', status: 404 unless exist?(@file_to_sign)
   end
 
@@ -28,7 +28,7 @@ class PadesSignatureExpressController < ApplicationController
     @cert_content = params[:cert_content]
 
     # Get instance of the PadesSignatureStarter class, responsible for receiving
-    # the signature elements and start the signature process.
+    # the signature elements and starting the signature process.
     signature_starter = PkiExpress::PadesSignatureStarter.new
 
     # Set PKI default options (see util.rb)
@@ -50,9 +50,9 @@ class PadesSignatureExpressController < ApplicationController
     # Start the signature process. Receive as response a SignatureStartResult
     # instance containing the following fields:
     # - to_sign_hash: The hash to be signed.
-    # - digest_algorithm_name: The digest algorithm's name that be used to
+    # - digest_algorithm_name: The digest algorithm's name to be used to
     # configure Web PKI component to compute the signature.
-    # - digest_algorithm_oid: The digest algorithm's oid that be used to
+    # - digest_algorithm_oid: The digest algorithm's oid to be used to
     # configure Web PKI component to compute the signature.
     # - transfer_file_id: A temporary file's id to be passed to "complete" step.
     result = signature_starter.start
@@ -64,8 +64,9 @@ class PadesSignatureExpressController < ApplicationController
 
   # POST /pades-signature-express/complete
   #
-  # This action receives the form submission from the signature page. It will
-  # perform a PAdES signature in three steps using PKI Express and Web PKI.
+  # This action receives the form submission from the "start" page, with the
+  # signature value computed by Web PKI, and completes the PAdES signature using
+  # PKI Express.
   def complete
     @file_to_sign = params[:file_id]
     @transfer_file_id = params[:transfer_file_id]

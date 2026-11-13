@@ -30,8 +30,8 @@ router.get("/", (req, res, next) => {
  * POST /pades-signature-core/start
  *
  * This route starts the signature using REST PKI Core. In this sample, it will be called
- * programmatically after the user press the "Sign File" button (see method
- * readCertificate() on public/javascripts/signature-start-form.js).
+ * programmatically after the user presses the "Sign File" button (see method
+ * startSignature() on public/javascripts/signature-start-form.js).
  */
 router.post("/start", async (req, res, next) => {
 	const { fileId } = req.query;
@@ -107,8 +107,8 @@ router.post("/start", async (req, res, next) => {
  * POST /pades-signature-core/complete
  *
  * This route completes the signature using REST PKI Core, it will be called programmatically
- * after the Web PKI component perform the signature and submit the form (see method
- * sign() on public/javascripts/signature-complete-form.js).
+ * after the Web PKI component performs the signature and the page submits the form (see
+ * method sign() on public/javascripts/signature-complete-form.js).
  */
 router.post("/complete", async (req, res, next) => {
 	// Recover variables from the POST arguments to be used on this step.

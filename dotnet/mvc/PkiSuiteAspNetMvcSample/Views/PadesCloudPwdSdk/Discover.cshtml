@@ -1,7 +1,7 @@
 ﻿@using PkiSuiteAspNetMvcSample.Models.Sdk
 @model PadesCloudPwdModel
 
-<h2 class="ls-title">PAdES Signature Using Cloud Certificate with PKI Express (Password Flow)</h2>
+<h2 class="ls-title">PAdES Signature Using Cloud Certificate with PKI SDK (Password Flow)</h2>
 
 <div class="ls-content">
 	@if (Model.Services != null && Model.Services.Count > 0) {
@@ -21,7 +21,7 @@
 
 			<div class="form-group">
 				<div class="px-0">
-					<label for="passwordField">Inform your password authorization:</label>
+					<label for="passwordField">Enter your authorization password:</label>
 					<input id="passwordField" class="form-control col col-sm-2" type="password" name="password" />
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 		}
 	} else {
 		<div>
-			<p>No trusted services was found with this CPF.</p>
+			<p>No trusted services were found with this CPF.</p>
 			<button onclick="window.history.back()" class="btn btn-primary">Try Again</button>
 		</div>
 	}

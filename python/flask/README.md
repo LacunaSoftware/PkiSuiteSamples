@@ -30,6 +30,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 | Merge CMS/CAdES signatures using PKI Express<br>`merge-cades-signatures-pki-express` | PKI Express | [merge_cades_express.py](sample/views/merge_cades_express.py) | http://localhost:5000/check-express/merge-server-files/merge-cades |
 | Sign an XML document using Rest PKI<br>`xml-signature-rest-pki` | Rest PKI | [xml_signature_rest.py](sample/views/xml_signature_rest.py) | http://localhost:5000/check-rest-token/xml-signature |
 | Sign a Brazilian NF-e using Rest PKI<br>`xml-nfe-signature-rest-pki` | Rest PKI | [xml_nfe_signature_rest.py](sample/views/xml_nfe_signature_rest.py) | http://localhost:5000/check-rest-token/xml-nfe-signature |
+| Sign a Brazilian digital diploma XML using Rest PKI<br>`xml-diploma-signature-rest-pki` | Rest PKI | [xml_diploma_signature_rest.py](sample/views/xml_diploma_signature_rest.py) | http://localhost:5000/check-rest-token/xml-diploma-signature |
 | Validate a signed PDF using PKI Express<br>`validate-pades-signature-pki-express` | PKI Express | [open_pades_express.py](sample/views/open_pades_express.py) | http://localhost:5000/check-express/upload/open-pades |
 | Validate a signed PDF using Rest PKI<br>`validate-pades-signature-rest-pki` | Rest PKI | [open_pades_rest.py](sample/views/open_pades_rest.py) | http://localhost:5000/check-rest-token/upload/open-pades |
 | Validate a CMS/CAdES signature using PKI Express<br>`validate-cades-signature-pki-express` | PKI Express | [open_cades_express.py](sample/views/open_cades_express.py) | http://localhost:5000/check-express/upload/open-cades |
@@ -42,6 +43,7 @@ Every row is an entry in the repository catalog ([samples.json](../../samples.js
 | Sign data with RSA in the browser using Web PKI<br>`rsa-signature-web-pki` | Web PKI | [rsa_web.py](sample/views/rsa_web.py) | http://localhost:5000/rsa-web |
 | Issue a certificate with the key on the user's machine using Amplia<br>`issue-certificate-user-key-amplia` | Amplia | [issue_cert_user_amplia.py](sample/views/issue_cert_user_amplia.py) | http://localhost:5000/check-amplia-api-key/issue-cert-user |
 | Issue a certificate with the key on the server using Amplia<br>`issue-certificate-server-key-amplia` | Amplia | [issue_cert_server_amplia.py](sample/views/issue_cert_server_amplia.py) | http://localhost:5000/check-amplia-api-key/issue-cert-server |
+| Sign a medical prescription (Receita Simples) using Rest PKI<br>`prescription-signature-rest-pki` | Rest PKI | [receita_simples_rest.py](sample/views/receita_simples_rest.py) | http://localhost:5000/receita-simples-rest/ |
 <!-- END GENERATED SAMPLES LIST -->
 
 ## Run

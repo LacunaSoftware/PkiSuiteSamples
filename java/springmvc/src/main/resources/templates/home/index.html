@@ -90,7 +90,8 @@
             restpki: "/check-rest-token?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
         },
 		signPdfServerKey: {
-			express: '/check-express?rc=upload&fwd=pades-server-key'
+			express: '/check-express?rc=upload&fwd=pades-server-key',
+			restpki: '/check-rest-token?rc=upload&fwd=pades-server-key'
 		},
 		 signPdfCloudPwd: {
 			express: '/check-express?rc=upload&fwd=pades-cloud-pwd'
@@ -113,6 +114,7 @@
 		// signaturePackage: { },
 		validateCmsSig: {
 			express: '/check-express?rc=upload&fwd=open-cades',
+			restpki: '/check-rest-token?rc=upload&fwd=open-cades'
 		},
 		validatePdfSig: {
 			express: '/check-express?rc=upload&fwd=open-pades',

@@ -9,7 +9,7 @@ class PadesServerKeyExpressController < ApplicationController
     @file_to_sign = params[:file_id]
     
     # Verify if the :file_id exists with the help of our StorageMock class.
-    # This sample cna only be executed if the provided file exists.
+    # This sample can only be executed if the provided file exists.
     unless exist?(@file_to_sign)
       render plain: 'Not Found', status: 404
       return
@@ -37,7 +37,7 @@ class PadesServerKeyExpressController < ApplicationController
     # representation model.
     signer.visual_representation = get_visual_representation
 
-    # Generate path for output file and add to signature finisher.
+    # Generate path for output file and add it to the signer.
     output_file = generate_file_id('pdf')
     signer.output_file_path = get_data_path(output_file)
 

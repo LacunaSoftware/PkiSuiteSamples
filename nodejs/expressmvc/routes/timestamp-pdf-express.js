@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	PadesTimestamper,
 } = require('pki-express');
@@ -38,14 +38,14 @@ function generateTimestampVersion(pdfPath) {
 		// file.
 		const stamper = new PadesTimestamper();
 
-		// Set PKI default (see util.js).
+		// Set PKI defaults (see util.js).
 		Util.setPkiDefaults(stamper);
 
 		// Set the PDF to be timestamped.
 		stamper.setPdfFromPath(pdfPath).then(() => {
 			// Generate path for output file and add to the stamper.
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			const outputFileId = uuidv4();
+			const outputFileId = randomUUID();
 			stamper.setOutputFilePath(StorageMock.getDataPath(outputFileId, '.pdf'));
 
 			// Add a timestamp to the PDF file.

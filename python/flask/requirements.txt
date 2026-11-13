@@ -1,12 +1,9 @@
 Flask>=3.1.3
 Flask-Session>=0.3.1
-itsdangerous>=0.24
+# Flask already requires Jinja2 and Werkzeug. These floors are higher than Flask's, to keep out
+# releases with known vulnerabilities, and the samples also import werkzeug directly.
 Jinja2>=3.1.6
-MarkupSafe>=1.1.1
 Werkzeug>=3.1.9
-click>=6.7
-wheel>=0.38.1
-docopt>=0.6.1
 restpki-client>=1.1.1
 pkiexpress>=1.10.0
 restpki-ng-python-client==0.9.1.1
@@ -14,3 +11,5 @@ certifi>=2026.10.19
 # pkiexpress and restpki-client import distutils, which Python 3.12 removed. setuptools brings it
 # back. The Amplia samples need requirements-amplia.txt too.
 setuptools>=78.1.1
+pypdf>=6.19.0
+reportlab>=3.6.13

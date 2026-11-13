@@ -26,7 +26,7 @@ class Util {
         if (empty($accessToken) || strpos($accessToken, ' ACCESS TOKEN ') !== false) {
             throw new \Exception('The REST PKI access token was not set! Hint: to run this ' .
                 'sample you must generate an API access token on the REST PKI website and paste it ' .
-                'on the file config.php');
+                'in the file config.php');
         }
 
         $endpoint = $config['restPki']['endpoint'];
@@ -42,15 +42,15 @@ class Util {
         // Get configuration.
         $config = getConfig();
 
-        // Get your API Key value from REST PKI NG configuration.
+        // Get your API key from the REST PKI Core configuration (the 'restPkiNg' section of config.php).
         $apiKey = $config['restPkiNg']['apiKey'];
 
         // Throw exception if key is not set (this check is here just for the sake of newcomers, you
         // can remove it).
         if (empty($apiKey) || strpos($apiKey, ' API KEY ') !== false) {
-            throw new \Exception('The REST PKI NG API Key was not set! Hint: to run this ' .
-                'sample you must generate an API Key on the REST PKI NG website and paste it ' .
-                'on the file config.php');
+            throw new \Exception('The REST PKI Core API key was not set! Hint: to run this ' .
+                'sample you must generate an API key on the REST PKI Core website and paste it ' .
+                'in the file config.php');
         }
 
         $endpoint = $config['restPkiNg']['endpoint'];
@@ -65,7 +65,7 @@ class Util {
         $apiKey = $config['cloudHub']['apiKey'];
 
         if (empty($apiKey) || strpos($apiKey, ' API KEY ') !== false) {
-            throw new \Exception('The Cloudhub API Key was not set!');
+            throw new \Exception('The CloudHub API key was not set!');
         }
 
         $endpoint = $config['cloudHub']['endpoint'];
@@ -75,9 +75,9 @@ class Util {
     /**
      * This method is called by all pages to determine the security context to be used.
      *
-     * Security contexts dictate witch root certification authorities are trusted during certificate
-     * validation. In you API calls, you can use one of the standard security contexts or reference one
-     * of you custom contexts.
+     * Security contexts dictate which root certification authorities are trusted during certificate
+     * validation. In your API calls, you can use one of the standard security contexts or reference one
+     * of your custom contexts.
      */
     public static function getSecurityContextId()
     {
@@ -101,9 +101,9 @@ class Util {
         // Get configuration.
         $config = getConfig();
 
-        // Set the operator to trust in a custom trusted root, you need to inform the operator class. We
-        // will add each trusted root from configuration file. In this sample, we assumed that all
-        // trusted roots are in the resources/ folder. You are free to pass any path.
+        // To make the operator trust a custom root, you need to add it to the operator. We add each
+        // trusted root from the configuration file. In this sample, we assume that all trusted roots
+        // are in the resources/ folder. You are free to pass any path.
         $trustedRoots = $config['pkiExpress']['trustedRoots'];
         foreach ($trustedRoots as $root) {
             $operator->addTrustedRoot(StorageMock::getResourcePath($root));
@@ -112,20 +112,20 @@ class Util {
         // Set the operator to "OFFLINE MODE" (default: false):
         $operator->offline = $config['pkiExpress']['offline'];
 
-        // Set the operator to use a timestamp authority when performing an timestamp operation. In this
-        // sample, we will use the REST PKI by default to emit a timestamp. It only be filled if the
-        // REST PKI was provided.
+        // Set the operator to use a timestamp authority when performing a timestamp operation. In this
+        // sample, we use REST PKI by default to issue timestamps. It is only set if the REST PKI access
+        // token was provided.
         $restPkiEndpoint = $config['restPki']['endpoint'];
         $restPkiAccessToken = $config['restPki']['accessToken'];
         if ($restPkiAccessToken) {
 
-            // Get an instance of the TimestampAuthority class, responsible to
-            // inform the url and authentication logic to be used when contacting
-            // and timestamp authority.
+            // Get an instance of the TimestampAuthority class, which holds the
+            // URL and authentication logic to be used when contacting a timestamp
+            // authority.
             $url = $restPkiEndpoint . 'tsp/a402df41-8559-47b2-a05c-be555bf66310';
             $authority = new TimestampAuthority($url);
 
-            // Set authentication strategy. In the case of REST PKI, is using a bearer token.
+            // Set the authentication strategy. In the case of REST PKI, it uses a bearer token.
             $authority->setOAuthTokenAuthentication($restPkiAccessToken);
 
             // Add authority to be used on operator.
@@ -147,7 +147,7 @@ class Util {
     {
         $config = getConfig();
 
-        // Throw exception if the API key is not set (this check is here just for the sake fo newcomers,
+        // Throw exception if the API key is not set (this check is here just for the sake of newcomers,
         // you can remove it).
         $ampliaApiKey = $config['amplia']['apiKey'];
         if (empty($ampliaApiKey) || strpos($ampliaApiKey, ' API KEY ') !== false) {

@@ -39,9 +39,9 @@ $signerCert = $signatureResult->certificate;
 // At this point, you'd typically store the signed PDF on your database. For
 // demonstration purposes, we'll store the PDF on a temporary folder publicly
 // accessible and render a link to it
-// (see batch-pades-signature-rest-form.js).
+// (see batch-signature-rest-form.js).
 
-StorageMock::createAppData(); // make sure the "app-data" folder exists (Util.php).
+StorageMock::createAppData(); // make sure the "app-data" folder exists (StorageMock.php).
 $filename = uniqid() . ".pdf";
 
 // The SignatureResult object has functions for writing the signature file to a
@@ -49,6 +49,6 @@ $filename = uniqid() . ".pdf";
 // large files, use writeToFile() in order to avoid memory allocation issues.
 $signatureResult->writeToFile(StorageMock::getDataPath($filename));
 
-// Return a JSON with the file name obtained from REST PKI (the page will use
-// jQuery to decode this value).
+// Return a JSON with the saved file name (the page will use jQuery to decode
+// this value).
 echo json_encode($filename);

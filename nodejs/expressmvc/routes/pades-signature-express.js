@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	PadesSignatureStarter,
 	StandardSignaturePolicies,
@@ -38,18 +38,18 @@ router.get('/', (req, res, next) => {
  * POST /pades-signature-express/start
  *
  * This route starts the signature. In this sample, it will be called
- * programatically after the user press the "Sign File" button (see method
- * readCertificate() on public/javascripts/signature-start-form.js).
+ * programmatically after the user presses the "Sign File" button (see method
+ * startSignature() on public/javascripts/signature-start-form.js).
  */
 router.post('/start', (req, res, next) => {
 	const { fileId } = req.query;
 
-	// Recover variables from the POST arguments to be use don this step.
+	// Recover variables from the POST arguments to be used on this step.
 	const certThumb = req.body.certThumbField;
 	const certContent = req.body.certContentField;
 
-	// Get an instantiate of the PadesSignatureStarter class, responsible for
-	// receiving the signature elements and start the signature process.
+	// Get an instance of the PadesSignatureStarter class, responsible for
+	// receiving the signature elements and starting the signature process.
 	const signatureStarter = new PadesSignatureStarter();
 
 	// Set PKI default options (see util.js).
@@ -87,7 +87,7 @@ router.post('/start', (req, res, next) => {
 			const { digestAlgorithm } = response;
 			const { transferFile } = response;
 
-			// Render the field from start() method as hidden field to be used on
+			// Render the fields from start() method as hidden fields to be used on
 			// the javascript or on the "complete" step.
 			res.render('pades-signature-express/start', {
 				toSignHash,
@@ -100,11 +100,11 @@ router.post('/start', (req, res, next) => {
 });
 
 /**
- * POST pades-signature-express/complete
+ * POST /pades-signature-express/complete
  *
- * This route completes the signature, it will be called programatically after
- * the Web PKI component perform the signature and submit the form (see method
- * sign() on public/javascripts/signature-complete-form.js).
+ * This route completes the signature, it will be called programmatically after
+ * the Web PKI component performs the signature and the page submits the form
+ * (see method sign() on public/javascripts/signature-complete-form.js).
  */
 router.post('/complete', (req, res, next) => {
 	const { fileId } = req.query;
@@ -113,7 +113,7 @@ router.post('/complete', (req, res, next) => {
 	const transferFile = req.body.transferFileField;
 	const signature = req.body.signatureField;
 
-	// Get an instance of the PadesSignatureFinisher class, responsible for
+	// Get an instance of the SignatureFinisher class, responsible for
 	// completing the signature process.
 	const signatureFinisher = new SignatureFinisher();
 
@@ -129,9 +129,9 @@ router.post('/complete', (req, res, next) => {
 	// Set signature.
 	signatureFinisher.signature = signature;
 
-	// Generate path for output file and add the signature finisher.
+	// Generate path for output file and add it to the signature finisher.
 	StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-	const outputFile = `${uuidv4()}.pdf`;
+	const outputFile = `${randomUUID()}.pdf`;
 	signatureFinisher.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 	// Complete the signature process.
@@ -139,7 +139,7 @@ router.post('/complete', (req, res, next) => {
 	signatureFinisher
 		.complete(getCert)
 		.then((result) => {
-			// After complete the signature, render the result page, passing the
+			// After completing the signature, render the result page, passing the
 			// outputFile containing the signed file.
 			const certificate = result;
 			res.render('pades-signature-express/complete', {

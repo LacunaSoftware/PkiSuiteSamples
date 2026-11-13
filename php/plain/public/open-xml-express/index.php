@@ -11,7 +11,7 @@ try {
         die();
     }
 
-    // Verify if the fileId correspond to an existing file on our StorageMock class.
+    // Verify if the fileId corresponds to an existing file on our StorageMock class.
     $fileId = isset($_GET['fileId']) ? $_GET['fileId'] : null;
     if (!StorageMock::exists($fileId)) {
         header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found", true, 404);
@@ -98,7 +98,7 @@ try {
                                     <ul>
                                         <li><strong>Tipo de certificado</strong>: <?= $signature->certificate->pkiBrazil->certificateType ?></li>
                                         <li><strong>CPF</strong>: <?= $signature->certificate->pkiBrazil->cpfFormatted ?></li>
-                                        <li><strong>Responsavel</strong>: <?= $signature->certificate->pkiBrazil->responsavel ?></li>
+                                        <li><strong>Responsável</strong>: <?= $signature->certificate->pkiBrazil->responsavel ?></li>
                                         <li><strong>Empresa</strong>: <?= $signature->certificate->pkiBrazil->companyName ?></li>
                                         <li><strong>CNPJ</strong>: <?= $signature->certificate->pkiBrazil->cnpjFormatted ?></li>
                                         <li><strong>RG</strong>: <?= $signature->certificate->pkiBrazil->rgNumero . " " . $signature->certificate->pkiBrazil->rgEmissor . " " . $signature->certificate->pkiBrazil->rgEmissorUF ?></li>

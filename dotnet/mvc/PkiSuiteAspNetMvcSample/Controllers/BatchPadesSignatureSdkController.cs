@@ -21,7 +21,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return PadesPoliciesForGeneration.GetPadesBasic(arbitrator);
 		}
 
-		// GET: BatchSignature
+		// GET: BatchPadesSignatureSdk
 		public ActionResult Index() {
 			// It is up to your application's business logic to determine which documents will compose the batch
 			var model = new BatchSignatureModel() {
@@ -70,9 +70,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			// For the next steps, we'll need once again some information:
 			// - The "transfer data" filename. Its content is stored in a temporary file (with extension .bin) to
 			// be shared with the Complete action.
-			// - The "to-sign-hash" (digest of the "to-sign-bytes"). And the OID of the digest algorithm to be 
-			// used during the signature operation. this information is need in the signature computation with
-			// Web PKI component. (see batch-signature-form.js)
+			// - The "to-sign-hash" (digest of the "to-sign-bytes") and the OID of the digest algorithm to be
+			// used during the signature operation. This information is needed to compute the signature with
+			// the Web PKI component (see batch-pades-signature-sdk-form.js).
 			return Json(new BatchPadesSignatureStartResponse() {
 				TransferDataFileId = StorageMock.Store(transferData, ".bin"),
 				ToSignHash = signatureAlg.DigestAlgorithm.ComputeHash(toSignBytes),
@@ -83,8 +83,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		/**
 		 * POST: /BatchPadesSignatureSdk/Complete
 		 * 
-		 * This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
-		 * it'll be redirect to SignatureInfo action to show the signature file.
+		 * This action is called asynchronously from the batch signature page once the "to-sign-hash" of each
+		 * document is signed using the user's certificate. It returns the ID of the signed file.
 		 */
 		[HttpPost]
 		public ActionResult Complete(BatchPadesSignatureCompleteRequest request) {

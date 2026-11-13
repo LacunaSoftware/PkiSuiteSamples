@@ -40,7 +40,7 @@ public class HomeController {
 	 * GET /check-express
 	 *
 	 * Checks the installation of PKI Express using an authentication to cause the
-	 * InstallationNotFoundException exception. If not, it renders a informative page to show how to
+	 * InstallationNotFoundException exception. If not, it renders an informative page to show how to
 	 * install. Otherwise, it will continue to the sample identified by "fwd" and "op" parameters.
 	 */
 	@GetMapping("/check-express")
@@ -69,7 +69,7 @@ public class HomeController {
 	/**
 	 * GET /check-rest-token
 	 *
-	 * Checks if the token is set on the application.yml file. If not, it renders a informative page
+	 * Checks if the token is set on the application.yml file. If not, it renders an informative page
 	 * to show how to fix that. Otherwise, it will continue to the sample identified by "fwd" and
 	 * "op" parameters.
 	 */
@@ -96,9 +96,9 @@ public class HomeController {
 	/**
 	 * GET /check-rest-pki-core-api-key
 	 *
-	 * Checks if the token is set on the application.yml file. If not, it renders a informative page
-	 * to show how to fix that. Otherwise, it will continue to the sample identified by "fwd" and
-	 * "op" parameters.
+	 * Checks if the API key is set on the application.yml file. If not, it renders an informative
+	 * page to show how to fix that. Otherwise, it will continue to the sample identified by "fwd"
+	 * and "op" parameters.
 	 */
 	@GetMapping("/check-rest-pki-core-api-key")
 	public String checkRestPkiCoreApiKey(
@@ -123,8 +123,8 @@ public class HomeController {
 	/**
 	 * GET /check-amplia-api-key
 	 *
-	 * Checks if the api key is set on the application.yml file. If not, it renders a informative
-	 * page to show how to fix that. Otherwise, it will continue to the sample identified "rc".
+	 * Checks if the API key is set on the application.yml file. If not, it renders an informative
+	 * page to show how to fix that. Otherwise, it will continue to the sample identified by "rc".
 	 */
 	@GetMapping("/check-amplia-api-key")
 	public String checkRestPkiToken(

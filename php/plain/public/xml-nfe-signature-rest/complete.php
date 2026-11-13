@@ -1,7 +1,8 @@
 <?php
 
 /*
- * This file receives the form submission from xml-element-signature.php. We'll call REST PKI to complete the signature.
+ * This file receives the form submission from xml-nfe-signature-rest/index.php. We'll call REST PKI to complete the
+ * signature.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -10,7 +11,7 @@ use Lacuna\RestPki\XmlSignatureFinisher;
 
 try {
 
-    // Get the token for this signature (rendered in a hidden input field, see xml-element-signature.php).
+    // Get the token for this signature (rendered in a hidden input field, see index.php).
     $token = $_POST['token'];
 
     // Instantiate the XmlSignatureFinisher class, responsible for completing the signature process.
@@ -27,7 +28,7 @@ try {
     $signerCert = $signatureFinisher->getCertificateInfo();
 
     // At this point, you'd typically store the signed XML on your database. For demonstration purposes, we'll
-    // store the PDF on a temporary folder publicly accessible and render a link to it.
+    // store the XML on a temporary folder publicly accessible and render a link to it.
 
     $filename = StorageMock::store($signedXml, 'xml');
 
@@ -68,7 +69,7 @@ try {
                 <ul>
                     <li><strong>Tipo de certificado</strong>: <?= $signerCert->pkiBrazil->certificateType ?></li>
                     <li><strong>CPF</strong>: <?= $signerCert->pkiBrazil->cpf ?></li>
-                    <li><strong>Responsavel</strong>: <?= $signerCert->pkiBrazil->responsavel ?></li>
+                    <li><strong>Responsável</strong>: <?= $signerCert->pkiBrazil->responsavel ?></li>
                     <li><strong>Empresa</strong>: <?= $signerCert->pkiBrazil->companyName ?></li>
                     <li><strong>CNPJ</strong>: <?= $signerCert->pkiBrazil->cnpj ?></li>
                     <li><strong>RG</strong>: <?= $signerCert->pkiBrazil->rgNumero . " " . $signerCert->pkiBrazil->rgEmissor . " " . $signerCert->pkiBrazil->rgEmissorUF ?></li>

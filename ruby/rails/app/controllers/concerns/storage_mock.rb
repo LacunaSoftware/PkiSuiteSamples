@@ -58,7 +58,7 @@ module StorageMock
   def generate_file_id(extension, original_filename=nil)
     filename = generate_filename(extension, original_filename)
     filename.gsub('.', '_')
-    # Note: The file_id are generated with "." as "_" because of URL safety.
+    # Note: File ids are generated with "." as "_" because of URL safety.
   end
 
   def retrieve_filename(file_id)
@@ -86,7 +86,7 @@ module StorageMock
     end
 
     file_id.gsub('.', '_')
-    # Note: The file_id are generated with "." as "_" because of URL safety.
+    # Note: File ids are generated with "." as "_" because of URL safety.
   end
 
   def get_sample_doc_name(sample_id)
@@ -105,6 +105,8 @@ module StorageMock
       'SampleXML.xml'
     when :sample_nfe
       'SampleNFe.xml'
+    when :sample_diploma
+      'SampleDiploma.xml'
     else
       raise ArgumentError, 'File not found'
     end
@@ -144,7 +146,7 @@ module StorageMock
     content
   end
 
-  # Returns the verification code associated with the given document, or null
+  # Returns the verification code associated with the given document, or nil
   # if no verification code has been associated with it.
   def get_verification_code(file_id)
     if file_id.to_s.empty?
@@ -162,7 +164,7 @@ module StorageMock
 
   def set_verification_code(file_id, code)
     # >>>>> NOTICE <<<<<
-    # This should be implemented on your application as a UPDATE on your
+    # This should be implemented on your application as an UPDATE on your
     # "document table" filling the verification code column, which should be
     # an indexed column.
     session["Files/#{file_id}/Code"] = code
@@ -170,7 +172,7 @@ module StorageMock
   end
   
   # Returns the ID of the document associated with a given verification code,
-  # or null if no document matches the given code.
+  # or nil if no document matches the given code.
   def lookup_verification_code(code)
     if code.to_s.empty?
       return nil

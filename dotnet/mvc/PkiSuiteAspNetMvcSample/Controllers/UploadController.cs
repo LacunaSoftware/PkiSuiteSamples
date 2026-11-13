@@ -11,8 +11,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 
 	/**
 	 * This controller allows the user to upload a file to be signed. Once the file is
-	 * uploaded, we save it to the App_Data folder and redirect the user to Index action on either
-	 * CadesController or PadesController passing the filename on the "userfile" URL argument.
+	 * uploaded, we save it to the App_Data folder and redirect the user to the Index action of the
+	 * controller given on the "rc" URL argument, passing the file's ID on the "userfile" URL argument.
 	 */
 	public class UploadController : BaseController {
 

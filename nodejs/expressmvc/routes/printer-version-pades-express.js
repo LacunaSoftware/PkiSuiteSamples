@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	PadesSignatureExplorer,
 	PdfMarker,
@@ -23,7 +23,7 @@ const APP_ROOT = process.cwd();
 // Name of your website, with preceding article (article in lowercase).
 const verificationSiteNameWithArticle = 'my Verification Center';
 
-// Publicly accessible URL of your website. Preferable HTTPS.
+// Publicly accessible URL of your website. Preferably HTTPS.
 const verificationSite = 'http://localhost:3000';
 
 // Format of the verification link, without the verification code, that is added
@@ -45,7 +45,7 @@ const timeZoneDisplayName = 'Brasilia timezone';
 // #############################################################################
 
 /**
- * GET /printer-friendly-version
+ * GET /printer-version-pades-express
  *
  * This generates a printer-friendly version from a signature file using
  * PKI Express.
@@ -77,7 +77,7 @@ router.get('/', (req, res, next) => {
 	// Generate the printer-friendly version.
 	generatePrinterFriendlyVersion(filePath, verificationCode)
 		.then((pfvContent) => {
-			// Return the generate file.
+			// Return the generated file.
 			res.type('pdf');
 			res.send(pfvContent);
 		})
@@ -93,17 +93,17 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 	// verification page).
 	const formattedVerificationCode = Util.formatVerificationCode(verificationCode);
 
-	// Build the verification link from teh constant verificationLinkFormat (see
+	// Build the verification link from the constant verificationLinkFormat (see
 	// above) and the formatted verification code.
 	const verificationLink = verificationLinkFormat + formattedVerificationCode;
 
 	return new Promise((resolve, reject) => {
-		// 1. Inspect signatures on the updated PDF.
+		// 1. Inspect signatures on the uploaded PDF.
 
 		// Get an instance of the PadesSignatureExplorer class, used to
 		// open/validate PDF signatures.
 		const sigExplorer = new PadesSignatureExplorer();
-		// Set PKI defaults options (see util.js).
+		// Set PKI default options (see util.js).
 		Util.setPkiDefaults(sigExplorer);
 		// Specify that we want to validate the signatures in the file, not only
 		// inspect them.
@@ -123,7 +123,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 			pdfMarker.setFileFromPathSync(pdfPath);
 
 			// Build string with joined names of signers (see method
-			// getDisplayName() below).
+			// getDisplayName() on util.js).
 			const signerNamesList = [];
 			signature.signers.forEach((signer) => {
 				signerNamesList.push(Util.getDisplayName(signer.certificate));
@@ -302,7 +302,7 @@ function generatePrinterFriendlyVersion(pdfPath, verificationCode) {
 
 			// Generate path for output file and add the marker.
 			StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
-			outputFile = `${uuidv4()}.pdf`;
+			outputFile = `${randomUUID()}.pdf`;
 			pdfMarker.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
 			// Apply marks.

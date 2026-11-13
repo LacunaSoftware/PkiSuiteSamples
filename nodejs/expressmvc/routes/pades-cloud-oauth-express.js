@@ -1,7 +1,7 @@
 const path = require("path");
 
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require("crypto");
 
 const {
 	StandardSignaturePolicies,
@@ -17,9 +17,9 @@ const {
 } = require("../pades-visual-elements-express");
 
 /**
- * This sample is responsible to perform a OAuth flow to communicate with PSCs to perform a
- * signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- * the services by executing the following sample:
+ * This sample performs an OAuth flow to communicate with PSCs to perform a signature. To run this
+ * sample it's necessary to configure PKI Express with the credentials of the services by executing
+ * the following command:
  *
  *    pkie config --set trustServices:<provider>:<configuration>
  *
@@ -64,7 +64,7 @@ router.get("/", async (req, res, next) => {
 		return;
 	}
 
-	// Get an instance of the TrustServiceManager class, responsible for
+	// Get an instance of the TrustServicesManager class, responsible for
 	// communicating with PSCs and handling the OAuth flow. And set common
 	// configuration with setPkiDefaults (see util.js).
 	const manager = new TrustServicesManager();
@@ -76,9 +76,9 @@ router.get("/", async (req, res, next) => {
 
 	// We will use a sessionId to identify the code and state in the front-end
 	// to be used in the callback page (see tsp-callback.js file)
-	const sessionId = uuidv4();
+	const sessionId = randomUUID();
 
-	// Start authentication with available
+	// Start the authentication with the available providers.
 	const result = await manager.startAuth(
 		REDIRECT_URL,
 		sessionType,
@@ -87,7 +87,7 @@ router.get("/", async (req, res, next) => {
 	);
 	const authParameters = result.authParameters;
 
-	// Render the result page.
+	// Render the page with the available providers.
 	res.render("pades-cloud-oauth-express", {
 		fileId,
 		authParameters,
@@ -99,13 +99,13 @@ router.get("/", async (req, res, next) => {
  * POST /pades-cloud-oauth-express
  *
  * This action will complete the authentication process and
- * create a signature using a session token returned by user.
- *  Also, we recover the parameter "customState" containing
- * the id of the file that will be signed.
+ * create a signature using the session returned by the provider.
+ * The id of the file that will be signed comes on the
+ * "fileIdField" form field.
  *
  */
 router.post("/", async (req, res, next) => {
-	// Get parameters from urls
+	// Get parameters from the POST arguments.
 	const code = req.body.codeField;
 	const state = req.body.stateField;
 	const fileId = req.body.fileIdField;
@@ -119,14 +119,13 @@ router.post("/", async (req, res, next) => {
 	}
 
 	try {
-		// Get an instance of the TrustServiceManager class,
+		// Get an instance of the TrustServicesManager class,
 		// responsible for communicating with PSCs and handling
 		// the OAuth flow.
 		const manager = new TrustServicesManager();
 
 		// Complete the authentication process, recovering the
-		// session info to be used on the signature and the
-		// custom state (fileId).
+		// session info to be used on the signature.
 		const result = await manager.completeAuth(code, state);
 
 		// Get an instance of the PadesSigner class, responsible for receiving
@@ -141,23 +140,23 @@ router.post("/", async (req, res, next) => {
 		// Set PDF to be signed.
 		await signer.setPdfToSignFromPath(StorageMock.getDataPath(fileId));
 
-		// Set trust session acquired on the following steps of this sample.
+		// Set trust session acquired on the previous steps of this sample.
 		signer.trustServiceSession = result.session;
 
-		// Set a file reference for the stamp file. Note that file can be
+		// Set a file reference for the stamp file. Note that this file can be
 		// referenced later by "fref://{alias}" at the "url" field on the visual
 		// representation (see public/vr.json or getVisualRepresentation()
 		// method).
 		await signer.addFileReference("stamp", StorageMock.getPdfStampPath());
 
-		// Set visual reference. We provide a dictionary that represents the
+		// Set the visual representation. We provide a dictionary that represents the
 		// visual representation JSON model.
 		await signer.setVisualRepresentation(
 			PadesVisualElementsExpress.getVisualRepresentation()
 		);
 
-		// Generate path for output file and add the signature finisher.
-		const outputFile = `${uuidv4()}.pdf`;
+		// Generate path for output file and add it to the signer.
+		const outputFile = `${randomUUID()}.pdf`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, "app-data", outputFile);
 

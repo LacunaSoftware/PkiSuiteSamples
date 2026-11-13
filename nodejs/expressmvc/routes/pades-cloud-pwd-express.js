@@ -1,5 +1,5 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const path = require('path');
 
 const {
@@ -14,9 +14,9 @@ const { StorageMock } = require('../storage-mock');
 const { PadesVisualElementsExpress } = require('../pades-visual-elements-express');
 
 /**
- * This sample is responsible to perform a password flow to communicate with PSCs to perform a
- * signature. To perform this sample it's necessary to configure PKI Express with the credentials of
- * the services by executing the following sample:
+ * This sample performs a password flow to communicate with PSCs to perform a signature. To run
+ * this sample it's necessary to configure PKI Express with the credentials of the services by
+ * executing the following command:
  *
  *    pkie config --set trustServices:<provider>:<configuration>
  *
@@ -45,7 +45,7 @@ const APP_ROOT = process.cwd();
 /**
  * GET /pades-cloud-pwd-express
  *
- * This action will render a page that request a CPF to the
+ * This action will render a page that requests a CPF from the
  * user. This CPF is used to discover which PSCs have a 
  * certificate containing that CPF.
  * 
@@ -61,7 +61,7 @@ router.get('/', (req, res, next) => {
 		next(notFound);
 		return;
 	}
-	// Render the result page.
+	// Render the page that asks for the user's CPF.
 	res.render('pades-cloud-pwd-express', {
 		fileId: fileId,
 	});
@@ -71,7 +71,7 @@ router.get('/', (req, res, next) => {
 /**
  * POST /pades-cloud-pwd-express/discover
  *
- * This action will be called after the user press the button 
+ * This action will be called after the user presses the button
  * "Search" on index page. It will search for all PSCs that 
  * have a certificate with the provided CPF. In this page, 
  * there will be a form field asking for user current 
@@ -87,19 +87,17 @@ router.post('/discover', async (req, res, next) => {
 	const plainCpf = cpf.replace(/[.-]/g,'');
 
 	try{
-		// Get an instance of the TrustServiceManager class, 
+		// Get an instance of the TrustServicesManager class,
 		// responsible for communicating with PSCs and handling
 		// the password flow.
 		const manager = new TrustServicesManager();
 	
-		// Discover PSCs and receive a URL to redirect the user
-		// to perform the pwd authentication page. As 
-		// mentioned before, we pass the id of the file to be
-		// signed as the last parameter of the following method.
-		// The next action will recover this information.
+		// Discover the PSCs that have a certificate with the
+		// provided CPF. The discover page lets the user choose
+		// one of them and type the password.
 		let services = await manager.discoverByCpf(plainCpf);
 	
-		// Render the result page.
+		// Render the page with the services found.
 		res.render('pades-cloud-pwd-express/discover', {
 			fileId: fileId,
 			cpf: cpf,
@@ -111,13 +109,13 @@ router.post('/discover', async (req, res, next) => {
 /**
  * POST /pades-cloud-pwd-express/complete
  *
- * This action is called after the form after the user press 
- * the button "Sign". This action will receive the user's 
- * CPF and current password.
+ * This action is called after the user presses the button
+ * "Sign" on the discover page. This action will receive the
+ * user's CPF, the chosen service and the current password.
  * 
  */
 router.post('/complete', async (req, res, next) => {
-	// Get parameters from urls
+	// Get parameters from url
 	const { fileId } = req.query;
 	// Recover CPF, service and password from the POST argument.
 	const { cpf, service, password } = req.body;
@@ -125,14 +123,13 @@ router.post('/complete', async (req, res, next) => {
 	const plainCpf = cpf.replace(/[.-]/g,'');
 
 	try{
-		// Get an instance of the TrustServiceManager class, 
+		// Get an instance of the TrustServicesManager class,
 		// responsible for communicating with PSCs and handling
 		// the password flow.
 		const manager = new TrustServicesManager();
 	
-		// Complete the authentication process, recovering the
-		// session info to be used on the signature and the 
-		// custom state (fileId).
+		// Authorize with the user's password, recovering the
+		// session info to be used on the signature.
 		let result = await manager.passwordAuthorize(
 			service, plainCpf, password, TrustServiceSessionTypes.SIGNATURE_SESSION);
 	
@@ -149,21 +146,21 @@ router.post('/complete', async (req, res, next) => {
 		// Set PDF to be signed.
 		await signer.setPdfToSignFromPath(StorageMock.getDataPath(fileId));
 	
-		// Set trust session acquired on the following steps of this sample.
+		// Set trust session acquired on the previous steps of this sample.
 		signer.trustServiceSession = result.session;
 	
-		// Set a file reference for the stamp file. Note that file can be
+		// Set a file reference for the stamp file. Note that this file can be
 		// referenced later by "fref://{alias}" at the "url" field on the visual
 		// representation (see public/vr.json or getVisualRepresentation()
 		// method).
 		await signer.addFileReference('stamp', StorageMock.getPdfStampPath());
 	
-		// Set visual reference. We provide a dictionary that represents the
+		// Set the visual representation. We provide a dictionary that represents the
 		// visual representation JSON model.
 		await signer.setVisualRepresentation(PadesVisualElementsExpress.getVisualRepresentation());
 	
-		// Generate path for output file and add the signature finisher.
-		const outputFile = `${uuidv4()}.pdf`;
+		// Generate path for output file and add it to the signer.
+		const outputFile = `${randomUUID()}.pdf`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 	

@@ -60,6 +60,8 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-pki-sdk", None),
         ("list-certificates-web-pki", None),
         ("timestamp-pdf-rest-pki-core", None),
+        # Unlike the pages above, its start page calls Rest PKI (with the committed trial token).
+        ("xml-diploma-signature-rest-pki", None),
     ],
     # An Angular app: see SPA_PROJECTS below. Every sample is listed, since each check costs one
     # request. Its Rest PKI Core pages call Rest PKI Core only when the user acts, so they need no
@@ -92,6 +94,9 @@ SMOKE_SAMPLES = {
         ("pades-signature-pki-express", None),
         ("list-certificates-web-pki", None),
         ("timestamp-pdf-rest-pki-core", None),
+        # Unlike the pages above, this one calls Rest PKI to get its token, with the committed
+        # trial access token.
+        ("xml-diploma-signature-rest-pki", None),
     ],
     "php/plain": [
         ("pades-signature-rest-pki-core", None),
@@ -100,11 +105,6 @@ SMOKE_SAMPLES = {
         ("pades-signature-pki-express", PKI_EXPRESS),
         ("timestamp-pdf-rest-pki-core", None),
     ],
-    "python/django": [
-        ("pades-signature-rest-pki", None),
-        ("validate-pades-signature-rest-pki", None),
-        ("printer-friendly-pdf-rest-pki", None),
-    ],
     "python/flask": [
         ("pades-signature-rest-pki-core", NO_CORE_KEY),
         ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
@@ -112,6 +112,7 @@ SMOKE_SAMPLES = {
         ("validate-pades-signature-rest-pki", None),
         ("list-certificates-web-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
+        ("xml-diploma-signature-rest-pki", None),
     ],
     "ruby/rails": [
         ("pades-signature-rest-pki-core", NO_CORE_KEY),
@@ -120,6 +121,8 @@ SMOKE_SAMPLES = {
         ("list-certificates-web-pki", None),
         ("pades-signature-pki-express", PKI_EXPRESS),
         ("timestamp-pdf-rest-pki-core", NO_CORE_KEY),
+        # Its page calls Rest PKI (startWithWebPki) with the committed trial access token.
+        ("xml-diploma-signature-rest-pki", None),
     ],
 }
 
@@ -128,6 +131,10 @@ SMOKE_SAMPLES = {
 # PKI Express.
 MISSING_FILE = "smoke-test-missing-file_pdf"
 NOT_FOUND_PATHS = {
+    "nodejs/expressmvc": [
+        f"/xml-diploma-signature-restpki/dados-registro?fileId={MISSING_FILE}",
+        f"/xml-diploma-signature-restpki/diploma?fileId={MISSING_FILE}",
+    ],
     "ruby/rails": [
         f"/download/{MISSING_FILE}",
         f"/pades-signature-rest/{MISSING_FILE}",
@@ -141,6 +148,8 @@ NOT_FOUND_PATHS = {
         f"/pades-cloud-pwd-express/{MISSING_FILE}",
         f"/open-pades-express/{MISSING_FILE}",
         "/check-pades-rest/AAAA-BBBB-CCCC-DDDD",  # a verification code that was never issued
+        f"/xml-diploma-signature-rest/dados-registro?fileId={MISSING_FILE}",
+        f"/xml-diploma-signature-rest/diploma?fileId={MISSING_FILE}",
     ],
 }
 

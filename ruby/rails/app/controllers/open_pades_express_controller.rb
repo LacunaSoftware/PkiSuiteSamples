@@ -3,7 +3,7 @@ require 'pki_express'
 class OpenPadesExpressController < ApplicationController
   
   # GET /open-pades-express
-  # This action submits a PDF file to REST PKI for inspection of its signatures.
+  # This action submits a PDF file to PKI Express for inspection of its signatures.
   def index
     # Retrieve "file_id" parameter.
     @file_id = params[:file_id]
@@ -29,8 +29,7 @@ class OpenPadesExpressController < ApplicationController
     # Set the PDF file.
     sig_explorer.signature_file_path = get_data_path(@file_id)
 
-    # Call the open() method, which returns a Promise with the signature file's
-    # information.
+    # Call the open() method, which returns the signature file's information.
     @signature = sig_explorer.open
     @datetime_offset = '-3'
   end

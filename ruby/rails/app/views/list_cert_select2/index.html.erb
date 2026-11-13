@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" integrity="sha384-RdQbeSCGSeSdSlTMGnUr2oDJZzOuGjJAkQy1MbKMu8fZT5G0qlBajY0n0sY/hKMK" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" integrity="sha384-4Efkt0T8BZbTzoX4+i/jZFCAWVy1BuRte6F0L3awo3Ek6D1L98qwg7ZRe5bxSrF/" crossorigin="anonymous" />
 
 <h2 class="ls-title">List certificates available on the user's machine with Select2</h2>
 
@@ -6,7 +6,7 @@
 
   <form id="listCertForm">
     <%
-      # Render a select (combo box) to list the users' certificates. For now
+      # Render a select (combo box) to list the user's certificates. For now
       # it will be empty, we'll populate it after page loading (see function
       # loadCertificates() below).
     %>
@@ -16,7 +16,7 @@
     </div>
 
     <%
-      # The "Refresh Certificates" button, which is responsible to reload
+      # The "Refresh Certificates" button, which is responsible for reloading
       # the certificate list. This operation uses the same function used
       # on page loading (see function refresh() below).
     %>
@@ -42,14 +42,14 @@
   # information, see: https://select2.org/
 %>
 <script type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+      src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js" integrity="sha384-O/ymMhrYXP5tgvTj27eAjKZODlpm7nIVeAkhRL7i9mdenmlJGAjstxMy/bKdklFZ" crossorigin="anonymous"></script>
 
 <script>
   <%
     # Variable that will store an instance of the Lacuna WebPKI object. If a
-    # license was set on application.yml, the layout.html master template
-    # will have placed it on the global variable _webPkiLicense, which we
-    # pass to the class constructor.
+    # license was set on config/lacuna.yml, the layouts/application.html.erb
+    # view will have placed it on the global variable _webPkiLicense, which
+    # we pass to the class constructor.
   %>
   var pki = new LacunaWebPKI(_webPkiLicense);
 
@@ -104,8 +104,8 @@
     pki.listCertificates().success(function (certs) {
 
       // Create an object to be shown on Select2 from each certificate.
-      // Its define which certificate are valid or invalid. At last, sort
-      // the list of objects by its validity.
+      // It defines which certificates are valid or invalid. At last, sort
+      // the list of objects by validity.
       var select2Certs = $.map(certs, function (cert) {
 
         var obj = {};
@@ -146,8 +146,8 @@
         }
       });
 
-      // Verify if there is no certificates available to disable the
-      // <select> element, showing the messaging informing that.
+      // If there are no certificates available, disable the <select>
+      // element, showing a message informing that.
       if (certs.length === 0) {
         $('#certificateSelect')
           .append('<option value="null">There is no certificate on your machine</option>')
@@ -174,7 +174,7 @@
 
     // Show the message to the user. You might want to substitute the alert
     // below with a more user-friendly UI component to show the error (see
-    // function addAlert() on layout.html).
+    // function addAlert() on layouts/application.html.erb).
     addAlert('danger', 'An error has occurred on the signature browser component: ' + message);
   }
 

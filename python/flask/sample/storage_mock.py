@@ -79,6 +79,10 @@ def get_sample_nfe_path():
     return '%s/%s' % (current_app.static_folder, 'SampleNFe.xml')
 
 
+def get_sample_diploma_path():
+    return '%s/%s' % (current_app.static_folder, 'SampleDiploma.xml')
+
+
 def get_sample_xml_document_path():
     return '%s/%s' % (current_app.static_folder, 'SampleDocument.xml')
 
@@ -100,7 +104,7 @@ def get_verification_code(file_id):
     """
 
     Returns the verification code associated with the given document, or
-    null if no verification code has been associated with it.
+    None if no verification code has been associated with it.
 
     """
     # >>>>> NOTICE <<<<<
@@ -117,9 +121,9 @@ def set_verification_code(file_id, code):
 
     """
     # >>>>> NOTICE <<<<<
-    # This should be implemented on your application as a SELECT on your
-    # "document table" by the verification code column, which should be an
-    # indexed column.
+    # This should be implemented on your application as an UPDATE on your
+    # "document table", setting the verification code column, which should be
+    # an indexed column.
     session["Files/%s/Code" % file_id] = code
     session["Codes/%s" % code] = file_id
 
@@ -128,7 +132,7 @@ def lookup_verification_code(code):
     """
 
     Returns the ID of the document associated with a given verification
-    code, or null if no document matcher the given code.
+    code, or None if no document matches the given code.
 
 
     """

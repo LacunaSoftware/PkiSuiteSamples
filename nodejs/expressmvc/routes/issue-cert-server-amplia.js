@@ -34,8 +34,8 @@ router.post('/', async (req, res, next) => {
 		// parameters to generate the certificate.
 		const CONFIG = Config.getInstance().get('amplia');
 
-		// Get an instance of the AmpliaClient, responsible to connect with Amplia
-		// and perform the requests.
+		// Get an instance of the AmpliaClient, responsible for connecting with
+		// Amplia and performing the requests.
 		const client = Util.getAmpliaClient();
 
 		// Create an order request.
@@ -48,8 +48,8 @@ router.post('/', async (req, res, next) => {
 
 			// Set the certificate validity. We encapsulated the validity date
 			// definition on the getTwoYearsFromNowDate() method. We used the
-			// Util.formatDate() date method to parse to "MM-DD-YYYY" pattern accepted
-			// on Amplia.
+			// Util.formatDate() method to format it with the "MM-DD-YYYY" pattern
+			// accepted by Amplia.
 			validityEnd: Util.getTwoYearsFromNowDate(),
 
 			// Set the kind of the certificate.
@@ -70,7 +70,7 @@ router.post('/', async (req, res, next) => {
 		// Create an order of issuing certificate on Amplia.
 		let order = await client.createOrder(request);
 
-		// Get an instance of the Key Generator class, responsible for generate
+		// Get an instance of the Key Generator class, responsible for generating
 		// a private key and the corresponding CSR.
 		const keyGenerator = new KeyGenerator({
 			keySize: req.body.keySize,
@@ -80,8 +80,7 @@ router.post('/', async (req, res, next) => {
 		// Generate private key and CSR.
 		let genKey = await keyGenerator.generate();
 
-		// Store the generated key on a global variable to be used on the next
-		// promise handlers.
+		// Get the generated private key, which we store below.
 		let generatedKey = genKey.getKey();
 
 		// Call Amplia in order to issue the certificate referred by the
@@ -92,7 +91,7 @@ router.post('/', async (req, res, next) => {
 		// on the "app-data" folder.
 		let certId = cert.getId();
 
-		// Store the key encrypted using a local key.
+		// Store the key. For demonstration purposes, it is stored unencrypted.
 		// WARNING: It is highly RECOMMENDED to ENCRYPT the key before storing
 		// in your database.
 		StorageMock.storeSync(generatedKey, certId, '.json');
@@ -100,8 +99,8 @@ router.post('/', async (req, res, next) => {
 		// Store certificate.
 		StorageMock.storeSync(cert.getContentRaw(), certId, '.cer');
 
-		// Render complete page. We pass the certId responsible for locate the
-		// key and certificate files.
+		// Render complete page. We pass the certId, used to locate the key and
+		// certificate files.
 		res.render('issue-cert-server-amplia/complete', {
 			certId: certId
 		});

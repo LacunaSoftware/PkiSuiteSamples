@@ -17,7 +17,7 @@ import java.io.IOException;
 public class OpenCadesExpressController {
 
     /**
-	 * This action submits a CMS file to Rest PKI for inspection of its signatures.
+     * This action opens a CMS file with PKI Express for inspection of its signatures.
      */
     @RequestMapping(value = "/open-cades-express", method = {RequestMethod.GET})
     public String get(
@@ -25,7 +25,7 @@ public class OpenCadesExpressController {
             Model model
     ) throws IOException {
 
-        // Get an instance of the CadesSignatureExplorer class, used to open/validate PDF signatures.
+        // Get an instance of the CadesSignatureExplorer class, used to open/validate CMS signatures.
         CadesSignatureExplorer sigExplorer = new CadesSignatureExplorer();
 
         // Set PKI default options. (see Util.java)
@@ -37,7 +37,7 @@ public class OpenCadesExpressController {
         // Specify that we want to validate the signatures in the file, not only inspect them.
         sigExplorer.setValidate(true);
 
-        // Generate path for output file and add to signature editor.
+        // Generate path for the encapsulated content and add it to the signature explorer.
         String outputFile = StorageMock.generateFileId("pdf");
         sigExplorer.setExtractContentPath(StorageMock.getDataPath(outputFile));
 

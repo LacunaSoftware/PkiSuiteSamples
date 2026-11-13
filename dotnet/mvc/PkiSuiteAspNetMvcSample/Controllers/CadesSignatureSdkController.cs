@@ -28,7 +28,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 #endif
 		}
 
-		// GET: CadesSignature
+		// GET: CadesSignatureSdk
 		[HttpGet]
 		public ActionResult Index(string userfile, string cmsfile) {
 
@@ -39,8 +39,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: CadesSignature
-		 * 
+		 * POST: CadesSignatureSdk
+		 *
 		 * This action is called once the user's certificate encoding has been read, and contains the
 		 * logic to prepare the hash that needs to be actually signed with the user's private key
 		 * (the "to-sign-hash").
@@ -65,8 +65,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					}
 
 					// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
-					// CMS. We'll set the path to the CMS to be co-signed, which was perviously saved in the
-					// App_Data folder by the POST action on this controller.
+					// CMS. We'll set the content of the CMS to be co-signed, which was previously saved in the
+					// App_Data folder by the Complete action on this controller or by ServerFilesController.
 					cadesSigner.SetSignatureToCoSign(cmsfileContent);
 
 				} else {
@@ -78,8 +78,9 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					}
 
 					// If the URL argument "userfile" is filled, it means the user was redirected here by
-					// UploadController (signature with file uploaded by user). We'll set the path of the file to
-					// be signed, which was saved in the App_Data folder by UploadController.
+					// UploadController (signature with file uploaded by user) or by ServerFilesController. We'll
+					// set the content of the file to be signed, which was saved in the App_Data folder by that
+					// controller.
 					cadesSigner.SetDataToSign(userfileContent);
 				}
 
@@ -122,11 +123,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("Complete", new { userfile = model.UserFile, cmsfile = model.CmsFile });
 		}
 
-		// GET: CadesSignature/Complete
+		// GET: CadesSignatureSdk/Complete
 		[HttpGet]
 		public ActionResult Complete(string userfile, string cmsfile) {
 
-			// Recovery data from Index action, if returns null, it'll be redirected to Index 
+			// Recover data from the Index action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureCompleteModel"] as SignatureCompleteModel;
 			if (model == null) {
@@ -137,10 +138,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 		}
 
 		/**
-		 * POST: CadesSignature/Complete
+		 * POST: CadesSignatureSdk/Complete
 		 * 
-		 * This action is called once the "to-sign-hash" are signed using the user's certificate. After signature,
-		 * it'll be redirected to SignatureInfo action to show the signature file.
+		 * This action is called once the "to-sign-hash" is signed using the user's certificate. After the signature,
+		 * it redirects to the SignatureInfo action to show the signature file.
 		 */
 		[HttpPost]
 		public ActionResult Complete(SignatureCompleteModel model) {
@@ -151,7 +152,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				// Instantiate a CadesSigner class
 				var cadesSigner = new CadesSigner();
 
-				// Set the document to be signed, exactly like in the Start method
+				// Set the document to be signed, exactly like in the POST Index action.
 				if (!string.IsNullOrEmpty(model.CmsFile)) {
 
 					// Verify if the cmsfile exists and get the content of the cmsfile.
@@ -161,8 +162,8 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					}
 
 					// If the URL argument "cmsfile" is filled, the user has asked to co-sign a previously signed
-					// CMS. We'll set the path to the CMS to be co-signed, which was perviously saved in the
-					// App_Data folder by the POST action on this controller.
+					// CMS. We'll set the content of the CMS to be co-signed, which was previously saved in the
+					// App_Data folder by the Complete action on this controller or by ServerFilesController.
 					cadesSigner.SetSignatureToCoSign(cmsfileContent);
 
 				} else {
@@ -174,12 +175,13 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					}
 
 					// If the URL argument "userfile" is filled, it means the user was redirected here by
-					// UploadController (signature with file uploaded by user). We'll set the path of the file to
-					// be signed, which was saved in the App_Data folder by UploadController.
+					// UploadController (signature with file uploaded by user) or by ServerFilesController. We'll
+					// set the content of the file to be signed, which was saved in the App_Data folder by that
+					// controller.
 					cadesSigner.SetDataToSign(userfileContent);
 				}
 
-				// Set the signature policy, exactly like in the Start method.
+				// Set the signature policy, exactly like in the POST Index action.
 				cadesSigner.SetPolicy(getSignaturePolicy());
 
 				// Decode the user's certificate and set as the signer certificate.
@@ -202,12 +204,12 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 				return View("Complete", model);
 			}
 
-			// On the next step (SignatureInfo action), we'll render the following information:]
+			// On the next step (SignatureInfo action), we'll render the following information:
 			// - The filename to be available to download in next action.
 			// We'll store these values on TempData, which is a dictionary shared between actions.
 			TempData["SignatureInfoModel"] = new SignatureInfoModel() {
 
-				// Store the signature file on the folder "App_Data/" and redirects to the SignatureInfo action with the filename.
+				// Store the signature file on the folder "App_Data/" and redirect to the SignatureInfo action with the filename.
 				// With this filename, it can show a link to download the signature file.
 				File = StorageMock.Store(signatureContent, ".p7s")
 			};
@@ -215,11 +217,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			return RedirectToAction("SignatureInfo");
 		}
 
-		// GET: CadesSignature/SignatureInfo
+		// GET: CadesSignatureSdk/SignatureInfo
 		[HttpGet]
 		public ActionResult SignatureInfo() {
 
-			// Recovery data from Conplete() action, if returns null, it'll be redirected to Index 
+			// Recover data from the Complete action. If it returns null, it'll be redirected to the Index
 			// action again.
 			var model = TempData["SignatureInfoModel"] as SignatureInfoModel;
 			if (model == null) {

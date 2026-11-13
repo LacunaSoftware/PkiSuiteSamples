@@ -43,13 +43,14 @@ public class SignatureSessionPreDefRestCoreController {
 
 		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request, null, null, docs);
 
-		// Render the signature-session-rest-core page (templates/signature-session-rest-core/index.html).
+		// Render the signature-session-predef-rest-core page
+		// (templates/signature-session-predef-rest-core/index.html).
 		model.addAttribute("redirectUrl", sessionResponse.getRedirectUrl());
 		return "signature-session-predef-rest-core/index";
 	}
 
 	/**
-	 * GET /signature-session-rest-core/webhook
+	 * GET /signature-session-predef-rest-core/webhook
 	 *
 	 * This action initiates a signature session with REST PKI Core using webhook.
 	 */
@@ -73,16 +74,17 @@ public class SignatureSessionPreDefRestCoreController {
 
 		CreateSignatureSessionResponse sessionResponse = service.createSignatureSession(request, null, null, docs);
 
-		// Render the signature-session-rest-core page (templates/signature-session-rest-core/index.html).
+		// Render the signature-session-predef-rest-core page
+		// (templates/signature-session-predef-rest-core/index.html).
 		model.addAttribute("redirectUrl", sessionResponse.getRedirectUrl());
 		return "signature-session-predef-rest-core/index";
 	}
 
 	/**
-	 * GET /ignature-session-rest-core/complete
+	 * GET /signature-session-predef-rest-core/complete
 	 *
-	 * This action receives the form submission from the view. We'll call REST PKI to validate the
-	 * authentication.
+	 * REST PKI Core redirects the user to this action (RETURN_URL) once the signature session is
+	 * finished. We'll call REST PKI Core to get the session's status and its signed documents.
 	 */
 	@GetMapping("/signature-session-predef-rest-core/complete")
 	public String complete(
@@ -107,7 +109,8 @@ public class SignatureSessionPreDefRestCoreController {
 			}
 			model.addAttribute("documents", docs);
 		}
-		// Render the signature-session-rest-core page (templates/signature-session-rest-core/complete.html).
+		// Render the signature-session-predef-rest-core page
+		// (templates/signature-session-predef-rest-core/complete.html).
 		return "signature-session-predef-rest-core/complete";
 	}
 }

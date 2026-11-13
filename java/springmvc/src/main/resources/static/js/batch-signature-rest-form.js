@@ -70,7 +70,7 @@ var batchSignatureRestForm = (function () {
 	// ----------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Receive form parameters received as arguments.
 		formElements = fe;
 
 		// Wireup of button clicks.
@@ -98,7 +98,7 @@ var batchSignatureRestForm = (function () {
 		pki.init({
 			ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
 			defaultFail: onWebPkiError, // Generic error callback (see function declaration below).
-			restPkiUrl: _restPkiEndpoint // REST PKI endpoint for communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint // REST PKI endpoint that Web PKI communicates with.
 		});
 	}
 
@@ -171,11 +171,11 @@ var batchSignatureRestForm = (function () {
 
 		// For each document, we must perform 3 actions in sequence:
 		//
-		//    1. Start the signature    : Call batch-signature-rest/start to start the signature
-		//                                and get the signature process token.
+		//    1. Start the signature    : Call <ctrlEndpoint>/start to start the signature and get
+		//                                the signature process token.
 		//    2. Perform the signature  : Call Web PKI's method signWithRestPki with the token.
-		//    3. Complete the signature : Call batch-signature-rest/complete to notify that the
-		//                                signature is complete.
+		//    3. Complete the signature : Call <ctrlEndpoint>/complete to notify that the signature
+		//                                is complete.
 		//
 		// We'll use the Queue Javascript class defined above in order to perform these steps
 		// simultaneously.
@@ -207,8 +207,8 @@ var batchSignatureRestForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that performs the first step described above for each document, which is the call
-	// batch-signature-rest/complete in order to start the signature and get the token associated
-	// with the signature process.
+	// to <ctrlEndpoint>/start in order to start the signature and get the token associated with
+	// the signature process.
 	//
 	// This function is called by the Queue.process function, taking documents from the "start"
 	// queue. Once we're done, we'll call the "done" callback passing the document, and the
@@ -232,7 +232,7 @@ var batchSignatureRestForm = (function () {
 
 			// Render error.
 			renderFail(step, textStatus, errorThrown, jqXHR.responseJSON);
-			// Call the "done" callback with no argument, signalling the document should not go/ to the
+			// Call the "done" callback with no argument, signalling the document should not go to the
 			// next queue.
 			done();
 
@@ -271,7 +271,7 @@ var batchSignatureRestForm = (function () {
 
 	// ----------------------------------------------------------------------------------------------
 	// Function that performs the third step described above for each document, which is the call
-	// batch-signature-complete in order to complete the signature.
+	// to <ctrlEndpoint>/complete in order to complete the signature.
 	//
 	// This function is called by the Queue.process function, taking documents from the "complete"
 	// queue. Once we're done, we'll call the "done" callback passing the document. Once all

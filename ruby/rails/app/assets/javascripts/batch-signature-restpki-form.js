@@ -70,10 +70,10 @@ var batchSignatureRestPkiForm = (function () {
 	// ---------------------------------------------------------------------------------------------
 	function init(fe) {
 
-		// Receive from parameters received as arguments.
+		// Store the form parameters received as arguments.
 		formElements = fe;
 
-		// Wireup of button clicks.
+		// Wire up the button clicks.
 		formElements.signButton.click(sign);
 		formElements.refreshButton.click(refresh);
 
@@ -98,7 +98,7 @@ var batchSignatureRestPkiForm = (function () {
 		pki.init({
 			ready: loadCertificates,     // As soon as the component is ready we'll load the certificates.
 			defaultFail: onWebPkiError,  // Generic error callback (see function declaration below).
-			restPkiUrl: _restPkiEndpoint // REST PKI endpoint to communication between Web PKI.
+			restPkiUrl: _restPkiEndpoint // REST PKI endpoint that Web PKI calls.
 		});
 	}
 
@@ -145,15 +145,14 @@ var batchSignatureRestPkiForm = (function () {
 	}
 
 	// ---------------------------------------------------------------------------------------------
-	// Function called when the user clicks the "Sign Batch" button.
+	// Function called when the user clicks the "Sign File" button.
 	// ---------------------------------------------------------------------------------------------
 	function sign() {
 
 		// Block the UI while we perform the signature.
 		$.blockUI({message: 'Signing ...'});
 
-		// Get the thumbprint of the selected certificate and store it in a global variable (we'll
-		// need it later).
+		// Get the thumbprint of the selected certificate.
 		var selectedCertThumbprint = formElements.certificateSelect.val();
 
 		// Call Web PKI to preauthorize the signatures, so that the user only sees one confirmation
@@ -172,10 +171,10 @@ var batchSignatureRestPkiForm = (function () {
 
 		// For each document, we must perform 3 actions in sequence:
 		//
-		//    1. Start the signature    : Call batch-signature-restpki/start to start the signature
+		//    1. Start the signature    : Call <ctrlEndpoint>/start to start the signature
 		//                                and get the signature process token.
 		//    2. Perform the signature  : Call Web PKI's method signWithRestPki with the token.
-		//    3. Complete the signature : Call batch-signature-restpki/complete to notify that the
+		//    3. Complete the signature : Call <ctrlEndpoint>/complete to notify that the
 		//                                signature is complete.
 		//
 		// We'll use the Queue Javascript class defined above in order to perform these steps
@@ -209,8 +208,8 @@ var batchSignatureRestPkiForm = (function () {
 
 	// ---------------------------------------------------------------------------------------------
 	// Function that performs the first step described above for each document, which is the call
-	// batch-signature-restpki/complete in order to start the signature and get the token associated
-	// with the signature process.
+	// to <ctrlEndpoint>/start in order to start the signature and get the token associated with the
+	// signature process.
 	//
 	// This function is called by the Queue.process function, taking documents from the "start"
 	// queue. Once we're done, we'll call the "done" callback passing the document, and the
@@ -270,7 +269,7 @@ var batchSignatureRestPkiForm = (function () {
 
 	// ---------------------------------------------------------------------------------------------
 	// Function that performs the third step described above for each document, which is the call
-	// batch-signature-complete in order to complete the signature.
+	// to <ctrlEndpoint>/complete in order to complete the signature.
 	//
 	// This function is called by the Queue.process function, taking documents from the "complete"
 	// queue. Once we're done, we'll call the "done" callback passing the document. Once all
@@ -280,7 +279,7 @@ var batchSignatureRestPkiForm = (function () {
 
 		// Call the server asynchronously to notify that the signature has been performed.
 		$.ajax({
-			url: formElements.ctrlEndpoint + '/complete', // The signature process token is guaranteed to be URL-safe.
+			url: formElements.ctrlEndpoint + '/complete',
 			method: 'POST',
 			data: {
 				token: step.token,
@@ -312,7 +311,7 @@ var batchSignatureRestPkiForm = (function () {
 	function onBatchCompleted() {
 		// Notify the user and unblock the UI.
 		addAlert('primary', 'Batch processing completed');
-		// Prevent user from clicking "sign batch" again (our logic isn't prepared for that).
+		// Prevent user from clicking "Sign File" again (our logic isn't prepared for that).
 		$('#signButton').prop('disabled', true);
 		// Unblock the UI.
 		$.unblockUI();

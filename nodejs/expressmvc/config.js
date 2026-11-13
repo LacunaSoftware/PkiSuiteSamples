@@ -37,7 +37,7 @@ class Config {
 		const settingsFile = `${environment}.js`;
 		const configPath = path.join(APP_ROOT, 'config', settingsFile);
 		if (!fs.existsSync(configPath)) {
-			throw new Error(`The environment's config file was not found. Add the ${settingsFile} file on the your config/ folder.`);
+			throw new Error(`The environment's config file was not found. Add the ${settingsFile} file to your config/ folder.`);
 		}
 
 		this._file = settingsFile;

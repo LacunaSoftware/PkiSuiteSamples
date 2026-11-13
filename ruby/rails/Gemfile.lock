@@ -17,9 +17,6 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activejob (8.1.4)
-      activesupport (= 8.1.4)
-      globalid (>= 0.3.6)
     activemodel (8.1.4)
       activesupport (= 8.1.4)
     activesupport (8.1.4)
@@ -51,8 +48,6 @@ GEM
     drb (2.2.3)
     erb (6.0.7)
     erubi (1.13.1)
-    globalid (1.4.0)
-      activesupport (>= 6.1)
     http-accept (1.7.0)
     http-cookie (1.1.6)
       domain_name (~> 0.5)
@@ -190,7 +185,6 @@ PLATFORMS
 DEPENDENCIES
   actionpack (~> 8.1.0)
   actionview (~> 8.1.0)
-  activejob (~> 8.1.0)
   activemodel (~> 8.1.0)
   bootsnap
   debug

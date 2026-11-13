@@ -40,6 +40,6 @@ if ($json === false) {
     http_response_code(500);
 }
 
-// Respond POST.
+// Send the response.
 echo $json;
 exit;

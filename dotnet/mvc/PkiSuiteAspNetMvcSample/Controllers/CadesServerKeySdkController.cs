@@ -41,11 +41,11 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 					return HttpNotFound();
 				}
 
-				// We'll set the path of the file to be signed, which was saved in 
+				// We'll set the content of the file to be signed, which was saved in
 				// the App_Data folder by UploadController.
 				cadesSigner.SetDataToSign(userfileContent);
 
-				// Get the server's certificate, stores it and and set as the signer certificate.
+				// Get the server's certificate with its private key and set it as the signer certificate.
 				var certContent = StorageMock.GetServerCertificate();
 				var store = Pkcs12CertificateStore.Load(certContent, "1234");
 				certWithKey = store.GetCertificatesWithKey().First();

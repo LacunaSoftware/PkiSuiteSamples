@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This action is called after the form after the user press the button "Sign". This action will
- * receive the user's CPF and current password.
+ * This action is called after the user presses the button "Sign". This action will receive the
+ * user's CPF and current password.
  */
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -30,7 +30,7 @@ try{
     // Process cpf, removing all formatting.
     $plainCpf = str_replace([".","-"], "", $cpf);
 
-    // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+    // Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
     // and handling the password flow.
     $manager = new TrustServicesManager();
 
@@ -38,7 +38,7 @@ try{
     // sessionTypes:
     // - SINGLE_SIGNATURE: The returned token can only be used for one single signature request.
     // - MULTI_SIGNATURE: The returned token can only be used for one multi signature request.
-    // - SIGNATURE_SESSION: The return token can only be used for one or more signature requests.
+    // - SIGNATURE_SESSION: The returned token can be used for one or more signature requests.
     $result = $manager->passwordAuthorize($service, $plainCpf, $password, TrustServiceSessionTypes::SIGNATURE_SESSION);
 
     // Get an instance of the PadesSigner class, responsible for receiving the
@@ -54,7 +54,7 @@ try{
     // Set PDF to be signed.
     $signer->setPdfToSign(StorageMock::getDataPath($fileId));
 
-    // Set trust session acquired on the following steps of this sample.
+    // Set the trust service session acquired above.
     $signer->setTrustServiceSession($result->session);
 
     // The PKCS #12 certificate path.
@@ -64,8 +64,8 @@ try{
 
     // Set a file reference for the stamp file. Note that this file can be
     // referenced later by "fref://stamp" at the "url" field on the visual
-    // representation (see content/vr.json file or getVisualRepresentation($case)
-    // method).
+    // representation (see resources/vr.json file or the
+    // PadesVisualElementsExpress::getVisualRepresentation() method).
     $signer->addFileReference('stamp', StorageMock::getPdfStampPath());
 
     // Set visual representation. We provide a PHP class that represents the visual

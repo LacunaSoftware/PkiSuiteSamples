@@ -1,6 +1,6 @@
 // ------------------------------------------------------------------------------------------------
 // This file contains logic for calling the Web PKI component to perform an authentication. It is
-// only an example, feel free to alter is to meet your application's needs.
+// only an example, feel free to alter it to meet your application's needs.
 // ------------------------------------------------------------------------------------------------
 var authenticationForm = (function () {
 
@@ -8,17 +8,17 @@ var authenticationForm = (function () {
     var formElements = {};
 
     // --------------------------------------------------------------------------------------------
-    // Initializes the signature form.
+    // Initializes the authentication form.
     // --------------------------------------------------------------------------------------------
     function init(fe) {
 
         // Receive form parameters received as arguments.
         formElements = fe;
 
-        // Instance Web PKI object.
+        // Instantiate the Web PKI object.
         pki = new LacunaWebPKI(_webPkiLicense);
 
-        // Wireup of button clicks.
+        // Wire up button clicks.
         formElements.signInButton.click(signIn);
         formElements.refreshButton.click(refresh);
 
@@ -87,12 +87,12 @@ var authenticationForm = (function () {
         // Get the thumbprint of the selected certificate.
         var selectedCertThumbprint = formElements.certificateSelect.val();
 
-        // Get certificate scripts to be passed to "complete" action of the authentication on
+        // Get the certificate content to be passed to the "complete" step of the authentication on
         // server-side after the signature is computed.
         pki.readCertificate(selectedCertThumbprint).success(function (certEncoded) {
 
-            // Call signData() on the Web PKI component the "nonce", the digest algorithm and the
-            // certificate selected by the user.
+            // Call signData() on the Web PKI component passing the "nonce", the digest algorithm and
+            // the certificate selected by the user.
             pki.signData({
                 thumbprint: formElements.certificateSelect.val(),
                 data: formElements.nonceField.val(),

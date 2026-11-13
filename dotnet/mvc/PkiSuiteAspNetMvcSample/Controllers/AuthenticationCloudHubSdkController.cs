@@ -40,10 +40,10 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             var plainCpf = Regex.Replace(cpf, @"[.-]+", "");
 
-            /*Create a SessionRequest for Cloudhub to identify the certificates available 
-            *This action will be called after the user press the button "Search" on index page.It will
-            *search for all PSCs that have a certificate with the provided identifier.Thus, it will start the
-            *authentication process and return a session.
+            /* Create a SessionRequest for CloudHub to identify the available certificates.
+            * This action is called after the user clicks the "Search" button on the Index page. It
+            * searches for all PSCs that have a certificate with the provided identifier. Thus, it starts the
+            * authentication process and returns a session.
             */
 
             var sessionRequest = new SessionCreateRequest
@@ -75,7 +75,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers
             var cloudhubClient = Util.GetCloudhubClient();
             var cert = await cloudhubClient.GetCertificateAsync(session);
 
-            // Instantiate the PKCertificateAuthentication class passing our EntityFrameworkNonceStore.
+            // Instantiate the PKCertificateAuthentication class passing our nonce store.
             var certAuth = new PKCertificateAuthentication(nonceStore);
 
 
@@ -105,17 +105,16 @@ namespace PkiSuiteAspNetMvcSample.Controllers
 
             if (!vr.IsValid)
             {
-                // The authentication failed, redirect and inform in index view.
+                // The authentication failed. Redirect to the Index action, which shows the validation results.
                 TempData["ValidationResults"] = vr;
                 return RedirectToAction("Index");
             }
 
-            // At this point, you have assurance that the certificate is valid  and that the user is indeed the
+            // At this point, you have assurance that the certificate is valid and that the user is indeed the
             // certificate's subject. Now, you'd typically query your database for a user that matches one of
             // the certificate's fields, such as userCert.EmailAddress or userCert.PkiBrazil.CPF (the actual
             // field to be used as key depends on your application's business logic) and set the user ID on
-            // the auth cookie. For demonstration purposes, we'll set the email address directly on the
-            // cookie as if it were the user ID.
+            // the auth cookie. For demonstration purposes, we'll just render the certificate's information.
             return View("AuthenticationInfo", new AuthenticationInfoModel()
             {
                 UserCert = certificate

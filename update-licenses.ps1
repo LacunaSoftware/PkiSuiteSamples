@@ -297,25 +297,6 @@ web-pki:
         Write-Host "Updated API keys in $configPhpPath" -ForegroundColor Green
     }
 
-    # Update config.py (Django)
-    $djangoConfigPath = "python/django/sample/config.py"
-    if (Test-Path $djangoConfigPath) {
-        $content = Get-Content $djangoConfigPath -Raw
-        
-        # Updated patterns for Python Django format - using uppercase variable names
-        # REST PKI Access Token with single quotes and no spaces
-        $content = $content -replace "(REST_PKI_ACCESS_TOKEN=)'[^']*'", "`${1}'$RestPkiApiKey'"
-        
-        # Amplia API Key with single quotes and no spaces 
-        $content = $content -replace "(AMPLIA_API_KEY\s*=\s*)'[^']*'", "`${1}'$AmpliaApiKey'"
-        
-        # Update expiry date comments
-        $content = $content -replace '# This is a TRIAL token\. It will be expired at \d{2}/\d{2}/\d{4}\.', "# This is a TRIAL token. It will be expired at $ExpiryDate."
-        $content = $content -replace '# This is a TRIAL API key to use Amplia\. It will expire at \d{2}/\d{2}/\d{4}\.', "# This is a TRIAL API key to use Amplia. It will expire at $ExpiryDate."
-        
-        Update-FileContent -FilePath $djangoConfigPath -Content $content -FileType "config.py (Django)"
-    }
-
     # Update config.py (Flask)
     $flaskConfigPath = "python/flask/sample/config.py"
     if (Test-Path $flaskConfigPath) {

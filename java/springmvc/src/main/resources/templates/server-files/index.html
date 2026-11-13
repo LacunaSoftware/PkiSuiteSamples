@@ -19,7 +19,7 @@
 			<input type="hidden" id="chosenFileIdField" th:field="*{chosenFileId}" />
 
 			<!--
-				Group of cards containing the server file's information. On each card its possible to
+				Group of cards containing the server file's information. On each card it's possible to
 				choose it to be used on the next operation or to download the server file. This is only
 				an example of choosing a server file, you can change this file or use your own logic.
 				The operation only requires the content of this document or its path.
@@ -79,7 +79,7 @@
 </div>
 
 <!--
-	This javascript is only an optional feature for this upload page. It will use jQuery to improve
+	This javascript is only an optional feature for this page. It will use jQuery to improve
 	the UX of the page. Feel free to alter it however you want.
 -->
 <script th:fragment="scripts">
@@ -95,7 +95,7 @@
 		// Store the file's id on hidden <input> (#chosenFileIdField).
 		$('#chosenFileIdField').val(chosenFileId);
 
-		// Highlight card referred to the chosen file.
+		// Highlight the card of the chosen file.
 
 		$('#' + chosenFileId + '-card')
 			.addClass('border border-success text-success');
@@ -108,8 +108,8 @@
 			.removeClass('btn-outline-primary')
 			.addClass('btn-outline-success');
 
-		// Show message, informing that will redirect to some other page, which will happen on
-		// server-side after submission.
+		// Show a message informing that the user will be redirected to another page, which will
+		// happen on server-side after submission.
 		$.blockUI({message: 'Redirecting ...'});
 		setTimeout(function () {
 

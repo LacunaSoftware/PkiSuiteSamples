@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 const {
 	XmlSigner,
 	StandardSignaturePolicies,
@@ -16,8 +16,8 @@ const APP_ROOT = process.cwd();
 /*
  * GET /xml-server-key-express
  *
- * This route only renders the signature page.
- * 
+ * This route performs an XML signature with a key stored on the server and
+ * renders the signature result page.
  */
 router.get('/', async (req, res, next) => {
 	const { certId } = req.query;
@@ -34,8 +34,8 @@ router.get('/', async (req, res, next) => {
 		// Set the XML to be signed.
 		await signer.setXmlToSignFromPath(StorageMock.getSampleDocPath(SampleDocs.SAMPLE_XML));
 
-		// Set the PKCS #12 certificate path. We have an logic for choosing the generate the PKCS #12
-		// from "issue certificate" samples or a sample PKCS #12.
+		// Set the PKCS #12 certificate. We choose between a PKCS #12 generated from the key and
+		// certificate of the "issue certificate" sample and the sample PKCS #12.
 		if (certId) {
 			// Verify if the provided certId refers to an existing certificate file and
 			// key.
@@ -53,7 +53,7 @@ router.get('/', async (req, res, next) => {
 			// Generate PKCS #12. We have encapsulated this operation on generatePkcs12() method.
 			let pkcs12GenResult = await generatePkcs12(certId, pkcs12Password);
 
-			// Set the generated PKCS #12 and its password on PadesSigner instance.
+			// Set the generated PKCS #12 and its password on XmlSigner instance.
 			await signer.setPkcs12FromRaw(pkcs12GenResult.getPfx().getContentRaw());
 			signer.certPassword = pkcs12Password;
 		} else {
@@ -62,8 +62,8 @@ router.get('/', async (req, res, next) => {
 			signer.certPassword = '1234';
 		}
 
-		// Generate path for output file and add the signature finisher.
-		const outputFile = `${uuidv4()}.xml`;
+		// Generate path for output file and add it to the signer.
+		const outputFile = `${randomUUID()}.xml`;
 		StorageMock.createAppDataSync(); // Make sure the "app-data" folder exists.
 		signer.outputFile = path.join(APP_ROOT, 'app-data', outputFile);
 
@@ -78,9 +78,9 @@ router.get('/', async (req, res, next) => {
 });
 
 async function generatePkcs12(certId, password) {
-	// Get an instance of the Pkcs12Generator class, responsible for generate
+	// Get an instance of the Pkcs12Generator class, responsible for generating
 	// a PKCS #12 from a generated key and certificate file. This certificate
-	// will be used to sign the uploaded PDF.
+	// will be used to sign the sample XML.
 	let keyJson = StorageMock.readSync(certId, '.json').toString('utf-8');
 	let pkcs12Generator = new Pkcs12Generator({
 		key: keyJson

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This action will be called after the user press the button "Search" on index page. It will
+ * This action will be called after the user presses the button "Search" on index page. It will
  * search for all PSCs that have a certificate with the provided CPF. In this page, there will be
- * a form field asking for user current password. In BirdId provider, this password is called
+ * a form field asking for the user's current password. In BirdId provider, this password is called
  * OTP.
  */
 
@@ -27,7 +27,7 @@ try{
     // Process cpf, removing all formatting.
     $plainCpf = str_replace([".","-"], "", $cpf);
 
-    // Get an instance of the TrustServiceManager class, responsible for communicating with PSCs
+    // Get an instance of the TrustServicesManager class, responsible for communicating with PSCs
     // and handling the password flow.
     $manager = new TrustServicesManager();
 
@@ -67,7 +67,7 @@ try{
                     </div>
                     <div class="form-group">
                         <div class="px-0">
-                            <label for="passwordField">Inform your password authorization:</label>
+                            <label for="passwordField">Enter your authorization password:</label>
                             <input id="passwordField" class="form-control col col-sm-2" type="password" name="password" />
                         </div>
                     </div>
@@ -83,15 +83,15 @@ try{
                 <p>Possible reasons include:
                     <ul>
                         <li>The given CPF does not exist on trusted services</li>
-                        <li>The PKI Express was not correctly configured</li>
+                        <li>PKI Express was not correctly configured</li>
                     </ul>
                 </p>
-                <p>To configure the PKI Express you need to configure all providers by running the 
+                <p>To configure PKI Express you need to configure all providers by running the
                     following commands on the terminal: <br/>
                     <code>pkie config --set trustServices:{provider}:clientId={value}</code><br/>
                     <code>pkie config --set trustServices:{provider}:clientSecret={value}</code>
                 </p>
-                <p>For customized providers you neet to also configure the endpoint:<br/>
+                <p>For customized providers you need to also configure the endpoint:<br/>
                     <code>pkie config --set trustServices:{provider}:endpoint={value}</code>
                 </p>
                 <p>The standard providers are:

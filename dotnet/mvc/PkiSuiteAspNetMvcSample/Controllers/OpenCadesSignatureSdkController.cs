@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace PkiSuiteAspNetMvcSample.Controllers {
 	public class OpenCadesSignatureSdkController : BaseController {
 		/**
-		 * This action open a Cades file and inspect its signatures.
+		 * This action opens a CAdES file and inspects its signatures.
 		 */
 		public ActionResult Index(string userfile) {
 			// Our action only works if a userfile is given to work with.
@@ -19,7 +19,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			if (!StorageMock.TryGetFile(userfile, out userfileContent)) {
 				return HttpNotFound();
 			}
-			// Open Cades file
+			// Open the CAdES file.
 			var cadesSignature = CadesSignature.Open(userfileContent);
 
 			// Specify the parameters for the signature validation:
@@ -28,7 +28,7 @@ namespace PkiSuiteAspNetMvcSample.Controllers {
 			var policyMapper = CadesPoliciesForValidation.GetCadesBasic(trustArbitrator);
 
 			return View(new OpenCadesSignatureModel() {
-				// WARNING: this sample always consider the encapsulated content type as pdf, so the downloadable file uses pdf extension
+				// WARNING: this sample always considers the encapsulated content type as PDF, so the downloadable file uses pdf extension
 				File = cadesSignature.HasEncapsulatedContent ? StorageMock.Store(cadesSignature.GetEncapsulatedContent(), ".pdf") : "",
 				Signature = new CadesSignatureModel(cadesSignature, policyMapper)
 			});

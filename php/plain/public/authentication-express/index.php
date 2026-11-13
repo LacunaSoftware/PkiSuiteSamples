@@ -2,7 +2,7 @@
 /**
  * GET /authentication-express
  *
- * This file will initiate and authentication with the PKI Express's
+ * This file will initiate an authentication with the PKI Express's
  * "start-auth" command and will render the authentication page.
  */
 require __DIR__ . '/../../vendor/autoload.php';
@@ -23,7 +23,7 @@ try {
     // Set PKI Express default options (see Util.php).
     Util::setPkiDefaults($auth);
 
-    // Start the authentication. Receive as response a AuthStartResult instance
+    // Start the authentication. Receive as response an AuthStartResult instance
     // containing the following fields:
     // - nonce:           The nonce to be signed. This value is also used on
     //                    "complete" action;
@@ -31,10 +31,10 @@ try {
     //                    component to compute the signature.
     $result = $auth->start();
 
-    // The token acquired above can only be used for a single authentication. In
-    // order to retry authenticating it is necessary to get a new token. This can be
+    // The nonce acquired above can only be used for a single authentication. In
+    // order to retry authenticating it is necessary to get a new nonce. This can be
     // a problem if the user uses the back button of the browser, since the browser
-    // might show a cached page that we rendered previously, with a now stale token.
+    // might show a cached page that we rendered previously, with a now stale nonce.
     // To prevent this from happening, we call the function setExpiredPage(),
     // located in Util.php, which sets HTTP headers to prevent caching of the page.
     Util::setExpiredPage();
@@ -58,7 +58,7 @@ try {
 
             <?php
             // This form will be shown initially and when this page is rendered to
-            // perform the signature using Web PKI component.
+            // perform the authentication using Web PKI component.
             ?>
             <form id="signInForm" action="authentication-express/complete.php" method="POST">
 
@@ -79,7 +79,7 @@ try {
                 </div>
 
                 <?php
-                // Action buttons. Notice that the "Sign File" button is NOT a
+                // Action buttons. Notice that the "Sign In" button is NOT a
                 // submit button. When the user clicks the button, we must first use
                 // the Web PKI component to perform the client-side computation
                 // necessary and only when that computation is finished we'll submit

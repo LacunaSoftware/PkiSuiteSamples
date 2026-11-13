@@ -83,6 +83,10 @@ router.use("/tsp-callback", require("./tsp-callback"));
 router.use("/upload", require("./upload"));
 router.use("/xml-cloud-oauth-express", require("./xml-cloud-oauth-express"));
 router.use(
+	"/xml-diploma-signature-restpki",
+	require("./xml-diploma-signature-restpki")
+);
+router.use(
 	"/xml-nfe-signature-restpki",
 	require("./xml-nfe-signature-restpki")
 );

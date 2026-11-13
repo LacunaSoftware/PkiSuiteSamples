@@ -10,10 +10,9 @@ from sample.utils import get_expired_page_headers
 from sample.utils import get_security_context_id
 
 
-# 26-08-2022
-# By further inspecting in the latest Blueprint documentation (https://flask.palletsprojects.com/en/2.2.x/api/#blueprint-objects), 
-# when creating a Blueprint object, the first parameter (name) is prepend to the URL endpoint. Therefore, Blueprint no longer 
-# allows dots in the name since it would break the URL entirely.
+# Flask 2.2 and later reject blueprint names that contain a dot, because the
+# name is prepended to the blueprint's endpoint names. The dots in the module
+# name are replaced so that basename() keeps only its last part.
 __name__ = __name__.replace(".","/")
 blueprint = Blueprint(os.path.basename(__name__), __name__,
                       url_prefix='/authentication-rest')
@@ -38,9 +37,9 @@ def index():
         # URL-safe string, which represents this authentication process. We'll
         # use this value to call the signWithRestPki() method on the Web PKI
         # component (see signature-form.js) and also to call the
-        # complete_with_web_pki() method on the route /authentication/action.
-        # This should not be mistaken with the API access token. We have
-        # encapsulated the security context choice on util.py.
+        # complete_with_webpki() method on the action() view below. This
+        # should not be mistaken with the API access token. We have
+        # encapsulated the security context choice on utils.py.
         token = auth.start_with_web_pki(get_security_context_id())
 
         # The token acquired above can only be used for a single
@@ -65,7 +64,7 @@ def action():
     """
 
     This view function receives the form submission from the template
-    authentication/index.html. We'll call REST PKI to validate the
+    authentication_rest/index.html. We'll call REST PKI to validate the
     authentication.
 
     """
@@ -73,7 +72,7 @@ def action():
     try:
 
         # Get the token for this authentication (rendered in a hidden input
-        # field, see authentication/index.html template).
+        # field, see authentication_rest/index.html template).
         token = request.form['token']
 
         # Get an instance of the Authentication class.
@@ -88,7 +87,7 @@ def action():
         vr = result.validation_results
 
         if not vr.is_valid:
-            # If the authentication as not successful, we render a page showing
+            # If the authentication was not successful, we render a page showing
             # what went wrong
             vr_html = str(vr)
             vr_html = vr_html.replace('\n', '<br/>')
@@ -99,10 +98,10 @@ def action():
 
         # At this point, you have assurance that the certificate is valid
         # according to the SecurityContext specified on the method
-        # start_with_webpki() and that the user is indeed the certificate's
+        # start_with_web_pki() and that the user is indeed the certificate's
         # subject. Now, you'd typically query your database for a user that
         # matches one of the certificate's fields, such as
-        # user_cert.emailAddress or user_cert.pki_brazil.cpf (the actual
+        # user_cert.email_address or user_cert.pki_brazil.cpf (the actual
         # field to be used as key depends on your application's business
         # logic) and set the user as authenticated with whatever web
         # security framework your application uses. For demonstration

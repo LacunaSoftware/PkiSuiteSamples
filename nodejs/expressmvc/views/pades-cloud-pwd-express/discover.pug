@@ -12,10 +12,10 @@ block content
                   label(for='serviceField') Choose your trust provider:
                   select(id='serviceField' name='service' class='form-control col col-sm-2')
                      each s in services
-                        option(value=s.service.name)= s.service.name + '(' + s.provider + ')'
+                        option(value=s.service.name)= s.service.name + ' (' + s.provider + ')'
             .form-group
                div(class='px-0')
-                  label(for='passwordField') Inform your password authorization:
+                  label(for='passwordField') Enter your authorization password:
                   input(id='passwordField' class='form-control col col-sm-2' type='password' name='password')
             button(type='submit' class='btn btn-primary')
                i(class='fas fa-file-signature') Sign
@@ -32,7 +32,7 @@ block content
             code pkie config --set trustServices:{provider}:clientId={value}
             br
             code pkie config --set trustServices:{provider}:clientSecret={value}
-         p For customized providers you neet to also configure the endpoint:
+         p For customized providers you need to also configure the endpoint:
             br
             code pkie config --set trustServices:{provider}:endpoint={value}
          p The standard providers are:
