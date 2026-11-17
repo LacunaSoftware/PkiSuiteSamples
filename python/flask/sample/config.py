@@ -59,6 +59,22 @@ class Config(object):
     AMPLIA_ENDPOINT = 'https://amplia.lacunasoftware.com/'
 
     # --------------------------------------------------------------------------
+    # CloudHub
+    # --------------------------------------------------------------------------
+
+    # ========================================================
+    #     >>>> PASTE YOUR CLOUDHUB API KEY BELOW <<<<
+    # ========================================================
+    CLOUDHUB_API_KEY = 'mR1j0v7L12lBHnxpgxVkIdikCN9Gm89rn8I9qet3UHo='
+    # If the CloudHub samples do not work, please contact our support by email:
+    # suporte@lacunasoftware.com
+
+    # In order to use this sample on a "on premises" installation of CloudHub,
+    # fill the field below with the URL address of your CloudHub installation
+    # (with the trailing '/' character).
+    CLOUDHUB_ENDPOINT = 'https://cloudhub.lacunasoftware.com/'
+
+    # --------------------------------------------------------------------------
     # PKI Express
     # --------------------------------------------------------------------------
 

@@ -1175,7 +1175,7 @@
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
     "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
-    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
+    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js, PHP and Python.",
     "product": "cloudhub",
     "language": "dotnet",
     "framework": "aspnet-mvc",
@@ -1200,7 +1200,7 @@
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
     "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
-    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
+    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js, PHP and Python.",
     "product": "cloudhub",
     "language": "java",
     "framework": "spring-boot",
@@ -1225,7 +1225,7 @@
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
     "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
-    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
+    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js, PHP and Python.",
     "product": "cloudhub",
     "language": "nodejs",
     "framework": "express",
@@ -1251,7 +1251,7 @@
     "id": "sign-with-cloud-certificate-cloudhub",
     "title": "Sign a PDF with a cloud certificate using CloudHub",
     "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
-    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js and PHP.",
+    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js, PHP and Python.",
     "product": "cloudhub",
     "language": "php",
     "framework": "php",
@@ -1270,6 +1270,33 @@
       "cwd": "php/plain",
       "command": "composer install && composer start",
       "url": "http://localhost:8000/check-rest-token.php?rc=server-files&fwd=pades-signature-cloudhub&op=signPdf"
+    }
+  },
+  {
+    "id": "sign-with-cloud-certificate-cloudhub",
+    "title": "Sign a PDF with a cloud certificate using CloudHub",
+    "title_pt": "Assinar um PDF com um certificado em nuvem usando o CloudHub",
+    "description": "The user types a CPF, CloudHub lists the PSCs (cloud certificate providers) that hold a certificate for it, the user authorizes the signature at the PSC, and CloudHub signs the PDF's hash. The PAdES signature itself is built with PKI SDK in .NET and with Rest PKI in Java, Node.js, PHP and Python.",
+    "product": "cloudhub",
+    "language": "python",
+    "framework": "flask",
+    "path": "python/flask/sample/views/pades_signature_cloudhub_rest.py",
+    "related_files": [
+      "python/flask/sample/templates/pades_signature_cloudhub_rest/index.html",
+      "python/flask/sample/templates/pades_signature_cloudhub_rest/discover.html",
+      "python/flask/sample/templates/pades_signature_cloudhub_rest/complete.html",
+      "python/flask/sample/utils.py",
+      "python/flask/sample/pades_visual_elements_rest.py",
+      "python/flask/sample/views/upload.py",
+      "python/flask/sample/views/server_files.py"
+    ],
+    "status": "current",
+    "docs_url": "https://docs.lacunasoftware.com/en-us/articles/cloudhub/pades-signature",
+    "demo_url": "https://try.lacunasoftware.com/en/pki-suite/sign-with-cloud-certificate",
+    "run": {
+      "cwd": "python/flask",
+      "command": "pip install -r requirements.txt && FLASK_APP=sample FLASK_ENV=development flask run",
+      "url": "http://localhost:5000/check-rest-token/server-files/pades-signature-cloudhub/signPdf"
     }
   },
   {

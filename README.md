@@ -96,6 +96,7 @@ The `update-licenses.ps1` script performs the following changes:
     *   Updates `REST_PKI_CORE_API_KEY` (with the RestPkiCoreApiKey)
     *   Updates `AMPLIA_API_KEY` (with the AmpliaApiKey)
     *   Updates expiry date comments.
+    *   The `CLOUDHUB_API_KEY` is intentionally not modified.
 *   **`ruby/rails/config/lacuna.yml`**:
     *   Updates `rest_pki.api_key` (with the RestPkiApiKey)
     *   Updates `rest_pki_core.api_key` (with the RestPkiCoreApiKey)
