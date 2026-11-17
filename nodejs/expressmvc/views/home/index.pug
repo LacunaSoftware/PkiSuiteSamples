@@ -10,6 +10,25 @@ block scripts
 
    script.
       SampleRoutes = {
+         authCloudHub: {
+            restpki: '/authentication-cloudhub'
+         },
+         issuePkcs12: {
+            amplia: '/check-amplia-api-key?rc=issue-pkcs12-cert-server'
+         },
+         padesWithoutCommunication: {
+            restpki: '/check-restpki-token?rc=upload&fwd=pades-wo-communication'
+         },
+         signPrescription: {
+            express: '/check-pki-express?rc=receita-simples'
+         },
+         signXmlDiploma: {
+            restpki: '/check-restpki-token?rc=xml-diploma-signature'
+         },
+         timestampPdf: {
+            express: '/check-pki-express?rc=server-files&fwd=timestamp-pdf&op=signPdf',
+            restpkicore: '/check-rest-pki-core-api-key?rc=upload&fwd=timestamp-pdf'
+         },
          authCert: {
             express: '/check-pki-express?rc=authentication',
             restpki: '/check-restpki-token?rc=authentication'
@@ -127,4 +146,4 @@ block scripts
 
    script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js')
    script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js')
-   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/main.e4ce9abd8d7b2452.js') 
+   script(type='text/javascript', src='https://cdn.lacunasoftware.com/pki-suite-samples/main.30d13462294ecb92.js') 

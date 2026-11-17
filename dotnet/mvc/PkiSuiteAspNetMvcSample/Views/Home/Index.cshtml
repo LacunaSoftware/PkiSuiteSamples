@@ -8,6 +8,21 @@
 	<script type="text/javascript">
 		IsCSharpSample = true;
 		SampleRoutes = {
+			authCloudHub: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "AuthenticationCloudHubSdk" }))'
+			},
+			signPrescription: {
+				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "ReceitaSimplesSdk" }))'
+			},
+			signXmlDiploma: {
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlDiplomaSignatureRest" }))'
+			},
+			signXmlElement: {
+				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "XmlContractSignatureRest" }))'
+			},
+			timestampPdf: {
+				restpkicore: '@Html.Raw(Url.Action("CheckRestPkiCoreApiKey", "Home", new { @rc = "Upload", @ctrl = "TimestampPdfRestCore" }))'
+			},
 			authCert: {
 				pki: '@Html.Raw(Url.Action("CheckPkiLicense", "Home", new { @rc = "AuthenticationSdk" }))',
 				restpki: '@Html.Raw(Url.Action("CheckRestPkiToken", "Home", new { @rc = "AuthenticationRest" }))'
@@ -124,5 +139,5 @@
 	</script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
-	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.e4ce9abd8d7b2452.js"></script>
+	<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.30d13462294ecb92.js"></script>
 }

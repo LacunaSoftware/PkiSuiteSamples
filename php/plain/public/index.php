@@ -16,6 +16,16 @@
 <?php include 'shared/scripts.php' ?>
 <script type="text/javascript">
     SampleRoutes = {
+        signPrescription: {
+            express: '/check-express.php?rc=receita-simples',
+            restpki: '/check-rest-token.php?rc=receita-simples'
+        },
+        signXmlDiploma: {
+            restpki: '/check-rest-token.php?rc=xml-diploma-signature'
+        },
+        timestampPdf: {
+            restpkicore: '/check-rest-core-key.php?rc=upload.php&fwd=timestamp-pdf'
+        },
         authCert: {
             express: '/check-express.php?rc=authentication',
             restpki: '/check-rest-token.php?rc=authentication'
@@ -120,7 +130,7 @@
 </script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/runtime.29926b5c8448d756.js"></script>
 <script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/polyfills.b6a2ec357e891889.js"></script>
-<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.e4ce9abd8d7b2452.js"></script>
+<script type="text/javascript" src="https://cdn.lacunasoftware.com/pki-suite-samples/main.30d13462294ecb92.js"></script>
 
 </body>
 </html>
