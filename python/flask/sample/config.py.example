@@ -40,6 +40,11 @@ class Config(object):
     # Amplia URL, with trailing '/'.
     AMPLIA_ENDPOINT = 'https://amplia.lacunasoftware.com/'
 
+    # CloudHub API key (utils.get_cloudhub_client).
+    CLOUDHUB_API_KEY = 'YOUR_CLOUDHUB_API_KEY'
+    # CloudHub URL, with trailing '/'.
+    CLOUDHUB_ENDPOINT = 'https://cloudhub.lacunasoftware.com/'
+
     # Optional list of extra trusted root certificate files (paths relative to static/).
     PKI_EXPRESS_TRUSTED_ROOTS = []
     # Run PKI Express in offline mode (no network access).
