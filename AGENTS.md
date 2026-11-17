@@ -115,7 +115,7 @@ Credentials the apps read (the files `update-licenses.ps1` rewrites):
   (appsettings.json), `rest-pki-core.apiKey`, `restPkiCore.apiKey`, `restPkiNg.apiKey` (PHP),
   `REST_PKI_CORE_API_KEY` (Flask), `rest_pki_core.api_key` (Rails).
 - **Amplia** API key: `amplia.apiKey` / `AMPLIA_API_KEY`. **CloudHub**: `CloudHubApiKey` /
-  `cloudhub.apiKey` / `cloudHub.apiKey`.
+  `cloudhub.apiKey` / `cloudHub.apiKey` / `CLOUDHUB_API_KEY`. The script does not rotate them.
 - **Signer** API key: `signer.apiKey` (application.yml). No Signer key is committed, and the
   script does not rotate one.
 - **Web PKI** license: `WebPkiLicense` / `WebPki:License` / `web-pki.license` /
@@ -272,6 +272,6 @@ on Python 3.11 or older.
   - Packagist: `lacuna/restpki-client`, `lacuna/restpkicore-client`, `lacuna/pki-express`,
     `lacuna/amplia-client`, `lacuna/cloudhub-client`
   - PyPI: `restpki-client`, `restpki-ng-python-client` (Rest PKI Core), `pkiexpress`,
-    `amplia-client`
+    `amplia-client`, `cloudhub-client`
   - RubyGems: `rest_pki`, `pki_express`. There is no Rest PKI Core gem: the Rails sample calls
     the API directly (`app/controllers/concerns/rest_pki_core_client.rb`)

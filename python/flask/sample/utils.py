@@ -7,6 +7,9 @@ from datetime import timedelta
 from os.path import join
 
 import certifi
+from cloudhub_client import ApiClient as CloudHubApiClient
+from cloudhub_client import Configuration as CloudHubConfiguration
+from cloudhub_client import SessionsApi
 from flask import current_app
 from pkiexpress import TimestampAuthority
 from restpki_client import RestPkiClient
@@ -147,6 +150,41 @@ def get_amplia_client():
     # Return an instance of AmpliaClient class, passing the endpoint and
     # the API key.
     return AmpliaClient(endpoint, api_key)
+
+# endregion
+
+
+# region CloudHub
+
+def get_cloudhub_sessions_api():
+    """
+
+    Creates an instance of the SessionsApi class of the CloudHub client library
+    (cloudhub-client), used by the CloudHub samples to discover the user's
+    cloud certificates and to sign hashes with them.
+
+    """
+    # Get your API key and endpoint values from the "config.py" configuration
+    # file.
+    api_key = current_app.config['CLOUDHUB_API_KEY']
+    endpoint = current_app.config['CLOUDHUB_ENDPOINT']
+
+    # Throw exception if the API key is not set (this check is here just for
+    # the sake of newcomers, you can remove it).
+    if api_key is None or len(api_key) == 0:
+        raise Exception('The CloudHub API key was not set! Hint: to run this sample you must paste a CloudHub API key on sample/config.py file.')
+
+    if endpoint is None or len(endpoint) == 0:
+        endpoint = 'https://cloudhub.lacunasoftware.com/'
+
+    configuration = CloudHubConfiguration()
+    configuration.host = endpoint.rstrip('/')
+    # We pass certifi's CA certificates, as in get_rest_pki_core_client().
+    configuration.ssl_ca_cert = certifi.where()
+    # The API key is sent on the X-Api-Key header of every request.
+    configuration.api_key['X-Api-Key'] = api_key
+
+    return SessionsApi(CloudHubApiClient(configuration))
 
 # endregion
 

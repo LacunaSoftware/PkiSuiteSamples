@@ -4,9 +4,12 @@ Flask-Session>=0.3.1
 # releases with known vulnerabilities, and the samples also import werkzeug directly.
 Jinja2>=3.1.6
 Werkzeug>=3.1.9
-restpki-client>=1.1.1
+# restpki-client 1.2.1 and older pin six 1.12, whose six.moves (used by cloudhub-client) does not
+# import on Python 3.12 or later. 1.3.1 accepts a current six.
+restpki-client>=1.3.1
 pkiexpress>=1.10.0
 restpki-ng-python-client==0.9.1.1
+cloudhub-client>=1.0.1
 certifi>=2026.10.19
 # pkiexpress and restpki-client import distutils, which Python 3.12 removed. setuptools brings it
 # back. The Amplia samples need requirements-amplia.txt too.
