@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # install Active Record, Active Job, Active Storage, Action Cable, Action Mailer, Action Mailbox
 # and Action Text, which this app does not use.
 gem 'actionpack', '~> 8.1.0'
-gem 'actionview', '~> 8.1.0'
+gem 'actionview', '~> 8.1.4'
 gem 'activemodel', '~> 8.1.0'
 gem 'railties', '~> 8.1.0'
 # Serves the page scripts in app/assets/javascripts and application.css
